@@ -1,0 +1,19 @@
+#include "common.ch"
+#include "inkey.ch"
+
+static Static1:= "’Õ∏≥æÕ‘≥", Static2:= "", Static3:= {1, 1, 0, 0, 0, ;
+   0, 0, 0, 0, 24, 79, 1, 0, 0, 0, 1, 8, 1, 0, 1, 1, 0, 1, 0, 0, 0, ;
+   0, 0, 0, -999, 0, 0, Nil}
+
+********************************
+function M_DATASAVE
+
+   return Static3
+
+********************************
+function M_DATAREST(Arg1)
+
+   Static3:= aclone(Arg1)
+   return Nil
+
+* EOF

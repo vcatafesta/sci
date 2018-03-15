@@ -1,0 +1,15 @@
+#include "common.ch"
+#include "inkey.ch"
+
+********************************
+function NSTUFF(Arg1)
+
+   local Local1
+   Local1:= 2
+   __nstuff(Arg1)
+   do while (Local1 > 0)
+      Local1--
+   enddo
+   return Nil
+
+* EOF

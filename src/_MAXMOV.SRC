@@ -1,0 +1,142 @@
+#include "common.ch"
+#include "inkey.ch"
+
+********************************
+function M_FRAME(Arg1)
+
+   local Local1
+   Local1:= Static1
+   if (ISNIL(Arg1))
+      return Static1
+   else
+      Static1:= Arg1
+   endif
+   return Local1
+
+********************************
+function M_DATA(Arg1, Arg2)
+
+   local Local1
+   Local1:= Nil
+   if (ISNIL(Arg1) .AND. ISNIL(Arg2))
+      return Static3
+   endif
+   if (Arg1 < 1 .OR. Arg1 > 32)
+      return -1
+   endif
+   if (ISNIL(Arg2))
+      Local1:= Static3[Arg1]
+   else
+      Local1:= Static3[Arg1]
+      Static3[Arg1]:= Arg2
+   endif
+   return Local1
+
+********************************
+function _MAXMOV(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8)
+
+   local Local1, Local2, Local3, Local4, Local5, Local6, Local7, ;
+      Local8, Local9, Local10, Local11, Local12, Local13, Local14, ;
+      Local15, Local16, Local17
+   Local9:= savevideo(0, 0, lastrow(), lastcol())
+   Local2:= roloc(Arg8)
+   Local1:= Left(m_frame(), 8)
+   Local17:= setshadow(.F.)
+   box(Arg1, Arg2, Arg3, Arg4, Local1, Local2)
+   Local7:= Arg5
+   Local8:= Arg5
+   Local3:= Arg5 - Arg1
+   Local4:= Arg6 - Arg2
+   Local5:= Arg3 - Arg5
+   Local6:= Arg4 - Arg6
+   Local10:= Arg3 - Arg1
+   Local11:= Arg4 - Arg2
+   Local13:= m_data(8)
+   Local14:= m_data(9)
+   Local15:= m_data(10)
+   Local16:= m_data(11)
+   do while (_isbutton(2) .OR. kbdstat(8) .OR. kbdstat(16))
+      if (_isbutton(2))
+         if (m_movement() == 0)
+            loop
+         else
+            if (m_row() == Local7 .AND. m_col() == Local8)
+               loop
+            endif
+            Local7:= m_row()
+            Local8:= m_col()
+            if (Local7 - Local3 < Local13)
+               Local7:= Local13 + Local3
+               m_csrput(Local7, Local8)
+            endif
+            if (Local7 + Local5 > Local15)
+               Local7:= Local15 - Local5
+               m_csrput(Local7, Local8)
+            endif
+            if (Local8 - Local4 < Local14)
+               Local8:= Local14 + Local4
+               m_csrput(Local7, Local8)
+            endif
+            if (Local8 + Local6 > Local16)
+               Local8:= Local16 - Local6
+               m_csrput(Local7, Local8)
+            endif
+            Arg1:= Local7 - Local3
+            Arg3:= Local7 + Local5
+            Arg2:= Local8 - Local4
+            Arg4:= Local8 + Local6
+         endif
+      else
+         Local12:= InKey()
+         if (Local12 == 0)
+            loop
+         else
+            if (Local12 == 276 .OR. Local12 == 5)
+               Arg1:= iif(Arg1 <= Local13, Arg1, Arg1 - 1)
+            endif
+            if (Local12 == 304 .OR. Local12 == 24)
+               Arg1:= iif(Arg3 >= Local15, Arg1, Arg1 + 1)
+            endif
+            if (Local12 == 294 .OR. Local12 == 19)
+               Arg2:= iif(Arg2 <= Local14, Arg2, Arg2 - 1)
+            endif
+            if (Local12 == 275 .OR. Local12 == 4)
+               Arg2:= iif(Arg4 >= Local16, Arg2, Arg2 + 1)
+            endif
+            Arg3:= Arg1 + Local10
+            Arg4:= Arg2 + Local11
+         endif
+      endif
+      restvideo(0, 0, lastrow(), lastcol(), Local9)
+      box(Arg1, Arg2, Arg3, Arg4, Local1, Local2)
+   enddo
+   setshadow(Local17)
+   Arg5:= Local7
+   Arg6:= Local8
+   return Nil
+
+********************************
+function _DONUT(Arg1, Arg2, Arg3, Arg4, Arg5)
+
+   if (Arg2 > 0)
+      movescreen(0, 0, Arg2 - 1, lastcol(), 0, 0, Arg1, 0)
+   endif
+   if (Arg3 > 0)
+      movescreen(Arg2, 0, Arg4, Arg3 - 1, Arg2, 0, Arg1, 0)
+   endif
+   if (Arg5 < lastcol())
+      movescreen(Arg2, Arg5 + 1, Arg4, lastcol(), Arg2, Arg5 + 1, ;
+         Arg1, 0)
+   endif
+   if (Arg4 < lastrow())
+      movescreen(Arg4 + 1, 0, lastrow(), lastcol(), Arg4 + 1, 0, ;
+         Arg1, 0)
+   endif
+   return Nil
+
+********************************
+function _CONTROLPA
+
+   return "³ð³³³³" + Chr(26) + "³"
+
+* EOF

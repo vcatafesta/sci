@@ -1,0 +1,576 @@
+#include "common.ch"
+#include "inkey.ch"
+
+********************************
+function M_TITLE(Arg1)
+
+   local Local1
+   Local1:= Static2
+   if (ISNIL(Arg1))
+      return Static2
+   else
+      Static2:= Arg1
+   endif
+   return Local1
+
+********************************
+function MAXCHOICE(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6)
+
+   local Local1[56], Local2[lastrow() - 3], Local3[lastrow() - 3], ;
+      Local4[lastrow() - 3], Local5[4], Local6, Local7, Local8, ;
+      Local9, Local10
+   Local1[43]:= Arg5
+   Local1[21]:= Len(Local1[43])
+   if (Local1[21] < 1)
+      m_data(30, -3)
+      return -3
+   endif
+   Local6:= Arg6
+   Local7:= Local1[7]
+   _colorset_(@Local6, @Local7)
+   Local1[5]:= Local6
+   Local1[7]:= Local7
+   Local1[6]:= roloc(Local1[5])
+   Local1[1]:= Arg1
+   Local1[2]:= Arg2
+   Local1[3]:= Arg3
+   Local1[4]:= Arg4
+   if (Local1[1] < m_data(8) .OR. Local1[2] < m_data(9) .OR. ;
+         Local1[3] > m_data(10) .OR. Local1[4] > m_data(11))
+      m_data(30, -6)
+      return -6
+   endif
+   Local1[17]:= iif(m_data(29) == 1, m_data(1), 1)
+   Local1[15]:= iif(m_data(29) == 1, m_data(2), 1)
+   Local1[34]:= ""
+   Local1[35]:= ""
+   Local1[33]:= ""
+   Local1[29]:= Local2
+   Local1[30]:= Local3
+   Local1[31]:= Local4
+   Local5[1]:= Local1[1]
+   Local5[2]:= Local1[2]
+   Local5[3]:= Local1[3]
+   Local5[4]:= Local1[4]
+   Local1[32]:= Local5
+   maxinit(Local1)
+   maxarrfill(Local1)
+   m_csron()
+   m_csroff()
+   Local1[34]:= savevideo(0, 0, Local1[41], Local1[42])
+   m_wait(1)
+   maxdrawbox(Local1)
+   do while (.T.)
+      m_csroff()
+      maxdisplay(Local1)
+      m_csron()
+      do while (.T.)
+         updatechoi(Local1)
+         Local1[13]:= Local1[15]
+         Local9:= .F.
+         Local10:= .F.
+         do while (.T.)
+            Local1[12]:= InKey()
+            if (Local1[12] != 0)
+               Local8:= SetKey(Local1[12])
+               if (Local8 != Nil)
+                  Local6:= eval(Local8, procname(2), procline(2), ;
+                     readvar(), @Local1)
+                  if (ISNIL(Local6))
+                     loop
+                  elseif (Local6 == 0)
+                     maxrefresh(Local1)
+                  endif
+                  loop
+               else
+                  exit
+               endif
+            elseif ((Local9:= _isbutton(1)) .OR. (Local10:= ;
+                  _isbutton(2)))
+               exit
+            elseif (kbdstat(16) .OR. kbdstat(2))
+               exit
+            endif
+         enddo
+         do case
+         case Local9 .AND. !m_region(Local1[1], Local1[2], ;
+               Local1[3], Local1[4])
+            if (m_data(3) == 1)
+               maxret(Local1, @Arg1, @Arg2, @Arg3, @Arg4)
+               m_data(30, -2)
+               m_data(4, 1)
+               return -2
+            else
+               loop
+            endif
+         case kbdstat(2) .OR. Local10 .AND. (m_region(Local1[1], ;
+               Local1[4], Local1[3], Local1[4]) .OR. ;
+               m_region(Local1[3], Local1[2], Local1[3], Local1[4]))
+            maxexpandb(Local1)
+            loop
+         case Local1[12] == 27 .OR. Local9 .AND. m_row() == ;
+               Local1[3] - 1 .AND. m_col() > Local1[2] .AND. m_col() ;
+               == Local1[4] - Local1[23]
+            putkey(27)
+            maxret(Local1, @Arg1, @Arg2, @Arg3, @Arg4)
+            m_data(30, 0)
+            return 0
+         case Local1[12] == 13 .OR. Local9 .AND. m_region(Local1[1] ;
+               + 1, Local1[2] + 1, Local1[3] - 3, Local1[4] - 1)
+            if (Local1[10] < 1)
+               loop
+            endif
+            if (Local9)
+               do while (_isbutton(1))
+                  Local1[36]:= m_aregion(Local1[29], Local1[30], ;
+                     Local1[29], Local1[31])
+                  if (Local1[36] > 0)
+                     Local1[15]:= Local1[36]
+                     updatechoi(Local1)
+                     Local1[13]:= Local1[15]
+                     loop
+                  endif
+               enddo
+               if (!m_region(Local1[1] + 1, Local1[2] + 1, Local1[3] ;
+                     - 3, Local1[4] - 1))
+                  loop
+               endif
+            endif
+            putkey(13)
+            maxret(Local1, @Arg1, @Arg2, @Arg3, @Arg4)
+            Arg5:= aclone(Local1[43])
+            m_data(30, -1)
+            return Local1[17] + Local1[15] - 1
+         case Local1[12] == 18 .OR. Local10 .AND. m_row() == ;
+               Local1[3] - 1 .AND. m_col() > Local1[2] .AND. m_col() ;
+               == Local1[4] - Local1[24]
+            putkey(18)
+            if (Local1[17] == 1)
+               loop
+            elseif (Local1[17] <= Local1[10] + 1)
+               Local1[17]:= 1
+               Local1[15]:= 1
+            else
+               Local1[17]:= Local1[17] - Local1[10]
+            endif
+            m_wait(2)
+            exit
+         case Local1[12] == 3 .OR. Local10 .AND. m_row() == ;
+               Local1[3] - 1 .AND. m_col() > Local1[2] .AND. m_col() ;
+               == Local1[4] - Local1[25]
+            putkey(3)
+            if (Local1[17] == Local1[21] - (Local1[10] - 1))
+               loop
+            elseif (Local1[17] + Local1[10] > Local1[21] - ;
+                  (Local1[10] - 1))
+               Local1[17]:= Local1[21] - (Local1[10] - 1)
+               Local1[15]:= Local1[10]
+            else
+               Local1[17]:= Local1[17] + Local1[10]
+            endif
+            m_wait(2)
+            exit
+         case kbdstat(16) .OR. Local10 .AND. m_region(Local1[1], ;
+               Local1[2], Local1[3], Local1[4])
+            maxmovebox(Local1)
+            loop
+         case Local1[12] == 5 .OR. Local9 .AND. m_row() == Local1[3] ;
+               - 1 .AND. m_col() == Local1[4] - Local1[24] .AND. ;
+               m_col() > Local1[2]
+            m_wait(1)
+            putkey(5)
+            if (Local1[15] == 1)
+               if (Local1[17] == 1)
+                  loop
+               else
+                  Local1[17]:= Local1[17] - 1
+                  exit
+               endif
+            else
+               Local1[15]:= Local1[15] - 1
+               loop
+            endif
+         case Local1[12] == 24 .OR. Local9 .AND. m_row() == ;
+               Local1[3] - 1 .AND. m_col() == Local1[4] - Local1[25] ;
+               .AND. m_col() > Local1[2]
+            m_wait(1)
+            putkey(24)
+            if (Local1[15] == Local1[10])
+               if (Local1[17] == Local1[21] - (Local1[10] - 1))
+                  loop
+               else
+                  Local1[17]:= Local1[17] + 1
+                  exit
+               endif
+            else
+               Local1[15]:= Local1[15] + 1
+               loop
+            endif
+         case Local1[12] == 19 .OR. Local9 .AND. m_row() == ;
+               Local1[3] - 1 .AND. m_col() == Local1[4] - Local1[26] ;
+               .AND. m_col() > Local1[2]
+            putkey(19)
+            if (Local1[19] <= 1)
+               exit
+            else
+               Local1[19]:= Local1[19] - 1
+            endif
+            exit
+         case Local1[12] == 4 .OR. Local9 .AND. m_row() == Local1[3] ;
+               - 1 .AND. m_col() == Local1[4] - Local1[27] .AND. ;
+               m_col() > Local1[2]
+            putkey(4)
+            if (Local1[19] >= Local1[20] - Local1[11] + 1)
+               loop
+            else
+               Local1[19]:= Local1[19] + 1
+            endif
+            exit
+         case Local1[12] == 29 .OR. Local9 .AND. m_region(Local1[1], ;
+               Local1[2] + 1, Local1[1], Local1[4] - 1)
+            putkey(29)
+            Local1[17]:= 1
+            Local1[15]:= 1
+            exit
+         case Local1[12] == 1
+            putkey(1)
+            Local1[15]:= 1
+            loop
+         case Local1[12] == 23 .OR. Local9 .AND. m_region(Local1[3], ;
+               Local1[2] + 1, Local1[3], Local1[4] - 1)
+            putkey(23)
+            if (Local1[10] > 0)
+               Local1[17]:= Local1[21] - (Local1[10] - 1)
+               Local1[15]:= Local1[10]
+            endif
+            exit
+         case Local1[12] == 6
+            putkey(6)
+            Local1[15]:= Max(Local1[10], 1)
+            loop
+         case Local1[12] != 0
+            if (Local1[10] < 1)
+               loop
+            endif
+            Local1[36]:= atest(Chr(Local1[12]), Local1[43], ;
+               Local1[17] + Local1[15])
+            if (Local1[36] < 1)
+               Local1[36]:= atest(Chr(Local1[12]), Local1[43])
+            endif
+            if (Local1[36] > 0)
+               if (Local1[36] + (Local1[10] - 1) > Local1[21])
+                  Local1[17]:= Local1[21] - (Local1[10] - 1)
+                  Local1[15]:= Local1[36] - Local1[17] + 1
+               else
+                  Local1[17]:= Local1[36]
+                  Local1[15]:= 1
+               endif
+               if (m_data(19) == 1)
+                  keyboard Chr(13)
+               endif
+               exit
+            endif
+         otherwise
+            loop
+         endcase
+      enddo
+   enddo
+   return Nil
+
+********************************
+static function MAXRET(Arg1, Arg2, Arg3, Arg4, Arg5)
+
+   m_csroff()
+   if (Arg1[10] > 0)
+      print(Arg1[1] + Arg1[15], Arg1[2] + 1, Arg1[43][Arg1[15] - 1 + ;
+         Arg1[17]], Arg1[5], Arg1[11], Arg1[19])
+   endif
+   m_csron()
+   m_data(1, Arg1[17])
+   m_data(2, Arg1[15])
+   m_data(24, Arg1[1])
+   m_data(25, Arg1[2])
+   m_data(26, Arg1[3])
+   m_data(27, Arg1[4])
+   m_data(4, 0)
+   if (Arg1[1] != Arg1[32][1] .OR. Arg1[2] != Arg1[32][2] .OR. ;
+         Arg1[3] != Arg1[32][3] .OR. Arg1[4] != Arg1[32][4])
+      m_data(28, 1)
+      Arg2:= Arg1[1]
+      Arg3:= Arg1[2]
+      Arg4:= Arg1[3]
+      Arg5:= Arg1[4]
+   else
+      m_data(28, 0)
+   endif
+   if (m_data(22) == 1)
+      m_csroff()
+      restvideo(0, 0, Arg1[41], Arg1[42], Arg1[34])
+      m_csron()
+   endif
+   return Nil
+
+********************************
+static function MAXEXPANDB(Arg1)
+
+   local Local1
+   if (m_data(32) == 1)
+      return Nil
+   endif
+   Local1:= setshadow(.F.)
+   Arg1[39]:= 0
+   Arg1[36]:= m_row()
+   Arg1[37]:= m_col()
+   if (_isbutton(2))
+      m_movement()
+      Arg1[39]:= iif(m_region(Arg1[3], Arg1[4], Arg1[3], Arg1[4]), ;
+         0, iif(m_region(Arg1[1], Arg1[4], Arg1[3] - 1, Arg1[4]), 1, ;
+         -1))
+   else
+      Arg1[36]:= Arg1[3]
+      Arg1[37]:= Arg1[4]
+   endif
+   Arg1[38]:= iif(Arg1[39] == 0, "", iif(Arg1[39] == 1, "", ""))
+   m_csroff()
+   if (Arg1[10] > 0)
+      print(Arg1[1] + Arg1[15], Arg1[2] + 1, Arg1[43][Arg1[15] - 1 + ;
+         Arg1[17]], Arg1[5], Arg1[11], Arg1[19])
+   endif
+   Arg1[35]:= savevideo(0, 0, Arg1[41], Arg1[42])
+   box(Arg1[1], Arg1[2], Arg1[3], Arg1[4], Left(m_frame(), 8), ;
+      roloc(Arg1[5]))
+   print(Arg1[36], Arg1[37], Arg1[38], Arg1[7], 1)
+   do while (kbdstat(2) .OR. _isbutton(2))
+      if (_isbutton(2))
+         m_csroff()
+         if (m_movement() == 0 .OR. Arg1[36] == m_row() .AND. ;
+               Arg1[37] == m_col())
+            loop
+         endif
+         Arg1[36]:= iif(Arg1[39] < 1, m_row(), Arg1[36])
+         Arg1[37]:= iif(Arg1[39] > -1, m_col(), Arg1[37])
+      else
+         m_csron()
+         Arg1[12]:= InKey()
+         if (Arg1[12] != 0)
+            do case
+            case Arg1[12] == 54
+               Arg1[37]:= iif(Arg1[4] = Arg1[42], Arg1[37], Arg1[37] ;
+                  + 1)
+            case Arg1[12] == 50
+               Arg1[36]:= iif(Arg1[3] == Arg1[41], Arg1[36], ;
+                  Arg1[36] + 1)
+            case Arg1[12] == 52
+               Arg1[37]:= iif(Arg1[4] == Arg1[2] + 1, Arg1[37], ;
+                  Arg1[37] - 1)
+            case Arg1[12] == 56
+               Arg1[36]:= iif(Arg1[3] == Arg1[1] + 1, Arg1[36], ;
+                  Arg1[36] - 1)
+            case Arg1[12] == 51
+               Arg1[37]:= iif(Arg1[4] == Arg1[42], Arg1[37], ;
+                  Arg1[37] + 1)
+               Arg1[36]:= iif(Arg1[3] == Arg1[41], Arg1[36], ;
+                  Arg1[36] + 1)
+            case Arg1[12] == 57
+               Arg1[36]:= iif(Arg1[3] == Arg1[1] + 1, Arg1[36], ;
+                  Arg1[36] - 1)
+               Arg1[37]:= iif(Arg1[4] == Arg1[2] + 1, Arg1[37], ;
+                  Arg1[37] - 1)
+            endcase
+         else
+            loop
+         endif
+      endif
+      if (Arg1[36] <= Arg1[1])
+         Arg1[36]:= Arg1[1] + 1
+      elseif (Arg1[36] - Arg1[1] - 3 > Arg1[21])
+         Arg1[36]:= Arg1[1] + Arg1[21] + 3
+         m_csrput(Arg1[36], m_col())
+      elseif (Arg1[36] >= m_data(10))
+         Arg1[36]:= m_data(10)
+         m_csrput(Arg1[36], m_col())
+      endif
+      if (Arg1[37] <= Arg1[2])
+         Arg1[37]:= Arg1[2] + 1
+         m_csrput(m_row(), Arg1[37])
+      elseif (Arg1[37] >= m_data(11))
+         Arg1[37]:= m_data(11)
+         m_csrput(m_row(), Arg1[37])
+      endif
+      if (Arg1[39] > -1)
+         Arg1[4]:= Arg1[37]
+      endif
+      if (Arg1[39] < 1)
+         Arg1[3]:= Arg1[36]
+      endif
+      m_csroff()
+      restvideo(Arg1[35])
+      box(Arg1[1], Arg1[2], Arg1[3], Arg1[4], Left(m_frame(), 8), ;
+         roloc(Arg1[5]))
+      print(Arg1[36], Arg1[37], Arg1[38], Arg1[7], 1)
+   enddo
+   m_csroff()
+   m_csrput(Arg1[36], Arg1[37])
+   _donut(Arg1[34], Arg1[1], Arg1[2], Arg1[3], Arg1[4])
+   Arg1[11]:= Arg1[4] - Arg1[2] - 1
+   Arg1[10]:= Arg1[3] - Arg1[1] - 3
+   Arg1[15]:= iif(Arg1[15] > Arg1[10], Max(Arg1[10], 1), Arg1[15])
+   if (Arg1[17] + (Arg1[10] - 1) > Arg1[21])
+      Arg1[17]:= Arg1[21] - (Arg1[10] - 1)
+      Arg1[15]:= Arg1[10]
+   endif
+   Arg1[13]:= Arg1[15]
+   setshadow(Local1)
+   maxdrawbox(Arg1)
+   maxdisplay(Arg1)
+   m_csron()
+   maxarrfill(Arg1)
+   return Nil
+
+********************************
+static function MAXMOVEBOX(Arg1)
+
+   local Local1, Local2, Local3, Local4, Local5, Local6
+   if (m_data(32) == 1)
+      return Nil
+   endif
+   m_csroff()
+   Arg1[36]:= m_row()
+   Arg1[37]:= m_col()
+   Local5:= Arg1[36]
+   Local6:= Arg1[37]
+   Local1:= Arg1[1]
+   Local2:= Arg1[2]
+   Local3:= Arg1[3]
+   Local4:= Arg1[4]
+   if (Arg1[10] > 0)
+      print(Arg1[1] + Arg1[15], Arg1[2] + 1, Arg1[43][Arg1[15] - 1 + ;
+         Arg1[17]], Nil, Arg1[5], Arg1[11], Arg1[19])
+   endif
+   Arg1[35]:= savevideo(Arg1[1], Arg1[2], Arg1[3], Arg1[4])
+   _maxmov(@Local1, @Local2, @Local3, @Local4, @Local5, @Local6, ;
+      Arg1[34], Arg1[5])
+   Arg1[36]:= Local5
+   Arg1[37]:= Local6
+   Arg1[1]:= Local1
+   Arg1[2]:= Local2
+   Arg1[3]:= Local3
+   Arg1[4]:= Local4
+   _donut(Arg1[34], Arg1[1], Arg1[2], Arg1[3], Arg1[4])
+   restvideo(Arg1[1], Arg1[2], Arg1[3], Arg1[4], Arg1[35])
+   box(Arg1[1], Arg1[2], Arg1[3], Arg1[4], m_frame(), Arg1[5])
+   if (Arg1[10] > 0)
+      print(Arg1[1] + Arg1[15], Arg1[2] + 1, Arg1[43][Arg1[15] - 1 + ;
+         Arg1[17]], Arg1[7], Arg1[11], Arg1[19])
+   endif
+   m_csron()
+   maxarrfill(Arg1)
+   return Nil
+
+********************************
+static function MAXARRFILL(Arg1)
+
+   local Local1
+   afill(Arg1[29], -1)
+   afill(Arg1[30], -1)
+   afill(Arg1[31], -1)
+   if (Arg1[10] > 0)
+      for Local1:= 1 to Arg1[10]
+         Arg1[29][Local1]:= Arg1[1] + Local1
+         Arg1[30][Local1]:= Arg1[2] + 1
+         Arg1[31][Local1]:= Arg1[2] + Arg1[11]
+      next
+   endif
+   return Nil
+
+********************************
+static function MAXDISPLAY(Arg1)
+
+   local Local1
+   if (Arg1[10] > 0)
+      m_csroff()
+      arrprint(Arg1[1] + 1, Arg1[2] + 1, Arg1[43], Arg1[17], ;
+         Arg1[10], Arg1[5], Arg1[11], Arg1[19])
+      print(Arg1[1] + Arg1[15], Arg1[2] + 1, Arg1[43][Arg1[15] - 1 + ;
+         Arg1[17]], Arg1[7], Arg1[11], Arg1[19])
+      m_csron()
+   endif
+   return Nil
+
+********************************
+static function MAXDRAWBOX(Arg1)
+
+   Arg1[18]:= untrim(m_title(), Arg1[11] - Arg1[22]) + ;
+      right(Arg1[28], Arg1[11])
+   box(Arg1[1], Arg1[2], Arg1[3], Arg1[4], m_frame(), Arg1[5])
+   if (Arg1[10] > -1)
+      print(Arg1[3] - 2, Arg1[2] + 1, Replicate(SubStr(m_frame(), 6, ;
+         1), Arg1[11]), Arg1[5])
+   endif
+   if (Arg1[10] > -2)
+      print(Arg1[3] - 1, Arg1[2] + 1, Arg1[18], Arg1[6], Arg1[11])
+   endif
+   return Nil
+
+********************************
+static function UPDATECHOI(Arg1)
+
+   if (Arg1[15] != Arg1[13] .AND. Arg1[10] > 0)
+      m_csroff()
+      print(Arg1[1] + Arg1[15], Arg1[2] + 1, Arg1[43][Arg1[15] - 1 + ;
+         Arg1[17]], Arg1[7], Arg1[11], Arg1[19])
+      print(Arg1[1] + Arg1[13], Arg1[2] + 1, Arg1[43][Arg1[13] - 1 + ;
+         Arg1[17]], Arg1[5], Arg1[11], Arg1[19])
+      m_csron()
+   endif
+   return Nil
+
+********************************
+static function MAXINIT(Arg1)
+
+   Arg1[21]:= Len(Arg1[43])
+   if (Arg1[21] < 1)
+      Arg1[43][1]:= ""
+      Arg1[21]:= 1
+      Arg1[15]:= 1
+      Arg1[17]:= 1
+   endif
+   Arg1[13]:= 1
+   Arg1[10]:= Arg1[3] - Arg1[1] - 3
+   Arg1[11]:= Arg1[4] - Arg1[2] - 1
+   Arg1[20]:= amaxstrlen(Arg1[43])
+   Arg1[41]:= lastrow()
+   Arg1[42]:= lastcol()
+   Arg1[19]:= 1
+   Arg1[28]:= _controlpa()
+   Arg1[22]:= Len(Arg1[28])
+   Arg1[23]:= Arg1[22] - 1
+   Arg1[24]:= Arg1[23] - 2
+   Arg1[25]:= Arg1[23] - 4
+   Arg1[26]:= 4
+   Arg1[27]:= 2
+   if (Arg1[21] < Arg1[10])
+      Arg1[3]:= Arg1[1] + Arg1[21] + 3
+      Arg1[10]:= Arg1[21]
+   endif
+   if (Arg1[17] + (Arg1[10] - 1) > Arg1[21])
+      Arg1[17]:= Arg1[21] - (Arg1[10] - 1)
+      Arg1[15]:= iif(Arg1[10] < 1, 1, Arg1[10])
+   endif
+   if (Arg1[15] > Arg1[10])
+      Arg1[15]:= iif(Arg1[10] < 1, 1, Arg1[10])
+   endif
+   return Nil
+
+********************************
+static function MAXREFRESH(Arg1)
+
+   maxinit(Arg1)
+   maxarrfill(Arg1)
+   m_csroff()
+   maxdrawbox(Arg1)
+   maxdisplay(Arg1)
+   m_csron()
+   return Nil
+
+* EOF

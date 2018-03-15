@@ -1,0 +1,13 @@
+#include "common.ch"
+#include "inkey.ch"
+
+********************************
+function PUTKEY(Arg1)
+
+   keyboard ""
+   nstuff(Arg1)
+   do while (InKey() != Arg1)
+   enddo
+   return Nil
+
+* EOF

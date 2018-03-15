@@ -1,0 +1,14 @@
+#include "common.ch"
+#include "inkey.ch"
+
+********************************
+procedure TESTE
+
+   ? box(10, 10, 20, 40, m_frame() + " ", 23)
+   abox:= {"Um", "dois"}
+   cor:= 23
+   nrow:= 10
+   ncol:= 10
+   nchoice:= mx_choice(@nrow, @ncol, abox, cor)
+
+* EOF

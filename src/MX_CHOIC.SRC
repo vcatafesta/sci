@@ -1,0 +1,9 @@
+#include "common.ch"
+#include "inkey.ch"
+
+********************************
+function MX_CHOICE(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6)
+
+   return maxchoice(@Arg1, @Arg2, @Arg3, @Arg4, @Arg5, Arg6)
+
+* EOF

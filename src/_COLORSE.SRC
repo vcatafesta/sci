@@ -1,0 +1,18 @@
+#include "common.ch"
+#include "inkey.ch"
+
+********************************
+function _COLORSET_(Arg1, Arg2)
+
+   if (ISNIL(Arg1))
+      Arg1:= standard()
+      Arg2:= enhanced()
+   elseif (Arg1 < 0)
+      Arg1:= standard()
+      Arg2:= enhanced()
+   else
+      Arg2:= roloc(Arg1)
+   endif
+   return Nil
+
+* EOF

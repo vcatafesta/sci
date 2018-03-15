@@ -1,0 +1,43 @@
+#include "common.ch"
+#include "inkey.ch"
+
+********************************
+static function SKIPPED(Arg1)
+
+   local Local1
+   Local1:= 0
+   if (LastRec() != 0)
+      if (Arg1 == 0)
+         skip 0
+      elseif (Arg1 > 0 .AND. RecNo() != LastRec() + 1)
+         do while (Local1 < Arg1)
+            skip 
+            if (EOF())
+               skip -1
+               exit
+            endif
+            Local1++
+         enddo
+      elseif (Arg1 < 0)
+         do while (Local1 > Arg1)
+            skip -1
+            if (BOF())
+               exit
+            endif
+            Local1--
+         enddo
+      endif
+   endif
+   return Local1
+
+********************************
+function TBROWSEDB(Arg1, Arg2, Arg3, Arg4)
+
+   local Local1
+   Local1:= tbrowsenew(Arg1, Arg2, Arg3, Arg4)
+   Local1:skipblock({|_1| skipped(_1)})
+   Local1:gotopbloc({|| dbGoTop()})
+   Local1:gobottomb({|| dbGoBottom()})
+   return Local1
+
+* EOF

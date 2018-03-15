@@ -1,0 +1,28 @@
+#include "common.ch"
+#include "inkey.ch"
+
+********************************
+function AFILL(Arg1, Arg2, Arg3, Arg4)
+
+   aeval(Arg1, {|_1, _2| Arg1[_2]:= Arg2}, Arg3, Arg4)
+   return Arg1
+
+********************************
+function ACLONE(Arg1)
+
+   local Local1, Local2, Local3
+   if (!(ISARRAY(Arg1)))
+      return Nil
+   endif
+   Local3:= Len(Arg1)
+   Local1:= array(Local3)
+   for Local2:= 1 to Local3
+      if (ISARRAY(Arg1[Local2]))
+         Local1[Local2]:= aclone(Arg1[Local2])
+      else
+         Local1[Local2]:= Arg1[Local2]
+      endif
+   next
+   return Local1
+
+* EOF

@@ -8064,171 +8064,167 @@ EndIF
 Return( cTroca )
 
 
-function SeekLog(xTodos, aTodos, lRecepago)
-*******************************************
+function SeekLog(xTodos, aTodos, nIndex, lRecepago)
+***************************************************
 LOCAL xLog		 := 'RECIBO.LOG'
 LOCAL Arq_Ant	 := Alias()
 LOCAL Ind_Ant	 := IndexOrd()
-LOCAL cTpBaixas := "BAIXAS"
-LOCAL cTpRecibo := "RECIBO"
-LOCAL cStr1
-LOCAL cStr2
-LOCAL cStr3
-LOCAL cStr4
-LOCAL cStr5
-LOCAL cStr6
-LOCAL cStr7
-LOCAL cStr8
-LOCAL cFull
 LOCAL nLen
-LOCAL nHandle
-LOCAL nOffSet
 LOCAL cDocnr
-LOCAL lSucesso
 LOCAL nVlrDevido
-LOCAL nPrincipal
 LOCAL nJurosPago
 LOCAL nSaldo
 LOCAL x
+LOCAL cFull := ""
 
-/*
-IF !File( xLog )
-	nHandle := Fcreate( xLog, FC_NORMAL )
-	FClose( nHandle )
-EndIF
-nHandle	  := FOpen( xLog, FO_READWRITE + FO_SHARED )
-*/
-nLen		  := Len( oRecePosi:aTodos )
-nPrincipal := 0
+if nIndex == NIL
+	nLen  := Len( oRecePosi:aTodos )
+	nIni  := 1
+else
+	nLen := nIndex
+	nIni := nIndex
+endif	
 
-For x := 1 To nLen
-	cDocnr := oReceposi:xTodos[x,XTODOS_DOCNR]
-	IF oAmbiente:lReceber // consulta titulos a receber
-		IF !oReceposi:xTodos[x,XTODOS_ATIVO] // Registros do RECEBIDO.DBF
-			nPrincipal	:= oReceposi:xTodos[x,XTODOS_VLR]
-			nSaldo		:= 0
-			nJurosPago	:= (oReceposi:xTodos[x,XTODOS_SOMA] - nPrincipal)
-			nAtraso		:= oReceposi:xTodos[x,XTODOS_ATRASO]
-			cStr1 		:= Left( oReceposi:aTodos[x],24) + Space(1)
-			cStr2 		:= StrZero( nAtraso, 4 )
-			cStr3 		:= SubStr( oReceposi:aTodos[x],30,10) + Space(1)
-			cStr4 		:= Dtoc(oReceposi:xTodos[x,XTODOS_DATAPAG]) + Space(1)
-			cStr5 		:= Tran(nJurosPago, "@E 9,999.99") + Space(1)
-			cStr6 		:= Tran(oReceposi:xTodos[x,XTODOS_SOMA], "@E 9,999.99")  + Space(1)
-			cStr7 		:= Tran(nSaldo, "@E 999,999.99")
-			cFull 		:= cStr1 + cStr2 + cStr3 + cStr4 + cStr5 + cStr6 + cStr7
-
-			oReceposi:aHistRecibo[x]          := oReceposi:xTodos[x,XTODOS_OBS]
-			oReceposi:aUserRecibo[x]          := oReceposi:xTodos[x,XTODOS_OBS]
-			oReceposi:aReciboImpresso[x]      := FALSO			
-			oRecePosi:aAtivoSwap[x]           := FALSO
-			oRecePosi:aAtivo[x]		          := FALSO
-			oRecePosi:aDatapag[x]		       := oReceposi:xTodos[x,XTODOS_DATAPAG]
-			oRecePosi:nAberto 		          += nSaldo
-			oRecePosi:nPrincipal    	       += nPrincipal
-			oRecePosi:nRecebido	     	       += oReceposi:xTodos[x,XTODOS_SOMA]
-			oRecePosi:nJurosPago 	          += nJurosPago
-			oRecePosi:nQtdDoc++
-			oReceposi:aTodos[x]		          := cFull
-			oReceposi:alMulta[x]					 := FALSO
-			oReceposi:xTodos[x,XTODOS_MULTA]	 := oReceposi:xTodos[x,XTODOS_SOMA]
-			oReceposi:xTodos[x,XTODOS_JUROS]	 := nJurosPago
-			oReceposi:xTodos[x,XTODOS_SOMA]	 := nSaldo
+for x := nIni To nLen	
+	if oAmbiente:lReceber // consulta titulos a receber
+		if !oReceposi:xTodos[x,XTODOS_ATIVO] // Registros do RECEBIDO.DBF
+		   cFull := cSeekRecebido(x)
 			Loop
-		EndIF
-		Area("RECIBO")
-		Recibo->(Order( RECIBO_DOCNR))
-		IF Recibo->(DbSeek( cDocnr ))
-			While Recibo->Docnr = cDocnr
-				nPrincipal := oReceposi:xTodos[x,XTODOS_VLR]
-				nJurosPago := 0
-				nSaldo	  := 0
-				if Recibo->Vlr == 0 // 13.02.2017 Recibo zerado para substituicao faturaa e/ou desconto total 
-					nVlrDevido := 0
-					oRecePosi:aAtivoSwap[x] := FALSO
-					oRecePosi:aAtivo[x]		:= FALSO
-					oRecePosi:nQtdDoc++
-				else
-				   nVlrDevido := (nPrincipal - Recibo->Vlr)
-					IF nVlrDevido <= 0
-						nJurosPago := ( Recibo->Vlr - nPrincipal)
-						oRecePosi:aAtivoSwap[x] := FALSO
-						oRecePosi:aAtivo[x]		:= FALSO
-						oRecePosi:nQtdDoc++
-						oRecePosi:nRecebido		+= Recibo->Vlr
-						oRecePosi:nJurosPago 	+= nJurosPago
-					Else
-						nSaldo						:= nVlrDevido
-						oRecePosi:nAberto 		+= nSaldo
-					EndIF
-				endif
-				nAtraso		:= Atraso( Recibo->Data, oReceposi:xTodos[x,XTODOS_VCTO])  // 26.01.2017			
-				cStr1 		:= Left( oReceposi:aTodos[x],24) + Space(1)
-				cStr2 		:= StrZero( nAtraso, 4 )
-				cStr3 		:= SubStr( oReceposi:aTodos[x],30,10) + Space(1)
-				cStr4 		:= Dtoc( Recibo->Data ) + Space(1)
-				cStr5 		:= Tran(nJurosPago, "@E 9,999.99") + Space(1)
-				cStr6 		:= Tran(Recibo->Vlr, "@E 99,999.99")  + Space(1)
-				cStr7 		:= Tran(nSaldo, "@E 999,999.99") + Space(1)
-				cStr8       := oReceposi:xTodos[x,XTODOS_OBS]
-				cFull 		:= cStr1 + cStr2 + cStr3 + cStr4 + cStr5 + cStr6 + cStr7 + cStr8
-
-				oReceposi:aTodos[x]		          := cFull
-				oReceposi:alMulta[x]			     	 := FALSO
-				oRecePosi:aDatapag[x]		       := oReceposi:xTodos[x,XTODOS_DATAPAG]
-				oReceposi:xTodos[x,XTODOS_MULTA]	 := Recibo->Vlr
-				oReceposi:xTodos[x,XTODOS_JUROS]	 := nJurosPago
-				oReceposi:xTodos[x,XTODOS_SOMA]	 := nSaldo
-				oReceposi:aHistRecibo[x]          := Recibo->Hist
-				oReceposi:aUserRecibo[x]          := AllTrim(Recibo->Tipo) + '/' + AllTrim(Recibo->Usuario) + '/' + Recibo->Hora
-				oReceposi:aReciboImpresso[x]      := OK				
-				oRecePosi:nPrincipal 	          += nPrincipal
-				Recibo->(DbSkip(1))
-			EndDo
-		/*	
-		Else
-			IF ( lSucesso := FLocate( nHandle, cDocnr) > 0)
-				oReceposi:xTodos[x,XTODOS_JUROS]	:= 0
-				oRecePosi:nPrincipal 	+= oReceposi:xTodos[x,XTODOS_VLR]
-				oRecePosi:aAtivoSwap[x] := FALSO
-				oRecePosi:aAtivo[x]		:= FALSO
-				oRecePosi:nQtdDoc++
-			EndIF
-		*/	
-		EndIF
-	Else				  // consulta titulos recebidos		
-		Area("RECIBO")
-		Recibo->(Order( RECIBO_DOCNR))
-		oRecePosi:aAtivo[x]		:= FALSO
-		oRecePosi:aAtivoSwap[x] := FALSO
-		IF Recibo->(DbSeek( cDocnr ))
-			oRecePosi:aAtivoSwap[x]      := OK
-			oRecePosi:aAtivo[x]		     := OK
-			oRecePosi:aHistRecibo[x]     := Recibo->Hist
-			oRecePosi:aUserRecibo[x]     := AllTrim(Recibo->Usuario) + '/' + Recibo->Hora
-			oReceposi:aReciboImpresso[x] := OK				
-		/*	
-		Else
-			IF ( lSucesso := FLocate( nHandle, cDocnr) > 0)
-				oRecePosi:aAtivo[x]		:= OK
-				oRecePosi:aAtivoSwap[x] := OK
-			EndIF
-		*/	
-		EndIF
-	EndIF
+		endif
+		cFull := cSeekRecibo(x)
+	else				  // consulta titulos recebidos		
+		cSeekNil(x)
+	endif
 	if oReceposi:nOrdem == 3 .OR. lRecepago != NIL
 		oRecePosi:aAtivoSwap[x]  := OK
 		oRecePosi:aAtivo[x]		 := OK
 	endif
-Next
+next
 
 if oAmbiente:lK_Ctrl_Ins
 	K_Ctrl_Ins()
 endif
 
-//FClose( nHandle )
 AreaAnt( Arq_Ant, Ind_Ant )
-Return
+return cFull
+
+function cSeekRecebido(x)
+*************************
+	LOCAL nPrincipal := oReceposi:xTodos[x,XTODOS_VLR]
+	LOCAL nSaldo	  := 0
+	LOCAL nJurosPago := (oReceposi:xTodos[x,XTODOS_SOMA] - nPrincipal)
+	LOCAL nAtraso	  := oReceposi:xTodos[x,XTODOS_ATRASO]
+	LOCAL cStr1 	  := Left( oReceposi:aTodos[x],24) + Space(1)
+	LOCAL cStr2 	  := StrZero( nAtraso, 4 )
+	LOCAL cStr3 	  := SubStr( oReceposi:aTodos[x],30,10) + Space(1)
+	LOCAL cStr4 	  := Dtoc(oReceposi:xTodos[x,XTODOS_DATAPAG]) + Space(1)
+	LOCAL cStr5 	  := Tran(nJurosPago, "@E 9,999.99") + Space(1)
+	LOCAL cStr6 	  := Tran(oReceposi:xTodos[x,XTODOS_SOMA], "@E 9,999.99")  + Space(1)
+	LOCAL cStr7 	  := Tran(nSaldo, "@E 999,999.99")
+	LOCAL cFull 	  := cStr1 + cStr2 + cStr3 + cStr4 + cStr5 + cStr6 + cStr7
+	LOCAL cDocnr     := oReceposi:xTodos[x,XTODOS_DOCNR]
+	
+	oReceposi:aHistRecibo[x]          := oReceposi:xTodos[x,XTODOS_OBS]
+	oReceposi:aUserRecibo[x]          := oReceposi:xTodos[x,XTODOS_OBS]
+	oReceposi:aReciboImpresso[x]      := FALSO			
+	oRecePosi:aAtivoSwap[x]           := FALSO
+	oRecePosi:aAtivo[x]		          := FALSO
+	oRecePosi:aDatapag[x]		       := oReceposi:xTodos[x,XTODOS_DATAPAG]
+	oRecePosi:nAberto 		          += nSaldo
+	oRecePosi:nPrincipal    	       += nPrincipal
+	oRecePosi:nRecebido	     	       += oReceposi:xTodos[x,XTODOS_SOMA]
+	oRecePosi:nJurosPago 	          += nJurosPago
+	oRecePosi:nQtdDoc++
+	oReceposi:aTodos[x]		          := cFull			
+	oReceposi:alMulta[x]					 := FALSO
+	oReceposi:xTodos[x,XTODOS_MULTA]	 := oReceposi:xTodos[x,XTODOS_SOMA]
+	oReceposi:xTodos[x,XTODOS_JUROS]	 := nJurosPago
+	oReceposi:xTodos[x,XTODOS_SOMA]	 := nSaldo
+	return cFull
+	
+function cSeekNil(x)
+*******************
+	LOCAL cDocnr     := oReceposi:xTodos[x,XTODOS_DOCNR]
+	
+	Area("RECIBO")
+	Recibo->(Order( RECIBO_DOCNR))
+	oRecePosi:aAtivo[x]		:= FALSO
+	oRecePosi:aAtivoSwap[x] := FALSO
+	if Recibo->(DbSeek(cDocnr))
+		oRecePosi:aAtivoSwap[x]      := OK
+		oRecePosi:aAtivo[x]		     := OK
+		oRecePosi:aHistRecibo[x]     := Recibo->Hist
+		oRecePosi:aUserRecibo[x]     := AllTrim(Recibo->Usuario) + '/' + Recibo->Hora
+		oReceposi:aReciboImpresso[x] := OK				
+	endif
+	return NIL	
+	
+function cSeekRecibo(x)
+**********************
+	LOCAL nPrincipal := oReceposi:xTodos[x,XTODOS_VLR]
+	LOCAL nJurosPago := 0
+	LOCAL nSaldo	  := 0
+	LOCAL nVlrDevido := 0
+	LOCAL nAtraso    := 0
+	LOCAL cStr1
+	LOCAL cStr2
+	LOCAL cStr3
+	LOCAL cStr4
+	LOCAL cStr5
+	LOCAL cStr6
+	LOCAL cStr7
+	LOCAL cStr8
+	LOCAL cFull	 := ""
+	LOCAL cDocnr := oReceposi:xTodos[x,XTODOS_DOCNR]
+	
+	Area("RECIBO")
+	Recibo->(Order( RECIBO_DOCNR))
+	if Recibo->(DbSeek( cDocnr ))
+		While Recibo->Docnr = cDocnr
+			if Recibo->Vlr == 0 // 13.02.2017 Recibo zerado para substituicao faturaa e/ou desconto total 
+				nVlrDevido := 0
+				oRecePosi:aAtivoSwap[x] := FALSO
+				oRecePosi:aAtivo[x]		:= FALSO
+				oRecePosi:nQtdDoc++
+			else
+				nVlrDevido := (nPrincipal - Recibo->Vlr)
+				if nVlrDevido <= 0
+					nJurosPago := ( Recibo->Vlr - nPrincipal)
+					oRecePosi:aAtivoSwap[x] := FALSO
+					oRecePosi:aAtivo[x]		:= FALSO
+					oRecePosi:nQtdDoc++
+					oRecePosi:nRecebido		+= Recibo->Vlr
+					oRecePosi:nJurosPago 	+= nJurosPago
+				else
+					nSaldo						:= nVlrDevido
+					oRecePosi:nAberto 		+= nSaldo
+				endif
+			endif
+			nAtraso		:= Atraso( Recibo->Data, oReceposi:xTodos[x,XTODOS_VCTO])  // 26.01.2017			
+			cStr1 		:= Left( oReceposi:aTodos[x],24) + Space(1)
+			cStr2 		:= StrZero( nAtraso, 4 )
+			cStr3 		:= SubStr( oReceposi:aTodos[x],30,10) + Space(1)
+			cStr4 		:= Dtoc( Recibo->Data ) + Space(1)
+			cStr5 		:= Tran(nJurosPago, "@E 9,999.99") + Space(1)
+			cStr6 		:= Tran(Recibo->Vlr, "@E 99,999.99")  + Space(1)
+			cStr7 		:= Tran(nSaldo, "@E 999,999.99") + Space(1)
+			cStr8       := oReceposi:xTodos[x,XTODOS_OBS]
+			cFull 		:= cStr1 + cStr2 + cStr3 + cStr4 + cStr5 + cStr6 + cStr7 + cStr8
+
+			oReceposi:aTodos[x]		          := cFull
+			oReceposi:alMulta[x]			     	 := FALSO
+			oRecePosi:aDatapag[x]		       := oReceposi:xTodos[x,XTODOS_DATAPAG]
+			oReceposi:xTodos[x,XTODOS_MULTA]	 := Recibo->Vlr
+			oReceposi:xTodos[x,XTODOS_JUROS]	 := nJurosPago
+			oReceposi:xTodos[x,XTODOS_SOMA]	 := nSaldo
+			oReceposi:aHistRecibo[x]          := Recibo->Hist
+			oReceposi:aUserRecibo[x]          := AllTrim(Recibo->Tipo) + '/' + AllTrim(Recibo->Usuario) + '/' + Recibo->Hora
+			oReceposi:aReciboImpresso[x]      := OK				
+			oRecePosi:nPrincipal 	          += nPrincipal	
+			Recibo->(DbSkip(1))
+		EndDo
+	endif
+	return cFull
 
 *------------------------------------------------------------------------------
 
@@ -9951,7 +9947,7 @@ endif
 			Aadd( oReceposi:alMulta,    (oReceposi:xTodos[nT,XTODOS_MULTA] <> 0)) // Multa?
          Aadd( oReceposi:aCodi,       oReceposi:xTodos[nT,XTODOS_CODI] )
 			Aadd( oReceposi:aTodos,{}) 
-			AtualizaATodos(nT)
+			oRecePosi:sTrFormataATodos(nT)
 		Next
 		Restela( cTela )
 		cTela                 := Mensagem('Informa: Aguarde, Calculando...')
@@ -9965,7 +9961,7 @@ endif
 		oReceposi:xParam      := xParam
 		oReceposi:lRescisao   := lRescisao
 		oReceposi:lCalcular   := lCalcular
-		AltJrInd(1,nJuroMesComposto, oReceposi:aCodi[1], (lMsg := FALSO))		
+		AltJrInd(1,nJuroMesComposto, oReceposi:aCodi[1], (lMsg := FALSO))				
 		IF oAmbiente:Mostrar_Recibo
 			SeekLog(oReceposi:xTodos, oReceposi:aTodos, lRecepago)
 		EndIF
@@ -9985,9 +9981,8 @@ endif
 		endif	
 		
 		MaBox( 00, 00, 06, nMaxCol )		
-		oRecePosi:aBottom 	 := oReceposi:BarraSoma()				
 		oRecePosi:cTop 		 += Space( MaxCol() - Len(oRecePosi:cTop))
-      oRecePosi:Redraw_()				
+		oRecePosi:aBottom 	 := oReceposi:BarraSoma()
 		__Funcao( 0, 1, 1 )
 		//cSetColor(",,,,R+/")
 		lPageCircular := FALSO	
@@ -10440,19 +10435,18 @@ Case LastKey() = K_ENTER .AND. oReceposi:PosiReceber
 	return( AC_CONT)
 
 Case LastKey() = K_ENTER
-	IF lStack = NIL
+	if lStack = NIL
 		lStack := OK
 		NewPosiReceber(NCHOICE_CODI, cCodi)
 		lStack := NIL
 		oRecePosi:Redraw_()
 		return( AC_REPAINT)
-	Else
+	else
 		Alerta("ERRO: ESC retornar, apos escolha outro cliente ou CTRL+P imprimir.")
-	EndIF
+	endif
 	return( AC_CONT)
 
-*==================================================================================================					
-	
+*=======================K_F6========================================================					
 Case LastKey() = K_F6
 	IF oReceposi:PosiAgeInd .OR. oReceposi:PosiAgeAll
 		Return( AC_CONT)
@@ -10494,8 +10488,7 @@ Case LastKey() = K_F6
 	EndIF
 	return( AC_REPAINT)
 
-*===============================================================================				
-
+*=======================K_F2========================================================					
 Case LastKey() = K_F2
 	if oReceposi:PosiAgeInd .OR. oReceposi:PosiAgeAll
 	 	return( AC_CONT)
@@ -10509,8 +10502,7 @@ Case LastKey() = K_F2
    endif
 	return( AC_CONT)
 	
-*==================================================================================================					
-	
+*=======================K_DEL========================================================						
 Case LastKey() = K_DEL .AND. oReceposi:Posireceber
 	IF oReceposi:PosiReceber
 		if !PodeExcluir()
@@ -10554,8 +10546,6 @@ Case LastKey() = K_DEL .AND. oReceposi:PosiAgeInd .OR. oReceposi:PosiAgeAll
 		endif
    endif
 	return( AC_CONT )
-	
-*==================================================================================================					
 		
 Case LastKey() = 406 // K_CTRL_ASTERISK // ASTERISTICO
 	if oReceposi:PosiReceber
@@ -10581,8 +10571,6 @@ Case LastKey() = 406 // K_CTRL_ASTERISK // ASTERISTICO
 		endif		
 	endif	
    return( AC_REPAINT)
-	
-*==================================================================================================					
 	
 Case LastKey() = ASTERISTICO
 	if oReceposi:PosiReceber		
@@ -10637,8 +10625,6 @@ Case LastKey() =  K_CTRL_F5 // Ajustar valor original parcela paga
 	endif	
    return( AC_REPAINT)		
 	
-*==================================================================================================					
-	
 Case LastKey() = K_F7 .AND. oReceposi:Posireceber
    x := nCurElemento
 	if oReceposi:xTodos[x, XTODOS_DOCNR] == "000000-00"
@@ -10648,8 +10634,6 @@ Case LastKey() = K_F7 .AND. oReceposi:Posireceber
 	endif	
 	Ped_Cli9_2(oReceposi:xTodos[x, XTODOS_FATURA])
    return( AC_REPAINT)			
-	
-*==================================================================================================					
 	
 Case LastKey() = K_CTRL_F7 .AND. oReceposi:Posireceber
 	x := nCurElemento
@@ -10666,8 +10650,6 @@ Case LastKey() = K_CTRL_F7 .AND. oReceposi:Posireceber
 		endif	
 	endif
 	return( AC_REDRAW)			
-		
-*==================================================================================================					
 
 Case LastKey() = K_CTRL_F10 .AND. oReceposi:Posireceber
 	x := nCurElemento	
@@ -10678,8 +10660,6 @@ Case LastKey() = K_CTRL_F10 .AND. oReceposi:Posireceber
 		Repaint( cCodi, x)
 	endif
 	return( AC_REDRAW)			
-		
-*==================================================================================================					
 	
 Case LastKey() = TECLA_MAIS .AND. oReceposi:Posireceber
 	x := nCurElemento
@@ -10707,8 +10687,6 @@ Case LastKey() = TECLA_MAIS .AND. oReceposi:Posireceber
 		return( AC_REDRAW)							
    EndIF
 	return( AC_CONT)
-	
-*===============================================================================					
 	
 Case LastKey() = TECLA_MENOS .AND. oReceposi:Posireceber
 	if oReceposi:PosiReceber	
@@ -10738,9 +10716,7 @@ Case LastKey() = TECLA_MENOS .AND. oReceposi:Posireceber
 		endif
 	endif
 	return( AC_CONT)
-	
-*===============================================================================					
-	
+
 Case LastKey() = K_SPACE
 	x := nCurElemento
 	if oReceposi:xTodos[x, XTODOS_DOCNR] == "000000-00"
@@ -10776,8 +10752,6 @@ Case LastKey() = K_SPACE
 	endif
 	return( AC_REDRAW )				
 	
-*===============================================================================						
-
 Case LastKey() = 400 // K_CTRL_+
 	if oReceposi:PosiAgeInd .OR. oReceposi:PosiAgeAll
 		return( AC_CONT)
@@ -10803,13 +10777,9 @@ Case LastKey() = 400 // K_CTRL_+
 	endif
 	return( AC_REDRAW )				
 	
-*===============================================================================						
-
 OtherWise
    return( AC_CONT)
 	
-*===============================================================================						
-
 EndCase
 return nil
 
@@ -10859,40 +10829,24 @@ if Recemov->(TravaReg())
 		Recemov->StPag   := OK
 	endif	
 	Recemov->(Libera())
+	oReceposi:xTodos[nT, XTODOS_CODI]   := Recemov->Codi
 	oReceposi:xTodos[nT, XTODOS_DOCNR]  := Recemov->Docnr
 	oReceposi:xTodos[nT, XTODOS_EMIS]   := Recemov->Emis
-	oReceposi:xTodos[nT, XTODOS_VCTO]   := Recemov->Vcto
-	oReceposi:xTodos[nT, XTODOS_CODI]   := Recemov->Codi
+	oReceposi:xTodos[nT, XTODOS_VCTO]   := Recemov->Vcto	
 	oReceposi:xTodos[nT, XTODOS_OBS]    := Recemov->Obs
 	oReceposi:xTodos[nT, XTODOS_VLR]    := Recemov->Vlr	
 	oReceposi:xTodos[nT, XTODOS_ATRASO] := Date() - Recemov->Vcto
 	oReceposi:xTodos[nT, XTODOS_SOMA]   := AtualizaSoma()[3]	
 	oReceposi:xTodos[nT, XTODOS_MULTA]  := AtualizaSoma()[1]
 	oReceposi:xTodos[nT, XTODOS_JUROS]  := AtualizaSoma()[2]		
-	oReceposi:xTodos[nT, XTODOS_SOMA]   := AtualizaSoma()[3]		
-	//AltJrInd(1 , nil , oReceposi:aCodi[1], (lMsg := FALSO))		
-	AtualizaATodos(nT)	
+	oReceposi:xTodos[nT, XTODOS_SOMA]   := AtualizaSoma()[3]
+   oRecePosi:sTrFormataATodos(nT)
+	SeekLog(oReceposi:xTodos, oReceposi:aTodos, nT)
 	oReceposi:Displine( oReceposi:aTodos[nT], oReceposi:nTop + oReceposi:nPos - oReceposi:nAtTop, oReceposi:nLeft, .T., .T., oReceposi:nNumCols, nT )
 	oRecePosi:aBottom := oReceposi:BarraSoma()
-	oRecePosi:Redraw_()					
 	return OK
 endif	
 return FALSO
-
-function AtualizaATodos(nT)
-***************************
-oReceposi:aCodi[nT]  := oReceposi:xTodos[nT,XTODOS_CODI]
-oReceposi:aTodos[nT] := oReceposi:xTodos[nT,XTODOS_DOCNR]             + " " + ;						  
-						  Left( Dtoc( oReceposi:xTodos[nT,XTODOS_EMIS]),5 ) + " " + ;
-						  Dtoc(oReceposi:xTodos[nT,XTODOS_VCTO])            + " " + ;
-						  StrZero( oReceposi:xTodos[nT,XTODOS_ATRASO], 4) + " " + ;
-						  Tran(oReceposi:xTodos[nT,XTODOS_VLR],      "@E 99,999.99")  + " " + ;
-						  Tran(oReceposi:xTodos[nT,XTODOS_DESCONTO], "@E 9,999.99")   + " " + ;
-						  Tran(oReceposi:xTodos[nT,XTODOS_JUROS],    "@E 9,999.99")   + " " + ;
-						  Tran(oReceposi:xTodos[nT,XTODOS_MULTA],    "@E 99,999.99")  + " " + ;
-						  Tran(oReceposi:xTodos[nT,XTODOS_SOMA],     "@E 999,999.99") + " " + ;
-						  if( MaxCol() > 79, oReceposi:xTodos[nT,XTODOS_OBS] + " ", "")
-return NIL
 
 function AtualizaSoma()
 ***********************
@@ -10993,7 +10947,6 @@ For nT := 1 To xLen
 	AtualizaReg(nReg)
 next	
 //oRecePosi:aBottom := oReceposi:BarraSoma()
-//oRecePosi:Redraw_()							
 return OK
 
 function K_Ctrl_Ins() 

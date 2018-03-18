@@ -146,7 +146,6 @@ static char *replicate(char *str, int vezes)
 }
 
 char *chr(int n)
-//==============
 {
    char *ch = (char *)malloc(sizeof(char*));
 	ch[1]    = '\0';
@@ -155,8 +154,6 @@ char *chr(int n)
    // sprintf(ch, "%c", n);
    return (ch);
 }
-
-//********************************************************************************	
 
 HB_FUNC( MS_CLS )
 {
@@ -256,8 +253,6 @@ HB_FUNC( MS_CLS )
    hb_retc_null();
 }	
 
-//********************************************************************************	
-	
 	HB_FUNC( MS_CHAR)
 	{	
 		HANDLE hConsole;                   

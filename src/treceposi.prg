@@ -11,8 +11,8 @@ CLASS TReceposi
 	VAR aReciboImpresso		 	 INIT {}
 	VAR aAtivo						 INIT {}
 	VAR aAtivoSwap					 INIT {}
-   VAR aRecno						 INIT {}
-	VAR aTodos                  INIT {}
+   VAR aRecno						 INIT {}		
+	VAR aTodos                  INIT {}		
 	VAR aCodi                   INIT {}
 	VAR alMulta                 INIT {}
 	VAR xTodos                  INIT {}
@@ -180,6 +180,7 @@ CLASS TReceposi
 	METHOD cStrSemValor(nT)
 	METHOD cStrAll()
 	METHOD AjustaGeral()
+	METHOD sTrFormataATodos(nT)
 ENDCLASS 
 
 Method New()
@@ -220,7 +221,7 @@ METHOD RegistroEmBranco(cCodi,cFatu)
 	*-----END REGISTRO---------------------------------------------------------
 
 METHOD RenewVar()	
-	::aTodos		  := {}
+	::aTodos		  := {}	
 	::xTodos		  := {}	
 	::aCodi  	  := {}
    ::aRecno      := {}
@@ -264,7 +265,6 @@ METHOD DeleteReg(nReg)
 	HB_ADel( ::Color_pBack,     nReg, .T. )	
 	HB_ADel( ::Color_pUns,      nReg, .T. )
 	::aBottom := ::BarraSoma()
-	::Redraw_()					
 return self
 
 METHOD Resetar()
@@ -495,7 +495,9 @@ METHOD RedrawGeral class TReceposi
 	::cStrGeral += Tran(::nPrincipal_Geral, "@E 999,999.99") + Space(9)
 	::cStrGeral += Tran(::nJuros_Geral,     "@E 99,999.99")  + Space(1)
 	::cStrGeral += Tran(::nMulta_Geral,     "@E 99,999.99")  + Space(1)
-	::cStrGeral += Tran(::nTotal_Geral,     "@E 999,999.99") + Space(1)	
+	::cStrGeral += Tran(::nTotal_Geral,     "@E 999,999.99") + Space(1)
+	::cStrGeral += Tran(::nTotal_Vencido + ::nTotal_Rescisao,   "@E 999,999.99")
+   
 return(::cStrGeral)	
 
 METHOD RedrawSelecao class TReceposi
@@ -517,13 +519,12 @@ METHOD _SomaPago( nValorTotal, nValorPago )
 	 ::cStrRecibo += Space(27)
 	 ::cStrRecibo += Tran(nValorTotal, "@E 999,999,999.99")
 	 ::cStrRecibo += Space(01)
-	 ::cStrRecibo += Tran(nValorPago,  "@E 999,999,999.99")	 
-return( ::cStrRecibo)
+	 ::cStrRecibo += Tran(nValorPago,  "@E 999,999,999.99")
+	 return( ::cStrRecibo)
 
 METHOD ImprimeSoma()
 ********************
 	::aBottom := ::BarraSoma()
-	::Redraw_()
 return SELF
 
 METHOD BarraSoma() class TReceposi	
@@ -553,12 +554,15 @@ METHOD BarraSoma() class TReceposi
 
 	::aRescisao  := Array(xLen)
 	::nT         := 0
+	
 	if oAmbiente:lReceber .AND. ::Posireceber
 		For ::nT := 1 To xLen
-		
+			
 			//calcular recebidos
 			//if !(::aAtivo[::nT]) 
+			
 			if (::aReciboImpresso[::nT]) 			
+				::aTodos[::nT]            := Left(::aTodos[::nT], 78) + " {" + if( MaxCol() > 79, Alltrim(::xTodos[::nT,XTODOS_OBS]) + "}", "{}")
 				::nPrincipal_Recibo       += ::xTodos[::nT, XTODOS_VLR]
 				::nMulta_Recibo           += ::xTodos[::nT, XTODOS_MULTA]
 				::nJuros_Recibo 			  += ::xTodos[::nT, XTODOS_JUROS]
@@ -566,7 +570,12 @@ METHOD BarraSoma() class TReceposi
 				::nQtdDoc_Recibo++					
 				if !(oAmbiente:lK_Ctrl_Ins)
 					::Color_pFore[::nT]    := ::CorRecibo
-				endif	
+					if (::xTodos[::nT, XTODOS_VLR] - ::xTodos[::nT, XTODOS_SOMA]) > 0
+						::Color_pFore[::nT]    := ::CorVencido				
+					endif	
+				endif
+			else
+				::aTodos[::nT]            := ::sTrFormataATodos(::nT)
 			endif
 		
 			nAtraso := Atraso( Date(), ::xTodos[::nT,XTODOS_VCTO]) 
@@ -601,26 +610,34 @@ METHOD BarraSoma() class TReceposi
 			nVlr := ::xTodos[::nT,XTODOS_VLR]
 			cStr := ::aTodos[::nT] 
 			nLen := Len(cStr)
-			if Empty(Right(cStr, nLen-80)) // mensalidade?
+			cObs := Right(cStr, nLen-79)
+			//if Empty(cObs) // mensalidade?
 				if ::nOrdem != 3 
 					if ::aAtivo[::nT] // sem recibo
 						if nAtraso < 0
 							IF nAtraso < -30
 								nVlr *= 0.5  // Metade da Mensalidade de Rescisao
 								cstr := ::aTodos[::nT] := Left( ::aTodos[::nT], 78) + ' ' + Tran(nVlr,  "@E 999,999.99") + ' {50%}'
+								cstr += Space(01)
+								cstr += cObs
+
 							else
 								nDiaComUso := (30 + nAtraso)
 								nDiaSemUso := (30 - nDiaComUso)
 								nVlrComUso := (nDiaComUso * (nVlr/30))
 								nVlrSemUso := (nDiaSemUso * (nVlr/30)*0.5)
-								nVlr		  := (nVlrComUso + nVlrSemUso)
-								cstr       := ::aTodos[::nT] := Left( ::aTodos[::nT], 78) + ' ' + Tran(nVlr, "@E 999,999.99") + ' {' + StrZero(nDiaComUso,2) + 'D}=' + AllTrim(Tran(nVlrComUso, "@E 999,999.99")) + ;
-																																				      ' + {' + StrZero(nDiaSemUso,2) + 'D}=' + AllTrim(Tran(nVlrSemUso, "@E 999,999.99")) + ' {50%}'
+								nVlr		  := (nVlrComUso + nVlrSemUso)								
+								cstr       := ::aTodos[::nT] := Left( ::aTodos[::nT], 78) + ' ' + Tran(nVlr, "@E 999,999.99") + ;
+								                                                            ' {' + StrZero(nDiaComUso,2) + 'D}=' + AllTrim(Tran(nVlrComUso, "@E 999,999.99")) + ;
+																									       ' + {' + StrZero(nDiaSemUso,2) + 'D}=' + AllTrim(Tran(nVlrSemUso, "@E 999,999.99")) + ' {50%}'
+								cstr       += Space(01)
+								cstr       += cObs
+								
 							endIF
 						endIF
 					endif	
 				endif	
-			endif	
+			//endif	
 			
 			if ::xTodos[::nT,XTODOS_VCTO] > Date() 
 				if ::aAtivo[::nT] // sem recibo
@@ -693,7 +710,8 @@ METHOD BarraSoma() class TReceposi
 		Next
 	endif
 	::AjustaGeral()
-	::cStrAll()
+	::cStrAll()	
+	::Redraw_()					
 	return self
 	
 METHOD cStrAll() class TReceposi	
@@ -715,11 +733,11 @@ METHOD AjustaGeral() class TReceposi
 	
 METHOD cStrComValor(nSomaParcial) class TReceposi	
 *********************************
-	return( cStr := ::aTodos[::nT] := Left( ::aTodos[::nT], 78) + ' ' + Tran(nSomaParcial, "@E 999,999.99")  + SubStr( ::aTodos[::nT], 79, 200))		
+	return( cStr := Left( ::aTodos[::nT], 78) + ' ' + Tran(nSomaParcial, "@E 999,999.99")  + SubStr( ::aTodos[::nT], 79, 200))		
 	
 METHOD cStrSemValor() class TReceposi	
 **********************
-	return( cStr := ::aTodos[::nT] := Left( ::aTodos[::nT], 78) + Space(11) + SubStr( ::aTodos[::nT], 79, 200))
+	return( cStr := Left( ::aTodos[::nT], 78) + Space(11) + SubStr( ::aTodos[::nT], 79, 200))
 	
 METHOD AjustaCorInicio(nAtraso, nT)	class TReceposi	
 ***********************************
@@ -760,10 +778,27 @@ METHOD AjustaCorFinal(nAtraso, nT) class TReceposi
 		endif		
 	endif	
 	return SELF	
-	
+
+METHOD sTrFormataATodos(nT) class TReceposi
+***************************
+	LOCAL cCodi  := ::xTodos[nT,XTODOS_CODI]
+	LOCAL cTodos := ::xTodos[nT,XTODOS_DOCNR]             + " " + ;						  
+							  Left( Dtoc( ::xTodos[nT,XTODOS_EMIS]),5 ) + " " + ;
+							  Dtoc(::xTodos[nT,XTODOS_VCTO])            + " " + ;
+							  StrZero( ::xTodos[nT,XTODOS_ATRASO], 4) + " " + ;
+							  Tran(::xTodos[nT,XTODOS_VLR],      "@E 99,999.99")  + " " + ;
+							  Tran(::xTodos[nT,XTODOS_DESCONTO], "@E 9,999.99")   + " " + ;
+							  Tran(::xTodos[nT,XTODOS_JUROS],    "@E 9,999.99")   + " " + ;
+							  Tran(::xTodos[nT,XTODOS_MULTA],    "@E 99,999.99")  + " " + ;
+							  Tran(::xTodos[nT,XTODOS_SOMA],     "@E 999,999.99") + " {" + ;
+							  if( MaxCol() > 79, Alltrim(::xTodos[nT,XTODOS_OBS]) + "}", "{}")
+	::aCodi[nT]  := cCodi
+	::aTodos[nT] := cTodos
+	return(cTodos)
 
 Function TReceposiNew()
-	return(TReceposi():New())
+	return(TReceposi():New())	
+	
 
 #include <hbclass.ch>
 #Include <box.ch>

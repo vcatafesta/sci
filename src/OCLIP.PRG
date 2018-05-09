@@ -47,11 +47,11 @@ LOCAL nParent
     aMethodList[nCurrent] := ACLONE(aMethodList[nParent])
     aVarList[nCurrent] := ACLONE(aVarList[nParent])
   end
-RETURN oParent
+return oParent
 
 PROCEDURE __AddVar(cName)
   AADD(aVarList[nCurrent],cName)
-RETURN
+return
 
 PROCEDURE __AddMethod(cName,cUDF)
 LOCAL n
@@ -62,7 +62,7 @@ LOCAL n
   else
     AADD(aMethodList[nCurrent],{cName,cUDF})
   end
-RETURN
+return
 
 FUNCTION __MakeClass()
 LOCAL i := 0,cVar,s
@@ -75,11 +75,11 @@ LOCAL nHandle := __ClassNew(aClassList[nCurrent],LEN(aVarList[nCurrent])+1)
     __ClassAdd(nHandle,cVar,"__IVAR"+s)
     __ClassAdd(nHandle,"_"+cVar,"__SIVAR"+s)
   end
-RETURN nHandle
+return nHandle
 
 FUNCTION __PARENT(bParent)
 LOCAL r,i
   if(LEN(QSELF()[1])>1,ACOPY(QSELF(),QSELF()[1],2,,2),)
   r := EVAL(bParent,QSELF()[1])
   if(LEN(QSELF()[1])>1,ACOPY(QSELF()[1],QSELF(),2,,2),)
-RETURN r
+return r

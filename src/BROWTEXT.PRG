@@ -6,7 +6,7 @@
 ?   Programmer....: Rick Spence                                            ?
 ?   Date..........: NA                                                     ?
 ?                                                                          ?
-?   LAST MODIFICATION                                                      ?
+?   LAST MODifICATION                                                      ?
 ?   Author........: Mark Nowakowski                                        ?
 ?   Date..........: May 12, 1994                                           ?
 ?                                                                          ?
@@ -26,7 +26,7 @@
 ?                   [lFrame]       LOGICAL                                 ?
 ?                      Display a frame around the browse window            ?
 ?                                                                          ?
-?   Returns.......: NIL                                                    ?
+?   returns.......: NIL                                                    ?
 ?                                                                          ?
 ?   Functions.....: FileInit(), Skipper(), GetLast(),        					 ?
 ?                   GetFirst(), GoPrevLn(), GoNextLn(),                    ?
@@ -45,8 +45,8 @@
 #xtranslate CRLF             => CR + LF
 
 #command DEFAULT <variable1> TO <value1> [, <variableN> TO <valueN> ] => ;
-         IF <variable1> == NIL; <variable1> := <value1>; END;
-         [; IF <variableN> == NIL; <variableN> := <valueN>; END ]
+         if <variable1> == NIL; <variable1> := <value1>; END;
+         [; if <variableN> == NIL; <variableN> := <valueN>; END ]
 
 
 STATIC cLine,		;	// Current Line
@@ -68,12 +68,12 @@ DEFAULT nTop TO 0, nLeft TO 0, nBottom TO MAXROW(), nRight TO MAXCOL(), ;
 
 // Open the file
 nHandle := FileInit(cFileName)
-IF nHandle == 0
-   RETURN NIL
-ENDIF
+if nHandle == 0
+   return NIL
+endif
 
 // Display the frame adjust the coordinates for the browse object
-IF lFrame
+if lFrame
 
 	DISPBOX(nTop, nLeft, nBottom, nRight)
 	nTop++
@@ -81,7 +81,7 @@ IF lFrame
 	nBottom--
 	nRight--
 
-ENDIF
+endif
 
 // Create the browse object
 oBrowse := TBROWSENEW(nTop, nLeft, nBottom, nRight)
@@ -107,7 +107,7 @@ TBrowse(oBrowse)
 // Close the file
 FCLOSE(nHandle)
 
-RETURN NIL
+return NIL
 
 /*
  ??????????????????????????????????????
@@ -117,7 +117,7 @@ RETURN NIL
 ?   Programmer....: Rick Spence                                            ?
 ?   Date..........: NA                                                     ?
 ?                                                                          ?
-?   LAST MODIFICATION                                                      ?
+?   LAST MODifICATION                                                      ?
 ?   Author........: Mark Nowakowski                                        ?
 ?   Date..........: May 10, 1994                                           ?
 ?                                                                          ?
@@ -131,7 +131,7 @@ RETURN NIL
 ?                      File Handle                                         ?
 ?                                                                          ?
 ?                                                                          ?
-?   Returns.......: Number of rows successfully skipped                    ?
+?   returns.......: Number of rows successfully skipped                    ?
 ?                                                                          ?
 ???????????????????????????????????????
 ???????????????????????????????????
@@ -141,18 +141,18 @@ STATIC FUNCTION Skipper( nSkip, nHandle )
 LOCAL nSkipped := 0
 
 // Skip down 
-IF nSkip > 0
+if nSkip > 0
 	DO WHILE nSkipped != nSkip .AND. GoNextLn( nHandle )
 		nSkipped++
 	ENDDO
 // Skip Up
-ELSE
+else
 	DO WHILE nSkipped != nSkip .AND. GoPrevLn( nHandle )
 		nSkipped--
 	ENDDO
-ENDIF
+endif
 
-RETURN (nSkipped)
+return (nSkipped)
 
 /*
  ??????????????????????????????????????
@@ -162,7 +162,7 @@ RETURN (nSkipped)
 ?   Programmer....: Rick Spence                                            ?
 ?   Date..........: NA                                                     ?
 ?                                                                          ?
-?   LAST MODIFICATION                                                      ?
+?   LAST MODifICATION                                                      ?
 ?   Author........: Mark Nowakowski                                        ?
 ?   Date..........: May 12, 1994                                           ?
 ?                                                                          ?
@@ -173,7 +173,7 @@ RETURN (nSkipped)
 ?                      Name of file to initialize                          ?
 ?                                                                          ?
 ?                                                                          ?
-?   Returns.......: File Handle                                            ?
+?   returns.......: File Handle                                            ?
 ?                                                                          ?
 ???????????????????????????????????????
 ???????????????????????????????????
@@ -181,13 +181,13 @@ RETURN (nSkipped)
 STATIC FUNCTION FileInit( nFname )
 LOCAL nHandle			// File Handle
 
-IF (nHandle := FOPEN(nFname)) > 0
+if (nHandle := FOPEN(nFname)) > 0
 	FSEEK(nHandle, 0, FS_END)
 	nFileSize := FTELL(nHandle)
 	GetFirst(nHandle)
-ENDIF
+endif
 
-RETURN (nHandle)
+return (nHandle)
 
 /*
  ??????????????????????????????????????
@@ -197,7 +197,7 @@ RETURN (nHandle)
 ?   Programmer....: Rick Spence                                            ?
 ?   Date..........: NA                                                     ?
 ?                                                                          ?
-?   LAST MODIFICATION                                                      ?
+?   LAST MODifICATION                                                      ?
 ?   Author........: Mark Nowakowski                                        ?
 ?   Date..........: May 10, 1994                                           ?
 ?                                                                          ?
@@ -207,7 +207,7 @@ RETURN (nHandle)
 ?   Parameters....: nHandle        NUMERIC                                 ?
 ?                      File Handle                                         ?
 ?                                                                          ?
-?   Returns.......: NIL                                                    ?
+?   returns.......: NIL                                                    ?
 ?                                                                          ?
 ???????????????????????????????????????
 ???????????????????????????????????
@@ -217,7 +217,7 @@ STATIC FUNCTION GetLast( nHandle )
 FSEEK(nHandle, -1, FS_END)
 GoPrevLn( nHandle )
 
-RETURN NIL
+return NIL
 
 /*
  ??????????????????????????????????????
@@ -227,7 +227,7 @@ RETURN NIL
 ?   Programmer....: Rick Spence                                            ?
 ?   Date..........: NA                                                     ?
 ?                                                                          ?
-?   LAST MODIFICATION                                                      ?
+?   LAST MODifICATION                                                      ?
 ?   Author........: Mark Nowakowski                                        ?
 ?   Date..........: May 10, 1994                                           ?
 ?                                                                          ?
@@ -238,7 +238,7 @@ RETURN NIL
 ?                      File Handle                                         ?
 ?                                                                          ?
 ?                                                                          ?
-?   Returns.......: NIL                                                    ?
+?   returns.......: NIL                                                    ?
 ?                                                                          ?
 ???????????????????????????????????????
 ???????????????????????????????????
@@ -249,7 +249,7 @@ FSEEK(nHandle, 0, FS_SET)
 FReadLn(nHandle, @cline)
 FSEEK(nHandle, 0, FS_SET)
 
-RETURN NIL
+return NIL
 
 
 /*
@@ -260,7 +260,7 @@ RETURN NIL
 ?   Programmer....: Rick Spence                                            ?
 ?   Date..........: NA                                                     ?
 ?                                                                          ?
-?   LAST MODIFICATION                                                      ?
+?   LAST MODifICATION                                                      ?
 ?   Author........: Mark Nowakowski                                        ?
 ?   Date..........: May 10, 1994                                           ?
 ?                                                                          ?
@@ -271,7 +271,7 @@ RETURN NIL
 ?                      File Handle                                         ?
 ?                                                                          ?
 ?                                                                          ?
-?   Returns.......: TRUE if move was successful, or FALSE otherwise.       ?
+?   returns.......: TRUE if move was successful, or FALSE otherwise.       ?
 ?                                                                          ?
 ???????????????????????????????????????
 ???????????????????????????????????
@@ -289,14 +289,14 @@ LOCAL nOrigPos,	;	// Original File Pointer Position
 // Save Original file position
 nOrigPos := FTELL(nHandle)
 
-IF nOrigPos = 0
+if nOrigPos = 0
 	lMoved := FALSE
-ELSE
+else
 	lMoved := TRUE
-	IF nOrigPos != nFileSize
+	if nOrigPos != nFileSize
 		//  Skip over preceeding CR / LF
 		FSEEK(nHandle, -2, FS_RELATIVE)
-	ENDIF
+	endif
 	nMaxRead := MIN(MAX_LINE_LEN, FTELL(nHandle))
 
 	// Capture the line into a buffer, strip off the CRLF
@@ -305,20 +305,20 @@ ELSE
 	FREAD(nHandle, @cBuff, nMaxRead)
 	nWhereCrLf := RAT(CRLF, cBuff)
 
-	IF nWhereCrLf = 0
+	if nWhereCrLf = 0
 		nPrev := nNewPos
 		cLine = cBuff
-	ELSE
+	else
 		nPrev := nNewPos + nWhereCrLf + 1
 		cline := SUBSTR(cBuff, nWhereCrLf + 2)
-	ENDIF
+	endif
 
 	// Move to the beginning of the line
 	FSEEK(nHandle, nPrev, FS_SET)
 
-ENDIF
+endif
 
-RETURN (lMoved)
+return (lMoved)
 
 /*
  ??????????????????????????????????????
@@ -328,7 +328,7 @@ RETURN (lMoved)
 ?   Programmer....: Rick Spence                                            ?
 ?   Date..........: NA                                                     ?
 ?                                                                          ?
-?   LAST MODIFICATION                                                      ?
+?   LAST MODifICATION                                                      ?
 ?   Author........: Mark Nowakowski                                        ?
 ?   Date..........: May 10, 1994                                           ?
 ?                                                                          ?
@@ -340,7 +340,7 @@ RETURN (lMoved)
 ?                      File Handle                                         ?
 ?                                                                          ?
 ?                                                                          ?
-?   Returns.......: TRUE if move was successful, or FALSE otherwise.       ?
+?   returns.......: TRUE if move was successful, or FALSE otherwise.       ?
 ?                                                                          ?
 ???????????????????????????????????????
 ???????????????????????????????????
@@ -359,16 +359,16 @@ nSavePos := FTELL(nHandle)
 FSEEK(nHandle, LEN(cLine) + 2, FS_RELATIVE)
 nNewPos := FTELL(nHandle)
 // Read in the next line
-IF FReadLn(nHandle, @cBuff)
+if FReadLn(nHandle, @cBuff)
 	lMoved := TRUE
 	cLine := cBuff
 	FSEEK(nHandle, nNewPos, FS_SET)
-ELSE
+else
 	lMoved := FALSE
 	FSEEK(nHandle, nSavePos, FS_SET)
-ENDIF
+endif
 
-RETURN (lMoved)
+return (lMoved)
 
 /*
  ??????????????????????????????????????
@@ -378,7 +378,7 @@ RETURN (lMoved)
 ?   Programmer....: Rick Spence                                            ?
 ?   Date..........: NA                                                     ?
 ?                                                                          ?
-?   LAST MODIFICATION                                                      ?
+?   LAST MODifICATION                                                      ?
 ?   Author........: Mark Nowakowski                                        ?
 ?   Date..........: May 10, 1994                                           ?
 ?                                                                          ?
@@ -391,7 +391,7 @@ RETURN (lMoved)
 ?                   cBuffer        CHARACTER                               ?
 ?                      Line Buffer                                         ?
 ?                                                                          ?
-?   Returns.......: TRUE if anything was read in.                          ?
+?   returns.......: TRUE if anything was read in.                          ?
 ?                                                                          ?
 ???????????????????????????????????????
 ???????????????????????????????????
@@ -408,17 +408,17 @@ cBuffer = SPACE(MAX_LINE_LEN)
 nSaveFPos = FTELL(nHandle)
 nRead = FREAD(nHandle, @cBuffer, MAX_LINE_LEN)
 
-IF (nEOL := AT(CRLF, SUBSTR(cBuffer, 1, nRead))) = 0
+if (nEOL := AT(CRLF, SUBSTR(cBuffer, 1, nRead))) = 0
 	// Line overflow or eof
 	// Cline has the line we need
-ELSE
+else
 	// Copy up to EOL
 	cBuffer = SUBSTR(cBuffer, 1, nEOL - 1)
 	// Position file pointer to next line
 	FSEEK(nHandle, nSaveFPos + nEOL + 1, FS_SET)
-ENDIF
+endif
 
-RETURN (nRead != 0)
+return (nRead != 0)
 
 /*
  ??????????????????????????????????????
@@ -428,7 +428,7 @@ RETURN (nRead != 0)
 ?   Programmer....: Rick Spence                                            ?
 ?   Date..........: NA                                                     ?
 ?                                                                          ?
-?   LAST MODIFICATION                                                      ?
+?   LAST MODifICATION                                                      ?
 ?   Author........: Mark Nowakowski                                        ?
 ?   Date..........: May 10, 1994                                           ?
 ?                                                                          ?
@@ -448,7 +448,7 @@ RETURN (nRead != 0)
 ?                   [bAfter]       BLOCK                                   ?
 ?                      Block to handle after keys                          ?
 ?                                                                          ?
-?   Returns.......: NIL                                                    ?
+?   returns.......: NIL                                                    ?
 ?                                                                          ?
 ???????????????????????????????????????
 ???????????????????????????????????
@@ -458,7 +458,7 @@ STATIC FUNCTION TBrowse( oBrowse, bBefore, bWhileCond, bAfter )
 LOCAL nKey, 			;	// ASCII Key Pressed
 		lExitRequested 	// Exit Requested
 
-DEFAULT bBefore TO {|nKey| IF(nKey == K_ENTER .OR. nKey == K_ESC, ;
+DEFAULT bBefore TO {|nKey| if(nKey == K_ENTER .OR. nKey == K_ESC, ;
 	lExitRequested := TRUE, FALSE) }
 
 DEFAULT bWhileCond TO {|| !lExitRequested}
@@ -472,16 +472,16 @@ DO WHILE EVAL(bWhileCond, oBrowse)
 	ENDDO
 
 	nKey = INKEY(0)
-	IF EVAL(bBefore, nKey, oBrowse)
+	if EVAL(bBefore, nKey, oBrowse)
 		// Processed key as before key
-	ELSEIF StdMeth(nKey, oBrowse)
+	elseif StdMeth(nKey, oBrowse)
 		// Processed key as standard key
-	ELSEIF oBrowse:stable .AND. EVAL(bAfter, nKey, oBrowse)
+	elseif oBrowse:stable .AND. EVAL(bAfter, nKey, oBrowse)
 		// Processed key as after key
-	ENDIF
+	endif
 ENDDO
 
-RETURN NIL
+return NIL
 
 /*
  ??????????????????????????????????????
@@ -491,7 +491,7 @@ RETURN NIL
 ?   Programmer....: Rick Spence                                            ?
 ?   Date..........: NA                                                     ?
 ?                                                                          ?
-?   LAST MODIFICATION                                                      ?
+?   LAST MODifICATION                                                      ?
 ?   Author........: Mark Nowakowski                                        ?
 ?   Date..........: May 10, 1994                                           ?
 ?                                                                          ?
@@ -504,7 +504,7 @@ RETURN NIL
 ?                   oBrowse         OBJECT                                 ?
 ?                      Tbrowse Object                                      ?
 ?                                                                          ?
-?   Returns.......: TRUE if key handled correctly.                         ?
+?   returns.......: TRUE if key handled correctly.                         ?
 ?                                                                          ?
 ???????????????????????????????????????
 ???????????????????????????????????
@@ -546,4 +546,4 @@ DO CASE
 		lKeyHandled := FALSE
 ENDCASE
 
-RETURN (lKeyHandled)
+return (lKeyHandled)

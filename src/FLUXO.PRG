@@ -10,22 +10,22 @@ LOCAL nNewCodi := 45000
 
 Cls
 Tone(100,5)
-IF !File('recemov.dbf')
+if !File('recemov.dbf')
    Alert('Erro: Falta arquivo recemov.dbf')
    Quit
-EndIF
-IF !File('receber.dbf')
+endif
+if !File('receber.dbf')
    Alert('Erro: Falta arquivo receber.dbf')
    Quit
-EndIF
-IF !File('rec3.dbf')
+endif
+if !File('rec3.dbf')
    Alert('Erro: Falta arquivo rec3.dbf')
    Quit
-EndIF
-IF !File('mov3.dbf')
+endif
+if !File('mov3.dbf')
    Alert('Erro: Falta arquivo mov3.dbf')
    Quit
-EndIF
+endif
 
 Set Date Brit
 Qout('1.01 Aguarde, Abrindo Rec3')
@@ -44,9 +44,9 @@ Rec3->(DbGotop())
 Qout('1.05 Aguarde, Vericando Clientes.')
 While Rec3->(!Eof())
 	cCodi := Rec3->Codi
-	IF Mov3->(!DbSeek( cCodi ))
+	if Mov3->(!DbSeek( cCodi ))
 		Rec3->(DbDelete())
-	EndIF
+	endif
 	Rec3->(DbSkip(1))
 EndDo
 
@@ -90,7 +90,7 @@ While Rec3->(!Eof())
 	cNome 	:= Rec3->Nome
 	cCodiAnt := Rec3->Codi
 	Receber->(Order( 2 ))
-   IF Receber->(!DbSeek( cCpf ))
+   if Receber->(!DbSeek( cCpf ))
 		Receber->(Order( 1 ))
 		Receber->(DbGoBottom())
 		cCodi := StrZero( Val( Receber->Codi )+1, 5 )
@@ -103,9 +103,9 @@ While Rec3->(!Eof())
       cCodi := StrZero( nNewCodi, 5 )
       Qout('1.12 Aguarde, Anexando Cliente ' + cCodi)
       Receber->Codi := cCodi
-	Else
+	else
 		cCodi := Receber->Codi
-	EndIF
+	endif
 	Mov3->(DbSeek( cCodiAnt ))
 	While Mov3->Codi = cCodiAnt
 		nConta := Recemov->(FCount())
@@ -122,12 +122,12 @@ EndDo
 
 Function Order( Ordem )
 ***********************
-IIF( Ordem = Nil , Ordem := 0,  Ordem )
+Iif( Ordem = Nil , Ordem := 0,  Ordem )
 DbSetOrder( Ordem )
 DbGoTo( Recno())			 // Fixar Bug
-Return( IndexOrd())
+return( IndexOrd())
 
 Function Area( cArea)
 *********************
 DbSelectArea( cArea )
-Return NIl
+return NIl

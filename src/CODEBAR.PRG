@@ -40,4 +40,4 @@ Function Main()
     iNKEY(0)
   END FOR
 END WHILE
-Return nil
+return nil

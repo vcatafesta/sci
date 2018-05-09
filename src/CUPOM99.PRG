@@ -13,7 +13,7 @@ procedure CUPOM99
    set scoreboard off
    set date british
    private he[47], esc[47]
-   name:= "IFSWEDA"
+   name:= "ifSWEDA"
    avisao:= ;
       "Pressione [ESC] para retornar ou outra tecla para executar"
    finaliza:= "}"
@@ -250,10 +250,10 @@ procedure CUPOM99
       @  6,  1 say ;
          "Para que haja acesso ao m¢dulo impressor,  redirecione  os  comandos  para o"
       @  7,  1 say ;
-         "dispositivo IFSWEDA e fa‡a a impress„o. O status retornado poder  ser lido  "
-      @  8,  1 say "no arquivo: IFSWEDA.PRN."
+         "dispositivo ifSWEDA e fa‡a a impress„o. O status retornado poder  ser lido  "
+      @  8,  1 say "no arquivo: ifSWEDA.PRN."
       @ 10,  1 say ;
-         "             2) Para ter acesso ao dispositivo (IFSWEDA), acrescente a linha"
+         "             2) Para ter acesso ao dispositivo (ifSWEDA), acrescente a linha"
       @ 11,  1 say "abaixo no arquivo CONFIG.SYS:"
       @ 12,  1 say "             DEVICE=C:\SERSWEDA.SYS /Tnnnn "
       @ 13,  1 say "                                      ³      "
@@ -503,7 +503,7 @@ procedure EXECUTA
                "§ Indicador                            [PgDn] - executa"
             set color to W/b
             @ 15,  2 say "Tipo:         " get TIPO09[i] picture "99"
-            @ 15, 20 say "Identifica‡„o:" get IDENTIFICA09[i] ;
+            @ 15, 20 say "Identifica‡„o:" get IDENTifICA09[i] ;
                picture "@XS10"
             read
             if (i = 1 .AND. atributo09 != Space(1))
@@ -844,7 +844,7 @@ procedure EXECUTA
             get CAIXA30 picture "999"
          @  8,  1 say ;
             "Imprime cifr„o nos cupons (S/N) ?  Ex. TOTAL  R$  100,00  " ;
-            get WCIF30 picture "!" valid wcif30 = "S" .OR. wcif30 = ;
+            get WCif30 picture "!" valid wcif30 = "S" .OR. wcif30 = ;
             "N" .OR. wcif30 = " "
          @ 10,  1 say ;
             "Imprime TITULO do item inteiro -'Quant Preco/unid'- (S/N)?" ;
@@ -852,7 +852,7 @@ procedure EXECUTA
             "N" .OR. wtit30 = " "
          @ 12,  1 say ;
             "Cifr„o   = Ex. R$(assumido pelo ECF) - OPCIONAL.          " ;
-            get CIFRAO30 picture "XXXXX"
+            get CifRAO30 picture "XXXXX"
          @ 14,  1 say ;
             "Intervalo de itens que imprime o total de itens:" get ;
             INTER30 picture "9999"
@@ -1246,7 +1246,7 @@ procedure EXECUTA
          set device to screen
          resp:= Space(128)
          set color to gr+/B
-         hand:= fopen("IFSWEDA.PRN", 2)
+         hand:= fopen("ifSWEDA.PRN", 2)
          resp:= freadstr(hand, 128)
          fclose(hand)
          set color to g+/b
@@ -1375,7 +1375,7 @@ function CMANDA
    set printer to 
    set device to screen
    resp:= Space(128)
-   arq:= fopen("IFSWEDA.PRN", 2)
+   arq:= fopen("ifSWEDA.PRN", 2)
    resp:= freadstr(arq, 128)
    fclose(arq)
    @ 22,  1 say "        ***   Emitindo Relatorio Gerencial..."

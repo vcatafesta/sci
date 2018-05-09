@@ -10,4 +10,4 @@ PROCEDURE Main()
    INDEX ON FIELD->T1 TAG test1 TO test
    USE test SHARED 
    ? "test Finished"
-   RETURN
+   return

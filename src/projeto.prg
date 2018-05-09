@@ -32,7 +32,7 @@ EndClass
 
 Method New()
 		
-		Return Self
+		return Self
 		
 	
 
@@ -68,7 +68,7 @@ do while .t.
            Calc()
    endcase
 enddo
-Return Nil
+return Nil
 
 
 
@@ -118,9 +118,9 @@ WHILE .T.
    @ 05, 10 Say "Vencimento.........: " Get Vcto     Pict "##/##/##"
    @ 06, 10 Say "Calcular ate.......: " Get Hoje     Pict "##/##/##"
    Read
-   IF LastKey() = 27
-      Return
-   EndIF
+   if LastKey() = 27
+      return
+   endif
 
    Qout(Repl('=', 79))
 
@@ -158,7 +158,7 @@ WHILE .T.
    Inkey(0)
    Loop
 EndDO
-Return NIL
+return NIL
 
 
 Function AntComposto( Valor, JuroMes, Vcto, Hoje)
@@ -173,14 +173,14 @@ Function AntComposto( Valor, JuroMes, Vcto, Hoje)
    LOCAL y       := 0
    LOCAL nValor  := Valor
    For x := 1 To Atraso
-      IF x = nBase
+      if x = nBase
          Atraso  -= 30
          x       := 0
          Valor   += nJuros
          nJuros  := 0
          Jurodia := Jurodia( Valor, JuroMes, (1/30))
          Loop
-      EndIF
+      endif
       y ++
       nJuros += Jurodia
       nTotJr += JuroDia
@@ -195,7 +195,7 @@ Function AntComposto( Valor, JuroMes, Vcto, Hoje)
    Qout('Total      : ', nValor + nTotJr )
    Qout(Repl('=', 79))
    
-   Return NIL
+   return NIL
 
 Function Jurodia( nVlr, nJuro, nPeriodo )
 ********************************************
@@ -209,8 +209,8 @@ LOCAL n           // Periodo (Dias, Meses, Anos - Depende do contexto do nJuro, 
       n := 1      // 1mes
       n := (1/30) // 1mes/30dias=1dia
 
-Return((j := (p * (i/100) * n)))
-Return NIL
+return((j := (p * (i/100) * n)))
+return NIL
 
 Function aJuroSimples( nPrincipal, nTaxa, nTempo, nPeriodo)
 ***********************************************************
@@ -231,14 +231,14 @@ LOCAL n           // Periodo (Dias, Meses, Anos - Depende do contexto do nTaxa, 
       n := (12/1) // 12meses/1mes=1ano
       n := (1/30) // 1mes/30dias=1dia
 
-IF nPeriodo = NIL
+if nPeriodo = NIL
    nPeriodo := n
-Else
+else
    n := nPeriodo
-EnDiF
-IF nTempo = NIL
+endif
+if nTempo = NIL
    nTempo := 0
-EndIF
+endif
 //? ntempo
 Aadd( aArray, (f:=(p * (1+(i/100)*(n*nTempo))))) // Valor Futuro ou Montante
 Aadd( aArray, (p:=(f / (1+(i/100)*(n*nTempo))))) // Valor Presente ou Principal
@@ -266,7 +266,7 @@ Aadd( aArray, (jp:=(j / n)))                            // Juros por Periodo
 //Qout("Tempo  ", ntempo)
 //Qout("Jr Periodo", jp)
 
-Return(aArray)
+return(aArray)
 
 Proc Ambiente()
 ***************
@@ -284,7 +284,7 @@ Proc Ambiente()
    Set Deci To 5
    Set Print To
    Set Fixed On
-	Return
+	return
 
 Function aJuroComposto( nPrincipal, nTaxa, nTempo, nPeriodo)
 ************************************************************
@@ -305,14 +305,14 @@ LOCAL n                    // Periodo (Dias, Meses, Anos - Depende do contexto d
       n := (12/1)          // 12meses/1mes=1ano
       n := (1/30)          // 1mes/30dias=1dia
 
-IF nPeriodo = NIL
+if nPeriodo = NIL
    nPeriodo := n
-Else
+else
    n := nPeriodo
-EnDiF
-IF nTempo = NIL
+endif
+if nTempo = NIL
    nTempo := 0
-EndIF
+endif
 
 Aadd( aArray, (f:=(p * (1+(i/100))^(n*nTempo))))          // Valor Futuro ou Montante
 Aadd( aArray, (p:=(f / (1+(i/100))^(n*nTempo))))          // Valor Presente ou Principal
@@ -323,7 +323,7 @@ Aadd( aArray, (n:=((f / p)/(p*i)*100/nPeriodo)-1))        // Numero de Periodos
 
 Aadd( aArray, (j:=(f - p)))                               // Juros
 Aadd( aArray, (jp:=(j / n)))                              // Juros por Periodo
-Return(aArray)
+return(aArray)
 
 Function TxEfetiva( nValor, nJuroMes, dVcto, dAtual, nTipo )
 ****************************************************
@@ -331,24 +331,24 @@ LOCAL nTxJuros
 LOCAL nTxEfetiva
 LOCAL nDias
 LOCAL nAtraso       := (dAtual - dVcto)
-LOCAL nPeriodo      := nAtraso / 366 // nAtraso / (IF(lAnoBissexto(dAtual), 366, 365))
+LOCAL nPeriodo      := nAtraso / 366 // nAtraso / (if(lAnoBissexto(dAtual), 366, 365))
 
-IfNil( nTipo,   1 )
-IF nTipo = 1     //Anual
+ifNil( nTipo,   1 )
+if nTipo = 1     //Anual
    nTxEfetiva := (((1 + nJuroMes/100)^12)-1)*100
    nTxJuros   := ((1 + nTxEfetiva/100)^nPeriodo)
-ElseIF nTipo = 2 // Semestral
+elseif nTipo = 2 // Semestral
    nTxEfetiva := (((1 + nJuroMes/100)^6)-1)*100
-ElseIF nTipo = 3 // Trimestral
+elseif nTipo = 3 // Trimestral
    nTxEfetiva := (((1 + nJuroMes/100)^3)-1)*100
-ElseIF nTipo = 4 // Bimestral
+elseif nTipo = 4 // Bimestral
    nTxEfetiva := (((1 + nJuroMes/100)^2)-1)*100
-ElseIF nTipo = 5 // Semanal
+elseif nTipo = 5 // Semanal
    nTxEfetiva := (((1 + nJuroMes/100)^(7/30))-1)*100
-ElseIF nTipo = 6 // Diaria
+elseif nTipo = 6 // Diaria
    nTxEfetiva := (((1 + nJuroMes/100)^(1/30))-1)*100
    nTxJuros   := ((1 + nTxEfetiva/100)^nAtraso)
-EndIF
+endif
 
 Qout("Tx Efetiva        :", nTxEfetiva )
 Qout("Dias              :", nDias )
@@ -363,13 +363,13 @@ Qout("Juros             :", (nValor * nTxJuros )- nValor )
 Qout("Montante          :", nValor * nTxJuros )
 Qout("===========================================")
 
-Return( nTxJuros )
+return( nTxJuros )
 
 Function CalculaCm(nValor, dVcto)
 *********************************
 LOCAL nCm := 4.09
 
-Return( nValor + (nValor * (nCm/100)))
+return( nValor + (nValor * (nCm/100)))
 
 
 /* UTF-8 */
@@ -436,9 +436,9 @@ PROCEDURE BrowseMain()
    oBrowse:SetKey( 0, {| ob, nkey | DefProc( ob, nKey ) } )
    WHILE .T.
       oBrowse:ForceStable()
-      IF oBrowse:applykey( Inkey( 0 ) ) == -1
+      if oBrowse:applykey( Inkey( 0 ) ) == -1
          EXIT
-      ENDIF
+      endif
    ENDDO
 #else
    WHILE ! lEnd
@@ -504,17 +504,17 @@ PROCEDURE BrowseMain()
    SetColor( cColor )
    SetCursor( nCursor )
 
-   RETURN
+   return
 
 #ifdef HB_COMPAT_C53
 
 STATIC FUNCTION DefProc( oBrowse, nKey )
 
-   IF nKey == K_TAB
+   if nKey == K_TAB
       hb_DispOutAt( 0, 0, Time() )
       oBrowse:Refreshall()
-   ENDIF
+   endif
 
-   RETURN 1
+   return 1
 
 #endif

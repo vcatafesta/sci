@@ -11,7 +11,7 @@ Version 1.01 - November 8, 1991
 
 LOCAL o1 := Sample1():New("World")
         o1:Hello()
-        RETURN
+        return
 
 CLASSE Sample1
   VAR Who
@@ -21,9 +21,9 @@ ENDCLASSE
 
 METODO New(cWho)
   ::Who := cWho
-RETURN Self
+return Self
 
 METODO Hello
   ? "Hello",::Who
-RETURN Self
+return Self
 

@@ -35,12 +35,12 @@
 #xtranslate BkGrnd( <t>, <l>, <b>, <r>, <c> ) => hb_DispBox( <t>, <l>, <b>, <r>, Replicate( <c>, 9 ) )
 
 #command DEFAULT <variable1> TO <value1> [, <variableN> TO <valueN> ] => ;
-      IF < variable1 > == NIL; < variable1 > := < value1 > ; END;
-      [; IF <variableN> == NIL; <variableN> := <valueN>; END ]
+      if < variable1 > == NIL; < variable1 > := < value1 > ; END;
+      [; if <variableN> == NIL; <variableN> := <valueN>; END ]
 
 #command DEFAU <variable1> TO <value1> [, <variableN> TO <valueN> ] => ;
-      IF < variable1 > == NIL; < variable1 > := < value1 > ; END;
-      [; IF <variableN> == NIL; <variableN> := <valueN>; END ]
+      if < variable1 > == NIL; < variable1 > := < value1 > ; END;
+      [; if <variableN> == NIL; <variableN> := <valueN>; END ]
 
 REQUEST HB_CODEPAGE_PT850
 REQUEST HB_CODEPAGE_PTISO
@@ -257,7 +257,7 @@ void _xcolor_fundo(int BackColor)
     DWORD               cCharsWritten;
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     DWORD                      dwConSize;
-	 //CHAR_INFO                  chiFill;
+	 //CHAR_INFO                  chifill;
     //TCOR					      	TColor;
 	 //WORD							 	Color = 0x0003 | 0x0004;
 	 //BackColor = 0x0001 | 0x0004;
@@ -267,11 +267,11 @@ void _xcolor_fundo(int BackColor)
         return;
 
     dwConSize              = csbi.dwSize.X * csbi.dwSize.Y;
-    //chiFill.Attributes     = BACKGROUND_RED | FOREGROUND_INTENSITY;
-    //chiFill.Char.AsciiChar = (char)177;
+    //chifill.Attributes     = BACKGROUND_RED | FOREGROUND_INTENSITY;
+    //chifill.Char.AsciiChar = (char)177;
 	 
     // Fill the entire screen with blanks
-    //if(!FillConsoleOutputCharacter(hConsole, chiFill.Char.AsciiChar, dwConSize, coordScreen, &cCharsWritten))
+    //if(!FillConsoleOutputCharacter(hConsole, chifill.Char.AsciiChar, dwConSize, coordScreen, &cCharsWritten))
       //  return;
 
     // Set the buffer's attributes accordingly.

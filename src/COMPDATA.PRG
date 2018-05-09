@@ -1,7 +1,7 @@
 FUNCTION COMP_DATA()
 SET DATE BRIT
 USE REG
- IF EMPTY(DD)
+ if EMPTY(DD)
     A:=DTOC(DATE())
     ENCRYPTA=CHR(ASC(SUBSTR(A,1,1)) +  122)       +;
              CHR(ASC(SUBSTR(A,2,1)) -  152)       +;
@@ -12,7 +12,7 @@ USE REG
              CHR(ASC(SUBSTR(A,7,1)) +  108)       +;
              CHR(ASC(SUBSTR(A,8,1)) +  248)       
              REPL DD WITH ENCRYPTA
- ENDIF
+ endif
 
   A:=DD
   D_ENCRYPTA=CHR(ASC(SUBSTR(A,1,1)) -  122)       +;
@@ -24,9 +24,9 @@ USE REG
              CHR(ASC(SUBSTR(A,7,1)) -  108)       +;
              CHR(ASC(SUBSTR(A,8,1)) -  248)       
 
- IF DATE() > CTOD(D_ENCRYPTA) + 30 .OR. DATE() < CTOD(D_ENCRYPTA)
+ if DATE() > CTOD(D_ENCRYPTA) + 30 .OR. DATE() < CTOD(D_ENCRYPTA)
    ALERT("O PRAZO DE VALIDADE DO SISTEMA FOI ESGOTADO;ENTRE EM CONTATO COM O FABRICANTE;;Souki Servi‡os Empresariais Ltda;Fone: 283-3962")
    CLS
- ENDIF
+ endif
 
-RETURN
+return

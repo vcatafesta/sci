@@ -4,18 +4,18 @@ Function Main( cFile )
 **********************
 Cls
 Qout("þþþ Lendo ", cFile)
-IF DbfProtege( cFile )
+if DbfProtege( cFile )
   Qout("þþþ Arquivo DesProtegido.")
   Qout("þþþ Protegendo Arquivo.")
   Qout()
   Quit
-EndIF
-IF DbfDesProtege( cFile )
+endif
+if DbfDesProtege( cFile )
   Qout("þþþ Arquivo Protegido.")
   Qout("þþþ DesProtegendo Arquivo.")
   Qout()
   Quit
-EndIF
+endif
 
 Function DbfProtege( cFile )
 ****************************
@@ -24,43 +24,43 @@ LOCAL Write_Bytes
 LOCAL Handle
 LOCAL Buffers
 
-IF ValType( cFile ) != "C"
-   Return( .F. )
-EndIF
+if ValType( cFile ) != "C"
+   return( .F. )
+endif
 
 Handle := FOpen( cFile, FO_READWRITE )
 Qout("þþþ Abrindo Arquivo.")
-IF Ferror() != 0
+if Ferror() != 0
   FClose( Handle )
   Alert("Erro Abertura: " + Str( Ferror()))
-  Return( .F. )
-EndIF
+  return( .F. )
+endif
 
 Qout("þþþ Lendo Arquivo.")
 Buffer := Space(01)
 Read_Bytes := FRead( Handle, @Buffer, 1 )
-IF Read_Bytes != 1
+if Read_Bytes != 1
   FClose( Handle )
   Alert("Erro Leitura: " + Str( Ferror()))
-  Return( .F. )
-EndIF
+  return( .F. )
+endif
 
-IF Asc(Buffer) == 3
+if Asc(Buffer) == 3
   Buffer := Chr(4)
-Else
+else
   FClose( Handle )
-  Return( .F. )
-EndIF
+  return( .F. )
+endif
 Qout("þþþ Escrevendo no Arquivo.")
 FSeek( Handle, 0, 0 )
 Write_Bytes := FWrite( Handle, Buffer, 1 )
-IF Write_Bytes != 1
+if Write_Bytes != 1
   FClose( Handle )
   Alert("Erro Gravacao: " + Str( Ferror()))
-  Return( .F. )
-EndIF
+  return( .F. )
+endif
 FClose( Handle )
-Return( .T. )
+return( .T. )
 
 Function DbfDesProtege( cFile )
 *******************************
@@ -69,40 +69,40 @@ LOCAL Write_Bytes
 LOCAL Handle
 LOCAL Buffers
 
-IF ValType( cFile ) != "C"
-   Return( .F. )
-EndIF
+if ValType( cFile ) != "C"
+   return( .F. )
+endif
 
 Qout("þþþ Abrindo Arquivo.")
 Handle := FOpen( cFile, FO_READWRITE )
-IF Ferror() != 0
+if Ferror() != 0
   FClose( Handle )
   Alert("Erro Abertura: " + Str( Ferror()))
-  Return( .F. )
-EndIF
+  return( .F. )
+endif
 
 Qout("þþþ Lendo Arquivo.")
 Buffer := Space(01)
 Read_Bytes := FRead( Handle, @Buffer, 1 )
-IF Read_Bytes != 1
+if Read_Bytes != 1
   FClose( Handle )
   Alert("Erro Leitura: " + Str( Ferror()))
-  Return( .F. )
-EndIF
+  return( .F. )
+endif
 
-IF Asc(Buffer) == 4
+if Asc(Buffer) == 4
   Buffer := Chr(3)
-Else
+else
   FClose( Handle )
-  Return( .F. )
-EndIF
+  return( .F. )
+endif
 Qout("þþþ Escrevendo no Arquivo.")
 FSeek( Handle, 0, 0 )
 Write_Bytes := FWrite( Handle, Buffer, 1 )
-IF Write_Bytes != 1
+if Write_Bytes != 1
   FClose( Handle )
   Alert("Erro Gravacao: " + Str( Ferror()))
-  Return( .F. )
-EndIF
+  return( .F. )
+endif
 FClose( Handle )
-Return( .T. )
+return( .T. )

@@ -14,11 +14,7 @@
  İÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
  ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 */
-#Include "Lista.Ch"
-#Include "Inkey.Ch"
-#Include "Indice.Ch"
-#Include "Picture.Ch"
-#Include "Permissao.Ch"
+#Include "sci.ch"
 
 Proc Chelan()
 *************
@@ -4729,7 +4725,7 @@ Return( AtPrompt )
 
 Function aDispChelan()
 **********************
-LOCAL oChelan	:= TIniNew( oAmbiente:xBaseDados + "\" + oAmbiente:xUsuario + ".INI")
+LOCAL oChelan	:= TIniNew( oAmbiente:xUsuario + ".INI")
 LOCAL AtPrompt := oMenuChelan()
 LOCAL nMenuH   := Len(AtPrompt)
 LOCAL aDisp 	:= Array( nMenuH, 22 )

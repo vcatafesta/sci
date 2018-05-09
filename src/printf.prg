@@ -1,7 +1,7 @@
 #include <color.ch>
 
 
-#XCOMMAND DEFAU   <v1> TO <x1> [, <vn> TO <xn> ]   =>	IF <v1> == NIL ; <v1> := <x1> ; END	[; IF <vn> == NIL ; <vn> := <xn> ; END ]
+#XCOMMAND DEFAU   <v1> TO <x1> [, <vn> TO <xn> ]   =>	if <v1> == NIL ; <v1> := <x1> ; END	[; if <vn> == NIL ; <vn> := <xn> ; END ]
 
 Function main
 	printf(AllTrim(Os()), 75)

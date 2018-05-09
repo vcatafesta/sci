@@ -21,11 +21,11 @@ LOCAL cTela
 LOCAL aStru
 
 Chemov->(DbGoTop())
-IF Chemov->(Eof())
+if Chemov->(Eof())
 	Nada()
 	ResTela( cScreen )
-	Return
-EndIF
+	return
+endif
 WHILE OK
 	Chemov->(Order( CHEMOV_CODI_DATA ))
 	Chemov->(DbGoTop())
@@ -41,7 +41,7 @@ WHILE OK
    @ 07, 06 Say  "Data Inicial....:" Get dData_Ini Pict "##/##/##"
    @ 08, 06 Say  "Data Final......:" Get dData_Fim Pict "##/##/##" Valid dData_Fim >= dData_Ini
    Read
-	IF LastKey() = ESC
+	if LastKey() = ESC
       Ferase( cArquivo )
       Ferase( xNtx1 )
       Ferase( xNtx2 )
@@ -51,15 +51,15 @@ WHILE OK
       Ferase( xNtx6 )
 		ResTela( cScreen )
 		Exit
-	EndIF
+	endif
 	Reg_Ant := Recno()
 	nChoice := 1
 	M_Title("ESCOLHA O TIPO DE LANCAMENTO")
    nChoice := FazMenu( 12, 05, {" Geral ", " Creditos "," Debitos "})
-	IF nChoice = 0
+	if nChoice = 0
 		ResTela( cScreen )
 		Loop
-	EndIF
+	endif
 	oMenu:Limpa()
    MaBox( 21, 00, 24, 79 )
 	Cheque->(DbGoTo( Reg_Ant ))
@@ -68,9 +68,9 @@ WHILE OK
 	Write( 23, 01, "Saldo...: " + Cheque->(Tran( Saldo, "@ECX 99,999,999,999.99")))
 	Area("Chemov")
 	Order( CHEMOV_CODI_DATA )
-	IF !LoopData( cCodi, dData_Ini, dData_Fim )
+	if !LoopData( cCodi, dData_Ini, dData_Fim )
 		Loop
-   EndIF
+   endif
    aStru := Chemov->(DbStruct())
    Aadd( aStru, {"REGISTRO",  "N", 7, 0})
    DbCreate( cArquivo, aStru )
@@ -79,31 +79,31 @@ WHILE OK
 	cTela  := Mensagem("Please, Aguarde... Anexando Registro n§ 00000. ESC Cancela.", Cor())
 	nConta := 0
 	WHILE Eval( oBloco ) .AND. Rep_Ok()
-		IF Chemov->Data > dData_Fim
+		if Chemov->Data > dData_Fim
 			Exit
-		EndIF
-		IF nChoice = 1
-			IF Chemov->Codi = cCodi .AND. Chemov->Data >= dData_Ini .AND. Chemov->Data <= dData_Fim
+		endif
+		if nChoice = 1
+			if Chemov->Codi = cCodi .AND. Chemov->Data >= dData_Ini .AND. Chemov->Data <= dData_Fim
 			  nRecno := Chemov->(Recno())
-			Else
+			else
 				Chemov->(DbSkip(1))
 				Loop
-			EndIF
-		ElseIF nChoice = 2
-			IF Chemov->Codi = cCodi .AND. Chemov->Data >= dData_Ini .AND. Chemov->Data <= dData_Fim .AND. Chemov->Cre > 0
+			endif
+		elseif nChoice = 2
+			if Chemov->Codi = cCodi .AND. Chemov->Data >= dData_Ini .AND. Chemov->Data <= dData_Fim .AND. Chemov->Cre > 0
 			  nRecno := Chemov->(Recno())
-			Else
+			else
 				Chemov->(DbSkip(1))
 				Loop
-			EndIF
-		Else
-			IF Chemov->Codi = cCodi .AND. Chemov->Data >= dData_Ini .AND. Chemov->Data <= dData_Fim .AND. Chemov->Deb > 0
+			endif
+		else
+			if Chemov->Codi = cCodi .AND. Chemov->Data >= dData_Ini .AND. Chemov->Data <= dData_Fim .AND. Chemov->Deb > 0
 			  nRecno := Chemov->(Recno())
-			Else
+			else
 				Chemov->(DbSkip(1))
 				Loop
-			EndIF
-		EndIF
+			endif
+		endif
 		nDebitos  += Chemov->Deb
 		nCreditos += Chemov->Cre
 		nConta++
@@ -158,10 +158,10 @@ WHILE OK
    Ferase( xNtx6 )
 	AreaAnt( Arq_Ant, Ind_Ant )
 	ResTela( cScreen )
-   IF oBrowse:Alterado <> NIL
+   if oBrowse:Alterado <> NIL
       ErrorBeep()
-      IF Conf("Pergunta: Atualizar Saldos Agora ?")
+      if Conf("Pergunta: Atualizar Saldos Agora ?")
          IndexarData( cCodi )
-      EndIF
-   EndIF
+      endif
+   endif
 Enddo

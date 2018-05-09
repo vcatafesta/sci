@@ -1,667 +1,704 @@
-#include "hbclass.ch"
-#Include "Box.Ch"
-#Include "Inkey.Ch"
-#Include "Translate.Ch"
-//#Include "Pragma.Ch"
+#include <sci.ch>
 
-#define FALSO     			.F.
-#define OK       			   .T.
-#define LIG                .T.
-#define DES                .F.
-#define ENABLE    	  	 	.T.
-#define DISABLE    			.F.
-#define SETA_CIMA          5
-#define SETA_BAIXO         24
-#define SETA_ESQUERDA      19
-#define SETA_DIREITA       4
-#define TECLA_SPACO        32
-#define TECLA_ALT_F4       -33
-#define ESC                27
-#define ENTER              13
-#define ESC    				27
-#define ENTER              13
-#XCOMMAND DEFAULT <v1> TO <x1> [, <vn> TO <xn> ]								;
-			 =>																				;
-			 IF <v1> == NIL ; <v1> := <x1> ; END									;
-			 [; IF <vn> == NIL ; <vn> := <xn> ; END ]
+class TAmbiente	
+	EXPORTED:
+		DATA aLpt1 		INIT {}
+		DATA aLpt2 		INIT {}
+		DATA aLpt3 		INIT {}
+		DATA nMenuH 	INIT 1
+		DATA nMenuV 	INIT 1
+		DATA LetoIP 	INIT '127.0.0.1'
+	   DATA LetoPort 	INIT '2812'
+		DATA LetoI 		INIT '//'
+		DATA LetoM 		INIT ':'
+		DATA LetoF 		INIT '/'
+		DATA LetoPath  INIT '//127.0.0.1:2812/'
+		DATA LetoAtivo INIT false
+		DATA ShowVarLetoString INIT ""
+		DATA ShowVarString 	  INIT ""
+		
+	PUBLIC:
+		VAR Ano2000
+		VAR Frame
+		VAR Visual
+		VAR CorMenu
+		VAR CorLightBar
+		VAR CorHotKey
+		VAR CorHKLightBar
+		VAR CorDesativada
+		VAR CorAntiga
+		VAR CorCabec
+		VAR CorBorda
+		VAR CorAlerta
+		VAR CorBox
+		VAR CorCima
+		VAR CorFundo
+		VAR CorMsg
+		VAR HoraCerta
+		VAR TarefaConcluida
+		VAR Clock 		INIT Time()
+		VAR Fonte 		INIT 2
+		VAR Selecionado
+		VAR Sombra
+		VAR Panos
+		VAR ModeMenu
+		VAR PanoFundo
+		VAR Isprinter
+		VAR aPermissao
+		VAR xBaseDados
+		VAR xBaseDoc
+		VAR xBaseTxt
+		VAR xBaseTMP		  
+		VAR xImpressora
+		VAR Get_Ativo
+		VAR Acento
+		VAR xDataCodigo
+		VAR Spooler
+		VAR Externo
+		VAR cArquivo
+		VAR TabelaFonte
+		VAR Argumentos
+		VAR argc		
+		VAR argv init {}
+		VAR Drive	INIT "" 
+		VAR xBase	INIT ""
+		VAR xRoot	INIT ""
+		VAR Normal
 
-#XCOMMAND DEFAU <v1> TO <x1> [, <vn> TO <xn> ]								   ;
-			 =>																				;
-			 IF <v1> == NIL ; <v1> := <x1> ; END									;
-			 [; IF <vn> == NIL ; <vn> := <xn> ; END ]
-
-#define INRANGE( xLo, xVal, xHi )  ( xVal >= xLo .AND. xVal <= xHi )
-#define BETWEEN( xLo, xVal, xHi )  Min( Max( xLo, xVal ), xHi )
-#xcommand PUBLIC:     =>   nScope := HB_OO_CLSTP_EXPORTED ; HB_SYMBOL_UNUSED( nScope )
-
-class TAmbiente
-    public:
-        VAR Ano2000
-        VAR Frame
-        VAR Visual
-
-        VAR CorMenu
-		  VAR CorLightBar
-		  VAR CorHotKey
-		  VAR CorHKLightBar
-        VAR CorDesativada
-        VAR CorAntiga
-        VAR CorCabec
-        VAR CorBorda
-        VAR CorAlerta
-        VAR CorBox
-        VAR CorCima
-        VAR CorFundo
-        VAR CorMsg
-		  VAR HoraCerta
-		  VAR TarefaConcluida
-		  VAR Clock INIT Time()
-
-        VAR Selecionado
-        VAR Sombra
-        VAR Fonte
-        VAR Panos
-		  VAR ModeMenu
-        VAR PanoFundo
-        VAR Isprinter
-        VAR aPermissao
-        VAR xBase
-        VAR xBaseDados
-        VAR xBaseDoc
-		  VAR xBaseTxt		  
-        Var xImpressora
-        VAR Get_Ativo
-        VAR Acento
-        VAR xDataCodigo
-        VAR Spooler
-        VAR Externo
-        VAR cArquivo
-        VAR TabelaFonte
-        VAR Argumentos
-        VAR Drive
-        VAR Normal
-		  
-		  //Receposi		  
-        VAR Mostrar_Desativados
-        VAR Mostrar_Recibo
-        VAR PosiAgeInd
-        VAR PosiAgeAll
-        VAR RecePosi
-        VAR lReceber		  
-		  VAR lRecepago   INIT FALSO
-        VAR cTipoRecibo
-		  VAR Color_pFore INIT {}
-		  VAR Color_pBack INIT {}
-		  VAR Color_pUns  INIT {}		  
-		  VAR aAtivo      INIT {}		  
-		  VAR aAtivoSwap  INIT {}		  
-		  		  
-        VAR lGreenCard
-        VAR lComCodigoAcesso
-        VAR aFiscalIni
-        VAR xLimite
-        VAR _Empresa
-        VAR xFanta
-        VAR xNomefir
-        VAR xEmpresa
-        VAR xJuroMesComposto
-        VAR xJuroMesSimples
-        VAR aSciArray
-        VAR lContinuarAchoice        
-  		  VAR Menu 
-        VAR Disp 
-		  VAR Usuario       
-		  VAR nRegistrosImpressos INIT 0
-        VAR StatusSup    INIT "Macrosoft"
-        VAR StatusInf    INIT ""     
-        VAR xUsuario  	 INIT "ADMIN"
-		  Var NomeFirma 	 INIT "VCATAFESTA@GMAIL.COM"
-        Var CodiFirma 	 INIT '0001'
-		  VAR xProgramador INIT "Vilmar Catafesta"
-        Var Alterando 	 INIT FALSO
-		  Var nPos      	 INIT 1
-		  Var Ativo     	 INIT 1
-        Var StSupArray
-        Var StInfArray
-        Var MenuArray
-        Var DispArray
-		  Var FonteManualAltura INIT 25
-		  Var FonteManualLargura INIT 80
-		  Var AlturaFonteDefaultWindows  INIT MS_MaxRow()
-		  Var LarguraFonteDefaultWindows INIT MS_MaxCol()
-		  VAR RelatorioCabec             INIT ""
-		  VAR MaxCol	                  INIT MaxCol()+1
-		  VAR lK_Ctrl_Ins                INIT FALSO
-		  VAR lK_Ctrl_Del                INIT OK
-		  VAR lK_Insert                  INIT FALSO
-		  VAR lk_Insert_Plus             INIT FALSO
-		  VAR ZebrarAmostragem           INIT FALSO
-		  VAR lMostrarSoma               INIT OK
+		//TReceposi		  
+		VAR Mostrar_Desativados
+		VAR Mostrar_Recibo
+		VAR PosiAgeInd
+		VAR PosiAgeAll
+		VAR RecePosi
+		VAR lReceber		  
+		VAR lRecepago   INIT FALSO
+		VAR cTipoRecibo
+		VAR Color_pFore INIT {}
+		VAR Color_pBack INIT {}
+		VAR Color_pUns  INIT {}		  
+		VAR aAtivo      INIT {}		  
+		VAR aAtivoSwap  INIT {}		  
+				  
+		VAR lGreenCard
+		VAR lComCodigoAcesso
+		VAR aFiscalIni
+		VAR xLimite
+		VAR _Empresa	INIT ""				
+		VAR xFanta		INIT ""
+		VAR xNomefir	INIT ""
+		VAR xEmpresa	INIT ""
+		VAR xJuroMesComposto
+		VAR xJuroMesSimples
+		VAR aSciArray
+		VAR lContinuarAchoice        
+		VAR Menu 
+		VAR Disp 
+		VAR Usuario       
+		VAR nRegistrosImpressos 			INIT 0
+		VAR StatusSup    						INIT "Macrosoft"
+		VAR StatusInf    						INIT ""     
+		VAR xUsuario  	  						INIT "ADMIN"
+		VAR NomeFirma 	  						INIT "VCATAFESTA@GMAIL.COM"
+		VAR Codifirma 	  						INIT '0001'
+		VAR xProgramador 						INIT "Vilmar Catafesta"
+		VAR Alterando 	  						INIT FALSO
+		VAR nPos      	  						INIT 1
+		VAR Ativo     	  						INIT 1
+		VAR FonteManualAltura          	INIT MS_MaxRow() // 25
+		VAR FonteManualLargura         	INIT MS_MaxCol() // 80
+		VAR AlturaFonteDefaultWindows  	INIT MS_MaxRow()
+		VAR LarguraFonteDefaultWindows 	INIT MS_MaxCol()
+		VAR RelatorioCabec             	INIT ""
+		VAR MaxCol	                   	INIT MaxCol()+1
+		VAR lK_Ctrl_Ins                	INIT FALSO
+		VAR lK_Ctrl_Del                	INIT OK
+		VAR lK_Insert                  	INIT FALSO
+		VAR lk_Insert_Plus             	INIT FALSO
+		VAR ZebrarAmostragem           	INIT FALSO
+		VAR lMostrarSoma               	INIT OK		  
+		VAR StSupArray
+		VAR StInfArray
+		VAR MenuArray
+		VAR DispArray
+		DATA hESCP  							INIT {=>}
   
-   public:
-		  ACCESS cor_menu method getcormenu()
-		  ASSIGN cor_menu method setcormenu( cormenu )
-	
-        method new constructor
-		  method ConfAmbiente
-        method Ano2000On
-        method Ano2000Of
-        method SetVar
-        method SetSet
-		  method SetPano
-		  method SetModeMenu
-		  method xDisp
-		  method xMenu
-		  method Show
-        method SetaCor
-        method SetaFrame
-        method SetaSombra
-		  method SetaPano
-		  method statReg
-        method StatInf
-        method StatSup
-        method Limpa
-        method MaBox
-        method MSMenuCabecalho
-        method MSProcessa
-        method MSMenu
-        method SetaFonte
-		  method SetVar
-		  method Refresh
-		  method Destroy
-		  method AumentaEspacoMenu
-		  method SetaFonteManual
-		  method PreVisFonte
-		  method ContaReg
-		  
-		  MESSAGE Create            method New
-		  MESSAGE SetaCorAlerta     method SetaCor(8) 
-		  MESSAGE SetaCorMsg			 method SetaCor(9) 
-		  MESSAGE SetaCorLightBar   method SetaCor
-		  MESSAGE SetaCorHotKey     method SetaCor
-		  MESSAGE SetaCorHKLightBar method SetaCor
-		  MESSAGE SetaCorBorda      method SetaCor(10)
-
-		  
+	public:
+		ACCESS cor_menu method getcormenu()
+		ASSIGN cor_menu method setcormenu( cormenu )
+		
+		METHOD new CONSTRUCTOR
+		METHOD Destroy 
+		METHOD ConfAmbiente
+		METHOD Ano2000On
+		METHOD Ano2000Of
+		METHOD SetVar
+		METHOD SetSet
+		METHOD SetPano
+		METHOD SetModeMenu
+		METHOD xDisp
+		METHOD xMenu
+		METHOD Show
+		METHOD SetaCor
+		METHOD SetaFrame
+		METHOD SetaSombra
+		METHOD SetaPano
+		METHOD statReg
+		METHOD StatInf
+		METHOD StatSup
+		METHOD Limpa
+		METHOD MaBox
+		METHOD MSMenuCabecalho
+		METHOD MSProcessa
+		METHOD MSMenu
+		METHOD SetaFonte
+		METHOD SetVar
+		METHOD Refresh
+		METHOD Destroy
+		METHOD AumentaEspacoMenu
+		METHOD SetaFonteManual
+		METHOD PreVisFonte
+		METHOD ContaReg
+		METHOD MostraPosicaoMenuNoCabecalho
+		METHOD HelpCor(xColor)
+		METHOD EscapeCode()
+		METHOD GetLetoPath()
+		METHOD ShowVar(lPause, cMsgAdicional, lMostrar)
+		METHOD ShowVarLeto(lPause, cMsgAdicional, lMostrar)
+		
+		MESSAGE Create            method New
+		MESSAGE SetaCorAlerta     method SetaCor(8) 
+		MESSAGE SetaCorMsg		  method SetaCor(9) 
+		MESSAGE SetaCorLightBar   method SetaCor
+		MESSAGE SetaCorHotKey     method SetaCor
+		MESSAGE SetaCorHKLightBar method SetaCor
+		MESSAGE SetaCorBorda      method SetaCor(10)
 endclass
 
-
-method getcormenu() class TAmbiente
-	return ::CorMenu	
+METHOD ShowVar(lPause, cMsgAdicional, lMostrar)
+	hb_default(@lPause, false)
+	hb_default(@cMsgAdicional, "")
+	hb_default(@lMostrar, true)
 	
-method setcormenu(cormenu) class TAmbiente	
-	RETURN iif( cormenu != NIL, ::cormenu := cormenu, cormenu)	
+	::ShowVarString := 	"Principais Variaveis TAMBIENTE (acrescente se precisar :-);-;" + ;
+					"::xroot     # " + formatavar(self:xroot)	   + ';' + ;	
+					"::xbase     # " + formatavar(self:xbase)	   + ';' + ;		
+					"::xusuario  # " + formatavar(self:xusuario)	+ ';' + ;		
+					"::_Empresa  # " + formatavar(self:_Empresa)	+ ';' + ;		
+					"::xEmpresa  # " + formatavar(self:xEmpresa)	+ ';' + ;
+					"::xFanta    # " + formatavar(self:xFanta)	+ ';' + ;		
+					"::xNomefir  # " + formatavar(self:xNomefir)	+ ';' + ;		
+					"::Drive     # " + formatavar(self:Drive)    + cMsgAdicional
+	if lMostrar
+		AlertaPy(cString, 31, false, lPause)
+	endif	
+	return ::ShowVarString
 
+endef
 
-method Destroy() class TAmbiente
+METHOD ShowVarLeto(lPause, cMsgAdicional, lMostrar)
+	hb_default(@lPause, false)
+	hb_default(@cMsgAdicional, "")
+	hb_default(@lMostrar, true)
+	::ShowVarLetoString :=  "Variaveis do AMBIENTE Leto :-);-;" + ;
+									"::LetoIp    # " + formatavar(::LetoIP)	   + ';' + ;	
+									"::LetoPort  # " + formatavar(::LetoPort)	   + ';' + ;		
+									"::LetoPath  # " + formatavar(::LetoPath)  	+ ';' + ;		
+									"::LetoAtivo # " + formatavar(::LetoAtivo)   + cMsgAdicional
+	
+	if lMostrar
+		AlertaPy(::ShowVarLetoString, 31, false, lPause)
+	endif	
+	return(::ShowVarLetoString)	
+endef
+
+method GetLetoPath()
+	LOCAL cHost := ''
+	cHost := ::LetoI
+	cHost += ::LetoIP
+	cHost += ::LetoM
+	cHost += ::LetoPort
+	cHost += ::LetoF	
+	::LetoPath := cHost
+	return ::LetoPath
+
+method New()
+	::hESCP               := ::EscapeCode()
+	::Argumentos          := argc()          
+	::argc                := argc()          
+	::xRoot               := GetRoot(argv(0))
+   ::Drive               := if(::argumentos  = 0 , nil , argv(1))
+   ::Normal              := if(::argumentos <= 2 , nil , argv(3))
+	::Visual              := if(::argumentos <= 1 , false , true )  
+   ::Panos               := ::SetPano()    
+	::ModeMenu			 	 := ::SetModeMenu()
+   ::Selecionado         := 10     // Pano de Fundo Selecionado
+   ::PanoFundo           := ::Panos[10]
+   ::Frame               := "ÚÄ¿³ÙÄÀ³"
+   ::Cormenu             := 31
+	::CorDesativada       := 8
+	::CorLightBar         := 124
+	::CorHotKey           := 10
+	::CorHKLightBar       := 14
+   ::Ano2000             := DISABLE
+	::Menu                := ::xMenu()
+   ::Disp                := ::xDisp()
+	::nPos                := 1
+	::SetPano()
+	::GetLetoPath()	
+  
+   if "-V" $ Upper(Argv(1)) .or. "--version" $ Upper(Argv(1))     
+	  version()
+	  __Quit()
+	endif
+
+	M_Frame( ::Frame )
+	setColor("")
+	Cls	
+
+	Qout("þ Macrosoft Sci, Copyrigh(c), 1991-2018, Vilmar Catafesta.")
+	Qout("þ Carregando Configuracao.")
+	if ::Drive = NIL
+      ::Drive := FCurdir()
+	else
+      ::Drive := AllTrim(Upper(::Drive))
+		if Left(::Drive, 2) == "\\"      // Drive Mapeado
+         if Len(::Drive) > 2
+            if Right(::Drive, 1) == "\"   // Drive Mapeado em Diretorio
+               ::Drive := Left(::Drive,Len(::Drive)-1)
+            endif
+         endif
+      endif
+
+      if Len(::Drive) = 3
+         if SubStr(::Drive, 2,2) == ":\"
+            ::Drive := Left(::Drive,Len(::Drive)-1)
+			endif
+		endif
+	endif	
+	
+	aadd(::argv, argv(1))
+	aadd(::argv, argv(2))
+	aadd(::argv, argv(3))
+
+	if ::Normal = NIL .OR. ::Drive = NIL
+      //Visual()
+   endif
+
+   ::SetVar()
+   ::Isprinter     := 1
+   ::aPermissao    := {}
+   ::xBase         := ( ::Drive )   
+   ::xBaseDados    := ( ::Drive )
+   ::xBaseDoc      := ( ::Drive )
+	::xBaseTxt      := ( ::Drive )
+	::xBaseTMP      := ( ::Drive )
+   ::xImpressora   := 1
+   ::Get_Ativo     := OK
+   ::Acento        := FALSO
+   ::xDataCodigo   := "  /  /  "
+   ::Spooler       := FALSO
+   ::Externo       := FALSO
+   ::cArquivo      := ""
+   ::ConfAmbiente()
+	return self
+endef
+
+method getcormenu()
+	return ::CorMenu
+endef	
+	
+method setcormenu(cormenu)
+	return iif( cormenu != NIL, ::cormenu := cormenu, cormenu)	
+endef	
+
+method Destroy()
 	self := nil
 	return nil
+endef	
 
-method Ano2000On() class TAmbiente
+method Ano2000On()
    Set Epoch To 1950
    ::Ano2000 := OK
-return( Self )
+	return( Self )
+endef	
 
-method Ano2000Of() class TAmbiente
+method Ano2000Of()
    Set Epoch To 1900
    ::Ano2000 := FALSO
-return( Self )
+	return( Self )
+endef	
 
-method New() class TAmbiente
-        ::Argumentos          := Argc()          
-        ::Drive               := IF( ::Argumentos = 0,  NIL, Argv( 1 ))
-        ::Normal              := IF( ::Argumentos <= 2, NIL, Argv( 3 ))
-		  ::Visual              := IF( ::Argumentos <= 1, FALSO, OK )
-		  
-        ::Panos               := ::SetPano()    
-		  ::ModeMenu				:= ::SetModeMenu()
-	     ::Selecionado         := 10     // Pano de Fundo Selecionado
-	     ::PanoFundo           := ::Panos[10]
-	     ::Frame               := "ÚÄ¿³ÙÄÀ³"
-        ::Cormenu             := 15
-		  ::CorDesativada       := 8
-		  ::CorLightBar         := 124
-		  ::CorHotKey           := 10
-		  ::CorHKLightBar       := 14
-        ::Ano2000             := DISABLE
-		  ::Menu                := ::xMenu()
-        ::Disp                := ::xDisp()
-		  ::nPos                := 1
-		  ::SetPano()
-		  
-		   IF "-V" $ Upper(Argv(1))
-		     Cls
-			  Version()
-			  __Quit()
-			EndIF
-		  
-		  
-		  M_Frame( ::Frame )
-		  Qout("þ Carregando Configuracao.")
-        IF ::Drive = NIL
-           ::Drive := FCurdir()
-		  Else
-           ::Drive := AllTrim(Upper(::Drive))
-           IF Left(::Drive, 2) == "\\"      // Drive Mapeado
-              IF Len(::Drive) > 2
-                 IF Right(::Drive, 1) == "\"   // Drive Mapeado em Diretorio
-                    ::Drive := Left(::Drive,Len(::Drive)-1)
-                 EndIF
-              EndIF
-           EndIF
+method SetaFonteManual()
+	LOCAL nLargura  := ::FonteManualLargura 
+	LOCAL nAltura   := ::FonteManualAltura
 
-           IF Len(::Drive) = 3
-              IF SubStr(::Drive, 2,2) == ":\"
-                 ::Drive := Left(::Drive,Len(::Drive)-1)
-              EndIF
-           EndIF
+	::Limpa()
+	MaBox( 10, 10, 16, 50, "LAYOUT: Tamanho do buffer da tela" )
+	@ 12, 11 Say "Altura:  " Get nAltura  Pict "999"
+	@ 14, 11 Say "Largura: " Get nLargura Pict "999"
+	Read
+	if LastKey() = ESC
+		return NIL
+	endif
+	::FonteManualLargura := nLargura
+	::FonteManualAltura  := nAltura
+	::MaxCol             := nLargura 
+	//SetMode(::FonteManualAltura, ::FonteManualLargura)
+	//Cls( ::CorFundo, ::PanoFundo, OK )
+	return( self )
+endef	
 
-           /*
-           IF !IsDir(::Drive)
-				  ErrorBeep()
-              IF Alert("Pergunta: Drive " + ::Drive + " invalido. Usar o corrente ?", {"Sim", "Nao"}) == 1
-                 ::Drive := FCurdir()
-				  Else
-					  Quit
-				  EndIF
-           EndIF
-           */
+method PreVisFonte()
+	LOCAL nFonte
+	LOCAL Selecionado  := 1
+	LOCAL nKey			 := 0
+	LOCAL cScreen      := SaveScreen()
+	LOCAL oTemp
 
-		  EndIF
+	nFonte         := Len( ::TabelaFonte )
+	nPos           := Ascan( ::TabelaFonte, ::Fonte )
+	Selecionado 	:= if( nPos = 0, 1, nPos )
+	cPanoFundo		:= ::PanoFundo
+	cCormenu 		:= ::Cormenu
+	cCorCabec      := ::CorCabec
+	cCorFundo		:= ::CorFundo
 
-        IF ::Normal = NIL .OR. ::Drive = NIL
-           //Visual()
-        EndIF
+	oTemp           := TAmbienteNew()
+	oTemp:PanoFundo := cPanoFundo
+	oTemp:Cormenu	 := cCormenu
+	oTemp:CorCabec	 := cCorCabec
+	oTemp:CorFundo	 := cCorFundo
 
-        ::SetVar()
-        ::Isprinter     := 1
-        ::aPermissao    := {}
-        ::xBase         := ( ::Drive )
-        ::xBaseDados    := ( ::Drive )
-        ::xBaseDoc      := ( ::Drive )
-		  ::xBaseTxt      := ( ::Drive )
-        ::xImpressora   := 1
-        ::Get_Ativo     := OK
-        ::Acento        := FALSO
-        ::xDataCodigo   := "  /  /  "
-        ::Spooler       := FALSO
-        ::Externo       := FALSO
-        ::cArquivo      := ""
-        ::ConfAmbiente()
-Return( Self )
+	while( true )
+		Keyb( Chr( 27 ))
+		oTemp:Show()
+		oTemp:contareg("#" + StrZero(Selecionado,3) + "# {" + ::ModeMenu[Selecionado] + "}")
+		M_Frame( ::Frame )
+		M_Message("UP/DOWN, ENTER, ESC. #" + StrZero(Selecionado,3), ::Cormenu )
+		nKey := Inkey(0)
+		if nKey == 27
+			return Self 
+		elseif nKey == 13
+			exit
+		elseif nKey == 5
+			Selecionado := Iif( Selecionado == 1, nFonte, --Selecionado  )	
+		elseif nKey == 24
+			Selecionado := Iif( Selecionado == nFonte, 1, ++Selecionado  )
+		endif	
+		Eval( ::TabelaFonte[ Selecionado ])	
+		Cls( ::CorFundo, ::PanoFundo, OK )
+	EndDo
+	::Fonte := Selecionado
+	return Self
+endef
 
+method SetaFonte()
+	LOCAL nLargura     := ::FonteManualLargura
+	LOCAL nAltura      := ::FonteManualAltura 
+	LOCAL nChoice      := 1
 
-method SetaFonteManual() class TAmbiente
-***********************
-LOCAL nLargura  := ::FonteManualLargura 
-LOCAL nAltura   := ::FonteManualAltura
-
-::Limpa()
-MaBox( 10, 10, 16, 50, "LAYOUT: Tamanho do buffer da tela" )
-@ 12, 11 Say "Altura:  " Get nAltura  Pict "999"
-@ 14, 11 Say "Largura: " Get nLargura Pict "999"
-Read
-IF LastKey() = ESC
-	Return NIL
-EndIF
-::FonteManualLargura := nLargura
-::FonteManualAltura  := nAltura
-::MaxCol             := nLargura 
-//SetMode(::FonteManualAltura, ::FonteManualLargura)
-//Cls( ::CorFundo, ::PanoFundo, OK )
-
-return( self )
-
-method PreVisFonte() class TAmbiente
-********************
-LOCAL nFonte
-LOCAL Selecionado  := 1
-LOCAL nKey			 := 0
-LOCAL cScreen      := SaveScreen()
-LOCAL oTemp
-
-nFonte         := Len( ::TabelaFonte )
-nPos           := Ascan( ::TabelaFonte, ::Fonte )
-Selecionado 	:= IF( nPos = 0, 1, nPos )
-cPanoFundo		:= ::PanoFundo
-cCormenu 		:= ::Cormenu
-cCorCabec      := ::CorCabec
-cCorFundo		:= ::CorFundo
-
-oTemp           := TAmbienteNew()
-oTemp:PanoFundo := cPanoFundo
-oTemp:Cormenu	 := cCormenu
-oTemp:CorCabec	 := cCorCabec
-oTemp:CorFundo	 := cCorFundo
-
-WHILE .T.
-	Keyb( Chr( 27 ))
-   oTemp:Show()
-	oTemp:contareg("#" + StrZero(Selecionado,3) + "# {" + ::ModeMenu[Selecionado] + "}")
-   M_Frame( ::Frame )
-	M_Message("UP/DOWN, ENTER, ESC. #" + StrZero(Selecionado,3), ::Cormenu )
-	nKey := Inkey(0)
-	IF nKey == 27
-		return Self 
-	ElseIF nKey == 13
-		exit
-	ElseIF nKey == 5
-		Selecionado := IIF( Selecionado == 1, nFonte, --Selecionado  )	
-	ElseIF nKey == 24
-		Selecionado := IIF( Selecionado == nFonte, 1, ++Selecionado  )
-	EndIF	
-	Eval( ::TabelaFonte[ Selecionado ])	
-	Cls( ::CorFundo, ::PanoFundo, OK )
-EndDo
-::Fonte := Selecionado
-Return Self
-
-method SetaFonte() class TAmbiente
-******************
-LOCAL nLargura     := ::FonteManualLargura
-LOCAL nAltura      := ::FonteManualAltura 
-LOCAL nChoice      := 1
-
-M_Title("SELECIONE MODO DE VIDEO")
-nChoice := FazMenu( 03, 10, ::ModeMenu)
-IF nChoice = 0
-	Return
-	
-elseif nChoice = 21 // Definir Modo Manual
-	::SetaFonteManual()
-elseif nChoice = 22 // Visualiza pre-escolha
-	::PreVisFonte()	
-   nChoice := ::Fonte	
-	//Return(Self)
-endif	
-Eval( ::TabelaFonte[ nChoice ])	
-Cls( ::CorFundo, ::PanoFundo, OK )	
-if Alert("LAYOUT;" + "Tamanho do buffer da tela;;" + "Largura:     " + Str( MS_MaxCol()) + ";Altura:      " + Str( MS_MaxRow()), {"Ok","Cancelar"}) == 1
-	::Fonte := nChoice
-else
-	::FonteManualLargura  := nLargura
-	::FonteManualAltura   := nAltura
-   Eval( ::TabelaFonte[ ::Fonte])	
-	Cls( ::CorFundo, ::PanoFundo, OK )	
-endif		   
-return(Self)
-
-method ConfAmbiente() class TAmbiente
-*********************		
-		 IF ::Argumentos = 0
-          ::Frame := "ÉÐËÇÊÌÈ¶"
-       ElseIF ::Argumentos = 1
-          ::Frame := "ÉÐËÇÊÌÈ¶"
-       ElseIF ::Argumentos = 2
-          ::Frame := "ÉÐËÇÊÌÈ¶"
-       ElseIF ::Argumentos = 3
-          ::Frame := "ÚÄ¿³ÙÄÀ³"
-		 EndIF
-		 ::Frame := "ÚÄ¿³ÙÄÀ³"
-		 
-       M_Frame( ::Frame )
-       ::xBase           := ( ::Drive )
-       ::TabelaFonte     := Array(21)
-       ::TabelaFonte[01] := {|| SetMode(28, 132)}
-		 ::TabelaFonte[02] := {|| SetMode(::AlturaFonteDefaultWindows, ::LarguraFonteDefaultWindows())}
-       ::TabelaFonte[03] := {|| SetMode(25 , 80)}
-       ::TabelaFonte[04] := {|| SetMode(28 , 80)}
-		 ::TabelaFonte[05] := {|| SetMode(33 , 80)}
-       ::TabelaFonte[06] := {|| SetMode(40 , 80)}
-       ::TabelaFonte[07] := {|| SetMode(43 , 80)}
-		 ::TabelaFonte[08] := {|| SetMode(50 , 80)}
-       ::TabelaFonte[09] := {|| SetMode(25 , 132)}
-       ::TabelaFonte[10] := {|| SetMode(28 , 132)}
-		 ::TabelaFonte[11] := {|| SetMode(33 , 132)}
-       ::TabelaFonte[12] := {|| SetMode(40 , 132)}
-       ::TabelaFonte[13] := {|| SetMode(43 , 132)}
-		 ::TabelaFonte[14] := {|| SetMode(50 , 132)}
-       ::TabelaFonte[15] := {|| SetMode(25 , 160)}
-       ::TabelaFonte[16] := {|| SetMode(28 , 160)}
-		 ::TabelaFonte[17] := {|| SetMode(33 , 160)}
-       ::TabelaFonte[18] := {|| SetMode(40 , 160)}
-       ::TabelaFonte[19] := {|| SetMode(43 , 160)}
-		 ::TabelaFonte[20] := {|| SetMode(50 , 160)}
-       ::TabelaFonte[21] := {|| SetMode(::FonteManualAltura, ::FonteManualLargura)}
-		 ::SetSet()
-
-       IF ::Fonte > 1
-		    Eval( ::TabelaFonte[ ::Fonte ] )
-		 EndIF
-       FT_Shadow( ::Sombra )       
-		return( Self )
-
-method SetSet() class TAmbiente
-       Set Conf Off
-		 Set Bell On
-		 Set Scor Off
-		 Set Wrap On
-		 Set Mess To 22
-		 Set Dele On
-		 Set Date Brit
-		 Set Deci To 2
-		 Set Print To
-		 Set Fixed On
-		 SetCancel( .F. )
-return( self )
-
-method SetVar() class TAmbiente
-        IF ::Visual != NIL
-           ::Frame  := "ÉÐËÇÊÌÈ¶"
-        Else
-           ::Frame  := "ÚÄ¿³ÙÄÀ³"
-        EndIF
-        ::Sombra              := OK
-        ::Mostrar_Desativados := OK
-        ::Mostrar_Recibo      := OK
-        ::PosiAgeInd          := FALSO
-        ::PosiAgeAll          := FALSO
-        ::Receposi            := FALSO
-        ::lReceber            := FALSO
-        ::cTipoRecibo         := "RECCAR"
-        ::lGreenCard          := FALSO
-        ::lComCodigoAcesso    := FALSO
-        ::aFiscalIni          := NIL
-        ::xLimite             := NIL
-        ::_Empresa            := NIL
-        ::xNomefir            := NIL
-        ::xEmpresa            := NIL
-        ::xJuroMesSimples     := 0
-        ::xJuroMesComposto    := 1
-        ::xFanta              := NIL
-        ::aSciArray           := Array(1,8)
-        ::aAtivo              := {}
-		  ::aAtivoSwap          := {}		  
-        ::lContinuarAchoice   := FALSO
-        ::lK_Insert           := FALSO
-		  ::lK_Insert_Plus      := FALSO
-        ::ZebrarAmostragem    := FALSO		  
-		  ::lMostrarSoma        := OK
-		  
-        ::CorMsg        := 47
-        ::CorAlerta     := 75     // Cor do menu Alerta
-        ::Fonte         := 1      // FlReset()
-        ::CorBorda      := 16     // Cor da Borda
-        ::CorAntiga     := 05
-        ::CorCima       := 128
-        ::CorBox        := 9
-        ::CorCabec      := 59    // Cor do Cabecalho
-        ::CorFundo      := 31    // Cor Pano de Fundo
-        ::Selecionado   := 10    // Pano de Fundo Selecionado
-        ::Ano2000       := DISABLE
-        ::xUsuario      := "ADMIN"
-        //::PanoFundo     := ::Panos[ ::Selecionado ]			 
-return( self )
-
-method SetModeMenu() class TAmbiente
-********************
-
-		::ModeMenu	 := { "Resetar Para Default Sistema",;
-								"Tamanho Padrao da Janela do Windows",;
-						      "25 x  80 - CGA EGA VGA Somente",;
-								"28 x  80 - EGA VGA Somente",;
-								"33 x  80 - EGA VGA Somente",;
-								"40 x  80 - EGA VGA Somente",;
-								"43 x  80 - EGA VGA Somente",;
-								"50 x  80 - EGA VGA Somente",;								
-								"25 x 132 - EGA VGA Somente",;
-								"28 x 132 - EGA VGA Somente",;
-								"33 x 132 - EGA VGA Somente",;
-								"40 x 132 - EGA VGA Somente",;
-								"43 x 132 - EGA VGA Somente",;
-								"50 x 132 - EGA VGA Somente",;								
-								"25 x 160 - EGA VGA Somente",;					
-								"28 x 160 - EGA VGA Somente",;
-								"33 x 160 - EGA VGA Somente",;
-								"40 x 160 - EGA VGA Somente",;
-								"43 x 160 - EGA VGA Somente",;						      
-								"50 x 160 - EGA VGA Somente",;
-								"Definir Layout Modo Manualmente",;
-								"Testar Layout pre-definidos"}								
-return( self:modemenu )								
-
-
-method SetPano() class TAmbiente
-        ::Panos         := ;
-		  {"°Ä",;
-			"*#*#*°V±I²LÛM°A±R²:;*#*#*",;
-		    "°E±V²IÛL¹I",;
-			 "°±²²±°°±²³±Ä",;
-		    " Macrosoft ", ;
-          "Û²°±MacrosoftÛ±²°",;
-          "°°°°°°°°°°±±±±±±±±±²²²²²²²²²²±±±±±±±±±±", ;
-			 "°°°°°°°°°±±±±±±±±²²²²²²²²²±±±±±±±±±", ;
-			 "±±°±²±²°±°±°°²°²±²±²²±±²Û²±±²°²²", ;
-			 "±±°±²±²°±°±°°²°²±²±²²±±²Û²", ;
-			 "±±°±²±²°±°±°°²°²±²±²²", ;
-			 "°²±²±²°±²±°²°±²°²°²±", ;
-			 "±±°±²±²°±°±°°²°²±²±²²±±²Û²°", ;
-			 "±±±±±±±°°°°°°°°", ;
-			 "²²²²²²²±±±±±±", ;
-			 "²²²²²²²±±±±±", ;
-          "°±²Û²±°",;
-			 " °±²Û²±°", ;
-			 "  °°±±²²±±°°", ;
-			 " °±²Û", ;
-			 "°±²", ;
-			 "Û", ;
-			 "²", ;
-			 "±", ;
-          "°", ;
-          "ÅÅ", ;
-			 " ",;
-          "þþþþþþþþþþþþþþ",;
-			 "ß", "Ý", "?", "÷", "þ", "?", "?","?", "", "", "?", "?",;
-			 "", "", "?", "?", "", "?", "	", "?", "?", "",;
-			 "ú.ù,ú'ù.';ùþùú    ",;
-          "ú.ù.'ú.'ù.ù'", ;
-          "Macrosoft Informatica                                       ", ;
-          "Macrosoft Informatica                                      ", ;
-          "Macrosoft Informatica                                     ", ;
-          "Macrosoft Informatica                                    ", ;
-          "Macrosoft Informatica                                   ", ;
-          "Macrosoft Informatica                                  ", ;
-          "Macrosoft Informatica                                 ", ;
-          "Macrosoft                                            ", ;
-          "Macrosoft                                           ", ;
-          "Macrosoft                                          ", ;
-          "Macrosoft                                         ", ;
-          "Macrosoft                                        ", ;
-          "Macrosoft                                       ", ;
-          "Macrosoft                                      ", ;
-          "Macrosoft                                     ", ;
-          "Macrosoft                                    ", ;
-          "Macrosoft                                   ", ;
-          "Macrosoft                                  ", ;
-          "Macrosoft                                 ", ;
-          "Macrosoft                                ", ;
-          "Macrosoft                               ", ;
-          "Macrosoft                              ", ;
-          "Macrosoft                             ", ;
-          "Macrosoft                            ", ;
-          "Macrosoft                           ", ;
-          "Macrosoft                          ", ;
-          "Macrosoft                         ", ;
-          "Macrosoft                        ", ;
-          "Macrosoft                       ", ;
-          "Macrosoft                      ", ;
-          "Macrosoft                     ", ;
-          "Macrosoft                    ", ;
-          "Macrosoft                   ", ;
-          "Macrosoft                  ", ;
-          "Macrosoft                 ", ;
-          "Macrosoft                ", ;
-          "Macrosoft               ", ;
-          "Macrosoft              ", ;
-          "Macrosoft             ", ;
-          "Macrosoft            ", ;
-          "Macrosoft           ", ;
-          "Macrosoft          ", ;
-          "Macrosoft         ", ;
-          "Macrosoft        ", ;
-          "Macrosoft       ", ;
-          "Macrosoft      ", ;
-          "Macrosoft     ", ;
-          "Macrosoft    ", ;
-          "Macrosoft   ", ;
-          "Macrosoft  ", ;
-          "Macrosoft ", ;
-          "Macrosoft","ÄÁÂ", "°±²Û", "²", "±", "Û", "°", "Î", " À¿", " É¼", "ÄÁÂ", " ", "ú.ù.'ú.'ù.ù'",;
-          "À¿À¿",;
-          "ÊËËÊ",;
-          "ÁÂÂÁ",;
-          "Ã´´Ã",;
-          "¹ÌÌ¹",;
-          "°°°°°±±±±±°°°°°²²²²²",;
-          "ÍÊÍËÍËÍÊ",;
-          "ÄÁÄÂÄÂÄÁ",;
-          "=-",;
-          ":-",;
-          "%%",;
-          "##",;
-          "@@"}
-			
-	return( self:panos )
+	M_Title("SELECIONE MODO DE VIDEO")
+	nChoice := FazMenu( 03, 10, ::ModeMenu)
+	if nChoice = 0
+		return
 		
-method SetaFrame() class TAmbiente
-******************
-LOCAL cScreen := SaveScreen()
-LOCAL nChoice := 1
-LOCAL aFrames := {"        ",;
-						B_SINGLE,;
-						B_DOUBLE,;
-						B_SINGLE_DOUBLE,;
-						B_DOUBLE_SINGLE,;
-						HB_B_SINGLE_UNI,;
-						HB_B_DOUBLE_UNI,;
-						HB_B_SINGLE_DOUBLE_UNI,;
-						HB_B_DOUBLE_SINGLE_UNI,;
-						"ßßßÞÜÜÜÝ",;
-						"ÛÛÛÛÛÛÛÛÛ",;
-                  "ÉÐËÇÊÌÈ¶"}
-						
-M_Title("ESCOLHA O TIPO DE BORDA/FRAME")						
-nChoice := Fazmenu( 03, 10, aFrames, ::Cormenu )
-ResTela( cScreen )
-IF nChoice = 0
-	Return
-EndIF
-::Frame := aFrames[nChoice]
-M_Frame( ::Frame )
-Return Self
+	elseif nChoice = 21 // Definir Modo Manual
+		::SetaFonteManual()
+	elseif nChoice = 22 // Visualiza pre-escolha
+		::PreVisFonte()	
+		nChoice := ::Fonte	
+		//return(Self)
+	endif	
+	Eval( ::TabelaFonte[ nChoice ])	
+	Cls( ::CorFundo, ::PanoFundo, OK )	
+	if Alert("LAYOUT;" + "Tamanho do buffer da tela;;" + "Largura:     " + Str( MS_MaxCol()) + ";Altura:      " + Str( MS_MaxRow()), {"Ok","Cancelar"}) == 1
+		::Fonte := nChoice
+	else
+		::FonteManualLargura  := nLargura
+		::FonteManualAltura   := nAltura
+		Eval( ::TabelaFonte[ ::Fonte])	
+		Cls( ::CorFundo, ::PanoFundo, OK )	
+	endif		   
+	return(Self)
+endef
 
-method xMenu() class TAmbiente
-****************
+method ConfAmbiente()
+	if ::Argumentos = 0
+		::Frame := "ÉÐËÇÊÌÈ¶"
+	elseif ::Argumentos = 1
+		::Frame := "ÉÐËÇÊÌÈ¶"
+	elseif ::Argumentos = 2
+		::Frame := "ÉÐËÇÊÌÈ¶"
+	elseif ::Argumentos = 3
+		::Frame := "ÚÄ¿³ÙÄÀ³"
+	endif
+	::Frame := "ÚÄ¿³ÙÄÀ³"
+
+	M_Frame( ::Frame )
+	::xBase           := ( ::Drive )
+	::TabelaFonte     := Array(21)
+	::TabelaFonte[01] := {|| SetMode(28, 132)}
+	::TabelaFonte[02] := {|| SetMode(::AlturaFonteDefaultWindows, ::LarguraFonteDefaultWindows)}
+	::TabelaFonte[03] := {|| SetMode(25 , 80)}
+	::TabelaFonte[04] := {|| SetMode(28 , 80)}
+	::TabelaFonte[05] := {|| SetMode(33 , 80)}
+	::TabelaFonte[06] := {|| SetMode(40 , 80)}
+	::TabelaFonte[07] := {|| SetMode(43 , 80)}
+	::TabelaFonte[08] := {|| SetMode(50 , 80)}
+	::TabelaFonte[09] := {|| SetMode(25 , 132)}
+	::TabelaFonte[10] := {|| SetMode(28 , 132)}
+	::TabelaFonte[11] := {|| SetMode(33 , 132)}
+	::TabelaFonte[12] := {|| SetMode(40 , 132)}
+	::TabelaFonte[13] := {|| SetMode(43 , 132)}
+	::TabelaFonte[14] := {|| SetMode(50 , 132)}
+	::TabelaFonte[15] := {|| SetMode(25 , 160)}
+	::TabelaFonte[16] := {|| SetMode(28 , 160)}
+	::TabelaFonte[17] := {|| SetMode(33 , 160)}
+	::TabelaFonte[18] := {|| SetMode(40 , 160)}
+	::TabelaFonte[19] := {|| SetMode(43 , 160)}
+	::TabelaFonte[20] := {|| SetMode(50 , 160)}
+	::TabelaFonte[21] := {|| SetMode(::FonteManualAltura, ::FonteManualLargura)}
+	::SetSet()
+
+	if ::fonte > 1
+		eval( ::TabelaFonte[ ::Fonte ] )
+	endif
+	FT_Shadow( ::Sombra )       
+	return( Self )
+endef	
+
+method SetSet()
+	Set Conf Off
+	Set Bell On
+	Set Scor Off
+	Set Wrap On
+	Set Mess To 22	
+	Leto_Set( 11, "on" ) //Set Dele On
+	Set( 11, "on" ) 		//Set Dele On
+	Set Date Brit
+	Set Deci To 2
+	Set Print To
+	Set Fixed On
+	SetCancel( .F. )
+	return( self )
+endef	
+
+method SetVar()
+	if ::Visual != NIL
+		::Frame  := "ÉÐËÇÊÌÈ¶"
+	else
+		::Frame  := "ÚÄ¿³ÙÄÀ³"
+	endif
+	::Sombra              := OK
+	::Mostrar_Desativados := OK
+	::Mostrar_Recibo      := OK
+	::PosiAgeInd          := FALSO
+	::PosiAgeAll          := FALSO
+	::Receposi            := FALSO
+	::lReceber            := FALSO
+	::cTipoRecibo         := "RECCAR"
+	::lGreenCard          := FALSO
+	::lComCodigoAcesso    := FALSO
+	::aFiscalIni          := NIL
+	::xLimite             := NIL
+	::_Empresa            := ""
+	::xNomefir            := ""
+	::xEmpresa            := ""
+	::xJuroMesSimples     := 0
+	::xJuroMesComposto    := 1
+	::xFanta              := ""
+	::aSciArray           := Array(1,8)
+	::aAtivo              := {}
+	::aAtivoSwap          := {}		  
+	::lContinuarAchoice   := FALSO
+	::lK_Insert           := FALSO
+	::lK_Insert_Plus      := FALSO
+	::ZebrarAmostragem    := FALSO		  
+	::lMostrarSoma        := OK
+	
+	::CorMsg        := 47
+	::CorAlerta     := 75     // Cor do menu Alerta
+	::Fonte         := 1      // FlReset()
+	::CorBorda      := 16     // Cor da Borda
+	::CorAntiga     := 05
+	::CorCima       := 128
+	::CorBox        := 9
+	::CorCabec      := 59    // Cor do Cabecalho
+	::CorFundo      := 31    // Cor Pano de Fundo
+	::Selecionado   := 10    // Pano de Fundo Selecionado
+	::Ano2000       := DISABLE
+	::xUsuario      := "ADMIN"
+	//::PanoFundo     := ::Panos[ ::Selecionado ]			 
+	return( self )
+endef	
+
+method SetModeMenu()
+	::ModeMenu	 := { "Resetar Para Default Sistema",;
+							"Tamanho Padrao da Janela do Windows",;
+					      "25 x  80 - CGA EGA VGA Somente",;
+							"28 x  80 - EGA VGA Somente",;
+							"33 x  80 - EGA VGA Somente",;
+							"40 x  80 - EGA VGA Somente",;
+							"43 x  80 - EGA VGA Somente",;
+							"50 x  80 - EGA VGA Somente",;								
+							"25 x 132 - EGA VGA Somente",;
+							"28 x 132 - EGA VGA Somente",;
+							"33 x 132 - EGA VGA Somente",;
+							"40 x 132 - EGA VGA Somente",;
+							"43 x 132 - EGA VGA Somente",;
+							"50 x 132 - EGA VGA Somente",;								
+							"25 x 160 - EGA VGA Somente",;					
+							"28 x 160 - EGA VGA Somente",;
+							"33 x 160 - EGA VGA Somente",;
+							"40 x 160 - EGA VGA Somente",;
+							"43 x 160 - EGA VGA Somente",;						      
+							"50 x 160 - EGA VGA Somente",;
+							"Definir Layout Modo Manualmente",;
+							"Testar Layout pre-definidos"}								
+	return( self:modemenu )
+endef	
+
+method SetPano()
+	::Panos         := ;
+	{"°Ä",;
+	"*#*#*°V±I²LÛM°A±R²:;*#*#*",;
+	"°E±V²IÛL¹I",;
+	"°±²²±°°±²³±Ä",;
+	" Macrosoft ", ;
+	"Û²°±MacrosoftÛ±²°",;
+	"°°°°°°°°°°±±±±±±±±±²²²²²²²²²²±±±±±±±±±±", ;
+	"°°°°°°°°°±±±±±±±±²²²²²²²²²±±±±±±±±±", ;
+	"±±°±²±²°±°±°°²°²±²±²²±±²Û²±±²°²²", ;
+	"±±°±²±²°±°±°°²°²±²±²²±±²Û²", ;
+	"±±°±²±²°±°±°°²°²±²±²²", ;
+	"°²±²±²°±²±°²°±²°²°²±", ;
+	"±±°±²±²°±°±°°²°²±²±²²±±²Û²°", ;
+	"±±±±±±±°°°°°°°°", ;
+	"²²²²²²²±±±±±±", ;
+	"²²²²²²²±±±±±", ;
+	"°±²Û²±°",;
+	" °±²Û²±°", ;
+	"  °°±±²²±±°°", ;
+	" °±²Û", ;
+	"°±²", ;
+	"Û", ;
+	"²", ;
+	"±", ;
+	"°", ;
+	"ÅÅ", ;
+	" ",;
+	"þþþþþþþþþþþþþþ",;
+	"ß", "Ý", "?", "÷", "þ", "?", "?","?", "", "", "?", "?",;
+	"", "", "?", "?", "", "?", "	", "?", "?", "",;
+	"ú.ù,ú'ù.';ùþùú    ",;
+	"ú.ù.'ú.'ù.ù'", ;
+	"Macrosoft Informatica                                       ", ;
+	"Macrosoft Informatica                                      ", ;
+	"Macrosoft Informatica                                     ", ;
+	"Macrosoft Informatica                                    ", ;
+	"Macrosoft Informatica                                   ", ;
+	"Macrosoft Informatica                                  ", ;
+	"Macrosoft Informatica                                 ", ;
+	"Macrosoft                                            ", ;
+	"Macrosoft                                           ", ;
+	"Macrosoft                                          ", ;
+	"Macrosoft                                         ", ;
+	"Macrosoft                                        ", ;
+	"Macrosoft                                       ", ;
+	"Macrosoft                                      ", ;
+	"Macrosoft                                     ", ;
+	"Macrosoft                                    ", ;
+	"Macrosoft                                   ", ;
+	"Macrosoft                                  ", ;
+	"Macrosoft                                 ", ;
+	"Macrosoft                                ", ;
+	"Macrosoft                               ", ;
+	"Macrosoft                              ", ;
+	"Macrosoft                             ", ;
+	"Macrosoft                            ", ;
+	"Macrosoft                           ", ;
+	"Macrosoft                          ", ;
+	"Macrosoft                         ", ;
+	"Macrosoft                        ", ;
+	"Macrosoft                       ", ;
+	"Macrosoft                      ", ;
+	"Macrosoft                     ", ;
+	"Macrosoft                    ", ;
+	"Macrosoft                   ", ;
+	"Macrosoft                  ", ;
+	"Macrosoft                 ", ;
+	"Macrosoft                ", ;
+	"Macrosoft               ", ;
+	"Macrosoft              ", ;
+	"Macrosoft             ", ;
+	"Macrosoft            ", ;
+	"Macrosoft           ", ;
+	"Macrosoft          ", ;
+	"Macrosoft         ", ;
+	"Macrosoft        ", ;
+	"Macrosoft       ", ;
+	"Macrosoft      ", ;
+	"Macrosoft     ", ;
+	"Macrosoft    ", ;
+	"Macrosoft   ", ;
+	"Macrosoft  ", ;
+	"Macrosoft ", ;
+	"Macrosoft","ÄÁÂ", "°±²Û", "²", "±", "Û", "°", "Î", " À¿", " É¼", "ÄÁÂ", " ", "ú.ù.'ú.'ù.ù'",;
+	"À¿À¿",;
+	"ÊËËÊ",;
+	"ÁÂÂÁ",;
+	"Ã´´Ã",;
+	"¹ÌÌ¹",;
+	"°°°°°±±±±±°°°°°²²²²²",;
+	"ÍÊÍËÍËÍÊ",;
+	"ÄÁÄÂÄÂÄÁ",;
+	"=-",;
+	":-",;
+	"%%",;
+	"##",;
+	"@@"}			
+	return( self:panos )
+endef	
+		
+method SetaFrame()
+	LOCAL cScreen := SaveScreen()
+	LOCAL nChoice := 1
+	LOCAL aFrames := {"        ",;
+							B_SINGLE,;
+							B_DOUBLE,;
+							B_SINGLE_DOUBLE,;
+							B_DOUBLE_SINGLE,;
+							HB_B_SINGLE_UNI,;
+							HB_B_DOUBLE_UNI,;
+							HB_B_SINGLE_DOUBLE_UNI,;
+							HB_B_DOUBLE_SINGLE_UNI,;
+							"ßßßÞÜÜÜÝ",;
+							"ÛÛÛÛÛÛÛÛÛ",;
+							"ÉÐËÇÊÌÈ¶"}
+							
+	M_Title("ESCOLHA O TIPO DE BORDA/FRAME")						
+	nChoice := Fazmenu( 03, 10, aFrames, ::Cormenu )
+	ResTela( cScreen )
+	if nChoice = 0
+		return
+	endif
+	::Frame := aFrames[nChoice]
+	M_Frame( ::Frame )
+	return Self
+endef
+	
+method xMenu()
 	LOCAL AtPrompt := {}
 	AADD( AtPrompt, {"I^nclusao",  {"S^ubMenu A","SubMenu B^","","Item D^esativado","Sub^Menu D"}})
 	AADD( AtPrompt, {"A^lteraro",  {"SubMenu 1","SubMenu 2","SubMenu 3","SubMenu 4"}})
 	AADD( AtPrompt, {"I^mpressao", {"SubMenu 1","SubMenu 2","SubMenu 3","SubMenu 4"}})
 	AADD( AtPrompt, {"C^onsulta",  {"SubMenu 1","SubMenu 2","SubMenu 3","SubMenu 4"}})
 	AADD( AtPrompt, {"H^elp",      {"SubMenu 1","SubMenu 2","SubMenu 3","SubMenu 4"}})
-return( AtPrompt )
+	return( AtPrompt )
+endef	
 
-method xDisp() class TAmbiente
-****************
+method xDisp() 
 	LOCAL aDisp := {}
 	Aadd( aDisp, { LIG, LIG, .F., .F., LIG, LIG , LIG})
 	Aadd( aDisp, { LIG, LIG, LIG, LIG, LIG, LIG , LIG})
@@ -670,52 +707,56 @@ method xDisp() class TAmbiente
 	Aadd( aDisp, { LIG, LIG, LIG, LIG, LIG, LIG , LIG})
 	Aadd( aDisp, { LIG, LIG, LIG, LIG, LIG, LIG , LIG})
 	Aadd( aDisp, { LIG, LIG, LIG, LIG, LIG, LIG , LIG})
-return( aDisp )
+	return( aDisp )
+endef	
 
-method Limpa() class TAmbiente
+method Limpa()
    Cls( ::CorFundo, ::PanoFundo )
 	::StatSup()
 	::StatInf()
 	return self
-
-method StatSup( cCabecalho ) class TAmbiente
+endef
+	
+method StatSup( cCabecalho )
 	LOCAL nTam  := MaxCol()+1
 	LOCAL nPos  := ( nTam - Len( ::StatusSup ))
 	
 	aPrint( 00 , 00 , "", nTam )
-   aPrint( 00 , 00 , Padc( IF( cCabecalho = NIL, ::StatusSup, cCabecalho), nTam ),  ::CorCabec, nTam )   
+   aPrint( 00 , 00 , Padc( if( cCabecalho = NIL, ::StatusSup, cCabecalho), nTam ),  ::CorCabec, nTam )   
 	aPrint( 00 , ::MaxCol-18, Dtoc(Date()) + ' ' + (oAmbiente:Clock := Time()), omenu:corcabec)
 	//aPrint( 00 , ( nTam-17),  Clock( 00, (nTam-17), ::CorCabec ), ::CorCabec )
-	Return Self		
+	return Self
+endef	
 	
-method StatInf( cMensagem ) class TAmbiente
+method StatInf( cMensagem )
 	LOCAL nTam  := MaxCol()+1
 	LOCAL nCol  := MaxRow()
-   LOCAL nPos  := ( nTam - Len(::CodiFirma + ':' + ::xUsuario + '/' + ::NomeFirma ))
+   LOCAL nPos  := ( nTam - Len(::Codifirma + ':' + ::xUsuario + '/' + ::NomeFirma ))
 	
 	aPrint( nCol, 00 , "", nTam )
-   aPrint( nCol, 00 , IF( cMensagem = NIL, ::StatusInf, cMensagem), ::CorCabec, nTam )
-   aPrint( nCol, nPos,  ::CodiFirma + ':' + ::xUsuario + '/' + ::NomeFirma, ::CorCabec )
-return self
+   aPrint( nCol, 00 , if( cMensagem = NIL, ::StatusInf, cMensagem), ::CorCabec, nTam )
+   aPrint( nCol, nPos,  ::Codifirma + ':' + ::xUsuario + '/' + ::NomeFirma, ::CorCabec )
+	return self
+endef
 	
-method StatReg( cMensagem, nCor ) class TAmbiente
+method StatReg( cMensagem, nCor )
 	LOCAL nTam  := ::MaxCol	
 	LOCAL nCol  := MaxRow()
-	LOCAL nPos  := ( nTam - Len(::CodiFirma + ':' + ::xUsuario + '/' + ::NomeFirma ))
+	LOCAL nPos  := ( nTam - Len(::Codifirma + ':' + ::xUsuario + '/' + ::NomeFirma ))
 	DEFAU nCor TO ::CorCabec
 	
 	// ::StatInf("")		
-	Print( nCol, 00 , IF( cMensagem = NIL, ::StatusInf, cMensagem), nCor, iif(nCor <> ::CorCabec, MaxCol()+1, nil))   
-	//write( nCol, 00 , IF( cMensagem = NIL, ::StatusInf, cMensagem), ::CorCabec ) 
-return Self	
+	Print( nCol, 00 , if( cMensagem = NIL, ::StatusInf, cMensagem), nCor, iif(nCor <> ::CorCabec, MaxCol()+1, nil))   
+	//write( nCol, 00 , if( cMensagem = NIL, ::StatusInf, cMensagem), ::CorCabec ) 
+	return Self	
+endef	
 	
-method SetaSombra() class TAmbiente
-*********************************
+method SetaSombra()
 	FT_Shadow( ::Sombra )
-	Return Self	
+	return Self	
+endef	
 
-method SetaCor( nTipo ) class TAmbiente
-***********************
+method SetaCor( nTipo )
 	LOCAL aTipo      := { ::CorMenu,;
 								 ::CorCabec,;
 								 ::CorFundo,;
@@ -730,7 +771,7 @@ method SetaCor( nTipo ) class TAmbiente
 
 	LOCAL    cPanoFundo 	:= ::PanoFundo
 	LOCAL       cScreen	:= SaveScreen()
-	LOCAL         xTipo  := IF( nTipo = NIL, 1, nTipo )
+	LOCAL         xTipo  := if( nTipo = NIL, 1, nTipo )
 	LOCAL        xColor	:= aTipo[ xTipo ]
 	LOCAL        CorAnt	:= aTipo[ xTipo ]
 	LOCAL lManterScreen 	:= FALSO
@@ -738,7 +779,7 @@ method SetaCor( nTipo ) class TAmbiente
 	LOCAL     nLenAtipo  := Len( aTipo )
 	LOCAL          ikey
 
-	WHILE (OK)	
+	while( true )	
 		oTemp:CorMenu           := aTipo[01]
 		oTemp:CorCabec          := aTipo[02]
 		oTemp:CorFundo		      := aTipo[03]
@@ -751,22 +792,61 @@ method SetaCor( nTipo ) class TAmbiente
 		oTemp:CorBorda          := aTipo[10]	
 		
 		oTemp:PanoFundo 	      := cPanoFundo
-		oTemp:StatusSup 	      := "TESTE DE COR - Cabecalho"
+		oTemp:StatusSup 	      := "TESTE DE COR - TAYSON Cabe‡„o"
 		oTemp:StatusInf         := "TESTE DE COR - Rodape"
 
 		Keyb( Chr(27))
 		oTemp:Show(lManterScreen := OK)
 		M_Frame( ::Frame )
-		M_Message("COR ATUAL : "+ StrZero( xColor, 3 ) + " - Enter para Escolher ou ESCape", xColor )
-		Ikey := InKey( 0 )
-		if ( Ikey == 24)
-			aTipo[ xTipo ] := ( XColor  := IIF( xColor  == 0, 255, --xColor  ))
-		elseif ( Ikey == 5)
-			( aTipo[ xTipo ] ) :=  ( xColor	:= IIF( xColor  == 255, 0, ++xColor  ))
-		elseif ( Ikey == 27 ) .OR. ( IKey == 13 )
-			 Exit
+		::HelpCor(xColor)
+		ikey := inkey(0)
+		
+		switch iKey		
+		case 24
+			aTipo[ xTipo ] := ( XColor  := Iif( xColor  == 0, 255, --xColor  ))
+			exit
+		case 5		
+			( aTipo[ xTipo ] ) :=  ( xColor	:= Iif( xColor  == 255, 0, ++xColor  ))
+			exit
+		case K_PGUP
+			( aTipo[ xTipo ] ) :=  ( xColor	:= Iif( xColor  == 255, 0, xColor + 16  ))
+			if(xColor >= 255 )
+				   xColor := 255
+				endif	
+			exit					
+		case K_PGDN
+			( aTipo[ xTipo ] ) :=  ( xColor	:= Iif( xColor  == 255, 0, xColor - 16  ))
+				if(xColor <= 0 )
+				   xColor := 0
+				endif				
+			exit						
+		case K_CTRL_PGDN
+			( aTipo[ xTipo ] ) :=  ( xColor	:= 0)
+			exit									
+		case K_CTRL_HOME
+			( aTipo[ xTipo ] ) := ( xColor := CorAnt )
+			exit												
+		case K_CTRL_PGUP
+			( aTipo[ xTipo ] ) :=  ( xColor	:= 255)
+			exit	
+		case K_ENTER
+		   exit		
+		case K_ESC
+			resTela( cScreen )		
+			return self
+		otherwise
+		   putkey(lastkey())
+			@ 28, 78 get xColor Pict "999" valid (xcolor >= 0 .and. xColor <= 255)
+			read
+			if lastkey() != K_ESC
+				( aTipo[ xTipo ] ) := xColor
+			endif	
+			hb_keySetLast(0)
+			exit
+		endswitch
+		if lastkey() == K_ENTER
+		   exit
 		endif
-		 
 		Do case
 		Case nTipo = 1 // cormenu
 			aTipo[ 4 ] := AscanCorDesativada(aTipo[1])	
@@ -788,10 +868,27 @@ method SetaCor( nTipo ) class TAmbiente
 	::CorAlerta         := aTipo[08]	
 	::CorMsg            := aTipo[09]	
 	::CorBorda          := aTipo[10]	
-	ResTela( cScreen )
-return SeLF
-
-method SetaPano() class TAmbiente
+	restela( cScreen )
+	return SeLF
+endef
+	
+method HelpCor(xColor)
+	linhaembranco   := ';'
+	linhahorizontal := '-'
+	AlertaPy(   '  COR ATUAL : ' + StrZero( xColor, 3 )  + ';' + ;
+					linhahorizontal + ';;' + ;					
+					'      ENTER : ACEITAR ESCOLHA           ' + ';' + ;				
+					'        ESC : CANCELAR                  ' + ';' + ;								
+					'  CTRL+HOME : VOLTA PARA COR ANTERIOR   ' + ';' + ;
+					'  CTRL+PGDN : PRIMEIRA COR              ' + ';' + ;				
+					'  CTRL+PGUP : ULTIMA COR                ' + ';' + ;				
+               '       PGUP : PULAR 16 CORES PARA CIMA  ' + ';' + ;
+               '       PGDN : PULAR 16 CORES PARA BAIXO ' + ';' + ;
+				   ' SETA ACIMA : MUDA COR                  ' + ';' + ;
+				   ' SETA ABAIXO: MUDA COR                  ', xColor, true, false)
+	return nil
+	
+method SetaPano()
 *****************
 	LOCAL nPano
 	LOCAL Selecionado  := 1
@@ -802,7 +899,7 @@ method SetaPano() class TAmbiente
 	Aadd( ::Panos, TokenUpper(::xUsuario))
 	nPano          := Len( ::Panos )
 	nPos           := Ascan( ::Panos, ::Panofundo )
-	Selecionado 	:= IF( nPos = 0, 1, nPos )
+	Selecionado 	:= if( nPos = 0, 1, nPos )
 	cPanoFundo		:= ::PanoFundo
 	cCormenu 		:= ::Cormenu
 	cCorCabec      := ::CorCabec
@@ -814,52 +911,53 @@ method SetaPano() class TAmbiente
 	oTemp:CorCabec	 := cCorCabec
 	oTemp:CorFundo	 := cCorFundo
 
-	WHILE .T.
+	while( true )
 		Keyb( Chr( 27 ))
 		oTemp:Show(lManterScreen := FALSO)
 		M_Frame( ::Frame )
 		M_Message("Use as setas CIMA e BAIXO para trocar, ENTER para aceitar. N§ " + StrZero( Selecionado, 3 ), ::Cormenu )
 		nKey := Inkey(0)
-		IF ( nKey == 27 .OR. nKey = 13 )
+		if ( nKey == 27 .OR. nKey = 13 )
 			Exit
-		ElseIF nKey == 24
-			Selecionado := IIF( Selecionado == 1, nPano, --Selecionado  )
-		ElseIF nKey == 5
-			Selecionado := IIF( Selecionado == nPano, 1, ++Selecionado  )
-		EndIF
+		elseif nKey == 24
+			Selecionado := Iif( Selecionado == 1, nPano, --Selecionado  )
+		elseif nKey == 5
+			Selecionado := Iif( Selecionado == nPano, 1, ++Selecionado  )
+		endif
 		oTemp:PanoFundo := ::Panos[ Selecionado ]
 	EndDo
 	::PanoFundo := ::Panos[ Selecionado ]
-Return Self
+	return Self
+endef	
 
-method MaBox( nTopo, nEsq, nFundo, nDireita, Cabecalho, Rodape, lInverterCor ) class TAmbiente
-******************************************************************************
+method MaBox( nTopo, nEsq, nFundo, nDireita, Cabecalho, Rodape, lInverterCor )
    LOCAL cPanoFundo := " " 
-   LOCAL nCor       := IF( lInverterCor = NIL, ::Cormenu,  lInverterCor )
+   LOCAL nCor       := if( lInverterCor = NIL, ::Cormenu,  lInverterCor )
    LOCAL pback
    
    //DispWHILE OK()
-   IF nDireita = 79
+   if nDireita = 79
    	nDireita = ::MaxCol
-   EndIf
+   endif
    ColorSet( @nCor, @pback )
    Box( nTopo, nEsq, nFundo, nDireita, ::Frame + cPanoFundo, nCor )
-   IF Cabecalho != Nil
+   if Cabecalho != Nil
    	aPrint( nTopo, nEsq+1, "Û", Roloc( nCor ), (nDireita-nEsq)-1)
    	aPrint( nTopo, nEsq+1, Padc( Cabecalho, ( nDireita-nEsq)-1), Roloc( nCor ))
-   EndIF
-   IF Rodape != Nil
+   endif
+   if Rodape != Nil
    	aPrint( nFundo, nEsq+1, "Û", Roloc( nCor ), (nDireita-nEsq)-1)
    	aPrint( nFundo, nEsq+1, Padc( Rodape, ( nDireita-nEsq)-1), Roloc( nCor ))
-   EndIF
+   endif
    cSetColor( SetColor())
    nSetColor( nCor, Roloc( nCor ))
    //DispEnd()
-return 
+	return
+endef	
 
-method AumentaEspacoMenu(nSp) class TAmbiente
+method AumentaEspacoMenu(nSp)
 	LOCAL nTam    := Len(::menu)
-	LOCAL cSpMais := Space(IF(nSp == nil, nSp := 1, nSp))
+	LOCAL cSpMais := Space(if(nSp == nil, nSp := 1, nSp))
 	LOCAL nX
 	
 	for nX := 1 To nTam
@@ -867,9 +965,9 @@ method AumentaEspacoMenu(nSp) class TAmbiente
 	   ::menu[nX,1] := cSpMais + ::menu[nX,1] + cSpMais
 	next
 	return( self )
+endef
 
-method Show(lManterScreen) class TAmbiente
-*************************
+method Show(lManterScreen)
    LOCAL MenuClone := aClone( ::menu )
 	LOCAL nSpMais   := 0
    LOCAL nChoice
@@ -877,7 +975,7 @@ method Show(lManterScreen) class TAmbiente
 	::Limpa()
 	::StatSup()
    ::StatInf()
-	IF( lManterScreen == nil , lManterScreen := FALSO , lManterScreen)
+	if( lManterScreen == nil , lManterScreen := FALSO , lManterScreen)
    M_Frame( ::Frame )
    //::nPos := 2
 	if nSpMais > 1
@@ -888,126 +986,125 @@ method Show(lManterScreen) class TAmbiente
 	::StatSup()
    ::StatInf()
 	return (nChoice )
+endef	
 	
-	
-method MsMenu( nLinha, lManterScreen ) class TAmbiente
-**************************************
-LOCAL cScreen	 := SaveScreen() // nLinha+1, 00, MaxRow(), MaxCol())
-LOCAL nMaxCol   := ::MaxCol
-LOCAL xScreen
-LOCAL nSoma 	 := 0
-LOCAL nX 		 := 0
-LOCAL nDireita  := 0
-LOCAL nVal		 := 1
-LOCAL nMaior	 := 1
-LOCAL nRetorno  := 0.0
-LOCAL cmenu 	 := ""
-LOCAL cPrinc	 := ""
-LOCAL nKey		 := 0
-LOCAL nMax		 := 0
-LOCAL nBaixo	 := 0
-LOCAL nTam      := 0
-LOCAL nTamSt	 := 0
-LOCAL nCorrente := 1
-LOCAL aNew		 := {}
-LOCAL aSelecao  := {}
-LOCAL oP 		 := 0
-LOCAL cJanela
-LOCAL nScr1
-LOCAL nScr2
-LOCAL nScr3
-LOCAL nScr4
+method MsMenu( nLinha, lManterScreen )
+	LOCAL cScreen	 := SaveScreen() // nLinha+1, 00, MaxRow(), MaxCol())
+	LOCAL nMaxCol   := ::MaxCol
+	LOCAL xScreen
+	LOCAL nSoma 	 := 0
+	LOCAL nX 		 := 0
+	LOCAL nDireita  := 0
+	LOCAL nVal		 := 1
+	LOCAL nMaior	 := 1
+	LOCAL nRetorno  := 0.0
+	LOCAL cmenu 	 := ""
+	LOCAL cPrinc	 := ""
+	LOCAL nKey		 := 0
+	LOCAL nMax		 := 0
+	LOCAL nBaixo	 := 0
+	LOCAL nTam      := 0
+	LOCAL nTamSt	 := 0
+	LOCAL nCorrente := 1
+	LOCAL aNew		 := {}
+	LOCAL aSelecao  := {}
+	LOCAL oP 		 := 0
+	LOCAL cJanela
+	LOCAL nScr1
+	LOCAL nScr2
+	LOCAL nScr3
+	LOCAL nScr4
 
-nLinha := IF( nLinha = NIL, 0, nLinha )
-WHILE OK
-	nSoma 	 := 0
-	nX 		 := 0
-	nDireita  := 0
-	nVal		 := 1
-	nMaior	 := 1
-	nRetorno  := 0.0
-	cmenu 	 := ""
-	cPrinc	 := ""
-	nKey		 := 0
-	nMax		 := 0
-	oP 		 := 0
-	nBaixo	 := 0
-	nTamSt	 := 0
-	nCorrente := 1
-	aNew		 := {}
-	aSelecao  := {}
-	nTam      := 0
-	//::Limpa()
-   ::MSmenuCabecalho( nLinha, ::nPos )
-   FOR nX := 2 To ::nPos
-      nSoma += Len( ::menu[nX-1 , 1]) + 1 
-	Next
-	nX := 0
-   
-	FOR nX := 1 To Len( ::menu[ ::nPos, 2])
-      IF Empty( ::menu[::nPos, 2 , nX ])
-			Aadd( aNew, "")
-			Aadd( aSelecao, ENABLE )
-		Else
-         Aadd( aNew, "  " + ::menu[::nPos,2, nX ] + "  " )
-         Aadd( aSelecao, ::Disp[::nPos, nX ])
-		EndIF
-      nTamSt := Len( ::menu[::nPos,2, nX ]) + 2
-		IF nTamSt > nVal
-			nVal	 := nTamSt
-			nMaior := nX
-		EndIF
-	Next
-	
-   nDireita  := Len( ::menu[::nPos, 2 , nMaior])+5
-   nBaixo    := Len( ::menu[::nPos, 2])
-	nTam		 := nDireita + nSoma
-	nMax		 := IF( nTam > nMaxCol, nMaxCol, nTam )
-	nSoma 	 := IF( nTam > nMaxCol, (nSoma-( nTam-nMaxCol)) , nSoma )
-	nSoma 	 := IF( nSoma < 0, 0, nSoma )
-	nScr1 	 := 01+nLinha
-	nScr2 	 := 00
-	nScr3 	 := MaxRow()-1
-	nScr4 	 := ::MaxCol
-	xScreen	 := SaveScreen( nScr1, nScr2, nScr3, nScr4 )
-   Box( 01+nLinha, nSoma, 02+nBaixo+nLinha, nMax, ::Frame, ::CorMenu )
-	oP 		  := ::MsProcessa( 02+nLinha, nSoma+1, 02+nBaixo+nLinha, nMax-1, aNew, aSelecao )
-	IF !lManterScreen
-	   RestScreen( nScr1, nScr2, nScr3, nScr4, xScreen )
-	EndIF	
-	cPrinc   := Str( ::nPos, 2 )
-	cMenu 	:= StrZero( oP, 2 )
-   nMax     := Len( ::Menu )
-	nKey		:= LastKey()
-	nRetorno := Val( cPrinc + "." + cmenu )
-   
-	DO Case
-      Case nKey = 13 .OR. nKey = K_SPACE
-         IF aSelecao[oP] // Item Ativo?
-            Return( nRetorno )
-         Else
-            Alerta("ERRO: Item Desativado")
-         EndIF
-		Case nKey = 27 .OR. nKey = TECLA_ALT_F4
-			Return( 0 )
-		Case nKey = SETA_DIREITA
-         ::nPos++
-		Case nKey = SETA_ESQUERDA
-         ::nPos--
-      Case nKey = K_HOME .OR. nKey = K_CTRL_PGUP .OR. nKey = K_PGUP
-         ::nPos := 1
-      Case nKey = K_END .OR. nKey = K_CTRL_PGDN .OR. nKey = K_PGDN
-         ::nPos := nMax
-		OtherWise
-			Eval( SetKey( nKey ))
-	EndCase
-   ::nPos := IF( ::nPos > nMax, 1,    ::nPos )
-   ::nPos := IF( ::nPos < 1,    nMax, ::nPos )
-EndDo
-return 
+	nLinha := if( nLinha = NIL, 0, nLinha )
+	WHILE OK
+		nSoma 	 := 0
+		nX 		 := 0
+		nDireita  := 0
+		nVal		 := 1
+		nMaior	 := 1
+		nRetorno  := 0.0
+		cmenu 	 := ""
+		cPrinc	 := ""
+		nKey		 := 0
+		nMax		 := 0
+		oP 		 := 0
+		nBaixo	 := 0
+		nTamSt	 := 0
+		nCorrente := 1
+		aNew		 := {}
+		aSelecao  := {}
+		nTam      := 0
+		//::Limpa()
+		::MSmenuCabecalho( nLinha, ::nPos )
+		FOR nX := 2 To ::nPos
+			nSoma += Len( ::menu[nX-1 , 1]) + 1 
+		Next
+		nX := 0
+		
+		FOR nX := 1 To Len( ::menu[ ::nPos, 2])
+			if Empty( ::menu[::nPos, 2 , nX ])
+				Aadd( aNew, "")
+				Aadd( aSelecao, ENABLE )
+			else
+				Aadd( aNew, "  " + ::menu[::nPos,2, nX ] + "  " )
+				Aadd( aSelecao, ::Disp[::nPos, nX ])
+			endif
+			nTamSt := Len( ::menu[::nPos,2, nX ]) + 2
+			if nTamSt > nVal
+				nVal	 := nTamSt
+				nMaior := nX
+			endif
+		Next
+		
+		nDireita  := Len( ::menu[::nPos, 2 , nMaior])+5
+		nBaixo    := Len( ::menu[::nPos, 2])
+		nTam		 := nDireita + nSoma
+		nMax		 := if( nTam > nMaxCol, nMaxCol, nTam )
+		nSoma 	 := if( nTam > nMaxCol, (nSoma-( nTam-nMaxCol)) , nSoma )
+		nSoma 	 := if( nSoma < 0, 0, nSoma )
+		nScr1 	 := 01+nLinha
+		nScr2 	 := 00
+		nScr3 	 := MaxRow()-1
+		nScr4 	 := ::MaxCol
+		xScreen	 := SaveScreen( nScr1, nScr2, nScr3, nScr4 )
+		Box( 01+nLinha, nSoma, 02+nBaixo+nLinha, nMax, ::Frame, ::CorMenu )
+		oP 		  := ::MsProcessa( 02+nLinha, nSoma+1, 02+nBaixo+nLinha, nMax-1, aNew, aSelecao )
+		if !lManterScreen
+			RestScreen( nScr1, nScr2, nScr3, nScr4, xScreen )
+		endif	
+		cPrinc   := Str( ::nPos, 2 )
+		cMenu 	:= StrZero( oP, 2 )
+		nMax     := Len( ::Menu )
+		nKey		:= LastKey()
+		nRetorno := Val( cPrinc + "." + cmenu )   
+		
+		DO Case
+			Case nKey = 13 .OR. nKey = K_SPACE
+				if aSelecao[oP] // Item Ativo?
+					return( nRetorno )
+				else
+					Alerta("ERRO: Item Desativado")
+				endif
+			Case nKey = 27 .OR. nKey = TECLA_ALT_F4
+				return( 0 )
+			Case nKey = SETA_DIREITA
+				::nPos++
+			Case nKey = SETA_ESQUERDA
+				::nPos--
+			Case nKey = K_HOME .OR. nKey = K_CTRL_PGUP .OR. nKey = K_PGUP
+				::nPos := 1
+			Case nKey = K_END .OR. nKey = K_CTRL_PGDN .OR. nKey = K_PGDN
+				::nPos := nMax
+			OtherWise
+				Eval( SetKey( nKey ))
+		EndCase
+		::nPos := if( ::nPos > nMax, 1,    ::nPos )
+		::nPos := if( ::nPos < 1,    nMax, ::nPos )
+	EndDo
+	return 
+endef
 
-method MSMenuCabecalho( nLinha, nPos ) class TAmbiente
-***********************************
+method MSMenuCabecalho( nLinha, nPos )
    LOCAL nMax    := ::MaxCol
 	LOCAL nSoma   := 0
 	LOCAL nSoma1  := 0
@@ -1029,24 +1126,24 @@ method MSMenuCabecalho( nLinha, nPos ) class TAmbiente
      	cHotKey := Space(0)
 		nSoma1  := 0
 		StrHotKey(@cMenu, @cHotKey, 1)
-		IF (nSoma1 := Len(cHotKey)) > 1 
+		if (nSoma1 := Len(cHotKey)) > 1 
 		   cHotKey := Right(cHotKey,1)
-		EndIF
+		endif
 		nSoma1--		
 		::menu[nX,1]:= cMenu
 		aHotKey[nX] := cHotKey
 		nLen        := Len( ::menu[nX,1])
 		aRow[nX]    := nLinha	
 		aCol[nX]    := nSoma	+ nSoma1
-		aPrint( nLinha,   nSoma,    cMenu,       IF( nPos = nX, ::CorLightBar,   ::CorMenu ))
-		aPrint( aRow[nX], aCol[nX], aHotKey[nX], IF( nPos = nX, ::CorHKLightBar, ::CorHotKey ))
+		aPrint( nLinha,   nSoma,    cMenu,       if( nPos = nX, ::CorLightBar,   ::CorMenu ))
+		aPrint( aRow[nX], aCol[nX], aHotKey[nX], if( nPos = nX, ::CorHKLightBar, ::CorHotKey ))
 	   nSoma    += nLen + 1
 		nSoma1   += nLen + 1
    Next
-return
+	return self
+endef	
 
 Function StrHotKey(cMenu, cHotKey, nMenuOuSubMenu)
-**************************************************
    LOCAL cChar   := "^"
 	LOCAL cSwap   := Space(0)
 	LOCAL nDel    := 0
@@ -1055,7 +1152,7 @@ Function StrHotKey(cMenu, cHotKey, nMenuOuSubMenu)
 	LOCAL cStr
 	LOCAL cNew
 
-	IF( nMenuOuSubMenu == 1, nPos := 3, nPos := 4)
+	if( nMenuOuSubMenu == 1, nPos := 3, nPos := 4)
 	nConta := StrCount( cChar, cMenu )
 	if nConta <= 0  // sem cChar ?
 	   cMenu := Stuff( cMenu, nPos, nDel, cChar )
@@ -1065,10 +1162,10 @@ Function StrHotKey(cMenu, cHotKey, nMenuOuSubMenu)
 	   cHotKey := StrExtract(cMenu, cChar, 1 )
 	   cMenu   := StrSwap(cMenu, cChar, 1, cSwap)
    endif
-return	
+	return	
+endef	
 
-method MSProcessa( nCima, nEsquerda, nBaixo, nDireita, aNew, aSelecionado ) class TAmbiente
-***************************************************************************
+method MSProcessa( nCima, nEsquerda, nBaixo, nDireita, aNew, aSelecionado )
 	LOCAL nX 	  := 1
 	LOCAL nTam	  := Len( aNew )
 	LOCAL aHotKey := Array(nTam)
@@ -1086,15 +1183,15 @@ method MSProcessa( nCima, nEsquerda, nBaixo, nDireita, aNew, aSelecionado ) clas
 	STATI nItem   
 	
 	nItem := ::ativo
-	IF ::Visual != NIL
+	if ::Visual != NIL
 		if ::Frame == B_SINGLE
 			cSep := 'Ã' + Repl( 'Ä', nTamSt ) + '´'
 		else	
 			cSep := SubStr(::Frame, 4, 1) + Repl( "Ä", nTamSt ) + SubStr(::Frame, 8,1)
 		endif	
-	Else
+	else
 		cSep := Chr(195) + Repl( "Ä", nTamSt ) + Chr(180)
-	EndIF          
+	endif          
 	SetCursor(0)
 	FOR nX := 1 To nTam
 	   cMenu       := aNew[nX]
@@ -1103,83 +1200,87 @@ method MSProcessa( nCima, nEsquerda, nBaixo, nDireita, aNew, aSelecionado ) clas
 		aNew[nX]    := cMenu
 		nLen        := (nTamSt-Len(cMenu))
 		nSoma1      := 0
-		IF (nSoma1  := Len(cHotKey)) > 1 
+		if (nSoma1  := Len(cHotKey)) > 1 
 		   cHotKey  := Right(cHotKey,1)
-		EndIF
+		endif
 		nSoma1--		
 		aHotKey[nX] := cHotKey
 		aRow[nX]    := nRow+nX
 		aCol[nX]    := nEsquerda + nSoma1
 		
-		IF Empty( cMenu )
+		if Empty( cMenu )
 			aPrint( nRow+nX, nEsquerda-1, cSep, ::CorMenu, nTamSt ) // Separador
 			Loop
-		EndIF
+		endif
 		
-		IF aSelecionado[ nX ]                              //Item dipsonivel
+		if aSelecionado[ nX ]                              //Item dipsonivel
 			aPrint( nRow+nX, nEsquerda, cMenu + Space(nLen), ::Cormenu )
-		Else
+		else
 			nConta++
 			aPrint( nRow+nX, nEsquerda, cMenu + Space(nLen), ::CorDesativada )
-		Endif
+		endif
 	Next
 				
-	IF nItem > nMax
+	if nItem > nMax
 		nItem = nMax
-	EndIF
+	endif
 	
 	WHILE OK
 	   cMenu := aNew[nItem]
 	   nLen  := (nTamSt-Len(cMenu))
 	  
-		IF nConta != nMax
-			IF aSelecionado[ nItem ] .AND. !Empty( cMenu)
+		if nConta != nMax
+			if aSelecionado[ nItem ] .AND. !Empty( cMenu)
 				 aPrint( nRow+nItem, nEsquerda, Upper(cMenu)   + Space(nLen), ::CorLightBar )
-			EndIF
-			IF aSelecionado[ nItem ] .AND. Empty(cMenu)
+			endif
+			if aSelecionado[ nItem ] .AND. Empty(cMenu)
 				aPrint( nRow+nItem, nEsquerda-1, cSep, ::CorMenu )
-				IF LastKey() = SETA_CIMA
+				if LastKey() = K_UP
 					nItem--
-				Else
+				else
 					nItem++
-				EndIF
-				nItem := IF( nItem > nMax, 1, 	nItem )
-				nItem := IF( nItem < 1, 	nMax, nItem )
+				endif
+				nItem := if( nItem > nMax, 1, 	nItem )
+				nItem := if( nItem < 1, 	nMax, nItem )
 				Loop
-			EndIF
-			IF !::alterando
-				IF !aSelecionado[ nItem ]
+			endif
+			if !::alterando
+				if !aSelecionado[ nItem ]
 					aPrint( nRow+nItem, nEsquerda, cMenu + Space(nLen), ::CorDesativada )
-					IF LastKey() = SETA_CIMA
+					if LastKey() = K_UP
 						nItem--
-					Else
+					else
 						nItem++
-					EndIF
-					nItem := IF( nItem > nMax, 1,    nItem )
-					nItem := IF( nItem < 1,    nMax, nItem )
+					endif
+					nItem := if( nItem > nMax, 1,    nItem )
+					nItem := if( nItem < 1,    nMax, nItem )
 					Loop
-				EndIF
-			EndIF
-		EndIF
+				endif
+			endif
+		endif
 		
 		FOR nX := 1 To nTam
-			aPrint( aRow[nX], aCol[nX], aHotKey[nX], IF(nItem == nX, ::CorHKLightBar, ::CorHotKey ))
+			aPrint( aRow[nX], aCol[nX], aHotKey[nX], if(nItem == nX, ::CorHKLightBar, ::CorHotKey ))
 	   Next
 		
-		nKey := Inkey(0)
-		IF ::Alterando
-			aPrint( nRow+nItem, nEsquerda, aNew[nItem] + Space(nLen), IF( aSelecionado[nItem], ::CorMenu, ::Cordesativada-1 ))
-		Else
-			aPrint( nRow+nItem, nEsquerda, aNew[nItem] + Space(nLen), IF( aSelecionado[nItem], ::Cormenu, ::Cordesativada ))
-		EndIF
-		Do Case
+		::nMenuH := ::nPos
+		::nMenuV := nItem
+		::MostraPosicaoMenuNoCabecalho()
 		
+		nKey := Inkey(0)
+		if ::Alterando
+			aPrint( nRow+nItem, nEsquerda, aNew[nItem] + Space(nLen), if( aSelecionado[nItem], ::CorMenu, ::Cordesativada-1 ))
+		else
+			aPrint( nRow+nItem, nEsquerda, aNew[nItem] + Space(nLen), if( aSelecionado[nItem], ::Cormenu, ::Cordesativada ))
+		endif
+		
+		Do Case				
 		Case nKey = 27 .OR. nKey = TECLA_ALT_F4
-			Return( 0 )
+			return( 0 )
 
 		Case nKey = 13 .OR. nKey = TECLA_SPACO
-			Return( nItem )
-
+			return( nItem )
+		
 		Case nKey = K_HOME .OR. nKey = K_CTRL_PGUP .OR. nKey = K_PGUP
 		   if nItem == 1
 			   nItem := nMax
@@ -1195,29 +1296,34 @@ method MSProcessa( nCima, nEsquerda, nBaixo, nDireita, aNew, aSelecionado ) clas
 			endif	
 
 		Case nKey = SETA_DIREITA
-			Return( SETA_DIREITA )
+			return( SETA_DIREITA )
 
 		Case nKey = SETA_ESQUERDA
-			Return( SETA_ESQUERDA )
+			return( SETA_ESQUERDA )
 
-		Case nKey = SETA_CIMA
+		Case nKey = K_UP
 			nItem--
 
-		Case nKey = SETA_BAIXO
+		Case nKey = K_DOWN
 			nItem++
 
 		Case ( bAction := SetKey( nKey )) != NIL
 			Eval( bAction, ProcName(), ProcLine(), ReadVar())
 
 		EndCase
-		nItem   := IF( nItem > nMax, 1,    nItem )
-		nItem   := IF( nItem < 1,    nMax, nItem )
+		nItem   := if( nItem > nMax, 1,    nItem )
+		nItem   := if( nItem < 1,    nMax, nItem )
 		::Ativo := nItem
 	EndDo
-return( NIL )
+	return( NIL )
+endef	
+
+method MostraPosicaoMenuNoCabecalho()
+	MS_SetConsoleTitle("MENU# " + TrimStr(::nMenuH) + '.' + TrimStr(::nMenuV))		
+	return self
+endef	
 
 method ContaReg( cMensagem, nCor)
-*********************************
 	if cMensagem != NIL 
 		if valtype( cMensagem ) != "N"
 			::StatReg(cMensagem, nCor)	
@@ -1228,16 +1334,77 @@ method ContaReg( cMensagem, nCor)
 	else	
 		::StatReg("REGISTRO #" + StrZero( ++oAmbiente:nRegistrosImpressos, 6), nCor)
 	endif	
-Return( OK )
+	return( OK )
+endef	
 
-method Refresh(nItem) class TAmbiente
-*********************
+method Refresh(nItem)
 	::menu := Eval({|nItem|::menuarray[nItem]}, nItem )
 	//LOCAL oBloco := {|nItem|::menuarray[nItem]}
 	//::menu := Eval(oBloco, nItem)
-return
+	return
+endef	
 
-Function TAmbienteNew()
-**********************
-	return( TAmbiente():New())
+method EscapeCode()
+	LOCAL hESCP    := {=>}	
+	HSetCaseMatch( hESCP, .F. )                 // desabilita o case-sensitive
 	
+	// Printer Operation
+	hESCP['reset'            ] := '#27#64'      // Inicializa impressora
+	hESCP['halfon'           ] := '#27#115#49'  // Lig/Des Half-Speed mode 0-desliga 1-liga
+	hESCP['halfoff'          ] := '#27#115#48'  // Lig/Des Half-Speed mode 0-desliga 1-liga
+	hESCP['unidirecionalonly'] := '#27#60'      // Select Unidirecional Mode (one line)
+	hESCP['unidirecionalon'  ] := '#27#85#49'   // Turn Unidirecional Mode on
+	hESCP['unidirecionalonff'] := '#27#85#48'   // Turn Unidirecional Mode off
+	hESCP['paperdisable'     ] := '#27#56'      // Disable paper-out detection
+	hESCP['paperenable'      ] := '#27#57'      // Enable paper-out detection
+	hESCP['beeper'           ] := '#7'          // Beeper
+
+	//Data Control
+	hESCP['CR'               ] := '#13'         // Carriage return - enter
+	hESCP['CAN'              ] := '#24'         // Cancel line
+	hESCP['DEL'              ] := '#127'        // Delete Character
+	
+	// Vertical Motion
+	hESCP['LF'               ] := '#10'           // Line feed
+	hESCP['FF'               ] := '#12'           // Form feed
+	hESCP['PageLenghtInLines'] := '#27#67#66'     // Set page lenght in Lines  n=number of lines  - default 66
+	hESCP['PageLenghtInInche'] := '#27#67#48#11'  // Set page lenght in Inches n=number of inches - default 11
+	hESCP['SaltoPicoteLig'   ] := '#27#78#66'     // Set Skip-Over preforation n=number of lines  - default 66
+	hESCP['SaltoPicoteDes'   ] := '#27#79'        // Cancel Skip-Over preforation
+	hESCP['_Spaco1_8'        ] := '#27#48'        // Select 1/8-inch Line spacing
+	hESCP['_Spaco7_72'       ] := '#27#49'        // Select 7/72-inch Line spacing
+	hESCP['_Spaco1_6'        ] := '#27#50'        // Select 1/6-inch Line spacing
+	hESCP['_SpacoN_216'      ] := '#27#51#66'     // Select n/216-inch Line spacing
+	hESCP['_SpacoN_72'       ] := '#27#51#66'     // Select n/72-inch Line spacing
+	hESCP['ESCJn'            ] := '#27#51#66'     // Perform n/216-inch Line Feed
+	hESCP['VT'               ] := '#11'           // Tab Verticalmente
+	
+	//Overall printing style
+	hESCP['draft'            ] := '#27#120#48'    // Select Draft mode
+	hESCP['nlq'              ] := '#27#120#49'    // Select NLQ mode
+	hESCP['nlqroman'         ] := '#27#107#48'    // Select NLQ font roman	
+	hESCP['nlqserif'         ] := '#27#107#49'    // Select NLQ font sans serif
+	
+	// Print enhancement
+	hESCP['EmphasizedOn'     ] := '#27#69'       // Select Emphasized Mode
+	hESCP['EmphasizedOff'    ] := '#27#70'       // Cancel Emphasized Mode
+	hESCP['DoubleStrikeOn'   ] := '#27#71'       // Select Double-Strike mode
+	hESCP['DoubleStrikeOff'  ] := '#27#72'       // Cancel Double-Strike mode
+	hESCP['SuperScriptOn'    ] := '#27#83'       // Select Superscript mode
+	hESCP['SuperScriptOff'   ] := '#27#84'       // Cancel Superscript mode
+	hESCP['ItalictOn'        ] := '#27#52'       // Select Italic mode
+	hESCP['ItalictOff'       ] := '#27#53'       // Cancel Italic mode
+	hESCP['UnderlineOn'      ] := '#27#45#49'    // Turno Underline On
+	hESCP['UnderlineOff'     ] := '#27#45#48'    // Turno Underline Off
+	
+	//Word procesing
+	hESCP['nlqleft'          ] := '#27#97#48'    // NLQ justification left
+	hESCP['nlqcenter'        ] := '#27#97#49'    // NLQ justification center
+	hESCP['nlqright'         ] := '#27#97#50'    // NLQ justification right
+	hESCP['nlqfull'          ] := '#27#97#51'    // NLQ justification full
+	return hESCP
+endef	
+
+def TAmbienteNew()
+	return( TAmbiente():New())
+endef	

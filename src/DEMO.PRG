@@ -35,10 +35,10 @@ CLS
 dane := 'D'
 @20, 10 SAY 'Da li je vidljiva poruka u drugom redu ekrana (D/N) ?' COLOR 'n/bg' GET dane PICT '!'
 READ
-IF dane != 'D'
+if dane != 'D'
 graysc()        // ako ne vidimo tekst, konvertiramo paletu u
 // nijanse sivog
-ENDIF
+endif
 @20, 10
 @20, 30 SAY 'Pritisni bilo sto ...'
 @10, 3 SAY 'funkcija HRSCI852(25):    ^~]}[{\|@`   ¨üèÜÊÁ—–¶ß'
@@ -57,10 +57,10 @@ Inkey( 0 )
 SetMode ( 50, 80 )         // prelazimo u VGA TEXT 50x80
 CLS
 @1, 30 SAY 'Primjer uporabe HRFONTS.LIB'
-IF dane != 'D'
+if dane != 'D'
 graysc()        // SETMODE() vraca standardnu paletu
 // zato ponovo pozivamo GRAYSC()
-ENDIF
+endif
 @10, 3 SAY 'funkcija HRSCI852(50):    ^~]}[{\|@`   ¨üèÜÊÁ—–¶ß'
 hrsci852( 50 )            // CROASCII i 852  - 50 redaka
 Inkey( 0 )

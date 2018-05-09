@@ -14,11 +14,7 @@
  İÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
  ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 */
-#Include "Lista.Ch"
-#Include "Directry.Ch"
-#Include "Inkey.Ch"
-#Include "Indice.Ch"
-#Include "Permissao.Ch"
+#Include <sci.ch>
 
 *:----------------------------------------------------------------------------
 
@@ -3260,7 +3256,7 @@ Return( AtPrompt )
 
 Function aDispScpLan()
 **********************
-LOCAL oScpLan  := TIniNew( oAmbiente:xBaseDados + "\" + oAmbiente:xUsuario + ".INI")
+LOCAL oScpLan  := TIniNew(oAmbiente:xUsuario + ".INI")
 LOCAL AtPrompt := oMenuScpLan()
 LOCAL nMenuH   := Len(AtPrompt)
 LOCAL aDisp 	:= Array( nMenuH, 22 )

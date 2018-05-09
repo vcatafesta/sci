@@ -1,8 +1,10 @@
-/*
- * $Id: clsdata.prg 17835 2012-07-18 13:41:31Z vszakats $
+﻿/*
+ * $Id: testeclasse.prg [vcatafesta] $
+	14:53 segunda-feira, 16 de abril de 2018
  */
+ 
 
-PROCEDURE Main()
+func Main()
 
    LOCAL o := HBObject():New()
 
@@ -11,25 +13,26 @@ PROCEDURE Main()
    QOut( "o:Data2      => ", o:Data2 )
    QOut( "o:ClassData2 => ", o:ClassData2 )
    o:Test()
+	return
 
-   RETURN
-
+function	
+	
 FUNCTION TBaseObject()
 
-   STATIC oClass
+   STATIC oClass   
 
-   IF oClass == NIL
+   if oClass == NIL
       oClass := HBClass():New( "TBaseObject" )
       oClass:AddData( "Data1" )
       oClass:AddClassData( "ClassData1" )
       oClass:AddMethod( "NewBase", @NewBase() )
-      oClass:AddMethod( "Test", @Test() )
+      oClass:AddMethod( "Test",    @Test() )
       oClass:AddMethod( "Method1", @Method1Base() )
       oClass:AddMethod( "Method2", @Method2Base() )
       oClass:Create()
-   ENDIF
+   endif
 
-   RETURN oClass:Instance()
+   return oClass:Instance()
 
 STATIC FUNCTION NewBase()
 
@@ -38,7 +41,7 @@ STATIC FUNCTION NewBase()
    ::Data1 := 1
    ::ClassData1 := "A"
 
-   RETURN self
+   return self
 
 STATIC FUNCTION Test()
 
@@ -48,7 +51,7 @@ STATIC FUNCTION Test()
    QOut( "calling ::Method1() " )
    ::Method1()
 
-   RETURN self
+   return self
 
 STATIC FUNCTION Method1Base()
 
@@ -57,7 +60,7 @@ STATIC FUNCTION Method1Base()
    QOut( "I am Method1 from TBaseObject" )
    ::Method2()
 
-   RETURN self
+   return self
 
 STATIC FUNCTION Method2Base()
 
@@ -65,13 +68,13 @@ STATIC FUNCTION Method2Base()
 
    QOut( "I am Method2 from TBaseObject" )
 
-   RETURN self
+   return self
 
 FUNCTION HBObject()
 
    STATIC oClass
 
-   IF oClass == NIL
+   if oClass == NIL
       oClass := HBClass():New( "HBObject", "TBaseObject" )
       oClass:AddData( "Data2" )
       oClass:AddClassData( "ClassData2" )
@@ -79,9 +82,9 @@ FUNCTION HBObject()
       oClass:AddMethod( "Method1", @Method1() )
       oClass:AddMethod( "Method2", @Method2() )
       oClass:Create()
-   ENDIF
+   endif
 
-   RETURN oClass:Instance()
+   return oClass:Instance()
 
 STATIC FUNCTION New()
 
@@ -94,7 +97,7 @@ STATIC FUNCTION New()
    // ClassData2 override ClassData1
    ::ClassData2 := "B"
 
-   RETURN self
+   return self
 
 STATIC FUNCTION Method1()
 
@@ -103,7 +106,7 @@ STATIC FUNCTION Method1()
    QOut( "I am Method1 from HBObject" )
    ::TBaseObject:Method1()
 
-   RETURN self
+   return self
 
 STATIC FUNCTION Method2()
 
@@ -111,4 +114,4 @@ STATIC FUNCTION Method2()
 
    QOut( "I am Method2 from HBObject" )
 
-   RETURN self
+   return self

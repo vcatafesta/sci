@@ -1,9 +1,14 @@
-#include "hbclass.ch"
-#Include "box.ch"
-#Include "inkey.ch"
-#Include "lista.ch"
+#include "sci.ch"
+#define beginclass
+
+CLASS TWindow
+beginclass
+	DATA   hWnd, nOldProc
+	CLASSDATA lRegistered AS LOGICAL
+ENDCLASS	
 
 CLASS TReceposi
+beginclass
 	VAR cWho
 	VAR cNome
 	VAR aHistRecibo				 INIT {}
@@ -88,18 +93,16 @@ CLASS TReceposi
 	VAR nOrdem                  INIT NIL
  	VAR xParam                  INIT NIL
 	VAR cTop	       				 INIT ""
+	VAR cBottom	       			 INIT ""
 	VAR aBottom	   				 INIT {"","", ""}
-	VAR nBoxRow	   				 INIT 7
+	
+	VAR nBoxRow	   				 INIT 8
 	VAR nBoxCol	   				 INIT 0
-	VAR nBoxRow1					 INIT MaxRow()
+	VAR nBoxRow1					 INIT ms_MaxRow()-1
 	VAR nBoxCol1					 INIT MaxCol()
+	
 	VAR nPrtRow	   				 INIT MaxRow()
 	VAR nPrtCol	   				 INIT 0
-	VAR nQtdDoc	   				 INIT 0
-	VAR nRecebido  				 INIT 0
-	VAR nPrincipal 				 INIT 0
-	VAR nJurosPago 				 INIT 0
-	VAR nAberto	   				 INIT 0
 	VAR PosiAgeInd 				 INIT FALSO
 	VAR PosiAgeAll 				 INIT FALSO
 	VAR PosiReceber				 INIT FALSO
@@ -111,6 +114,10 @@ CLASS TReceposi
 	VAR cPrtStr		
 	VAR lReceberPorPeriodo      INIT FALSO
 	VAR nT                      INIT 0
+	VAR lOrdemAscendente        INIT OK
+	VAR lReload                 INIT OK
+	VAR nGulosa                 INIT 0 
+	VAR nTab                    INIT 16
    
 	//Disppage
 	VAR nTop
@@ -131,17 +138,17 @@ CLASS TReceposi
 	VAR lSelect
 	VAR alSelect
 	VAR lHiLite
-	VAR nNumCols
 			
-	//METHOD AddVar
+	//METHOD TReceposi:AddVar
 	METHOD New CONSTRUCTOR
+	DESTRUCTOR Destroy()
 	METHOD Resetar
 	METHOD RenewVar
 	METHOD Achoice_
 	METHOD Achoice
 	METHOD MaBox_
 	METHOD PrintPosi
-	METHOD Redraw_
+	METHOD Redraw_	
 	METHOD Hello	
 	METHOD ResetSelecao
 	METHOD ResetAll	
@@ -150,7 +157,7 @@ CLASS TReceposi
 	METHOD RedrawVencido
 	METHOD RedrawRecibo	
 	METHOD RedrawGeral
-	METHOd ZerarSelecao
+	METHOD ZerarSelecao
 	METHOD ZerarRecibo
 	METHOD ZerarVencer
 	METHOD ZerarVencido
@@ -172,22 +179,65 @@ CLASS TReceposi
 	METHOD AmbienteToColor()
 	METHOD Reset()
 	METHOD ResetCorSelecao()
-	METHOD DeleteReg()
-	METHOD RegistroEmBranco()
+	METHOD DeleteReg(nReg)
+	METHOD RegistroEmBranco(cCodi,cFatu)
 	METHOD AjustaCorInicio(nAtraso, nT)
 	METHOD AjustaCorFinal(nAtraso, nT)
-	METHOD cStrComValor(nSomaParcial)
-	METHOD cStrSemValor(nT)
+	METHOD cStrComValor(nSomaParcial)	
+	METHOD cStrSemValor()
 	METHOD cStrAll()
 	METHOD AjustaGeral()
 	METHOD sTrFormataATodos(nT)
+	METHOD Destroy()
+	
+	MESSAGE Show   METHOD Mabox_()
+	MESSAGE Redraw METHOD Redraw_
 ENDCLASS 
 
-Method New()
-	Self:cWho  := "TTReceposi"
-	Self:cNome := ProcName()
+METHOD Destroy()
+	self := nil
+	return nil
+
+method New(nBoxRow, nBoxCol, nBoxRow1, nBoxCol1, cTop, cBottom)
+	self:cWho  := "TTReceposi"
+	self:cNome := ProcName()
+	
+	hb_default(@nBoxRow,  8)
+	hb_default(@nBoxCol,  0)
+	hb_default(@nBoxRow1, ms_maxrow()-1)
+	hb_default(@nBoxCol1, maxcol())
+	hb_default(@cTop,     ::cWho)
+	hb_default(@cBottom,  ::cNome)
+	
+	::nBoxRow   := nBoxRow
+	::nBoxCol   := nBoxCol 
+	::nBoxRow1  := nBoxRow1
+	::nBoxCol1  := nBoxCol1 
+	::cTop      := cTop	
+	::cBottom   := cBottom	
 	::AssignColor()	
-return Self
+	return self
+	
+METHOD MaBox_()
+	MaBox(::nBoxRow, ::nBoxCol, ::nBoxRow1, ::nBoxCol1, ::cTop, ::cBottom)
+	return self
+	
+METHOD Redraw_()
+	::MaBox_()	
+	if !empty(::aBottom)
+		::PrintPosi(::nPrtRow, ::nPrtCol, ::aBottom)
+	endif	
+	return self
+
+METHOD PrintPosi( nRow, nCol )
+	::nPrtRow := nRow
+	::nPrtCol := nCol
+	::aBottom := { ::cStrRecibo, ::cStrVencido, ::cStrVencer, ::cStrGeral } 
+	Print(::nPrtRow-3, ::nPrtCol, ::aBottom[1], ::CorRecibo,  MaxCol()+1)
+	Print(::nPrtRow-2, ::nPrtCol, ::aBottom[2], ::CorVencido, MaxCol()+1)
+	Print(::nPrtRow-1, ::nPrtCol, ::aBottom[3], ::CorVencer,  MaxCol()+1)
+	Print(::nPrtRow,   ::nPrtCol, ::aBottom[4], ::CorVencido, MaxCol()+1)
+	return self
 
 METHOD RegistroEmBranco(cCodi,cFatu)
 	
@@ -204,17 +254,18 @@ METHOD RegistroEmBranco(cCodi,cFatu)
 						0,;
 						"00000",;
 						Space(40),;
-						DateToStr(cTod("")) + DateToStr(cTod(""))+Space(9),;
-						DateToStr(cTod("")) + Space(9),;
-						DateToStr(cTod("")) + DateToStr(cTod("")),;
+						dTos(cTod("")) + dTos(cTod(""))+Space(9),;
+						dTos(cTod("")) + Space(9),;
+						dTos(cTod("")) + dTos(cTod("")),;
 						iif(::nChoice == 5, cFatu, Space(9)),;
 						cTod(""),;
                   OK,;
                   0,;
-						DateToStr(cTod("")) + Space(9) + DateToStr(cTod("")),;
-						DateToStr(cTod("")) + Space(9) + Space(9) + DateToStr(cTod("")),;
-						DateToStr(cTod("")) + Space(9) + DateToStr(cTod("")),;
-						DateToStr(cTod("")) + cCodi + Space(9) + DateToStr(cTod("")),;
+						dTos(cTod("")) + Space(9) + dTos(cTod("")),;
+						dTos(cTod("")) + Space(9) + Space(9) + dTos(cTod("")),;
+						dTos(cTod("")) + Space(9) + dTos(cTod("")),;
+						dTos(cTod("")) + cCodi + Space(9) + dTos(cTod("")),;
+						0,;
 						0,;
 						}) // Incluir Registro vazio para cursor poder ir topo
 	return OK
@@ -237,13 +288,9 @@ METHOD RenewVar()
 	::nQtdDoc 	  := 0
 	::Color_pFore := {}
 	::Color_pBack := {}
-	::Color_pUns  := {}		
-	
-	::nBoxRow1	  := MaxRow()
-	::nBoxCol1	  := MaxCol()
+	::Color_pUns  := {}			
 	::nPrtRow	  := MaxRow()
-
-return Self
+	return self
 
 METHOD DeleteReg(nReg)
    hb_default(@nReg, ::CurElemento)	
@@ -268,11 +315,11 @@ METHOD DeleteReg(nReg)
 return self
 
 METHOD Resetar()
-	Self:New()
-return Self
+	self:New()
+return self
 
 METHOD CloneVarColor()
-**********************
+*--------------------------------*
 	LOCAL xLen  := Len(::xTodos)
 	LOCAL pLen  := Len(::Color_pFore)
 	LOCAL oLen  := Len(oAmbiente:Color_pFore)
@@ -292,13 +339,13 @@ METHOD CloneVarColor()
 		next
 	endif
 	::ColorToAmbiente()		
-return SELF
+	return self
 
 METHOD Reset()
 **************
 	::RenewVar()
 	::ColorToAmbiente()
-return SELF
+return self
 
 METHOD ColorToAmbiente()
 ************************
@@ -307,7 +354,7 @@ METHOD ColorToAmbiente()
 	oAmbiente:Color_pFore := ::Color_pFore
 	oAmbiente:Color_pBack := ::Color_pBack
 	oAmbiente:Color_pUns  := ::Color_pUns
-return SELF
+return self
 
 METHOD AmbienteToColor()
 ************************
@@ -316,7 +363,7 @@ METHOD AmbienteToColor()
 	::Color_pFore := oAmbiente:Color_pFore
 	::Color_pBack := oAmbiente:Color_pBack
 	::Color_pUns  := oAmbiente:Color_pUns 
-	return SELF
+	return self
 
 METHOD AddColor( nColor )
 *************************
@@ -327,10 +374,10 @@ aadd( ::Color_pBack,  oAmbiente:CorLightBar )
 aadd( ::Color_pUns,   ::CorRecibo )	
 aadd( ::aAtivo,       OK)			
 aadd( ::aAtivoSwap,   OK)			
-return SELF
+return self
 
-METHOD AssignColor
-******************
+METHOD AssignColor()
+*-------------------------------*
 	::Color_pFore   := {}
 	::Color_pBack   := {}
 	::Color_pUns    := {}		
@@ -349,58 +396,39 @@ METHOD AssignColor
 return self
 
 METHOD aChoice_(aTodos, aAtivo, cFuncao, lPageCircular)	
-   ::Achoice(::nBoxRow+1, ::nBoxCol+1, ::nBoxRow1-5, ::nBoxCol1-1, ::aTodos, ::aAtivo, cFuncao, NIL, NIL, lPageCircular, ::Color_pFore, ::Color_pBack, ::Color_pUns)
-return Self
+   ::Achoice(::nBoxRow+1, ::nBoxCol+1, ::nBoxRow1-1, ::nBoxCol1-1, ::aTodos, ::aAtivo, cFuncao, NIL, NIL, lPageCircular, ::Color_pFore, ::Color_pBack, ::Color_pUns)
+	return self
 
-METHOD MaBox_()
-	MaBox(::nBoxRow, ::nBoxCol, ::nBoxRow1-4, ::nBoxCol1, ::cTop)
-return Self
+METHOD Hello 
+	? "Hello", self:cWho
+	? "Hello", ::cNome
+	return self
 
-METHOD PrintPosi( nRow, nCol )
-	::nPrtRow := nRow
-	::nPrtCol := nCol
-	::aBottom := { ::cStrRecibo, ::cStrVencido, ::cStrVencer, ::cStrGeral } 
-	Print(::nPrtRow-3, ::nPrtCol, ::aBottom[1], ::CorRecibo,  MaxCol()+1)
-	Print(::nPrtRow-2, ::nPrtCol, ::aBottom[2], ::CorVencido, MaxCol()+1)
-	Print(::nPrtRow-1, ::nPrtCol, ::aBottom[3], ::CorVencer,  MaxCol()+1)
-	Print(::nPrtRow,   ::nPrtCol, ::aBottom[4], ::CorVencido, MaxCol()+1)
-return Self
-
-METHOD Redraw_() class TReceposi
-	::MaBox_()
-	::PrintPosi(::nPrtRow, ::nPrtCol, ::aBottom)
-return Self
-
-METHOD Hello class TReceposi
-  ? "Hello", Self:cWho
-  ? "Hello", ::cNome
-return Self
-
-METHOD ResetCorSelecao class TReceposi
+METHOD ResetCorSelecao 
 	LOCAL xLen := Len(::aCurElemento_Selecao)
 	LOCAL nT
 	for nT := 1 to xLen		
 		::aAtivo[::aCurElemento_Selecao[nT]]         := OK
 		oAmbiente:aAtivo[::aCurElemento_Selecao[nT]] := OK				
 	next
-return Self
+	return self
 
-METHOD ResetSelecao class TReceposi	
+METHOD ResetSelecao 	
 	::ZerarSelecao()
 	::RedrawSelecao()	
 	::Redraw_()
-return Self
+	return self
 
-METHOD ResetAll class TReceposi
+METHOD ResetAll 
 	::ZerarSelecao()
 	::RedrawRecibo()	
 	::RedrawVencido()	
 	::RedrawVencer()	
 	::RedrawGeral()
 	::Redraw_()
-return Self
+	return self
 
-METHOd ZerarSelecao class TReceposi
+METHOD ZerarSelecao 
 	::aDocnr_Selecao_Imprimir := {}
 	::aSoma_Selecao_Imprimir  := {}
 	::aObs_Selecao_Imprimir   := {}	
@@ -412,98 +440,104 @@ METHOd ZerarSelecao class TReceposi
 	
 	::nJurosSelecao           := 0
 	::nMultaSelecao           := 0
-return self
+	return self
 
-METHOd ZerarRecibo class TReceposi	
+METHOD ZerarRecibo 	
 	::nTotal_Recibo           := 0
 	::nPrincipal_Recibo       := 0
 	::nJuros_Recibo           := 0
 	::nMulta_Recibo           := 0	
 	::nQtdDoc_Recibo          := 0
-return self	
+	return self	
 
-METHOd ZerarVencer class TReceposi	
+METHOD ZerarVencer 	
 	::nTotal_Vencer           := 0
 	::nPrincipal_Vencer       := 0
 	::nJuros_Vencer           := 0
 	::nMulta_Vencer           := 0	
 	::nQtdDoc_Vencer          := 0
-return self	
+	return self	
 
-METHOd ZerarVencido class TReceposi	
+METHOD ZerarVencido 	
 	::nTotal_Vencido          := 0
 	::nPrincipal_Vencido      := 0
 	::nJuros_Vencido          := 0
 	::nMulta_Vencido          := 0	
 	::nQtdDoc_Vencido         := 0
-return self	
+	return self	
 
-METHOd ZerarGeral class TReceposi	
+METHOD ZerarGeral 	
 	::nTotal_Geral            := 0
 	::nPrincipal_Geral        := 0
 	::nJuros_Geral            := 0
 	::nMulta_Geral            := 0	
 	::nQtdDoc_Geral           := 0
-return self	
+	return self	
 
-METHOd ZerarRescisao class TReceposi	
+METHOD ZerarRescisao 	
 	::nPrincipal_Rescisao     := 0
 	::nJuros_Rescisao         := 0
 	::nMulta_Rescisao         := 0	
 	::nTotal_Rescisao         := 0
 	::nQtdDoc_Rescisao        := 0
-return self		
+	return self		
 	
-METHOD RedrawRecibo class TReceposi
+METHOD RedrawRecibo 
 	::cStrRecibo := " RECIBO EMITIDO ¯¯ {"
 	::cStrRecibo += StrZero(::nQtdDoc_Recibo,5)
-	::cStrRecibo += "}" + Space(4)
+	::cStrRecibo += "}" + Space(::nTab)
 	::cStrRecibo += Tran(::nPrincipal_Recibo, "@E 999,999.99") + Space(9)
 	::cStrRecibo += Tran(::nJuros_Recibo,     "@E 99,999.99")  + Space(1)
 	::cStrRecibo += Tran(::nMulta_Recibo,     "@E 99,999.99")  + Space(1)
 	::cStrRecibo += Tran(::nTotal_Recibo,     "@E 999,999.99") + Space(1)
 	::cStrRecibo += Tran(::nMulta_Recibo,     "@E 999,999.99")
-return(::cStrRecibo)	
+	return(::cStrRecibo)	
 
-METHOD RedrawVencido class TReceposi
-	::cStrVencido := " ABERTO VENCIDO ¯¯ {"
+METHOD RedrawVencido 
+   ::cStrVencido := " ABERTO VENCIDO ¯¯ {"
+	if ::nOrdem == 3
+	::cStrVencido := "   PAGO VENCIDO ¯¯ {"
+	endif
 	::cStrVencido += StrZero(::nQtdDoc_Vencido,5)
-	::cStrVencido += "}" + Space(4)
+	::cStrVencido += "}" + Space(::nTab)
 	::cStrVencido += Tran(::nPrincipal_Vencido, "@E 999,999.99") + Space(9)
 	::cStrVencido += Tran(::nJuros_Vencido,     "@E 99,999.99")  + Space(1)
 	::cStrVencido += Tran(::nMulta_Vencido,     "@E 99,999.99")  + Space(1)
 	::cStrVencido += Tran(::nTotal_Vencido,     "@E 999,999.99") + Space(1)
 	::cStrVencido += Tran(::nTotal_Vencido,     "@E 999,999.99")
-return(::cStrVencido)	
+	return(::cStrVencido)	
 
-METHOD RedrawVencer class TReceposi
+METHOD RedrawVencer 
 	::cStrVencer := " ABERTO VENCER  ¯¯ {"
+	if ::nOrdem == 3
+	::cStrVencer := "   PAGO VENCER  ¯¯ {"
+	
+	endif
 	::cStrVencer += StrZero(::nQtdDoc_Vencer,5)
-	::cStrVencer += "}" + Space(4)
+	::cStrVencer += "}" + Space(::nTab)
 	::cStrVencer += Tran(::nPrincipal_Vencer, "@E 999,999.99") + Space(9)
 	::cStrVencer += Tran(::nJuros_Vencer,     "@E 99,999.99")  + Space(1)
 	::cStrVencer += Tran(::nMulta_Vencer,     "@E 99,999.99")  + Space(1)
 	::cStrVencer += Tran(::nTotal_Vencer,     "@E 999,999.99") + space(1)
 	::cStrVencer += Tran(::nTotal_Rescisao,   "@E 999,999.99") + space(1)
 	::cStrVencer += Tran(::nTotal_Vencido + ::nTotal_Rescisao,   "@E 999,999.99")
-return(::cStrVencer)
+	return(::cStrVencer)
 
-METHOD RedrawGeral class TReceposi
+METHOD RedrawGeral 
 	::cStrGeral := " TOTAL GERAL    ¯¯ {"
 	::cStrGeral += StrZero(::nQtdDoc_Geral, 5)
-	::cStrGeral += "}" + Space(4)
+	::cStrGeral += "}" + Space(::nTab)
 	::cStrGeral += Tran(::nPrincipal_Geral, "@E 999,999.99") + Space(9)
 	::cStrGeral += Tran(::nJuros_Geral,     "@E 99,999.99")  + Space(1)
 	::cStrGeral += Tran(::nMulta_Geral,     "@E 99,999.99")  + Space(1)
 	::cStrGeral += Tran(::nTotal_Geral,     "@E 999,999.99") + Space(1)
 	::cStrGeral += Tran(::nTotal_Vencido + ::nTotal_Rescisao,   "@E 999,999.99")
-   
-return(::cStrGeral)	
+	return(::cStrGeral)	
 
-METHOD RedrawSelecao class TReceposi
+METHOD RedrawSelecao 	
 	::cStrSelecao := " TOTAL SELECAO  ¯¯ {"
 	::cStrSelecao += StrZero(Len(::aDocnr_Selecao_Imprimir),5)
-	::cStrSelecao += "}" + Space(4)
+	::cStrSelecao += "}" + Space(::nTab)
 	::cStrSelecao += Tran(::nPrincipalSelecao, 		"@E 999,999.99") + Space(9)
 	::cStrSelecao += Tran(::nJurosSelecao,	  	 		"@E 99,999.99")  + Space(1)
 	::cStrSelecao += Tran(::nMultaSelecao,		 		"@E 99,999.99")  + Space(1)
@@ -511,30 +545,29 @@ METHOD RedrawSelecao class TReceposi
 	::cStrSelecao += Tran(::nRescisaoSelecao,       "@E 999,999.99") + space(1)
 	oMenu:StatInf("")
 	oMenu:ContaReg( ::cStrSelecao, 31)
-return Self
+	return self
 
 METHOD _SomaPago( nValorTotal, nValorPago )
 *********************************************
 	 ::cStrRecibo := " TOTAL GERAL ¯¯ "
-	 ::cStrRecibo += Space(27)
+	 ::cStrRecibo += Space(27 + ::nTab)
 	 ::cStrRecibo += Tran(nValorTotal, "@E 999,999,999.99")
 	 ::cStrRecibo += Space(01)
 	 ::cStrRecibo += Tran(nValorPago,  "@E 999,999,999.99")
 	 return( ::cStrRecibo)
 
+*-----------------------------*	 
 METHOD ImprimeSoma()
-********************
+*-----------------------------*
 	::aBottom := ::BarraSoma()
-return SELF
+	return self
 
-METHOD BarraSoma() class TReceposi	
-****************
-	LOCAL xLen		  := Len(::xTodos)
-	LOCAL nPrincipal := 0
-	LOCAL nAberto	  := 0
-	LOCAL nRecibo	  := 0
-	LOCAL nJuros	  := 0
-	LOCAL nMulta	  := 0	
+*-----------------------------*
+METHOD BarraSoma() 	
+*-----------------------------*
+	LOCAL xLen		    := Len(::xTodos)
+	LOCAL nLastColor   := ::nCorZebradoBranco
+	LOCAL nSomaParcial := 0
 	LOCAL nAtraso
 	LOCAL nDiaComUso
 	LOCAL nDiaSemUso
@@ -542,126 +575,149 @@ METHOD BarraSoma() class TReceposi
 	LOCAL nVlrSemUso
 	LOCAL cStr
 	LOCAL nLen
-	LOCAL nLastColor   := ::nCorZebradoBranco
-	LOCAL nSomaParcial := 0
+	LOCAL nVlr
+	LOCAL cObs
+	LOCAL oBloco	
 	
 	::ZerarRecibo()
 	::ZerarVencer()
-	::ZerarVencido()
-	//::ZerarSelecao()
+	::ZerarVencido()	
 	::ZerarRescisao()
 	::ZerarGeral()
 
 	::aRescisao  := Array(xLen)
 	::nT         := 0
+	::nGulosa    := 90
 	
 	if oAmbiente:lReceber .AND. ::Posireceber
 		For ::nT := 1 To xLen
+			if ::xTodos[::nT, XTODOS_DOCNR] == "000000-00"
+			   loop
+			endif
 			
-			//calcular recebidos
-			//if !(::aAtivo[::nT]) 
-			
+			//calcular recibos emitidos			
 			if (::aReciboImpresso[::nT]) 			
-				::aTodos[::nT]            := Left(::aTodos[::nT], 78) + " {" + if( MaxCol() > 79, Alltrim(::xTodos[::nT,XTODOS_OBS]) + "}", "{}")
+				::aTodos[::nT]            := Left(::aTodos[::nT], ::nGulosa) + " {" + if( MaxCol() > 79, Alltrim(::xTodos[::nT,XTODOS_OBS]) + "}", "{}")
 				::nPrincipal_Recibo       += ::xTodos[::nT, XTODOS_VLR]
 				::nMulta_Recibo           += ::xTodos[::nT, XTODOS_MULTA]
 				::nJuros_Recibo 			  += ::xTodos[::nT, XTODOS_JUROS]
 				::nTotal_Recibo           += ::xTodos[::nT, XTODOS_SOMA]
-				::nQtdDoc_Recibo++					
+				::nQtdDoc_Recibo++	
+				
 				if !(oAmbiente:lK_Ctrl_Ins)
 					::Color_pFore[::nT]    := ::CorRecibo
 					if (::xTodos[::nT, XTODOS_VLR] - ::xTodos[::nT, XTODOS_SOMA]) > 0
 						::Color_pFore[::nT]    := ::CorVencido				
 					endif	
+				endif				
+				
+				if ::nOrdem == 1
+					::Color_pFore[::nT]    := ::CorRecibo
+					if ::nChoice = 3
+						::aAtivo[::nT]         := OK
+					endif					
 				endif
-			else
+				
+				if ::nOrdem == 3 // Somente Recebidos
+					::Color_pFore[::nT]    := ::CorRecibo
+				endif
+				
+			else				
 				::aTodos[::nT]            := ::sTrFormataATodos(::nT)
 			endif
 		
 			nAtraso := Atraso( Date(), ::xTodos[::nT,XTODOS_VCTO]) 
 			::AjustaCorInicio(nAtraso, ::nT)				
 					
-			//calcular vencidos
-			if ::xTodos[::nT,XTODOS_VCTO] <= Date()
-				//if ::aAtivo[::nT] // sem recibo
-				if !(::aReciboImpresso[::nT]) // sem recibo 			
-					if ::xTodos[::nT, XTODOS_DOCNR] != "000000-00"
+			//calcular vencidos e em aberto
+			
+			if ::nOrdem == 3
+				if (::aReciboImpresso[::nT]) // com recibo 					
+					if ::xTodos[::nT,XTODOS_VCTO] <= ::xTodos[::nT,XTODOS_DATAPAG]						
 						::nPrincipal_Vencido += ::xTodos[::nT,XTODOS_VLR]
 						::nMulta_Vencido     += ::xTodos[::nT,XTODOS_MULTA]
 						::nJuros_Vencido     += ::xTodos[::nT,XTODOS_JUROS]
 						::nTotal_Vencido     += ::xTodos[::nT,XTODOS_SOMA]	
-						::nQtdDoc_Vencido++										
+						::nQtdDoc_Vencido++															
+					endif
+				endif
+			else
+				if ::xTodos[::nT,XTODOS_VCTO] <= Date()							   
+					if !(::aReciboImpresso[::nT]) // sem recibo 								
+						::nPrincipal_Vencido += ::xTodos[::nT,XTODOS_VLR]
+						::nMulta_Vencido     += ::xTodos[::nT,XTODOS_MULTA]
+						::nJuros_Vencido     += ::xTodos[::nT,XTODOS_JUROS]
+						::nTotal_Vencido     += ::xTodos[::nT,XTODOS_SOMA]	
+						::nQtdDoc_Vencido++															
 					endif
 				endif
 			endif
 			
-			//calcular a vencer		
-			if ::xTodos[::nT,XTODOS_VCTO] > Date() 
-				if ::xTodos[::nT, XTODOS_DOCNR] != "000000-00"
-					::nPrincipal_Vencer   += ::xTodos[::nT,XTODOS_VLR]
-					::nMulta_Vencer	    += ::xTodos[::nT,XTODOS_MULTA]
-					::nJuros_Vencer	    += ::xTodos[::nT,XTODOS_JUROS]
-					::nTotal_Vencer	    += ::xTodos[::nT,XTODOS_SOMA]	
-					::nQtdDoc_Vencer++				
-				endif	
-			endif
+			//calcular a vencer	
+	
+			if ::nOrdem == 3 
+				if (::aReciboImpresso[::nT]) // com recibo 
+					if ::xTodos[::nT,XTODOS_VCTO] > ::xTodos[::nT,XTODOS_DATAPAG]
+						::nPrincipal_Vencer   += ::xTodos[::nT,XTODOS_VLR]
+						::nMulta_Vencer	    += ::xTodos[::nT,XTODOS_MULTA]
+						::nJuros_Vencer	    += ::xTodos[::nT,XTODOS_JUROS]
+						::nTotal_Vencer	    += ::xTodos[::nT,XTODOS_SOMA]	
+						::nQtdDoc_Vencer++
+					endif				
+				endif
+			else
+				if ::xTodos[::nT,XTODOS_VCTO] > Date() 			   
+					if !(::aReciboImpresso[::nT]) // sem recibo 
+						::nPrincipal_Vencer   += ::xTodos[::nT,XTODOS_VLR]
+						::nMulta_Vencer	    += ::xTodos[::nT,XTODOS_MULTA]
+						::nJuros_Vencer	    += ::xTodos[::nT,XTODOS_JUROS]
+						::nTotal_Vencer	    += ::xTodos[::nT,XTODOS_SOMA]	
+						::nQtdDoc_Vencer++				
+					endif					
+				endif					
+			endif					
 			
 			//calcular rescisao		
 			nVlr := ::xTodos[::nT,XTODOS_VLR]
 			cStr := ::aTodos[::nT] 
 			nLen := Len(cStr)
-			cObs := Right(cStr, nLen-79)
-			//if Empty(cObs) // mensalidade?
-				if ::nOrdem != 3 
-					if ::aAtivo[::nT] // sem recibo
-						if nAtraso < 0
-							IF nAtraso < -30
-								nVlr *= 0.5  // Metade da Mensalidade de Rescisao
-								cstr := ::aTodos[::nT] := Left( ::aTodos[::nT], 78) + ' ' + Tran(nVlr,  "@E 999,999.99") + ' {50%}'
-								cstr += Space(01)
-								cstr += cObs
-
-							else
-								nDiaComUso := (30 + nAtraso)
-								nDiaSemUso := (30 - nDiaComUso)
-								nVlrComUso := (nDiaComUso * (nVlr/30))
-								nVlrSemUso := (nDiaSemUso * (nVlr/30)*0.5)
-								nVlr		  := (nVlrComUso + nVlrSemUso)								
-								cstr       := ::aTodos[::nT] := Left( ::aTodos[::nT], 78) + ' ' + Tran(nVlr, "@E 999,999.99") + ;
-								                                                            ' {' + StrZero(nDiaComUso,2) + 'D}=' + AllTrim(Tran(nVlrComUso, "@E 999,999.99")) + ;
-																									       ' + {' + StrZero(nDiaSemUso,2) + 'D}=' + AllTrim(Tran(nVlrSemUso, "@E 999,999.99")) + ' {50%}'
-								cstr       += Space(01)
-								cstr       += cObs
-								
-							endIF
-						endIF
-					endif	
+			cObs := Right(cStr, nLen-::nGulosa)
+			
+			if ::nOrdem != 3 
+			   if !(::aReciboImpresso[::nT]) 	// sem recibo
+					if nAtraso < 0
+						if nAtraso < -30
+							nVlr *= 0.5  // Metade da Mensalidade de Rescisao
+							cstr := ::aTodos[::nT] := Left( ::aTodos[::nT], ::nGulosa) + ' ' + Tran(nVlr,  "@E 999,999.99") + ' {50%}'
+							cstr += Space(01)
+							cstr += cObs
+						else
+							nDiaComUso := (30 + nAtraso)
+							nDiaSemUso := (30 - nDiaComUso)
+							nVlrComUso := (nDiaComUso * (nVlr/30))
+							nVlrSemUso := (nDiaSemUso * (nVlr/30)*0.5)
+							nVlr		  := (nVlrComUso + nVlrSemUso)								
+							cstr       := ::aTodos[::nT] := Left( ::aTodos[::nT], ::nGulosa) + ' ' + Tran(nVlr, "@E 999,999.99") + ;
+							                                                            ' {' + StrZero(nDiaComUso,2) + 'D}=' + AllTrim(Tran(nVlrComUso, "@E 999,999.99")) + ;
+																								       ' + {' + StrZero(nDiaSemUso,2) + 'D}=' + AllTrim(Tran(nVlrSemUso, "@E 999,999.99")) + ' {50%}'
+							cstr       += Space(01)
+							cstr       += cObs								
+						endif
+					endif
 				endif	
-			//endif	
+			endif	
 			
 			if ::xTodos[::nT,XTODOS_VCTO] > Date() 
-				if ::aAtivo[::nT] // sem recibo
-					if ::xTodos[::nT, XTODOS_DOCNR] != "000000-00"
-						::nPrincipal_Rescisao += nVlr
-						::nMulta_Rescisao	    += ::xTodos[::nT,XTODOS_MULTA] /2
-						::nJuros_Rescisao	    += ::xTodos[::nT,XTODOS_JUROS] /2
-						::nTotal_Rescisao	    += nVlr
-						::aTodos[::nT]        := cStr
-						::nQtdDoc_Rescisao++												
-					endif	
+				if !(::aReciboImpresso[::nT]) 	// sem recibo
+					::nPrincipal_Rescisao += nVlr
+					::nMulta_Rescisao	    += ::xTodos[::nT,XTODOS_MULTA] /2
+					::nJuros_Rescisao	    += ::xTodos[::nT,XTODOS_JUROS] /2
+					::nTotal_Rescisao	    += nVlr
+					::aTodos[::nT]        := cStr
+					::nQtdDoc_Rescisao++												
 				endif	
 			endif				
 			::aRescisao[::nT] := nVlr
-			
-			/*
-			if ::nOrdem == 3			
-				::nPrincipal_Recibo       += ::xTodos[::nT,XTODOS_VLR]
-				::nMulta_Recibo           += ::xTodos[::nT,XTODOS_MULTA]
-				::nJuros_Recibo 			  += ::xTodos[::nT,XTODOS_JUROS]
-				::nTotal_Recibo           += ::xTodos[::nT,XTODOS_SOMA]
-				::nQtdDoc_Recibo++											
-			endif				
-			*/
 			
 			//Mostrar Soma
 			if oAmbiente:lMostrarSoma			
@@ -714,33 +770,50 @@ METHOD BarraSoma() class TReceposi
 	::Redraw_()					
 	return self
 	
-METHOD cStrAll() class TReceposi	
-****************
+*--------------------------*	
+METHOD cStrAll() 	
+*--------------------------*
 	::cStrRecibo    := ::RedrawRecibo
 	::cStrVencido   := ::RedrawVencido
 	::cstrVencer    := ::RedrawVencer
 	::cstrGeral     := ::RedrawGeral		
-return self
+	return self
 	
-METHOD AjustaGeral() class TReceposi	
-********************
-	::nPrincipal_Geral := ::nPrincipal_Recibo + ::nPrincipal_Vencido + ::nPrincipal_Vencer
-	::nMulta_Geral     := ::nMulta_Recibo + ::nMulta_Vencido + ::nMulta_Vencer
-	::nJuros_Geral 	 := ::nJuros_Recibo + ::nJuros_Vencido + ::nJuros_Vencer
-	::nTotal_Geral     := ::nTotal_Recibo + ::nTotal_Vencido + ::nTotal_Vencer
-	::nQtdDoc_Geral    := ::nQtdDoc_Recibo + ::nQtdDoc_Vencido + ::nQtdDoc_Vencer
-	return Self	
+*-------------------------------*	
+METHOD AjustaGeral() 	
+*-------------------------------*
+	if ::nOrdem != 3 
+		::nPrincipal_Geral := ::nPrincipal_Recibo + ::nPrincipal_Vencido + ::nPrincipal_Vencer
+		::nMulta_Geral     := ::nMulta_Recibo     + ::nMulta_Vencido     + ::nMulta_Vencer
+		::nJuros_Geral 	 := ::nJuros_Recibo     + ::nJuros_Vencido     + ::nJuros_Vencer
+		::nTotal_Geral     := ::nTotal_Recibo     + ::nTotal_Vencido     + ::nTotal_Vencer
+		::nQtdDoc_Geral    := ::nQtdDoc_Recibo    + ::nQtdDoc_Vencido    + ::nQtdDoc_Vencer
+	else
+		::nPrincipal_Geral := ::nPrincipal_Recibo 
+		::nMulta_Geral     := ::nMulta_Recibo     
+		::nJuros_Geral 	 := ::nJuros_Recibo     
+		::nTotal_Geral     := ::nTotal_Recibo     
+		::nQtdDoc_Geral    := ::nQtdDoc_Recibo    
+	endif
+	return self	
 	
-METHOD cStrComValor(nSomaParcial) class TReceposi	
-*********************************
-	return( cStr := Left( ::aTodos[::nT], 78) + ' ' + Tran(nSomaParcial, "@E 999,999.99")  + SubStr( ::aTodos[::nT], 79, 200))		
+*----------------------------------------------------*	
+METHOD function cStrComValor(nSomaParcial) 	
+*----------------------------------------------------*
+	LOCAL cStr
+	cStr := Left( ::aTodos[::nT], ::nGulosa) + ' ' + Tran(nSomaParcial, "@E 999,999.99")  + SubStr( ::aTodos[::nT], ::nGulosa + 1 , 200)
+	return(cStr)
+
+*--------------------------------------*	
+METHOD function cStrSemValor()
+*--------------------------------------*
+	LOCAL cStr
+	cStr := Left( ::aTodos[::nT], ::nGulosa) + Space(11) + SubStr( ::aTodos[::nT], ::nGulosa + 1 , 200)
+	return( cStr)
 	
-METHOD cStrSemValor() class TReceposi	
-**********************
-	return( cStr := Left( ::aTodos[::nT], 78) + Space(11) + SubStr( ::aTodos[::nT], 79, 200))
-	
-METHOD AjustaCorInicio(nAtraso, nT)	class TReceposi	
-***********************************
+*-------------------------------------------*	
+METHOD AjustaCorInicio(nAtraso, nT)		
+*-------------------------------------------*
 	if nAtraso < 0 
 		if ::Color_pFore[nT] == ::CorVencido
 			::Color_pFore[nT] := ::CorVencer					
@@ -756,10 +829,11 @@ METHOD AjustaCorInicio(nAtraso, nT)	class TReceposi
 			::Color_pFore[nT] := ::CorAviso
 		endif	
 	endif		
-	return SELF
+	return self
 	
-METHOD AjustaCorFinal(nAtraso, nT) class TReceposi	
-**********************************
+*------------------------------------------*	
+METHOD AjustaCorFinal(nAtraso, nT) 	
+*------------------------------------------*
 	if !(::aReciboImpresso[nT]) 
 		if nAtraso < 0 
 			//if ::Color_pFore[nT] == ::nCorZebradoBranco .OR. ::Color_pFore[nT] == ::nCorZebradoVerde
@@ -777,53 +851,48 @@ METHOD AjustaCorFinal(nAtraso, nT) class TReceposi
 			//endif	
 		endif		
 	endif	
-	return SELF	
+	return self	
 
-METHOD sTrFormataATodos(nT) class TReceposi
-***************************
+*---------------------------------------------*
+METHOD function sTrFormataATodos(nT) 
+*---------------------------------------------*
 	LOCAL cCodi  := ::xTodos[nT,XTODOS_CODI]
-	LOCAL cTodos := ::xTodos[nT,XTODOS_DOCNR]             + " " + ;						  
+	LOCAL cTodos := ::xTodos[nT,XTODOS_DOCNR]                     + " " + ;						  
 							  Left( Dtoc( ::xTodos[nT,XTODOS_EMIS]),5 ) + " " + ;
 							  Dtoc(::xTodos[nT,XTODOS_VCTO])            + " " + ;
-							  StrZero( ::xTodos[nT,XTODOS_ATRASO], 4) + " " + ;
-							  Tran(::xTodos[nT,XTODOS_VLR],      "@E 99,999.99")  + " " + ;
-							  Tran(::xTodos[nT,XTODOS_DESCONTO], "@E 9,999.99")   + " " + ;
-							  Tran(::xTodos[nT,XTODOS_JUROS],    "@E 9,999.99")   + " " + ;
-							  Tran(::xTodos[nT,XTODOS_MULTA],    "@E 99,999.99")  + " " + ;
-							  Tran(::xTodos[nT,XTODOS_SOMA],     "@E 999,999.99") + " {" + ;
+							  StrZero( ::xTodos[nT,XTODOS_ATRASO], 4) + " {" + ;
+							  Tran(::xTodos[nT,XTODOS_VLRORIGINA], "@E 99,999.99")  + "} " + ;
+							  Tran(::xTodos[nT,XTODOS_VLR],        "@E 99,999.99")  + " " + ;
+							  Tran(::xTodos[nT,XTODOS_DESCONTO],   "@E 9,999.99")   + " " + ;
+							  Tran(::xTodos[nT,XTODOS_JUROS],      "@E 9,999.99")   + " " + ;
+							  Tran(::xTodos[nT,XTODOS_MULTA],      "@E 99,999.99")  + " " + ;
+							  Tran(::xTodos[nT,XTODOS_SOMA],       "@E 999,999.99") + " {" + ;
 							  if( MaxCol() > 79, Alltrim(::xTodos[nT,XTODOS_OBS]) + "}", "{}")
 	::aCodi[nT]  := cCodi
 	::aTodos[nT] := cTodos
 	return(cTodos)
-
-Function TReceposiNew()
-	return(TReceposi():New())	
 	
-
-#include <hbclass.ch>
-#Include <box.ch>
-#Include <inkey.ch>
-#include "achoice.ch"
-#include "color.ch"
-#include "inkey.ch"
-#include "setcurs.ch"
+	
+	
+*--------------------------------------*
+Function TReceposiNew(nBoxRow, nBoxCol, nBoxRow1, nBoxCol1, cTop, cBottom)
+	return(TReceposi():New(nBoxRow, nBoxCol, nBoxRow1, nBoxCol1, cTop, cBottom))		
+*--------------------------------------*
 
 #XCOMMAND DEFAULT <v1> TO <x1> [, <vn> TO <xn> ]								;
 			 =>																				;
-			 IF <v1> == NIL ; <v1> := <x1> ; END									;
-			 [; IF <vn> == NIL ; <vn> := <xn> ; END ]
+			 if <v1> == NIL ; <v1> := <x1> ; END									;
+			 [; if <vn> == NIL ; <vn> := <xn> ; END ]
 
 #XCOMMAND DEFAU <v1> TO <x1> [, <vn> TO <xn> ]								   ;
 			 =>																				;
-			 IF <v1> == NIL ; <v1> := <x1> ; END									;
-			 [; IF <vn> == NIL ; <vn> := <xn> ; END ]
+			 if <v1> == NIL ; <v1> := <x1> ; END									;
+			 [; if <vn> == NIL ; <vn> := <xn> ; END ]
 
 
 #define INRANGE( xLo, xVal, xHi )  ( xVal >= xLo .AND. xVal <= xHi )
 #define InRange( xLo, xVal, xHi )  ( xVal >= xLo .AND. xVal <= xHi )
 #define BETWEEN( xLo, xVal, xHi )  Min( Max( xLo, xVal ), xHi )
-#Define FALSO .F.
-#DEFINE OK    .T.
 #define AC_CURELEMENTO  10
 
 /* NOTE: Extension: Harbour supports codeblocks and function pointers
@@ -862,18 +931,18 @@ METHOD AChoice( nTop, nLeft, nBottom, nRight, acItems, xSelect, xUserFunc, nPos,
    hb_default( @nLeft, 0 )
    hb_default( @nRight, 0 )
 
-   IF nRight > MaxCol()
+   if nRight > MaxCol()
       nRight := MaxCol()
-   ENDIF
+   endif
 
-   IF nBottom > MaxRow()
-      nBottom := MaxRow()
-   ENDIF
-
-   IF ! HB_ISARRAY( ::aTodos ) .OR. Len( ::aTodos ) == 0
+   if nBottom > MaxRow()
+      nBottom := MaxRow()-2
+   endif
+	
+   if ! HB_ISARRAY( ::aTodos ) .OR. Len( ::aTodos ) == 0
       SetPos( nTop, nRight + 1 )
       return 0
-   ENDIF
+   endif
 
    nSaveCsr := SetCursor( SC_NONE )
    ColorSelect( CLR_STANDARD )
@@ -883,16 +952,16 @@ METHOD AChoice( nTop, nLeft, nBottom, nRight, acItems, xSelect, xUserFunc, nPos,
             supplied with Clipper 5.x. 6th parameter is the
             user function and 7th parameter is zero (empty I
             suppose). [vszakats] */
-   IF Empty( xUserFunc ) .AND. ValType( ::aAtivo ) $ "CBS"
+   if Empty( xUserFunc ) .AND. ValType( ::aAtivo ) $ "CBS"
       xUserFunc := ::aAtivo
       ::aAtivo   := NIL
-   ENDIF
+   endif
 
    lUserFunc := ! Empty( xUserFunc ) .AND. ValType( xUserFunc ) $ "CBS"
 
-   IF ! HB_ISARRAY( ::aAtivo ) .AND. ! HB_ISLOGICAL( ::aAtivo )
+   if ! HB_ISARRAY( ::aAtivo ) .AND. ! HB_ISLOGICAL( ::aAtivo )
       ::aAtivo := .T.               // Array or logical, what is selectable
-   ENDIF
+   endif
 
    hb_default( @nPos, 1 )          // The number of the selected item
    hb_default( @nHiLiteRow, 0 )    // The row to be highlighted
@@ -900,17 +969,17 @@ METHOD AChoice( nTop, nLeft, nBottom, nRight, acItems, xSelect, xUserFunc, nPos,
    nNumCols := nRight - nLeft + 1
    nNumRows := nBottom - nTop + 1
 
-   IF HB_ISARRAY( ::aAtivo )
+   if HB_ISARRAY( ::aAtivo )
       alSelect := ::aAtivo
-   ELSE
+   else
       alSelect := Array( Len( ::aTodos ) )
       AFill( alSelect, ::aAtivo )
-   ENDIF
+   endif
 
-   IF ( nMode := ::Ach_Limits( @nFrstItem, @nLastItem, @nItems, alSelect, ::aTodos ) ) == AC_NOITEM
+   if ( nMode := ::Ach_Limits( @nFrstItem, @nLastItem, @nItems, alSelect, ::aTodos ) ) == AC_NOITEM
       nPos := 0
 		::CurElemento := nPos
-   ENDIF
+   endif
 
    // Ensure hilighted item can be selected
    nPos := BETWEEN( nFrstItem, nPos, nLastItem )
@@ -923,9 +992,9 @@ METHOD AChoice( nTop, nLeft, nBottom, nRight, acItems, xSelect, xUserFunc, nPos,
    nAtTop := BETWEEN( 1, Max( 1, nPos - nHiLiteRow ), nItems )
 
    // Ensure as much of the selection area as possible is covered
-   IF ( nAtTop + nNumRows - 1 ) > nItems
+   if ( nAtTop + nNumRows - 1 ) > nItems
       nAtTop := Max( 1, nItems - nNumrows + 1 )
-   ENDIF
+   endif
 
    ::DispPage( ::aTodos, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems, nItems )
 
@@ -959,64 +1028,64 @@ METHOD AChoice( nTop, nLeft, nBottom, nRight, acItems, xSelect, xUserFunc, nPos,
 			DO WHILE !::Ach_Select( alSelect, nNewPos )
             nNewPos--
          ENDDO
-         IF INRANGE( nAtTop, nNewPos, nAtTop + nNumRows - 1 )
+         if INRANGE( nAtTop, nNewPos, nAtTop + nNumRows - 1 )
             ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, ::Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
             nPos := nNewPos
             ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, ::Ach_Select( alSelect, nPos ), .T., nNumCols, nPos )
-         ELSE
+         else
             DispBegin()
             ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, ::Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
             hb_Scroll( nTop, nLeft, nBottom, nRight, nNewPos - ( nAtTop + nNumRows - 1 ) )
             nAtTop := nNewPos
             nPos   := Max( nPos, nAtTop + nNumRows - 1 )
             DO WHILE nPos > nNewPos
-               IF nTop + nPos - nAtTop <= nBottom
+               if nTop + nPos - nAtTop <= nBottom
                   ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, ::Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
-               ENDIF
+               endif
                nPos--
             ENDDO
             ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, ::Ach_Select( alSelect, nPos ), .T., nNumCols, nPos )
             DispEnd()
-         ENDIF
+         endif
 		
       CASE ( bAction := SetKey( nKey ) ) != NIL
          Eval( bAction, ProcName( 1 ), ProcLine( 1 ), "" )
-         IF NextKey() == 0
+         if NextKey() == 0
             hb_keySetLast( 255 )
             nKey := 0
-         ENDIF
+         endif
 
          nRowsClr := Min( nNumRows, nItems )
-         IF ( nMode := ::Ach_Limits( @nFrstItem, @nLastItem, @nItems, alSelect, ::aTodos ) ) == AC_NOITEM
+         if ( nMode := ::Ach_Limits( @nFrstItem, @nLastItem, @nItems, alSelect, ::aTodos ) ) == AC_NOITEM
             nPos := 0
             nAtTop := Max( 1, nPos - nNumRows + 1 )
-         ELSE
+         else
             DO WHILE nPos < nLastItem .AND. ! ::Ach_Select( alSelect, nPos )
                nPos++
             ENDDO
 
-            IF nPos > nLastItem
+            if nPos > nLastItem
                nPos := BETWEEN( nFrstItem, nPos, nLastItem )
-            ENDIF
+            endif
 
             nAtTop := Min( nAtTop, nPos )
-            IF nAtTop + nNumRows - 1 > nItems
+            if nAtTop + nNumRows - 1 > nItems
                nAtTop := BETWEEN( 1, nPos - nNumRows + 1, nItems - nNumRows + 1 )
-            ENDIF
+            endif
 
-            IF nAtTop < 1
+            if nAtTop < 1
                nAtTop := 1
-            ENDIF				
-         ENDIF			
+            endif				
+         endif			
 		
 
          ::DispPage( ::aTodos, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems, nRowsClr )
 
       CASE ( nKey == K_ESC .OR. nMode == AC_NOITEM ) .AND. ! lUserFunc
 
-         IF nPos != 0
+         if nPos != 0
             ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, .T., .F., nNumCols, nPos )
-         ENDIF
+         endif
 
          nMode     := AC_IDLE
          nPos      := 0
@@ -1024,16 +1093,16 @@ METHOD AChoice( nTop, nLeft, nBottom, nRight, acItems, xSelect, xUserFunc, nPos,
 
       CASE nKey == K_LDBLCLK .OR. nKey == K_LBUTTONDOWN
          nAux := HitTest( nTop, nLeft, nBottom, nRight, MRow(), MCol() )
-         IF nAux != 0 .AND. ( nNewPos := nAtTop + nAux - 1 ) <= nItems
-            IF ::Ach_Select( alSelect, nNewPos )
+         if nAux != 0 .AND. ( nNewPos := nAtTop + nAux - 1 ) <= nItems
+            if ::Ach_Select( alSelect, nNewPos )
                ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, ::Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
                nPos := nNewPos
                ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, ::Ach_Select( alSelect, nPos ), .T., nNumCols, nPos )
-               IF nKey == K_LDBLCLK
+               if nKey == K_LDBLCLK
                   hb_keyIns( K_ENTER )
-               ENDIF
-            ENDIF
-         ENDIF
+               endif
+            endif
+         endif
 
 #ifdef HB_CLP_STRICT
       CASE nKey == K_UP
@@ -1041,7 +1110,7 @@ METHOD AChoice( nTop, nLeft, nBottom, nRight, acItems, xSelect, xUserFunc, nPos,
       CASE nKey == K_UP .OR. nKey == K_MWFORWARD
 #endif
 			nNewPos := nPos - 1
-			IF nNewPos < nFrstItem
+			if nNewPos < nFrstItem
 				nPos    := nLastItem
 				nAtTop  := Max( 1, nPos - nNumRows + 1 )
 				nNewPos := nPos
@@ -1052,25 +1121,25 @@ METHOD AChoice( nTop, nLeft, nBottom, nRight, acItems, xSelect, xUserFunc, nPos,
             DO WHILE ! ::Ach_Select( alSelect, nNewPos )
                nNewPos--
             ENDDO
-            IF INRANGE( nAtTop, nNewPos, nAtTop + nNumRows - 1 )
+            if INRANGE( nAtTop, nNewPos, nAtTop + nNumRows - 1 )
                ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, ::Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
                nPos := nNewPos
                ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, ::Ach_Select( alSelect, nPos ), .T., nNumCols, nPos )
-            ELSE
+            else
                DispBegin()
                ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, ::Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
                hb_Scroll( nTop, nLeft, nBottom, nRight, nNewPos - ( nAtTop + nNumRows - 1 ) )
                nAtTop := nNewPos
                nPos   := Max( nPos, nAtTop + nNumRows - 1 )
                DO WHILE nPos > nNewPos
-                  IF nTop + nPos - nAtTop <= nBottom
+                  if nTop + nPos - nAtTop <= nBottom
                      ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, ::Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
-                  ENDIF
+                  endif
                   nPos--
                ENDDO
                ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, ::Ach_Select( alSelect, nPos ), .T., nNumCols, nPos )
                DispEnd()
-            ENDIF
+            endif
          
 #ifdef HB_CLP_STRICT
       CASE nKey == K_DOWN
@@ -1080,7 +1149,7 @@ METHOD AChoice( nTop, nLeft, nBottom, nRight, acItems, xSelect, xUserFunc, nPos,
 
          // Find the next selectable item to display
             nNewPos := nPos + 1
-				IF nNewPos > nLastItem
+				if nNewPos > nLastItem
 					nPos    := nFrstItem					
 					nAtTop  := nPos
 					nNewPos := nPos
@@ -1092,11 +1161,11 @@ METHOD AChoice( nTop, nLeft, nBottom, nRight, acItems, xSelect, xUserFunc, nPos,
                nNewPos++
             ENDDO
 
-            IF INRANGE( nAtTop, nNewPos, nAtTop + nNumRows - 1 )
+            if INRANGE( nAtTop, nNewPos, nAtTop + nNumRows - 1 )
                ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, ::Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
                nPos := nNewPos
                ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, ::Ach_Select( alSelect, nPos ), .T., nNumCols, nPos )
-            ELSE
+            else
                DispBegin()
                ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, ::Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
                hb_Scroll( nTop, nLeft, nBottom, nRight, nNewPos - ( nAtTop + nNumRows - 1 ) )
@@ -1108,13 +1177,13 @@ METHOD AChoice( nTop, nLeft, nBottom, nRight, acItems, xSelect, xUserFunc, nPos,
                ENDDO
                ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, ::Ach_Select( alSelect, nPos ), .T., nNumCols, nPos )
                DispEnd()
-            ENDIF
+            endif
 								
-         //ENDIF
+         //endif
 
       CASE nKey == K_CTRL_PGUP .OR. ( nKey == K_HOME .AND. ! lUserFunc )
 
-         IF nPos == nFrstItem
+         if nPos == nFrstItem
 				if lPageCircular
 					nPos    := nLastItem
 					nAtTop  := Max( 1, nPos - nNumRows + 1 )
@@ -1122,22 +1191,22 @@ METHOD AChoice( nTop, nLeft, nBottom, nRight, acItems, xSelect, xUserFunc, nPos,
 					::DispPage( ::aTodos, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
 					nMode   := AC_HITBOTTOM
 				else
-					IF nAtTop == Max( 1, nPos - nNumRows + 1 )
+					if nAtTop == Max( 1, nPos - nNumRows + 1 )
 						nMode := AC_HITTOP
-					ELSE
+					else
 						nAtTop := Max( 1, nPos - nNumRows + 1 )
 						::DispPage( ::aTodos, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
-					ENDIF
+					endif
 				endif	
-         ELSE
+         else
             nPos   := nFrstItem
             nAtTop := nPos
             ::DispPage( ::aTodos, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
-         ENDIF
+         endif
 
       CASE nKey == K_CTRL_PGDN .OR. ( nKey == K_END .AND. ! lUserFunc )
 
-         IF nPos == nLastItem
+         if nPos == nLastItem
 				if lPageCircular
 					nPos    := nFrstItem					
 					nAtTop  := nPos
@@ -1145,71 +1214,71 @@ METHOD AChoice( nTop, nLeft, nBottom, nRight, acItems, xSelect, xUserFunc, nPos,
 					::DispPage( ::aTodos, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
 					nMode   := AC_HITTOP
 				else	
-					IF nAtTop == Min( nLastItem, nItems - Min( nItems, nNumRows ) + 1 )
+					if nAtTop == Min( nLastItem, nItems - Min( nItems, nNumRows ) + 1 )
 						nMode   := AC_HITTOP
 						nMode := AC_HITBOTTOM
-					ELSE
+					else
 						nAtTop := Min( nLastItem, nItems - nNumRows + 1 )
 						::DispPage( ::aTodos, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
-					ENDIF
+					endif
 				endif	
-         ELSE
-            IF INRANGE( nAtTop, nLastItem, nAtTop + nNumRows - 1 )
+         else
+            if INRANGE( nAtTop, nLastItem, nAtTop + nNumRows - 1 )
                ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, ::Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
                nPos := nLastItem
                ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, ::Ach_Select( alSelect, nPos ), .T., nNumCols, nPos )
-            ELSE
+            else
                nPos   := nLastItem
                nAtTop := Max( 1, nPos - nNumRows + 1 )
                ::DispPage( ::aTodos, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
-            ENDIF
-         ENDIF
+            endif
+         endif
 
       CASE nKey == K_CTRL_HOME
 
-         IF nPos == nFrstItem
-            IF nAtTop == Max( 1, nPos - nNumRows + 1 )
+         if nPos == nFrstItem
+            if nAtTop == Max( 1, nPos - nNumRows + 1 )
                nMode := AC_HITTOP
-            ELSE
+            else
                nAtTop := Max( 1, nPos - nNumRows + 1 )
                ::DispPage( ::aTodos, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
-            ENDIF
-         ELSE
+            endif
+         else
             nNewPos := nAtTop
             DO WHILE ! ::Ach_Select( alSelect, nNewPos )
                nNewPos++
             ENDDO
-            IF nNewPos != nPos
+            if nNewPos != nPos
                ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, ::Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
                nPos := nNewPos
                ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, ::Ach_Select( alSelect, nPos ), .T., nNumCols, nPos )
-            ENDIF
-         ENDIF
+            endif
+         endif
 
       CASE nKey == K_CTRL_END
 
-         IF nPos == nLastItem
-            IF nAtTop == Min( nPos, nItems - Min( nItems, nNumRows ) + 1 ) .OR. nPos == nItems
+         if nPos == nLastItem
+            if nAtTop == Min( nPos, nItems - Min( nItems, nNumRows ) + 1 ) .OR. nPos == nItems
                nMode := AC_HITBOTTOM
-            ELSE
+            else
                nAtTop := Min( nPos, nItems - nNumRows + 1 )
                ::DispPage( ::aTodos, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
-            ENDIF
-         ELSE
+            endif
+         else
             nNewPos := Min( nAtTop + nNumRows - 1, nItems )
             DO WHILE ! ::Ach_Select( alSelect, nNewPos )
                nNewPos--
             ENDDO
-            IF nNewPos != nPos
+            if nNewPos != nPos
                ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, ::Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
                nPos := nNewPos
                ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, ::Ach_Select( alSelect, nPos ), .T., nNumCols, nPos )
-            ENDIF
-         ENDIF
+            endif
+         endif
 
       CASE nKey == K_PGUP
 
-         IF nPos == nFrstItem
+         if nPos == nFrstItem
 				if lPageCircular
 					nPos    := nLastItem
 					nAtTop  := Max( 1, nPos - nNumRows + 1 )
@@ -1218,21 +1287,21 @@ METHOD AChoice( nTop, nLeft, nBottom, nRight, acItems, xSelect, xUserFunc, nPos,
 					nMode   := AC_HITBOTTOM
 				else
 					nMode := AC_HITTOP
-					IF nAtTop > Max( 1, nPos - nNumRows + 1 )
+					if nAtTop > Max( 1, nPos - nNumRows + 1 )
 						nAtTop := Max( 1, nPos - nNumRows + 1 )
 						::DispPage( ::aTodos, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
-					ENDIF
+					endif
 				endif	
-         ELSE
-            IF INRANGE( nAtTop, nFrstItem, nAtTop + nNumRows - 1 )
+         else
+            if INRANGE( nAtTop, nFrstItem, nAtTop + nNumRows - 1 )
                // On same page as nFrstItem
                nPos   := nFrstItem
                nAtTop := Max( nPos - nNumRows + 1, 1 )
-            ELSE
-               IF ( nPos - nNumRows + 1 ) < nFrstItem
+            else
+               if ( nPos - nNumRows + 1 ) < nFrstItem
                   nPos   := nFrstItem
                   nAtTop := nFrstItem
-               ELSE
+               else
                   nPos   := Max( nFrstItem, nPos - nNumRows + 1 )
                   nAtTop := Max( 1, nAtTop - nNumRows + 1 )
                   DO WHILE nPos > nFrstItem .AND. ! ::Ach_Select( alSelect, nPos )
@@ -1240,18 +1309,18 @@ METHOD AChoice( nTop, nLeft, nBottom, nRight, acItems, xSelect, xUserFunc, nPos,
                      nAtTop--
                   ENDDO
                   nAtTop := Max( 1, nAtTop )
-                  IF nAtTop < nNumRows .AND. nPos < nNumRows
+                  if nAtTop < nNumRows .AND. nPos < nNumRows
                      nPos := nNumRows
                      nAtTop := 1
-                  ENDIF
-               ENDIF
-            ENDIF
+                  endif
+               endif
+            endif
             ::DispPage( ::aTodos, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
-         ENDIF
+         endif
 
       CASE nKey == K_PGDN
 
-         IF nPos == nLastItem
+         if nPos == nLastItem
 				if lPageCircular
 					nPos    := nFrstItem					
 					nAtTop  := nPos
@@ -1260,28 +1329,28 @@ METHOD AChoice( nTop, nLeft, nBottom, nRight, acItems, xSelect, xUserFunc, nPos,
 					nMode   := AC_HITTOP
 				else
 					nMode := AC_HITBOTTOM
-					IF nAtTop < Min( nPos, nItems - nNumRows + 1 )
+					if nAtTop < Min( nPos, nItems - nNumRows + 1 )
 						nAtTop := Min( nPos, nItems - nNumRows + 1 )
 						::DispPage( ::aTodos, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
-					ENDIF
+					endif
 				endif	
-         ELSE
-            IF INRANGE( nAtTop, nLastItem, nAtTop + nNumRows - 1 )
+         else
+            if INRANGE( nAtTop, nLastItem, nAtTop + nNumRows - 1 )
                // On the same page as nLastItem
                ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, ::Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
                nPos := nLastItem
                ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, ::Ach_Select( alSelect, nPos ), .T., nNumCols, nPos )
-            ELSE
+            else
                nGap := nPos - nAtTop
                nPos := Min( nLastItem, nPos + nNumRows - 1 )
-               IF ( nPos + nNumRows - 1 ) > nLastItem
+               if ( nPos + nNumRows - 1 ) > nLastItem
                   // On the last page
                   nAtTop := nLastItem - nNumRows + 1
                   nPos   := Min( nLastItem, nAtTop + nGap )
-               ELSE
+               else
                   // Not on the last page
                   nAtTop := nPos - nGap
-               ENDIF
+               endif
                // Make sure that the item is selectable
                DO WHILE nPos < nLastItem .AND. ! ::Ach_Select( alSelect, nPos )
                   nPos++
@@ -1292,32 +1361,32 @@ METHOD AChoice( nTop, nLeft, nBottom, nRight, acItems, xSelect, xUserFunc, nPos,
                   nAtTop--
                ENDDO
                ::DispPage( ::aTodos, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
-            ENDIF
-         ENDIF
+            endif
+         endif
 
       CASE nKey == K_ENTER .AND. ! lUserFunc
 
-         IF nPos != 0
+         if nPos != 0
             ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, .T., .F., nNumCols, nPos )
-         ENDIF
+         endif
 
          nMode     := AC_IDLE
          lFinished := .T.
 
       CASE nKey == K_RIGHT .AND. ! lUserFunc
 
-         IF nPos != 0
+         if nPos != 0
             ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, .T., .F., nNumCols, nPos )
-         ENDIF
+         endif
 
          nPos      := 0
          lFinished := .T.
 
       CASE nKey == K_LEFT .AND. ! lUserFunc
 
-         IF nPos != 0
+         if nPos != 0
             ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, .T., .F., nNumCols, nPos )
-         ENDIF
+         endif
 
          nPos      := 0
          lFinished := .T.
@@ -1327,31 +1396,31 @@ METHOD AChoice( nTop, nLeft, nBottom, nRight, acItems, xSelect, xUserFunc, nPos,
 
          // Find next selectable item
          FOR nNewPos := nPos + 1 TO nItems
-            IF ::Ach_Select( alSelect, nNewPos ) .AND. LeftEqI( ::aTodos[ nNewPos ], cKey )
+            if ::Ach_Select( alSelect, nNewPos ) .AND. LeftEqI( ::aTodos[ nNewPos ], cKey )
                EXIT
-            ENDIF
+            endif
          NEXT
-         IF nNewPos == nItems + 1
+         if nNewPos == nItems + 1
             FOR nNewPos := 1 TO nPos - 1
-               IF ::Ach_Select( alSelect, nNewPos ) .AND. LeftEqI( ::aTodos[ nNewPos ], cKey )
+               if ::Ach_Select( alSelect, nNewPos ) .AND. LeftEqI( ::aTodos[ nNewPos ], cKey )
                   EXIT
-               ENDIF
+               endif
             NEXT
-         ENDIF
+         endif
 
-         IF nNewPos != nPos
-            IF INRANGE( nAtTop, nNewPos, nAtTop + nNumRows - 1 )
+         if nNewPos != nPos
+            if INRANGE( nAtTop, nNewPos, nAtTop + nNumRows - 1 )
                // On same page
                ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, ::Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
                nPos := nNewPos
                ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, ::Ach_Select( alSelect, nPos ), .T., nNumCols, nPos )
-            ELSE
+            else
                // On different page
                nPos   := nNewPos
                nAtTop := BETWEEN( 1, nPos - nNumRows + 1, nItems )
                ::DispPage( ::aTodos, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
-            ENDIF
-         ENDIF
+            endif
+         endif
 
          nMode := AC_IDLE
 
@@ -1362,9 +1431,9 @@ METHOD AChoice( nTop, nLeft, nBottom, nRight, acItems, xSelect, xUserFunc, nPos,
 			
 		CASE nMode == AC_CURELEMENTO
 			nPos := ::CurElemento
-			IF nPos != 0
+			if nPos != 0
 				::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, .T., .F., nNumCols, nPos )
-         ENDIF
+         endif
 			nMode := AC_IDLE
          
       CASE nMode != AC_NOITEM
@@ -1372,8 +1441,8 @@ METHOD AChoice( nTop, nLeft, nBottom, nRight, acItems, xSelect, xUserFunc, nPos,
 
       ENDCASE
 
-      IF lUserFunc
-         IF HB_ISNUMERIC( nUserFunc := Do( xUserFunc, nMode, nPos, nPos - nAtTop ) )
+      if lUserFunc
+         if HB_ISNUMERIC( nUserFunc := Do( xUserFunc, nMode, nPos, nPos - nAtTop ) )
 
             SWITCH nUserFunc
             CASE AC_ABORT
@@ -1394,17 +1463,17 @@ METHOD AChoice( nTop, nLeft, nBottom, nRight, acItems, xSelect, xUserFunc, nPos,
                LOOP
 				
 				CASE AC_REDRAW  /* QUESTION: Is this correct? */
-               IF nPos != 0						
+               if nPos != 0						
 						//::DispPage( ::aTodos, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems, nItems )
                   ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, .T., .F., nNumCols, nPos )
-               ENDIF
+               endif
                lFinished := .T.
                nPos      := 0
                EXIT
             CASE AC_SELECT
-               IF nPos != 0
+               if nPos != 0
                   ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, .T., .F., nNumCols, nPos )
-               ENDIF
+               endif
                lFinished := .T.
                EXIT
             CASE AC_CONT
@@ -1412,62 +1481,62 @@ METHOD AChoice( nTop, nLeft, nBottom, nRight, acItems, xSelect, xUserFunc, nPos,
 					nMode := AC_IDLE
                EXIT
             CASE AC_GOTO
-               // Do nothing. The next keystroke won't be read and
+               // Do nothing. The next keystroke wont be read and
                // this keystroke will be processed as a goto.
                nMode := AC_EXCEPT
                EXIT
             ENDSWITCH
 
-            IF nPos > 0 .AND. nMode != AC_EXCEPT
+            if nPos > 0 .AND. nMode != AC_EXCEPT
 
 #if 0
-               /* TOVERIFY: Disabled nRowsClr ::DispPage().
+               /* TOVERifY: Disabled nRowsClr ::DispPage().
                   Please verify it, I do not know why it was added but
                   it breaks code which adds dynamically new ::aTodos positions */
                nRowsClr := Min( nNumRows, nItems )
 #endif
-               IF ( nMode := ::Ach_Limits( @nFrstItem, @nLastItem, @nItems, alSelect, ::aTodos ) ) == AC_NOITEM
+               if ( nMode := ::Ach_Limits( @nFrstItem, @nLastItem, @nItems, alSelect, ::aTodos ) ) == AC_NOITEM
                   nPos := 0
                   nAtTop := Max( 1, nPos - nNumRows + 1 )
-               ELSE
+               else
                   DO WHILE nPos < nLastItem .AND. ! ::Ach_Select( alSelect, nPos )
                      nPos++
                   ENDDO
 
-                  IF nPos > nLastItem
+                  if nPos > nLastItem
                      nPos := BETWEEN( nFrstItem, nPos, nLastItem )
-                  ENDIF
+                  endif
 
                   nAtTop := Min( nAtTop, nPos )
 
-                  IF nAtTop + nNumRows - 1 > nItems
+                  if nAtTop + nNumRows - 1 > nItems
                      nAtTop := BETWEEN( 1, nPos - nNumRows + 1, nItems - nNumRows + 1 )
-                  ENDIF
+                  endif
 
-                  IF nAtTop < 1
+                  if nAtTop < 1
                      nAtTop := 1
-                  ENDIF
-               ENDIF
+                  endif
+               endif
 
                ::DispPage( ::aTodos, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems /*, nRowsClr */ )
-            ENDIF
-         ELSE
-            IF nPos != 0
+            endif
+         else
+            if nPos != 0
                ::Displine( ::aTodos[ nPos ], nTop + nPos - nAtTop, nLeft, .T., .F., nNumCols, nPos )
-            ENDIF
+            endif
             nPos      := 0
             lFinished := .T.
-         ENDIF
-      ENDIF
+         endif
+      endif
    ENDDO
    SetCursor( nSaveCsr )
    return nPos
 
-METHOD HitTest( nTop, nLeft, nBottom, nRight, mRow, mCol )
-**********************************************************
-	if mCol >= nLeft .AND. ;
+METHOD HitTest(nTop, nLeft, nBottom, nRight, mRow, mCol)
+*------------------------------------------------------------------*
+	if mCol >= nLeft  .AND. ;
       mCol <= nRight .AND. ;
-      mRow >= nTop .AND. ;
+      mRow >= nTop   .AND. ;
       mRow <= nBottom
       return mRow - nTop + 1
 	endif
@@ -1494,7 +1563,7 @@ METHOD DispPage( acItems, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop,
       endif
    next
    DispEnd()
-   return
+   return self
 
 	
 METHOD Displine( cLine, nRow, nCol, lSelect, lHiLite, nNumCols, nCurElemento )
@@ -1506,7 +1575,7 @@ METHOD Displine( cLine, nRow, nCol, lSelect, lHiLite, nNumCols, nCurElemento )
       SetPos( nRow, nCol )
    endif
    ColorSelect( CLR_STANDARD )
-   return
+   return self
 	
 
 METHOD Ach_Limits( /* @ */ nFrstItem, /* @ */ nLastItem, /* @ */ nItems, alSelect, acItems)
@@ -1535,9 +1604,9 @@ METHOD Ach_Limits( /* @ */ nFrstItem, /* @ */ nLastItem, /* @ */ nItems, alSelec
    endif
    return AC_IDLE
 
-	
-METHOD Ach_Select( alSelect, nPos )
-************************************
+*-------------------------------------------*	
+METHOD Ach_Select(alSelect, nPos)
+*--------------------------------------------*
    LOCAL sel
 	
    if nPos >= 1 .AND. nPos <= Len( alSelect )
@@ -1558,3 +1627,4 @@ METHOD LeftEqI( string, cKey )
 ******************************
 	LOCAL nLen := Len( cKey )
 	return( iif(Left(string, nLen ) == cKey, true , false))
+

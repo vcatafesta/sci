@@ -1,4 +1,4 @@
-Laserprt.PRG
+* Laserprt.PRG
 * Program ...: Laserprt.PRG
 * Author ....: James H. Chuang
 * Date ......: May 1, 1988
@@ -70,7 +70,7 @@ ENDDO
 lftmg = 10
 rgtmg = 75
 topmg =  3
-txlen = IIF(pglen = "N", 60, 78)
+txlen = Iif(pglen = "N", 60, 78)
 @ 11, 64 GET lftmg PICTURE "99" RANGE  3, 99
 @ 13, 64 GET rgtmg PICTURE "99" RANGE  3, 99
 @ 15, 64 GET topmg PICTURE "99" RANGE  3, 60
@@ -80,10 +80,10 @@ okay = .T.
 @ 22, 0 SAY "Send Codes to Printer? Y/N" GET okay PICTURE "Y"
 READ
 @ 22, 0
-IF okay
-   prtcode = prtreset + IIF(orient = "L", landscape, portrait)
-   prtcode = prtcode  + IIF(prtsize = "C", compitch, stdpitch)
-   prtcode = prtcode  + IIF(pglen = "L", legal, normal)
+if okay
+   prtcode = prtreset + Iif(orient = "L", landscape, portrait)
+   prtcode = prtcode  + Iif(prtsize = "C", compitch, stdpitch)
+   prtcode = prtcode  + Iif(pglen = "L", legal, normal)
    prtcode = prtcode  + marginsd + LTRIM(STR(lftmg, 2, 0)) + leftmrg
    prtcode = prtcode  + marginsd + LTRIM(STR(rgtmg, 2, 0)) + rightmrg
    prtcode = prtcode  + marginpg + LTRIM(STR(topmg, 2, 0)) + topmargin
@@ -96,10 +96,10 @@ IF okay
    SET PRINT OFF
    CLEAR
    @ 22, 0 SAY "Printer setup has been changed."
-ELSE
+else
    @ 22, 0 SAY "Printer is unchanged."
-ENDIF
-@ 23, 0 SAY "Type   ASSIST <Return>   to return to the Assistant."
+endif
+@ 23, 0 SAY "Type   ASSIST <return>   to return to the Assistant."
 SET TALK ON
 * EOP: Laserprt.PRG
 

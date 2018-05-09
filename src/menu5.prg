@@ -37,7 +37,7 @@ Function Main()
 
 	  
 	  Function Fubar()
-	  Return .t.
+	  return .t.
 	  
 	  
 	  

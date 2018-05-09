@@ -1,37 +1,4 @@
-#include "hbclass.ch"
-#Include "box.ch"
-#Include "inkey.ch"
-#Include "common.ch"
-#Include "translate.ch"
-#include <picture.ch>
-
-#xcommand PUBLIC:           =>    nScope := HB_OO_CLSTP_EXPORTED ; HB_SYMBOL_UNUSED( nScope )
-#XCOMMAND DEFAULT <v1> TO <x1> [, <vn> TO <xn> ]								;
-			 =>																				;
-			 IF <v1> == NIL ; <v1> := <x1> ; END									;
-			 [; IF <vn> == NIL ; <vn> := <xn> ; END ]
-
-#XCOMMAND DEFAU <v1> TO <x1> [, <vn> TO <xn> ]								   ;
-			 =>																				;
-			 IF <v1> == NIL ; <v1> := <x1> ; END									;
-			 [; IF <vn> == NIL ; <vn> := <xn> ; END ]
-
-#Define S_TOP               0
-#Define S_BOTTOM            1
-#Define FALSO               .F.
-#Define OK                  .T.
-#Define ESC                  K_ESC
-#define SETA_CIMA 			  5
-#define SETA_BAIXO			  24
-#define SETA_ESQUERDA		  19
-#define SETA_DIREITA 		  4
-#define TECLA_SPACO			  32
-#define TECLA_ALT_F4 		  -33
-#define ENABLE 				  .T.
-#define DISABLE				  .F.
-#DEFINE CURSOR 				  { || Setcursor(IIf( Readinsert(!Readinsert()), 1, 2 )) }
-#DEFINE ALTERACAO_PERMITIDA  .T.
-#DEFINE ALTERACAO_NEGADA	  .F.
+#include <sci.ch>
 
 CLASS MsBrowse FROM TBrowse
 		Export:
@@ -48,27 +15,29 @@ CLASS MsBrowse FROM TBrowse
          Var Registro
          Var Deletado
          Var Alterado
+			Var LinhaHelpTecla1 init ""
+			Var LinhaHelpTecla2 init ""
 
 		Export:
-        Method  New CONSTRUCTOR
-		  Method  Processa
-		  Method  Doget
-		  Method  FreshOrder
-		  Method  Skipped
-		  Method  Show
-        Method  ExitKey
-        Method  TrocaChave
-        Method  SeekChave
-        Method  FiltraChave
-        Method  ForceStable
-        Method  InsToggle
+        METHOD  New CONSTRUCTOR
+		  METHOD  Processa
+		  METHOD  Doget
+		  METHOD  FreshOrder
+		  METHOD  Skipped
+		  METHOD  Show
+        METHOD  ExitKey
+        METHOD  TrocaChave
+        METHOD  SeekChave
+        METHOD  FiltraChave
+        METHOD  ForceStable
+        METHOD  InsToggle
         Message Add METHOD TAdd
-        Method  HotKey
-		  Method  DupReg(cAlias, cCampo, nOrder)
-		  Method  Duplica(cAlias)
+        METHOD  HotKey
+		  METHOD  DupReg(cAlias, cCampo, nOrder)
+		  METHOD  Duplica(cAlias)
 End Class
 
-Method New( nLint, nColt, nLinB, nColb )
+METHOD New( nLint, nColt, nLinB, nColb )
 *****************************************
    LOCAL cFrame2     := SubStr( oAmbiente:Frame, 2, 1 )
    LOCAL cFrame3     := SubStr( oAmbiente:Frame, 3, 1 )
@@ -85,10 +54,10 @@ Method New( nLint, nColt, nLinB, nColb )
    ::PreDoDel  := NIL         // Procedimento do Usuario Antes de Excluir o Registro
    ::PosDoDel  := NIL         // Procedimento do Usuario Apos Excluir o Registro
    ::KeyHotKey := NIL         // Procedimento do Usuario Para Tecla de Atalho
-   ::nTop      := IF( nLint = NIL, ::Topo+1,     nLint )
-   ::nLeft     := IF( nColt = NIL, ::Esquerda+1, nColt )
-   ::nRight    := IF( nColb = NIL, ::Direita-1,  nColb )
-   ::nBottom   := IF( nLinb = NIL, ::Baixo-1,    nLinb )
+   ::nTop      := if( nLint = NIL, ::Topo+1,     nLint )
+   ::nLeft     := if( nColt = NIL, ::Esquerda+1, nColt )
+   ::nRight    := if( nColb = NIL, ::Direita-1,  nColb )
+   ::nBottom   := if( nLinb = NIL, ::Baixo-1,    nLinb )
    ::HeadSep   := cFrame2 + cFrame3 + cFrame2
    ::ColSep    := Chr(032) + cFrame4 + Chr(032)
    ::FootSep   := cFrame2  + cFrame2 + cFrame2
@@ -99,38 +68,38 @@ Method New( nLint, nColt, nLinB, nColb )
    ::Registro  := 0
    ::Deletado  := NIL
    ::Alterado  := NIL
-Return( Self )
+return( Self )
 
-Method Show
+METHOD Show
 ************
    MaBox( ::Baixo+2, ::Esquerda-1, ::Baixo+5, ::Direita+1,"OPCOES")
-   Write( ::Baixo+3, 01, "[-+]Alterar  [F2]Localizar [F3]Filtrar  [CTRL+INSERT]Ins Campo [A-Z]Localizar")
-   Write( ::Baixo+4, 01, "[ESC]Encerrar [F6]Ordem     [F4]Duplicar [CTRL+DELETE]Esc Campo [DEL]Excluir")
+   Write( ::Baixo+3, 01, "[_+]Alterar  [F2]Localizar [F3]Filtrar  [CTRL+INSERT]Ins Campo [A-Z]Localizar " + ::LinhaHelpTecla1)
+   Write( ::Baixo+4, 01, "[ESC]Encerrar [F6]Ordem     [F4]Duplicar [CTRL+DELETE]Esc Campo [DEL]Excluir   " + ::LinhaHelpTecla2)
    MaBox( ::Topo-1, ::Esquerda-1, ::Baixo+1, ::Direita+1, ::Titulo )
    Seta1( ::Baixo+1 )
-Return( Self )
+return( Self )
 
-Method TAdd( cNome, cField, cPicture, cAlias )
+METHOD TAdd( cNome, cField, cPicture, cAlias )
 **********************************************
    LOCAL oCol
 
-   IF Valtype( cField ) = 'B'
+   if Valtype( cField ) = 'B'
       oCol := TBColumnNew( cNome, cField )
-   Else
-      IF cAlias = NIL
+   else
+      if cAlias = NIL
          oCol := TBColumnNew( cNome,  FieldBlock( FieldName( FieldPos( cField ))))
-      Else
+      else
          oCol := TBColumnNew( cNome,  FieldWBlock( FieldName( FieldPos( cField )), Select( cAlias )))
-      EndIF
-   EndIF
-   IF cPicture != NIL
+      endif
+   endif
+   if cPicture != NIL
       oCol:Picture := cPicture
-   EndIF
+   endif
    ::AddColumn( oCol )
-Return( Self )
+return( Self )
 
 
-Method Processa()
+METHOD Processa()
 *****************
    LOCAL cScreen  := SaveScreen()
    LOCAL Local3   := OK
@@ -144,47 +113,47 @@ Method Processa()
 
    ::skipBlock( { |x| ::Skipped( x, Local5 ) })
    ::ForceStable()
-   If ( LastRec() == 0 )
+   if ( LastRec() == 0 )
       nKey := 24
       LOCAL9 := .T.
-   Else
+   else
       LOCAL9 := .F.
-   EndIf
+   endif
    LOCAL3 := .T.
    Do While ( LOCAL3 )
-      If ( !LOCAL9 )
+      if ( !LOCAL9 )
          ::ForceStable()
-      EndIf
-      If ( !LOCAL9 )
-         If ( ::Hitbottom() .AND. ( !LOCAL5 .OR. RecNo()  !=  LastRec() + 1 ) )
-            If ( LOCAL5 )
+      endif
+      if ( !LOCAL9 )
+         if ( ::Hitbottom() .AND. ( !LOCAL5 .OR. RecNo()  !=  LastRec() + 1 ) )
+            if ( LOCAL5 )
                ::Refreshcurrent()
                ::ForceStable()
                Goto Bottom
-            Else
+            else
                LOCAL5 := .T.
-               Setcursor(IIf( Readinsert(), 2, 1 ))
-            EndIf
+               Setcursor(Iif( Readinsert(), 2, 1 ))
+            endif
             ::Down()
             ::ForceStable()
             ::Colorrect({::Rowpos(), 1, ::Rowpos(), ::Colcount()}, {2, 2})
-         EndIf
+         endif
          ::ForceStable()
          nKey := InKey(0)
-         If ( ( cRotina := SetKey(nKey) )  !=  Nil )
+         if ( ( cRotina := SetKey(nKey) )  !=  Nil )
             Eval( cRotina, Procname(1), Procline(1), "")
             Loop
-         EndIf
-         IF ::KeyHotKey != NIL
+         endif
+         if ::KeyHotKey != NIL
             nHot := Len( ::KeyHotKey )
-            IF ( nPos := Ascan( ::KeyHotKey, { |oBloco|oBloco[1] = nKey })) != 0
+            if ( nPos := Ascan( ::KeyHotKey, { |oBloco|oBloco[1] = nKey })) != 0
                Eval( ::KeyHotKey[nPos,2])
                Loop
-            EndIF
-         EndIF
-      Else
+            endif
+         endif
+      else
          LOCAL9 := .F.
-      EndIf
+      endif
       do case
       case nKey == K_F6
          ::TrocaChave()
@@ -210,10 +179,10 @@ Method Processa()
          M_Title("INSERIR COLUNAS")
          nChoice := FazMenu( 10, 10, {" Individual", " Combinado", " Todos " })
          nLen  := FCount()
-         IF nChoice = 0
+         if nChoice = 0
             ResTela( cTela )
             Loop
-         ElseIF nChoice = 1
+         elseif nChoice = 1
             For i := 1 To nLen
                cString := FieldName( i )
                Aadd( aCampos, cString )
@@ -221,87 +190,87 @@ Method Processa()
             oMenu:Limpa()
             MaBox( 01, 10, 23, 50, "ESCOLHA O CAMPO",, Roloc( Cor()))
             n  := Achoice( 02, 11, 22, 39, aCampos )
-            IF n = 0
+            if n = 0
                ResTela( cTela )
                Loop
-            EndIF
+            endif
             oColuna := TBColumnNew( field( n ), FieldWBlock( field( n ), select() ) )
             ::InsColumn( ::ColPos, oColuna )
 
-         ElseIF nChoice = 2
+         elseif nChoice = 2
             SetCursor(1)
             oMenu:Limpa()
             cCombinado := Space(50)
             MaBox( 10, 05, 13, 70, "ENTRE COM A SEQUENCIA",, Roloc( Cor()))
             @ 12, 06 Say "Combinacao :" Get cCombinado
             Read
-            IF !LastKey() = ESC
+            if !LastKey() = ESC
                oColuna := TBColumnNew( AllTrim( cCombinado ) , {|| &cCombinado. })
                ::InsColumn( ::ColPos, oColuna )
-            EndIF
+            endif
             SetCursor(0)
 
-         ElseIF nChoice = 3
+         elseif nChoice = 3
             For i := 1 To nLen
                oColuna := TBColumnNew( field( i ), FieldWBlock( field( i ), select() ) )
                ::InsColumn( ::ColPos, oColuna )
             Next
-          EndIF
+          endif
           ResTela( cTela )
 
       case nKey == K_CTRL_DEL
          ErrorBeep()
-         IF ::ColCount = 1
+         if ::ColCount = 1
             Alerta("Erro: Nao se pode Excluir a Ultima Coluna")
-         Else
-            IF Conf("Pergunta: Esconder a Coluna ?" )
+         else
+            if Conf("Pergunta: Esconder a Coluna ?" )
                oPos := ::ColPos
                ::DelColumn( ::ColPos )
-            EndIF
-        EndIF
+            endif
+        endif
 
       case nKey == K_F10
          ::Freeze := ::ColPos
 
       Case nKey == 24
-         If ( LOCAL5 )
+         if ( LOCAL5 )
             ::Hitbottom(.T.)
-         Else
+         else
             ::Down()
-         EndIf
+         endif
       Case nKey == 5
-         If ( LOCAL5 )
+         if ( LOCAL5 )
             LOCAL6 := .T.
-         Else
+         else
             ::Up()
-         EndIf
+         endif
       Case nKey == 3
-         If ( LOCAL5 )
+         if ( LOCAL5 )
             ::Hitbottom(.T.)
-         Else
+         else
             ::Pagedown()
-         EndIf
+         endif
       Case nKey == 18
-         If ( LOCAL5 )
+         if ( LOCAL5 )
             LOCAL6 := .T.
-         Else
+         else
             ::Pageup()
-         EndIf
+         endif
 
       Case nKey == K_CTRL_PGUP
 		   DbGotop()     // 07.08.2016
-		   If ( LOCAL5 )
+		   if ( LOCAL5 )
             LOCAL6 := .T.
-         Else
+         else
             ::Gotop()
-         EndIf
+         endif
       Case nKey == K_CTRL_PGDN
 		   DbGoBottom() // 07.08.2016
-		   If ( LOCAL5 )
+		   if ( LOCAL5 )
             LOCAL6 := .T.
-         Else
+         else
             ::Gobottom()
-         EndIf
+         endif
 			
 		Case nKey == 4
          ::Right()
@@ -320,45 +289,45 @@ Method Processa()
       Case nKey == 23
          ::Panend()
       Case nKey == 22
-         If ( LOCAL5 )
+         if ( LOCAL5 )
             Eval( CURSOR )
-         EndIf
+         endif
       Case nKey == K_DEL
-         IF !PodeExcluir()
+         if !PodeExcluir()
             ErrorBeep()
             Alerta("Erro: Exclusao nao Permitida")
             Loop
-         EndIF
-         IF ::PreDoDel != NIL
-            IF !Eval( ::PreDoDel )
+         endif
+         if ::PreDoDel != NIL
+            if !Eval( ::PreDoDel )
                Loop
-            EndIF
-         EndIF
-         IF PodeExcluir()
+            endif
+         endif
+         if PodeExcluir()
             ErrorBeep()
-            IF Conf("Pergunta: Excluir Registro Sob o Cursor ?")
-               IF TravaReg()
-                  If ( RecNo()  !=  LastRec() + 1 )
-                     If ( Deleted() )
+            if Conf("Pergunta: Excluir Registro Sob o Cursor ?")
+               if TravaReg()
+                  if ( RecNo()  !=  LastRec() + 1 )
+                     if ( Deleted() )
                         ::Deletado := NIL
                         DbRecall()
-                     Else
+                     else
                         ::Deletado := OK
                         DbDelete()
-                     EndIf
+                     endif
                      ::refreshCurrent():forceStable()
                      ::up():forceStable()
                      ::Freshorder()
                      Libera()
-                  EndIf
-               EndIf
-            EndIf
-         EndIF
-         IF ::PosDoDel != NIL
+                  endif
+               endif
+            endif
+         endif
+         if ::PosDoDel != NIL
             Eval( ::PosDoDel )
-         EndIF
+         endif
 
-      Case nKey == K_RETURN
+      Case nKey == K_ENTER
          oCol := ::getColumn( ::colPos )
 			//xValue := Eval( oCol:block )
 			//cType  := ValType( xValue )
@@ -367,47 +336,47 @@ Method Processa()
 			   ErrorBeep()
             Alerta("ERRO;;Campo de autoincremento.;Alteracao nao Permitida!")
             Loop
-         EndIF
+         endif
 			
-         IF !PodeAlterar()
+         if !PodeAlterar()
             ErrorBeep()
             Alerta("Erro: Alteracao nao Permitida")
             Loop
-         EndIF
-         If ( LOCAL5 .OR. RecNo()  !=  LastRec() + 1 )
+         endif
+         if ( LOCAL5 .OR. RecNo()  !=  LastRec() + 1 )
             SetCursor(1)
             nKey    := ::Doget( LOCAL5)
             LOCAL9  := nKey  !=  0
             SetCursor(0)
-         Else
+         else
             nKey := 24
             LOCAL9 := .T.
-         EndIf
+         endif
 
       Case nKey == 27
          LOCAL3 := .F.
       Otherwise
-         If ( nKey >= 32 .AND. nKey <= 255 )
+         if ( nKey >= 32 .AND. nKey <= 255 )
             SetCursor(1)
             Keyb Chr(nKey)
             ::SeekChave()
             ::FreshOrder()
             SetCursor(0)
             //Keyboard Chr(13) + Chr(nKey)
-         EndIf
+         endif
       EndCase
-      If ( LOCAL6 )
+      if ( LOCAL6 )
          LOCAL6 := .F.
          LOCAL5 := .F.
          ::Freshorder()
          Setcursor(0)
-      EndIf
+      endif
    EndDo
    Setcursor(LOCAL8)
    RestScreen( cScreen )
-Return( Self )
+return( Self )
 
-Method TrocaChave()
+METHOD TrocaChave()
 *******************
    LOCAL cScreen := SaveScreen()
    LOCAL aArray  := {}
@@ -418,28 +387,28 @@ Method TrocaChave()
    LOCAL nAntigo := IndexOrd()
 
    For nX := 1 To nMaximo
-      IF !Empty(( cIndice := IndexKey( nX )))
+      if !Empty(( cIndice := IndexKey( nX )))
          Aadd( aArray, Upper(IndexKey( nX )))
-      EndIF
+      endif
    Next
    Aadd( aArray, "Natural" )
    M_Title("ESCOLHA A ORDEM")
    nChoice := FazMenu( 02, 02, aArray, Cor())
-   IF nChoice = 0
+   if nChoice = 0
       Order( nAntigo )
       ResTela( cScreen )
-      Return
-   EndIF
+      return
+   endif
    cString := aArray[ nChoice ]
-   IF cString = "Natural"
+   if cString = "Natural"
       Order( 0 )
-   Else
+   else
       Order( nChoice )
-   EndIF
+   endif
    ResTela( cScreen )
-Return( Self )
+return( Self )
 
-Method SeekChave()
+METHOD SeekChave()
 ******************
    LOCAL cScreen  := SaveScreen()
 	LOCAL cPicture := "@K!"
@@ -450,8 +419,8 @@ Method SeekChave()
    if Empty( IndexKey())
       ErrorBeep()
       Alert("Erro: Escolha um indice antes.")
-      Return
-   EndIF
+      return
+   endif
    MaBox( 10, 10, 12, 70,,, Roloc(Cor()))
 	nField   := FieldPos(IndexKey())
 	xCampo   := FieldName( nField )
@@ -459,386 +428,393 @@ Method SeekChave()
 	if xCampo == "FONE" .OR. xCampo == "FAX"
 		cPicture := PIC_FONE
 	endif	
-   IF cProcura = NIL
+   if cProcura = NIL
       cProcura := Space(40)
-   EndIF
+   endif
    @ 11, 11 Say "Procurar por : " Get cProcura Pict cPicture
    Read
-   IF LastKey() = ESC
+   if LastKey() = ESC
       ResTela( cScreen )
-      Return
-   EndIF
-   IF ValType( cProcura ) = "C"
+      return
+   endif
+   if ValType( cProcura ) = "C"
       cProcura := AllTrim( cProcura )
-   EndIF
+   endif
    DbSeek( cProcura )
    Restela( cScreen )
-Return( Self )
+return( Self )
 
-Method FiltraChave()
+METHOD FiltraChave()
 ********************
    LOCAL cScreen := SaveScreen()
    LOCAL cProcura
 
-   IF Empty( IndexKey())
+   if Empty( IndexKey())
       ErrorBeep()
       Alert("Erro: Escolha um indice antes.")
-      Return
-   EndIF
+      return
+   endif
    MaBox( 10, 10, 12, 70,,, Roloc(Cor()))
    cProcura := FieldGet(FieldPos( IndexKey()))
-   IF cProcura = NIL
+   if cProcura = NIL
       cProcura := Space(40)
-   EndIF
+   endif
    @ 11, 11 Say "Filtrar por : " Get cProcura Pict "@K!"
    Read
-   IF LastKey() = ESC
+   if LastKey() = ESC
       ResTela( cScreen )
-      Return
-   EndIF
-   IF ValType( cProcura ) = "C"
+      return
+   endif
+   if ValType( cProcura ) = "C"
       cProcura := AllTrim( cProcura )
-   EndIF
+   endif
    Sx_SetScope( S_TOP, cProcura)
    Sx_SetScope( S_BOTTOM, cProcura )
    DbGoTop()
-Return( Self )
+return( Self )
 
 METHOD DupReg(cAlias, cCampo, nOrder)
 *************************************
-LOCAL cScreen := SaveScreen()
-LOCAL oCol	  := ::getColumn( ::colPos )
-LOCAL Arq_Ant := Alias()
-LOCAL Ind_Ant := IndexOrd()
-LOCAL xTemp   := FTempName()
-LOCAL aStru   := (cAlias)->(DbStruct())
-LOCAL nConta  := (cAlias)->(FCount())
-LOCAL lAdmin  := TIniNew(oAmbiente:xBaseDados + "\" + oAmbiente:xUsuario + ".INI"):ReadBool('permissao','usuarioadmin', FALSO)
-LOCAL xLen
-LOCAL cRegisto
-LOCAL xRegistro
-LOCAL xRegLocal
-LOCAL cType
-LOCAL xCampo
+	LOCAL cScreen := SaveScreen()
+	LOCAL oCol	  := ::getColumn( ::colPos )
+	LOCAL Arq_Ant := Alias()
+	LOCAL Ind_Ant := IndexOrd()
+	LOCAL Handle  := FTempMemory()
+	LOCAL xAlias  := FTempMemory()
+	LOCAL aStru   := (cAlias)->(DbStruct())
+	LOCAL nConta  := (cAlias)->(FCount())
+	LOCAL lAdmin  := TIniNew(oAmbiente:xUsuario + ".INI"):ReadBool('permissao','usuarioadmin', FALSO)
+	LOCAL xLen
+	LOCAL cRegisto
+	LOCAL xRegistro
+	LOCAL xRegLocal
+	LOCAL cType
+	LOCAL xCampo
 
-if !lAdmin
-	IF !PodeIncluir()
-		return(OK)
+	if !lAdmin
+		if !PodeIncluir()
+			return(OK)
+		endif
 	endif
-endif
-ifnil(nOrder, NATURAL)
-ErrorBeep()
-IF !Conf('Pergunta: Duplicar registro sob o cursor ?')
-	return( OK )
-EndIF
-xRegistro := (cAlias)->(Recno())
-DbCreate( xTemp, aStru )
-Use (xTemp) Exclusive Alias xAlias New
-xAlias->(DbAppend())
-For nField := 1 To nConta
-   xCampo := xAlias->(FieldName( nField ))
-	if xCampo != "ID"
-		xAlias->(FieldPut( nField, (cAlias)->(FieldGet( nField ))))
-	endif	
-Next
-IF (cAlias)->(Incluiu())
-	For nField := 1 To nConta
-		xCampo := xAlias->(FieldName( nField ))
+	ifnil(nOrder, NATURAL)
+	ErrorBeep()
+	if !Conf('Pergunta: Duplicar registro sob o cursor ?')
+		return( OK )
+	endif
+	xRegistro := (cAlias)->(Recno())
+	
+	xAlias := ms_mem_dbCreate(Handle, aStru)	
+	(xAlias)->(DbAppend())	
+	
+	for nField := 1 To nConta
+		xCampo := (xAlias)->(FieldName( nField ))
 		if xCampo != "ID"
-			(cAlias)->(FieldPut( nField, xAlias->(FieldGet( nField ))))
+			(xAlias)->(FieldPut( nField, (cAlias)->(FieldGet( nField ))))
 		endif	
-	Next
-	xRegLocal := (cAlias)->(Recno())
-	(cAlias)->(Libera())
-	(cAlias)->(Order( nOrder))
-	(cAlias)->(DbGoBottom())
+	next
 	
-	cType := ValType((cAlias)->&(cCampo))	   
-	if cType == "C"
-		xLen  := Len((cAlias)->&(cCampo))
-		CRegistro := StrZero(Val((cAlias)->&(cCampo)) + 1 , xLen)
-	elseif cType == "N"
-		CRegistro := (cAlias)->&(cCampo) + 1
-	else
-		CRegistro := (cAlias)->&(cCampo)
-	endif
-	(cAlias)->(DbGoto( xRegistro ))
-	if (cAlias)->(TravaReg())
-		(cAlias)->&(cCampo) := cRegistro
+	if (cAlias)->(Incluiu())
+		for nField := 1 To nConta
+			xCampo := (xAlias)->(FieldName( nField ))
+			if xCampo != "ID"
+				(cAlias)->(FieldPut( nField, (xAlias)->(FieldGet( nField ))))
+			endif	
+		next
+		xRegLocal := (cAlias)->(Recno())
 		(cAlias)->(Libera())
+		(cAlias)->(Order( nOrder))
+		(cAlias)->(DbGoBottom())
+		
+		cType := ValType((cAlias)->&(cCampo))	   
+		if cType == "C"
+			xLen  := Len((cAlias)->&(cCampo))
+			CRegistro := StrZero(Val((cAlias)->&(cCampo)) + 1 , xLen)
+		elseif cType == "N"
+			CRegistro := (cAlias)->&(cCampo) + 1
+		else
+			CRegistro := (cAlias)->&(cCampo)
+		endif
+		(cAlias)->(DbGoto( xRegistro ))
+		if (cAlias)->(TravaReg())
+			(cAlias)->&(cCampo) := cRegistro
+			(cAlias)->(Libera())
+		endif
+		
 	endif
-	
-EndIF
-xAlias->(DbCloseArea())
-Ferase(xTemp)
-AreaAnt( Arq_Ant, Ind_Ant )
-(cAlias)->(DbGoto( xRegistro ))
-::FreshOrder()
-(cAlias)->(DbGoto( xRegistro ))
-return( OK )
+	(xAlias)->(DbCloseArea())
+	FecharTemp(Handle)		   
+	AreaAnt( Arq_Ant, Ind_Ant )
+	(cAlias)->(DbGoto( xRegistro ))
+	::FreshOrder()
+	(cAlias)->(DbGoto( xRegistro ))
+	return( OK )
 
 METHOD Duplica( cAlias )
 ************************
-LOCAL cScreen := SaveScreen()
-LOCAL oCol	  := ::getColumn( ::colPos )
-LOCAL Arq_Ant := Alias()
-LOCAL Ind_Ant := IndexOrd()
-LOCAL xTemp   := FTempName()
-LOCAL lAdmin  := TIniNew(oAmbiente:xBaseDados + "\" + oAmbiente:xUsuario + ".INI"):ReadBool('permissao','usuarioadmin', FALSO)
-LOCAL xLen
-LOCAL cRegisto
-LOCAL xRegistro
-LOCAL xRegLocal
-LOCAL cType
-LOCAL xCampo
-LOCAL aStru   
-LOCAL nConta  
-LOCAL nOrder := Ind_Ant
-DEFAU cAlias TO Alias()
+	LOCAL cScreen := SaveScreen()
+	LOCAL oCol	  := ::getColumn( ::colPos )
+	LOCAL Arq_Ant := Alias()
+	LOCAL Ind_Ant := IndexOrd()
+	LOCAL Handle  := FTempMemory()
+	LOCAL xAlias  := FTempMemory()	
+	LOCAL lAdmin  := TIniNew(oAmbiente:xUsuario + ".INI"):ReadBool('permissao','usuarioadmin', FALSO)
+	LOCAL xLen
+	LOCAL cRegisto
+	LOCAL xRegistro
+	LOCAL xRegLocal
+	LOCAL cType
+	LOCAL xCampo
+	LOCAL aStru   
+	LOCAL nConta  
+	LOCAL nOrder := Ind_Ant
+	DEFAU cAlias TO Alias()
 
-if !lAdmin
-	IF !PodeIncluir()
-		return(OK)
+	if !lAdmin
+		if !PodeIncluir()
+			return(OK)
+		endif
 	endif
-endif
-ErrorBeep()
-IF !Conf('Pergunta: Duplicar registro sob o cursor ?')
-	return( OK )
-EndIF
-aStru     := (cAlias)->(DbStruct())
-nConta    := (cAlias)->(FCount())
-xRegistro := (cAlias)->(Recno())
-DbCreate( xTemp, aStru )
-Use (xTemp) Exclusive Alias xAlias New
-xAlias->(DbAppend())
-For nField := 1 To nConta
-   xCampo := xAlias->(FieldName( nField ))
-	if xCampo != "ID"
-		xAlias->(FieldPut( nField, (cAlias)->(FieldGet( nField ))))
-	endif	
-Next
-IF (cAlias)->(Incluiu())
-	For nField := 1 To nConta
-		xCampo := xAlias->(FieldName( nField ))
+	
+	ErrorBeep()
+	if !Conf('Pergunta: Duplicar registro sob o cursor ?')
+		return( OK )
+	endif
+	
+	aStru     := (cAlias)->(DbStruct())
+	nConta    := (cAlias)->(FCount())
+	xRegistro := (cAlias)->(Recno())	
+	xAlias    := ms_mem_dbCreate(Handle, aStru)		
+
+	(xAlias)->(DbAppend())
+	for nField := 1 To nConta
+		xCampo := (xAlias)->(FieldName( nField ))
 		if xCampo != "ID"
-			(cAlias)->(FieldPut( nField, xAlias->(FieldGet( nField ))))
+			(xAlias)->(FieldPut( nField, (cAlias)->(FieldGet( nField ))))
 		endif	
-	Next
-	xRegLocal := (cAlias)->(Recno())
-	(cAlias)->(Libera())
-	(cAlias)->(Order( nOrder))
-	(cAlias)->(DbGoBottom())
-EndIF
-xAlias->(DbCloseArea())
-Ferase(xTemp)
-AreaAnt( Arq_Ant, Ind_Ant )
-(cAlias)->(DbGoto( xRegistro ))
-::FreshOrder()
-(cAlias)->(DbGoto( xRegistro ))
-return( OK )
+	next
+	
+	if (cAlias)->(Incluiu())
+		for nField := 1 To nConta
+			xCampo := (xAlias)->(FieldName( nField ))
+			if xCampo != "ID"
+				(cAlias)->(FieldPut( nField, (xAlias)->(FieldGet( nField ))))
+			endif	
+		next
+		xRegLocal := (cAlias)->(Recno())
+		(cAlias)->(Libera())
+		(cAlias)->(Order( nOrder))
+		(cAlias)->(DbGoBottom())
+	endif
+	(xAlias)->(DbCloseArea())
+	FecharTemp(Handle)		   
+	AreaAnt( Arq_Ant, Ind_Ant )
+	(cAlias)->(DbGoto( xRegistro ))
+	::FreshOrder()
+	(cAlias)->(DbGoto( xRegistro ))
+	return( OK )
 
-Method DOGET(  ARG2 )
+METHOD DOGET(  ARG2 )
 *********************
-LOCAL Local1
-LOCAL LOCAL2
-LOCAL LOCAL3
-LOCAL oCol
-LOCAL LOCAL6
-LOCAL LOCAL8
-LOCAL LOCAL9
-LOCAL Local10
-LOCAL Local11
-LOCAL Local12
-LOCAL nIndice
-LOCAL oGet
-LOCAL xValue
+	LOCAL Local1
+	LOCAL LOCAL2
+	LOCAL LOCAL3
+	LOCAL oCol
+	LOCAL LOCAL6
+	LOCAL LOCAL8
+	LOCAL LOCAL9
+	LOCAL Local10
+	LOCAL Local11
+	LOCAL Local12
+	LOCAL nIndice
+	LOCAL oGet
+	LOCAL xValue
 
-::Hittop(.F.)
-::ForceStable()
+	::Hittop(.F.)
+	::ForceStable()
 
-IF ::PreDoGet != NIL
-   IF !Eval( ::PreDoGet )
-      Return( 0 )
-   EndIF
-EndIF
+	if ::PreDoGet != NIL
+		if !Eval( ::PreDoGet )
+			return( 0 )
+		endif
+	endif
 
-LOCAL2  := Set(_SET_SCOREBOARD, .F.)
-LOCAL3  := Set(_SET_EXIT, .T.)
-Local1  := SetKey(K_INS, CURSOR )
-Local10 := Setcursor(IIf( Readinsert(), 2, 1 ))
-nIndice := Indexkey(0)
-If ( !Empty( nIndice ))
-	LOCAL8 := &nIndice
-EndIf
-oCol	 := ::Getcolumn(::Colpos())
-xValue := Eval( oCol:Block )
-cCor1  := AttrToa( 79 )
-IF oCol:Picture = NIL
-   Do case
-   Case ISCHAR( xValue )
-      oCol:picture    := repl( "!", len( xValue ) )
-   Case ISDATE( xValue )
-      oCol:picture    := "##/##/##"
-   EndCase
-EndIF
-Local11 := Eval(oCol:Block())
-oGet	  := Getnew(Row(), Col(), { | _1 | IIf( PCount() == 0, Local11, Local11 := _1 ) }, "mGetVar", oCol:Picture, ::Colorspec )
-oGet:ColorDisp( cCor1 )
-LOCAL9 := .F.
-IF ::PreDoGet != NIL
-   IF Eval( ::PreDoGet )
-      If ( LOCAL9 )
-         ::Freshorder()
-         LOCAL6 := 0
-      Else
-         ::Refreshcurrent()
-         LOCAL6 := ::Exitkey(ARG2)
-      EndIf
-      If ( ARG2 )
-         ::Colorrect({::Rowpos(), 1, ::Rowpos(), ::Colcount()}, {2, 2})
-      EndIf
-      Setcursor(Local10)
-      Set Scoreboard (LOCAL2)
-      Set(_SET_EXIT, LOCAL3)
-      SetKey(K_INS, Local1)
-   EndIF
-EndIF
-IF TravaReg()
-	If ReadModal({oGet})
-		If ( ARG2 .AND. RecNo() == LastRec() + 1 )
-			IF PodeIncluir()
-				IF Incluiu()
-				EndIF
-			EndIF
-		EndIf
-		Eval( oCol:Block(), Local11)
-      IF ( !ARG2 .AND. !Empty(Local12 := Ordfor(Indexord())) .AND. !&Local12 )
-        DbGoTop()
-      EndIf
-      If ( !ARG2 .AND. !Empty(nIndice) .AND. LOCAL8  !=  &nIndice )
-         LOCAL9 := .T.
-      EndIf
-	EndIf
-   IF ::PosDoGet != NIL
-      Eval( ::PosDoGet )
-   EndIF
-   ::Alterado := OK
-   _Field->Atualizado := Date()
-	Libera()
-EndIf
-If ( LOCAL9 )
-   ::Freshorder()
-	LOCAL6 := 0
-Else
-	::Refreshcurrent()
-	LOCAL6 := ::Exitkey(ARG2)
-EndIf
-If ( ARG2 )
-	::Colorrect({::Rowpos(), 1, ::Rowpos(), ::Colcount()}, {2, 2})
-EndIf
-Setcursor(Local10)
-Set Scoreboard (LOCAL2)
-Set(_SET_EXIT, LOCAL3)
-SetKey(K_INS, Local1)
-Return LOCAL6
+	LOCAL2  := Set(_SET_SCOREBOARD, .F.)
+	LOCAL3  := Set(_SET_EXIT, .T.)
+	Local1  := SetKey(K_INS, CURSOR )
+	Local10 := Setcursor(Iif( Readinsert(), 2, 1 ))
+	nIndice := Indexkey(0)
+	if ( !Empty( nIndice ))
+		LOCAL8 := &nIndice
+	endif
+	oCol	 := ::Getcolumn(::Colpos())
+	xValue := Eval( oCol:Block )
+	cCor1  := AttrToa( 79 )
+	if oCol:Picture = NIL
+		Do case
+		Case ISCHAR( xValue )
+			oCol:picture    := repl( "!", len( xValue ) )
+		Case ISDATE( xValue )
+			oCol:picture    := "##/##/##"
+		EndCase
+	endif
+	Local11 := Eval(oCol:Block())
+	oGet	  := Getnew(Row(), Col(), { | _1 | Iif( PCount() == 0, Local11, Local11 := _1 ) }, "mGetVar", oCol:Picture, ::Colorspec )
+	oGet:ColorDisp( cCor1 )
+	LOCAL9 := .F.
+	if ::PreDoGet != NIL
+		if Eval( ::PreDoGet )
+			if ( LOCAL9 )
+				::Freshorder()
+				LOCAL6 := 0
+			else
+				::Refreshcurrent()
+				LOCAL6 := ::Exitkey(ARG2)
+			endif
+			if ( ARG2 )
+				::Colorrect({::Rowpos(), 1, ::Rowpos(), ::Colcount()}, {2, 2})
+			endif
+			Setcursor(Local10)
+			Set Scoreboard (LOCAL2)
+			Set(_SET_EXIT, LOCAL3)
+			SetKey(K_INS, Local1)
+		endif
+	endif
+	if TravaReg()
+		if ReadModal({oGet})
+			if ( ARG2 .AND. RecNo() == LastRec() + 1 )
+				if PodeIncluir()
+					if Incluiu()
+					endif
+				endif
+			endif
+			Eval( oCol:Block(), Local11)
+			if ( !ARG2 .AND. !Empty(Local12 := Ordfor(Indexord())) .AND. !&Local12 )
+			  DbGoTop()
+			endif
+			if ( !ARG2 .AND. !Empty(nIndice) .AND. LOCAL8  !=  &nIndice )
+				LOCAL9 := .T.
+			endif
+		endif
+		if ::PosDoGet != NIL
+			Eval( ::PosDoGet )
+		endif
+		::Alterado := OK
+		_Field->Atualizado := Date()
+		Libera()
+	endif
+	if ( LOCAL9 )
+		::Freshorder()
+		LOCAL6 := 0
+	else
+		::Refreshcurrent()
+		LOCAL6 := ::Exitkey(ARG2)
+	endif
+	if ( ARG2 )
+		::Colorrect({::Rowpos(), 1, ::Rowpos(), ::Colcount()}, {2, 2})
+	endif
+	Setcursor(Local10)
+	Set Scoreboard (LOCAL2)
+	Set(_SET_EXIT, LOCAL3)
+	SetKey(K_INS, Local1)
+	return LOCAL6
 
-Method EXITKEY( ARG1 )
+METHOD EXITKEY( ARG1 )
 **********************
-Local nKey
+	Local nKey
 
-nKey := LastKey()
-Do Case
-Case nKey == 3
-	If ( ARG1 )
+	nKey := LastKey()
+	Do Case
+	Case nKey == 3
+		if ( ARG1 )
+			nKey := 0
+		else
+			nKey := 24
+		endif
+	Case nKey == 18
+		if ( ARG1 )
+			nKey := 0
+		else
+			nKey := 5
+		endif
+	Case nKey == 13 .OR. nKey >= 32 .AND. nKey <= 255
+		nKey := 4
+	Case nKey  !=	5 .AND. nKey  !=	24
 		nKey := 0
-	Else
-		nKey := 24
-	EndIf
-Case nKey == 18
-	If ( ARG1 )
-		nKey := 0
-	Else
-		nKey := 5
-	EndIf
-Case nKey == 13 .OR. nKey >= 32 .AND. nKey <= 255
-	nKey := 4
-Case nKey  !=	5 .AND. nKey  !=	24
-	nKey := 0
-EndCase
-Return nKey
+	EndCase
+	return nKey
 
-Method FreshOrder()
+METHOD FreshOrder()
 *******************
-LOCAL nRecno := RecNo()
-::Refreshall()
-::ForceStable()
-If ( nRecno  !=  LastRec() + 1 )
-	Do While ( RecNo()  !=	nRecno .AND. !BOF() )
-		::Up()
-      ::ForceStable()
-	EndDo
-EndIf
-Return( Self )
+	LOCAL nRecno := RecNo()
+	::Refreshall()
+	::ForceStable()
+	if ( nRecno  !=  LastRec() + 1 )
+		Do While ( RecNo()  !=	nRecno .AND. !BOF() )
+			::Up()
+			::ForceStable()
+		EndDo
+	endif
+	return( Self )
 
-Method SKIPPED( ARG1, ARG2 )
+METHOD SKIPPED( ARG1, ARG2 )
 ****************************
-Local oBrowse
-oBrowse := 0
-If ( LastRec()  !=  0 )
-	If ( ARG1 == 0 )
-		Skip 0
-	ElseIf ( ARG1 > 0 .AND. RecNo()	!=  LastRec() + 1 )
-		Do While ( oBrowse < ARG1 )
-			Skip
-			If ( EOF() )
-				If ( ARG2 )
-					oBrowse++
-				Else
-					Skip -1
-				EndIf
-				Exit
-			EndIf
-			oBrowse++
-		EndDo
-	ElseIf ( ARG1 < 0 )
-		Do While ( oBrowse > ARG1 )
-			Skip -1
-			If ( BOF() )
-				Exit
-			EndIf
-			oBrowse--
-		EndDo
-	EndIf
-EndIf
-Return oBrowse
+	Local oBrowse
+	oBrowse := 0
+	if ( LastRec()  !=  0 )
+		if ( ARG1 == 0 )
+			Skip 0
+		elseif ( ARG1 > 0 .AND. RecNo()	!=  LastRec() + 1 )
+			Do While ( oBrowse < ARG1 )
+				Skip
+				if ( EOF() )
+					if ( ARG2 )
+						oBrowse++
+					else
+						Skip -1
+					endif
+					Exit
+				endif
+				oBrowse++
+			EndDo
+		elseif ( ARG1 < 0 )
+			Do While ( oBrowse > ARG1 )
+				Skip -1
+				if ( BOF() )
+					Exit
+				endif
+				oBrowse--
+			EndDo
+		endif
+	endif
+	return oBrowse
 
-Method ForceStable( browse )
+METHOD ForceStable( browse )
 ****************************
    WHILE !::stabilize()
    EndDo
-Return( Self )
+	return( Self )
 
-Method InsToggle()
+METHOD InsToggle()
 ******************
-   IF READINSERT()
+   if READINSERT()
        READINSERT(.F.)
        SETCURSOR(SC_NORMAL)
 
-   Else
+   else
        READINSERT(.T.)
        SETCURSOR(SC_INSERT)
 
-   EndIF
-   Return( Self )
+   endif
+   return( Self )
 
-Method HotKey( cTecla, xFuncao )
+METHOD HotKey( cTecla, xFuncao )
 *********************************
-   IF ::KeyHotKey = NIL
+   if ::KeyHotKey = NIL
       ::KeyHotKey := {}
-   EndIF
+   endif
    Aadd( ::KeyHotKey, { cTecla, xFuncao } )
-Return( Self )
+	return( Self )
 
 Function TMsBrowseNew( nLint, nColt, nLinB, nColb )
 ***************************************************
-Return( MsBrowse():New( nLint, nColt, nLinb, nColb ))
+	return( MsBrowse():New( nLint, nColt, nLinb, nColb ))

@@ -21,7 +21,7 @@ f/*****
  *
  *    Arguments: nKey  - Key code
  *             : oBrow - TBrowse object                                                     ³
- * Return Value: .T.   - Key was handled by function, .F. otherwise
+ * return Value: .T.   - Key was handled by function, .F. otherwise
  *
  */
 
@@ -44,10 +44,10 @@ FUNCTION TBMoveCursor( nKey, oBrow )
          K_CTRL_END  , {|obj| obj:panEnd()}   }
 
    nFound := AScan( aKeys, nKey )
-   IF (nFound != 0)
+   if (nFound != 0)
       Eval( aKeys[++nFound], oBrow )
 
-   ENDIF
-   RETURN (nFound != 0)
+   endif
+   return (nFound != 0)
 
 // EOF - BROWMOVE.PRG //

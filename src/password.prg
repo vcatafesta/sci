@@ -8,9 +8,9 @@ While .T.
    @ 10, 10 Say "Senha : " Get cSenha Pict "@S" Valid Retorno( cSenha)
    @ 11, 10 Say "Nome  : " Get cNome  Pict "@!" Valid !Retorno( cNome)
    Read
-   IF Lastkey() = 27
+   if Lastkey() = 27
       __Quit()
-   EndIF
+   endif
    QOut( cNome )
    QOut( csenha )
    inkey(0)
@@ -48,14 +48,14 @@ FUNCTION Test()
       @ 10,10 Say "Senha :" GET cPassword SEND reader := {|o| o:varPut(GetPsw(o))}
       READ
       @ 20,10 SAY cPassword
-      IF INKEY(5) == K_ESC
+      if INKEY(5) == K_ESC
          EXIT
 
-      ENDIF
+      endif
 
    END
    restscreen(,,,,cScreen)
-   RETURN (NIL)
+   return (NIL)
 
 // EOF - GET12.PRG //
 

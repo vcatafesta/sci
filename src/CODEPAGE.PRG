@@ -64,7 +64,7 @@
 	   Inkey( 0 )
 	   Alert( "ALERT BOX" )
 	 
-	   RETURN
+	   return
 	 
 	STATIC PROCEDURE dspboxch( cStr )
 	 
@@ -77,4 +77,4 @@
 	      SetPos( r, c + 1 )
 	   NEXT
 	 
-	   RETURN
+	   return

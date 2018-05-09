@@ -13,4 +13,4 @@ FUNCTION Main()
 
   oApplication:exec()
 
-RETURN ( 0 )
+return ( 0 )

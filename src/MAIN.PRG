@@ -1,229 +1,117 @@
-#include <hmg.ch>
+#include "common.ch"
+#include "inkey.ch"
+#include "box.ch"
 
-cString := MSDecToChr("#65#66#")
+#define CRLF            Chr(10)
 
-function Main()
-LOCAL i, ar[3, 26], aBlocks[3], aHeadings[3]
-            LOCAL nElem := 1, bGetFunc
+REQUEST HB_GT_WIN_DEFAULT
 
-      * Set up two dimensional array "ar"
+FUNCTION Main
+LOCAL GetList := {}
+LOCAL cBotaoNovo := .t.
+LOCAL cBotaoGravar := .t.
+LOCAL cBotaoSair := .t.
+LOCAL cLetraBotao := ""
 
-            FOR i = 1 TO 26
-               ar[1, i] := i          //  1  ->  26  Numeric
-               ar[2, i] := CHR(i+64)  // "A" -> "Z"  Character
-               ar[3, i] := CHR(91-i)  // "Z" -> "A"  Character
-             NEXT i
+Private cNome := Space(25)
+Private cEndereco := Space(25)
+Private cTelefone := Space(15)
+Private lNovo := .F.
 
-      * SET UP aHeadings Array for column headings
+Private cCordoBotao:="GR+/B*,GR+/G,R+/N,GR+/R*"
+Private cCordoGet:=("BG/N,W+/B"+"W+/R"+",,,"+"N/B")
 
-            aHeadings  := { "Numbers", "Letters", "Reverse" }
+ConfiguraAmbiente()
+Setcolor("W/W")
+CLS
+SETKEY( K_ALT_G, { || SetaBotao('G') } )
+SETKEY( K_ALT_S, { || SetaBotao('S') } )
+SETKEY( K_ALT_N, { || SetaBotao('N') } )
 
-      * Need to set up individual array blocks for each TBrowse column
+Do While .T.
 
-        aBlocks[1] := {|| STR(ar[1, nElem], 2) } // prevent default 10 spaces
-        aBlocks[2] := {|| ar[2, nElem] }
-        aBlocks[3] := {|| ar[3, nElem] }
+  @ 2, 8, 12, 47 BOX B_DOUBLE + Space(1) Color "N/BG"
+  HB_Shadow(2, 8, 12, 47)
+  SetColor(cCordoGet)
+  SET CURSOR ON
+  
+  @ 4, 10 SAY "Nome" + Space(10 - Len("Nome")) Color "W+/BG" GET cNome PICTURE "@A" When lNovo
+  @ 6, 10 SAY "Endereco" + Space(10 - Len("Endereco")) Color "W+/BG" GET cEndereco PICTURE "@A" When lNovo
+  @ 8, 10 SAY "Telefone" + Space(10 - Len("Telefone")) Color "W+/BG" GET cTelefone PICTURE "###-###-###" when lNovo
 
-      * set up TestGet() as the passed Get Function so FT_ArEdit knows how
-      * to edit the individual gets.
+  @ 10, 11 GET cBotaoNovo PushButton CAPTION " &Novo " Color cCordoBotao STYLE "[]" STATE {|| SetaBotao('N') }
+  @ 10, 23 GET cBotaoGravar PushButton CAPTION " &Gravar " Color cCordoBotao STYLE "[]" STATE {|| SetaBotao('G')}
+  @ 10, 35 GET cBotaoSair PushButton CAPTION " &Sair " Color cCordoBotao STYLE "[]" STATE {|| SetaBotao('S')}
+  
+  READ
+  SET CURSOR OFF
+  if LASTKEY() = K_ESC; return .F.; endif
+Enddo
+return NIL
 
-        //bGetFunc   := { | b, ar, nDim, nElem | TestGet(b, ar, nDim, nElem) }
-		  bGetFunc   := { | b, ar, nDim, nElem | colorido(b, ar, nDim, nElem) }
-        SetColor( "N/W, W/N, , , W/N" )
-        CLEAR SCREEN
-        FT_AREDIT(3, 5, 18, 75, ar, @nElem, aHeadings, aBlocks, bGetFunc)
+Function SetaBotao(cLetraBotao)
+DO CASE
+   CASE Upper(cLetraBotao) == "G"
+        lNovo:=.F.
+		hb_ALERT("gravar os dados no DBF ou SQL ->"+CRLF+CRLF+;
+		      "Nome: "+cNome+CRLF+;
+		      "Endereco: "+cEndereco+CRLF+;
+		      "Telefone: "+cTelefone )
+	    KEYBOARD Chr(3)
+   CASE Upper(cLetraBotao) == "S"
+        CLS
+        Keyboard(chr(K_ESC))   
+   CASE Upper(cLetraBotao) == "N"
+        if !Empty(Alltrim(cNome)) .and. !Empty(Alltrim(cEndereco)) .and. !Empty(Alltrim(cTelefone))
+		   hb_ALERT("gravar os dados no DBF ou SQL ->"+CRLF+CRLF+;
+		         "Nome: "+cNome+CRLF+;
+		         "Endereco: "+cEndereco+CRLF+;
+		         "Telefone: "+cTelefone )
+		endif
+        cNome := Space(25)
+		cEndereco := Space(25)
+		cTelefone := Space(15)
+		lNovo := .T.
+		KEYBOARD Chr(3)
+ENDCASE
+return
 
+Procedure ConfiguraAmbiente()
+  // REQUEST SQLRDD
+  // REQUEST SR_PGS
+  REQUEST HB_LANG_PT
+  REQUEST HB_CODEPAGE_UTF8
+  REQUEST HB_CODEPAGE_UTF8EX
+  REQUEST HB_GT_WVT_DEFAULT
 
+  HB_CDPSELECT( "UTF8EX")
+  HB_LANGSELECT("PT")
 
+  mSetCursor(.T.)
 
-Function Main3()
- // Declare arrays
-     LOCAL aColors  := {}
-     LOCAL aBar     := { "Editar", "Relatorios", "Video" }
+  SETMODE(25,80)
 
-     // Include the following two lines of code in your program, as is.
-     // The first creates aOptions with the same length as aBar.  The
-     // second assigns a three-element array to each element of aOptions.
-     LOCAL aOptions[ LEN( aBar ) ]
-     AEVAL( aBar, { |x,i| aOptions[i] := { {},{},{} } } )
-
-     // fill color array
-     // Box Border, Menu Options, Menu Bar, Current Selection, Unselected
-     //aColors := {"W+/G", "N/G", "N/G", "N/W", "N+/G"} //, {"W+/N", "W+/N", "W/N", "N/W","W/N"}
-	  nErrorCode := 0
-	  aColors := FT_RESTARR('COR.DAT',@nErrorCode)
-
-  // array for first pulldown menu
-  FT_FILL( aOptions[1], 'A. Execute A Dummy Procedure' , {|| FT_XBOX('L','W','D','GR+/R','W/B',5,10,'It is so nice',;
-                       'to not have to do the messy chore',;
-                       'of calculating the box size!')}, .t. )
-  FT_FILL( aOptions[1], 'B. Enter Daily Charges'       , {|| Colorido()},     .t. )
-  FT_FILL( aOptions[1], 'C. Enter Payments On Accounts', {|| .t.},     .f. )
-
-  // array for second pulldown menu
-  FT_FILL( aOptions[2], 'A. Print Member List'         , {|| .t.},     .t. )
-  FT_FILL( aOptions[2], 'B. Print Active Auto Charges' , {|| .t.},     .t. )
-
-  // array for third pulldown menu
-  FT_FILL( aOptions[3], 'A. Transaction Totals Display', {|| .t.},     .t. )
-  FT_FILL( aOptions[3], 'B. Display Invoice Totals'    , {|| .t.},     .t. )
-  FT_FILL( aOptions[3], 'C. Exit To DOS'               , {|| .f.},     .t. )
-
-  // CALL FT_MENU1
-  Cls
-  FT_MENU1( aBar, aOptions, aColors, 0 )
-
-Function Fubar()
-	Return .T.
-	
-Function Main2()
-LOCAL mainmenu := ;
-          { { "Data Entry", "Enter data",   { || FT_MENU2(datamenu)  } }, ;
-            { "Reports",    "Hard copy",    { || FT_MENU2(repmenu)   } }, ;
-            { "Maintenance","Reindex files",{ || FT_MENU2(maintmenu) } }, ;
-            { "Quit", "See ya later" } }
-		cls
-      FT_MENU2(mainmenu)
-
-Function Colorido()		
-	LOCAL aClrs   := {}
-   LOCAL lColour := ISCOLOR()
-   LOCAL cChr    := CHR(254) + CHR(254)
-
-   SET SCOREBOARD Off
-   SETBLINK( .F. )       // Allow bright backgrounds
-
-   *.... a typical application might have the following different settings
-   *     normally these would be stored in a .dbf/.dbv
-   aClrs := {;
-        { "Desktop",        "N/BG",                         "D", "#" }, ;
-        { "Titulo",         "N/W",                          "T"      }, ;
-        { "Top Menu",       "N/BG,N/W,W+/BG,W+/N,GR+/N",    "M"      }, ;
-        { "Sub Menu",       "W+/N*,GR+/N*,GR+/N*,W+/R,G+/R","M"      }, ;
-        { "Standard Gets",  "W/B,  W+/N,,, W/N",            "G"      }, ;
-        { "Nested Gets",    "N/BG, W+/N,,, W/N",            "G"      }, ;
-        { "Help",           "N/G,  W+/N,,, W/N",            "W"      }, ;
-        { "Error Messages", "W+/R*,N/GR*,,,N/R*",           "W"      }, ;
-        { "Database Query", "N/BG, N/GR*,,,N+/BG",          "B"      }, ;
-        { "Pick List",      "N/GR*,W+/B,,, BG/GR*",         "A"      }}
-
-    aClrs := FT_ClrSel( aClrs, lColour, cChr )		
-	 
-	 nErrorCode := 0
-    FT_SAVEARR(aClrs,'COR.DAT',@nErrorCode)
-    IF nErrorCode = 0
-      aSave := FT_RESTARR('COR.DAT',@nErrorCode)
-      IF nErrorCode # 0
-         ? 'Erro lendo array do disco.'
-      ENDIF
-    ELSE
-      ? 'Erro gravando array'
-    ENDIF
-	 Return(.T.)
-
-Function MSDecToChr( cString )
-****************************
-LOCAL cNewString := ""
-LOCAL nTam
-LOCAL nX
-LOCAL cNumero
-
-nTam := GT_StrCount( "#", cString )
-For nX := 1 To nTam
-	? cNumero := StrExtract( cString, "#", nX )
-	? cNewString += Chr( Val( cNumero ))
-	? nx,valtype( cNumero), len(cNumero)
-Next
-Return ( cNewString )
-
-Function aStrPos(string, delims)
-********************************
-LOCAL nConta  := GT_StrCount(delims, string)
-LOCAL nLen    := Len(delims)
-LOCAL cChar   := Repl("%",nLen)
-LOCAL aNum    := {}
-LOCAL x
-
-IF cChar == delims
-   cChar := Repl("*",delims)
-EndIF	
-
-IF nConta = 0
-   Return(aNum)
-EndIF
-
-FOR x := 1 To nConta 
-   nPos   := At( Delims, string )
-	string := Stuff(string, nPos, 1, cChar)
-	Aadd( aNum, nPos)
-Next
-Aadd( aNum, Len(string)+1)
-Return(aNum)
-
-Function StrExtract( string, delims, ocurrence )
-************************************************
-LOCAL nInicio := 1
-LOCAL nConta  := GT_StrCount(delims, string)
-LOCAL aArray  := {}
-LOCAL aNum    := {}
-LOCAL nLen    := Len(delims)
-LOCAL cChar   := Repl('%',nLen)
-LOCAL cNewStr := String
-LOCAL nPosIni := 1
-LOCAL aPos
-LOCAL nFim
-LOCAL x
-LOCAL nPos
-
-IF cChar == delims
-   cChar := Repl("*",nLen)
-EndIF	
-
-IF nConta = 0
-   Return NIL
-EndIF
-
-/*
-For x := 1 to nConta
-   nInicio   := At( Delims, cNewStr)
-   cNewStr   := Stuff(cNewStr, nInicio, 1, cChar)
-	nFim      := At( Delims, cNewStr)
-	cString   := SubStr(cNewStr, nInicio+1, nFim-nInicio-1)
-	if !Empty(cString)
-	   Aadd( aArray, cString)
-	End		
-Next
-*/
-
-/*
-For x := 1 to nConta
-   nPos      := At( Delims, cNewStr)
-   cNewStr   := Stuff(cNewStr, nPos, 1, cChar)
-	nLen      := nPos-nPosini
-	cString   := SubStr(cNewStr, nPosIni, nLen)
-	nFim      := At( Delims, cNewStr)
-	nPosIni   := nPos+1
-	if !Empty(cString)
-	   Aadd( aArray, cString)
-	End		
-Next
-*/
-
-aPos   := aStrPos(string, Delims)
-nConta := Len(aPos)
-For x := 1 to nConta 
-   nInicio  := aPos[x]
-	IF x = 1
-	   cString   := Left(String, nInicio-1)
-	Else
-		nFim     := aPos[x-1]
-	   cString  := SubStr(String, nFim+1, nInicio-nFim-1)
-	EndIF	
-	Aadd( aArray, cString)
-Next
-nConta := Len(aArray)
-IF ocurrence > nConta .OR. oCurrence = 0
-   Return NIL
-EndIF
-
-Return(aArray[ocurrence])
+  SET CONFIRM ON
+  SET CURSOR OFF
+  SET TYPEAHEAD TO 0
+  SET INTENSITY ON
+  SET SCOREBOARD OFF
+  SET DELETED ON
+  SET SAFETY OFF
+  SET DATE ANSI
+  SET ESCAPE ON
+  SET CENTURY ON
+  SET DELIMITERS TO
+  SET EXCLUSIVE OFF
+  SET WRAP ON
+  SET EPOCH TO 1920
+  SET OPTIMIZE ON
+  SET MESSAGE TO 24 CENTER
+  SET(_SET_DATEFORMAT,"dd/mm/yyyy")
+  SET SOFTSEEK ON
+  SET AUTOPEN OFF
+ 
+  SetColor("B/N")
+  SET EventMask to INKEY_ALL
+                                                       
+return

@@ -75,7 +75,7 @@ Method Procedure Init()
        ::menu          := xMenu()
        ::Disp          := xDisp()
        ::NomeFirma     := "MICROBRAS COM DE PROD DE INFORMATICA LTDA"
-       Return( Self )
+       return( Self )
 
 Method SetaFonte()
 ******************
@@ -109,18 +109,18 @@ LOCAL aModeMenu := {"Resetar Fonte Para Normal",;
 	nChoice := AmaxChoice( 03, 10, 20, 45, aModeMenu, Cor())
 	Do Case
 	Case nChoice = 0
-		Return
+		return
 	Case VidType() == 0
 		ErrorBeep()
 		Alerta("Erro: Placa de Video Monocromatica." )
-		Return
+		return
 	EndCase
 	oAmbiente:Fonte := nChoice
 	Eval( oAmbiente:TabelaFonte[ nChoice] )
 //   Palette( oAmbiente:CorAntiga, oAmbiente:PanoFundo )
 //   M_Data( 10, LastRow()- 2 )
 //   M_Data( 26, LastRow()- 2 )
-   Return(Self)
+   return(Self)
 
 Method SetaFrame()
 ******************
@@ -136,12 +136,12 @@ LOCAL aFrames := {"        ",;
 						"…–À« Ã»∂"}
 nChoice := ::Fazmenu( 03, 10, aFrames, ::Cormenu )
 ResTela( cScreen )
-IF nChoice = 0
-	Return
-EndIF
+if nChoice = 0
+	return
+endif
 ::Frame  := aFrames[nChoice]
 M_Frame( ::Frame )
-Return Self
+return Self
 
 
 Function xMenu()
@@ -153,7 +153,7 @@ AADD( AtPrompt, {"Menu 1",{"SubMenu 1","SubMenu 2","SubMenu 3","SubMenu 4"}})
 AADD( AtPrompt, {"Menu 1",{"SubMenu 1","SubMenu 2","SubMenu 3","SubMenu 4"}})
 AADD( AtPrompt, {"Menu 1",{"SubMenu 1","SubMenu 2","SubMenu 3","SubMenu 4"}})
 AADD( AtPrompt, {"Menu 1",{"SubMenu 1","SubMenu 2","SubMenu 3","SubMenu 4"}})
-Return( AtPrompt )
+return( AtPrompt )
 
 Function xDisp()
 ****************
@@ -165,26 +165,26 @@ Aadd( aDisp, { LIG, LIG, LIG, LIG, LIG, LIG , LIG})
 Aadd( aDisp, { LIG, LIG, LIG, LIG, LIG, LIG , LIG})
 Aadd( aDisp, { LIG, LIG, LIG, LIG, LIG, LIG , LIG})
 Aadd( aDisp, { LIG, LIG, LIG, LIG, LIG, LIG , LIG})
-Return( aDisp )
+return( aDisp )
 
 Method Limpa
         Cls( ::CorFundo, ::PanoFundo )
-		  Return Self
+		  return Self
 
 Method StatInf( cMensagem )
 		  LOCAL nCol  := LastRow()
 		  LOCAL nTam  := MaxCol()
 		  LOCAL nPos  := ( nTam - Len( ::NomeFirma ))
-        aPrint( nCol, 00,    IF( cMensagem = NIL, ::StatusInf, cMensagem), ::CorCabec, MaxCol() )
+        aPrint( nCol, 00,    if( cMensagem = NIL, ::StatusInf, cMensagem), ::CorCabec, MaxCol() )
         aPrint( nCol, nPos,  ::NomeFirma, ::CorCabec )
-		  Return Self
+		  return Self
 
 Method StatSup( cCabecalho )
 		  LOCAL nTam  := MaxCol()
 		  LOCAL nPos  := ( nTam - Len( ::StatusSup ))
-        aPrint( 00, 00, Padc( IF( cCabecalho = NIL, ::StatusSup, cCabecalho), nTam ),  ::CorCabec, nTam )
+        aPrint( 00, 00, Padc( if( cCabecalho = NIL, ::StatusSup, cCabecalho), nTam ),  ::CorCabec, nTam )
         aPrint( 00, ( nTam-8), Clock12( 00, (nTam-8), ::CorCabec ), ::CorCabec )
-		  Return Self
+		  return Self
 
 Method SetaCorMsg()
 *******************
@@ -208,16 +208,16 @@ WHILE .T.
    M_Frame( ::Frame )
 	M_Message("Cor Atual = "+ StrZero( xColor, 3 ) + " - Enter Para Setar ou ESCape", xColor )
 	Ikey := WaitKey( 0 )
-	IF ( Ikey == 24)
-      ::CorMsg := ( XColor  := IIF( xColor  == 0, 255, --xColor  ))
-	ELSEIF ( Ikey == 5)
-      ::CorMsg :=  ( xColor  := IIF( xColor  == 255, 0, ++xColor  ))
-	 ELSEIF ( Ikey == 27 ) .OR. ( IKey == 13 )
+	if ( Ikey == 24)
+      ::CorMsg := ( XColor  := Iif( xColor  == 0, 255, --xColor  ))
+	elseif ( Ikey == 5)
+      ::CorMsg :=  ( xColor  := Iif( xColor  == 255, 0, ++xColor  ))
+	 elseif ( Ikey == 27 ) .OR. ( IKey == 13 )
 		 Exit
-	 EndIF
+	 endif
 End
 ResTela( cScreen )
-Return SeLF
+return SeLF
 
 Method SetaCorAlerta()
 **********************
@@ -241,23 +241,23 @@ WHILE .T.
    M_Frame( ::Frame )
 	M_Message("Cor Atual = "+ StrZero( xColor, 3 ) + " - Enter Para Setar ou ESCape", xColor )
 	Ikey := WaitKey( 0 )
-	IF ( Ikey == 24)
-      ::CorAlerta := ( XColor  := IIF( xColor  == 0, 255, --xColor  ))
-	ELSEIF ( Ikey == 5)
-      ::CorAlerta :=  ( xColor  := IIF( xColor  == 255, 0, ++xColor  ))
-	 ELSEIF ( Ikey == 27 ) .OR. ( IKey == 13 )
+	if ( Ikey == 24)
+      ::CorAlerta := ( XColor  := Iif( xColor  == 0, 255, --xColor  ))
+	elseif ( Ikey == 5)
+      ::CorAlerta :=  ( xColor  := Iif( xColor  == 255, 0, ++xColor  ))
+	 elseif ( Ikey == 27 ) .OR. ( IKey == 13 )
 		 Exit
-	 EndIF
+	 endif
 End
 ResTela( cScreen )
-Return SeLF
+return SeLF
 
 Method SetaCor( nTipo )
 ****************************
 LOCAL aTipo      := { ::CorMenu, ::CorCabec, ::CorFundo, ::CorDesativada }
 LOCAL cPanoFundo := ::PanoFundo
 LOCAL cScreen	  := SaveScreen()
-LOCAL xTipo      := IF( nTipo = NIL, 1, nTipo )
+LOCAL xTipo      := if( nTipo = NIL, 1, nTipo )
 LOCAL xColor	  := aTipo[ xTipo ]
 LOCAL CorAnt	  := aTipo[ xTipo ]
 LOCAL ikey
@@ -276,13 +276,13 @@ WHILE .T.
    M_Frame( ::Frame )
 	M_Message("Cor Atual = "+ StrZero( xColor, 3 ) + " - Enter Para Setar ou ESCape", xColor )
 	Ikey := WaitKey( 0 )
-	IF ( Ikey == 24)
-		aTipo[ xTipo ] := ( XColor  := IIF( xColor  == 0, 255, --xColor  ))
-	ELSEIF ( Ikey == 5)
-		( aTipo[ xTipo ] ) :=  ( xColor	:= IIF( xColor  == 255, 0, ++xColor  ))
-	 ELSEIF ( Ikey == 27 ) .OR. ( IKey == 13 )
+	if ( Ikey == 24)
+		aTipo[ xTipo ] := ( XColor  := Iif( xColor  == 0, 255, --xColor  ))
+	elseif ( Ikey == 5)
+		( aTipo[ xTipo ] ) :=  ( xColor	:= Iif( xColor  == 255, 0, ++xColor  ))
+	 elseif ( Ikey == 27 ) .OR. ( IKey == 13 )
 		 Exit
-	 EndIF
+	 endif
 	 oCor:CorMenu		  := aTipo[ 1 ]
     oCor:CorCabec      := aTipo[ 2 ]
 	 oCor:CorFundo 	  := aTipo[ 3 ]
@@ -293,12 +293,12 @@ End
 ::CorFundo		 := aTipo[ 3 ]
 ::CorDesativada := aTipo[ 4 ]
 ResTela( cScreen )
-Return SeLF
+return SeLF
 
 Method SetaSombra
 *****************
 SetShadow( ::Sombra )
-Return Self
+return Self
 
 Method SetaBorda
 ****************
@@ -322,22 +322,22 @@ WHILE .T.
    M_Frame( ::Frame )
 	M_Message("Cor Borda Atual = "+ StrZero( xColor, 3 ) + " - Enter Para Setar ou ESCape", xColor )
 	Ikey := WaitKey( 0 )
-	IF ( Ikey == 24)
-		XColor  := IIF( xColor	== 0, 63, --xColor  )
+	if ( Ikey == 24)
+		XColor  := Iif( xColor	== 0, 63, --xColor  )
 		oCor:CorBorda	:= xColor
 		::CorBorda		:= xColor
-	ELSEIF ( Ikey == 5)
-		xColor  := IIF( xColor	== 63, 0, ++xColor  )
+	elseif ( Ikey == 5)
+		xColor  := Iif( xColor	== 63, 0, ++xColor  )
 		oCor:CorBorda	:= xColor
 		::CorBorda		:= xColor
-	 ELSEIF ( Ikey == 27 ) .OR. ( IKey == 13 )
+	 elseif ( Ikey == 27 ) .OR. ( IKey == 13 )
 		 Exit
-	 EndIF
+	 endif
 	 Border( ::CorBorda )
 End
 Border( ::CorBorda )
 ResTela( cScreen )
-Return SeLF
+return SeLF
 
 Method SetaPano
 ***************
@@ -350,7 +350,7 @@ LOCAL oCor
 Aadd( ::Panos, CapFirst( oAmbiente:xUsuario ))
 nPano          := Len( ::Panos )
 nPos           := Ascan( ::Panos, ::Panofundo )
-Selecionado 	:= IF( nPos = 0, 1, nPos )
+Selecionado 	:= if( nPos = 0, 1, nPos )
 cPanoFundo		:= ::PanoFundo
 cCormenu 		:= ::Cormenu
 cCorCabec      := ::CorCabec
@@ -368,56 +368,56 @@ WHILE .T.
    M_Frame( ::Frame )
 	M_Message("Use as setas CIMA e BAIXO para trocar, ENTER para aceitar. Nß " + StrZero( Selecionado, 3 ), ::Cormenu )
 	nKey := Inkey(0)
-	IF ( nKey == 27 .OR. nKey = 13 )
+	if ( nKey == 27 .OR. nKey = 13 )
 		Exit
-	ElseIF nKey == 24
-		Selecionado := IF( Selecionado == 1, nPano, --Selecionado  )
+	elseif nKey == 24
+		Selecionado := if( Selecionado == 1, nPano, --Selecionado  )
       oCor:PanoFundo := ::Panos[ Selecionado ]
-	ElseIF nKey == 5
-		Selecionado := IF( Selecionado == nPano, 1, ++Selecionado  )
+	elseif nKey == 5
+		Selecionado := if( Selecionado == nPano, 1, ++Selecionado  )
       oCor:PanoFundo := ::Panos[ Selecionado ]
-	EndIF
+	endif
 EndDo
 ::PanoFundo := ::Panos[ Selecionado ]
-Return Self
+return Self
 
 Method MaBox( nTopo, nEsq, nFundo, nDireita, Cabecalho, Rodape, lInverterCor )
 ******************************************************************************
 LOCAL cPanoFundo := " "
-LOCAL nCor       := IF( lInverterCor = NIL, ::Cormenu,  lInverterCor )
+LOCAL nCor       := if( lInverterCor = NIL, ::Cormenu,  lInverterCor )
 LOCAL pback
 
 //DispBegin()
-IF nDireita = 79
+if nDireita = 79
 	nDireita = MaxCol()
-EndIf
+endif
 ColorSet( @nCor, @pback )
 Box( nTopo, nEsq, nFundo, nDireita, ::Frame + cPanoFundo, nCor )
-IF Cabecalho != Nil
+if Cabecalho != Nil
 	aPrint( nTopo, nEsq+1, "€", Roloc( nCor ), (nDireita-nEsq)-1)
 	aPrint( nTopo, nEsq+1, Padc( Cabecalho, ( nDireita-nEsq)-1), Roloc( nCor ))
-EndIF
-IF Rodape != Nil
+endif
+if Rodape != Nil
 	aPrint( nFundo, nEsq+1, "€", Roloc( nCor ), (nDireita-nEsq)-1)
 	aPrint( nFundo, nEsq+1, Padc( Rodape, ( nDireita-nEsq)-1), Roloc( nCor ))
-EndIF
+endif
 cSetColor( SetColor())
 nSetColor( nCor, Roloc( nCor ))
 //DispEnd()
-Return
+return
 
 Method Fazmenu( nTopo, nEsquerda, aArray, Cor )
 ***********************************************
 LOCAL nFundo	  := ( nTopo + Len( aArray ) + 3 )
 LOCAL nTamTitle  := ( Len( M_Title() ) + 12 )
 LOCAL nDireita   := ( nEsquerda + AmaxStrLen( aArray ) + 1 )
-IF ( nDireita - nEsquerda ) <  nTamTitle
+if ( nDireita - nEsquerda ) <  nTamTitle
 	nDireita := ( nEsquerda + nTamTitle )
-EndIF
-Cor := IF( Cor = NIL, ::Cormenu, Cor )
+endif
+Cor := if( Cor = NIL, ::Cormenu, Cor )
 ::MaBox( nTopo, nEsquerda, nFundo, nDireita, "", "", Cor )
 nChoice := Mx_Choice( @nTopo, @nEsquerda, @nFundo, @nDireita, aArray, Cor )
-Return( nChoice )
+return( nChoice )
 
 Method Show
 ***********
@@ -426,7 +426,7 @@ Cls( ::CorFundo, ::PanoFundo )
 M_Frame( ::Frame )
 ::StatSup()
 ::StatInf()
-Return( nChoice := ::MsMenu( 1 ))
+return( nChoice := ::MsMenu( 1 ))
 
 Method MsMenu( nLinha )
 ***********************
@@ -455,7 +455,7 @@ LOCAL nScr3
 LOCAL nScr4
 STATI nPos		 := 1
 
-nLinha := IF( nLinha = NIL, 0, nLinha )
+nLinha := if( nLinha = NIL, 0, nLinha )
 WHILE OK
 	nSoma 	 := 0
 	nX 		 := 0
@@ -480,25 +480,25 @@ WHILE OK
 	Next
 	nX := 0
    FOR nX := 1 To Len( ::menu[ nPos, 2])
-      IF Empty( ::menu[nPos,2, nX ] )
+      if Empty( ::menu[nPos,2, nX ] )
 			Aadd( aNew, "")
 			Aadd( aSelecao, ENABLE )
-		Else
+		else
          Aadd( aNew, "  " + ::menu[nPos,2, nX ] + "  " )
          Aadd( aSelecao, ::Disp[ nPos, nX ])
-		EndIF
+		endif
       nTamSt := Len( ::menu[nPos,2, nX ]) + 2
-		IF nTamSt > nVal
+		if nTamSt > nVal
 			nVal	 := nTamSt
 			nMaior := nX
-		EndIF
+		endif
 	Next
    nDireita  := Len( ::menu[nPos, 2, nMaior])+5
    nBaixo    := Len( ::menu[nPos, 2])
 	nTam		 := nDireita + nSoma
-	nMax		 := IF( nTam > 79, 79, nTam )
-	nSoma 	 := IF( nTam > 79, (nSoma-( nTam-79)) , nSoma )
-	nSoma 	 := IF( nSoma < 0, 0, nSoma )
+	nMax		 := if( nTam > 79, 79, nTam )
+	nSoma 	 := if( nTam > 79, (nSoma-( nTam-79)) , nSoma )
+	nSoma 	 := if( nSoma < 0, 0, nSoma )
 	nScr1 	 := 01+nLinha
 	nScr2 	 := 00
 	nScr3 	 := MaxRow()-1
@@ -514,9 +514,9 @@ WHILE OK
 	nRetorno := Val( cPrinc + "." + cmenu )
 	DO Case
       Case nKey = 13 .OR. nKey = K_SPACE
-			Return( nRetorno )
+			return( nRetorno )
 		Case nKey = 27 .OR. nKey = TECLA_ALT_F4
-			Return( 0 )
+			return( 0 )
 		Case nKey = SETA_DIREITA
 			nPos++
 		Case nKey = SETA_ESQUERDA
@@ -524,8 +524,8 @@ WHILE OK
 		OtherWise
 			Eval( SetKey( nKey ))
 	EndCase
-	nPos := IF( nPos > nMax, 1,	 nPos )
-	nPos := IF( nPos < 1,	 nMax, nPos )
+	nPos := if( nPos > nMax, 1,	 nPos )
+	nPos := if( nPos < 1,	 nMax, nPos )
 EndDo
 
 Method MsProcessa( nCima, nEsquerda, nBaixo, nDireita, aNew, aSelecionado )
@@ -542,62 +542,62 @@ LOCAL nConta := 0
 
 SetCursor(0)
 FOR nX := 1 To nTam
-	IF Empty( aNew[nX] )
+	if Empty( aNew[nX] )
 		aPrint( nRow+nX, nEsquerda-1, cSep, ::CorMenu )
 		Loop
-	EndIF
-	IF aSelecionado[ nX ]
+	endif
+	if aSelecionado[ nX ]
 		aPrint( nRow+nX, nEsquerda, aNew[nX] + Space( nTamSt - Len( aNew[nX] )), ::CorMenu )
-	Else
+	else
 		nConta++
 		aPrint( nRow+nX, nEsquerda, aNew[nX] + Space( nTamSt - Len( aNew[nX] )), ::CorDesativada )
-	Endif
+	endif
 Next
-IF nItem > nMax
+if nItem > nMax
 	nItem = nMax
-EndIF
+endif
 WHILE .T.
-	IF nConta != nMax
-		IF aSelecionado[ nItem ] .AND. !Empty( aNew[nItem])
+	if nConta != nMax
+		if aSelecionado[ nItem ] .AND. !Empty( aNew[nItem])
 			aPrint( nRow+nItem, nEsquerda, aNew[nItem] + Space( nTamSt - Len( aNew[nItem] )), Roloc( ::CorMenu ))
-		EndIF
-		IF aSelecionado[ nItem ] .AND. Empty( aNew[nItem])
+		endif
+		if aSelecionado[ nItem ] .AND. Empty( aNew[nItem])
 			aPrint( nRow+nItem, nEsquerda-1, cSep, ::CorMenu )
-			IF LastKey() = SETA_CIMA
+			if LastKey() = SETA_CIMA
 				nItem--
-			Else
+			else
 				nItem++
-			EndIF
-			nItem := IF( nItem > nMax, 1, 	nItem )
-			nItem := IF( nItem < 1, 	nMax, nItem )
+			endif
+			nItem := if( nItem > nMax, 1, 	nItem )
+			nItem := if( nItem < 1, 	nMax, nItem )
 			Loop
-		EndIF
-		IF !aSelecionado[ nItem ]
+		endif
+		if !aSelecionado[ nItem ]
 			aPrint( nRow+nItem, nEsquerda, aNew[nItem] + Space( nTamSt - Len( aNew[nItem] )), ::CorDesativada )
-			IF LastKey() = SETA_CIMA
+			if LastKey() = SETA_CIMA
 				nItem--
-			Else
+			else
 				nItem++
-			EndIF
-			nItem := IF( nItem > nMax, 1, 	nItem )
-			nItem := IF( nItem < 1, 	nMax, nItem )
+			endif
+			nItem := if( nItem > nMax, 1, 	nItem )
+			nItem := if( nItem < 1, 	nMax, nItem )
 			Loop
-		EndIF
-	EndIF
+		endif
+	endif
 	nKey := Inkey(0)
-	aPrint( nRow+nItem, nEsquerda, aNew[nItem] + Space( nTamSt - Len( aNew[nItem] )), IF( aSelecionado[nItem], ::CorMenu, ::Cordesativada ))
+	aPrint( nRow+nItem, nEsquerda, aNew[nItem] + Space( nTamSt - Len( aNew[nItem] )), if( aSelecionado[nItem], ::CorMenu, ::Cordesativada ))
 	Do Case
 	Case nKey = 27 .OR. nKey = TECLA_ALT_F4
-		Return( 0 )
+		return( 0 )
 
 	Case nKey = 13 .OR. nKey = TECLA_SPACO
-		Return( nItem )
+		return( nItem )
 
 	Case nKey = SETA_DIREITA
-		Return( SETA_DIREITA )
+		return( SETA_DIREITA )
 
 	Case nKey = SETA_ESQUERDA
-		Return( SETA_ESQUERDA )
+		return( SETA_ESQUERDA )
 
 	Case nKey = SETA_CIMA
 		nItem--
@@ -609,11 +609,11 @@ WHILE .T.
 		Eval( bAction, ProcName(), ProcLine(), ReadVar())
 
 	EndCase
-   nItem   := IF( nItem > nMax, 1,    nItem )
-   nItem   := IF( nItem < 1,    nMax, nItem )
+   nItem   := if( nItem > nMax, 1,    nItem )
+   nItem   := if( nItem < 1,    nMax, nItem )
    ::Ativo := nItem
 EndDO
-Return( NIL )
+return( NIL )
 
 Method MsPaint( nLinha, nPos )
 ******************************
@@ -623,11 +623,11 @@ LOCAL nX 	:= 0
 LOCAL nTam  := Len( ::menu )
 
 aPrint( nLinha, 00, "", ::Cormenu, nMax )
-aPrint( nLinha, nSoma, ::Menu[1,1], IF( nPos = 1, Roloc( ::CorMenu ), ::CorMenu ))
+aPrint( nLinha, nSoma, ::Menu[1,1], if( nPos = 1, Roloc( ::CorMenu ), ::CorMenu ))
 FOR nX := 2 To nTam
-   aPrint( nLinha, ( nSoma += Len( ::menu[nX-1,1])+1 ), ::Menu[nX,1], IF( nPos = nX, Roloc( ::CorMenu ), ::CorMenu ))
+   aPrint( nLinha, ( nSoma += Len( ::menu[nX-1,1])+1 ), ::Menu[nX,1], if( nPos = nX, Roloc( ::CorMenu ), ::CorMenu ))
 Next
-Return
+return
 
 Function TMenuNew()
-   Return( TMenu():New())
+   return( TMenu():New())

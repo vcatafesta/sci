@@ -9,7 +9,7 @@
     oPerson:Eyes := "Blue"
 
     Alert( oPerson:Describe() )
- RETURN
+ return
 
  CLASS Person
     DATA Name INIT ""
@@ -17,7 +17,7 @@
     METHOD New() CONSTRUCTOR
 
     ACCESS Eyes INLINE ::pvtEyes
-    ASSIGN Eyes( x ) INLINE IIF( ValType( x ) == 'C' .AND. ;
+    ASSIGN Eyes( x ) INLINE Iif( ValType( x ) == 'C' .AND. ;
                  x IN "Blue,Brown,Green", ::pvtEyes := x,; 
                  Alert( "Invalid value" ) )
 
@@ -25,15 +25,15 @@
     INLINE METHOD Describe()
        LOCAL cDescription
 
-       IF Empty( ::Name )
+       if Empty( ::Name )
           cDescription := "I have no name yet."
-       ELSE
+       else
           cDescription := "My name is: " + ::Name + ";"
-       ENDIF
+       endif
 
-       IF ! Empty( ::Eyes )
+       if ! Empty( ::Eyes )
           cDescription += "my eyes' color is: " + ::Eyes
-       ENDIF
+       endif
     ENDMETHOD
 
     PRIVATE:
@@ -45,5 +45,5 @@
 
    ::Name := cName
 
- RETURN Self
+ return Self
  

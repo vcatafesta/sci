@@ -34,15 +34,15 @@ Method New() class TRelato
 		  ::RowPrn	  := 0
 		  ::Pagina	  := 0
 		  ::Tamanho   := 80
-		  ::NomeFirma := IF( XNOMEFIR = NIL, AllTrim(oAmbiente:xFanta), XNOMEFIR )
+		  ::NomeFirma := if( XNOMEFIR = NIL, AllTrim(oAmbiente:xFanta), XNOMEFIR )
         ::Sistema   := "Macrosoft NOME DO PROGRAMA"
 		  ::Titulo	  := "TITULO DO RELATORIO"
 		  ::Cabecalho := "CODIGO DESCRICAO"
 		  ::Separador := "="
 		  ::Registros := 0
-        Return( Self )
+        return( Self )
 
-Method Inicio class TRelato
+Method Inicio() class TRelato
 		LOCAL nTam := ::Tamanho / 2
 		LOCAL Hora := Time()
 		LOCAL Data := Dtoc( Date() )
@@ -56,7 +56,7 @@ Method Inicio class TRelato
 		Qout( ::Cabecalho )
 		Qout( Repl( ::Separador, ::Tamanho ))
       ::RowPrn := 7
-      Return( Self )
+      return( Self )
 		
 Method PrintOn(cCodigoControle) class TRelato
 	PrintOn()
@@ -81,4 +81,4 @@ Method EJect() class TRelato
 
 Function TRelatoNew()
 *********************
-Return( TRelato():New())
+return( TRelato():New())

@@ -36,11 +36,11 @@
       MostraNome( aPessoas[ n, 3 ] )
    NEXT
 
-   Return( aPessoas )
+   return( aPessoas )
 
    FUNCTION MostraNome( cParametro )
 
    // ********************************
    QOut( cParametro )
 
-   Return( NIL )
+   return( NIL )

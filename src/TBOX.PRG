@@ -1,18 +1,6 @@
-#include "hbclass.ch"
-#Include "Box.Ch"
-#Include "Inkey.Ch"
-#Include "Translate.Ch"
+#include <sci.ch>
 
-#Define  FALSO   .F.
-#Define  OK      .T.
-#define SETA_CIMA 			  5
-#define SETA_BAIXO			  24
-#define SETA_ESQUERDA		  19
-#define SETA_DIREITA 		  4
-#define TECLA_SPACO			  32
-#define TECLA_ALT_F4 		  -33
-#define ENABLE 				  .T.
-#define DISABLE				  .F.
+
 
 CLASS TBox
     Export:
@@ -43,15 +31,15 @@ CLASS TBox
 End Class
 
 Method New( nCima, nEsquerda, nBaixo, nDireita, cCabecalho, cRodape, lInverterCor )
-		  ::Cima 	  := IF( nCima 	 != NIL, nCima,	  10 )
-		  ::Esquerda  := IF( nEsquerda != NIL, nEsquerda, 10 )
-		  ::Baixo	  := IF( nBaixo	 != NIL, nBaixo,	  20 )
-		  ::Direita   := IF( nDireita  != NIL, nDireita,  40 )
-		  ::Cor		  := IF( lInverterCor != NIL, lInverterCor, 31 )
-		  ::Cabecalho := IF( cCabecalho != NIL, cCabecalho, NIl )
-		  ::Rodape	  := IF( cRodape	  != NIL, cRodape,	 NIL )
+		  ::Cima 	  := if( nCima 	 != NIL, nCima,	  10 )
+		  ::Esquerda  := if( nEsquerda != NIL, nEsquerda, 10 )
+		  ::Baixo	  := if( nBaixo	 != NIL, nBaixo,	  20 )
+		  ::Direita   := if( nDireita  != NIL, nDireita,  40 )
+		  ::Cor		  := if( lInverterCor != NIL, lInverterCor, 31 )
+		  ::Cabecalho := if( cCabecalho != NIL, cCabecalho, NIl )
+		  ::Rodape	  := if( cRodape	  != NIL, cRodape,	 NIL )
         ::Frame     := B_SINGLE
-        Return( Self )
+        return( Self )
 
 Method Move( oGetList, nCima, nEsquerda, nBaixo, nDireita )
 		  LOCAL nTam := Len( oGetList )
@@ -59,10 +47,10 @@ Method Move( oGetList, nCima, nEsquerda, nBaixo, nDireita )
 		  LOCAL nDifEsq  := nEsquerda - ::Esquerda
 		  ::Hide()
         ::Show( nCima, nEsquerda, nBaixo, nDireita )
-		  IF nTam != 0
+		  if nTam != 0
 			  ::MoveGet( oGetList, nTam, nDifTopo, nDifEsq )
-		  EndIF
-        Return( Self )
+		  endif
+        return( Self )
 
 Method MoveGet( oGetList, nTam, nDifTopo, nDifEsq )
 		  LOCAL nX
@@ -70,25 +58,25 @@ Method MoveGet( oGetList, nTam, nDifTopo, nDifEsq )
 			  oGetList[nX]:Row += nDifTopo
 			  oGetList[nX]:Col += nDifEsq
 		  Next
-		  RETURN Self
+		  return Self
 
 Method Hide( nTela )
 		  ResTela( ::cScreen )
-		  RETURN Self
+		  return Self
 
 Method InkeyMBox()
 		  Inkey(0)
-		  IF LastKey() = 397
+		  if LastKey() = 397
 			  ::Up()
 		  End
-		  Return Self
+		  return Self
 
 Method Up()
 		  ::Hide()
 		  ::Cima--
 		  ::Baixo--
 		  ::Paint()
-		  Return Self
+		  return Self
 
 Method PageUp()
 		  ::Hide()
@@ -96,7 +84,7 @@ Method PageUp()
 		  ::Cima 	 := 0
 		  ::Baixo	 := 4
 		  ::Paint()
-		  Return Self
+		  return Self
 
 Method PageDown()
 		  ::Hide()
@@ -104,7 +92,7 @@ Method PageDown()
 		  ::Cima 	 := 20
 		  ::Baixo	 := 24
 		  ::Paint()
-		  Return Self
+		  return Self
 
 Method Down()
 		  ::Hide()
@@ -112,7 +100,7 @@ Method Down()
 		  ::Cima++
 		  ::Baixo++
 		  ::Paint()
-		  Return Self
+		  return Self
 
 Method LeftMBox()
 		  ::Hide()
@@ -120,7 +108,7 @@ Method LeftMBox()
 		  ::Esquerda--
 		  ::Direita--
 		  ::Paint()
-		  Return Self
+		  return Self
 
 Method Right()
 		  ::Hide()
@@ -128,42 +116,42 @@ Method Right()
 		  ::Esquerda++
 		  ::Direita++
 		  ::Paint()
-		  Return Self
+		  return Self
 
 Method Show( nCima, nEsquerda, nBaixo, nDireita, cCabecalho, cRodape, lInverterCor )
 	LOCAL cPattern := " "
 	LOCAL cCor
 	LOCAL pBack
 	::cScreen 	:= SaveScreen()
-	::Cima		 := IF( nCima		!= NIL, nCima, ::Cima )
-	::Esquerda	:= IF( nEsquerda != NIL, nEsquerda, ::Esquerda )
-	::Baixo		:= IF( nBaixo	  != NIL, nBaixo, ::Baixo )
-	::Direita	:= IF( nDireita  != NIL, nDireita,	::Direita)
-	::Cor 	 := IF( lInverterCor != NIL, lInverterCor, ::Cor )
-	::Cabecalho := IF( cCabecalho != NIL, cCabecalho, ::Cabecalho )
-	::Rodape 	:= IF( cRodape 	!= NIL, cRodape,	  ::Rodape )
+	::Cima		 := if( nCima		!= NIL, nCima, ::Cima )
+	::Esquerda	:= if( nEsquerda != NIL, nEsquerda, ::Esquerda )
+	::Baixo		:= if( nBaixo	  != NIL, nBaixo, ::Baixo )
+	::Direita	:= if( nDireita  != NIL, nDireita,	::Direita)
+	::Cor 	 := if( lInverterCor != NIL, lInverterCor, ::Cor )
+	::Cabecalho := if( cCabecalho != NIL, cCabecalho, ::Cabecalho )
+	::Rodape 	:= if( cRodape 	!= NIL, cRodape,	  ::Rodape )
 
    cCor := ::Cor
 	DispBegin()
-	IF ::Direita = 79
+	if ::Direita = 79
 		::Direita := MaxCol()
-	EndIf
+	endif
   
    ColorSet( @cCor, @pback )
 	Box( ::Cima, ::Esquerda, ::Baixo, ::Direita, Super:Frame + cPattern, ::Cor )
-	IF ::Cabecalho != Nil
+	if ::Cabecalho != Nil
 		aPrint( ::Cima, ::Esquerda+1, "Û", Roloc( ::Cor ), (::Direita-::Esquerda)-1)
 		aPrint( ::Cima, ::Esquerda+1, Padc( ::Cabecalho, ( ::Direita-::Esquerda)-1), Roloc( ::Cor ))
-	EndIF
-	IF ::Rodape != Nil
+	endif
+	if ::Rodape != Nil
 		aPrint( ::Baixo, ::Esquerda+1, "Û", Roloc( ::Cor ), (::Direita-::Esquerda)-1)
 		aPrint( ::Baixo, ::Esquerda+1, Padc( ::Rodape, ( ::Direita-::Esquerda)-1), Roloc( ::Cor ))
-	EndIF
+	endif
 	cSetColor( SetColor())
 	nSetColor( cCor, Roloc( cCor ))
 	DispEnd()
-	Return Self
+	return Self
 
 Function TBoxNew()
 *******************
-   Return( TBox():New())
+   return( TBox():New())

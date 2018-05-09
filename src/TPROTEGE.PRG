@@ -1,9 +1,4 @@
-#include "hbclass.ch"
-#Include "Box.Ch"
-#Include "Inkey.Ch"
-#Include "FileIO.Ch"
-#Define  OK      .T.
-#Define  FALSO   .F.
+#include <sci.ch>
 
 CLASS TProtege
 Export:
@@ -36,21 +31,21 @@ METHOD New()
 ::Proteger  := OK
 ::File      := ""
 ::Arquivos := {}
-Return( Self )
+return( Self )
 
 METHOD TAddProtege()
 ********************
-IF Ascan( ::Arquivos, ::File ) = 0
+if Ascan( ::Arquivos, ::File ) = 0
    Aadd( ::Arquivos, ::File )
-EndIF
-Return( Self )
+endif
+return( Self )
 
 METHOD Encryptar( cFile )
 *************************
     Use ( cFile ) New
     //Sx_DBFencrypt( '63771588')
     ::Protegido := OK
-    Return(Self)
+    return(Self)
 
 METHOD Decryptar( cFile )
 *************************
@@ -58,7 +53,7 @@ METHOD Decryptar( cFile )
     //Use ( cFile ) PASSWORD '63771588' New
     //Sx_DBFdecrypt()
     ::Protegido := FALSO
-    Return(Self)
+    return(Self)
 
 METHOD Protege( cFile )
 **********************
@@ -68,71 +63,71 @@ LOCAL Handle
 LOCAL Buffers
 LOCAL nPos
 
-IF ::Proteger == FALSO
-   Return( Self )
-EndIF
+if ::Proteger == FALSO
+   return( Self )
+endif
 
 ::File := cFile
-IF ( nPos := Ascan( ::Arquivos, ::File )) <> 0
+if ( nPos := Ascan( ::Arquivos, ::File )) <> 0
    Adel( ::Arquivos, nPos )
-EndIf
+endif
 
 ::Rotina := "TProtege.Protege"
-IF ValType( cFile ) != "C"
+if ValType( cFile ) != "C"
 	::Protegido := FALSO
 	::Erro		:= OK
 	::Ferror 	:= 0
 	::MsgErro	:= "ARQUIVO NAO LOCALIZADO"
-	Return( Self )
-EndIF
+	return( Self )
+endif
 
 Handle := FOpen( cFile, FO_READWRITE )
-IF Ferror() != 0
+if Ferror() != 0
 	FClose( Handle )
 	::Protegido := FALSO
 	::Erro		:= OK
 	::Ferror 	:= Ferror()
 	::MsgErro	:= "ERRO DE ABERTURA DE :" + cFile
-	Return( Self )
-EndIF
+	return( Self )
+endif
 
 Buffer := Space(01)
 Read_Bytes := FRead( Handle, @Buffer, 1 )
-IF Read_Bytes != 1
+if Read_Bytes != 1
 	FClose( Handle )
 	::Protegido := FALSO
 	::Erro		:= OK
 	::Ferror 	:= 0
 	::MsgErro	:= "ERRO DE LEITURA DE :" + cFile
-	Return( Self )
-EndIF
+	return( Self )
+endif
 
-IF Asc(Buffer) == 3
+if Asc(Buffer) == 3
   Buffer := Chr(4)
-Else
+else
 	FClose( Handle )
 	::Protegido := OK
 	::Erro		:= FALSO
 	::Ferror 	:= 0
 	::MsgErro	:= "ARQUIVO JA PROTEGIDO :" + cFile
-	Return( Self )
-EndIF
+	return( Self )
+endif
 FSeek( Handle, 0, 0 )
 Write_Bytes := FWrite( Handle, Buffer, 1 )
-IF Write_Bytes != 1
+if Write_Bytes != 1
 	FClose( Handle )
 	::Protegido := FALSO
 	::Erro		:= OK
 	::Ferror 	:= 0
 	::MsgErro	:= "ERRO DE GRAVACAO :" + cFile
-	Return( Self )
-EndIF
+	return( Self )
+endif
 FClose( Handle )
 ::Protegido := OK
 ::Erro		:= FALSO
 ::Ferror 	:= 0
 ::MsgErro	:= "SUCESSO NA PROTECAO DO ARQUIVO :" + cFile
-Return( Self )
+return( Self )
 
 METHOD DesProtege( cFile )
 **************************
@@ -142,67 +137,67 @@ LOCAL Handle
 LOCAL Buffers
 
 ::File := cFile
-IF Ascan( ::Arquivos, ::File ) <> 0
-   Return( Self )
-EndIF
+if Ascan( ::Arquivos, ::File ) <> 0
+   return( Self )
+endif
 ::Rotina := "TProtege.DesProtege"
-IF ValType( cFile ) != "C"
+if ValType( cFile ) != "C"
 	::Protegido := OK
 	::Erro		:= OK
 	::Ferror 	:= 0
 	::MsgErro	:= "ARQUIVO NAO LOCALIZADO"
-	Return( Self )
-EndIF
+	return( Self )
+endif
 
 Handle := FOpen( cFile, FO_READWRITE )
-IF Ferror() != 0
+if Ferror() != 0
 	FClose( Handle )
 	::Protegido := OK
 	::Erro		:= OK
 	::Ferror 	:= Ferror()
 	::MsgErro	:= "ERRO DE ABERTURA DE :" + cFile
-	Return( Self )
-EndIF
+	return( Self )
+endif
 
 Buffer := Space(01)
 Read_Bytes := FRead( Handle, @Buffer, 1 )
-IF Read_Bytes != 1
+if Read_Bytes != 1
 	FClose( Handle )
 	::Protegido := OK
 	::Erro		:= OK
 	::Ferror 	:= 0
 	::MsgErro	:= "ERRO DE LEITURA DE :" + cFile
-	Return( Self )
-EndIF
+	return( Self )
+endif
 
-IF Asc(Buffer) == 4
+if Asc(Buffer) == 4
   Buffer := Chr(3)
-Else
+else
 	FClose( Handle )
 	::Protegido := FALSO
 	::Erro		:= OK
 	::Ferror 	:= 0
 	::MsgErro	:= "ARQUIVO JA DESPROTEGIDO :" + cFile
-	Return( Self )
-EndIF
+	return( Self )
+endif
 FSeek( Handle, 0, 0 )
 Write_Bytes := FWrite( Handle, Buffer, 1 )
-IF Write_Bytes != 1
+if Write_Bytes != 1
 	FClose( Handle )
    ::Protegido := OK
 	::Erro		:= OK
 	::Ferror 	:= 0
    ::MsgErro   := "ERRO DE GRAVACAO DE :" + cFile
-	Return( Self )
-EndIF
+	return( Self )
+endif
 FClose( Handle )
 ::Protegido := FALSO
 ::Erro      := FALSO
 ::Ferror    := 0
 ::MsgErro   := "SUCESSO NA DESPROTECAO DO ARQUIVO :" + cFile
 Aadd( ::Arquivos, ::File )
-Return( Self )
+return( Self )
 
 Function TProtegeNew()
 **********************
-Return( TProtege():New())
+return( TProtege():New())

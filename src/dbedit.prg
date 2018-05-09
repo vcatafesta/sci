@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this software; see the file COPYING.txt.  If not, write to
+ * along with this software; see the file COPYING.txt.  if not, write to
  * the Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  * Boston, MA 02111-1307 USA (or visit the web site https://www.gnu.org/).
  *
@@ -31,25 +31,25 @@
  * the executable file might be covered by the GNU General Public License.
  *
  * This exception applies only to the code released by the Harbour
- * Project under the name Harbour.  If you copy code from other
+ * Project under the name Harbour.  if you copy code from other
  * Harbour Project or Free Software Foundation releases into a copy of
  * Harbour, as the General Public License permits, the exception does
  * not apply to the code that you add in this way.  To avoid misleading
  * anyone as to the status of such modified files, you must delete
  * this exception notice from them.
  *
- * If you write modifications of your own for Harbour, it is your choice
+ * if you write modifications of your own for Harbour, it is your choice
  * whether to permit this exception to apply to your modifications.
- * If you do not wish that, delete this exception notice.
+ * if you do not wish that, delete this exception notice.
  *
  */
 
 //#pragma -gc0
 
+#include <sci.ch>
 #include "dbedit.ch"
-#include "inkey.ch"
-#include "setcurs.ch"
-#Define	P_DEF(Par, Def)	 Par := IF( Par = Nil, Def, Par )
+
+#Define	P_DEF(Par, Def)	 Par := if( Par = Nil, Def, Par )
 
 /* NOTE: Extension: Harbour supports codeblocks and function pointers
          as the xUserFunc parameter. [vszakats] */
@@ -74,24 +74,24 @@ FUNCTION dbEdit( nTop, nLeft, nBottom, nRight, ;
    LOCAL oColumn
    LOCAL aCol
 
-   IF ! Used()
-      RETURN .F.
-   ELSEIF Eof()
+   if ! Used()
+      return .F.
+   elseif Eof()
       dbGoBottom()
-   ENDIF
+   endif
 
-   IF ! HB_ISNUMERIC( nTop ) .OR. nTop < 0
+   if ! HB_ISNUMERIC( nTop ) .OR. nTop < 0
       nTop := 0
-   ENDIF
-   IF ! HB_ISNUMERIC( nLeft ) .OR. nLeft < 0
+   endif
+   if ! HB_ISNUMERIC( nLeft ) .OR. nLeft < 0
       nLeft := 0
-   ENDIF
-   IF ! HB_ISNUMERIC( nBottom ) .OR. nBottom > MaxRow() .OR. nBottom < nTop
+   endif
+   if ! HB_ISNUMERIC( nBottom ) .OR. nBottom > MaxRow() .OR. nBottom < nTop
       nBottom := MaxRow()
-   ENDIF
-   IF ! HB_ISNUMERIC( nRight ) .OR. nRight > MaxCol() .OR. nRight < nLeft
+   endif
+   if ! HB_ISNUMERIC( nRight ) .OR. nRight > MaxCol() .OR. nRight < nLeft
       nRight := MaxCol()
-   ENDIF
+   endif
 
    oBrowse := TBrowseDB( nTop, nLeft, nBottom, nRight )
    oBrowse:headSep   := iif( HB_ISSTRING( xHeadingSeparators ), xHeadingSeparators, hb_UTF8ToStrBox( "═╤═" ) )
@@ -100,39 +100,39 @@ FUNCTION dbEdit( nTop, nLeft, nBottom, nRight, ;
    oBrowse:skipBlock := {| nRecs | Skipped( nRecs, lAppend ) }
    oBrowse:autoLite  := .F.  /* Set to .F. just like in CA-Cl*pper. [vszakats] */
 
-   IF HB_ISARRAY( acColumns )
+   if HB_ISARRAY( acColumns )
       nColCount := 0
       FOR EACH aCol IN acColumns
-         IF HB_ISSTRING( aCol ) .AND. ! Empty( aCol )
+         if HB_ISSTRING( aCol ) .AND. ! Empty( aCol )
             nColCount++
-         ELSE
+         else
             EXIT
-         ENDIF
+         endif
       NEXT
-   ELSE
+   else
       nColCount := FCount()
-   ENDIF
+   endif
 
-   IF nColCount == 0
-      RETURN .F.
-   ENDIF
+   if nColCount == 0
+      return .F.
+   endif
 
    /* Generate the TBrowse columns */
 
    FOR nPos := 1 TO nColCount
 
-      IF HB_ISARRAY( acColumns )
+      if HB_ISARRAY( acColumns )
          cBlock := acColumns[ nPos ]
-         IF ( nAliasPos := At( "->", cBlock ) ) > 0
+         if ( nAliasPos := At( "->", cBlock ) ) > 0
             cHeading := Left( cBlock, nAliasPos - 1 ) + "->;" + ;
                SubStr( cBlock, nAliasPos + 2 )
-         ELSE
+         else
             cHeading := cBlock
-         ENDIF
-      ELSE
+         endif
+      else
          cBlock := FieldName( nPos )
          cHeading := cBlock
-      ENDIF
+      endif
 
       /* Simplified logic compared to CA-Cl*pper. In the latter there
          is logic to detect several typical cBlock types (memvar,
@@ -168,17 +168,17 @@ FUNCTION dbEdit( nTop, nLeft, nBottom, nRight, ;
          oColumn:footing := xColumnFootings
       ENDCASE
 
-      IF HB_ISARRAY( xHeadingSeparators ) .AND. nPos <= Len( xHeadingSeparators ) .AND. HB_ISSTRING( xHeadingSeparators[ nPos ] )
+      if HB_ISARRAY( xHeadingSeparators ) .AND. nPos <= Len( xHeadingSeparators ) .AND. HB_ISSTRING( xHeadingSeparators[ nPos ] )
          oColumn:headSep := xHeadingSeparators[ nPos ]
-      ENDIF
+      endif
 
-      IF HB_ISARRAY( xColumnSeparators ) .AND. nPos <= Len( xColumnSeparators ) .AND. HB_ISSTRING( xColumnSeparators[ nPos ] )
+      if HB_ISARRAY( xColumnSeparators ) .AND. nPos <= Len( xColumnSeparators ) .AND. HB_ISSTRING( xColumnSeparators[ nPos ] )
          oColumn:colSep := xColumnSeparators[ nPos ]
-      ENDIF
+      endif
 
-      IF HB_ISARRAY( xFootingSeparators ) .AND. nPos <= Len( xFootingSeparators ) .AND. HB_ISSTRING( xFootingSeparators[ nPos ] )
+      if HB_ISARRAY( xFootingSeparators ) .AND. nPos <= Len( xFootingSeparators ) .AND. HB_ISSTRING( xFootingSeparators[ nPos ] )
          oColumn:footSep := xFootingSeparators[ nPos ]
-      ENDIF
+      endif
 
       oBrowse:addColumn( oColumn )
    NEXT
@@ -194,28 +194,28 @@ FUNCTION dbEdit( nTop, nLeft, nBottom, nRight, ;
 
    DO WHILE lContinue
 
-      DO WHILE .T.
+      DO while( true )
          nKeyStd := hb_keyStd( Inkey(, hb_bitOr( Set( _SET_EVENTMASK ), HB_INKEY_EXT ) ) )
-         IF oBrowse:stabilize()
+         if oBrowse:stabilize()
             EXIT
-         ENDIF
+         endif
 #ifdef HB_COMPAT_C53
-         IF nKeyStd != 0 .AND. nKeyStd != K_MOUSEMOVE
+         if nKeyStd != 0 .AND. nKeyStd != K_MOUSEMOVE
             EXIT
-         ENDIF
+         endif
 #else
-         IF nKeyStd != 0
+         if nKeyStd != 0
             EXIT
-         ENDIF
+         endif
 #endif
       ENDDO
 
-      IF nKeyStd == 0
-         IF lDoIdleCall
+      if nKeyStd == 0
+         if lDoIdleCall
             lContinue := CallUser( oBrowse, xUserFunc, 0, @lAppend, @lFlag )
             oBrowse:forceStable()
-         ENDIF
-         IF lContinue .AND. lFlag
+         endif
+         if lContinue .AND. lFlag
             oBrowse:hiLite()
 #ifdef HB_COMPAT_C53
             DO WHILE ( nKeyStd := hb_keyStd( nKey := Inkey( 0, hb_bitOr( Set( _SET_EVENTMASK ), HB_INKEY_EXT ) ) ) ) == K_MOUSEMOVE
@@ -224,21 +224,21 @@ FUNCTION dbEdit( nTop, nLeft, nBottom, nRight, ;
             nKeyStd := hb_keyStd( nKey := Inkey( 0, hb_bitOr( Set( _SET_EVENTMASK ), HB_INKEY_EXT ) ) )
 #endif
             oBrowse:deHilite()
-            IF ( bBlock := SetKey( nKey ) ) != NIL .OR. ;
+            if ( bBlock := SetKey( nKey ) ) != NIL .OR. ;
                ( bBlock := SetKey( nKeyStd ) ) != NIL
                Eval( bBlock, ProcName( 1 ), ProcLine( 1 ), "" )
                LOOP
-            ENDIF
-         ELSE
+            endif
+         else
             lFlag := .T.
-         ENDIF
-      ENDIF
+         endif
+      endif
 
       lDoIdleCall := .T.
 
-      IF nKeyStd != 0
+      if nKeyStd != 0
 #ifdef HB_CLP_UNDOC
-         IF lAppend
+         if lAppend
             SWITCH nKeyStd
             CASE K_DOWN
             CASE K_PGDN
@@ -251,7 +251,7 @@ FUNCTION dbEdit( nTop, nLeft, nBottom, nRight, ;
                oBrowse:hitTop := .T.
                LOOP
             ENDSWITCH
-         ENDIF
+         endif
 #endif
          SWITCH nKeyStd
 #ifdef HB_COMPAT_C53
@@ -278,12 +278,12 @@ FUNCTION dbEdit( nTop, nLeft, nBottom, nRight, ;
             lContinue := CallUser( oBrowse, xUserFunc, nKeyStd, @lAppend, @lFlag )
             lDoIdleCall := .F.
          ENDSWITCH
-      ENDIF
+      endif
    ENDDO
 
    SetCursor( nOldCUrsor )
 
-   RETURN .T.
+   return .T.
 
 
 /* NOTE: CA-Cl*pper uses intermediate function CallUser()
@@ -312,40 +312,40 @@ STATIC FUNCTION CallUser( oBrowse, xUserFunc, nKeyStd, lAppend, lFlag )
       iif( HB_ISSTRING( xUserFunc ) .AND. ! Empty( xUserFunc ), &xUserFunc( nMode, oBrowse:colPos ), ;  /* NOTE: Macro operator! */
       iif( nKeyStd == K_ENTER .OR. nKeyStd == K_ESC, DE_ABORT, DE_CONT ) ) )
 
-   IF ! lAppend .AND. Eof() .AND. ! IsDbEmpty()
+   if ! lAppend .AND. Eof() .AND. ! IsDbEmpty()
       dbSkip( -1 )
-   ENDIF
+   endif
 
 	
 #ifdef HB_CLP_UNDOC
 
    P_DEF( nAction, 1)  // Evitar a merda de erro de retorno
-   IF nAction == DE_APPEND
+   if nAction == DE_APPEND
 
-      IF ( lAppend := !( lAppend .AND. Eof() ) )
+      if ( lAppend := !( lAppend .AND. Eof() ) )
          dbGoBottom()
          oBrowse:down()
-      ELSE
+      else
          oBrowse:refreshAll():forceStable()
-      ENDIF
+      endif
       lFlag := .F.
-      RETURN .T.
-   ENDIF
+      return .T.
+   endif
 #endif
 
-   IF nAction == DE_REFRESH .OR. nPrevRecNo != RecNo()
+   if nAction == DE_REFRESH .OR. nPrevRecNo != RecNo()
 
-      IF nAction != DE_ABORT
+      if nAction != DE_ABORT
 
          lAppend := .F.
 
-         IF ( Set( _SET_DELETED ) .AND. Deleted() ) .OR. ;
+         if ( Set( _SET_DELETED ) .AND. Deleted() ) .OR. ;
             ( ! Empty( dbFilter() ) .AND. ! Eval( hb_macroBlock( dbFilter() ) ) )
             dbSkip()
-         ENDIF
-         IF Eof()
+         endif
+         if Eof()
             dbGoBottom()
-         ENDIF
+         endif
 
          nPrevRecNo := RecNo()
          oBrowse:refreshAll():forceStable()
@@ -355,18 +355,18 @@ STATIC FUNCTION CallUser( oBrowse, xUserFunc, nKeyStd, lAppend, lFlag )
 
          lFlag := .F.
 
-      ENDIF
-   ELSE
+      endif
+   else
       oBrowse:refreshCurrent()
-   ENDIF
+   endif
 
-   RETURN nAction != DE_ABORT
+   return nAction != DE_ABORT
 
 
 /* helper function to detect empty tables. It's not perfect but
    it functionally uses the same conditions as CA-Cl*pper */
 STATIC FUNCTION IsDbEmpty()
-   RETURN LastRec() == 0 .OR. ;
+   return LastRec() == 0 .OR. ;
       ( Bof() .AND. ( Eof() .OR. RecNo() == LastRec() + 1 ) )
 
 /* Helper function: TBrowse skipBlock */
@@ -374,37 +374,37 @@ STATIC FUNCTION Skipped( nRecs, lAppend )
 
    LOCAL nSkipped := 0
 
-   IF LastRec() != 0
+   if LastRec() != 0
       DO CASE
       CASE nRecs == 0
-         IF Eof() .AND. ! lAppend
+         if Eof() .AND. ! lAppend
             dbSkip( -1 )
             nSkipped := -1
-         ELSE
+         else
             dbSkip( 0 )
-         ENDIF
+         endif
       CASE nRecs > 0 .AND. RecNo() != LastRec() + 1
          DO WHILE nSkipped < nRecs
             dbSkip()
-            IF Eof()
-               IF lAppend
+            if Eof()
+               if lAppend
                   nSkipped++
-               ELSE
+               else
                   dbSkip( -1 )
-               ENDIF
+               endif
                EXIT
-            ENDIF
+            endif
             nSkipped++
          ENDDO
       CASE nRecs < 0
          DO WHILE nSkipped > nRecs
             dbSkip( -1 )
-            IF Bof()
+            if Bof()
                EXIT
-            ENDIF
+            endif
             nSkipped--
          ENDDO
       ENDCASE
-   ENDIF
+   endif
 
-   RETURN nSkipped
+   return nSkipped

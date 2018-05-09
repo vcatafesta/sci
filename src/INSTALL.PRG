@@ -23,7 +23,7 @@ INSTALA()
 ******************************************************************************
 STATIC FUNCTION CENTER(Arg1,Arg2)
 @ Arg1,40 -LEN(Arg2)/2 SAY Arg2
-RETURN NIL
+return NIL
 ******************************************************************************
 FUNCTION CAD_REG()
  CENTER(23,"[F3] - ABANDONA O SISTEMA")
@@ -57,12 +57,12 @@ FUNCTION CAD_REG()
  USU:=USUARIO
  NSERIE:="SKSCB200597-1003/3"
  CENTER(23,"[F3] - ABANDONA O SISTEMA")
- IF !EMPTY(USU)
+ if !EMPTY(USU)
     SET CURS OFF
     @14,16 SAY "Nome       : " + ALLTRIM(USU)
     @16,16 SAY "N§ de S‚rie: " + NSERIE   
-    RETURN
- ENDIF
+    return
+ endif
 
  DO WHILE TENT < 3
     NNOME:=SPACE(30)
@@ -71,25 +71,25 @@ FUNCTION CAD_REG()
     @14,16 SAY "Nome       : " get NNOME     pict '@!' valid!empty(NNOME)
     @16,16 SAY "N§ de S‚rie: " get V_SERIE  VALID!EMPTY(V_SERIE)
     READ
-    IF EMPTY(USU)
+    if EMPTY(USU)
        USE REG
        REPL USUARIO WITH NNOME
        SAVE TO DADOS
        EXIT
-    ENDIF
-    IF USU <> NNOME .OR. V_SERIE <> NSERIE
+    endif
+    if USU <> NNOME .OR. V_SERIE <> NSERIE
        ALERT("DADOS INCORRETOS")
        TENT=TENT + 1
        LOOP
-    ENDIF
-    RETURN
+    endif
+    return
  ENDDO
- IF TENT=3 
+ if TENT=3 
     ALERT("NéMERO DE TENTATIVAS ESGOTADAS!;;VOCÒ REALMENTE SABE O N§ DE SRIE ?")
     CLS
     QUIT
- ENDIF
-RETURN 
+ endif
+return 
 ******************************************************************************
 
 FUNCTION INSTALA() // ROTINA PARA INSTALAR OS ARQUIVOS NO DISCO
@@ -175,10 +175,10 @@ FUNCTION INSTALA() // ROTINA PARA INSTALAR OS ARQUIVOS NO DISCO
  TONE(1000)
  @18,39 SAY X
 
- RUN FILESYS.EXE A:\FILE6.SK_ C:\SISCOB10\SIFAT.DBF >NUL
+ RUN FILESYS.EXE A:\FILE6.SK_ C:\SISCOB10\SifAT.DBF >NUL
  @15,13 CLEAR TO 16,70
- @15,13 SAY 'Descomprimindo de A:\SIFAT.DBF'
- @16,13 SAY '                  C:\SISCOB10\SIFAT.DBF'
+ @15,13 SAY 'Descomprimindo de A:\SifAT.DBF'
+ @16,13 SAY '                  C:\SISCOB10\SifAT.DBF'
  INKEY(3)
  @13,25 SAY REPL('þ',20) COLOR 'GB+'
  X:='6'
@@ -209,17 +209,17 @@ FUNCTION INSTALA() // ROTINA PARA INSTALAR OS ARQUIVOS NO DISCO
  TONE(5000)
  ALERT("SISTEMA INSTALADO COM SUCESSO;EXECUTE O ARQUIVO < SISCOB.EXE >;NO DIRETàRIO C:\SISCOB10")
  CLS
-RETURN
+return
 ******************************************************************************
 FUNCTION SEGURANCA()
   !VOL>"TESTVOL.TXT"
   DLL_MEM:=MEMOREAD("TESTVOL.TXT")
   VOLUME:=VAR_VOL:=RIGHT(MEMOLINE(DLL_MEM,40,3),9)
-  IF !FILE ('TESTVOL.MEM')
+  if !FILE ('TESTVOL.MEM')
      SAVE  ALL LIKE VOLUME TO TESTVOL
-   ELSE
+   else
      RESTORE FROM TESTVOL.MEM ADDITIVE
-  ENDIF        
+  endif        
   A:=VOLUME
 ******************************************************************************
 * ROTINA PARA CRIPTOGRAFAR O N§ DO VOLUME E GRAVAR NO DBF
@@ -235,24 +235,24 @@ FUNCTION SEGURANCA()
            CHR(ASC(SUBSTR(A,9,1)) +  200)
            V_DATAINST=CTOD('01/06/97')
 
-           IF DATE() < V_DATAINST
+           if DATE() < V_DATAINST
               ALERT("DATA DO SISTEMA INVµLIDA;RETORNE AO PROMPT E;UTILIZE O COMANDO DATE PARA ATUALIZAR A DATA")
               CLS
-           ENDIF
+           endif
 
-           USE REG && ABRE O ARQUIVO E VERIFICA SE Jµ EXISTE DADOS NO CAMPO
+           USE REG && ABRE O ARQUIVO E VERifICA SE Jµ EXISTE DADOS NO CAMPO
            GO TOP
-           IF EMPTY(SENHA)
+           if EMPTY(SENHA)
               REPL SENHA    WITH ENCRYPTA
               REPL DI WITH V_DATAINST
-           ENDIF
+           endif
 
 ******************************************************************************
 * INICIALIZA A COMPARA€ÇO COM A VARIµVEL DE MEMàRIA E ARQUIVO DBF
 
-  IF VOLUME # VAR_VOL
+  if VOLUME # VAR_VOL
      AVISO_PIRATARIA()
-  ENDIF
+  endif
 
   USE REG
   GO TOP 
@@ -267,10 +267,10 @@ FUNCTION SEGURANCA()
              CHR(ASC(SUBSTR(A,8,1)) -  110)       +;
              CHR(ASC(SUBSTR(A,9,1)) -  200)
 
-  IF VOLUME # D_ENCRYPTA
+  if VOLUME # D_ENCRYPTA
      AVISO_PIRATARIA()
-  ENDIF
-RETURN
+  endif
+return
 
 ******************************************************************************
 FUNCTION AVISO_PIRATARIA() && EMITE AVISO DE QUE O PROGRAMA  PIRATA
@@ -331,14 +331,14 @@ FUNCTION AVISO_PIRATARIA() && EMITE AVISO DE QUE O PROGRAMA  PIRATA
       SET CURS ON
       SET COLOR TO
       QUIT
-RETURN
+return
 
 ******************************************************************************
 
-FUNCTION ESPACO() && VERIFICA O ESPACO EXISTENTE EM DISCO
+FUNCTION ESPACO() && VERifICA O ESPACO EXISTENTE EM DISCO
  X:=DISKSPACE(3)
  N=5000000
- IF X < 5000000
+ if X < 5000000
     @10,16 CLEAR TO 19,64
     DISPBOX(10,14,19,63,2)
     @11,16 SAY "      ESPA€O INSUFICIENTE PARA INSTALA€ÇO" color 'GB+'
@@ -353,8 +353,8 @@ FUNCTION ESPACO() && VERIFICA O ESPACO EXISTENTE EM DISCO
     SET COLOR TO 
     CLS
     QUIT
-  ENDIF
-RETURN
+  endif
+return
 ******************************************************************************
 
 FUNCTION AVISO() // TELA DE INFORMA€ÇO
@@ -390,10 +390,10 @@ FUNCTION AVISO() // TELA DE INFORMA€ÇO
  INKEY(0)
  RESTSCREEN(00,00,24,79,AVISO)
  CLS
-RETURN
+return
 ******************************************************************************
 
-FUNCTION COPIAS()  && VERIFICA O N§ DE CàPIAS DISPONÖVEIS P/ INSTALA€ÇO
+FUNCTION COPIAS()  && VERifICA O N§ DE CàPIAS DISPONÖVEIS P/ INSTALA€ÇO
 
  SET CURSOR OFF
 
@@ -406,45 +406,45 @@ FUNCTION COPIAS()  && VERIFICA O N§ DE CàPIAS DISPONÖVEIS P/ INSTALA€ÇO
  NNOME:=USUARIO
  INST='þ'
 
- IF INST1='ô' .AND. INST2='ô' .AND. INST3='ô'
+ if INST1='ô' .AND. INST2='ô' .AND. INST3='ô'
     @14,16 say space(47)
     @14,16 SAY "Registrado para         : " + alltrim(NNOME) 
     @16,16 SAY "N§ de S‚rie             : " + N_SERIE
     @18,16 SAY "Instala‡äes Dispon¡veis : 3 "
     INKEY(0)
     REPL INST1 WITH INST
-    RETURN
- ENDIF
+    return
+ endif
  
- IF INST1='þ' .AND. INST2='ô' .AND. INST3='ô'
+ if INST1='þ' .AND. INST2='ô' .AND. INST3='ô'
     @14,16 say space(47)
     @14,16 SAY "Registrado para         : " + alltrim(NNOME) 
     @16,16 SAY "N§ de S‚rie             : " + N_SERIE
     @18,16 SAY "Instala‡äes Dispon¡veis : 2 "
     INKEY(0)
     REPL INST2 WITH INST
-    RETURN
- ENDIF
+    return
+ endif
 
- IF INST1='þ' .AND. INST2='þ' .AND. INST3='ô'
+ if INST1='þ' .AND. INST2='þ' .AND. INST3='ô'
     @14,16 say space(47)
     @14,16 SAY "Registrado para         : " + alltrim(NNOME) 
     @16,16 SAY "N§ de S‚rie             : " + N_SERIE
     @18,16 SAY "Instala‡äes Dispon¡veis : 1 "
     INKEY(0)
     REPL INST3 WITH INST
-    RETURN
- ENDIF
+    return
+ endif
 
- IF INST1='þ' .AND. INST2='þ' .AND. INST3='þ'
+ if INST1='þ' .AND. INST2='þ' .AND. INST3='þ'
     TONE(5000,5)
     ALERT("NéMERO DE INSTALA€åES ESGOTADAS;;ENTRE EM CONTATO COM O FORNECEDOR!")
     SET COLOR TO W/N
     CLS
     QUIT
- ENDIF
+ endif
  SET CURSOR ON
-RETURN
+return
 ******************************************************************************
 FUNCTION TELA() // MONTA A TELA DE ABERTURA PARA INICIO DA INSTALA€ÇO ***
  SET CURSOR OFF
@@ -501,9 +501,9 @@ FUNCTION TELA() // MONTA A TELA DE ABERTURA PARA INICIO DA INSTALA€ÇO ***
     @ tLA, 2 SAY SPACE(28)
     INKEY(.08)
     tCA=tCA-1
-    IF tCA=2
+    if tCA=2
        tCA=50
-    ENDIF
+    endif
     SET COLOR TO B+
     CENTER(13,"VersÆo 1.0")
  ** Move Razao Social
@@ -515,32 +515,32 @@ FUNCTION TELA() // MONTA A TELA DE ABERTURA PARA INICIO DA INSTALA€ÇO ***
     USE REG
     GO TOP
 
-    IF !EMPTY(USUARIO)
+    if !EMPTY(USUARIO)
        CENTER(10,"** PROGRAMA DE INSTALA€ÇO **")
        CENTER(15,"REGISTRADO PARA: " + ALLTRIM(USUARIO)) 
        CENTER(16,"N§ DE SRIE: SKSCB200597-1003/3")
        SET COLOR TO B+
-     ELSE
+     else
        CENTER(10,"** PROGRAMA DE INSTALA€ÇO **")
        SET COLOR TO B+
-    ENDIF
+    endif
 
     @ 19,24 SAY LEFT(tRZ,tSKI)
     tSKI=tSKI+1
-    IF tSKI=38
+    if tSKI=38
        tSKI=1
        @ 19,24 SAY SPACE(38)
-    ENDIF
-    IF LASTKEY()=13
+    endif
+    if LASTKEY()=13
        SET COLOR TO GB+
        CENTER(12,"                                 ")
        CENTER(12,"SISTEMA DE COBRAN€A")
        CENTER(19,"Souki Servi‡os Empresariais Ltda")
        INKEY(3)
-       RETURN
-    ENDIF
+       return
+    endif
 ENDDO
-RETURN
+return
 ******************************************************************************
 PROCEDURE SAIR
 CLS

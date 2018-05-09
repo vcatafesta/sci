@@ -102,19 +102,19 @@ Method New()
    ::dIni        := Ctod("01/01/91")
    ::dFim        := Ctod("31/12/" + Right(Dtoc(Date()),2))
    ::dCalculo    := Date()
-RETURN Self
+return Self
 
 METHOD Resetar()
 	Self:New()
-RETURN Self
+return Self
 
 METHOD aChoice_(aTodos, aAtivo, cFuncao)
 	Achoice(::nBoxRow+1, ::nBoxCol+1, ::nBoxRow1-3, ::nBoxCol1-1, aTodos, aAtivo, cFuncao )
-RETURN Self
+return Self
 
 METHOD MaBox_()
 	MaBox(::nBoxRow, ::nBoxCol, ::nBoxRow1-2, ::nBoxCol1, ::cTop)
-RETURN Self
+return Self
 
 METHOD PrintPosi( nRow, nCol, aStr )
 	::nPrtRow := nRow
@@ -123,18 +123,18 @@ METHOD PrintPosi( nRow, nCol, aStr )
 	Print(::nPrtRow-2, ::nPrtCol, ::aBottom[1], Cor(), MaxCol())
 	Print(::nPrtRow-1, ::nPrtCol, ::aBottom[2], Cor(), MaxCol())
 	Print(::nPrtRow,   ::nPrtCol, ::aBottom[3], Cor(), MaxCol())
-RETURN Self
+return Self
 
 METHOD Redraw_()
 	::nBoxRow1--
 	::MaBox_()
 	::PrintPosi(::nPrtRow, ::nPrtCol, ::aBottom)
-RETURN Self
+return Self
 
 METHOD Hello
   ? "Hello",Self:cWho
   ? "Hello",::cNome
-RETURN Self
+return Self
 
 METHOD ResetSelecao
 	LOCAL cStr
@@ -142,7 +142,7 @@ METHOD ResetSelecao
 	::ZerarSelecao()
 	::RedrawSelecao()
 	::Redraw_()
-RETURN Self
+return Self
 
 METHOd ZerarSelecao class TReceposi
 	::aDocnr_Selecao_Imprimir := {}
@@ -181,7 +181,7 @@ METHOD RedrawSelecao class TReceposi
 	cStr += Tran(::nSoma_Total_Imprimir,   "@E 999,999.99")
 	oMenu:StatInf("")
 	oMenu:ContaReg( cStr )
-RETURN Self
+return Self
 
 METHOD RedrawVencer class TReceposi
 	::cStr3 := " ABERTO VENCER  ¯¯ {"
@@ -204,6 +204,6 @@ METHOD RedrawVencido class TReceposi
 return(::cStr2)	
 
 Function TReceposiNew()
-Return(TReceposi():New())
+return(TReceposi():New())
 
 *------------------------------------------------------------------------------

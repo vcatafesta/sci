@@ -11,7 +11,7 @@ Version 1.01 - November 8, 1991
 
 LOCAL o2 := Sample2():New("World")
         o2:Hello()
-        RETURN
+        return
 
 //=============================================================
 CLASS Sample1
@@ -22,11 +22,11 @@ ENDCLASS
 
 FUNCTION Sample1New(cWho)
   ::Who := cWho
-RETURN Self
+return Self
 
 FUNCTION Sample1Hello
   ? "Hello",::Who
-RETURN Self
+return Self
 
 //=============================================================
 CLASS Sample2 FROM Sample1
@@ -36,4 +36,4 @@ ENDCLASS
 FUNCTION Sample2Hello
   ::parent:Hello()
   ? "Greetings and salutations!"
-RETURN Self
+return Self

@@ -24,7 +24,7 @@
 ***********************************************************
 * Revisions:
 * Date Time Who Change Description
-* 컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴�-
+* 컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴?
 *
 ***********************************************************
 ***********************************************************
@@ -34,7 +34,7 @@
 ***** on any dot matrix printer which is compatable with *****
 ***** an Epson/IBM graphics printer or HP LaserJet. *****
 ***** ****************************** *****
-***** - SPECIFICATIONS - *****
+***** - SPECifICATIONS - *****
 ** **
 ** W N **
 ** | Nominal Width | Nominal Width | Nominal Ratio **
@@ -181,7 +181,7 @@ return
 *** Function: Barcode()
 *** Purpose: Creates Code39 barcode from character string
 *** Parameters: Character String
-*** Returns: String converted to barcode
+*** returns: String converted to barcode
 *** Notes: Requires the following variables:
 *** : 
 *** : All printers:
@@ -245,7 +245,7 @@ return code
 *** Procedure: Setup_HP
 *** Purpose: Defines characters for HP LaserJet
 *** Parameters: None
-*** Returns: Initialized Public variables
+*** returns: Initialized Public variables
 ***
 *****************
 
@@ -273,7 +273,7 @@ return
 *** Procedure: Setup_Epson
 *** Purpose: Defines characters for Espon or IBM Graphics printer
 *** Parameters: None
-*** Returns: Initialized Public variables
+*** returns: Initialized Public variables
 ***
 *****************
 
@@ -302,7 +302,7 @@ return
 *** Procedure: Def_Code39
 *** Purpose: Define character set for CODE39
 *** Parameters: None
-*** Returns: Initialized Public variables and array
+*** returns: Initialized Public variables and array
 ***
 *****************
 
@@ -363,7 +363,7 @@ return
 *** Function: Printcode
 *** Purpose: Sends escape codes to printer
 *** Parameters: Character string or escape sequence
-*** Returns: Nothing
+*** returns: Nothing
 ***
 *****************
 

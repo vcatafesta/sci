@@ -32,14 +32,14 @@ FUNCTION ft_Calendar( nRow, nCol, cColor, lShadow, lShowHelp )
    cSaveScreen := SaveScreen( nRow - 1, nCol - 1, nRow + 3, nCol + 17 )
    cSaveCursor := SetCursor( SC_NONE )
 
-   IF lShadow
+   if lShadow
       hb_DispBox( nRow - 1, nCol - 1, nRow + 2, nCol + 15, HB_B_SINGLE_UNI )
       hb_Shadow( nRow - 1, nCol - 1, nRow + 2, nCol + 15 )
-   ENDIF
+   endif
 
-   IF lShowHelp
+   if lShowHelp
       nHelpRow := iif( nRow > 10, nRow - 10, nRow + 6 )
-   ENDIF
+   endif
 
    DO WHILE nKey != K_ESC
 
@@ -54,7 +54,7 @@ FUNCTION ft_Calendar( nRow, nCol, cColor, lShadow, lShowHelp )
       CASE K_LEFT  ; nJump += 7 ; EXIT
       CASE K_INS   ; nJump := 0 ; EXIT
       CASE K_F1
-         IF lShowHelp .AND. ! lHelpIsDisplayed
+         if lShowHelp .AND. ! lHelpIsDisplayed
             lHelpIsDisplayed := .T.
             cSaveHelp := SaveScreen( nHelpRow - 1, 1, nHelpRow + 7, MaxCol() + 1 )
             ft_XBox( "L",,, cColor, cColor, nHelpRow, 1, ;
@@ -62,7 +62,7 @@ FUNCTION ft_Calendar( nRow, nCol, cColor, lShadow, lShowHelp )
                "End, Dn_Arrow or PgDn keys page by day, month or year to a future date.", ;
                "Left_Arrow or Right_Arrow keys page by week to a past or future date.", ;
                "Hit Ins to reset to today's date, F1 to get this help, ESC to quit." )
-         ENDIF
+         endif
          EXIT
       ENDSWITCH
 
@@ -95,12 +95,12 @@ FUNCTION ft_Calendar( nRow, nCol, cColor, lShadow, lShowHelp )
    SetColor( cSavColor )
    SetCursor( cSaveCursor )
    RestScreen( nRow - 1, nCol - 1, nRow + 3, nCol + 17, cSaveScreen )
-   IF lHelpIsDisplayed
+   if lHelpIsDisplayed
       RestScreen( nHelpRow - 1, 1, nHelpRow + 7, MaxCol() + 1, cSaveHelp )
-   ENDIF
+   endif
 
-   RETURN aRetVal
+   return aRetVal
 
 STATIC FUNCTION JDoY( nYear, nMonth, nDay )
-   RETURN Val( hb_BSubStr( "000031059090120151181212243273304334", ( nMonth - 1 ) * 3 + 1, 3 ) ) + nDay + ;
+   return Val( hb_BSubStr( "000031059090120151181212243273304334", ( nMonth - 1 ) * 3 + 1, 3 ) ) + nDay + ;
       iif( nMonth > 2 .AND. ( ( nYear % 4 == 0 .AND. nYear % 100 != 0 ) .OR. nYear % 400 == 0 ), 1, 0 )

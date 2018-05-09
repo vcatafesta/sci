@@ -26,4 +26,4 @@ FUNCTION Main()
 
    READ
 
-   RETURN
+   return

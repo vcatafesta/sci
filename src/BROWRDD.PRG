@@ -58,14 +58,14 @@ PROCEDURE BroRdd()
    PushScr()
 
 #ifdef OPTION_TO_CREATE_DATABASES
-   IF cCreate != NIL
+   if cCreate != NIL
       DispBegin()
       Scroll()
       QOut(MSG_CREATE)
       DispEnd()
       CreateFiles()
 
-   ENDIF
+   endif
 #endif
 
    // Open all files
@@ -83,19 +83,19 @@ PROCEDURE BroRdd()
       // Lazy man...
       //
       // You _might_ (SHOULD) want to change this
-      IF oError:genCode == EG_OPEN
+      if oError:genCode == EG_OPEN
          Tone(87.3,1)
          Tone(40,3.5)
          ErrMsg(ERR_DATABASE_OPEN, ,ERR_COLOR)
          PopScr(.F.)
          PopSets()
-         RETURN // QUIT?
+         return // QUIT?
 
-      ELSE
+      else
          Eval(bOldHandler, oError)
          QUIT
 
-      ENDIF
+      endif
 
    END SEQUENCE
 
@@ -190,30 +190,30 @@ PROCEDURE BroRdd()
 
       // Keystroke handling
       nKey := InKey(0)
-      IF !TBMoveCursor(nKey, oCurrBrow)
+      if !TBMoveCursor(nKey, oCurrBrow)
          // It was not a cursor key, lets try here
-         IF nKey     == K_ESC
+         if nKey     == K_ESC
             lContinue:= .F.
 
-         ELSEIF nKey == K_F1
+         elseif nKey == K_F1
             AboutThis()
 
-         ELSEIF nKey == K_F2
+         elseif nKey == K_F2
             CopyReco(nCurrBrow, aFile, aBrow, aWho, aBlock)
 
-         ELSEIF nKey == K_TAB .OR. nKey == K_SH_TAB
+         elseif nKey == K_TAB .OR. nKey == K_SH_TAB
             ShiftBrow(@oCurrBrow, @nCurrBrow, aFile, aBrow, nKey)
 
-         ENDIF
+         endif
 
-      ENDIF
+      endif
 
    END
 
    PopSets()
    PopScr(.F.)
 
-   RETURN
+   return
 
 /*****
  *
@@ -235,22 +235,22 @@ STATIC PROCEDURE ShiftBrow(oCurrBrow, nCurrBrow, aFile,;
     aBrow, nKey)
     oCurrBrow:deHilite()
 
-    IF nKey == K_TAB
+    if nKey == K_TAB
        nCurrBrow := ;
-         IIF(nCurrBrow == NO_OF_BROWSES, 1, ++nCurrBrow)
+         Iif(nCurrBrow == NO_OF_BROWSES, 1, ++nCurrBrow)
 
-    ELSE
+    else
        nCurrBrow := ;
-         IIF(nCurrBrow == 1, NO_OF_BROWSES, --nCurrBrow)
+         Iif(nCurrBrow == 1, NO_OF_BROWSES, --nCurrBrow)
 
-    ENDIF
+    endif
 
     DBSelectArea(aFile[nCurrBrow])
     oCurrBrow := aBrow[nCurrBrow]
 
     oCurrBrow:invalidate()
     oCurrBrow:hilite()
-    RETURN
+    return
 
 /*****
  *
@@ -298,7 +298,7 @@ STATIC PROCEDURE Copyreco(nCurrBrow, aFile, aBrow, aWho, aBlock)
    @ 10, 9 SAY SCR_COPYFROM + aWho[nCurrBrow] + SCR_TO
    nChoice := AChoose( 9, 39, 11, 60, aWho1,,,,, SCR_COPY_COLOR)
 
-   IF nChoice != 0
+   if nChoice != 0
       nOrder := AScan(aWho, aWho1[nChoice])
       @ 10,39 SAY aWho1[nChoice]
       @ 11,24 SAY SCR_PLEASEWAIT
@@ -306,14 +306,14 @@ STATIC PROCEDURE Copyreco(nCurrBrow, aFile, aBrow, aWho, aBlock)
       // Brings up indexkey value
       xKey := Eval(aBlock[nCurrBrow, 1])
 
-      IF Eval(aBlock[nOrder, 2], xKey)
+      if Eval(aBlock[nOrder, 2], xKey)
          // Duplicate keys are not allowed!
          // Be polite...
          Tone(87.3,1)
          Tone(40,3.5)
          ErrMsg(ERR_CANNOT_COPY_RECORD, ,ERR_COLOR)
 
-      ELSE
+      else
          // Append record to target database
          aReco := Array(FCount())
          Aeval(aReco, {|xExpr, nFld| aReco[nFld] := FieldGet(nFld)})
@@ -326,30 +326,30 @@ STATIC PROCEDURE Copyreco(nCurrBrow, aFile, aBrow, aWho, aBlock)
 
          lChanged := .T.
 
-      ENDIF
+      endif
 
-   ENDIF
+   endif
 
    PopScr(.F.)
 
-   IF lChanged
+   if lChanged
       // Refresh browse
       DBSelectArea(aFile[nOrder])
-      IF !Empty(IndexKey())
+      if !Empty(IndexKey())
          SeekIt(xKey, ,aBrow[nOrder])
          aBrow[nOrder]:deHilite()
 
-      ELSE
+      else
          aBrow[nOrder]:refreshAll()
          aBrow[nOrder]:ForceStable()
          aBrow[nOrder]:deHilite()
 
-      ENDIF
+      endif
       DBSelectArea(aFile[nCurrBrow])
 
-   ENDIF
+   endif
 
-   RETURN
+   return
 
 /*****
  *
@@ -401,7 +401,7 @@ STATIC PROCEDURE BuildScrBgnd()
    Scroll( MaxRow() - 2, 2, MaxRow() - 2, MaxCol() - 5)
    @ MaxRow() - 2, 4 SAY SCR_OPTIONS_TITLE
 
-   RETURN
+   return
 
 /*****
  *
@@ -448,7 +448,7 @@ STATIC PROCEDURE AboutThis()
    DispEnd()
    InKey(TIME_TO_WAIT_ON_HELP_SCREEN)
    PopScr(.F.)
-   RETURN
+   return
 
 /*****
  *
@@ -473,7 +473,7 @@ STATIC PROCEDURE AppendRecos(aArray1)
       FIELD->Dept  := aArray1[nCnt,3]
 
    NEXT
-   RETURN
+   return
 
 /*****
  *
@@ -551,6 +551,6 @@ INIT PROCEDURE CreateFiles()
    INDEX ON test1->LName TO Test1
    DBCloseArea()
 
-   RETURN
+   return
 
 // EOF - BROWRDD.PRG //

@@ -1,15 +1,20 @@
-/*****
- *
- *          Name: RddInit()
- *   Description: Disables auto-loading of default driver
- *                and requests linking of all drivers
- *        Author: Luiz Quintela
- *  Date created: 03-05-93
- *     Copyright: Computer Associates
- *
- *    Parameters: None
- *
- */
+/*
+  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ?
+ İ³																								 ?
+ İ³	Modulo.......: RDDSYS.PRG						   								 ?						 
+ İ³	Sistema......: FUNCOES RDD      							            	    ?  
+ İ³	Aplicacao....: SCI - SISTEMA COMERCIAL INTEGRADO                      ?
+ İ³	Versao.......: 8.5.00							                            ?
+ İ³	Programador..: Vilmar Catafesta				                            ?
+ İ³   Empresa......: Macrosoft Informatica Ltda                             ?
+ İ³	Inicio.......: 12.11.1991 						                            ?
+ İ³   Ult.Atual....: 12.04.2018                                             ?
+ İ³   Compilador...: Harbour 3.2/3.4                                        ?
+ İ³   Linker.......: BCC/GCC/MSCV                                           ?
+ İ³	Bibliotecas..:  									                            ?
+ İÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+ ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+*/
 
 ANNOUNCE RDDSYS
 INIT PROCEDURE RddInit()
@@ -20,6 +25,6 @@ INIT PROCEDURE RddInit()
 	REQUEST DBFNSX
 	//REQUEST DBFMDX
    //REQUEST DBPX
-   RETURN
+   return
 
 // EOF - RDDSYS.PRG //

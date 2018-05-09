@@ -1,16 +1,16 @@
 /*
-ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
- Ý³																								 ³
- Ý³	Programa.....: FUNCOES.PRG 														 ³
- Ý³	Aplicacaoo...: MODULO DE FUNCOES DE APOIO AO SCI							 ³
- Ý³	Versao.......: 19.50 																 ³
- Ý³	Programador..: Vilmar Catafesta													 ³
- Ý³	Empresa......: Microbras Com de Prod de Informatica Ltda 				 ³
- Ý³	Inicio.......: 12 de Novembro de 1991. 										 ³
- Ý³	Ult.Atual....: 06 de Dezembro de 1998. 										 ³
- Ý³	Compilacao...: Clipper 5.2e														 ³
- Ý³	Linker.......: Blinker 7.0													   	 ³
- Ý³	Bibliotecas..: Clipper/Funcoes/Mouse/Funcky15/Funcky50/Classe/Classic ³
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ?
+ Ý³																								 ?
+ Ý³	Programa.....: FUNCOES.PRG 														 ?
+ Ý³	Aplicacaoo...: MODULO DE FUNCOES DE APOIO AO SCI							 ?
+ Ý³	Versao.......: 19.50 																 ?
+ Ý³	Programador..: Vilmar Catafesta													 ?
+ Ý³	Empresa......: Microbras Com de Prod de Informatica Ltda 				 ?
+ Ý³	Inicio.......: 12 de Novembro de 1991. 										 ?
+ Ý³	Ult.Atual....: 06 de Dezembro de 1998. 										 ?
+ Ý³	Compilacao...: Clipper 5.2e														 ?
+ Ý³	Linker.......: Blinker 7.0													   	 ?
+ Ý³	Bibliotecas..: Clipper/Funcoes/Mouse/Funcky15/Funcky50/Classe/Classic ?
  ÝÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
  ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 */
@@ -32,21 +32,21 @@
 #Define VAR_AGUDO   											39								 // Indicador de agudo
 #Define VAR_CIRCUN                              	94								 // Indicador de circunflexo
 #Define VAR_TREMA                               	34								 // Indicador de trema
-#Define VAR_CEDMIN                              	91								 // Cedilha min£sculo opcional [
-#Define VAR_CEDMAI                          	    	123 							 // Cedilha mai£sculo opcional {
+#Define VAR_CEDMIN                              	91								 // Cedilha min?culo opcional [
+#Define VAR_CEDMAI                          	    	123 							 // Cedilha mai?culo opcional {
 #Define VAR_GRAVE                           	    	96								 // Indicador de grave
 #Define VAR_TIL	                          	    	126 							 // Indicador de til
-#Define VAR_HIFEN                           	    	95								 // Indicador de ¦ § sublinhado+a/o
+#Define VAR_HifEN                           	    	95								 // Indicador de ??sublinhado+a/o
 #Define S_TOP		                          	   	0
 #Define S_BOTTOM	  											1
 #Define NULL													NIL
 #Define null													NIL
 
-#translate P_Def( <var>, <val> ) 						=> IF( <var> = NIL, <var> := <val>, <var> )
-#translate IfNil( <var>, <val> ) 						=> IF( <var> = NIL, <var> := <val>, <var> )
+#translate P_Def( <var>, <val> ) 						=> if( <var> = NIL, <var> := <val>, <var> )
+#translate ifNil( <var>, <val> ) 						=> if( <var> = NIL, <var> := <val>, <var> )
 
-#XCOMMAND DEFAULT <v1> TO <x1> [, <vn> TO <xn> ]	=>	IF <v1> == NIL ; <v1> := <x1> ; END	[; IF <vn> == NIL ; <vn> := <xn> ; END ]
-#XCOMMAND DEFAU   <v1> TO <x1> [, <vn> TO <xn> ]   =>	IF <v1> == NIL ; <v1> := <x1> ; END	[; IF <vn> == NIL ; <vn> := <xn> ; END ]
+#XCOMMAND DEFAULT <v1> TO <x1> [, <vn> TO <xn> ]	=>	if <v1> == NIL ; <v1> := <x1> ; END	[; if <vn> == NIL ; <vn> := <xn> ; END ]
+#XCOMMAND DEFAU   <v1> TO <x1> [, <vn> TO <xn> ]   =>	if <v1> == NIL ; <v1> := <x1> ; END	[; if <vn> == NIL ; <vn> := <xn> ; END ]
 
 STATIC static13
 STATIC static14
@@ -126,187 +126,187 @@ function m_datarest( Arg1 )
 
 Function VerDebitosEmAtraso()
 *****************************
-LOCAL nNivel := SCI_VERIFICAR_DEBITOS_EM_ATRASO
+LOCAL nNivel := SCI_VERifICAR_DEBITOS_EM_ATRASO
 
-IF !Empty( aPermissao )
-	IF aPermissao[ nNivel ]
-		Return( OK )
-	EndIF
-EndIF
-Return( FALSO )
+if !Empty( aPermissao )
+	if aPermissao[ nNivel ]
+		return( OK )
+	endif
+endif
+return( FALSO )
 
 Function PodeExcederDescMax()
 *****************************
 LOCAL nNivel := SCI_PODE_EXCEDER_DESCONTO_MAXIMO
-IF !Empty( aPermissao )
-	IF aPermissao[ nNivel ]
-		Return( OK )
-	EndIF
+if !Empty( aPermissao )
+	if aPermissao[ nNivel ]
+		return( OK )
+	endif
 	return( PedePermissao( nNivel))
-EndIF
+endif
 return( FALSO )
 
 Function PodeMudarData( dEmis )
 *******************************
 LOCAL nNivel := SCI_ALTERAR_DATA_FATURA
-IF dEmis == Date()
-	Return( OK )
-EndIF
-IF !Empty( aPermissao )
-	IF aPermissao[ nNivel ]
-		Return( OK )
-	EndIF
-	IF !PedePermissao( nNivel )
-		Return( FALSO )
-	EndIF
-	Return( OK )
-EndIF
-Return( FALSO )
+if dEmis == Date()
+	return( OK )
+endif
+if !Empty( aPermissao )
+	if aPermissao[ nNivel ]
+		return( OK )
+	endif
+	if !PedePermissao( nNivel )
+		return( FALSO )
+	endif
+	return( OK )
+endif
+return( FALSO )
 
 Function PodeRecDataDif( dEmis )
 ********************************
 LOCAL nNivel := SCI_ALTERAR_DATA_BAIXA
 
-IF dEmis == Date()
-	Return( OK )
-EndIF
-IF !Empty( aPermissao )
-	IF aPermissao[ nNivel ]
-		Return( OK )
-	EndIF
-	IF !PedePermissao( nNivel )
-		Return( FALSO )
-	EndIF
-	Return( OK )
-EndIF
-Return( FALSO )
+if dEmis == Date()
+	return( OK )
+endif
+if !Empty( aPermissao )
+	if aPermissao[ nNivel ]
+		return( OK )
+	endif
+	if !PedePermissao( nNivel )
+		return( FALSO )
+	endif
+	return( OK )
+endif
+return( FALSO )
 
 Function PodeReceber()
 **********************
-IF !Empty( aPermissao )
-	IF aPermissao[ SCI_RECEBIMENTOS ]
-		Return( OK )
-	EndIF
+if !Empty( aPermissao )
+	if aPermissao[ SCI_RECEBIMENTOS ]
+		return( OK )
+	endif
 	nNivel := SCI_RECEBIMENTOS
-	IF !PedePermissao( nNivel )
-		Return( FALSO )
-	EndIF
-	Return( OK )
-EndIF
-Return( FALSO )
+	if !PedePermissao( nNivel )
+		return( FALSO )
+	endif
+	return( OK )
+endif
+return( FALSO )
 
 Function PodePagar()
 ********************
-IF !Empty( aPermissao )
-	IF aPermissao[ SCI_PAGAMENTOS ]
-		Return( OK )
-	EndIF
+if !Empty( aPermissao )
+	if aPermissao[ SCI_PAGAMENTOS ]
+		return( OK )
+	endif
 	nNivel := SCI_PAGAMENTOS
-	IF !PedePermissao( nNivel )
-		Return( FALSO )
-	EndIF
-	Return( OK )
-EndIF
-Return( FALSO )
+	if !PedePermissao( nNivel )
+		return( FALSO )
+	endif
+	return( OK )
+endif
+return( FALSO )
 
 Function PodeVenderComLimiteEstourado()
 **************************************
-IF !Empty( aPermissao )
-	IF aPermissao[SCI_VENDER_COM_LIMITE_ESTOURADO]
-		Return( OK )
-	EndIF
-EndIF
-Return( FALSO )
+if !Empty( aPermissao )
+	if aPermissao[SCI_VENDER_COM_LIMITE_ESTOURADO]
+		return( OK )
+	endif
+endif
+return( FALSO )
 
 Function VerificarLimiteCredito()
 *********************************
-IF !Empty( aPermissao )
-	IF aPermissao[SCI_VERIFICAR_LIMITE_DE_CREDITO]
-		Return( OK )
-	EndIF
-EndIF
-Return( FALSO )
+if !Empty( aPermissao )
+	if aPermissao[SCI_VERifICAR_LIMITE_DE_CREDITO]
+		return( OK )
+	endif
+endif
+return( FALSO )
 
 Function TipoCadastro()
 ***********************
-IF !Empty( aPermissao )
-	IF aPermissao[SCI_TIPO_DE_CADASTRO_DE_CLIENTE]
-		Return( OK )
-	EndIF
-EndIF
-Return( FALSO )
+if !Empty( aPermissao )
+	if aPermissao[SCI_TIPO_DE_CADASTRO_DE_CLIENTE]
+		return( OK )
+	endif
+endif
+return( FALSO )
 
 Function PodeBaixarTituloAVista()
 *********************************
-IF !Empty( aPermissao )
-	IF aPermissao[SCI_BAIXAR_TITULO_QDO_VENDA_A_VISTA]
-		Return( OK )
-	EndIF
-EndIF
-Return( FALSO )
+if !Empty( aPermissao )
+	if aPermissao[SCI_BAIXAR_TITULO_QDO_VENDA_A_VISTA]
+		return( OK )
+	endif
+endif
+return( FALSO )
 
 Function PodeFaturarComEstoqueNegativo()
 ****************************************
-IF !Empty( aPermissao )
-	IF aPermissao[SCI_FATURAR_COM_ESTOQUE_NEGATIVO]
-		Return( OK )
-	EndIF
-EndIF
-Return( FALSO )
+if !Empty( aPermissao )
+	if aPermissao[SCI_FATURAR_COM_ESTOQUE_NEGATIVO]
+		return( OK )
+	endif
+endif
+return( FALSO )
 
 Function PodeFazerBackup()
 *************************
-IF !Empty( aPermissao )
-	IF aPermissao[SCI_COPIA_DE_SEGURANCA]
-		Return( OK )
-	EndIF
-EndIF
-Return( FALSO )
+if !Empty( aPermissao )
+	if aPermissao[SCI_COPIA_DE_SEGURANCA]
+		return( OK )
+	endif
+endif
+return( FALSO )
 
 Function PodeFazerRestauracao()
 *******************************
-IF !Empty( aPermissao )
-	IF aPermissao[SCI_RESTAURAR_COPIA_SEGURANCA]
-		Return( OK )
-	EndIF
-EndIF
-Return( FALSO )
+if !Empty( aPermissao )
+	if aPermissao[SCI_RESTAURAR_COPIA_SEGURANCA]
+		return( OK )
+	endif
+endif
+return( FALSO )
 
 Function PodeAlterar()
 *********************
-IF !Empty( aPermissao )
-	IF aPermissao[SCI_ALTERACAO_DE_REGISTROS]
-		Return( OK )
-	EndIF
-EndIF
-Return( FALSO )
+if !Empty( aPermissao )
+	if aPermissao[SCI_ALTERACAO_DE_REGISTROS]
+		return( OK )
+	endif
+endif
+return( FALSO )
 
 Function PodeTrocarEmpresa()
 ****************************
-IF !Empty( aPermissao )
-	IF aPermissao[SCI_TROCAR_DE_EMPRESA]
-		Return( OK )
-	EndIF
-EndIF
-Return( FALSO )
+if !Empty( aPermissao )
+	if aPermissao[SCI_TROCAR_DE_EMPRESA]
+		return( OK )
+	endif
+endif
+return( FALSO )
 
 Function PodeIncluir()
 *********************
-IF !Empty( aPermissao )
-	IF aPermissao[SCI_INCLUSAO_DE_REGISTROS]
-		Return( OK )
-	EndIF
-EndIF
-Return( FALSO )
+if !Empty( aPermissao )
+	if aPermissao[SCI_INCLUSAO_DE_REGISTROS]
+		return( OK )
+	endif
+endif
+return( FALSO )
 
 Function PodeExcluir()
 *********************
-IF !Empty( aPermissao )
-	IF aPermissao[SCI_EXCLUSAO_DE_REGISTROS]
-		Return( .t. )
-	EndIF
-EndIF
-Return( FALSO )
+if !Empty( aPermissao )
+	if aPermissao[SCI_EXCLUSAO_DE_REGISTROS]
+		return( .t. )
+	endif
+endif
+return( FALSO )
 
 Function Configuracao( lMicrobras, lNaoMostrarConfig)
 *****************************************************
@@ -343,14 +343,14 @@ LOCAL aMensagem	 := Array(2,5)
 		aMensagem[1,5] := ""
 
 		aMensagem[2,1] := "[Verificacao de Copia Original]"
-		aMensagem[2,2] := "1 - O SCI esta sendo instalado pela 1¦ vez ?"
+		aMensagem[2,2] := "1 - O SCI esta sendo instalado pela 1?vez ?"
 		aMensagem[2,3] := "2 - Esta atualizando a versao do SCI ?"
 		aMensagem[2,4] := "3 - Esta instalando um novo terminal ?"
 		aMensagem[2,5] := "4 - Caso Afirmativo, solicite Codigo de Acesso."
 
 
-IfNil( lMicrobras, FALSO )
-IfNil( lNaoMostrarConfig, FALSO )
+ifNil( lMicrobras, FALSO )
+ifNil( lNaoMostrarConfig, FALSO )
 PUBLIC XNOMEFIR
 PUBLIC SISTEM_NA1
 PUBLIC SISTEM_NA2
@@ -365,170 +365,170 @@ PUBLIC XNOME_EXE
 
 cBase := oAmbiente:xBase
 CenturyOn()
-IF !FChdir( oAmbiente:xBase )
+if !FChdir( oAmbiente:xBase )
    oAmbiente:xBase += "\"
-EndIF
+endif
 FChdir( oAmbiente:xBase )
 oAmbiente:xBase := cBase
 //Set Defa To (oAmbiente:xBase)
-IF !lNaoMostrarConfig
+if !lNaoMostrarConfig
    Qout("þ Localizando Arquivo SCI.DBF.")
-EndIF
+endif
 
 cPath := cCurDir 
 cDbf  := cPath + '\SCI.DBF'
 
-IF !File( cDbf )
+if !File( cDbf )
    cPath := oAmbiente:xBase 
    cDbf  := cPath + '\SCI.DBF'
-   IF !File( cDbf )
+   if !File( cDbf )
       SetColor("")
       Cls
       Alert( "Erro #1: Arquivo SCI.DBF" + ;
              ";Nao localizado em: " + cCurdir + Space(Len(cCurdir+cPath)-Len(cCurdir)) + ;
              ";Nao localizado em: " + cPath   + Space(Len(cCurdir+cPath)-Len(cPath)))
       Quit
-   EndIF
+   endif
    cPath := oAmbiente:xBase
-EndIF
+endif
 QQout(" þOK")
 Set Defa To (cPath)
 Qout("þ Abrindo Arquivo SCI.DBF em " + cPath)
-IF !NetUse("SCI.DBF", OK )
+if !NetUse("SCI.DBF", OK )
 	Quit
-EndIF
+endif
 QQout(" þOK")
 Qout("þ Lendo Arquivo SCI.DBF em " + cPath)
 For x := 1 To Sci->(FCount())
-	IF Sci->(FieldName( x )) != "TIME"
-		IF Sci->(Empty( FieldGet( x )))
+	if Sci->(FieldName( x )) != "TIME"
+		if Sci->(Empty( FieldGet( x )))
 			EncerraDbf( FieldName( x ), Procname(), ProcLine())
 		End
 	End
 Next
-IF ( XNOMEFIR				 := Sci->( AllTrim( Nome	  ))) != Sci->( MsDecrypt( AllTrim( Empresa  ))) .OR. Empty( XNOMEFIR   ) 	; EncerraDbf(, ProcName(), ProcLine()) ; EndIF
-IF ( SISTEM_NA1			 := Sci->( AllTrim( Nome_Sci ))) != Sci->( MsDecrypt( AllTrim( Codi_Sci ))) .OR. Empty( SISTEM_NA1 ) 	; EncerraDbf(, ProcName(), ProcLine()) ; EndIF
-IF ( SISTEM_NA2			 := Sci->( AllTrim( Nome_Est ))) != Sci->( MsDecrypt( AllTrim( Codi_Est ))) .OR. Empty( SISTEM_NA2 ) 	; EncerraDbf(, ProcName(), ProcLine()) ; EndIF
-IF ( SISTEM_NA3			 := Sci->( AllTrim( Nome_Rec ))) != Sci->( MsDecrypt( AllTrim( Codi_Rec ))) .OR. Empty( SISTEM_NA3 ) 	; EncerraDbf(, ProcName(), ProcLine()) ; EndIF
-IF ( SISTEM_NA4			 := Sci->( AllTrim( Nome_Pag ))) != Sci->( MsDecrypt( AllTrim( Codi_Pag ))) .OR. Empty( SISTEM_NA4 ) 	; EncerraDbf(, ProcName(), ProcLine()) ; EndIF
-IF ( SISTEM_NA5			 := Sci->( AllTrim( Nome_Che ))) != Sci->( MsDecrypt( AllTrim( Codi_Che ))) .OR. Empty( SISTEM_NA5 ) 	; EncerraDbf(, ProcName(), ProcLine()) ; EndIF
-IF ( SISTEM_NA6			 := Sci->( AllTrim( Nome_Ven ))) != Sci->( MsDecrypt( AllTrim( Codi_Ven ))) .OR. Empty( SISTEM_NA6 ) 	; EncerraDbf(, ProcName(), ProcLine()) ; EndIF
-IF ( SISTEM_NA7			 := Sci->( AllTrim( Nome_Pro ))) != Sci->( MsDecrypt( AllTrim( Codi_Pro ))) .OR. Empty( SISTEM_NA7 ) 	; EncerraDbf(, ProcName(), ProcLine()) ; EndIF
-IF ( SISTEM_NA8			 := Sci->( AllTrim( Nome_Pon ))) != Sci->( MsDecrypt( AllTrim( Codi_Pon ))) .OR. Empty( SISTEM_NA8 ) 	; EncerraDbf(, ProcName(), ProcLine()) ; EndIF
-IF ( SISTEM_VERSAO		 := Sci->( AllTrim( Nome_Ver ))) != Sci->( MsDecrypt( AllTrim( Codi_Ver ))) .OR. Empty( SISTEM_VERSAO ) ; EncerraDbf(, ProcName(), ProcLine()) ; EndIF
-IF Empty(( XNOME_EXE 	 := Sci->(MsDecrypt( AllTrim( NomeExe ))))) ; EncerraDbf(, ProcName(), ProcLine()) ; EndIF
+if ( XNOMEFIR				 := Sci->( AllTrim( Nome	  ))) != Sci->( MsDecrypt( AllTrim( Empresa  ))) .OR. Empty( XNOMEFIR   ) 	; EncerraDbf(, ProcName(), ProcLine()) ; endif
+if ( SISTEM_NA1			 := Sci->( AllTrim( Nome_Sci ))) != Sci->( MsDecrypt( AllTrim( Codi_Sci ))) .OR. Empty( SISTEM_NA1 ) 	; EncerraDbf(, ProcName(), ProcLine()) ; endif
+if ( SISTEM_NA2			 := Sci->( AllTrim( Nome_Est ))) != Sci->( MsDecrypt( AllTrim( Codi_Est ))) .OR. Empty( SISTEM_NA2 ) 	; EncerraDbf(, ProcName(), ProcLine()) ; endif
+if ( SISTEM_NA3			 := Sci->( AllTrim( Nome_Rec ))) != Sci->( MsDecrypt( AllTrim( Codi_Rec ))) .OR. Empty( SISTEM_NA3 ) 	; EncerraDbf(, ProcName(), ProcLine()) ; endif
+if ( SISTEM_NA4			 := Sci->( AllTrim( Nome_Pag ))) != Sci->( MsDecrypt( AllTrim( Codi_Pag ))) .OR. Empty( SISTEM_NA4 ) 	; EncerraDbf(, ProcName(), ProcLine()) ; endif
+if ( SISTEM_NA5			 := Sci->( AllTrim( Nome_Che ))) != Sci->( MsDecrypt( AllTrim( Codi_Che ))) .OR. Empty( SISTEM_NA5 ) 	; EncerraDbf(, ProcName(), ProcLine()) ; endif
+if ( SISTEM_NA6			 := Sci->( AllTrim( Nome_Ven ))) != Sci->( MsDecrypt( AllTrim( Codi_Ven ))) .OR. Empty( SISTEM_NA6 ) 	; EncerraDbf(, ProcName(), ProcLine()) ; endif
+if ( SISTEM_NA7			 := Sci->( AllTrim( Nome_Pro ))) != Sci->( MsDecrypt( AllTrim( Codi_Pro ))) .OR. Empty( SISTEM_NA7 ) 	; EncerraDbf(, ProcName(), ProcLine()) ; endif
+if ( SISTEM_NA8			 := Sci->( AllTrim( Nome_Pon ))) != Sci->( MsDecrypt( AllTrim( Codi_Pon ))) .OR. Empty( SISTEM_NA8 ) 	; EncerraDbf(, ProcName(), ProcLine()) ; endif
+if ( SISTEM_VERSAO		 := Sci->( AllTrim( Nome_Ver ))) != Sci->( MsDecrypt( AllTrim( Codi_Ver ))) .OR. Empty( SISTEM_VERSAO ) ; EncerraDbf(, ProcName(), ProcLine()) ; endif
+if Empty(( XNOME_EXE 	 := Sci->(MsDecrypt( AllTrim( NomeExe ))))) ; EncerraDbf(, ProcName(), ProcLine()) ; endif
    oAmbiente:XLIMITE     := Sci->Limite
 lPiracy := AllTrim( XCFGPIRACY ) != Sci->( AllTrim( Empresa  ))
 Sci->(DbCloseArea())
-IF lPiracy
+if lPiracy
 	SetColor("")
 	Cls
 	ErrorBeep()
 	Alert( "Erro #0: Favor instalar arquivo SCI.DBF original.")
 	Quit
-EndIF
+endif
 QQout(" þOK")
 
 ** SCI.CFG *******************************************************
-IF !lNaoMostrarConfig
+if !lNaoMostrarConfig
    Qout("þ Localizando Arquivo SCI.CFG.")
-EndIF
+endif
 
 cPath := cCurDir
 cCfg  := cPath + '\SCI.CFG'
 FChdir( cPath )
 Set Defa To (cPath)
-IF !File(cCfg)
+if !File(cCfg)
    cPath := oAmbiente:xBase 
    cCfg  := cPath + '\SCI.CFG'
-   IF !File( cCfg )
+   if !File( cCfg )
       SetColor("")
       Cls
       Alert( "Erro #1: Arquivo SCI.CFG" + ;
              ";Nao localizado em: " + cCurdir + Space(Len(cCurdir+cPath)-Len(cCurdir)) + ;
              ";Nao localizado em: " + cPath   + Space(Len(cCurdir+cPath)-Len(cPath)))
       Quit
-   EndIF
+   endif
 	cPath := oAmbiente:xBase
-EndIF
+endif
 QQout(" þOK")
 Qout("þ Abrindo Arquivo SCI.CFG em " + cPath)
 Handle := FOpen(cCfg)
-IF ( Ferror() != 0 )
+if ( Ferror() != 0 )
 	FClose( Handle )
 	SetColor("") 
 	Cls
 	Alert( "Erro #3: Erro de Abertura do Arquivo SCI.CFG.")
 	Quit
-EndIF
+endif
 Qout("þ Lendo Arquivo SCI.CFG em " + cPath)
 QQout(" þOK")
 
 nErro := FLocate( Handle, "[ENDERECO_STRING]")
-IF nErro < 0
+if nErro < 0
 	SetColor("")
 	Cls
 	Alert( "Erro #4: Configuracao de SCI.CFG alterada. [ENDERECO_STRING]")
 	Quit
-EndIF
+endif
 FAdvance( Handle )
 For nX := 1 To 4
 	Aadd( aEnde_String, AllTrim( MsReadLine( Handle )))
 Next
 
 nErro := FLocate( Handle, "[ENDERECO_CODIGO]")
-IF nErro < 0
+if nErro < 0
 	SetColor("")
 	Cls
 	Alert( "Erro #5: Configuracao de SCI.CFG alterada. [ENDERECO_CODIGO]")
 	Quit
-EndIF
+endif
 FAdvance( Handle )
 For nX := 1 To 4
 	Aadd( aEnde_Codigo, MsDecrypt( AllTrim( MsReadLine( Handle ))))
 Next
 For nX := 1 To 4
-	IF aEnde_Codigo[nX] != aEnde_String[nX]
+	if aEnde_Codigo[nX] != aEnde_String[nX]
 		SetColor("")
 		Cls
 		Alert( "Erro #6: Configuracao de SCI.CFG alterada. [ENDERECO_CODIGO]")
 		Quit
-	EndiF
+	endif
 Next
 FClose( Handle )
 VerExe()
-IF !lNaoMostrarConfig
+if !lNaoMostrarConfig
 	Qout("þ Verificando Aplicativo.")
-EndIF
+endif
 *:*******************************************************************************
 oAmbiente:xDataCodigo := MsDecrypt( oAmbiente:XLIMITE )
 cDia						 := SubStr( oAmbiente:xDataCodigo, 4, 2 )
 cMes						 := Left(  oAmbiente:xDataCodigo, 2 )
 cAno						 := Right( oAmbiente:xDataCodigo, 4 )
 oAmbiente:xDataCodigo := cDia + "/" + cMes + "/" + cAno
-IF !lMicrobras
+if !lMicrobras
 	*:*******************************************************************************
 	Set Date To USA
    cLimite     := MsDecrypt( oAmbiente:XLIMITE )
 	cDataDos 	:= Dtoc( Date())
 	cTela 		:= SaveScreen()
-	IF Ctod( cDataDos ) > Ctod( cLimite )
+	if Ctod( cDataDos ) > Ctod( cLimite )
 		Hard( 1, ProcName(), ProcLine() )
-	EndIF
+	endif
 	Set Date Brit
 	ResTela( cTela )
-	IF !lNaoMostrarConfig
+	if !lNaoMostrarConfig
 		Qout("þ Verificando Sistema Instalado.")
-	EndIf
+	endif
 	cUnidade := Left( Getenv("COMSPEC"), 2 )
-	IF !CopyOk()
+	if !CopyOk()
 		Hard( 2, ProcName(), ProcLine() )
 		CopyCria()
-	EndIF
-EndIF
-IF !lNaoMostrarConfig
+	endif
+endif
+if !lNaoMostrarConfig
 	LogoTipo( aEnde_String )
-EndIF
+endif
 CenturyOff()
 FChdir( oAmbiente:xBaseDados )
 Set Defa To ( oAmbiente:xBaseDados )
@@ -543,12 +543,12 @@ LOCAL cCor		 := 112
 LOCAL nComp 	 := ( nCol1 - nCol )-1
 
 Box( nRow, nCol, nRow1, nCol1, M_Frame() + " ", 112, 1, 8 ) // Funcky
-Print( nRow, nCol, 'Ú', 127, 1 )
-Print( nRow, nCol+1, Repl('Ä',nComp), 127 )
+Print( nRow, nCol, '?, 127, 1 )
+Print( nRow, nCol+1, Repl('?,nComp), 127 )
 For x := nRow+1 To nRow1
-	Print( x, nCol, '³', 127, 1 )
+	Print( x, nCol, '?, 127, 1 )
 Next
-Print( nRow1, nCol, 'À',  127,1 )
+Print( nRow1, nCol, '?,  127,1 )
 SetColor("N/W,W+/R")
 return NIL
 
@@ -575,18 +575,18 @@ LOCAL i
 oMenu:Limpa()
 xArquivo := oAmbiente:xBaseDados + "\" + xTemp + Space(10)
 MaBox( 15, 00, 21, 79 )
-@ 16, 01 Say "Para    : " Get cTo      Pict "@!" Valid IF(Empty(cTo),      ( ErrorBeep(), Alerta("Ooops!: Vai enviar para quem ?"), FALSO ), OK )
-@ 17, 01 Say "De      : " Get cFrom    Pict "@!" Valid IF(Empty(cFrom),    ( ErrorBeep(), Alerta("Ooops!: Nao vai dizer o email de quem enviou ?"), FALSO ), OK )
-@ 18, 01 Say "Anexo   : " Get xArquivo Pict "@!" Valid IF(Empty(xArquivo), ( ErrorBeep(), Alerta("Ooops!: Entre com o Anexo!"), FALSO ), OK )
-@ 19, 01 Say "Assunto : " Get cSubject Pict "@!" Valid IF(Empty(cSubject), ( ErrorBeep(), Alerta("Ooops!: Entre com o Assunto!"), FALSO ), OK )
-@ 20, 01 Say "Servidor: " Get xServer  Pict "@!" Valid IF(Empty(xServer),  ( ErrorBeep(), Alerta("Ooops!: Entre com o servidor!"), FALSO ), OK )
+@ 16, 01 Say "Para    : " Get cTo      Pict "@!" Valid if(Empty(cTo),      ( ErrorBeep(), Alerta("Ooops!: Vai enviar para quem ?"), FALSO ), OK )
+@ 17, 01 Say "De      : " Get cFrom    Pict "@!" Valid if(Empty(cFrom),    ( ErrorBeep(), Alerta("Ooops!: Nao vai dizer o email de quem enviou ?"), FALSO ), OK )
+@ 18, 01 Say "Anexo   : " Get xArquivo Pict "@!" Valid if(Empty(xArquivo), ( ErrorBeep(), Alerta("Ooops!: Entre com o Anexo!"), FALSO ), OK )
+@ 19, 01 Say "Assunto : " Get cSubject Pict "@!" Valid if(Empty(cSubject), ( ErrorBeep(), Alerta("Ooops!: Entre com o Assunto!"), FALSO ), OK )
+@ 20, 01 Say "Servidor: " Get xServer  Pict "@!" Valid if(Empty(xServer),  ( ErrorBeep(), Alerta("Ooops!: Entre com o servidor!"), FALSO ), OK )
 
 Read
-IF LastKey() = 27
+if LastKey() = 27
 	oAmbiente:cArquivo := ""
 	ResTela( cScreen )
 	return
-EndiF
+endif
 cFrom 	:= AllTrim( cFrom )
 cTo		:= AllTrim( cTo )
 cSubject := AllTrim( cSubject )
@@ -616,7 +616,7 @@ i := SWPRUNCMD( xString , 100, "", "")
 FChdir( oAmbiente:xBaseDados )
 Set Defa To ( oAmbiente:xBaseDados )
 ResTela( cScreen )
-Return
+return
 
 Function SaidaParaArquivo()
 ***************************
@@ -632,13 +632,13 @@ xArquivo := FTempName(".TXT", cDir) + Space(10)
 MaBox( 15, 00, 17, 79 )
 @ 16, 01 Say "Visualizar no Arquivo: " Get xArquivo Pict "@!"
 Read
-IF LastKey() = ESC
-   IF Conf("Pergunta: Cancelar Impressao ?")
+if LastKey() = ESC
+   if Conf("Pergunta: Cancelar Impressao ?")
       oAmbiente:cArquivo := ""
 	   ResTela( cScreen )
 	   return(FALSO)
-	EndIF	
-EndiF
+	endif	
+endif
 xArquivo := AllTrim( xArquivo )
 oAmbiente:Spooler  := OK
 oAmbiente:cArquivo := xArquivo
@@ -659,17 +659,17 @@ xArquivo := FTempName(".PRN", cDir) + Space(10)
 MaBox( 15, 00, 17, 79 )
 @ 16, 01 Say "Visualizar no Arquivo: " Get xArquivo Pict "@!"
 Read
-IF LastKey() = 27
+if LastKey() = 27
 	oAmbiente:cArquivo := ""
 	ResTela( cScreen )
-	Return
-EndiF
+	return
+endif
 oAmbiente:Spooler  := OK
 oAmbiente:cArquivo := xArquivo
 xArquivo := AllTrim( xArquivo )
 Set Print To ( xArquivo )
 ResTela( cScreen )
-Return
+return
 
 Proc SaidaParaHtml()
 ********************
@@ -684,18 +684,18 @@ xArquivo := FTempName(".TXT", cDir) + Space(10)
 MaBox( 15, 00, 17, 79 )
 @ 16, 01 Say "Visualizar no Arquivo: " Get xArquivo Pict "@!"
 Read
-IF LastKey() = 27
+if LastKey() = 27
 	oAmbiente:cArquivo := ""
 	ResTela( cScreen )
-	Return
-EndiF
+	return
+endif
 xArquivo := AllTrim( xArquivo )
 oAmbiente:Spooler  := OK
 oAmbiente:cArquivo := xArquivo
 oAmbiente:externo  := OK
 Set Print To ( xArquivo )
 ResTela( cScreen )
-Return
+return
 
 Function SaidaParaUsb()
 ***********************
@@ -726,67 +726,67 @@ return(OK)
 
 Function Alerta( cString, aArray )
 **********************************
-IF oAmbiente:Visual
-	aArray := IIF( aArray = NIL, {"&OK"}, aArray )
+if oAmbiente:Visual
+	aArray := Iif( aArray = NIL, {"&OK"}, aArray )
 	nTam := Len( aArray )
-	IF 	 nTam = 1
+	if 	 nTam = 1
 		nButton := MsgBox1( cString, SISTEM_NA1 )
-		Return( nButton )
-	ElseIF nTam = 2
+		return( nButton )
+	elseif nTam = 2
 		aArray[1] := "&" + AllTrim( aArray[1] )
 		aArray[2] := "&" + AllTrim( aArray[2] )
 		nButton := MsgBox2( cString, SISTEM_NA1, NIL, aArray[1], aArray[2] )
-		Return( nButton )
-	ElseIF nTam = 3
+		return( nButton )
+	elseif nTam = 3
 		aArray[1] := "&" + AllTrim( aArray[1] )
 		aArray[2] := "&" + AllTrim( aArray[2] )
 		aArray[3] := "&" + AllTrim( aArray[3] )
 		nButton := MsgBox3( cString, SISTEM_NA1, NIL, aArray[1], aArray[2], aArray[3] )
-		Return( nButton )
-	ElseIF nTam > 3
+		return( nButton )
+	elseif nTam > 3
 		nButton := Alert( cString, aArray, oAmbiente:CorAlerta )
-		Return( nButton )
-	EndIF
-ELSE
-	aArray := IIF( aArray = NIL, { " Okay " }, aArray )
-	Return( Alert( cString, aArray, oAmbiente:CorAlerta ))
-ENDIF
+		return( nButton )
+	endif
+else
+	aArray := Iif( aArray = NIL, { " Okay " }, aArray )
+	return( Alert( cString, aArray, oAmbiente:CorAlerta ))
+endif
 
 Proc Nada(cString, lLimpaTela)
 ******************************
 LOCAL cScreen := SaveScreen()
 
-IfNil( cString, "INFO: Nada consta nos parametros informados.")
-IF lLimpaTela = NIL
+ifNil( cString, "INFO: Nada consta nos parametros informados.")
+if lLimpaTela = NIL
    oMenu:Limpa()
-EndIF
+endif
 ErrorBeep()
 Alerta( cString )
 ResTela( cScreen )
-Return
+return
 
 Proc AreaAnt( Arq_Ant, Ind_Ant )
 ************************************
-IF !Empty( Arq_Ant )
+if !Empty( Arq_Ant )
 	Select( Arq_Ant )
 	Order( Ind_Ant )
-EndIF
-Return
+endif
+return
 
 Function Rep_Ok()
 *****************
 LOCAL cScreen := SaveScreen()
 LOCAL cCor	  := SetColor()
 
-IF Inkey() = 27
+if Inkey() = 27
 	Set Devi To Screen
-	IF Conf("Pergunta: Deseja Interromper a Tarefa ?")
-		Return( FALSO )
-	EndIF
+	if Conf("Pergunta: Deseja Interromper a Tarefa ?")
+		return( FALSO )
+	endif
 	SetColor( cCor )
 	ResTela( cScreen )
-EndIF
-Return( OK )
+endif
+return( OK )
 
 Function Rel_Ok(cMensagem)
 **************************
@@ -795,11 +795,11 @@ LOCAL nChoice := 2
 LOCAL nRow	  := Prow()
 LOCAL nCol	  := PCol()
 
-IF Inkey() == 27
+if Inkey() == 27
 	Set Print Off
 	Set Devi To Scre
 	ErrorBeep()
-	IF Conf("Pergunta: Deseja cancelar a impressao ?")
+	if Conf("Pergunta: Deseja cancelar a impressao ?")
 		Set Prin Off
 		Set Print to
 		Set Devi To Screen
@@ -807,15 +807,15 @@ IF Inkey() == 27
 		ResTela( cScreen )
 		Break
 		return FALSO
-	EndIF
-	IF !LptOk()
+	endif
+	if !LptOk()
 		Set Devi To Screen
 		Set Prin Off
 		Set Cons On
 		Set Print to
 		Break
 		return FALSO
-	EndIF
+	endif
 	ResTela( cScreen )
 	Set Print On
 	Set Devi To Print
@@ -831,8 +831,8 @@ else
 	Set Print On
 	Set Devi To Print
 	SetPrc( nRow, nCol )
-EndIF
-Return( OK )
+endif
+return( OK )
 
 Function ContaReg(cMensagem)
 **************************
@@ -844,7 +844,7 @@ if cMensagem != Nil
 else	
 	oMenu:StatReg("REGISTRO#" + StrZero( ++oAmbiente:nRegistrosImpressos, 7))
 endif	
-Return( OK )
+return( OK )
 
 Function LptOk()
 ****************
@@ -874,15 +874,15 @@ if lMaluco
    return( lMaluco)
 endif
 
-IF oAmbiente:Isprinter <= 3
+if oAmbiente:Isprinter <= 3
 	nStatus := PrnStatus( oAmbiente:Isprinter )
-	IF !oAmbiente:Spooler
+	if !oAmbiente:Spooler
 		cScreen := SaveScreen()
 		oMenu:Limpa()
 		WHILE !IsPrinter( oAmbiente:Isprinter )
 			nStatus := PrnStatus( oAmbiente:IsPrinter )
 			if nStatus = 0 // Windows sempre retorna 0
-			   nStatus := IIF( IsPrinter(oAmbiente:Isprinter), 6, 1)
+			   nStatus := Iif( IsPrinter(oAmbiente:Isprinter), 6, 1)
 			else
 			   if nStatus = -1
 			      nStatus := 5
@@ -890,37 +890,37 @@ IF oAmbiente:Isprinter <= 3
 			endif	
 			ErrorBeep()
 			nDecisao := Alerta( aAction[ nStatus] + cMsg, {"TENTAR", "IMPRIMIR ASSIM MESMO", "RETORNAR", "MAPEAR"} )
-			IF nDecisao = 3 .OR. nDecisao = 0
+			if nDecisao = 3 .OR. nDecisao = 0
 			   lMaluco  := FALSO
 			   lRetorno := FALSO
 				exit
-			EndIF
-			IF nDecisao = 2
+			endif
+			if nDecisao = 2
 			   lMaluco  := OK
 			   lRetorno := OK
 				exit
-			EndIF
-			IF nDecisao = 4
+			endif
+			if nDecisao = 4
 			   Cls
 			   DosShell("CMD net")
 				lMaluco  := FALSO
 			   lRetorno := FALSO
 				exit
-			EndIF
+			endif
 			
 		EndDo
 		ResTela( cScreen )
-	EndIF
-ELSE
+	endif
+else
 	nComPort := ( oAmbiente:IsPrinter - 4 )
 	lRetorno := ( nStatus := FIsPrinter( nComPort ))
-EndIF
-Return( lRetorno )
+endif
+return( lRetorno )
 
 Function AbreSpooler()
 **********************
-IIF( oAmbiente:Spooler, Set( _SET_PRINTFILE, oAmbiente:cArquivo, FALSO ), Set( _SET_PRINTFILE, "" ))
-Return NULL
+Iif( oAmbiente:Spooler, Set( _SET_PRINTFILE, oAmbiente:cArquivo, FALSO ), Set( _SET_PRINTFILE, "" ))
+return NULL
 
 Function CloseSpooler()
 ***********************
@@ -934,7 +934,7 @@ LOCAL i
 Set(_SET_PRINTFILE, "" )
 Set Print To
 
-IF lexterno
+if lexterno
 	cComando := 'firefox.exe ' + cTemp
 	cComando := "C:\Program Files\Mozilla Firefox\firefox.exe " + cTemp
 	cComando := "chrome.exe " + cTemp		
@@ -950,26 +950,26 @@ IF lexterno
 	i = SWPRUNCMD( cComando, 0, "", "")
 	*/
 	oAmbiente:externo := FALSO
-Else
-	IF lTemp
+else
+	if lTemp
 		oMenu:Limpa()
 		oMenu:StatInf()
 		oMenu:StatReg("IMPRESSO #" + StrZero( oAmbiente:nRegistrosImpressos, 7))
-		M_Title( "ESC - Retorna ³Setas CIMA/BAIXO Move")
+		M_Title( "ESC - Retorna ?etas CIMA/BAIXO Move")
       M_View( 00, 00, MaxRow()-1, MaxCol(), cTemp, Cor())
 		//ShellRun("NOTEPAD " + cTemp )
 		ResTela( cScreen )
-	EndIF
-EndIF
+	endif
+endif
 //oAmbiente:cArquivo := ""
 oAmbiente:Spooler  := FALSO
 return Nil
 
 Function Toggle_Acento()
 ************************
-IF oAmbiente:Acento
+if oAmbiente:Acento
 	Desliga_Acento()
-Else
+else
 	Liga_Acento()
 endif
 
@@ -982,7 +982,7 @@ Set Key VAR_CEDMIN To Act_Geral()
 Set Key VAR_CEDMAI To Act_Geral()
 Set Key VAR_GRAVE  To Act_Geral()
 Set Key VAR_TIL	 To Act_Geral()
-Set Key VAR_HIFEN  To Act_Geral()
+Set Key VAR_HifEN  To Act_Geral()
 oAmbiente:Acento := OK
 
 Function Desliga_Acento()
@@ -994,32 +994,32 @@ set key VAR_CEDMIN to
 set key VAR_CEDMAI to
 set key VAR_GRAVE  to
 set key VAR_TIL	 to
-set key VAR_HIFEN  to
+set key VAR_HifEN  to
 oAmbiente:Acento := FALSO
 
 Function Act_Geral()
 ********************
 LOCAL COD_ACENTO := Chr( LastKey())
-LOCAL VAR_CNF_AC := ['a 'e‚'i¡'o¢'u£'A†'E'I‹'OŸ'U–'c‡'C€] + ; // Agudo
-						  [`a…`eŠ`i`o•`u—`A‘`E’`I˜`O©`U`c‡`C€] + ; // Grave
+LOCAL VAR_CNF_AC := ['a 'e‚'i?o?u?A†'E'I‹'OŸ'U–'c‡'C€] + ; // Agudo
+						  [`a…`eŠ`i`o•`u—`A‘`E’`I˜`O?U`c‡`C€] + ; // Grave
 						  [^aƒ^eˆ^o“^A^E‰^OŒ^c‡^C€]				  + ; // Circunflexo
-						  [~a„~n¤~o”~AŽ~N¥~O™~c‡~C€]				  + ; // Til
+						  [~a„~n?o”~AŽ~N?O™~c‡~C€]				  + ; // Til
 						  [u Uš]                                + ; // Trema
-						  [_a¦_A¦_o§_O§]								  + ; // H¡fen
+						  [_a?A?o?O?								  + ; // H?en
 						  [ ‡{€]                                   // Cedilha
 
-IF COD_ACENTO $ "[{"
+if COD_ACENTO $ "[{"
 	COD_ACENTO += " "
-Else
+else
 	COD_ACENTO += chr( abs( inkey( 0 ) ) )
-EndIF
+endif
 COD_ACENTO = at( COD_ACENTO, VAR_CNF_AC )
 if COD_ACENTO != 0
 	keyboard substr( VAR_CNF_AC, COD_ACENTO + 2, 1 )
 else
 	ErrorBeep()
 	KeyBoard lastkey()
-EndIF
+endif
 oAmbiente:Acento := OK
 
 Proc GravaDisco()
@@ -1030,12 +1030,12 @@ oMenu:Limpa()
 Mensagem("Aguarde, Gravando em Disco." )
 DbCommitAll()
 ResTela( cScreen )
-Return
+return
 
 Function Area( cArea)
 *********************
 DbSelectArea( cArea )
-Return NIl
+return NIl
 
 Proc Altc( cTexto )
 *******************
@@ -1044,7 +1044,7 @@ LOCAL cCor	  := SetColor()
 SetColor("")
 Cls
 ErrorBeep()
-IF Conf("Encerrar a Execucao do Aplicativo ?")
+if Conf("Encerrar a Execucao do Aplicativo ?")
 	DbCommitAll()
 	DbCloseAll()
 	FChDir( oAmbiente:xBase )
@@ -1052,10 +1052,10 @@ IF Conf("Encerrar a Execucao do Aplicativo ?")
 	F_Fim( cTexto )
 	lOk := FALSO
 	Quit
-EndiF
+endif
 SetColor( cCor )
 ResTela( cScreen )
-Return
+return
 
 Proc VerRelato()
 ****************
@@ -1067,19 +1067,19 @@ M_Title( "Setas CIMA/BAIXO Move")
 WHILE .T.
 	//Arquivo := M_PopFile( 06, 10, 22, 57, Files, Cor())
 	ShellRun("NOTEPAD " + Arquivo )
-	IF Empty( Arquivo )
+	if Empty( Arquivo )
 		Beep( 1 )
 		ResTela( cScreen )
 		Exit
 
-	Else
+	else
 		cScreen1 := SaveScreen()
       M_View( 00, 00, MaxRow(), MaxCol, Arquivo, Cor())
 		ShellRun("NOTEPAD " + Arquivo )
 		ResTela( cScreen1 )
-  EndIF
+  endif
 EndDO
-Return
+return
 
 Function Spooler()
 ******************
@@ -1098,10 +1098,10 @@ WHILE OK
 	nChoice := FazMenu( 05, 50, aMenuChoice )
 	Do Case
 	Case nChoice = 0
-		IF !Empty( Arq_Ant)
+		if !Empty( Arq_Ant)
 			Select( Arq_Ant )
 			Order( Ind_Ant )
-		EndiF
+		endif
 		ResTela( cScreen )
 		Exit
 
@@ -1112,15 +1112,15 @@ WHILE OK
 		Exit
 
 	Case nChoice = 2
-		oAmbiente:cArquivo := IIF( Empty( oAmbiente:cArquivo ), oAmbiente:xBaseDados + "\" +  FTempName("T*.TMP") + Space(10), oAmbiente:cArquivo )
+		oAmbiente:cArquivo := Iif( Empty( oAmbiente:cArquivo ), oAmbiente:xBaseDados + "\" +  FTempName("T*.TMP") + Space(10), oAmbiente:cArquivo )
 		MaBox( 15, 10, 17 , 79 )
 		@ 16, 11 Say "Arquivo de Impressao... ¯ " Get oAmbiente:cArquivo Pict "@!"
 		Read
-		IF LastKey() = 27
+		if LastKey() = 27
 			oAmbiente:cArquivo := ""
 			ResTela( cScreen )
 			Exit
-		EndiF
+		endif
 		oAmbiente:Spooler := OK
       cArq              := AllTrim( oAmbiente:cArquivo )
 		ResTela( cScreen )
@@ -1130,17 +1130,17 @@ WHILE OK
 		MaBox( 15, 10, 17 , 79 )
 		@ 16, 11 Say "Arquivo a Visualizar... ¯ " Get oAmbiente:cArquivo Pict "@!"
 		Read
-		IF LastKey() = 27
+		if LastKey() = 27
 			ResTela( cScreen )
 			Exit
-		EndiF		
-		IF !IsFile( oAmbiente:cArquivo )
+		endif		
+		if !IsFile( oAmbiente:cArquivo )
 			oMenu:Limpa()
 			FChDir( oAmbiente:xBaseTxt )
 			Set Defa To ( oAmbiente:xBaseTxt )
 			M_Title( "Setas CIMA/BAIXO Move")			
 			oAmbiente:cArquivo := Mx_PopFile( 03, 10, 15, 61, Files, Cor())
-			IF Empty( oAmbiente:cArquivo )
+			if Empty( oAmbiente:cArquivo )
 				FChDir( oAmbiente:xBaseDados )
 				Set Defa To ( oAmbiente:xBaseDados )
 				ErrorBeep()
@@ -1161,76 +1161,76 @@ WHILE OK
 		Impressora()
 	EndCase
 EndDo
-Return
+return
 
 Function Refresh()
 ******************
 DbSkip(0)
-Return Nil
+return Nil
 
 Function TravaReg( nTentativa, aRegistros )
 ******************************************
 LOCAL cScreen := SaveScreen()
 LOCAL lContinua, Restart := OK
-nTentativa := IIF( nTentativa = Nil, 2, nTentativa )
+nTentativa := Iif( nTentativa = Nil, 2, nTentativa )
 lContinua  := ( nTentativa == 0 )
 
 WHILE Restart
 	WHILE ( !RLock() .AND. ( nTentativa > 0 .OR. lContinua ))
 		  Mensagem(" Travando Registro " + AllTrim(Str( Recno())) + " no Arquivo " + Alias(), CorBox())
-		  IF InKey(1) = ESC
+		  if InKey(1) = ESC
 			  Exit
-		  EndIF
+		  endif
 		  nTentativa--
 	EndDo
-	IF !RLock()
-		IF !Conf("Registro em uso. Tentar Novamente ? " )
+	if !RLock()
+		if !Conf("Registro em uso. Tentar Novamente ? " )
 			 ResTela( cScreen )
-			 Return( FALSO )
-		EndIF
+			 return( FALSO )
+		endif
 		ResTart := OK
 		nTentativa := 4
 
-	Else
+	else
 		ResTela( cScreen )
-		Return( OK )
-	EndIF
+		return( OK )
+	endif
 EndDo
 
 Function TravaArq()
 *******************
-IF Flock()
-	Return( OK )
-EndIF
+if Flock()
+	return( OK )
+endif
 WHILE !FLock()
 	ErrorBeep()
-	IF !Conf("Arquivo em uso em outra Esta‡ao. Tentar Novamente ?" )
-		Return( FALSO )
-	EndIF
-	IF FLock()
-		Return( OK )
-	EndIF
+	if !Conf("Arquivo em uso em outra Esta‡ao. Tentar Novamente ?" )
+		return( FALSO )
+	endif
+	if FLock()
+		return( OK )
+	endif
 EndDo
-Return( OK )
+return( OK )
 
 Function Incluiu()
 ******************
 DbAppend()
-IF !NetErr()
-	Return( OK )
-EndIF
+if !NetErr()
+	return( OK )
+endif
 DbAppend()
 WHILE NetErr()
 	ErrorBeep()
-	IF !Conf("Registro em uso em outra Esta‡ao. Tentar Novamente ? " )
-		Return( FALSO )
-	EndIF
+	if !Conf("Registro em uso em outra Esta‡ao. Tentar Novamente ? " )
+		return( FALSO )
+	endif
 	DbAppend()
-	IF !NetErr()
-		Return( OK )
-	EndIF
+	if !NetErr()
+		return( OK )
+	endif
 EndDo
-Return( OK )
+return( OK )
 
 Function Libera()
 *****************
@@ -1238,15 +1238,15 @@ Function Libera()
 DbSkip(0)				// Refresh
 DbGoto( Recno())		// Refresh
 DbUnLock()				// Libera Registros / Arquivos
-Return Nil
+return Nil
 
 Function Cor( nTipo, nTemp )
 ****************************
 	DEFAU nTipo TO 1 
 
-	IF nTemp != NIL   // Cor temporaria
+	if nTemp != NIL   // Cor temporaria
 		return( nTemp )
-	EndIF	
+	endif	
 	
 	Switch nTipo
 	Case 1
@@ -1271,18 +1271,18 @@ Function Cor( nTipo, nTemp )
 	
 Function CorAlerta( nTipo )
 ***************************
-IfNil( nTipo, 1 )
-Return( oAmbiente:CorAlerta )
+ifNil( nTipo, 1 )
+return( oAmbiente:CorAlerta )
 	
 Function CorBox( nTipo )
 ************************
-IfNil( nTipo, 1 )
-Return( oAmbiente:CorAlerta )
+ifNil( nTipo, 1 )
+return( oAmbiente:CorAlerta )
 
 Function CorBoxCima( nTipo )
 ***************************
-IfNil( nTipo, 1 )
-Return( oAmbiente:CorCima )
+ifNil( nTipo, 1 )
+return( oAmbiente:CorCima )
 
 Function SetaCor( nCor, nTipo )
 *******************************
@@ -1290,7 +1290,7 @@ LOCAL ikey
 LOCAL cScreen
 LOCAL CorAnt
 STATIC XColor
-IfNil( nTipo, 1 )
+ifNil( nTipo, 1 )
 XColor := Cor( nTipo )
 CorAnt := Cor( nTipo )
 //M_CsrOff()
@@ -1301,20 +1301,20 @@ cScreen := SaveScreen()
 WHILE .T.
 	M_Message("Cor Atual ¯¯ "+ Str( XColor ) + " - Enter Para Setar ou ESCape", Cor(nTipo))
 	Ikey := WaitKey( ZERO )
-	IF ( Ikey == 24)
-		 XColor	:= IIF( XColor  == 0, 255, --XColor  )
+	if ( Ikey == 24)
+		 XColor	:= Iif( XColor  == 0, 255, --XColor  )
 
-	 ELSEIF ( Ikey == 5)
-		 XColor	:= IIF( XColor  == 255, 0, ++XColor  )
+	 elseif ( Ikey == 5)
+		 XColor	:= Iif( XColor  == 255, 0, ++XColor  )
 
-	 ELSEIF ( Ikey == 27)
+	 elseif ( Ikey == 27)
 		 nCor := CorAnt
 		 Exit
 
-	 ELSEIF ( Ikey == 13)
+	 elseif ( Ikey == 13)
 		  Exit
 
-	 EndIF
+	 endif
 	 nCor := XColor
 
 ENDDO
@@ -1323,7 +1323,7 @@ ENDDO
 cScreen := SaveVideo( 01, 00, LastRow()-1, LastCol())
 ResTela( cScreen )
 //M_CsrOn()
-Return VOID
+return VOID
 
 Function Calc( cProc, nLine, cVar )
 ***********************************
@@ -1352,7 +1352,7 @@ LOCAL nPos  := 3
 
 Mabox(nPos, 45, nPos + 19, 70 )
 SetColor('BG+')
-StatusInf("x = *³ö = /³", "ESC-RETORNA")
+StatusInf("x = *³ö = /?, "ESC-RETORNA")
 MaBox( nPos+00, 45, nPos+06, 70 )
 //MaBox( nPos+04, 45, nPos+06, 70 )
 MaBox( nPos+19, 45, nPos+21, 70 )
@@ -1409,11 +1409,11 @@ WHILE .T.
   @ nPos + 20, 40 + 11 SAY calcmem PICT "99999999999999.9999"
   SetColor("GR+/R,N/W+")
   
-  IF accum
+  if accum
 	 @ nPos + 05, 40 + 07 SAY "T"
 	 @ nPos + 05, 40 + 11 SAY calcacc PICT "99999999999999.9999"
 	 
-  Else
+  else
 	 @ nPos + 05, 40 + 07 SAY fcode
 	 @ nPos + 05, 40 + 11 SAY entry+calcdec PICT "99999999999999.9999"
   endif
@@ -1422,21 +1422,21 @@ WHILE .T.
   code  := Chr(inkey)
   Do Case
    Case code >= "0" .AND. code <= "9"
-		IF enter .OR. fcode = " "
+		if enter .OR. fcode = " "
 		  calcacc := 0
 		  entry   := 0
 		  calcdec := 0
 		  fcode   := "+"
-		EndIF
+		endif
 		accum := .F.
-		IF !dec
+		if !dec
 		  entry := entry*10+VAL(code)
-		Else
-		  IF deccnt<1000
+		else
+		  if deccnt<1000
 			 calcdec=calcdec+VAL(code)/deccnt
 			 deccnt=deccnt*10
-		  EndIF
-		EndIF
+		  endif
+		endif
 	 Case code = '.' .OR. code = ','
 		accum=.F.
 		dec=.T.
@@ -1449,36 +1449,36 @@ WHILE .T.
 		@ nPos+ 04, 69 say iif( inkey = 13, '=', code)
 		Scroll( nPos + 01, 46, nPos + 04, 69, 1 )
 				
-		IF inkey#13 .AND. enter
+		if inkey#13 .AND. enter
 		   
-		Else
+		else
 		  Do Case
 			 Case fcode="+"
-				IF code="%"
+				if code="%"
 				  calcacc=calcacc+calcacc*.01*(entry+calcdec)
-				Else
+				else
 				  calcacc=calcacc+(entry+calcdec)
-				EndIF
+				endif
 			 Case fcode="-"
-				IF code="%"
+				if code="%"
 				  calcacc=calcacc-calcacc*.01*(entry+calcdec)
-				Else
+				else
 				  calcacc=calcacc-(entry+calcdec)
-				EndIF
+				endif
 			 Case fcode="*"
 				calcacc=calcacc*(entry+calcdec)
 			 Case fcode="/"
-					IF (entry+calcdec) = 0
+					if (entry+calcdec) = 0
 						Accum := .F.
 						CalcAcc := CalcDec := Entry := 0
 						CalcMem := 0.00
 						Mcode=" "
 						Fcode=" "
 
-					Else
+					else
 						Calcacc=calcacc/(entry+calcdec)
 
-					EndIF
+					endif
 			 Case Upper( fcode ) = "R"
 				calcacc = SQRT( calcacc )
 
@@ -1491,16 +1491,16 @@ WHILE .T.
 			Scroll( nPos + 01, 46, nPos + 04, 69, 1 )
 		endif
 		 
-		EndIF
+		endif
 		dec=.F.
-		IF code="%"
+		if code="%"
 		  fcode=" "
-		EndIF
-		IF inkey#13
+		endif
+		if inkey#13
 		  fcode=code
 		  entry=0
 		  calcdec=0
-		EndIF
+		endif
 	 Case Upper( code ) ="A"
 		mcode="A"
 	 Case Upper( code ) ="M"
@@ -1557,26 +1557,26 @@ WHILE .T.
 		 SetColor( cColor )
 		 ResTela( cScreen )
 		 Keyb Chr( K_CTRL_Y ) + AllTrim(Str( CalcAcc )) + Chr( K_UP ) + Chr( K_DOWN )
-		 Return
+		 return
 	 Case inkey = 27
 		 Set Deci To 2
 		 SetColor( cColor )
 		 ResTela( cScreen )
-		 Return
+		 return
 	 OtherWise
 		ErrorBeep()
   EndCase
   enter=.f.
-  IF inkey=13
+  if inkey=13
 	  enter=.T.
-  EndIF
+  endif
   
   
 EndDo
 Set Deci To 2
 SetColor( cColor )
 ResTela( cScreen )
-Return Nil
+return Nil
 
 Function Abre( nRow1, nCol1, nRow2, nCol2 )
 ********************************************
@@ -1586,16 +1586,16 @@ SetColor("W+/B")
 For _X := nMeio2 To nCol2
 	Scroll( nRow1+1, nMeio1+1, nRow2-1, nMeio2, 0 )
 	@ nRow1, nMeio1 To nRow2, nMeio2
-	nMeio1 := IIF( nMeio1 = nCol1, nMeio1, --nMeio1 )
-	nMeio2 := IIF( nMeio2 = nCol2, nMeio1, ++nMeio2 )
+	nMeio1 := Iif( nMeio1 = nCol1, nMeio1, --nMeio1 )
+	nMeio2 := Iif( nMeio2 = nCol2, nMeio1, ++nMeio2 )
 
 Next
-Return Nil
+return Nil
 
 
 Function CabecRel( cNomefir, nTam, nPagina, cSistema, cRelatorio, cCabecalho )
 ******************************************************************************
-Write(01 , 00, Padr( "Pagina N§ " + StrZero( nPagina, 3 ), ( nTam/2 ) ) + Padl( Time(), ( nTam/2 ) ) )
+Write(01 , 00, Padr( "Pagina N?" + StrZero( nPagina, 3 ), ( nTam/2 ) ) + Padl( Time(), ( nTam/2 ) ) )
 Write(02 , 00, Date() )
 Write(03 , 00, Padc( cNomefir, nTam ) )
 Write(04 , 00, Padc( cSistema, nTam ) )
@@ -1603,7 +1603,7 @@ Write(05 , 00, Padc( cRelatorio, nTam ) )
 Write(06 , 00, Repl( SEP, nTam ) )
 Write(07 , 00, cCabecalho )
 Write(08 , 00, Repl( SEP, nTam ) )
-Return Nil
+return Nil
 
 Function Ascii()
 *****************
@@ -1639,14 +1639,14 @@ while H_T <> CHR(27)
 	Do Case
 		Case H_T=CHR(05)
 			  H_C := H_C-16
-			  IF H_C<0
+			  if H_C<0
 				  H_C := 240
-			  EndIF
+			  endif
 		Case H_T=CHR(24)
 			  H_C := H_C+16
-			  IF H_C>240
+			  if H_C>240
 				  H_C := 0
-			  EndIF
+			  endif
 	ENDCase
 ENDDO
 RestScreen( cScreen )
@@ -1682,25 +1682,25 @@ WHILE H_F <> Chr( 27 )
 	  H_L := 6
 	  H_C := 52
 	  FOR H_X=1 TO 42
-		  IF Month(H_D)<>H_NME
+		  if Month(H_D)<>H_NME
 			  SetColor( "G+" )
 
-			ELSE
+			else
 				SetColor( "W" )
 
-			EndIF
-			IF H_D=H_W
+			endif
+			if H_D=H_W
 				SetColor( "W+*" )
 
-			EndIF
+			endif
 			DevPos( H_L, H_C ) ; DevOutPict( DAY(H_D), "###" )
 			H_D := H_D+1
 			H_C := H_C+4
-			IF H_C>78
+			if H_C>78
 				H_C := 52
 				H_L := H_L+2
 
-			EndIF
+			endif
 	  NEXT
 	  H_D := "01/"+LTRIM(STR(H_NME,2))+"/"+LTRIM(STR(H_ANO,4))
 	  H_D := CTOD(H_D)
@@ -1710,25 +1710,25 @@ WHILE H_F <> Chr( 27 )
 		  H_F := Chr(INKEY())
 
 	  ENDDO
-	  IF H_F=Chr(27)
+	  if H_F=Chr(27)
 		  LOOP
 
-	  EndIF
+	  endif
 	  DO CASE
 	  CASE H_F=Chr(5)
 		  H_NME := H_NME+1
-		  IF H_NME>12
+		  if H_NME>12
 			  H_NME := 1
 			  H_ANO := H_ANO+1
 
-		  EndIF
+		  endif
 		  CASE H_F=Chr(24)
 			  H_NME := H_NME-1
-			  IF H_NME<=0
+			  if H_NME<=0
 				  H_NME := 12
 				  H_ANO := H_ANO-1
 
-			  EndIF
+			  endif
 
 		  CASE H_F=Chr(19)
 			  H_ANO := H_ANO+1
@@ -1742,50 +1742,50 @@ WHILE H_F <> Chr( 27 )
 
 	  ENDDO
 	  RestScreen( cScreen )
-	  Return Nil
+	  return Nil
 
 Function Ascan2( aArray, Variavel, PosElem )
 ********************************************
 /* aArray := { { "01.00.0001", "FECHADURA METAL COM CHAVE", 125.00 } }
 	cCodigo := "01.00.0001"
 	nPos := Ascan2( aArray, cCodigo, 1 )
-	IF nPos = 0
+	if nPos = 0
 		Alerta(' Produto Nao Encontrado ' )
 
-	EndIF
+	endif
 */
 
 _Tam := Len( aArray )
-IfNil( PosElem, 1 )
+ifNil( PosElem, 1 )
 For i := 1 To _Tam
-	IF aArray[ i, PosElem ] == Variavel
-		Return( i )
-	EndIF
+	if aArray[ i, PosElem ] == Variavel
+		return( i )
+	endif
 Next
-Return( 0 )
+return( 0 )
 
 Function Confirma( cString )
 ****************************
-Return( Alerta( cString , { " Sim ", " Nao " } ) )
+return( Alerta( cString , { " Sim ", " Nao " } ) )
 
 Function ErrorBeep(lOK)
 ***********************
 DEFAU lOk TO FALSO
 
-Return Nil // aff, sem som
-IF lOk   // Good Sound
+return Nil // aff, sem som
+if lOk   // Good Sound
    Tone(  500, 1 )
    Tone( 4000, 1 )
    Tone( 2500, 1 )
-ELSE     // Bad Sound
+else     // Bad Sound
    Tone(  300, 1 )
    Tone(  499, 5 )
    Tone(  700, 5 )
-ENDIF
+endif
 
 //TONE(87.3,1)
 //TONE(40,3.5)
-Return Nil
+return Nil
 
 Function Escolhe
 ************************************************************************************************************************
@@ -1800,68 +1800,68 @@ LOCAL _Tam
 LOCAL Lin2
 LOCAL nRecno
 		cCampo  := Nome_Campo
-      Col2    := IF( Col2 == 22, (MaxRow()-2), Col2)
+      Col2    := if( Col2 == 22, (MaxRow()-2), Col2)
       nCol    := Col2
 		nLin	  := Lin1+1
 PRIVA aScroll
 
-IF ValType( Nome_Campo ) != "A"
-	Cabecalho := IIF( Cabecalho = Nil, "", Cabecalho )
-	IF ValType( &Nome_Campo ) = "D"
+if ValType( Nome_Campo ) != "A"
+	Cabecalho := Iif( Cabecalho = Nil, "", Cabecalho )
+	if ValType( &Nome_Campo ) = "D"
 		Lin2 := Lin1 + 9
-	Else
+	else
 		nTam := Len( &Nome_Campo. )
 		nCab := Len( Cabecalho )
-		Lin2 := IIF( nTam >= nCab, nTam + ( Lin1 + 1 ), nCab + ( Lin1 + 1 ) )
-	EndIF
+		Lin2 := Iif( nTam >= nCab, nTam + ( Lin1 + 1 ), nCab + ( Lin1 + 1 ) )
+	endif
 	_Vetor1 := { Nome_Campo }
-	_Vetor2 := { IF ( Cabecalho = Nil, Cabecalho := .T. , Cabecalho := Upper( Cabecalho ) ) }
-   IF Lin2 >= nMaxCol
+	_Vetor2 := { if ( Cabecalho = Nil, Cabecalho := .T. , Cabecalho := Upper( Cabecalho ) ) }
+   if Lin2 >= nMaxCol
       Lin2 := nMaxCol
-	EndIF
-Else
+	endif
+else
 	_Vetor1 := Nome_Campo
 	_Vetor2 := Cabecalho
 	Lin2	  := 70
-EndIF
-IF lLimpaTela = NIL .OR. lLimpatela = OK
+endif
+if lLimpaTela = NIL .OR. lLimpatela = OK
 	oMenu:Limpa()
-EndIF
+endif
 MaBox( Col1, Lin1,	Col2, Lin2+2, /*Cabecalho*/ )
 MaBox( Col1, Lin1+2, Col2, Lin2+2, /*Cabecalho*/ )
 Print( Col1, Lin1+2, SubStr( oAmbiente:Frame, 1, 1 ), Cor())
 Print( Col2, Lin1+2, SubStr( oAmbiente:Frame, 5, 1 ), Cor())
 
-IF aRotina != NIL
-	IF Alias() = "LISTA"
-		IF aRotinaAlteracao != NIL
-			Print( Col2, Lin1+3, "INS _Incluir³DEL _Excluir³F2 _Cod Fabr³CTRL+ENTER _Alterar", Cor( 5 ), Lin2 - (Lin1+1))
-		Else
-			Print( Col2, Lin1+3, "INS _Incluir³DEL _Excluir³F2 _Cod Fabr", Cor( 5 ), Lin2 - (Lin1+1))
-		EndIF
-	Else
-		IF aRotinaAlteracao != NIL
-			Print( Col2, Lin1+3, "INS _Incluir³DEL _Excluir³F2 _Filtro³CTRL+ENTER _Alterar", Cor( 5 ), Lin2 - (Lin1+1))
-		Else
-			Print( Col2, Lin1+3, "INS _Incluir³DEL _Excluir³F2 _Filtro³", Cor( 5 ), Lin2 - (Lin1+1))
-		EndIF
-	EndIF
-EndIF
-IF lDbSeek != NIL
+if aRotina != NIL
+	if Alias() = "LISTA"
+		if aRotinaAlteracao != NIL
+			Print( Col2, Lin1+3, "INS _Incluir?EL _Excluir?2 _Cod Fabr?TRL+ENTER _Alterar", Cor( 5 ), Lin2 - (Lin1+1))
+		else
+			Print( Col2, Lin1+3, "INS _Incluir?EL _Excluir?2 _Cod Fabr", Cor( 5 ), Lin2 - (Lin1+1))
+		endif
+	else
+		if aRotinaAlteracao != NIL
+			Print( Col2, Lin1+3, "INS _Incluir?EL _Excluir?2 _Filtro?TRL+ENTER _Alterar", Cor( 5 ), Lin2 - (Lin1+1))
+		else
+			Print( Col2, Lin1+3, "INS _Incluir?EL _Excluir?2 _Filtro?, Cor( 5 ), Lin2 - (Lin1+1))
+		endif
+	endif
+endif
+if lDbSeek != NIL
 	nRecno := Recno()
-EndIF
+endif
 DbGoTop()
-IF Eof()
-	IF aRotina != NIL
-		IF Conf("Arquivo Vazio. Deseja Incluir Registros ?")
+if Eof()
+	if aRotina != NIL
+		if Conf("Arquivo Vazio. Deseja Incluir Registros ?")
 			Eval( aRotina[1])
 			AreaAnt( Arq_Ant, Ind_Ant )
-		EndIF
-	EndIF
-EndIF
-IF lDbSeek != NIL
+		endif
+	endif
+endif
+if lDbSeek != NIL
 	DbGoto( nRecno )
-EndIF
+endif
 ScrollBarDisplay( aScroll := ScrollBarNew( Col1+1, Lin1+1, Col2-1, Roloc(Cor()),1))
 DbEdit((Col1+1), (Lin1+3), (Col2-1), (Lin2+1), _Vetor1, "MS_DbUser", OK, _Vetor2 )
 ResTela( _Atela )
@@ -1885,117 +1885,117 @@ LOCAL lInativos	:= oIni:ReadBool('sistema', 'MostrarClientesInativos', FALSO )
 ScrollBarUpdate( aScroll, Recno(), Lastrec(), OK )
 Do Case
 	Case Key = F2
-		IF Alias() = "LISTA"
+		if Alias() = "LISTA"
 			oMenu:Limpa()
 			MaBox( 10, 10, 12, 48 )
 			@ 11, 11 Say "Codigo Fabricante..." Get cN_Original Pict "@!" Valid CodiOriginal( @cN_Original )
 			Read
-			IF LastKey() = ESC
+			if LastKey() = ESC
 				ResTela( cScreen )
 				return(1)
-			EndIF
+			endif
 			ResTela( cScreen )
-		Else
-			IF Alias() = "RECEBER"
+		else
+			if Alias() = "RECEBER"
 				oMenu:Limpa()
 				ClientesFiltro()
 				ResTela( cScreen )
-			EndIF
-		EndiF
+			endif
+		endif
 		AreaAnt( Arq_Ant, Ind_Ant )
 		return(1)
 
 	Case Key = K_INS
-		IF aRotina != Nil
-			IF PodeIncluir()
+		if aRotina != Nil
+			if PodeIncluir()
 				Eval( aRotina[1])
-			Else
-				IF lExcecao != Nil
+			else
+				if lExcecao != Nil
 					Eval( aRotina[1])
-				EndiF
-			EndIF
-		EndIF
+				endif
+			endif
+		endif
 		AreaAnt( Arq_Ant, Ind_Ant )
 		return(1)
 
 	Case Key = K_CTRL_RET		 // Ctrl-Enter
-		IF !(aRotinaAlteracao == NIL )
-			IF PodeAlterar() .OR. !(lExcecao == NIL)
+		if !(aRotinaAlteracao == NIL )
+			if PodeAlterar() .OR. !(lExcecao == NIL)
 			   Eval( aRotinaAlteracao[1])
-			EndIF
-		EndIF
+			endif
+		endif
 		AreaAnt( Arq_Ant, Ind_Ant )
 		return(1)
 
 	Case Key = K_DEL
-		IF aRotina != Nil
-			IF PodeExcluir()
-				IF aRotinaExclusao != NIL
-					IF !Eval( aRotinaExclusao[1] )
-						Return(1)
-					EndIF
-				EndIF
+		if aRotina != Nil
+			if PodeExcluir()
+				if aRotinaExclusao != NIL
+					if !Eval( aRotinaExclusao[1] )
+						return(1)
+					endif
+				endif
 				ErrorBeep()
-				IF Conf("Pergunta: Excluir Registro sob o Cursor ?")
-					IF TravaReg()
+				if Conf("Pergunta: Excluir Registro sob o Cursor ?")
+					if TravaReg()
 						DbDelete()
 						Libera()
 					  Keyb Chr( K_CTRL_PGUP )
-					EndIF
-				EndIF
-			EndIF
-		EndIF
-		Return(1)
+					endif
+				endif
+			endif
+		endif
+		return(1)
 
 	Case Modo < 4
-		Return(1)
+		return(1)
 
 	Case LastKey() = 27
 		nPosicao := 1
-		Return(0)
+		return(0)
 
 	Case LastKey() = 13
-		Return(0)
+		return(0)
 
 	Case LastKey() >= 48 .AND. LastKey() <= 122	&&  1 a Z
-		IF   ValType( cCampo ) = "C"
+		if   ValType( cCampo ) = "C"
 			xVar := Upper(Chr(Key))
 			xVar := xVar + Space( nTam - Len( xVar))
 			Keyb(Chr(K_RIGHT))
 			@ nCol-1, nLin+2 Get xVar Pict "@!"
 			Read
 
-		ElseIf ValType( cCampo ) = "N"
-			IF nKey < Chr(48) .OR. nKey > Chr(57) // 0 a 9
-				Return(1)
-			EndIF
+		elseif ValType( cCampo ) = "N"
+			if nKey < Chr(48) .OR. nKey > Chr(57) // 0 a 9
+				return(1)
+			endif
 			xVar := Chr(nKey)
 			Keyb(Chr(K_RIGHT))
 			@ nCol-1, nLin+2 Get xVar
 			Read
 
-		ElseIf ValType( cCampo ) = "D"
+		elseif ValType( cCampo ) = "D"
 			xVar := Date()
 			@ nCol-1, nLin+2 Get xVar Pict "##/##/##"
 			Read
-		EndIF
-		IF LasTKey() = ESC
+		endif
+		if LasTKey() = ESC
 			ResTela( cScreen )
-			Return(1)
-		EndIF
-		xVar := IIF( ValType( cCampo ) = "C", AllTrim( xVar ), xVar)
+			return(1)
+		endif
+		xVar := Iif( ValType( cCampo ) = "C", AllTrim( xVar ), xVar)
 		ResTela( cScreen )
 		DbSeek( xVar )
-		Return(1)
+		return(1)
 
 	OTHERWISE
-		IF Alias() = "RECEBER"
-			IF lInativos
-				IF Receber->Cancelada
+		if Alias() = "RECEBER"
+			if lInativos
+				if Receber->Cancelada
 					Receber->(DbSkip(1))
-				EndIF
-			EndIF
-		EndIF
+				endif
+			endif
+		endif
 		return(1)
 
 ENDCASE
@@ -2003,35 +2003,35 @@ return(1)
 
 Function Order( Ordem )
 ***********************
-IIF( Ordem = Nil , Ordem := 0,  Ordem )
+Iif( Ordem = Nil , Ordem := 0,  Ordem )
 DbSetOrder( Ordem )
 DbGoTo( Recno())			 // Fixar Bug
-Return( IndexOrd())
+return( IndexOrd())
 
 Function FPrint( cString )
 **************************
-Return( DevOut( cString ) )
+return( DevOut( cString ) )
 
 Proc WriteBox( Linha, Col, xString, nCor )
 ******************************************
-IIF( Linha	 = Nil, Linha	 := Row(), Linha )
-IIF( Col 	 = Nil, Col 	 := Col(), Col )
-IIF( xString = Nil, xString := "",    xString )
-IIF( nCor	 = Nil, nCor	 := CorBoxCima(), nCor )
+Iif( Linha	 = Nil, Linha	 := Row(), Linha )
+Iif( Col 	 = Nil, Col 	 := Col(), Col )
+Iif( xString = Nil, xString := "",    xString )
+Iif( nCor	 = Nil, nCor	 := CorBoxCima(), nCor )
 Print( Linha, Col, xString, nCor )
-Return
+return
 
 Function Write( Linha, Col, xString, nCor)
 ******************************************
-Linha   := IIF( Linha	= NIL, Row(),	Linha   )
-Col	  := IIF( Col		= NIL, Col(),	Col	  )
-xString := IIF( xString = NIL, "",     xString )
+Linha   := Iif( Linha	= NIL, Row(),	Linha   )
+Col	  := Iif( Col		= NIL, Col(),	Col	  )
+xString := Iif( xString = NIL, "",     xString )
 
-IF nCor = nil
+if nCor = nil
    DevPos( Linha, Col ) ; Qqout( xString )
-Else	
+else	
 	Print( Linha, Col, xString, nCor )
-Endif	
+endif	
 return( nil )
 
 Function TestaCgc( Var )
@@ -2043,32 +2043,32 @@ LOCAL Df2
 LOCAL Df3
 LOCAL nTam := 0
 
-IF ValType( Var ) = "N"
+if ValType( Var ) = "N"
 	Var := CpfCgcIntToStr( Var )
 	nTam := Len( Var )
-	IF nTam <= 14
-		Return( TestaCpf( Var ) )
-	EndIF
-EndIF
+	if nTam <= 14
+		return( TestaCpf( Var ) )
+	endif
+endif
 
 /*
 	cTira := StrTran( Var,	".")
 	cTira := StrTran( cTira, "/")
 	cTira := StrTran( cTira, "-")
 	nComp := Len( AllTrim( cTira ))
-	IF nComp >= 14 // Cgc
+	if nComp >= 14 // Cgc
 		Var := Tran( Var, "99.999.999/9999-99")
-	Else
+	else
 		Var := Tran( Var, "999.999.999-99" )
-		Return( TestaCpf( Var ) )
-	EndIF
+		return( TestaCpf( Var ) )
+	endif
 */
 
-IF !Empty( Var ) .AND. Len( Var ) < 18
+if !Empty( Var ) .AND. Len( Var ) < 18
 	 ErrorBeep()
 	 Alerta("CGC Incorreto... Verifique." )
-	 Return(.F.)
-EndIF
+	 return(.F.)
+endif
 Var1 := StrTran( Var,  ".")
 Var1 := StrTran( Var1, "/")
 Var1 := StrTran( Var1, "-")
@@ -2083,11 +2083,11 @@ Df1 := 5 * Matriz[1] + 4 * Matriz[2] + 3 * Matriz[3] + 2 * Matriz[4] + 9 * Matri
 Df2 := Df1 / 11
 Df3 = Int( Df2 ) * 11
 Resto1 := ( Df1- df3 )
-IF Resto1 = 0 .OR. Resto1 = 1
+if Resto1 = 0 .OR. Resto1 = 1
   Pridig := 0
-ELSE
+else
   Pridig := ( 11 - Resto1 )
-EndIF
+endif
 
 ** Teste do segundo digito (dezena)
 DF1 := 6 * Matriz[1] + 5 * Matriz[2] + 4 * Matriz[3] + 3 * Matriz[4] + 2 * Matriz[5] + ;
@@ -2096,18 +2096,18 @@ DF1 := 6 * Matriz[1] + 5 * Matriz[2] + 4 * Matriz[3] + 3 * Matriz[4] + 2 * Matri
 Df2 := ( Df1/11 )
 Df3 := Int( Df2 ) * 11
 Resto2 := ( Df1 - Df3)
-IF Resto2 = 0 .OR. Resto2 = 1
+if Resto2 = 0 .OR. Resto2 = 1
   SegDig := 0
-ELSE
+else
   SegDig := (11 - Resto2)
-EndIF
-IF Pridig <> Val( SubStr( Var1,13,1)) .OR. SegDig <> Val( SubStr( Var1,14,1))
+endif
+if Pridig <> Val( SubStr( Var1,13,1)) .OR. SegDig <> Val( SubStr( Var1,14,1))
 	 ErrorBeep()
 	 Alerta("CGC Incorreto... Verifique." )
-	 Return(.F.)
-ELSE
-	Return(.T.)
-EndIF
+	 return(.F.)
+else
+	return(.T.)
+endif
 
 Function DataExtenso( dData )
 *****************************
@@ -2151,28 +2151,28 @@ nMenor	:= Val( Left( cDia, 1 ))
 nMaior	:= Val( Right( cDia, 1 ))
 cMes		:= aMes[ nMes ]
 
-IF nMenor > 0
+if nMenor > 0
 	cString := aDecimal[nMenor] + " "
-EndIF
-IF nDecada = 0
+endif
+if nDecada = 0
 	cDecada := ""
-Else
+else
 	cDecada := "e " + aDecada[nDecada]
-EndIF
-IF nAno = 0
+endif
+if nAno = 0
 	cAno := ""
-Else
+else
 	cAno := "e " + aAno[nAno]
-EndIF
+endif
 cSeculo := aSeculo[nSeculo]
-cString += IIF( nMaior = 0, "", aDia[nMaior] + " " )
+cString += Iif( nMaior = 0, "", aDia[nMaior] + " " )
 cString += "dia do mes de "
 cString += cMes
 cString += " do ano "
 cString += cSeculo
 cString += cDecada
 cString += cAno
-Return( cString )
+return( cString )
 
 
 Function DataExt1( dData )
@@ -2180,41 +2180,41 @@ Function DataExt1( dData )
 LOCAL Mes
 LOCAL MesExt
 
-IF dData = NIL .OR. ValType( dData ) != "D"
+if dData = NIL .OR. ValType( dData ) != "D"
 	dData := Date()
-EndIF
+endif
 Mes	 := Month( dData)
 MesExt := {"Janeiro","Fevereiro","Marco","Abril","Maio","Junho",;
 			  "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro" }
-Return( StrZero( Day( dData ), 2 ) + " de "+ MesExt[ Mes ] +" de "+ Str(Year( dData ),4 ))
+return( StrZero( Day( dData ), 2 ) + " de "+ MesExt[ Mes ] +" de "+ Str(Year( dData ),4 ))
 
 Function Mes( dData )
 *********************
 LOCAL Mes
 LOCAL MesExt
 
-IF dData = NIL
+if dData = NIL
 	dData := Date()
 	Mes	:= Month( dData)
-ElseIF ValType( dData ) = "D"
+elseif ValType( dData ) = "D"
 	Mes := Month( dData)
-ElseIF ValType( dData ) = 'N'
+elseif ValType( dData ) = 'N'
 	Mes := dData
-Else
+else
 	dData := Date()
 	Mes	:= Month( dData)
-EndIF
+endif
 MesExt := { "Janeiro","Fevereiro","Marco","Abril","Maio","Junho",;
 				"Julho","Agosto","Setembro","Outubro","Novembro","Dezembro" }
-Return( MesExt[ Mes ] )
+return( MesExt[ Mes ] )
 
 Function DataExt2( dData )
 **************************
 LOCAL Mes, MesExt, Dia
 
-IF dData = NIL .OR. ValType( dData ) != "D"
+if dData = NIL .OR. ValType( dData ) != "D"
 	dData := Date()
-EndIF
+endif
 Mes	 := Month( dData)
 MesExt := { { "Janeiro"  , 07 },;
 				{ "Fevereiro", 05 },;
@@ -2261,7 +2261,7 @@ Dia	 := { "Primeiro ",;
 			  "Trinta "    ,;
 			  "Trinta e um "}
 
-Return( Dia[ Day( dData ) ] + "de " + MesExt[ Mes,1 ] + " de " + Str( Year( dData ),4))
+return( Dia[ Day( dData ) ] + "de " + MesExt[ Mes,1 ] + " de " + Str( Year( dData ),4))
 
 Function Crontab(pH1)
 ******************
@@ -2387,11 +2387,11 @@ return nil
 Function Clock(row,col)
 *************************
 LOCAL ph1
-IIF( row = Nil , row := Row(), row )
-IIF( col = Nil , col := Col(), col )
+Iif( row = Nil , row := Row(), row )
+Iif( col = Nil , col := Col(), col )
 //pH1 := hb_idleAdd( {|| write( row, col-10, Dtoc(Date()), omenu:corcabec), write( row, col, Time(), omenu:corcabec), SetCursor( iif( Upper( "on" ) == "ON", 1, 0 ) )   })
 //Clock12(row, col)
-Return( Dtoc(Date()) + ' ' + Time())
+return( Dtoc(Date()) + ' ' + Time())
 
 Function IdleCriaIndice(nHandle)
 ********************************
@@ -2413,12 +2413,12 @@ return NIL
 Function F_Fim( Texto )
 ***********************
 LOCAL cMicrobras := oAmbiente:xProgramador
-			  Texto := IIF( Texto = NIL, "MICROBRAS", Texto )
+			  Texto := Iif( Texto = NIL, "MICROBRAS", Texto )
 
 SetColor("")
 Cls
 Alert( Texto + ";;Copyright (C)1992," + Str(Year(Date()),4) + ";" + cMicrobras + ";;Todos Direitos;Reservados", "W+/G")
-Return
+return
 
 Function StaTusInf( XNOMEFIR, Msg, Color )
 ******************************************
@@ -2430,16 +2430,16 @@ DEFAU	Color TO Cor(2)
 aPrint( nCol, 00, Msg, Color, MaxCol() )
 Pos := ( Tam - Len( XNOMEFIR ) )
 aPrint( nCol, Pos, XNOMEFIR, Color )
-Return Nil
+return Nil
 
 Function StaTusSup( Msg, Color )
 ********************************
 LOCAL Tam	:= MaxCol()
-		Msg	:= IIF( Msg = Nil, "", Msg )
-		Color := IIF( Color = Nil, Cor(2), Color )
+		Msg	:= Iif( Msg = Nil, "", Msg )
+		Color := Iif( Color = Nil, Cor(2), Color )
 Print( 00, 00, Padc( Msg, Tam ) , Color, Tam )
 Print( 00, (Tam-8), Clock( 00, (Tam-8), Color ), Color )
-Return Nil
+return Nil
 
 
 Function Seta1( Row, Col )
@@ -2447,10 +2447,10 @@ Function Seta1( Row, Col )
 LOCAL cString := "Use as Setas " + Chr( 27 ) + Chr( 24 ) + Chr( 25 ) + Chr( 26 )
 LOCAL nLen	  := Len( cString )
 
-Row := IIF( Row = NIL, MaxRow()-5, Row )
-Col := IIF( Col = NIL, ((MaxCol()-nLen)/2), Col )
+Row := Iif( Row = NIL, MaxRow()-5, Row )
+Col := Iif( Col = NIL, ((MaxCol()-nLen)/2), Col )
 Write( Row, Col,	cString )
-Return( nil )
+return( nil )
 
 Function Ponto( cCampo, nTamanho )
 *********************************
@@ -2465,7 +2465,7 @@ cString := cCampo
 cVar1   := Rtrim( cString )
 cVar2   := Repl(".", nTamanho - Len( cVar1 ) )
 cVar	  := cVar1 + cVar2
-Return( cVar )
+return( cVar )
 
 FUNCTION Mensagem( String, Color, nLine )
 *****************************************
@@ -2477,19 +2477,19 @@ LOCAL Row
 LOCAL Col
 LOCAL Col2
 
-IF oAmbiente:Visual
+if oAmbiente:Visual
 	MsgBox3D( String )
-	Return( cScreen )
-ENDIF
-IF nLine = Nil
+	return( cScreen )
+endif
+if nLine = Nil
 	Row	 := ((  LastRow() + 1 ) / 2 ) - 2
 	Col	 := ((( LastCol() + 1 ) - PstrLen ) ) / 2
 	Col2	 := ((( LastCol() + 1 ) / 2 ) - 10 )
-Else
+else
 	Row	 := nLine
 	Col	 := ((( LastCol() + 1 ) - PstrLen ) ) / 2
 	Col2	 := ((( LastCol() + 1 ) / 2 ) - 10 )
-EndIF
+endif
 
 Color := CorAlerta()
 /*
@@ -2500,7 +2500,7 @@ WriteBox( Row + 2, Col + 4, String )
 ColorSet( @cFundo, @PBack )
 Box( Row, Col, Row+4, Col+PstrLen, M_Frame() + " ", Color )
 Print( Row + 2, Col + 4, String, Color)
-Return( cScreen )
+return( cScreen )
 
 FUNCTION Mens( String, Color, nLine )
 *************************************
@@ -2509,18 +2509,18 @@ LOCAL pstrlen := len(string) + 6
 LOCAL Row
 LOCAL Col
 LOCAL Col2
-IF nLine = Nil
+if nLine = Nil
 	Row	 := ((  LastRow() + 1 ) / 2 ) - 2
 	Col	 := ((( LastCol() + 1 ) - PstrLen ) ) / 2
 	Col2	 := ((( LastCol() + 1 ) / 2 ) - 10 )
-Else
+else
 	Row	 := nLine
 	Col	 := ((( LastCol() + 1 ) - PstrLen ) ) / 2
 	Col2	 := ((( LastCol() + 1 ) / 2 ) - 10 )
-EndIF
+endif
 MsBox( Row, Col, Row+4, Col+ PstrLen, Color, FALSO )
 WriteBox( Row + 2, Col + 4, String )
-Return cScreen
+return cScreen
 
 Function Senha( _Col, _Linha, _Tpalavra )
 *****************************************
@@ -2537,45 +2537,45 @@ P := 1
 WHILE .T.
 	DevPos( _Col, ( (_Linha -1 ) + P ) ) ; DevOut( "" )
 	nTecla := Inkey(0)
-	IF nTecla = 0						  // Nenhuma Tecla Pressionada
+	if nTecla = 0						  // Nenhuma Tecla Pressionada
 		Loop
 
-	ElseIf nTecla = 8 .AND. P > 1   //	Tecla Backspace
+	elseif nTecla = 8 .AND. P > 1   //	Tecla Backspace
 		P--
 		Letras[ P ] := Space( 1 )
 		DevPos( _Col, ( ( _Linha - 1 ) + P ) ) ; DevOut( " " )
 		Loop
 
-	ElseIf nTecla = 13				 // Enter
+	elseif nTecla = 13				 // Enter
 		Exit
 
-	ElseIf nTecla = 27				 // Esc ?
+	elseif nTecla = 27				 // Esc ?
 		Exit
 
-	Else
+	else
 		Letras[ P ] := Upper( Chr( nTecla ) )
 		DevPos( _Col,( ( _Linha -1 ) + P ) ) ; DevOut( "þ" )
 		P++
-		If P = _Tpalavra					// Todos os caracteres digitados ?
+		if P = _Tpalavra					// Todos os caracteres digitados ?
 			Exit
 
-		EndIF
+		endif
 
-	EndIF
+	endif
 EndDo
 Pass := ""
 For T := 1 To _Tpalavra
   Pass := Pass + Letras[ T ]
 Next
-Return pass
+return pass
 
 Function Dc_Explode( _Srow, _Scol, _Erow, _Ecol, _Title, _Rodape, lInverterCor, _Slider, _Tone )
 ************************************************************************************************
 LOCAL _TsRow, _TsCol, _TeRow,  _TeCol, _xscrn, _a, _row, _step,;
 		_ccol,  _crow,  _buffer, _col
-IIF( _Tone	 = NIL, _Tone	 := .F., _Tone )
-IIF( _Slider = NIL, _Slider := IIF( Empty( GeteNv("EXPLODE")), 0, 5 ), _Slider )
-IIF( _Title  = NIL, _Title  := "" , _Title )
+Iif( _Tone	 = NIL, _Tone	 := .F., _Tone )
+Iif( _Slider = NIL, _Slider := Iif( Empty( GeteNv("EXPLODE")), 0, 5 ), _Slider )
+Iif( _Title  = NIL, _Title  := "" , _Title )
 
 _TsRow := _Srow + (_Erow-_Srow ) / 2
 _TsCol := _Scol + (_Ecol-_Scol ) / 2
@@ -2584,10 +2584,10 @@ _TeCol := _TsCol
 
 // Inicio sliding box
 // ******************
-IF _Slider > 0
+if _Slider > 0
   _Crow := Row()
   _Ccol := Col()
-  _Step := IIF(_Crow > _TsRow, -1, 1 )
+  _Step := Iif(_Crow > _TsRow, -1, 1 )
   For _Row := _Crow To _TsRow Step _Step
 	 _xScrn := SaveScreen()
 	 MaBox( _Row, _Ccol, _Row + 1, _Ccol + 3,,,lInverterCor )
@@ -2596,7 +2596,7 @@ IF _Slider > 0
 	 RestScreen(,,,, _xScrn)
 
   Next
-  _Step := IIF( _Ccol > _TsCol, -5, 5 )
+  _Step := Iif( _Ccol > _TsCol, -5, 5 )
   For _Col := _Ccol To _TsCol STEP _Step
 	  _xScrn := SaveScreen()
 	  MaBox( _Row, _Col, _Row+1, _Col+3,,, lInverterCor )
@@ -2605,48 +2605,48 @@ IF _Slider > 0
 	 RestScreen(,,,, _xScrn )
 
   Next
-EndIF
+endif
 				/*** FIM sliding box **/
 				************************
 
-IF _Erow < 24 .AND. _Scol > 1
+if _Erow < 24 .AND. _Scol > 1
   _xScrn := SaveScreen( _Srow, _Scol-2, _Erow+1, _Ecol )
 
-Else
+else
   _xScrn := SaveScreen( _sRow,_sCol, _eRow, _eCol )
 
-EndIF
-IF _Tone
+endif
+if _Tone
   ErrorBeep()
 
-EndIF
+endif
 WHILE _TsCol > _Scol
   MaBox( _TsRow,_TsCol, _TeRow, _TeCol,,, lInverterCor )
   _TsCol -= 4
   _TeCol += 4
   _TsRow--
   _TeRow++
-  IF _TsRow < _Srow
+  if _TsRow < _Srow
 	 _TsRow := _Srow
 	 _TeRow := _Erow
 
-  EndIF
-  IF _TsCol < _Scol
+  endif
+  if _TsCol < _Scol
 	 _TsCol := _Scol
 	 _TeCol := _Ecol
 
-  EndIF
+  endif
 EndDo
-IF _Tone
+if _Tone
   ErrorBeep()
 
-EndIF
-IF !Empty(_Title )
+endif
+if !Empty(_Title )
 	MaBox( _Srow, _Scol, _Erow, _Ecol, _Title, _Rodape, lInverterCor )
-Else
+else
   MaBox( _Srow, _Scol, _Erow, _Ecol,,, lInverterCor )
-EndIF
-Return NIl
+endif
+return NIl
 
 Function TestaCpf( cCpf )
 *************************
@@ -2669,11 +2669,11 @@ LOCAL Mult
 LOCAL Prod
 LOCAL Conta
 
-IF !Empty( cCpf ) .AND. Len( cCpf ) < 14
+if !Empty( cCpf ) .AND. Len( cCpf ) < 14
 	 ErrorBeep()
 	 Alerta("Erro: CPF incorreto." )
-	 Return(.F.)
-EndIF
+	 return(.F.)
+endif
 cCpf	  := AllTrim( cCpf )
 Digito  := Right( cCpf, 2 )
 Var1	  := StrTran( cCpf, "." )
@@ -2692,9 +2692,9 @@ For Conta := Len( Numero ) To 1 Step -1
 	Soma += ( Num * Mult )
 Next Conta
 Dig := Mod( ( Soma * 10), 11 )
-IF Dig >= 10
+if Dig >= 10
 	Dig := 0
-EndIF
+endif
 d1 := Dig
 Numero = Left( Var2, 10 )
 Mult	 := 1
@@ -2708,16 +2708,16 @@ For Conta := Len( Numero ) To 1 Step -1
 	Soma += ( Num * Mult )
 Next Conta
 Dig := Mod( ( Soma * 10), 11 )
-IF Dig >= 10
+if Dig >= 10
 	Dig := 0
-EndIF
+endif
 // cDig := Left(Str( d1 ), 1 ) + Left( Str( Dig ), 1 )
-IF Val( Left( Digito, 1 ) ) != d1 .OR. Val( Right( Digito, 1 ) ) != Dig
+if Val( Left( Digito, 1 ) ) != d1 .OR. Val( Right( Digito, 1 ) ) != Dig
 	ErrorBeep()
 	Alerta( "Erro: CPF invalido.")
-	Return(.F.)
-EndIF
-Return(.T.)
+	return(.F.)
+endif
+return(.T.)
 
 
 Proc ErrorSys()
@@ -2759,72 +2759,72 @@ adbfdes	 := {}
 adbfexp	 := {}
 adbfacao  := {}
 adbfacao1 := {}
-If (e:gencode() == 5)
-	Return 0
-EndIf
-If (e:gencode() == 21 .AND. e:oscode() == 32 .AND. e:candefault())
+if (e:gencode() == 5)
+	return 0
+endif
+if (e:gencode() == 21 .AND. e:oscode() == 32 .AND. e:candefault())
 	neterr(.T.)
-	Return .F.
-EndIf
-If (e:gencode() == 40 .AND. e:candefault())
+	return .F.
+endif
+if (e:gencode() == 40 .AND. e:candefault())
 	neterr(.T.)
-	Return .F.
-EndIf
+	return .F.
+endif
 AAdd(ab, 1002)
 AAdd(abdes, "ALIAS NAO EXISTE.")
-AAdd(abexp, "O ALIAS ESPECIFICADO NAO ASSOCIADO COM A AREA DE TRABALHO ATUAL.")
+AAdd(abexp, "O ALIAS ESPECifICADO NAO ASSOCIADO COM A AREA DE TRABALHO ATUAL.")
 AAdd(abacao, "ENTRE EM CONTATO COM O SUPORTE TECNICO.")
 AAdd(abacao1, "")
 AAdd(ab, 1003)
 AAdd(abdes, "VARIAVEL NAO EXISTE.")
-AAdd(abexp, "A VARIAVEL ESPECIFICADA NAO EXISTE OU NAO E VISIVEL.")
+AAdd(abexp, "A VARIAVEL ESPECifICADA NAO EXISTE OU NAO E VISIVEL.")
 AAdd(abacao, "ENTRE EM CONTATO COM O SUPORTE TECNICO.")
 AAdd(abacao1, "")
 AAdd(ab, 1004)
 AAdd(abdes, "VARIAVEL NAO EXISTE.")
-AAdd(abexp, "A VARIAVEL ESPECIFICADA NAO EXISTE OU NAO E VISIVEL.")
+AAdd(abexp, "A VARIAVEL ESPECifICADA NAO EXISTE OU NAO E VISIVEL.")
 AAdd(abacao, "ENTRE EM CONTATO COM O SUPORTE TECNICO.")
 AAdd(abacao1, "")
 AAdd(ab, 2006)
 AAdd(abdes,   "ERRO DE GRAVACAO/CRIACAO DE ARQUIVO.")
-AAdd(abexp,   "O ARQUIVO ESPECIFICADO NAO PODE SER GRAVADO/CRIADO.")
-AAdd(abacao,  "VERIFIQUE SEUS DIREITOS EM AMBIENTE DE REDE. ESPACO")
+AAdd(abexp,   "O ARQUIVO ESPECifICADO NAO PODE SER GRAVADO/CRIADO.")
+AAdd(abacao,  "VERifIQUE SEUS DIREITOS EM AMBIENTE DE REDE. ESPACO")
 AAdd(abacao1, "EM DISCO, OU SE O ARQUIVO ESTA ATRIBUIDO PARA SOMENTE LEITURA.")
 AAdd(ab, 5300)
 AAdd(abdes, "MEMORIA BAIXA.")
 AAdd(abexp, "MEMORIA DISPONIVEL INSUFICIENTE PARA RODAR O APLICATIVO.")
-AAdd(abacao, "LIBERE MAIS MEMORIA CONVENCIONAL VERIFICANDO OS ARQUIVOS")
+AAdd(abacao, "LIBERE MAIS MEMORIA CONVENCIONAL VERifICANDO OS ARQUIVOS")
 AAdd(abacao1, "CONFIG.SYS E AUTOEXEC.BAT.")
 
 AAdd(adbf, 1001)
-AAdd(adbfdes, "ERRO DE ABERTURA DO ARQUIVO ESPECIFICADO.")
-AAdd(adbfexp, "O ARQUIVO ESPECIFICADO NAO PODE SER ABERTO.")
-AAdd(adbfacao, "VERIFIQUE SEUS DIREITOS EM AMBIENTE DE REDE. ESPACO")
+AAdd(adbfdes, "ERRO DE ABERTURA DO ARQUIVO ESPECifICADO.")
+AAdd(adbfexp, "O ARQUIVO ESPECifICADO NAO PODE SER ABERTO.")
+AAdd(adbfacao, "VERifIQUE SEUS DIREITOS EM AMBIENTE DE REDE. ESPACO")
 AAdd(adbfacao1, "EM DISCO, OU SE O ARQUIVO ESTA ATRIBUIDO PARA SOMENTE LEITURA.")
 AAdd(adbf, 1003)
-AAdd(adbfdes, "ERRO DE ABERTURA DO ARQUIVO ESPECIFICADO.")
-AAdd(adbfexp, "O ARQUIVO ESPECIFICADO NAO PODE SER ABERTO.")
-AAdd(adbfacao, "VERIFIQUE SEUS DIREITOS EM AMBIENTE DE REDE. ESPACO")
+AAdd(adbfdes, "ERRO DE ABERTURA DO ARQUIVO ESPECifICADO.")
+AAdd(adbfexp, "O ARQUIVO ESPECifICADO NAO PODE SER ABERTO.")
+AAdd(adbfacao, "VERifIQUE SEUS DIREITOS EM AMBIENTE DE REDE. ESPACO")
 AAdd(adbfacao1, "EM DISCO, OU SE O ARQUIVO ESTA ATRIBUIDO PARA SOMENTE LEITURA.")
 AAdd(adbf, 1004)
 AAdd(adbfdes, "ERRO DE CRIACAO DE ARQUIVO.")
-AAdd(adbfexp, "O ARQUIVO ESPECIFICADO NAO PODE SER CRIADO.")
-AAdd(adbfacao, "VERIFIQUE SEUS DIREITOS EM AMBIENTE DE REDE. ESPACO")
+AAdd(adbfexp, "O ARQUIVO ESPECifICADO NAO PODE SER CRIADO.")
+AAdd(adbfacao, "VERifIQUE SEUS DIREITOS EM AMBIENTE DE REDE. ESPACO")
 AAdd(adbfacao1, "EM DISCO, OU SE O ARQUIVO ESTA ATRIBUIDO PARA SOMENTE LEITURA.")
 AAdd(adbf, 1006)
 AAdd(adbfdes, "ERRO DE CRIACAO DE ARQUIVO.")
-AAdd(adbfexp, "O ARQUIVO ESPECIFICADO NAO PODE SER CRIADO.")
-AAdd(adbfacao, "VERIFIQUE SEUS DIREITOS EM AMBIENTE DE REDE. ESPACO")
+AAdd(adbfexp, "O ARQUIVO ESPECifICADO NAO PODE SER CRIADO.")
+AAdd(adbfacao, "VERifIQUE SEUS DIREITOS EM AMBIENTE DE REDE. ESPACO")
 AAdd(adbfacao1,"EM DISCO, OU SE O ARQUIVO ESTA ATRIBUIDO PARA SOMENTE LEITURA.")
 AAdd(adbf, 1010)
 AAdd(adbfdes, "ERRO DE LEITURA DE ARQUIVO.")
-AAdd(adbfexp, "UM ERRO DE LEITURA OCORREU NO ARQUIVO ESPECIFICADO.")
-AAdd(adbfacao, "VERIFIQUE SEUS DIREITOS EM AMBIENTE DE REDE, OU SE")
+AAdd(adbfexp, "UM ERRO DE LEITURA OCORREU NO ARQUIVO ESPECifICADO.")
+AAdd(adbfacao, "VERifIQUE SEUS DIREITOS EM AMBIENTE DE REDE, OU SE")
 AAdd(adbfacao1, "O ARQUIVO NAO ESTA TRUNCADO.")
 AAdd(adbf, 1011)
 AAdd(adbfdes, "ERRO DE GRAVACAO DE ARQUIVO.")
-AAdd(adbfexp, "UM ERRO DE GRAVACAO OCORREU NO ARQUIVO ESPECIFICADO.")
-AAdd(adbfacao, "VERIFIQUE SEUS DIREITOS EM AMBIENTE DE REDE. ESPACO")
+AAdd(adbfexp, "UM ERRO DE GRAVACAO OCORREU NO ARQUIVO ESPECifICADO.")
+AAdd(adbfacao, "VERifIQUE SEUS DIREITOS EM AMBIENTE DE REDE. ESPACO")
 AAdd(adbfacao1, "EM DISCO, OU SE O ARQUIVO ESTA ATRIBUIDO PARA SOMENTE LEITURA.")
 AAdd(adbf, 1012)
 AAdd(adbfdes, "CORRUPCAO DE ARQUIVOS DETECTADA.")
@@ -2839,7 +2839,7 @@ AAdd(adbfacao1, "")
 AAdd(adbf, 1021)
 AAdd(adbfdes, "ERRO DE TAMANHO DE DADO.")
 AAdd(adbfexp, "O TAMANHO DE DADO EH MAIOR QUE O CAMPO.")
-AAdd(adbfacao, "VERIFIQUE DATAS DE VCTO, EMISSAO E OU CALCULOS MUITO ")
+AAdd(adbfacao, "VERifIQUE DATAS DE VCTO, EMISSAO E OU CALCULOS MUITO ")
 AAdd(adbfacao1, "GRANDES.")
 AAdd(adbf, 1022)
 AAdd(adbfdes, "TRAVAMENTO DE ARQUIVO REQUERIDO.")
@@ -2862,63 +2862,63 @@ cexplanacao := ""
 cacao 	   := ""
 cacao1	   := ""
 nPos		   := 0
-If (csystem = "BASE")
+if (csystem = "BASE")
 	npos:= ascan(ab, nsubcode)
-	If (npos != 0)
+	if (npos != 0)
 		e:description := abdes[npos]
 		cExplanacao   := abexp[npos]
 		cAcao 		  := abacao[npos]
 		cAcao1		  := abacao1[npos]
-	EndIf
-ElseIf (csystem = "DBFNTX")
+	endif
+elseif (csystem = "DBFNTX")
 	npos:= ascan(adbf, nsubcode)
-	If (npos != 0)
+	if (npos != 0)
 		e:description := adbfdes[npos]
 		cExplanacao   := adbfexp[npos]
 		cAcao 		  := adbfacao[npos]
 		cAcao1		  := adbfacao1[npos]
-	EndIf
-ElseIf (csystem = "SIXNSX")
+	endif
+elseif (csystem = "SIXNSX")
 	npos:= ascan(adbf, nsubcode)
-	If (npos != 0)
+	if (npos != 0)
 		e:description := adbfdes[npos]
 		cExplanacao   := adbfexp[npos]
 		cAcao 		  := adbfacao[npos]
 		cAcao1		  := adbfacao1[npos]
-	EndIf
-ElseIf ( csystem = "TERM")
-	IF LptOk()
-		Return( OK )
-	EndIF
+	endif
+elseif ( csystem = "TERM")
+	if LptOk()
+		return( OK )
+	endif
 	Set Devi To Screen
 	Set Prin Off
 	Set Cons On
 	Set Print to
 	Break
-EndIf
-If (e:oscode() = 4)
+endif
+if (e:oscode() = 4)
 	e:description := "IMPOSSIVEL ABRIR MAIS ARQUIVOS."
 	cExplanacao   := "O LIMITE DE ABERTURA DE ARQUIVOS FOI EXCEDIDO."
 	cAcao 		  := "INCREMENTE FILES NO CONFIG.SYS OU FILE HANDLES"
 	cAcao1		  := "NO ARQUIVO SHELL.CFG SE EM AMBIENTE DE REDE."
-EndIf
-IF nPos = 0
+endif
+if nPos = 0
 	cExplanacao := "ERRO NAO DOCUMENTADO."
 	cAcao 	   := "IMPRIMA ESTA TELA. E ENTRE EM CONTATO COM O"
 	cAcao1	   := "SUPORTE TECNICO ATRAVES DO TEL (69)3451.3085 ou SUPORTE@MICROBRAS.COM.BR"
-EndIF
+endif
 
-IF nSubCode = 1003
+if nSubCode = 1003
 	FChDir( oAmbiente:xBase )
 	Set Date British
 	Set Console Off
 	FClose( cPrograma )
-	IF !File( cPrograma )
+	if !File( cPrograma )
 		cHandle := Fcreate( cPrograma, FC_NORMAL )
 		FClose( cHandle )
-	EndIF
+	endif
 	cHandle := FOpen( cPrograma, FO_READWRITE + FO_SHARED )
-	IF ( Ferror() != 0 )
+	if ( Ferror() != 0 )
 		FClose( cHandle )
 		SetColor("")
 		Cls
@@ -2926,7 +2926,7 @@ IF nSubCode = 1003
 		Break(e)
 		//FlReset()
 		Quit
-	EndIF
+	endif
 	FBot( cHandle )
 	FWriteLine( cHandle, Replicate("=", 80))
 	FWriteLine( cHandle, "Usuario   : " + oAmbiente:xUsuario )
@@ -2958,18 +2958,18 @@ IF nSubCode = 1003
 	Set Console On
 	FChDir( oAmbiente:xBase )
 	Break(e)
-EndIF
+endif
 
 SetColor("")
 Cls
-IF nSubCode = 1012
-	IF !Empty( e:FileName() )
+if nSubCode = 1012
+	if !Empty( e:FileName() )
 		ErrorBeep()
-		IF Conf("O arquivo " + AllTrim( e:FileName()) + " corrompeu. Criar um novo ?")
+		if Conf("O arquivo " + AllTrim( e:FileName()) + " corrompeu. Criar um novo ?")
 			cTemp := StrTran( e:FileName(), ".DBF") + ".OLD"
 			Ferase( cTemp )
-			IF FRename( e:FileName(), cTemp )
-				IF CriaArquivo( e:FileName() )
+			if FRename( e:FileName(), cTemp )
+				if CriaArquivo( e:FileName() )
 					Aeval( Directory( "*.NTX"), { | aFile | Ferase( aFile[ F_NAME ] )})
 					Cls
 					ErrorBeep()
@@ -2977,13 +2977,13 @@ IF nSubCode = 1012
 					FChDir( oAmbiente:xBase )
 					Break( e )
 					Quit
-				EndIF
-			Else
+				endif
+			else
 				Alerta("Erro: Impossivel consertar o arquivo.")
-			EndIF
-		EndIF
-	EndIF
-EndIF
+			endif
+		endif
+	endif
+endif
 Set Devi To Screen
 Set Prin Off
 Set Cons On
@@ -3028,27 +3028,27 @@ Do While (!Empty( ProcName(i)))
 	@ ncol, nRow+16 Say ProcName(i)								  Color "W+/B"
 	i++
 	nCol++
-	IF nCol >= 23
+	if nCol >= 23
 		nCol := 17
 		nRow += 40
-	EndIF
+	endif
 EndDo
 cmessage := "Escolha uma opcao abaixo."
 aoptions := {"Encerrar"}
-If (e:canretry())
+if (e:canretry())
 	AAdd(aoptions, "Tentar")
-EndIf
-If (e:candefault())
+endif
+if (e:candefault())
 	AAdd(aoptions, "Default")
-EndIf
+endif
 nchoice:= 0
 Do While (nchoice == 0)
 	nchoice:= alert(cmessage, aoptions)
-	If (!Empty(nchoice))
-		If (aoptions[nchoice] == "Encerrar")
+	if (!Empty(nchoice))
+		if (aoptions[nchoice] == "Encerrar")
 			nopcao:= alert("Pergunta: Imprimir resultado para ?", {"Nenhum", "Impressora"})
-			If (nopcao == 2)
-				If (instru80() .AND. lptok())
+			if (nopcao == 2)
+				if (instru80() .AND. lptok())
 					printon()
 					setprc(0, 0)
 					Qout(Replicate("=", 80))
@@ -3078,18 +3078,18 @@ Do While (nchoice == 0)
 					Qout(Replicate("=", 80))
 					Eject
 					PrintOff()
-				EndIf
-			EndIF
+				endif
+			endif
 			FChDir( oAmbiente:xBase )
 			Set Date British
 			Set Console Off
 			FClose( cPrograma )
-			IF !File( cPrograma )
+			if !File( cPrograma )
 				cHandle := Fcreate( cPrograma, FC_NORMAL )
 				FClose( cHandle )
-			EndIF
+			endif
 			cHandle := FOpen( cPrograma, FO_READWRITE + FO_SHARED )
-			IF ( Ferror() != 0 )
+			if ( Ferror() != 0 )
 				FClose( cHandle )
 				SetColor("")
 				Cls
@@ -3097,7 +3097,7 @@ Do While (nchoice == 0)
 				Break(e)
 				//FlReset()
 				Quit
-			EndIF
+			endif
 			FBot( cHandle )
 			FWriteLine( cHandle, Replicate("=", 80))
 			FWriteLine( cHandle, "Usuario   : " + oAmbiente:xUsuario )
@@ -3132,51 +3132,51 @@ Do While (nchoice == 0)
 			Break(e)
 			//FlReset()
 			Quit
-		ElseIf (aoptions[nchoice] == "Tentar")
+		elseif (aoptions[nchoice] == "Tentar")
 			ResTela( cScreen )
-			Return .T.
-		ElseIf (aoptions[nchoice] == "Default")
+			return .T.
+		elseif (aoptions[nchoice] == "Default")
 			ResTela( cScreen )
-			Return .F.
-		EndIf
-	EndIf
+			return .F.
+		endif
+	endif
 EndDo
 Set Device To Screen
 Set Printer Off
 Break
-Return .T.
+return .T.
 
 Function TamPagina( nTamanho )
 ******************************
-IF XIMPRESSORA = 9 .OR. XIMPRESSORA = 10 .OR. XIMPRESSORA = 11
-	Return( Chr(ESC) + "&l" + StrZero( nTamanho, 3) + "P" )
-Else
-	Return( Chr( ESC ) + "C" + Chr( nTamanho ) )
-EndIF
+if XIMPRESSORA = 9 .OR. XIMPRESSORA = 10 .OR. XIMPRESSORA = 11
+	return( Chr(ESC) + "&l" + StrZero( nTamanho, 3) + "P" )
+else
+	return( Chr( ESC ) + "C" + Chr( nTamanho ) )
+endif
 
 Proc EncerraDbf( cCampo, cName, nLine )
 ***************************************
 SetColor("")
 Cls
 ErrorBeep()
-IF cCampo = NIL
+if cCampo = NIL
 	Alert( "Erro #11: Configuracao de SCI.DBF alterada.;" + cName + ":" + StrZero( nLine, 6 ))
-Else
+else
 	Alert( "Erro #11: Configuracao de SCI.DBF alterada.; Campo : " + cCampo )
-EndIF
+endif
 Quit
 
 Proc VerExe()
 *************
-IF !( XNOME_EXE $ Upper(NomePrograma()))
-//IF !( XNOME_EXE $ Upper(Program()))
+if !( XNOME_EXE $ Upper(NomePrograma()))
+//if !( XNOME_EXE $ Upper(Program()))
 	SetColor("")
 	Cls
 	ErrorBeep()
 	Alert( "Erro #9: Favor renomear este aplicativo para " + XNOME_EXE )
 	Quit
-EndIF
-Return
+endif
+return
 
 Function NomePrograma()
 ***********************
@@ -3184,7 +3184,7 @@ Function NomePrograma()
 	LOCAL nPos := Rat("\", cPrograma)
 	LOCAL nLen := Len( cPrograma)-nPos
 	LOCAL cStr := SubStr(cPrograma, nPos+1)
-RETURN(cStr)
+return(cStr)
 
 
 Function Hard( nPos, ProcName, ProcLine )
@@ -3207,7 +3207,7 @@ LOCAL aMensagem		:= Array(3,5)
 		aMensagem[1,5] := ""
 
 		aMensagem[2,1] := "[Verificacao de Copia Original]"
-		aMensagem[2,2] := "1 - O SCI esta sendo instalado pela 1¦ vez ?"
+		aMensagem[2,2] := "1 - O SCI esta sendo instalado pela 1?vez ?"
 		aMensagem[2,3] := "2 - Esta atualizando a versao do SCI ?"
 		aMensagem[2,4] := "3 - Esta instalando um novo terminal ?"
 		aMensagem[2,5] := "4 - Caso Positivo, solicite Codigo de Acesso."
@@ -3218,9 +3218,9 @@ LOCAL aMensagem		:= Array(3,5)
 		aMensagem[3,4] := "    o mesmo ‚ de seu conhecimento.                 "
 		aMensagem[3,5] := ""
 
-IF ProcName != NIL
+if ProcName != NIL
 	cMens := ProcName + "(" + StrZero( ProcLine, 5 ) + "): " + cMens
-EndIF
+endif
 Set Conf On
 oMenu:Limpa()
 BoxConf( 00, 05, 24, 75 )
@@ -3268,45 +3268,45 @@ WHILE OK
 	@ 20, 45 Say "Data Atual..:"        Get dDatados Pict "##/##/##"
 	Read
 	//SetKey( 309, NIL )
-	IF LastKey() = ESC
-		IF nPos <> 3
+	if LastKey() = ESC
+		if nPos <> 3
 			Cls
 			Quit
-		Else
+		else
 			CenturyOff()
-			Return
-		EndIF
-	EndIF
+			return
+		endif
+	endif
 	nCrc := 0
 	For nX := 1 To 10
 		nCrc += Val( SubStr( cSenha, nX,1)) * Val( SubStr( cSenha, nX, 1)) + Val( SubStr( cCodigo, nX,1))
 	Next
 	cCrc := Right(StrZero( nCrc, 10),3)
-	IF cCrc != Right( cSenha, 3 )
+	if cCrc != Right( cSenha, 3 )
 		ErrorBeep()
 		Alert("Erro : O Codigo de Acesso inv lido. Solicite Novamente.")
 		Loop
-	EndIF
+	endif
 	Set Date To USA // mm/dd/yy
 	cDataDos := Dtoc( dDataDos )
 	cData 	:= SubStr( cSenha, 3, 2 ) + "/" + Left( cSenha, 2) + "/" + SubStr( cSenha, 5, 2 )
 	dData 	:= Dtoc( Ctod( cData ))
 	SET DEFA TO ( oAmbiente:xBase )
-	IF !File( 'SCI.DBF' )
+	if !File( 'SCI.DBF' )
 		SetColor("")
 		Cls
 		ErrorBeep()
 		Alert( oAmbiente:xBase )
 		Alert( "Erro: Arquivo SCI.DBF nao localizado.")
 		Quit
-	EndIF
-	IF !NetUse( 'SCI.DBF', OK )
+	endif
+	if !NetUse( 'SCI.DBF', OK )
 		SetColor("")
 		Cls
 		ErrorBeep()
 		Alert("Erro: Impossivel abrir SCI.DBF.")
 		Quit
-	EndIF
+	endif
 	
 	oAmbiente:xDataCodigo := dData
 	cDia := SubStr( oAmbiente:xDataCodigo, 4, 2 )
@@ -3314,23 +3314,23 @@ WHILE OK
 	cAno := Right( oAmbiente:xDataCodigo, 4 )
 	oAmbiente:xDataCodigo := cDia + "/" + cMes + "/" + cAno
 	CopyCria()
-	IF Sci->(TravaArq())
+	if Sci->(TravaArq())
 		Sci->Limite   := MsEncrypt( dData )
 		Sci->(Libera())
 		Sci->(DbCloseArea())
-	Else
-		IF nPos <> 3
+	else
+		if nPos <> 3
 			Cls
 			Quit
-		EndIF
-	EndIF
+		endif
+	endif
 	Set Defa To ( oAmbiente:xBaseDados )
 	ResTela( cScreen )
 	Exit
 EndDo
 CenturyOff()
 Set Conf Off
-Return
+return
 
 Function Cod_Acesso( cCodigo, GetList )
 **************************************
@@ -3362,39 +3362,39 @@ LOCAL cExecucoes
 	Getlist[1]:Display()
 	Getlist[1]:ExitState := GE_ENTER
 	CenturyOn()
-	Return
+	return
 
 Function HoraSaida( HR_ENTRADA, HR_SAIDA )
 ******************************************
 LOCAL cStartTime := HR_ENTRADA
 LOCAL cTempo	  := StrTran( TimeDiff( cStartTime, Time()), ":")
 
-IF !NetUse("SCI", OK )
+if !NetUse("SCI", OK )
 	EncerraDbf(, ProcName(), ProcLine())
-EndIF
-IF Sci->(TravaReg())
+endif
+if Sci->(TravaReg())
 	Sci->Time += Val( cTempo )
 	Sci->(Libera())
 	Sci->(DbCloseArea())
-Else
+else
 	Cls
 	Quit
-EndIF
+endif
 
 /*
 FUNCTION TimeDiff( cStartTime, cEndTime )
 *****************************************
-RETURN TimeAsString(IIF(cEndTime < cStartTime, 86400 , 0) +;
+return TimeAsString(Iif(cEndTime < cStartTime, 86400 , 0) +;
 		 TimeAsSeconds(cEndTime) - TimeAsSeconds(cStartTime))
 
 FUNCTION TimeAsSeconds( cTime )
 *******************************
-RETURN VAL(cTime) * 3600 + VAL(SUBSTR(cTime, 4)) * 60 +;
+return VAL(cTime) * 3600 + VAL(SUBSTR(cTime, 4)) * 60 +;
 		 VAL(SUBSTR(cTime, 7))
 
 FUNCTION TimeAsString( nSeconds )
 *********************************
-RETURN StrZero(INT(Mod(nSeconds / 3600, 24)), 2, 0) + ":" +;
+return StrZero(INT(Mod(nSeconds / 3600, 24)), 2, 0) + ":" +;
 					StrZero(INT(Mod(nSeconds / 60, 60)), 2, 0) + ":" +;
 					StrZero(INT(Mod(nSeconds, 60)), 2, 0)
 */
@@ -3408,17 +3408,17 @@ FUNCTION ScrollBarNew( nTopRow, nTopColumn, nBottomRow, cColorString, nInitPosit
 	aScrollBar[ TB_ROWBOTTOM ] := nBottomRow
 	aScrollBar[ TB_COLBOTTOM ] := nTopColumn
 
-	IF cColorString == NIL
+	if cColorString == NIL
 		cColorString := "W/N"
-	ENDIF
+	endif
 	aScrollBar[ TB_COLOR ] := cColorString
 
-	IF nInitPosition == NIL
+	if nInitPosition == NIL
 		nInitPosition := 1
-	ENDIF
+	endif
 	aScrollBar[ TB_POSITION ] := nInitPosition
 
-	RETURN ( aScrollBar )
+	return ( aScrollBar )
 
 FUNCTION ScrollBarDisplay( aScrollBar )
 ***************************************
@@ -3433,7 +3433,7 @@ FOR nRow := (aScrollBar[ TB_ROWTOP ] + 1) TO (aScrollBar[ TB_ROWBOTTOM ] - 1)
 	@ nRow, aScrollBar[ TB_COLTOP ] SAY TB_BACKGROUND
 NEXT
 SETCOLOR( cOldColor )
-RETURN ( aScrollBar )
+return ( aScrollBar )
 
 FUNCTION ScrollBarUpdate( aScrollBar, nCurrent, nTotal, lForceUpdate )
 *******************************************************************
@@ -3441,37 +3441,37 @@ LOCAL cOldColor
 LOCAL nNewPosition
 LOCAL nScrollHeight := ( aScrollBar[TB_ROWBOTTOM] - 1 ) - ( aScrollBar[TB_ROWTOP] )
 
-IF nTotal < 1
+if nTotal < 1
 	nTotal := 1
-ENDIF
+endif
 
-IF nCurrent < 1
+if nCurrent < 1
 	nCurrent := 1
-ENDIF
+endif
 
-IF nCurrent > nTotal
+if nCurrent > nTotal
 	nCurrent := nTotal
-ENDIF
+endif
 
-IF lForceUpdate == NIL
+if lForceUpdate == NIL
 	lForceUpdate := .F.
-ENDIF
+endif
 
 cOldColor := SETCOLOR( aScrollBar[ TB_COLOR ] )
 
 nNewPosition := ROUND( (nCurrent / nTotal) * nScrollHeight, 0 )
 
-nNewPosition := IIF( nNewPosition < 1, 1, nNewPosition )
-nNewPosition := IIF( nCurrent == 1, 1, nNewPosition )
-nNewPosition := IIF( nCurrent >= nTotal, nScrollHeight, nNewPosition )
+nNewPosition := Iif( nNewPosition < 1, 1, nNewPosition )
+nNewPosition := Iif( nCurrent == 1, 1, nNewPosition )
+nNewPosition := Iif( nCurrent >= nTotal, nScrollHeight, nNewPosition )
 
-IF nNewPosition <> aScrollBar[ TB_POSITION ] .OR. lForceUpdate
+if nNewPosition <> aScrollBar[ TB_POSITION ] .OR. lForceUpdate
 	@ (aScrollBar[ TB_POSITION ] + aScrollBar[ TB_ROWTOP ]), aScrollBar[ TB_COLTOP ] SAY TB_BACKGROUND
 	@ (nNewPosition + aScrollBar[ TB_ROWTOP ]), aScrollBar[ TB_COLTOP ] SAY TB_HIGHLIGHT
 	aScrollBar[ TB_POSITION ] := nNewPosition
-ENDIF
+endif
 SETCOLOR( cOldColor )
-RETURN ( aScrollBar )
+return ( aScrollBar )
 
 Function Criptar( Pal )
 ***********************
@@ -3482,7 +3482,7 @@ FOR X := 1 TO Tam
 	 L := SubStr(Pal, X, 1)
 	 Fra += Chr(Asc(L) + 61 - 2 * X + 3 * x )
 NEXT
-RETURN Fra
+return Fra
 
 Function DCriptar( Pal )
 ************************
@@ -3493,7 +3493,7 @@ FOR X := 1 TO Tam
 	 L := SubStr(Pal, X, 1)
 	 Fra += Chr(Asc(L) - 61 + 2 * X - 3 * x )
 NEXT
-RETURN Fra
+return Fra
 
 Function M_Menu( ativo, Arg2, Arg3, Arg4, aMensagem )
 ****************************************************
@@ -3516,9 +3516,9 @@ LOCAL Local16
 LOCAL Local17
 LOCAL Local18
 
-Arg4	    := IIF( Arg4 = Nil, 0, Arg4 )
+Arg4	    := Iif( Arg4 = Nil, 0, Arg4 )
 Local17   := Int(ativo)
-Local18   := IIF( Arg3 == Nil, Standard(), Arg3 )
+Local18   := Iif( Arg3 == Nil, Standard(), Arg3 )
 nLenArray := Len(Arg2)
 Afill(Local2, Arg4)
 Local3[ 1 ] := 1
@@ -3536,23 +3536,23 @@ Local9 := Aprintlen(Local1[ x - 1 ])
 //M_Csron()
 WHILE ( .T. )
 	 Local7 := M_Aprompt(.F., Local17, Local2, Local3, Local1, Local18, aMensagem)
-	 IF ( Local7 = 0 )
-		  RETURN 0.0
-	 ENDIF
+	 if ( Local7 = 0 )
+		  return 0.0
+	 endif
 	 //M_Wait(1)
 	 Local14 := Chrcount(":", Arg2[ Local7 ])
 	 Local17 := Local7
-	 IF ( Local14 < 1 )
-		  IF ( !Local10 )
-				RETURN Local7 + 0.0
-		  ELSE
+	 if ( Local14 < 1 )
+		  if ( !Local10 )
+				return Local7 + 0.0
+		  else
 				Local10 := .F.
 				LOOP
-		  ENDIF
-	 ENDIF
-	 IF ( Local14 > Lastrow() - 1 )
+		  endif
+	 endif
+	 if ( Local14 > Lastrow() - 1 )
 		  Local14 := Lastrow() - 1
-	 ENDIF
+	 endif
 	 Asize(Local4, Local14)
 	 Asize(Local5, Local14)
 	 Asize(Local6, Local14)
@@ -3561,11 +3561,11 @@ WHILE ( .T. )
 		  Local5[ x ] := x + 1 + Arg4
 	 NEXT
 	 Local9 := Amaxstrlen(Local4) + 2
-	 IF ( Local3[ Local7 ] + Local9 + 3 > Lastcol() + 1 )
+	 if ( Local3[ Local7 ] + Local9 + 3 > Lastcol() + 1 )
 		  Local15 := Lastcol() + 1 - ( Local9 + 3 )
-	 ELSE
+	 else
 		  Local15 := Local3[ Local7 ] + 1
-	 ENDIF
+	 endif
 	 Afill(Local6, Local15)
 	 FOR x := 1 TO Local14
 		  Local4[ x ] := Untrim(Local4[ x ], Local9)
@@ -3575,31 +3575,31 @@ WHILE ( .T. )
 	 Local16 := SaveScreen()
 	 Box(Arg4 + 1, Local15 - 1, Local14 + 2 + Arg4, Local15 + Local9, Local11 + " ", Local18)
 	 //M_Csron()
-	 IF ( Local8 <= 0 )
+	 if ( Local8 <= 0 )
 		  Local8 := 1
-	 ENDIF
+	 endif
 	 Local8 := M_Aprompt(.T., Local8, Local5, Local6, Local4, Local18, aMensagem )
 	 //M_Wait(1)
 	 //M_Csroff()
 	 //Restvideo(Arg4 + 1, Local15 - 3, Local14 + 3 + Arg4, Local15 + Local9 + 2, Local16)
 	 ResTela( Local16 )
 	 //M_Csron()
-	 IF ( Local8 < -1 )
-		  IF ( Local8 = -3 )
-				Local17 := IIF( Local17 = Local13, 1, Local17 + 1 )
+	 if ( Local8 < -1 )
+		  if ( Local8 = -3 )
+				Local17 := Iif( Local17 = Local13, 1, Local17 + 1 )
 				//Nstuff(13)
 				PutKey(13)
-		  ENDIF
-		  IF ( Local8 = -2 )
-				Local17 := IIF( Local17 = 1, Local13, Local17 - 1 )
+		  endif
+		  if ( Local8 = -2 )
+				Local17 := Iif( Local17 = 1, Local13, Local17 - 1 )
 				//Nstuff(13)
 			   PutKey(13)
-		  ENDIF
+		  endif
 		  Local10 := .T.
 		  LOOP
-	 ELSEIF ( Local8 > 0 )
-		  RETURN Local7 + Local8 / 100
-	 ENDIF
+	 elseif ( Local8 > 0 )
+		  return Local7 + Local8 / 100
+	 endif
 	 Local10 := .F.
 END
 
@@ -3620,13 +3620,13 @@ LOCAL x
 LOCAL Local13
 
 Colorset(@Local11, @Local7)
-IF ( Arg2 < 0 )
+if ( Arg2 < 0 )
 	 Local10 := 1
-ELSEIF ( Arg2 > Local8 )
+elseif ( Arg2 > Local8 )
 	 Local10 := Local8
-ELSE
+else
 	 Local10 := Arg2
-ENDIF
+endif
 Local9 := Local10
 Local7 := Local7 + 256
 Local4 := Array(Local8)
@@ -3636,70 +3636,70 @@ FOR x := 1 TO Local8
 	 Local4[ x ] := Aprintlen(Arg5[ x ]) + Arg4[ x ] - 1
 NEXT
 Aprint(Arg3[ Local10 ], Arg4[ Local10 ], Arg5[ Local10 ], Local7)
-IF ( Arg7 != Nil )
+if ( Arg7 != Nil )
 	 Aprint(Arg8, 0, "", Local11, Local6)
 	 Aprint(Arg8, Shr(Local6 - Aprintlen(Arg7[ Local10 ]), 1), Arg7[ Local10 ], Local11)
-ENDIF
+endif
 //M_Csron()
 WHILE ( .T. )
 	 WHILE ( .T. )
 		  WHILE ( .T. )
 				Local2 := InKey()
-				//IF ( Local5 := _Isbutton(1) )
+				//if ( Local5 := _Isbutton(1) )
 			   //	 EXIT
-				//ENDIF
-				IF ( Local2 != 0 )
+				//endif
+				if ( Local2 != 0 )
 					 Local13 := SetKey(Local2)
-					 IF ( Local13 != Nil )
+					 if ( Local13 != Nil )
 						  Eval(Local13, Procname(2), Procline(2))
 						  LOOP
-					 ELSE
+					 else
 						  EXIT
-					 ENDIF
-				ENDIF
+					 endif
+				endif
 		  END
 		  Local9 := Local10
-		  IF ( Local5 )
+		  if ( Local5 )
 				//Local3 := M_Aregion(Arg3, Arg4, Arg3, Local4)
-				IF ( Local3 > 0 )
+				if ( Local3 > 0 )
 					/*
 					 WHILE ( _Isbutton(1) )
-						  IF ( Local3 > 0 )
+						  if ( Local3 > 0 )
 								Local10 := Local3
-						  ENDIF
-						  IF ( Local9 != Local10 )
+						  endif
+						  if ( Local9 != Local10 )
 								//M_Csroff()
 								Aprint(Arg3[ Local9 ], Arg4[ Local9 ], Arg5[ Local9 ], Local11)
 								Aprint(Arg3[ Local10 ], Arg4[ Local10 ], Arg5[ Local10 ], Local7)
-								IF ( Arg7 != Nil )
+								if ( Arg7 != Nil )
 									 Aprint(Arg8, 0, "", Local11, Local6)
 									 Aprint(Arg8, Shr(Local6 - Aprintlen(Arg7[ Local10 ]), 1), Arg7[ Local10 ], Local11)
-								ENDIF
+								endif
 								//M_Csron()
 								Local9 := Local10
-						  ENDIF
+						  endif
 						  Local3 := M_Aregion(Arg3, Arg4, Arg3, Local4)
 					 END
-					 IF ( Local3 == M_Aregion(Arg3, Arg4, Arg3, Local4) .AND. Local3 > 0 )
+					 if ( Local3 == M_Aregion(Arg3, Arg4, Arg3, Local4) .AND. Local3 > 0 )
 						  Local10 := Local3
 						  Local1 := .T.
 						  EXIT
-					 ENDIF
+					 endif
 					 */
-				ELSEIF ( Arg1 .AND. !Local1 .AND. Local5 )
-					 RETURN -1
-				ELSE
+				elseif ( Arg1 .AND. !Local1 .AND. Local5 )
+					 return -1
+				else
 					 LOOP
-				ENDIF
-		  ENDIF
+				endif
+		  endif
 		  DO CASE
 		  CASE ( Local2 == 27 )
-				RETURN 0
+				return 0
 		  CASE ( Local2 == 5 .OR. Local2 == 19 )
-				Local10 := IIF( Local10 == 1, Local8, Local10 - 1 )
+				Local10 := Iif( Local10 == 1, Local8, Local10 - 1 )
 				EXIT
 		  CASE ( Local2 == 4 .OR. Local2 == 24 )
-				Local10 := IIF( Local10 == Local8, 1, Local10 + 1 )
+				Local10 := Iif( Local10 == Local8, 1, Local10 + 1 )
 				EXIT
 		  CASE ( Local2 == 1 )
 				Local10 := 1
@@ -3709,52 +3709,52 @@ WHILE ( .T. )
 				EXIT
 		  CASE ( Local2 < 128 .AND. Local2 > 32 )
 				Local3 := Achartest(Chr(Local2), "", Arg5)
-				IF ( Local3 > 0 )
+				if ( Local3 > 0 )
 					 Local10 := Local3
 					 Local1 := .T.
 					 EXIT
-				ENDIF
+				endif
 		  CASE ( Local2 == 13 .OR. Local2 == 18 .OR. Local2 == 3  .OR. Local2 == 32)
-				RETURN Local10
+				return Local10
 		  OTHERWISE
 				LOOP
 		  ENDCASE
 	 END
-	 IF ( Local9 != Local10 )
+	 if ( Local9 != Local10 )
 		  //M_Csroff()
 		  Aprint(Arg3[ Local9 ], Arg4[ Local9 ], Arg5[ Local9 ], Local11)
 		  Aprint(Arg3[ Local10 ], Arg4[ Local10 ], Arg5[ Local10 ], Local7)
-		  IF ( Arg7 != Nil )
+		  if ( Arg7 != Nil )
 				Aprint(Arg8, 0, "", Local11, Local6)
 				Aprint(Arg8, Shr(Local6 - Aprintlen(Arg7[ Local10 ]), 1), Arg7[ Local10 ], Local11)
-		  ENDIF
+		  endif
 		  //M_Csron()
-	 ENDIF
-	 IF ( Arg1 .AND. Local2 == 19 )
-		  RETURN -2
-	 ENDIF
-	 IF ( Arg1 .AND. Local2 == 4 )
-		  RETURN -3
-	 ENDIF
-	 IF ( Local1 )
-		  RETURN Local10
-	 ENDIF
+	 endif
+	 if ( Arg1 .AND. Local2 == 19 )
+		  return -2
+	 endif
+	 if ( Arg1 .AND. Local2 == 4 )
+		  return -3
+	 endif
+	 if ( Local1 )
+		  return Local10
+	 endif
 END
 
 Function ColorSet( pfore, pback, pUns )
 ***************************************
-	IF pfore == nil 
+	if pfore == nil 
 		 pfore := Standard()
 		 pback := Enhanced()
 		 puns  := ColorUnselected()
 		 
-	ELSEIF pfore < 0 
+	elseif pfore < 0 
 		 pfore := Standard()
 		 pback := Enhanced()
 		 puns  := ColorUnselected()
-	ELSE
+	else
 		 pback := Roloc(pfore)
-	ENDIF
+	endif
 	return( nil )
 
 Function CTBA( Lin, Col )
@@ -3762,25 +3762,25 @@ Function CTBA( Lin, Col )
 STATIC nColor := 31
        nColor++
 		
-IF nColor >= 256
+if nColor >= 256
    nColor := 31
-EndIF	
+endif	
 //FT_CLS(00,00,MaxRow(),MaxCol(),nColor)
 
-Print( Lin,	   Col, " ÚÄÄÄÄÄ¿    ÚÄÄÄÄÄ¿  ÚÄ¿",nColor)
-Print( Lin+01, Col, " ßßßßßßÀ¿   ßßßßßßÀ¿ ßß³",nColor)
-Print( Lin+02, Col, "ßßßßßßßß³  ßßßßßßßß³ ßß³",nColor)
-Print( Lin+03, Col, "ßß³   ßßÙ  ßß³   ßßÙ ßß³",nColor)
-Print( Lin+04, Col, "ßßÀÄÄÄÄ¿   ßß³       ßß³",nColor)
-Print( Lin+05, Col, "ßßßßßßßÀ¿  ßß³       ßß³",nColor)
-Print( Lin+06, Col, " ßßßßßßß³  ßß³       ßß³",nColor)
-Print( Lin+07, Col, "      ßß³  ßß³       ßß³",nColor)
-Print( Lin+08, Col, "ßßÄÄÄÄßß³  ßßÀÄÄÄßß³ ßß³",nColor)
-Print( Lin+09, Col, "ßßßßßßßßÙ  ßßßßßßßßÙ ßß³",nColor)
-Print( Lin+10, Col, " ßßßßßßÙ    ßßßßßßÙ  ßßÙ",nColor)
-If ( InKey(0.05) != 0 )
+Print( Lin,	   Col, " ÚÄÄÄÄÄ?   ÚÄÄÄÄÄ? ÚÄ?,nColor)
+Print( Lin+01, Col, " ßßßßßßÀ¿   ßßßßßßÀ¿ ßß?,nColor)
+Print( Lin+02, Col, "ßßßßßßßß? ßßßßßßßß?ßß?,nColor)
+Print( Lin+03, Col, "ßß?  ßß? ßß?  ßß?ßß?,nColor)
+Print( Lin+04, Col, "ßßÀÄÄÄÄ¿   ßß?      ßß?,nColor)
+Print( Lin+05, Col, "ßßßßßßßÀ? ßß?      ßß?,nColor)
+Print( Lin+06, Col, " ßßßßßßß³  ßß?      ßß?,nColor)
+Print( Lin+07, Col, "      ßß? ßß?      ßß?,nColor)
+Print( Lin+08, Col, "ßßÄÄÄÄßß? ßßÀÄÄÄßß?ßß?,nColor)
+Print( Lin+09, Col, "ßßßßßßßß? ßßßßßßßß?ßß?,nColor)
+Print( Lin+10, Col, " ßßßßßß?   ßßßßßß? ßß?,nColor)
+if ( InKey(0.05) != 0 )
 	return(OK)
-EndIf
+endif
 return(FALSO)
 
 Function Protela()
@@ -3806,39 +3806,39 @@ Setcursor(0)
 WHILE OK
    For nX := 0 To nMaxCol
 		  //ResTela(cNewScreen)
-		If Ctba(0, nX)
+		if Ctba(0, nX)
 		   ResTela(cScreen)
 			DevPos(row,col)
 			SetCursor(1)
 			return nil
-      EndIf
+      endif
 	 Next
 	 For nY := 0 To nMaxRow
 	     //ResTela(cNewScreen)
-		  If Ctba(nY, nMaxCol )
+		  if Ctba(nY, nMaxCol )
    	     ResTela(cScreen)
 	  		  SetCursor(1)
 			  DevPos(row,col)
 			  return nil
-		  EndIf
+		  endif
 	 Next
 	 For nX := nMaxCol To 0 Step -1
 		  //ResTela(cNewScreen)
-		  If Ctba(nMaxRow, nX)
+		  if Ctba(nMaxRow, nX)
    		   ResTela(cScreen)
 				SetCursor(1)
 				DevPos(row,col)
 				return nil
-		  EndIF
+		  endif
 	 Next
 	 For nY := nMaxRow To 0 Step -1
 	     //ResTela(cNewScreen)
-		  If ctba(nY, 0)
+		  if ctba(nY, 0)
 				ResTela(cScreen)
 				SetCursor(1)
 				DevPos(row,col)
 				return nil
-		  EndIf
+		  endif
 	 Next
 End
 ResTela(cScreen)
@@ -3855,18 +3855,18 @@ LOCAL aCor
 LOCAL aFundo
 LOCAL aCima
 LOCAL cCor
-IF lRelevo // Alto Relevo
+if lRelevo // Alto Relevo
   aCor	  := { 16,32,48,64,64,80,096,112,128,144,160,176,192,208,224 }
   aFundo   := { 16,32,48,64,64,80,096,112,128,144,160,176,192,208,224 }
   aCima	  := { 25,47,53,76,64,86,101,117,143,149,165,181,207,213,239 }
-Else
+else
   aCor	  := { 25,47,53,76,64,86,101,117,143,149,165,181,207,213,239 }
   aFundo   := { 25,47,53,76,64,86,101,117,143,149,165,181,207,213,239 }
   aCima	  := { 16,32,48,64,64,80,096,112,128,144,160,176,192,208,224 }
-EndIF
-IF nCor = NIL
+endif
+if nCor = NIL
 	nCor	 := CorBox()
-EndIF
+endif
 cCor					:= aCor[nCor]
 oAmbiente:CorCima := aCima[ nCor ]
 nComp 				:= ( nRow1 - nRow )-1
@@ -3883,12 +3883,12 @@ For x := nCol+1 To nCol1-1
 	Print( x, nRow, cFrame8, aCima[nCor], 1 )
 Next
 Print( nCol1, nRow, cFrame7,	aCima[nCor],1 )
-IF cTexto != NIL
+if cTexto != NIL
 	Print( nCol+1, nRow+1, Padc( cTexto, nRow1-nRow-1), aCima[nCor] )
-EndIF
+endif
 cSetColor( SetColor())
 nSetColor( cCor, Roloc( cCor ))
-Return NIL
+return NIL
 
 Function MsAlerta( Texto, aArray, PosVertical, lRelevo )
 ********************************************************
@@ -3909,28 +3909,28 @@ LOCAL aCol			 := {}
 LOCAL aRow			 := {}
 LOCAL nLenArray
 
-IF oAmbiente:Visual
-	Return( Alerta( Texto, aArray ))
-ELSE
-	lRelevo		 := IIF( lRelevo = NIL, FALSO, lRelevo )
-	IF lRelevo // Alto Relevo
+if oAmbiente:Visual
+	return( Alerta( Texto, aArray ))
+else
+	lRelevo		 := Iif( lRelevo = NIL, FALSO, lRelevo )
+	if lRelevo // Alto Relevo
 	  aCor	  := { 16,32,48,64,64,80,096,112,128,144,160,176,192,208,224 }
 	  aFundo   := { 16,32,48,64,64,80,096,112,128,144,160,176,192,208,224 }
 	  aCima	  := { 25,47,53,76,69,91,101,117,133,149,165,181,207,213,239 }
-	Else
+	else
 	  aCor	  := { 25,47,53,76,69,91,101,117,133,149,165,181,207,213,239 }
 	  aFundo   := { 25,47,53,76,69,91,101,117,133,149,165,181,207,213,239 }
 	  aCima	  := { 16,32,48,64,64,80,096,112,128,144,160,176,192,208,224 }
-	EndIF
-	aArray	  := IIF( aArray = NIL, { " ÄÙ Okay " }, aArray )
+	endif
+	aArray	  := Iif( aArray = NIL, { " ÄÙ Okay " }, aArray )
 	nLenArray  := Len( aArray )
 	For nX  := 1 To nLenArray
 		nTam += Len( aArray[nX] ) + 1
 	Next
 	cCor			 := aCor[nCor]
-	TamanhoTexto := IIF( TamanhoTexto < nTam, nTam, TamanhoTexto )
-	TamanhoTexto := IIF( TamanhoTexto < 16, 16, TamanhoTexto )
-	PosVertical  := IIF( PosVertical = Nil .OR. PosVertical = 0, 11, PosVertical )
+	TamanhoTexto := Iif( TamanhoTexto < nTam, nTam, TamanhoTexto )
+	TamanhoTexto := Iif( TamanhoTexto < 16, 16, TamanhoTexto )
+	PosVertical  := Iif( PosVertical = Nil .OR. PosVertical = 0, 11, PosVertical )
 	nEsquerda	 := (80-TamanhoTexto)/2
 	nComprimento := nEsquerda + TamanhoTexto
 	nTexto		 := Len( Texto )
@@ -3954,17 +3954,17 @@ ELSE
 	ColorSet( @cCor, @PBack )
 	M_Frame( cFrame )
 	Box( nCima, nEsquerda, nBaixo, nDireita, M_Frame() + " ", aFundo[ nCor], 1, 8 )
-	Print( nCima, nEsquerda, 'Ú', aCima[ nCor ], 1 )
-	Print( nCima, nEsquerda+1, Repl('Ä',nComp), aCima[nCor] )
+	Print( nCima, nEsquerda, '?, aCima[ nCor ], 1 )
+	Print( nCima, nEsquerda+1, Repl('?,nComp), aCima[nCor] )
 	For x := nCima+1 To nBaixo
-		Print( x, nEsquerda, '³', aCima[nCor], 1 )
+		Print( x, nEsquerda, '?, aCima[nCor], 1 )
 	Next
-	Print( nBaixo, nEsquerda, 'À',  aCima[nCor],1 )
+	Print( nBaixo, nEsquerda, '?,  aCima[nCor],1 )
 	aPrint( nCima + 1, nPosTexto, Texto, aCima[nCor])
 	nRetVal := M_Prompt( Exceto, Ativo, aRow, aCol, aArray, aFundo[nCor] )
 	ResTela( TelaVelha )
-	Return( nRetVal )
-EndIF
+	return( nRetVal )
+endif
 
 ******************************************************
 Function EXPLODE( Arg1, Arg2, Arg3, Arg4, Arg5, Arg6 )
@@ -3982,18 +3982,18 @@ For Local3 := 1 To Local2
 	Next
 	Box( Arg1, Arg2 - Local3, Arg3, Arg4 + Local3, Arg5, Arg6 )
 Next
-Return Nil
+return Nil
 
 Function AddButton(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8, Arg9)
 ************************************************************************
 Local Local1
-Arg5	 := IIF(At("&", Arg5) == 0, "&" + Arg5, Arg5)
-Arg7	 := IIF(ISNIL(Arg7), .F., Arg7)
-Arg8	 := IIF(ISNIL(Arg8), { || nret() }, Arg8)
-Arg9	 := IIF(ISNIL(Arg9), .T., Arg9)
+Arg5	 := Iif(At("&", Arg5) == 0, "&" + Arg5, Arg5)
+Arg7	 := Iif(ISNIL(Arg7), .F., Arg7)
+Arg8	 := Iif(ISNIL(Arg8), { || nret() }, Arg8)
+Arg9	 := Iif(ISNIL(Arg9), .T., Arg9)
 Local1 := SubStr(Arg5, At("&", Arg5) + 1, 1)
 AAdd(Arg1, {Arg5, Arg6, Arg8, Arg9, Arg7, Arg2, Arg3, Local1, Arg4})
-Return Nil
+return Nil
 
 ********************************
 Function NINKEY(Arg1)
@@ -4001,25 +4001,25 @@ Function NINKEY(Arg1)
 	Local Local1, Local2, Local3
 	Do While (.T.)
 		Local1:= .F.
-		If (Arg1 = Nil)
+		if (Arg1 = Nil)
 			Local2:= InKey()
-		Else
+		else
 			Local2:= InKey(Arg1)
-		EndIf
-		If (Local2 != 0 .AND. (Local3:= SetKey(Local2)) != Nil)
+		endif
+		if (Local2 != 0 .AND. (Local3:= SetKey(Local2)) != Nil)
 			eval(Local3, procname(2), procline(2), "")
 			Local1:= .T.
-		EndIf
-		If (!Local1)
+		endif
+		if (!Local1)
 			Exit
-		EndIf
+		endif
 	EndDo
-	Return Local2
+	return Local2
 
 **************
 Function NRET
 **************
-Return Nil
+return Nil
 
 ********************************
 Function VISUALCLOCK
@@ -4027,26 +4027,26 @@ Function VISUALCLOCK
 	Local Local1, Local2
 	Local2:= 0
 	setcursor(0)
-	Local1:= win(10, 28, 13, 51, "Rel¢gio - " + DToC(Date()), ;
+	Local1:= win(10, 28, 13, 51, "Rel?io - " + DToC(Date()), ;
 		"W+*/B", "B+*/W")
 	Do While (Local2 == 0)
 		@ 12, 36 Say Time() Color "N*/W"
 		Local2:= InKey(1)
 	EndDo
 	rstenv(Local1)
-	Return Nil
+	return Nil
 
 Function CHKPRN
 ****************
 Local Local1
 Local1:= .T.
 Do While (!Fisprinter())
-	If (msgbox2("Impressora n„o preparada. Continuar ?") == 2)
+	if (msgbox2("Impressora n„o preparada. Continuar ?") == 2)
 		Local1:= .F.
 		Exit
-	EndIf
+	endif
 EndDo
-Return Local1
+return Local1
 
 ********************************
 Procedure NSCREEN
@@ -4077,20 +4077,20 @@ Function THE_END
 		Color "B/W"
 	linbutton1(.F., 1, 18)
 	Do While (.T.)
-		If (Local2 == 14)
+		if (Local2 == 14)
 
-		Else
+		else
 			++Local2
-		EndIf
+		endif
 		Local2:= Nil
 		Scroll(8, 12, 14, 68, 1)
-		@ 14, 13 Say Local1[Local2] Color IIF(Local2 == 1 .OR. Local2 ;
+		@ 14, 13 Say Local1[Local2] Color Iif(Local2 == 1 .OR. Local2 ;
 			== 8, "R/W", "N/W")
 		InKey(0.5)
 		t:= LastKey()
-		If (t == 13 .OR. t == 27 .OR. Upper(Chr(t)) == "O")
+		if (t == 13 .OR. t == 27 .OR. Upper(Chr(t)) == "O")
 			Exit
-		EndIf
+		endif
 	EndDo
 	Keyboard Chr(13)
 	linbutton1(.T., 1, 18)
@@ -4100,7 +4100,7 @@ Function THE_END
 	Clear Screen
 	Close Databases
 	Quit
-	Return Nil
+	return Nil
 
 ********************************
 Procedure NBUTTON
@@ -4108,12 +4108,12 @@ Procedure NBUTTON
 
 Function NewButton()
 ********************
-Return {}
+return {}
 
 Function SHOWBUTTON(Arg1, Arg2)
 *******************************
 	aeval(Arg1, { |_1| drawbutton(_1, Arg2) })
-	Return Nil
+	return Nil
 
 ********************************
 Procedure NMISC2
@@ -4123,74 +4123,74 @@ Function DRAWBUTTON(Arg1, Arg2, Arg3, Arg4, Arg5)
 Local Local1, Local2, Local3, Local4, Local5, Local6, Local7, ;
 		Local8, Local9, Local10, Local11, Local12, Local13, Local14, ;
 		Local15, Local16, Local17, Local18, Local19, Local20, Local21
-Arg3:= IIF(ISNIL(Arg3), 1, Arg3)
-Arg4:= IIF(ISNIL(Arg4), .T., Arg4)
-Arg5:= IIF(ISNIL(Arg5), .T., Arg5)
+Arg3:= Iif(ISNIL(Arg3), 1, Arg3)
+Arg4:= Iif(ISNIL(Arg4), .T., Arg4)
+Arg5:= Iif(ISNIL(Arg5), .T., Arg5)
 Local10:= textbutton(Arg1[1])
-If (Arg2 == 1)
+if (Arg2 == 1)
 	Local1:= "N/W"
-	Local2:= IIF(Arg5, "W*/N", "N*/N")
+	Local2:= Iif(Arg5, "W*/N", "N*/N")
 	Local3:= "W+*/N"
 	Local4:= "W*/N"
 	Local6:= "W+*/N"
 	Local7:= "N+*/N"
-	Local9:= IIF(Arg1[4], "GR+*/N", "W*/N")
-ElseIf (Arg2 == 2)
+	Local9:= Iif(Arg1[4], "GR+*/N", "W*/N")
+elseif (Arg2 == 2)
 	Local1:= "N*/W"
-	Local2:= IIF(Arg5, "W+/W", "N+/W")
+	Local2:= Iif(Arg5, "W+/W", "N+/W")
 	Local3:= "N/W"
 	Local4:= "N+/W"
 	Local6:= "N/W"
 	Local7:= "W/W"
-	Local9:= IIF(Arg1[4], "W+/W", "N+/W")
-EndIf
-If (Arg3 == 1)
+	Local9:= Iif(Arg1[4], "W+/W", "N+/W")
+endif
+if (Arg3 == 1)
 	Local10:= padc(Local10, Arg1[9] - 3)
 	Local11:= At(Upper(Arg1[8]), Upper(Local10)) - 1
-	Local5:= IIF(Arg1[4], Local3, Local4)
+	Local5:= Iif(Arg1[4], Local3, Local4)
 	Local8:= Local7
-ElseIf (Arg3 == 2)
+elseif (Arg3 == 2)
 	Local10:= padc(Local10, Arg1[9] - 3)
 	Local11:= At(Upper(Arg1[8]), Upper(Local10)) - 1
-	Local5:= IIF(Arg1[4], Local3, Local4)
+	Local5:= Iif(Arg1[4], Local3, Local4)
 	Local8:= Local6
-ElseIf (Arg3 == 3)
+elseif (Arg3 == 3)
 	Local10:= " " + Left(padc(Local10, Arg1[9] - 3), Arg1[9] - 4)
 	Local11:= At(Upper(Arg1[8]), Upper(Local10)) - 1
-	Local5:= IIF(Arg1[4], Local3, Local4)
+	Local5:= Iif(Arg1[4], Local3, Local4)
 	Local8:= Local6
-EndIf
+endif
 Local20:= At(alltrim(Local10), Local10) - 1
 Local21:= Local20 + Len(Arg1[1]) + 2
-If (Arg4)
-	Local12:= "Õ"
-	Local13:= IIF(Arg5, "Ò", "×")
-	Local14:= "·"
-	Local15:= "¶"
-	Local16:= "½"
-	Local17:= "Ð"
-	Local18:= "Ó"
-	Local19:= "Ç"
-Else
-	Local12:= "Ö"
-	Local13:= IIF(Arg5, "Ñ", "Ø")
-	Local14:= "¸"
-	Local15:= "µ"
-	Local16:= "¾"
-	Local17:= "Ï"
-	Local18:= "Ô"
-	Local19:= "Æ"
-EndIf
+if (Arg4)
+	Local12:= "?
+	Local13:= Iif(Arg5, "?, "?)
+	Local14:= "?
+	Local15:= "?
+	Local16:= "?
+	Local17:= "?
+	Local18:= "?
+	Local19:= "?
+else
+	Local12:= "?
+	Local13:= Iif(Arg5, "?, "?)
+	Local14:= "?
+	Local15:= "?
+	Local16:= "?
+	Local17:= "?
+	Local18:= "?
+	Local19:= "?
+endif
 @ Arg1[6] - 1, Arg1[7] Say Local12 + Replicate(Local13, Arg1[9] - 2) + Local14 Color Local1
 @ Arg1[6], Arg1[7] Say Local19 Color Local1
-@ Arg1[6], Arg1[7] + 1 Say "¶" Color Local2
+@ Arg1[6], Arg1[7] + 1 Say "? Color Local2
 @ Arg1[6], Arg1[7] + 2 Say Local10 Color Local5
 @ Arg1[6], Arg1[7] + 2 + Local11 Say Arg1[8] Color Local9
 @ Arg1[6], Arg1[7] + Arg1[9] - 1 Say Local15 Color Local1
 @ Arg1[6] + 1, Arg1[7] Say Local18 + Replicate(Local17, Arg1[9] - 2) + Local16 Color Local1
-@ Arg1[6], Arg1[7] + Local20 Say "ò" Color Local8
-@ Arg1[6], Arg1[7] + Local21 Say "ó" Color Local8
-Return Nil
+@ Arg1[6], Arg1[7] + Local20 Say "? Color Local8
+@ Arg1[6], Arg1[7] + Local21 Say "? Color Local8
+return Nil
 
 ********************************
 Function SAVENV(Arg1, Arg2, Arg3, Arg4)
@@ -4204,7 +4204,7 @@ Function SAVENV(Arg1, Arg2, Arg3, Arg4)
 	AAdd(Local1, SaveScreen(Arg1, Arg2, Arg3, Arg4))
 	AAdd(Local1, SetColor())
 	AAdd(Local1, setcursor())
-	Return Local1
+	return Local1
 
 ********************************
 Function RSTENV(Arg1)
@@ -4212,28 +4212,28 @@ Function RSTENV(Arg1)
 	RestScreen(Arg1[1], Arg1[2], Arg1[3], Arg1[4], Arg1[5])
 	Set Color To (Arg1[6])
 	setcursor(Arg1[7])
-	Return Nil
+	return Nil
 
 ********************************
 Function DWNMSG(Arg1)
 
 	@ 23,  1 Say padc(Arg1, 78) Color "R*/W"
-	Return .T.
+	return .T.
 
 ********************************
 Function QEXIT(Arg1, Arg2, Arg3, Arg4)
 
 	Local Local1
 	Local1:= savenv(33, 0, 33, 79)
-	Arg4:= IIF(ISNIL(Arg4), .T., Arg4)
-	If (!Arg4)
+	Arg4:= Iif(ISNIL(Arg4), .T., Arg4)
+	if (!Arg4)
 		Close Databases
 		setblink(.T.)
 		setmode(25, 80)
 		Set Color To
 		Clear Screen
 		Quit
-	ElseIf (msgbox2("Confirma o encerramento ?", "Sa¡da", Nil, Nil, ;
+	elseif (msgbox2("Confirma o encerramento ?", "Sa?a", Nil, Nil, ;
 			Nil, Nil, 2) == 1)
 		Close Databases
 		setblink(.T.)
@@ -4241,83 +4241,83 @@ Function QEXIT(Arg1, Arg2, Arg3, Arg4)
 		Set Color To
 		Clear Screen
 		Quit
-	EndIf
+	endif
 	rstenv(Local1)
-	Return Nil
+	return Nil
 
 ********************************
 Function GINS
 
 	readinsert(.T.)
 	setcursor(2)
-	SetKey(K_INS, { || (IIF(readinsert(), setcursor(1), ;
+	SetKey(K_INS, { || (Iif(readinsert(), setcursor(1), ;
 		setcursor(2)), readinsert(!readinsert())) })
-	Return Nil
+	return Nil
 
 Function DRAWFN( nTipo, cString, nRow, nCol, cColor )
 *****************************************************
 LOCAL aFuncao := { 1, 9, 17, 25, 33, 41, 49, 57, 65, 73 }
-cColor := IIF(ISNIL( cColor ), Cor(2), cColor )
-nRow	 := IIF(ISNIL( nRow	 ), 24,	  nRow )
-nCol	 := IIF(ISNIL( nCol	 ), aFuncao[nTipo]-1, nCol )
+cColor := Iif(ISNIL( cColor ), Cor(2), cColor )
+nRow	 := Iif(ISNIL( nRow	 ), 24,	  nRow )
+nCol	 := Iif(ISNIL( nCol	 ), aFuncao[nTipo]-1, nCol )
 @ nRow, nCol+1 Say Left( cString, 7 ) Color AttrToa( cColor )
 @ nRow, nCol	Say Chr(223 + nTipo )  Color AttrToa( cColor )
-Return Nil
+return Nil
 
 *************************************
 Function PROCBUTTON( Arg1, Arg2, Arg3)
 **************************************
 Local Local1:= 0, Local2:= setcursor(0), Local3:= 0
-Arg2:= IIF(ISNIL(Arg2), 1, Arg2)
-Arg3:= IIF(ISNIL(Arg3), 1, Arg3)
+Arg2:= Iif(ISNIL(Arg2), 1, Arg2)
+Arg3:= Iif(ISNIL(Arg3), 1, Arg3)
 showbutton(Arg1, Arg2)
 Do While (!Arg1[Arg3][4])
-	Arg3:= IIF(++Arg3 > Len(Arg1), 1, Arg3)
+	Arg3:= Iif(++Arg3 > Len(Arg1), 1, Arg3)
 EndDo
 Do While (.T.)
 	drawbutton(Arg1[Arg3], Arg2, 2, .F.)
-	If (Arg1[Arg3][2] != Nil .OR. Arg1[Arg3][2] != "")
+	if (Arg1[Arg3][2] != Nil .OR. Arg1[Arg3][2] != "")
 		dwnmsg(Arg1[Arg3][2])
-	EndIf
-	If (Local1 == 13 .OR. Local1 = 32)
+	endif
+	if (Local1 == 13 .OR. Local1 = 32)
 		InKey(0.1)
 		drawbutton(Arg1[Arg3], Arg2, 1, .T.)
 		Exit
-	Else
+	else
 		Local1:= ninkey(0)
-	EndIf
-	If (Local1 == 27 )
-		Return( 0 )
-	ElseIf ((Local3 := Ascan(Arg1, { |_1| Upper(Chr(Local1)) == Upper(_1[8]) })) != 0 .AND. Arg1[Local3][4])
+	endif
+	if (Local1 == 27 )
+		return( 0 )
+	elseif ((Local3 := Ascan(Arg1, { |_1| Upper(Chr(Local1)) == Upper(_1[8]) })) != 0 .AND. Arg1[Local3][4])
 		drawbutton(Arg1[Arg3], Arg2, 1)
 		Arg3 := Local3
 		Keyboard Chr(13)
-	ElseIf (Local1 == 27 .AND. ( Local3 := ascan(Arg1, { |_1| _1[5] == .T. })) != 0 .AND. Arg1[Local3][4])
+	elseif (Local1 == 27 .AND. ( Local3 := ascan(Arg1, { |_1| _1[5] == .T. })) != 0 .AND. Arg1[Local3][4])
 		drawbutton(Arg1[Arg3], Arg2, 1)
 		Arg3 := Local3
 		Keyboard Chr(13)
-	EndIf
-	If (Local1 == 5 .OR. Local1 == 19 .OR. Local1 == 271)
+	endif
+	if (Local1 == 5 .OR. Local1 == 19 .OR. Local1 == 271)
 		drawbutton(Arg1[Arg3], Arg2, 1)
-		Arg3:= IIF(--Arg3 == 0, Len(Arg1), Arg3)
+		Arg3:= Iif(--Arg3 == 0, Len(Arg1), Arg3)
 		Do While (!Arg1[Arg3][4])
-			Arg3:= IIF(--Arg3 == 0, Len(Arg1), Arg3)
+			Arg3:= Iif(--Arg3 == 0, Len(Arg1), Arg3)
 		EndDo
-	ElseIf (Local1 == 24 .OR. Local1 == 4 .OR. Local1 == 9)
+	elseif (Local1 == 24 .OR. Local1 == 4 .OR. Local1 == 9)
 		drawbutton(Arg1[Arg3], Arg2, 1)
-		Arg3:= IIF(++Arg3 > Len(Arg1), 1, Arg3)
+		Arg3:= Iif(++Arg3 > Len(Arg1), 1, Arg3)
 		Do While (!Arg1[Arg3][4])
-			Arg3:= IIF(++Arg3 > Len(Arg1), 1, Arg3)
+			Arg3:= Iif(++Arg3 > Len(Arg1), 1, Arg3)
 		EndDo
-	ElseIf (Local1 == 13 .OR. Local1 = 32 )
+	elseif (Local1 == 13 .OR. Local1 = 32 )
 		drawbutton(Arg1[Arg3], Arg2, 3, .F., .F.)
 		InKey(0.1)
 		drawbutton(Arg1[Arg3], Arg2, 2, .F.)
 		eval(Arg1[Arg3][3])
-	EndIf
+	endif
 EndDo
 setcursor(Local2)
-Return Arg3
+return Arg3
 
 ********************************
 Function TEXTBUTTON(Arg1)
@@ -4327,24 +4327,24 @@ Function TEXTBUTTON(Arg1)
 	Local2:= At("&", Arg1)
 	Local3:= SubStr(Arg1, 1, Local2 - 1)
 	Local4:= SubStr(Arg1, Local2 + 1)
-	Return IIF(Local2 != 0, Local3 + Local4, Arg1)
+	return Iif(Local2 != 0, Local3 + Local4, Arg1)
 
 ********************************
 Function SETBUTTON(Arg1, Arg2, Arg3)
 
 	Local Local1
 	Local1:= Arg1[Arg2][4]
-	If (Arg3 != Nil)
+	if (Arg3 != Nil)
 		Arg1[Arg2][4]:= Arg3
-	EndIf
-	Return Local1
+	endif
+	return Local1
 
 ********************************
 Function DESKTOP(Arg1, Arg2)
 
-	Arg1:= IIF(ISNIL(Arg1), ;
+	Arg1:= Iif(ISNIL(Arg1), ;
 		"Analyze Tecnologia em Sistemas - Visual Lib", Arg1)
-	Arg2:= IIF(ISNIL(Arg2), "W+/BG", Arg2)
+	Arg2:= Iif(ISNIL(Arg2), "W+/BG", Arg2)
 	setblink(.F.)
 	Set Color To W+/W
 	//visual()
@@ -4353,31 +4353,31 @@ Function DESKTOP(Arg1, Arg2)
 	@ 24,  0 Say padc(" ", 80) Color Arg2
 	@	1,  0 Say padc(" ", 80) Color "N*/W"
 	@ 23,  0 Say padc(" ", 80) Color "N*/W"
-	Return Nil
+	return Nil
 
 *************************************************
 Function NBOX(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6)
 *************************************************
 Local Local1
 Local1 := savenv(Arg1, Arg2, Arg3 + 1, Arg4 + 2)
-Arg5	 := IIF(ISNIL(Arg5), "N*/W", Arg5)
-Arg6	 := IIF(ISNIL(Arg6), .T., Arg6)
-@ Arg1, Arg2, Arg3, Arg4 Box "ÉÐËÇÊÌÈ¶ " Color Arg5
-If (Arg6)
+Arg5	 := Iif(ISNIL(Arg5), "N*/W", Arg5)
+Arg6	 := Iif(ISNIL(Arg6), .T., Arg6)
+@ Arg1, Arg2, Arg3, Arg4 Box " ÐËÇÊÌÈ?" Color Arg5
+if (Arg6)
 	Sombra( Arg1, Arg2, Arg3, Arg4)
-EndIf
-Return Local1
+endif
+return Local1
 
 ******************************************************
 Function WIN(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7)
 ******************************************************
 Local Local1
-Arg5	 := IIF(ISNIL(Arg5), "", Arg5)
-Arg6	 := IIF(ISNIL(Arg6), "W+/B", Arg6)
-Arg7	 := IIF(ISNIL(Arg7), "B*/W", Arg7)
+Arg5	 := Iif(ISNIL(Arg5), "", Arg5)
+Arg6	 := Iif(ISNIL(Arg6), "W+/B", Arg6)
+Arg7	 := Iif(ISNIL(Arg7), "B*/W", Arg7)
 Local1 := nBox( Arg1, Arg2, Arg3, Arg4, Arg7)
 @ Arg1, Arg2 Say Padc(Arg5, Arg4 - Arg2 + 1) Color Arg6
-Return Local1
+return Local1
 
 ********************************
 Function SOMBRA(Arg1, Arg2, Arg3, Arg4)
@@ -4395,7 +4395,7 @@ Function SOMBRA(Arg1, Arg2, Arg3, Arg4)
 	Next
 	RestScreen(Arg1 + 1, Arg4 + 1, Arg3 + 1, Arg4 + 2, Local3)
 	RestScreen(Arg3 + 1, Arg2 + 2, Arg3 + 1, Arg4 + 2, Local4)
-	Return Nil
+	return Nil
 
 ********************************
 Function SHADOW(Arg1)
@@ -4406,134 +4406,134 @@ Function SHADOW(Arg1)
 	Local3:= {0, 0, 8, 8, 0, 8, 0, 8, 0, 1, 2, 3, 4, 5, 6, 7}
 	Local1:= Local3[Local1 + 1]
 	Local2:= Local3[Local2 + 1]
-	Return Chr(16 * Local2 + Local1)
+	return Chr(16 * Local2 + Local1)
 
 ********************************
 Function MSGBOX3D1(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7)
 
 	Local Local1, Local2, Local3, Local4
-	Arg4:= IIF(ISNIL(Arg4), "&OK", Arg4)
-	Arg1:= IIF(ISNIL(Arg1), "", Arg1)
-	Arg2:= IIF(ISNIL(Arg2), "Aten‡„o!", Arg2)
-	Local1:= IIF(ISARRAY(Arg1), Len(Arg1), 1)
-	Arg3:= IIF(ISNIL(Arg3), 12 - (Local1 + 8) / 2, Arg3)
-	Arg5:= IIF(ISNIL(Arg5), "W+/N", Arg5)
-	Arg6:= IIF(ISNIL(Arg6), "N/W", Arg6)
-	Arg7:= IIF(ISNIL(Arg7), "N/W", Arg7)
+	Arg4:= Iif(ISNIL(Arg4), "&OK", Arg4)
+	Arg1:= Iif(ISNIL(Arg1), "", Arg1)
+	Arg2:= Iif(ISNIL(Arg2), "Aten‡„o!", Arg2)
+	Local1:= Iif(ISARRAY(Arg1), Len(Arg1), 1)
+	Arg3:= Iif(ISNIL(Arg3), 12 - (Local1 + 8) / 2, Arg3)
+	Arg5:= Iif(ISNIL(Arg5), "W+/N", Arg5)
+	Arg6:= Iif(ISNIL(Arg6), "N/W", Arg6)
+	Arg7:= Iif(ISNIL(Arg7), "N/W", Arg7)
 	Local3:= newbutton()
 	addbutton(Local3, Arg3 + 5 + Local1, 31, 18, Arg4, Nil, .T.)
 	Local2:= win(Arg3, 10, Arg3 + 8 + Local1, 69, Arg2, Arg5, Arg6)
-	@ Arg3 + 2, 11, Arg3 + 7 + Local1, 11 Box "ÇÇÇÇÇÇÇÇÇ" Color "W+/W"
-	@ Arg3 + 2, 68, Arg3 + 7 + Local1, 68 Box "¶¶¶¶¶¶¶¶¶" Color "N+/W"
-	@ Arg3 + 2, 12 Say Replicate("Ð", 56) Color "W+/W"
-	@ Arg3 + 7 + Local1, 12 Say Replicate("Ì", 56) Color "N+/W"
-	If (ISARRAY(Arg1))
+	@ Arg3 + 2, 11, Arg3 + 7 + Local1, 11 Box "ÇÇÇÇÇÇÇÇ? Color "W+/W"
+	@ Arg3 + 2, 68, Arg3 + 7 + Local1, 68 Box "¶¶¶¶¶¶¶¶? Color "N+/W"
+	@ Arg3 + 2, 12 Say Replicate("?, 56) Color "W+/W"
+	@ Arg3 + 7 + Local1, 12 Say Replicate("?, 56) Color "N+/W"
+	if (ISARRAY(Arg1))
 		For Local4:= 1 To Local1
 			@ Arg3 + 2 + Local4, 13 Say padc(Arg1[Local4], 54) Color Arg7
 		Next
-	Else
+	else
 		@ Arg3 + 3, 13 Say padc(Arg1, 54) Color Arg7
-	EndIf
+	endif
 	setcursor(0)
 	procbutton(Local3, 1, 1)
 	rstenv(Local2)
-	Return Nil
+	return Nil
 
 ********************************
 Function MSGBOX3D2(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8, ;
 	Arg9, Arg10)
 
 	Local Local1, Local2, Local3, Local4
-	Arg4:= IIF(ISNIL(Arg4), "&Sim", Arg4)
-	Arg5:= IIF(ISNIL(Arg5), "&N„o", Arg5)
-	Arg6:= IIF(ISNIL(Arg6), 1, Arg6)
-	Arg7:= IIF(ISNIL(Arg7), 2, Arg7)
-	Arg1:= IIF(ISNIL(Arg1), "", Arg1)
-	Arg2:= IIF(ISNIL(Arg2), "Aten‡„o!", Arg2)
-	Local1:= IIF(ISARRAY(Arg1), Len(Arg1), 1)
-	Arg3:= IIF(ISNIL(Arg3), 12 - (Local1 + 8) / 2, Arg3)
-	Arg8:= IIF(ISNIL(Arg8), "W+/N", Arg8)
-	Arg9:= IIF(ISNIL(Arg9), "N/W", Arg9)
-	Arg10:= IIF(ISNIL(Arg10), "N/W", Arg10)
+	Arg4:= Iif(ISNIL(Arg4), "&Sim", Arg4)
+	Arg5:= Iif(ISNIL(Arg5), "&N„o", Arg5)
+	Arg6:= Iif(ISNIL(Arg6), 1, Arg6)
+	Arg7:= Iif(ISNIL(Arg7), 2, Arg7)
+	Arg1:= Iif(ISNIL(Arg1), "", Arg1)
+	Arg2:= Iif(ISNIL(Arg2), "Aten‡„o!", Arg2)
+	Local1:= Iif(ISARRAY(Arg1), Len(Arg1), 1)
+	Arg3:= Iif(ISNIL(Arg3), 12 - (Local1 + 8) / 2, Arg3)
+	Arg8:= Iif(ISNIL(Arg8), "W+/N", Arg8)
+	Arg9:= Iif(ISNIL(Arg9), "N/W", Arg9)
+	Arg10:= Iif(ISNIL(Arg10), "N/W", Arg10)
 	Local3:= newbutton()
-	addbutton(Local3, Arg3 + 5 + Local1, 21, 18, Arg4, Nil, IIF(Arg7 ;
+	addbutton(Local3, Arg3 + 5 + Local1, 21, 18, Arg4, Nil, Iif(Arg7 ;
 		== 1, .T., .F.))
-	addbutton(Local3, Arg3 + 5 + Local1, 41, 18, Arg5, Nil, IIF(Arg7 ;
+	addbutton(Local3, Arg3 + 5 + Local1, 41, 18, Arg5, Nil, Iif(Arg7 ;
 		== 2, .T., .F.))
 	Local2:= win(Arg3, 10, Arg3 + 8 + Local1, 69, Arg2, Arg8, Arg9)
-	@ Arg3 + 2, 11, Arg3 + 7 + Local1, 11 Box "ÇÇÇÇÇÇÇÇÇ" Color "W+/W"
-	@ Arg3 + 2, 68, Arg3 + 7 + Local1, 68 Box "¶¶¶¶¶¶¶¶¶" Color "N+/W"
-	@ Arg3 + 2, 12 Say Replicate("Ð", 56) Color "W+/W"
-	@ Arg3 + 7 + Local1, 12 Say Replicate("Ì", 56) Color "N+/W"
-	If (ISARRAY(Arg1))
+	@ Arg3 + 2, 11, Arg3 + 7 + Local1, 11 Box "ÇÇÇÇÇÇÇÇ? Color "W+/W"
+	@ Arg3 + 2, 68, Arg3 + 7 + Local1, 68 Box "¶¶¶¶¶¶¶¶? Color "N+/W"
+	@ Arg3 + 2, 12 Say Replicate("?, 56) Color "W+/W"
+	@ Arg3 + 7 + Local1, 12 Say Replicate("?, 56) Color "N+/W"
+	if (ISARRAY(Arg1))
 		For Local4:= 1 To Local1
 			@ Arg3 + 2 + Local4, 13 Say padc(Arg1[Local4], 54) Color ;
 				Arg10
 		Next
-	Else
+	else
 		@ Arg3 + 3, 13 Say padc(Arg1, 54) Color Arg10
-	EndIf
+	endif
 	setcursor(0)
-	Local4:= procbutton(Local3, 1, IIF(Arg6 < 3, Arg6, 2))
+	Local4:= procbutton(Local3, 1, Iif(Arg6 < 3, Arg6, 2))
 	rstenv(Local2)
-	Return Local4
+	return Local4
 
 Function LinButton1( lProcessaOuExibe, nCor, nRow, cString, cMensagem )
 ***********************************************************************
 LOCAL xButton	  := NewButton()
-lProcessaOuExibe := IIF(ISNIL( lProcessaOuExibe), OK, lProcessaOuExibe )
-nCor				  := IIF(ISNIL( nCor ), 1, nCor )
-nRow				  := IIF(ISNIL( nRow ), 21, nRow )
-cString			  := IIF(ISNIL( cString ), "&OK", cString )
+lProcessaOuExibe := Iif(ISNIL( lProcessaOuExibe), OK, lProcessaOuExibe )
+nCor				  := Iif(ISNIL( nCor ), 1, nCor )
+nRow				  := Iif(ISNIL( nRow ), 21, nRow )
+cString			  := Iif(ISNIL( cString ), "&OK", cString )
 AddButton( xButton, nRow, 31, (MaxCol()-61), cString,  cMensagem, OK )
-If ( lProcessaOuExibe )
+if ( lProcessaOuExibe )
 	nRow := ProcButton( xButton, nCor )
-Else
+else
 	ShowButton( xButton, nCor )
-EndIf
-Return(	nRow )
+endif
+return(	nRow )
 
 ********************************
 Function MSGBOX3D3(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8, ;
 	Arg9, Arg10, Arg11)
 
 	Local Local1, Local2, Local3, Local4
-	Arg4:= IIF(ISNIL(Arg4), "&Sim", Arg4)
-	Arg5:= IIF(ISNIL(Arg5), "&N„o", Arg5)
-	Arg6:= IIF(ISNIL(Arg6), "&Cancelar", Arg6)
-	Arg7:= IIF(ISNIL(Arg7), 1, Arg7)
-	Arg8:= IIF(ISNIL(Arg8), 3, Arg8)
-	Arg1:= IIF(ISNIL(Arg1), "", Arg1)
-	Arg2:= IIF(ISNIL(Arg2), "Aten‡„o!", Arg2)
-	Local1:= IIF(ISARRAY(Arg1), Len(Arg1), 1)
-	Arg3:= IIF(ISNIL(Arg3), 12 - (Local1 + 8) / 2, Arg3)
-	Arg9:= IIF(ISNIL(Arg9), "W+/N", Arg9)
-	Arg10:= IIF(ISNIL(Arg10), "N/W", Arg10)
-	Arg11:= IIF(ISNIL(Arg11), "N/W", Arg11)
+	Arg4:= Iif(ISNIL(Arg4), "&Sim", Arg4)
+	Arg5:= Iif(ISNIL(Arg5), "&N„o", Arg5)
+	Arg6:= Iif(ISNIL(Arg6), "&Cancelar", Arg6)
+	Arg7:= Iif(ISNIL(Arg7), 1, Arg7)
+	Arg8:= Iif(ISNIL(Arg8), 3, Arg8)
+	Arg1:= Iif(ISNIL(Arg1), "", Arg1)
+	Arg2:= Iif(ISNIL(Arg2), "Aten‡„o!", Arg2)
+	Local1:= Iif(ISARRAY(Arg1), Len(Arg1), 1)
+	Arg3:= Iif(ISNIL(Arg3), 12 - (Local1 + 8) / 2, Arg3)
+	Arg9:= Iif(ISNIL(Arg9), "W+/N", Arg9)
+	Arg10:= Iif(ISNIL(Arg10), "N/W", Arg10)
+	Arg11:= Iif(ISNIL(Arg11), "N/W", Arg11)
 	Local3:= newbutton()
-	addbutton(Local3, Arg3 + 5 + Local1, 13, 18, Arg4, Nil, IIF(Arg8 ;
+	addbutton(Local3, Arg3 + 5 + Local1, 13, 18, Arg4, Nil, Iif(Arg8 ;
 		== 1, .T., .F.))
-	addbutton(Local3, Arg3 + 5 + Local1, 31, 18, Arg5, Nil, IIF(Arg8 ;
+	addbutton(Local3, Arg3 + 5 + Local1, 31, 18, Arg5, Nil, Iif(Arg8 ;
 		== 2, .T., .F.))
-	addbutton(Local3, Arg3 + 5 + Local1, 49, 18, Arg6, Nil, IIF(Arg8 ;
+	addbutton(Local3, Arg3 + 5 + Local1, 49, 18, Arg6, Nil, Iif(Arg8 ;
 		== 3, .T., .F.))
 	Local2:= win(Arg3, 10, Arg3 + 8 + Local1, 69, Arg2, Arg9, Arg10)
-	@ Arg3 + 2, 11, Arg3 + 7 + Local1, 11 Box "ÇÇÇÇÇÇÇÇÇ" Color "W+/W"
-	@ Arg3 + 2, 68, Arg3 + 7 + Local1, 68 Box "¶¶¶¶¶¶¶¶¶" Color "N+/W"
-	@ Arg3 + 2, 12 Say Replicate("Ð", 56) Color "W+/W"
-	@ Arg3 + 7 + Local1, 12 Say Replicate("Ì", 56) Color "N+/W"
-	If (ISARRAY(Arg1))
+	@ Arg3 + 2, 11, Arg3 + 7 + Local1, 11 Box "ÇÇÇÇÇÇÇÇ? Color "W+/W"
+	@ Arg3 + 2, 68, Arg3 + 7 + Local1, 68 Box "¶¶¶¶¶¶¶¶? Color "N+/W"
+	@ Arg3 + 2, 12 Say Replicate("?, 56) Color "W+/W"
+	@ Arg3 + 7 + Local1, 12 Say Replicate("?, 56) Color "N+/W"
+	if (ISARRAY(Arg1))
 		For Local4:= 1 To Local1
 			@ Arg3 + 2 + Local4, 13 Say padc(Arg1[Local4], 54) Color ;
 				Arg11
 		Next
-	Else
+	else
 		@ Arg3 + 3, 13 Say padc(Arg1, 54) Color Arg11
-	EndIf
+	endif
 	setcursor(0)
-	Local4:= procbutton(Local3, 1, IIF(Arg7 < 4, Arg7, 3))
+	Local4:= procbutton(Local3, 1, Iif(Arg7 < 4, Arg7, 3))
 	rstenv(Local2)
-	Return Local4
+	return Local4
 
 ********************************
 Function CLRTED(Arg1, Arg2)
@@ -4541,38 +4541,38 @@ Function CLRTED(Arg1, Arg2)
 	Local Local1
 	Local1:= SetColor()
 	Set Color To N/W
-	Arg1:= IIF(ISNIL(Arg1), 2, Arg1)
-	Arg2:= IIF(ISNIL(Arg2), 22, Arg2)
+	Arg1:= Iif(ISNIL(Arg1), 2, Arg1)
+	Arg2:= Iif(ISNIL(Arg2), 22, Arg2)
 	Scroll(Arg1, 0, Arg2, 79)
 	Set Color To (Local1)
-	Return Nil
+	return Nil
 
 Function MSGBOX1(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7)
 **********************************************************
 Local Local1, Local2, Local3, Local4
 LOCAL nTamanhoButton := MaxCol()-61
-Arg4	 := IIF(ISNIL(Arg4), "&OK", Arg4)
-Arg1	 := IIF(ISNIL(Arg1), "", Arg1)
-Arg2	 := IIF(ISNIL(Arg2), "Aten‡„o!", Arg2)
-Local1 := IIF(ISARRAY(Arg1), Len(Arg1), 1)
-Arg3	 := IIF(ISNIL(Arg3), 12 - (Local1 + 5) / 2, Arg3)
-Arg5	 := IIF(ISNIL(Arg5), "W+*/R", Arg5)
-Arg6	 := IIF(ISNIL(Arg6), "R+*/W", Arg6)
-Arg7	 := IIF(ISNIL(Arg7), "N*/W", Arg7)
+Arg4	 := Iif(ISNIL(Arg4), "&OK", Arg4)
+Arg1	 := Iif(ISNIL(Arg1), "", Arg1)
+Arg2	 := Iif(ISNIL(Arg2), "Aten‡„o!", Arg2)
+Local1 := Iif(ISARRAY(Arg1), Len(Arg1), 1)
+Arg3	 := Iif(ISNIL(Arg3), 12 - (Local1 + 5) / 2, Arg3)
+Arg5	 := Iif(ISNIL(Arg5), "W+*/R", Arg5)
+Arg6	 := Iif(ISNIL(Arg6), "R+*/W", Arg6)
+Arg7	 := Iif(ISNIL(Arg7), "N*/W", Arg7)
 Local3 := NewButton()
 addbutton( Local3, Arg3+ 3 + Local1, 31, nTamanhoButton, Arg4, Nil, .T.)
 Local2 := Win( Arg3, 10, Arg3 + 5 + Local1, (MaxCol()-10), Arg2, Arg5, Arg6)
-If (ISARRAY(Arg1))
+if (ISARRAY(Arg1))
 	For Local4 := 1 To Local1
 		@ Arg3 + 1 + Local4, 12 Say padc( Arg1[ Local4 ], (MaxCol()-23) ) Color Arg7
 	Next
-Else
+else
 	@ Arg3 + 2, 12 Say padc(Arg1, (MaxCol()-23) ) Color Arg7
-EndIf
+endif
 setcursor(0)
 nButton := ProcButton( Local3, 2, 1)
 RsTenv( Local2 )
-Return( nButton )
+return( nButton )
 
 ********************************
 Function LINBUTTON3(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8, ;
@@ -4580,217 +4580,217 @@ Function LINBUTTON3(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8, ;
 
 	Local Local1
 	Local1:= newbutton()
-	Arg1:= IIF(ISNIL(Arg1), .T., Arg1)
-	Arg2:= IIF(ISNIL(Arg2), 1, Arg2)
-	Arg3:= IIF(ISNIL(Arg3), 21, Arg3)
-	Arg4:= IIF(ISNIL(Arg4), 1, Arg4)
-	Arg5:= IIF(ISNIL(Arg5), 3, Arg5)
-	Arg6:= IIF(ISNIL(Arg6), "&OK", Arg6)
-	Arg8:= IIF(ISNIL(Arg8), "&Alterar", Arg8)
-	Arg10:= IIF(ISNIL(Arg10), "&Cancelar", Arg10)
-	addbutton(Local1, Arg3, 11, 18, Arg6, Arg7, IIF(Arg5 == 1, .T., ;
+	Arg1:= Iif(ISNIL(Arg1), .T., Arg1)
+	Arg2:= Iif(ISNIL(Arg2), 1, Arg2)
+	Arg3:= Iif(ISNIL(Arg3), 21, Arg3)
+	Arg4:= Iif(ISNIL(Arg4), 1, Arg4)
+	Arg5:= Iif(ISNIL(Arg5), 3, Arg5)
+	Arg6:= Iif(ISNIL(Arg6), "&OK", Arg6)
+	Arg8:= Iif(ISNIL(Arg8), "&Alterar", Arg8)
+	Arg10:= Iif(ISNIL(Arg10), "&Cancelar", Arg10)
+	addbutton(Local1, Arg3, 11, 18, Arg6, Arg7, Iif(Arg5 == 1, .T., ;
 		.F.))
-	addbutton(Local1, Arg3, 31, 18, Arg8, Arg9, IIF(Arg5 == 2, .T., ;
+	addbutton(Local1, Arg3, 31, 18, Arg8, Arg9, Iif(Arg5 == 2, .T., ;
 		.F.))
-	addbutton(Local1, Arg3, 51, 18, Arg10, Arg11, IIF(Arg5 == 3, .T., ;
+	addbutton(Local1, Arg3, 51, 18, Arg10, Arg11, Iif(Arg5 == 3, .T., ;
 		.F.))
-	If (Arg1)
-		Arg3:= procbutton(Local1, Arg2, IIF(Arg4 < 4, Arg4, 3))
-	Else
+	if (Arg1)
+		Arg3:= procbutton(Local1, Arg2, Iif(Arg4 < 4, Arg4, 3))
+	else
 		showbutton(Local1, Arg2)
-	EndIf
-	Return Arg3
+	endif
+	return Arg3
 
 *****************************************************************************
 Function MSGBOX2(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8, Arg9, Arg10)
 *****************************************************************************
 	Local Local1, Local2, Local3, Local4
-	Arg4	 := IIF(ISNIL(Arg4), "&Sim", Arg4)
-	Arg5	 := IIF(ISNIL(Arg5), "&N„o", Arg5)
-	Arg6	 := IIF(ISNIL(Arg6), 1, Arg6)
-	Arg7	 := IIF(ISNIL(Arg7), 2, Arg7)
-	Arg1	 := IIF(ISNIL(Arg1), "", Arg1)
-	Arg2	 := IIF(ISNIL(Arg2), "Aten‡„o!", Arg2)
-	Local1 := IIF(ISARRAY(Arg1), Len(Arg1), 1)
-	Arg3	 := IIF(ISNIL(Arg3), 12 - (Local1 + 7) / 2, Arg3)
-	Arg8	 := IIF(ISNIL(Arg8), "W+*/R", Arg8)
-	Arg9	 := IIF(ISNIL(Arg9), "R+*/W", Arg9)
-	Arg10  := IIF(ISNIL(Arg10), "N*/W", Arg10)
+	Arg4	 := Iif(ISNIL(Arg4), "&Sim", Arg4)
+	Arg5	 := Iif(ISNIL(Arg5), "&N„o", Arg5)
+	Arg6	 := Iif(ISNIL(Arg6), 1, Arg6)
+	Arg7	 := Iif(ISNIL(Arg7), 2, Arg7)
+	Arg1	 := Iif(ISNIL(Arg1), "", Arg1)
+	Arg2	 := Iif(ISNIL(Arg2), "Aten‡„o!", Arg2)
+	Local1 := Iif(ISARRAY(Arg1), Len(Arg1), 1)
+	Arg3	 := Iif(ISNIL(Arg3), 12 - (Local1 + 7) / 2, Arg3)
+	Arg8	 := Iif(ISNIL(Arg8), "W+*/R", Arg8)
+	Arg9	 := Iif(ISNIL(Arg9), "R+*/W", Arg9)
+	Arg10  := Iif(ISNIL(Arg10), "N*/W", Arg10)
 	Local3 := newbutton()
-	addbutton(Local3, Arg3 + 3 + Local1, 21, 18, Arg4, Nil, IIF(Arg7 == 1, .T., .F.))
-	addbutton(Local3, Arg3 + 3 + Local1, 41, 18, Arg5, Nil, IIF(Arg7 == 2, .T., .F.))
+	addbutton(Local3, Arg3 + 3 + Local1, 21, 18, Arg4, Nil, Iif(Arg7 == 1, .T., .F.))
+	addbutton(Local3, Arg3 + 3 + Local1, 41, 18, Arg5, Nil, Iif(Arg7 == 2, .T., .F.))
 	Local2 := Win( Arg3, 10, Arg3 + 5 + Local1, MaxCol()-10, Arg2, Arg8, Arg9)
-	If (ISARRAY(Arg1))
+	if (ISARRAY(Arg1))
 		For Local4:= 1 To Local1
 			@ Arg3 + 1 + Local4, 13 Say padc(Arg1[Local4], MaxCol()-25) Color Arg10
 		Next
-	Else
+	else
 		@ Arg3 + 2, 13 Say padc(Arg1, MaxCol()-25) Color Arg10
-	EndIf
+	endif
 	setcursor(0)
-	nButton := procbutton(Local3, 2, IIF(Arg6 < 3, Arg6, 2))
+	nButton := procbutton(Local3, 2, Iif(Arg6 < 3, Arg6, 2))
 	rstenv(Local2)
-	Return( nButton )
+	return( nButton )
 
 Function LINBUTTON2(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8, Arg9)
 *************************************************************************
 	Local Local1
 	Local1:= newbutton()
-	Arg1:= IIF(ISNIL(Arg1), .T., Arg1)
-	Arg2:= IIF(ISNIL(Arg2), 1, Arg2)
-	Arg3:= IIF(ISNIL(Arg3), 21, Arg3)
-	Arg4:= IIF(ISNIL(Arg4), 1, Arg4)
-	Arg5:= IIF(ISNIL(Arg5), 2, Arg5)
-	Arg6:= IIF(ISNIL(Arg6), "&OK", Arg6)
-	Arg8:= IIF(ISNIL(Arg8), "&Cancelar", Arg8)
-	addbutton(Local1, Arg3, 21, 18, Arg6, Arg7, IIF(Arg5 == 1, .T., ;
+	Arg1:= Iif(ISNIL(Arg1), .T., Arg1)
+	Arg2:= Iif(ISNIL(Arg2), 1, Arg2)
+	Arg3:= Iif(ISNIL(Arg3), 21, Arg3)
+	Arg4:= Iif(ISNIL(Arg4), 1, Arg4)
+	Arg5:= Iif(ISNIL(Arg5), 2, Arg5)
+	Arg6:= Iif(ISNIL(Arg6), "&OK", Arg6)
+	Arg8:= Iif(ISNIL(Arg8), "&Cancelar", Arg8)
+	addbutton(Local1, Arg3, 21, 18, Arg6, Arg7, Iif(Arg5 == 1, .T., ;
 		.F.))
-	addbutton(Local1, Arg3, 41, 18, Arg8, Arg9, IIF(Arg5 == 2, .T., ;
+	addbutton(Local1, Arg3, 41, 18, Arg8, Arg9, Iif(Arg5 == 2, .T., ;
 		.F.))
-	If (Arg1)
-		Arg3:= procbutton(Local1, Arg2, IIF(Arg4 < 3, Arg4, 2))
-	Else
+	if (Arg1)
+		Arg3:= procbutton(Local1, Arg2, Iif(Arg4 < 3, Arg4, 2))
+	else
 		showbutton(Local1, Arg2)
-	EndIf
-	Return Arg3
+	endif
+	return Arg3
 
 ************************************************************************************
 Function MSGBOX3(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8, Arg9, Arg10, Arg11)
 ************************************************************************************
 	Local Local1, Local2, Local3, Local4
-	Arg4:= IIF(ISNIL(Arg4), "&Sim", Arg4)
-	Arg5:= IIF(ISNIL(Arg5), "&N„o", Arg5)
-	Arg6:= IIF(ISNIL(Arg6), "&Cancelar", Arg6)
-	Arg7:= IIF(ISNIL(Arg7), 1, Arg7)
-	Arg8:= IIF(ISNIL(Arg8), 3, Arg8)
-	Arg1:= IIF(ISNIL(Arg1), "", Arg1)
-	Arg2:= IIF(ISNIL(Arg2), "Aten‡„o!", Arg2)
-	Local1:= IIF(ISARRAY(Arg1), Len(Arg1), 1)
-	Arg3:= IIF(ISNIL(Arg3), 12 - (Local1 + 7) / 2, Arg3)
-	Arg9:= IIF(ISNIL(Arg9), "W+*/R", Arg9)
-	Arg10:= IIF(ISNIL(Arg10), "R+*/W", Arg10)
-	Arg11:= IIF(ISNIL(Arg11), "N*/W", Arg11)
+	Arg4:= Iif(ISNIL(Arg4), "&Sim", Arg4)
+	Arg5:= Iif(ISNIL(Arg5), "&N„o", Arg5)
+	Arg6:= Iif(ISNIL(Arg6), "&Cancelar", Arg6)
+	Arg7:= Iif(ISNIL(Arg7), 1, Arg7)
+	Arg8:= Iif(ISNIL(Arg8), 3, Arg8)
+	Arg1:= Iif(ISNIL(Arg1), "", Arg1)
+	Arg2:= Iif(ISNIL(Arg2), "Aten‡„o!", Arg2)
+	Local1:= Iif(ISARRAY(Arg1), Len(Arg1), 1)
+	Arg3:= Iif(ISNIL(Arg3), 12 - (Local1 + 7) / 2, Arg3)
+	Arg9:= Iif(ISNIL(Arg9), "W+*/R", Arg9)
+	Arg10:= Iif(ISNIL(Arg10), "R+*/W", Arg10)
+	Arg11:= Iif(ISNIL(Arg11), "N*/W", Arg11)
 	Local3:= newbutton()
-	addbutton(Local3, Arg3 + 3 + Local1, 13, 18, Arg4, Nil, IIF(Arg8 ;
+	addbutton(Local3, Arg3 + 3 + Local1, 13, 18, Arg4, Nil, Iif(Arg8 ;
 		== 1, .T., .F.))
-	addbutton(Local3, Arg3 + 3 + Local1, 31, 18, Arg5, Nil, IIF(Arg8 ;
+	addbutton(Local3, Arg3 + 3 + Local1, 31, 18, Arg5, Nil, Iif(Arg8 ;
 		== 2, .T., .F.))
-	addbutton(Local3, Arg3 + 3 + Local1, 49, 18, Arg6, Nil, IIF(Arg8 ;
+	addbutton(Local3, Arg3 + 3 + Local1, 49, 18, Arg6, Nil, Iif(Arg8 ;
 		== 3, .T., .F.))
 	Local2:= win(Arg3, 10, Arg3 + 5 + Local1, MaxCol()-10, Arg2, Arg9, Arg10)
-	If (ISARRAY(Arg1))
+	if (ISARRAY(Arg1))
 		For Local4:= 1 To Local1
 			@ Arg3 + 1 + Local4, 13 Say padc(Arg1[Local4], MaxCol()-25) Color ;
 				Arg11
 		Next
-	Else
+	else
 		@ Arg3 + 2, 13 Say padc(Arg1, 54) Color Arg11
-	EndIf
+	endif
 	setcursor(0)
-	nButton := procbutton(Local3, 2, IIF(Arg7 < 3, Arg7, 2))
+	nButton := procbutton(Local3, 2, Iif(Arg7 < 3, Arg7, 2))
 	rstenv(Local2)
-	Return( nButton )
+	return( nButton )
 
 ***********************************************
 Function DESKBOX( Arg1, Arg2, Arg3, Arg4, Arg5)
 ***********************************************
 LOCAL Local1 := "N+/W", Local2 := "W+/W"
 
-Arg5		:= IIF(ISNIL(Arg5), 1, Arg5)
-If (Arg5 == 2)
+Arg5		:= Iif(ISNIL(Arg5), 1, Arg5)
+if (Arg5 == 2)
 	Local1 := "W+/W"
 	Local2 := "N+/W"
-EndIf
-@ Arg1, Arg2, Arg3, Arg2 Box "¶¶¶¶¶¶¶¶¶" Color Local1
-@ Arg1, Arg4, Arg3, Arg4 Box "ÇÇÇÇÇÇÇÇÇ" Color Local2
-@ Arg1, Arg2 Say Replicate("Ì", Arg4 - Arg2 + 1) Color Local1
-@ Arg3, Arg2 Say Replicate("Ð", Arg4 - Arg2 + 1) Color Local2
-Return Nil
+endif
+@ Arg1, Arg2, Arg3, Arg2 Box "¶¶¶¶¶¶¶¶? Color Local1
+@ Arg1, Arg4, Arg3, Arg4 Box "ÇÇÇÇÇÇÇÇ? Color Local2
+@ Arg1, Arg2 Say Replicate("?, Arg4 - Arg2 + 1) Color Local1
+@ Arg3, Arg2 Say Replicate("?, Arg4 - Arg2 + 1) Color Local2
+return Nil
 
 *****************************************************
 Function MSGBOX3D(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6)
 *****************************************************
 LOCAL Local1, Local2, Local3
 LOCAL nTam	 := MaxCol()
-Arg1:= IIF(ISNIL(Arg1), "", Arg1)
-Arg2:= IIF(ISNIL(Arg2), "Aguarde", Arg2)
-Local1:= IIF(ISARRAY(Arg1), Len(Arg1), 1)
-Arg3:= IIF(ISNIL(Arg3), 12 - (Local1 + 6) / 2, Arg3)
-Arg4:= IIF(ISNIL(Arg4), "W+/N", Arg4)
-Arg5:= IIF(ISNIL(Arg5), "N/W", Arg5)
-Arg6:= IIF(ISNIL(Arg6), "N/W", Arg6)
+Arg1:= Iif(ISNIL(Arg1), "", Arg1)
+Arg2:= Iif(ISNIL(Arg2), "Aguarde", Arg2)
+Local1:= Iif(ISARRAY(Arg1), Len(Arg1), 1)
+Arg3:= Iif(ISNIL(Arg3), 12 - (Local1 + 6) / 2, Arg3)
+Arg4:= Iif(ISNIL(Arg4), "W+/N", Arg4)
+Arg5:= Iif(ISNIL(Arg5), "N/W", Arg5)
+Arg6:= Iif(ISNIL(Arg6), "N/W", Arg6)
 Local2 := win(Arg3, 16, Arg3 + 6 + Local1, (nTam-16), Arg2, Arg4, Arg5)
-@ Arg3 + 2, 17, Arg3 + 5 + Local1, 17 Box "ÇÇÇÇÇÇÇÇÇ" Color "W+/W"
-@ Arg3 + 2, (nTam-17), Arg3 + 5 + Local1, (nTam-17) Box "¶¶¶¶¶¶¶¶¶" Color "N+/W"
-@ Arg3 + 2, 18 Say Replicate("Ð", (nTam-35)) Color "W+/W"
-@ Arg3 + 5 + Local1, 18 Say Replicate("Ì", (nTam-35)) Color "N+/W"
-If (ISARRAY(Arg1))
+@ Arg3 + 2, 17, Arg3 + 5 + Local1, 17 Box "ÇÇÇÇÇÇÇÇ? Color "W+/W"
+@ Arg3 + 2, (nTam-17), Arg3 + 5 + Local1, (nTam-17) Box "¶¶¶¶¶¶¶¶? Color "N+/W"
+@ Arg3 + 2, 18 Say Replicate("?, (nTam-35)) Color "W+/W"
+@ Arg3 + 5 + Local1, 18 Say Replicate("?, (nTam-35)) Color "N+/W"
+if (ISARRAY(Arg1))
 	For Local3:= 1 To Local1
 		@ Arg3 + 3 + Local3, 19 Say padc(Arg1[Local3], (nTam-37)) Color Arg6
 	Next
-Else
+else
 	@ Arg3 + 4, 19 Say padc(Arg1, (nTam-37)) Color Arg6
-EndIf
+endif
 setcursor(0)
-Return Local2
+return Local2
 
 ********************************
 Function MSGBOX(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6)
 
 	Local Local1, Local2, Local3
-	Arg1:= IIF(ISNIL(Arg1), "", Arg1)
-	Arg2:= IIF(ISNIL(Arg2), "Aguarde", Arg2)
-	Local1:= IIF(ISARRAY(Arg1), Len(Arg1), 1)
-	Arg3:= IIF(ISNIL(Arg3), 12 - (Local1 + 5) / 2, Arg3)
-	Arg4:= IIF(ISNIL(Arg4), "W+*/B", Arg4)
-	Arg5:= IIF(ISNIL(Arg5), "B+*/W", Arg5)
-	Arg6:= IIF(ISNIL(Arg6), "N*/W", Arg6)
+	Arg1:= Iif(ISNIL(Arg1), "", Arg1)
+	Arg2:= Iif(ISNIL(Arg2), "Aguarde", Arg2)
+	Local1:= Iif(ISARRAY(Arg1), Len(Arg1), 1)
+	Arg3:= Iif(ISNIL(Arg3), 12 - (Local1 + 5) / 2, Arg3)
+	Arg4:= Iif(ISNIL(Arg4), "W+*/B", Arg4)
+	Arg5:= Iif(ISNIL(Arg5), "B+*/W", Arg5)
+	Arg6:= Iif(ISNIL(Arg6), "N*/W", Arg6)
 	Local2:= win(Arg3, 18, Arg3 + 5 + Local1, 61, Arg2, Arg4, Arg5)
-	If (ISARRAY(Arg1))
+	if (ISARRAY(Arg1))
 		For Local3:= 1 To Local1
 			@ Arg3 + 2 + Local3, 20 Say padc(Arg1[Local3], 40) Color Arg6
 		Next
-	Else
+	else
 		@ Arg3 + 3, 20 Say padc(Arg1, 40) Color Arg6
-	EndIf
+	endif
 	setcursor(0)
-	Return Local2
+	return Local2
 
 ********************************************************************
 Function FRAME(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8, Arg9)
 ********************************************************************
 Local Local1 := SetColor(), Local2 := dn := "", Local3:= Arg4 - Arg2 - 1, Local4:= y:= z:= 0
-Arg6:= IIF(ISNIL(Arg6), 1, Arg6)
-Arg7:= IIF(ISNIL(Arg7), 1, Arg7)
-Arg8:= IIF(ISNIL(Arg8), "N/W", Arg8)
-Arg9:= IIF(ISNIL(Arg9), "N/W", Arg9)
-If (Arg7 == 1)
+Arg6:= Iif(ISNIL(Arg6), 1, Arg6)
+Arg7:= Iif(ISNIL(Arg7), 1, Arg7)
+Arg8:= Iif(ISNIL(Arg8), "N/W", Arg8)
+Arg9:= Iif(ISNIL(Arg9), "N/W", Arg9)
+if (Arg7 == 1)
 	Local2 := "N+/W"
 	dn:= "W+/W"
-ElseIf (Arg7 == 2)
+elseif (Arg7 == 2)
 	Local2 := "W+/W"
 	dn:= "N+/W"
-ElseIf (Arg7 == 3)
+elseif (Arg7 == 3)
 	Local2 := dn:= Arg8
-EndIf
-@ Arg1 + 1, Arg2, Arg3 - 1, Arg2 Box Replicate("Ç", 9) Color Local2
-@ Arg1, Arg2 Say "Í" + Replicate("Ä", Local3) Color Local2
-@ Arg3, Arg2 Say "Î" Color Local2
-@ Arg1 + 1, Arg4, Arg3 - 1, Arg4 Box Replicate("¶", 9) Color dn
-@ Arg3, Arg2 + 1 Say Replicate("Ä", Local3) + "¼" Color dn
-@ Arg1, Arg4 Say "»" Color dn
-If (Arg5 != Nil)
+endif
+@ Arg1 + 1, Arg2, Arg3 - 1, Arg2 Box Replicate("?, 9) Color Local2
+@ Arg1, Arg2 Say "? + Replicate("?, Local3) Color Local2
+@ Arg3, Arg2 Say "? Color Local2
+@ Arg1 + 1, Arg4, Arg3 - 1, Arg4 Box Replicate("?, 9) Color dn
+@ Arg3, Arg2 + 1 Say Replicate("?, Local3) + "? Color dn
+@ Arg1, Arg4 Say "? Color dn
+if (Arg5 != Nil)
 	z:= Len(Arg5)
-	If (Arg6 == 1)
+	if (Arg6 == 1)
 		@ Arg1, Arg2 + 2 Say " " + Arg5 + " " Color Arg9
-	ElseIf (Arg6 == 2)
+	elseif (Arg6 == 2)
 		@ Arg1, Arg4 - Local3 / 2 - z / 2 - 1 Say " " + Arg5 + " " Color Arg9
-	ElseIf (Arg6 == 3)
+	elseif (Arg6 == 3)
 		@ Arg1, Arg4 - z - 3 Say " " + Arg5 + " " Color Arg9
-	EndIf
-EndIf
+	endif
+endif
 Set Color To (Local1)
-Return Nil
+return Nil
 
 Function LogoTipo( aEnde_String )
 *********************************
@@ -4809,70 +4809,70 @@ if Ferror() != 0
 	Cls
 	Alert( "Erro #3: Erro de Abertura do Arquivo SCI.CFG.")
 	Quit
-EndIF
+endif
 
 nErro := FLocate( nHandle, "[ENDERECO_STRING]")
-IF nErro < 0
+if nErro < 0
 	SetColor("")
 	Cls
 	Alert( "Erro #4: Configuracao de SCI.CFG nao localizada. [ENDERECO_STRING]")
 	Quit
-EndIF
+endif
 FAdvance( nHandle )
 For nX := 1 To 4
 	aEndeNormal[nX] := MsReadLine( nHandle )
 	FAdvance( nHandle )
 Next
 nErro 	  := FLocate( nHandle, "[ENDERECO_CODIGO]")
-IF nErro < 0
+if nErro < 0
 	SetColor("")
 	Cls
 	Alert( "Erro #4: Configuracao de SCI.CFG nao localizada. [ENDERECO_CODIGO]")
 	Quit
-EndIF
+endif
 FAdvance( nHandle )
 For nX := 1 To 4
 	aEndeEncrypt[nX] := MsDecrypt( MsReadLine( nHandle ))
-	IF aEndeNormal[nX] != aEndeEncrypt[nX]
+	if aEndeNormal[nX] != aEndeEncrypt[nX]
 		SetColor("")
 		Cls
 		Alert( "Erro #5: Configuracao de SCI.CFG alterada. [ENDERECO_CODIGO]")
 		Quit
-	EndIF
+	endif
 	FAdvance( nHandle )
 Next
 nErro := FLocate( nHandle, "[SCI_STRING]")
-IF nErro < 0
+if nErro < 0
 	SetColor("")
 	Cls
 	Alert( "Erro #4: Configuracao de SCI.CFG nao localizada. [SCI_STRING]")
 	Quit
-EndIF
+endif
 FAdvance( nHandle )
 For nX := 1 To 11
 	aNormal[nX] := MsReadLine( nHandle )
 	FAdvance( nHandle )
 Next
 nErro 	  := FLocate( nHandle, "[SCI_CODIGO]")
-IF nErro < 0
+if nErro < 0
 	SetColor("")
 	Cls
 	Alert( "Erro #4: Configuracao de SCI.CFG nao localizada. [SCI_CODIGO]")
 	Quit
-EndIF
+endif
 FAdvance( nHandle )
 For nX := 1 To 11
 	aEncrypt[nX] := MsDecrypt( MsReadLine( nHandle ))
-	IF aNormal[nX] != aEncrypt[nX]
+	if aNormal[nX] != aEncrypt[nX]
 		SetColor("")
 		Cls
 		Alert( "Erro #5: Configuracao de SCI.CFG alterada. [SCI_CODIGO]")
 		Quit
-	EndIF
+	endif
 	FAdvance( nHandle )
 Next
 FClose( nHandle )
-IF !oAmbiente:Visual
+if !oAmbiente:Visual
 	SetColor("")
 	Cls
 	MsBox( 00, 00, 05, MaxCol()-2, 9, OK )
@@ -4906,20 +4906,20 @@ IF !oAmbiente:Visual
 	SetColor("")
 	
 	MsBox( nMaxRow-8, 00, nMaxRow-3, MaxCol()-2, 9, FALSO )
-	WriteBox( nMaxRow-7, 10, "Esta ‚ uma licen‡a de uso individual e  intransfer¡vel" )
-	WriteBox( nMaxRow-6, 10, "para o usuario acima. C¢pia ilegais e n„o  autorizadas" )
+	WriteBox( nMaxRow-7, 10, "Esta ‚ uma licen‡a de uso individual e  intransfer?el" )
+	WriteBox( nMaxRow-6, 10, "para o usuario acima. C?ia ilegais e n„o  autorizadas" )
 	WriteBox( nMaxRow-5, 10, "‚ crime de PIRATARIA o qual ser„o processadas a m xima" )
 	WriteBox( nMaxRow-4, 10, "extˆns„o da LEI.")
 	SetColor("R")
 	Write( nMaxRow-2,00, "TECLE ALGO PARA INICIARÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ")
 	For nY := 1 To 1000
 		Inkey(.1)
-		IF Lastkey() <> 0
+		if Lastkey() <> 0
 			Exit
-		EndIF
+		endif
 	Next
 	ScrollEsq()
-ELSE
+else
 	SetColor("")
 	Cls
 	SetColor("N/W")
@@ -4961,8 +4961,8 @@ ELSE
 	SetColor("GR/W")
 	Write( 18, 38, cString )
 	LinButton1( OK, 01, 21, "&Iniciar", NIL )
-EndIF
-Return
+endif
+return
 
 ********************************
 Function DOWNMENU(Arg1, Arg2, Arg3, Arg4, Arg5)
@@ -4981,88 +4981,88 @@ Function DOWNMENU(Arg1, Arg2, Arg3, Arg4, Arg5)
 	Next
 	Local7:= Arg3 + Local3 + 1
 	Local8:= Arg4 + Arg1[1][10] + 1
-	If (procname(1) == "DOWNMENU" .AND. (Arg4 > 45 .OR. Arg4 + Arg5 > ;
+	if (procname(1) == "DOWNMENU" .AND. (Arg4 > 45 .OR. Arg4 + Arg5 > ;
 			65))
 		Arg4:= Arg4 + Arg5
 		Local8:= Local8 + Arg5
-		Arg4:= Arg4 - IIF(Local8 + 3 > 80, Arg5 + Arg1[1][10] + 2, 0)
-		Local8:= Local8 - IIF(Local8 + 3 > 80, Arg5 + Arg1[1][10] + 2, ;
+		Arg4:= Arg4 - Iif(Local8 + 3 > 80, Arg5 + Arg1[1][10] + 2, 0)
+		Local8:= Local8 - Iif(Local8 + 3 > 80, Arg5 + Arg1[1][10] + 2, ;
 			0)
-		Arg3:= Arg3 - IIF(Local7 + 1 > 22, Local7 + 1 - 22, 0)
-		Local7:= Local7 - IIF(Local7 + 1 > 22, Local7 + 1 - 22, 0)
-		If (Arg4 < 0)
+		Arg3:= Arg3 - Iif(Local7 + 1 > 22, Local7 + 1 - 22, 0)
+		Local7:= Local7 - Iif(Local7 + 1 > 22, Local7 + 1 - 22, 0)
+		if (Arg4 < 0)
 			Arg4:= 77 - (Local8 - Arg4)
 			Local8:= Arg4 + Arg1[1][10] + 1
-		EndIf
-	ElseIf (procname(1) == "DOWNMENU")
+		endif
+	elseif (procname(1) == "DOWNMENU")
 		Arg4:= Arg4 + Arg5
 		Local8:= Local8 + Arg5
-		Arg4:= Arg4 - IIF(Local8 + 3 > 80, Local8 + 3 - 80, 0)
-		Local8:= Local8 - IIF(Local8 + 3 > 80, Local8 + 3 - 80, 0)
-		Arg3:= Arg3 - IIF(Local7 + 1 > 22, Local7 + 1 - 22, 0)
-		Local7:= Local7 - IIF(Local7 + 1 > 22, Local7 + 1 - 22, 0)
-	Else
-		Arg4:= Arg4 - IIF(Local8 + 3 > 80, Local8 + 3 - 80, 0)
-		Local8:= Local8 - IIF(Local8 + 3 > 80, Local8 + 3 - 80, 0)
-		Arg3:= Arg3 - IIF(Local7 + 1 > 22, Local7 + 1 - 22, 0)
-		Local7:= Local7 - IIF(Local7 + 1 > 22, Local7 + 1 - 22, 0)
-	EndIf
+		Arg4:= Arg4 - Iif(Local8 + 3 > 80, Local8 + 3 - 80, 0)
+		Local8:= Local8 - Iif(Local8 + 3 > 80, Local8 + 3 - 80, 0)
+		Arg3:= Arg3 - Iif(Local7 + 1 > 22, Local7 + 1 - 22, 0)
+		Local7:= Local7 - Iif(Local7 + 1 > 22, Local7 + 1 - 22, 0)
+	else
+		Arg4:= Arg4 - Iif(Local8 + 3 > 80, Local8 + 3 - 80, 0)
+		Local8:= Local8 - Iif(Local8 + 3 > 80, Local8 + 3 - 80, 0)
+		Arg3:= Arg3 - Iif(Local7 + 1 > 22, Local7 + 1 - 22, 0)
+		Local7:= Local7 - Iif(Local7 + 1 > 22, Local7 + 1 - 22, 0)
+	endif
 	Local5:= nbox(Arg3, Arg4, Local7, Local8)
 	For Local6:= 1 To Local3
 		Arg1[Local6][6]:= Arg3 + Local6
 		Arg1[Local6][7]:= Arg4 + 1
 		drawdownit(Arg1[Local6], 1)
 	Next
-	Arg2:= IIF(ISNIL(Arg2), 1, Arg2)
+	Arg2:= Iif(ISNIL(Arg2), 1, Arg2)
 	Do While (Arg1[Arg2][9])
-		Arg2:= IIF(++Arg2 > Len(Arg1), 1, Arg2)
+		Arg2:= Iif(++Arg2 > Len(Arg1), 1, Arg2)
 	EndDo
 	Do While (.T.)
 		drawdownit(Arg1[Arg2], 2)
-		If (Arg1[Arg2][2] != Nil .OR. Arg1[Arg2][2] != "")
+		if (Arg1[Arg2][2] != Nil .OR. Arg1[Arg2][2] != "")
 			dwnmsg(Arg1[Arg2][2])
-		EndIf
+		endif
 		Local1:= ninkey(0)
-		If ((htk:= ascan(Arg1, { |_1| Upper(Chr(Local1)) == ;
+		if ((htk:= ascan(Arg1, { |_1| Upper(Chr(Local1)) == ;
 				Upper(_1[5]) })) != 0)
 			drawdownit(Arg1[Arg2], 1)
 			Arg2:= htk
 			Keyboard Chr(13)
-		EndIf
+		endif
 		Do Case
 		Case Local1 == 5
 			drawdownit(Arg1[Arg2], 1)
-			Arg2:= IIF(--Arg2 == 0, Len(Arg1), Arg2)
+			Arg2:= Iif(--Arg2 == 0, Len(Arg1), Arg2)
 			Do While (Arg1[Arg2][9])
-				Arg2:= IIF(--Arg2 == 0, Len(Arg1), Arg2)
+				Arg2:= Iif(--Arg2 == 0, Len(Arg1), Arg2)
 			EndDo
 		Case Local1 == 24
 			drawdownit(Arg1[Arg2], 1)
-			Arg2:= IIF(++Arg2 > Len(Arg1), 1, Arg2)
+			Arg2:= Iif(++Arg2 > Len(Arg1), 1, Arg2)
 			Do While (Arg1[Arg2][9])
-				Arg2:= IIF(++Arg2 > Len(Arg1), 1, Arg2)
+				Arg2:= Iif(++Arg2 > Len(Arg1), 1, Arg2)
 			EndDo
 		Case Local1 == 27 .OR. Local1 == 19 .OR. Local1 == 4
 			Arg2:= 0
 			Exit
 		Case Local1 == 13 .AND. Arg1[Arg2][4]
-			If (ISARRAY(Arg1[Arg2][3]))
+			if (ISARRAY(Arg1[Arg2][3]))
 				flg:= .T.
 				downmenu(Arg1[Arg2][3], 1, Arg1[Arg2][6] - 1, ;
 					Arg1[Arg2][7], Arg1[Arg2][10])
-				If (LastKey() == K_LEFT .OR. LastKey() == K_RIGHT)
+				if (LastKey() == K_LEFT .OR. LastKey() == K_RIGHT)
 					Arg2:= 0
 					Exit
-				EndIf
-			Else
+				endif
+			else
 				eval(Arg1[Arg2][3])
-			EndIf
+			endif
 			aeval(Arg1, { |_1| drawdownit(_1, 1) })
 		EndCase
 	EndDo
 	rstenv(Local5)
 	setcursor(Local2)
-	Return Arg2
+	return Arg2
 
 ********************************
 Procedure NBARMENU
@@ -5071,98 +5071,98 @@ Procedure NBARMENU
 ********************************
 Function NEWBARMENU
 
-	Return {}
+	return {}
 
 ********************************
 Function AddBarItem(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7)
 
 	Local Local1, Local2, Local3
 	Local3:= Len(Arg1)
-	Arg2:= IIF(At("&", Arg2) == 0, "&" + Arg2, Arg2)
-	Arg4:= IIF(ISNIL(Arg4), { || nret() }, Arg4)
-	Arg5:= IIF(ISNIL(Arg5), .T., Arg5)
-	Arg6:= IIF(ISNIL(Arg6), 1, Arg6)
+	Arg2:= Iif(At("&", Arg2) == 0, "&" + Arg2, Arg2)
+	Arg4:= Iif(ISNIL(Arg4), { || nret() }, Arg4)
+	Arg5:= Iif(ISNIL(Arg5), .T., Arg5)
+	Arg6:= Iif(ISNIL(Arg6), 1, Arg6)
 	Local1:= SubStr(Arg2, At("&", Arg2) + 1, 1)
 	Local2:= Len(Arg2) + 1
-	If (Local3 == 0)
-		Arg7:= IIF(ISNIL(Arg7), 1, Arg7)
-	Else
-		Arg7:= IIF(ISNIL(Arg7), Arg1[Local3][7] + Arg1[Local3][8], Arg7)
-	EndIf
+	if (Local3 == 0)
+		Arg7:= Iif(ISNIL(Arg7), 1, Arg7)
+	else
+		Arg7:= Iif(ISNIL(Arg7), Arg1[Local3][7] + Arg1[Local3][8], Arg7)
+	endif
 	AAdd(Arg1, {Arg2, Arg3, Arg4, Arg5, Local1, Arg6, Arg7, Local2})
-	Return Nil
+	return Nil
 
 ********************************
 Function BARMENU(Arg1, Arg2, Arg3)
 
 	Local Local1:= htk:= 0, Local2:= setcursor(0), Local3:= ink:= ;
 		.T., Local4:= .F.
-	Arg2:= IIF(ISNIL(Arg2), 1, Arg2)
-	Arg3:= IIF(ISNIL(Arg3), 1, Arg3)
+	Arg2:= Iif(ISNIL(Arg2), 1, Arg2)
+	Arg3:= Iif(ISNIL(Arg3), 1, Arg3)
 	aeval(Arg1, { |_1| (_1[6]:= Arg2, drawbarite(_1, 1)) })
 	Do While (.T.)
 		drawbarite(Arg1[Arg3], 2)
-		If (Local3 .AND. (Arg1[Arg3][2] != Nil .OR. Arg1[Arg3][2] != ;
+		if (Local3 .AND. (Arg1[Arg3][2] != Nil .OR. Arg1[Arg3][2] != ;
 				""))
 			dwnmsg(Arg1[Arg3][2])
-		EndIf
-		If (ink)
+		endif
+		if (ink)
 			Local1:= ninkey(0)
-		EndIf
-		If ((htk:= ascan(Arg1, { |_1| Upper(Chr(Local1)) == ;
+		endif
+		if ((htk:= ascan(Arg1, { |_1| Upper(Chr(Local1)) == ;
 				Upper(_1[5]) })) != 0)
 			drawbarite(Arg1[Arg3], 1)
 			Arg3:= htk
 			Keyboard Chr(13)
-		EndIf
+		endif
 		Do Case
 		Case Local1 == 19
 			drawbarite(Arg1[Arg3], 1)
-			Arg3:= IIF(--Arg3 == 0, Len(Arg1), Arg3)
+			Arg3:= Iif(--Arg3 == 0, Len(Arg1), Arg3)
 		Case Local1 == 4
 			drawbarite(Arg1[Arg3], 1)
-			Arg3:= IIF(++Arg3 > Len(Arg1), 1, Arg3)
+			Arg3:= Iif(++Arg3 > Len(Arg1), 1, Arg3)
 		Case Local1 == 27
 			Arg3:= 0
 			Exit
 		Case Local1 == 13 .AND. Arg1[Arg3][4]
-			If (ISARRAY(Arg1[Arg3][3]))
+			if (ISARRAY(Arg1[Arg3][3]))
 				downmenu(Arg1[Arg3][3], 1, Arg1[Arg3][6] + 1, ;
 					Arg1[Arg3][7])
-				If (LastKey() == K_LEFT .OR. LastKey() == K_RIGHT)
+				if (LastKey() == K_LEFT .OR. LastKey() == K_RIGHT)
 					Local1:= LastKey()
 					Local3:= .F.
 					ink:= .F.
 					Local4:= .T.
 					aeval(Arg1, { |_1| drawbarite(_1, 1) })
 					Loop
-				Else
+				else
 					Local3:= .T.
 					ink:= .T.
 					Local4:= .F.
-				EndIf
-			ElseIf (LastKey() == K_ENTER)
+				endif
+			elseif (LastKey() == K_ENTER)
 				eval(Arg1[Arg3][3])
 				Local4:= .F.
-			Else
+			else
 				Local3:= .T.
 				ink:= .T.
 				aeval(Arg1, { |_1| drawbarite(_1, 1) })
 				Loop
-			EndIf
+			endif
 			aeval(Arg1, { |_1| drawbarite(_1, 1) })
 		EndCase
-		If (Local4 .AND. Arg1[Arg3][4])
+		if (Local4 .AND. Arg1[Arg3][4])
 			Local1:= 13
 			Local3:= .F.
 			ink:= .F.
-		ElseIf (!Arg1[Arg3][4])
+		elseif (!Arg1[Arg3][4])
 			Local3:= .T.
 			ink:= .T.
-		EndIf
+		endif
 	EndDo
 	setcursor(Local2)
-	Return Arg3
+	return Arg3
 
 ********************************
 Function DRAWBARITE(Arg1, Arg2)
@@ -5170,16 +5170,16 @@ Function DRAWBARITE(Arg1, Arg2)
 	Local Local1, Local2, Local3, Local4
 	Local3:= padr(" " + textmenu(Arg1[1]), Arg1[8])
 	Local4:= At("&", Arg1[1])
-	If (Arg2 == 1)
-		Local1:= IIF(Arg1[4], "N*/W", "W*/W")
-		Local2:= IIF(Arg1[4], "R+*/W", "N*/W")
-	ElseIf (Arg2 == 2)
-		Local1:= IIF(Arg1[4], "W+/N", "W/N")
-		Local2:= IIF(Arg1[4], "R+/N", "W+/N")
-	EndIf
+	if (Arg2 == 1)
+		Local1:= Iif(Arg1[4], "N*/W", "W*/W")
+		Local2:= Iif(Arg1[4], "R+*/W", "N*/W")
+	elseif (Arg2 == 2)
+		Local1:= Iif(Arg1[4], "W+/N", "W/N")
+		Local2:= Iif(Arg1[4], "R+/N", "W+/N")
+	endif
 	@ Arg1[6], Arg1[7] Say Local3 Color Local1
 	@ Arg1[6], Arg1[7] + Local4 Say Arg1[5] Color Local2
-	Return Nil
+	return Nil
 
 ********************************
 Function TEXTMENU(Arg1)
@@ -5188,17 +5188,17 @@ Function TEXTMENU(Arg1)
 	Local1:= At("&", Arg1)
 	Local2:= SubStr(Arg1, 1, Local1 - 1)
 	Local3:= SubStr(Arg1, Local1 + 1)
-	Return IIF(Local1 != 0, Local2 + Local3, Arg1)
+	return Iif(Local1 != 0, Local2 + Local3, Arg1)
 
 ********************************
 Function SETBARITEM(Arg1, Arg2, Arg3)
 
 	Local Local1
 	Local1:= Arg1[Arg2][4]
-	If (Arg3 != Nil)
+	if (Arg3 != Nil)
 		Arg1[Arg2][4]:= Arg3
-	EndIf
-	Return Local1
+	endif
+	return Local1
 
 * EOF
 
@@ -5210,89 +5210,89 @@ Procedure NDWNMENU
 ********************************
 Function NEWDOWNMEN
 
-	Return {}
+	return {}
 
 ********************************
 Function AddDownIte(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8)
 
 	Local Local1, Local2
 	Local2:= Len(Arg1)
-	Arg2:= IIF(At("&", Arg2) == 0, "&" + Arg2, Arg2)
-	Arg4:= IIF(ISNIL(Arg4), { || nret() }, Arg4)
-	Arg6:= IIF(ISNIL(Arg6), .T., Arg6)
-	Arg8:= IIF(ISNIL(Arg8), 3, Arg8)
+	Arg2:= Iif(At("&", Arg2) == 0, "&" + Arg2, Arg2)
+	Arg4:= Iif(ISNIL(Arg4), { || nret() }, Arg4)
+	Arg6:= Iif(ISNIL(Arg6), .T., Arg6)
+	Arg8:= Iif(ISNIL(Arg8), 3, Arg8)
 	Local1:= SubStr(Arg2, At("&", Arg2) + 1, 1)
-	If (Local2 == 0)
-		Arg7:= IIF(ISNIL(Arg7), 3, Arg7)
-		Arg5:= IIF(ISNIL(Arg5), Len(Arg2) + 4, Arg5)
-	Else
-		Arg7:= IIF(ISNIL(Arg7), Arg1[Local2][6] + 1, Arg7)
-		Arg5:= IIF(ISNIL(Arg5), Max(Arg1[Local2][10], Len(Arg2) + 4), ;
+	if (Local2 == 0)
+		Arg7:= Iif(ISNIL(Arg7), 3, Arg7)
+		Arg5:= Iif(ISNIL(Arg5), Len(Arg2) + 4, Arg5)
+	else
+		Arg7:= Iif(ISNIL(Arg7), Arg1[Local2][6] + 1, Arg7)
+		Arg5:= Iif(ISNIL(Arg5), Max(Arg1[Local2][10], Len(Arg2) + 4), ;
 			Arg5)
-	EndIf
+	endif
 	AAdd(Arg1, {Arg2, Arg3, Arg4, Arg6, Local1, Arg7, Arg8, .F., .F., ;
 		Arg5})
-	Return Nil
+	return Nil
 
 ********************************
 Function AddDownSep(Arg1, Arg2)
 
 	LOCAL Local1, Local2, Local3
 	Local3 := Len(Arg1)
-	Arg2   := IIF(ISNIL(Arg2), 1, Arg2)
-	Local2 := IIF(ISNIL(Local2), 3, Local2)
-	If (Local3 == 0)
-		Local1:= IIF(ISNIL(Local1), 3, Local1)
-	Else
-		Local1:= IIF(ISNIL(Local1), Arg1[Local3][6] + 1, Local1)
-	EndIf
+	Arg2   := Iif(ISNIL(Arg2), 1, Arg2)
+	Local2 := Iif(ISNIL(Local2), 3, Local2)
+	if (Local3 == 0)
+		Local1:= Iif(ISNIL(Local1), 3, Local1)
+	else
+		Local1:= Iif(ISNIL(Local1), Arg1[Local3][6] + 1, Local1)
+	endif
 	AAdd(Arg1, {Nil, Nil, Nil, .T., "", Local1, Local2, .F., .T., ;
 		Arg2})
-	Return Nil
+	return Nil
 
 ********************************
 Function DRAWDOWNIT(Arg1, Arg2)
 
 	Local Local1, Local2, Local3, Local4, Local5, Local6
-	Local5:= IIF(Arg1[8], "û ", "  ")
-	Local6:= IIF(ISARRAY(Arg1[3]), Chr(16), " ")
-	Local3:= IIF(Arg1[9], Replicate("Ä", Arg1[10]), padr(Local5 + ;
+	Local5:= Iif(Arg1[8], "?", "  ")
+	Local6:= Iif(ISARRAY(Arg1[3]), Chr(16), " ")
+	Local3:= Iif(Arg1[9], Replicate("?, Arg1[10]), padr(Local5 + ;
 		textmenu(Arg1[1]), Arg1[10] - 1) + Local6)
-	Local4:= IIF(Arg1[9], 0, At("&", Arg1[1]) + 1)
-	If (Arg2 == 1)
-		Local1:= IIF(Arg1[4], "N*/W", "W*/W")
-		Local2:= IIF(Arg1[4], "R+*/W", "N*/W")
-	ElseIf (Arg2 == 2)
-		Local1:= IIF(Arg1[4], "W+/N", "W/N")
-		Local2:= IIF(Arg1[4], "R+/N", "W+/N")
-	EndIf
-	If (Arg1[9])
+	Local4:= Iif(Arg1[9], 0, At("&", Arg1[1]) + 1)
+	if (Arg2 == 1)
+		Local1:= Iif(Arg1[4], "N*/W", "W*/W")
+		Local2:= Iif(Arg1[4], "R+*/W", "N*/W")
+	elseif (Arg2 == 2)
+		Local1:= Iif(Arg1[4], "W+/N", "W/N")
+		Local2:= Iif(Arg1[4], "R+/N", "W+/N")
+	endif
+	if (Arg1[9])
 		@ Arg1[6], Arg1[7] Say Local3 Color Local1
-	Else
+	else
 		@ Arg1[6], Arg1[7] Say Local3 Color Local1
 		@ Arg1[6], Arg1[7] + Local4 Say Arg1[5] Color Local2
-	EndIf
-	Return Nil
+	endif
+	return Nil
 
 ********************************
 Function CHKDOWNITE(Arg1, Arg2, Arg3)
 
 	Local Local1
 	Local1:= Arg1[Arg2][8]
-	If (Arg3 != Nil)
+	if (Arg3 != Nil)
 		Arg1[Arg2][8]:= Arg3
-	EndIf
-	Return Local1
+	endif
+	return Local1
 
 ********************************
 Function SETDOWNITE(Arg1, Arg2, Arg3)
 
 	Local Local1
 	Local1:= Arg1[Arg2][4]
-	If (Arg3 != Nil)
+	if (Arg3 != Nil)
 		Arg1[Arg2][4]:= Arg3
-	EndIf
-	Return Local1
+	endif
+	return Local1
 
 Proc Help( cProg, nLine, xVar )
 ********************************
@@ -5304,21 +5304,21 @@ LOCAL nHandle
 
 Set Key 28 To
 nHandle := Fopen( oAmbiente:xBase + "\HELP.HLP")
-IF FLocate( nHandle, "/" + StrZero( Help_Codigo, 4) ) = 0
+if FLocate( nHandle, "/" + StrZero( Help_Codigo, 4) ) = 0
 	cTitulo := MsReadLine( nHandle )
 	WHILE !Feof( nHandle )
 		cTexto := MsReadLine( nHandle )
-		IF Left( cTexto, 1 ) = "/"
+		if Left( cTexto, 1 ) = "/"
 			Exit
-		Else
+		else
 			Aadd( aArray, cTexto )
-		EndIF
+		endif
 	EndDo
 	M_Title( cTitulo )
 	FazMenu(05,10, aArray, Cor())
-Else
+else
 	Alerta("Help nao Disponivel...")
-EndIf
+endif
 FClose( nHandle )
 Set Key 28 To Help
 ResTela( cScreen )
@@ -5327,9 +5327,9 @@ Function Extenso( Numero, Dinheiro, Linhas, Largura )
 *****************************************************
 /*
 								 ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Valor a Imprimir por extenso
-                         ³  ÚÄÄÄÄÄÄÄÄÄÄÄÄ Tipo de Moeda (1-Real, 2 - Dolar)
-								 ³  ³ ÚÄÄÄÄÄÄÄÄÄÄ Qtde de Linhas para impressao
-		 LARG = 50	 &&	 ³  ³ ³	 ÄÄÄÄÄÄÄ Comprimento da Linha de impressao
+                         ? ÚÄÄÄÄÄÄÄÄÄÄÄ?Tipo de Moeda (1-Real, 2 - Dolar)
+								 ? ?ÚÄÄÄÄÄÄÄÄÄ?Qtde de Linhas para impressao
+		 LARG = 50	 &&	 ? ?? ÄÄÄÄÄÄ?Comprimento da Linha de impressao
 		 VALOR = EXTENSO( Vlr,2,3,LARG)
 		 @ 14,05 Say LEFT(VALOR,LARG)
 		 @ 15,05 Say SubStr(VALOR,LARG+1,LARG)
@@ -5348,9 +5348,9 @@ PRIVA aCentavo  := {"CENTAVO","CENTAVOS"}
 PRIVA cMil		 :=  "MIL "
 PRIVA aMoeda	 := {{ "REAL ", "REAIS "}, {"DOLAR ", "DOLARES "}, {"HORA ", "HORAS "}}
 
-IF TipoMoeda = 3 // Horas
+if TipoMoeda = 3 // Horas
 	aCentavo  := {"MINUTO","MINUTOS"}
-EndIF
+endif
 P1 := SubStr( Numero1, 2, 3 )
 P2 := SubStr( Numero1, 5, 3 )
 P3 := SubStr( Numero1, 8, 3 )
@@ -5359,111 +5359,111 @@ P4 := StrZero(( Numero - Int( Numero ) ) * 100, 3 )
 Converte( P1, 1 )
 Converte( P2, 2 )
 
-IF Val( P2) <> 0 .AND. Val( P3 ) < 100 .AND. Val( P4) = 0  // Ex. linha 50
+if Val( P2) <> 0 .AND. Val( P3 ) < 100 .AND. Val( P4) = 0  // Ex. linha 50
    cTexto += cTexto  // + "E "
-EndIF
+endif
 
 Converte( P3, 3 )
 
-IF P3 = "000" .AND. VAL( P1 + P2 ) <> 0
+if P3 = "000" .AND. VAL( P1 + P2 ) <> 0
 	cTexto := cTexto + aMoeda[ TipoMoeda, 2 ]
-EndIF
+endif
 
 Converte( P4, 4 )
 cTexto := Formata( cTexto, Linhas, Largura)
-Return cTexto
+return cTexto
 
 Function Converte( x, Grandeza  )
 ********************************
 
-IF x = "000"
-  Return cTexto
-EndIF
+if x = "000"
+  return cTexto
+endif
 
 x1 := Left( x, 1 )
 x2 := SubStr( x, 2, 1 )
 x3 := Right( x, 1 )
 X4 := Right( x, 2 )
 
-IF Grandeza = 4
-  cTexto += IIF( Val( P1 + P2 + P3 ) <> 0, "E ", "" )
-EndIF
+if Grandeza = 4
+  cTexto += Iif( Val( P1 + P2 + P3 ) <> 0, "E ", "" )
+endif
 
-IF x1 <> "0"         // Centena
-	IF x4 = "00" .AND. x1 = "1"
+if x1 <> "0"         // Centena
+	if x4 = "00" .AND. x1 = "1"
 		cTexto += "CEM "
-	Else
+	else
 		cTexto +=  aCentena[ Val( x1 ) ]
-	EndIF
-EndIF
+	endif
+endif
 
-IF x4 >= "10" .AND. x4 <= "19"    // Dezena ate dezenove
-   cTexto +=  IIF( x1 <> "0", "E " + Ndb[ Val( x4 ) -9 ] , Ndb[ Val( x4 ) -9 ] )
-EndIF
+if x4 >= "10" .AND. x4 <= "19"    // Dezena ate dezenove
+   cTexto +=  Iif( x1 <> "0", "E " + Ndb[ Val( x4 ) -9 ] , Ndb[ Val( x4 ) -9 ] )
+endif
 
-IF x2 >= "2"
-  IF x1 <> "0"
+if x2 >= "2"
+  if x1 <> "0"
     cTexto += "E " + aDezena[ Val( x2 ) ]
-  Else
+  else
 	  cTexto += aDezena[ Val( x2 ) ]
-  EndIF
-EndIF
+  endif
+endif
 
-IF x3 <> "0" .AND. (x4 < "10" .OR. x4 > "19")
-	IF x1<> "0" .OR. x2 <> "0"
+if x3 <> "0" .AND. (x4 < "10" .OR. x4 > "19")
+	if x1<> "0" .OR. x2 <> "0"
       cTexto += "E " + aUnidade[VAL(x3)]
-	ELSE
+	else
 		cTexto += aUnidade[VAL(x3)]
-	EndIF
-EndIF
+	endif
+endif
 
 DO CASE
 CASE grandeza = 1
-  cTexto += IIF(VAL(x)=1, aMilhar[1], aMilhar[2])
+  cTexto += Iif(VAL(x)=1, aMilhar[1], aMilhar[2])
 CASE grandeza = 2
-  cTexto += IIF(VAL(x) > 0, cMil, "" )
+  cTexto += Iif(VAL(x) > 0, cMil, "" )
 CASE grandeza = 3
-  cTexto += IIF(VAL(p1+p2+p3)=1, aMoeda[ TipoMoeda, 1], aMoeda[ TipoMoeda, 2 ])
+  cTexto += Iif(VAL(p1+p2+p3)=1, aMoeda[ TipoMoeda, 1], aMoeda[ TipoMoeda, 2 ])
 CASE grandeza = 4
-  cTexto += IIF(VAL(x)=1, aCentavo[1], aCentavo[2])
+  cTexto += Iif(VAL(x)=1, aCentavo[1], aCentavo[2])
 CASE grandeza = nil
   cTexto += ""
 ENDCASE
-Return( cTexto )
+return( cTexto )
 
 Function Formata( _Txt, _Lin, _Tam )
 ***********************************
 qtd_lin = MLCOUNT( _txt, _tam )
-qtd_lin = IIF(qtd_lin > _lin,_lin,qtd_lin)
+qtd_lin = Iif(qtd_lin > _lin,_lin,qtd_lin)
 _txtaux=""
 FOR _i = 1 TO qtd_lin
 	linha = TRIM(MEMOLINE(_txt,_tam,_i))
-	IF _i <> qtd_lin
+	if _i <> qtd_lin
 		DO WHILE .T.
 			falta = _tam-Len(linha)
-			IF falta > 20 .OR. RIGHT(linha,1)="."
+			if falta > 20 .OR. RIGHT(linha,1)="."
 				EXIT
-			EndIF
-			IF Len(linha) < _tam
+			endif
+			if Len(linha) < _tam
 				linha = STRTRAN(linha," ",Chr(177))
 				FOR _j = 1 TO falta
 					acha = Rat(Chr(177),linha)
-					IF acha = 0
+					if acha = 0
 						EXIT
-					EndIF
+					endif
 					linha = Stuff(linha,acha,1,"  ")
 				NEXT
 				linha = STRTRAN(linha,Chr(177)," ")
-			EndIF
-			IF Len(TRIM(linha))= _tam
+			endif
+			if Len(TRIM(linha))= _tam
 				EXIT
-			EndIF
+			endif
 		ENDDO
-	EndIF
+	endif
 		_txtaux = _txtaux + linha
 NEXT
 _txtaux = LEFT(TRIM(_txtaux)+Repl("*",_tam * _lin),_tam * _lin)
-Return (_txtaux)
+return (_txtaux)
 
 Function CodiOriginal( cNr_Original )
 *************************************
@@ -5474,13 +5474,13 @@ LOCAL lRetVal	:= OK
 
 cNr_Original := AllTrim( cNr_Original )
 Lista->(Order( LISTA_N_ORIGINAL ))
-IF Lista->(!DbSeek( cNr_Original ))
+if Lista->(!DbSeek( cNr_Original ))
 	ErrorBeep()
 	Alerta("Erro: Nao Encontrado.")
 	lRetVal := FALSO
-EndIF
+endif
 AreaAnt( Arq_Ant, Ind_Ant )
-Return( lRetVal )
+return( lRetVal )
 
 Proc TentaCriarArquivo( cArquivo )
 **********************************
@@ -5488,27 +5488,27 @@ LOCAL cScreen := SaveScreen()
 LOCAL Dbf1, cTela
 LOCAL aArquivos := {}
 Aadd( aArquivos, { "EMPRESA.DBF", {{ "CODI", "C", 04, 0 }, { "NOME",    "C", 40, 0 }}})
-IF cArquivo != NIL
-	IF Ascan( aArquivos[1], cArquivo ) = 0
-		Return( FALSO )
-	EndIF
-EndIF
+if cArquivo != NIL
+	if Ascan( aArquivos[1], cArquivo ) = 0
+		return( FALSO )
+	endif
+endif
 nTam := Len( aArquivos )
 For nX := 1 To nTam
 	cArquivo := aArquivos[nX,1]
-	IF !File( cArquivo )
+	if !File( cArquivo )
 		Mensagem( "Aguarde... Gerando o Arquivo " + cArquivo, Cor())
 		DbCreate( cArquivo, aArquivos[nX,2] )
-	Else
-		IF NetUse( cTemp, MULTI )
+	else
+		if NetUse( cTemp, MULTI )
 			Integridade( aArquivos[nX, 2], Cor())
-		Else
+		else
 			Cls
 			Quit
-		EndIF
-	EndIF
+		endif
+	endif
 Next
-Return( OK )
+return( OK )
 
 
 Function Amax( aArray )
@@ -5521,13 +5521,13 @@ LOCAL nPos	 := 0
 
 FOR nY := 1 To nLen
 	xVar := ValType( aArray[nY])
-	IF xVar = "N"
-		IF aArray[nY] > nMaior
+	if xVar = "N"
+		if aArray[nY] > nMaior
 			nMaior := aArray[nY]
-		EndIF
-	EndIF
+		endif
+	endif
 Next
-Return( nMaior )
+return( nMaior )
 
 Function DelTemp()
 **************
@@ -5547,15 +5547,15 @@ LOCAL fHandle
 LOCAL xArquivo := "SC" + AllTrim( Str( c1 )) + ".PPP"
 
 fHandle := Fopen( xArquivo, 2 )
-IF fHandle = -1
+if fHandle = -1
 	lOk = .F.
-ELSE
+else
 	sTring := Space(8)
 	Fread( fHandle, @sTring, 8 )
-	lOk = IIF( string == MsDecrypt( STR(c1,8,0)), OK, FALSO )
-ENDIF
+	lOk = Iif( string == MsDecrypt( STR(c1,8,0)), OK, FALSO )
+endif
 FClose( fHandle)
-Return( lOk )
+return( lOk )
 
 Function CopyCria()
 *******************
@@ -5567,11 +5567,11 @@ LOCAL fHandle
 LOCAL xArquivo := "SC" + AllTrim( Str( c1 )) + ".PPP"
 
 fHandle := FCreate( xArquivo, 4 )
-IF fHandle <> -1
-	lOk := IIF( FWrite( fHandle, MsEncrypt( Str( c1, 8, 0 )), 8 ) = 8, OK, FALSO )
+if fHandle <> -1
+	lOk := Iif( FWrite( fHandle, MsEncrypt( Str( c1, 8, 0 )), 8 ) = 8, OK, FALSO )
 	FClose( fHandle )
-EndIF
-Return( lOk )
+endif
+return( lOk )
 
 Function MSDecToChr( cString )
 ****************************
@@ -5585,7 +5585,7 @@ For nX := 1 To nTam
 	cNumero := StrExtract( cString, "#", nX+1 )
 	cNewString += Chr( Val( cNumero ))
 Next
-Return ( cNewString )
+return ( cNewString )
 
 Procedure Opcoes( Par1, Par2, Par3)
 ***********************************
@@ -5595,14 +5595,14 @@ LOCAL aMenuArray := { " Calculadora "," Calendario "," Tabela Ascii " }
 Set Key -9 To
 			 WHILE OK
 				 oMenu:Limpa()
-				 StatusInf("ESCOLHA COM SETAS E TECLE ÄÄÄÄÙ","ESC-RETORNA")
+				 StatusInf("ESCOLHA COM SETAS E TECLE ÄÄÄÄ?,"ESC-RETORNA")
 		  M_Title( "OPCOES" )
 				 nChoice := FazMenu( 03, 60, aMenuArray, Cor())
-				 IF nChoice = 0
+				 if nChoice = 0
 					 Set Key -9 To Opcoes() // F10
 					 ResTela( cScreen )
 					 Exit
-				 EndIF
+				 endif
 				 oMenu:Limpa()
 				 Do Case
 				 Case nChoice = 1
@@ -5625,11 +5625,11 @@ Function SaveScreen()
 *********************
 cScreen := FTempName("T*.BMP")
 ScrToDisk( cScreen, 00, 00, MaxRow(), MaxCol())
-Return( cScreen )
+return( cScreen )
 
 Function ResTela( cScreen )
 ***************************
-Return( DiskToScr( cScreen, 0, 0, MaxCol(), MaxCol() ))
+return( DiskToScr( cScreen, 0, 0, MaxCol(), MaxCol() ))
 */
 
 Function PrintOn( lFechaSpooler )
@@ -5637,38 +5637,38 @@ Function PrintOn( lFechaSpooler )
 LOCAL nQualPorta := 1
 LOCAL cSaida	  := ""
 
-IF lFechaSpooler = NIL
+if lFechaSpooler = NIL
 	AbreSpooler()
-EndIF
+endif
 Instru80( @nQualPorta )
-IF 	 nQualPorta = 1
+if 	 nQualPorta = 1
 	cSaida := "LPT1"
-ElseIF nQualPorta = 2
+elseif nQualPorta = 2
 	cSaida := "LPT2"
-ElseIF nQualPorta = 3
+elseif nQualPorta = 3
 	cSaida := "LPT3"
-ElseIF nQualPorta = 4
+elseif nQualPorta = 4
 	cSaida := "COM1"
-ElseIF nQualPorta = 5
+elseif nQualPorta = 5
 	cSaida := "COM2"
-ElseIF nQualPorta = 6
+elseif nQualPorta = 6
 	cSaida := "COM3"
-EndIF
+endif
 if lFechaSpooler == NIL
    oMenu:StatInf()
    oAmbiente:nRegistrosImpressos := 0
 endif	
 Set Cons Off
 Set Devi To Print
-IF !oAmbiente:Spooler
-	IF nQualPorta != 1
+if !oAmbiente:Spooler
+	if nQualPorta != 1
 		Set Print To ( cSaida )
-	EndIF
-EndIF
+	endif
+endif
 Set Print On
 FPrint( RESETA )
 SetPrc(0,0)
-Return Nil
+return Nil
 
 Function PrintOff()
 *******************
@@ -5679,7 +5679,7 @@ Set Prin Off
 Set Cons On
 Set Print to
 CloseSpooler()
-Return Nil
+return Nil
 
 Function Instru80( nQualPorta )
 *******************************
@@ -5700,10 +5700,10 @@ PRIVA aAction				:= {}
 PRIVA aComPort 			:= {}
 PRIVA aMenu
 
-IF nQualPorta != NIL
+if nQualPorta != NIL
 	nQualPorta := nPortaDeImpressao
-	Return( OK )
-EndIF
+	return( OK )
+endif
 ErrorBeep()
 WHILE OK
 	oMenu:Limpa()
@@ -5714,36 +5714,36 @@ WHILE OK
 	For i := 1 To 3
       nStatus := PrnStatus(i)
 		if nStatus = 0 
-		   nStatus := IIF(IsPrinter(i), 1, 2 )
+		   nStatus := Iif(IsPrinter(i), 1, 2 )
 		else
-		  IF nStatus = -1
+		  if nStatus = -1
 			  nStatus = 4
-		  Else
+		  else
 			  nStatus++
-		   EndIF
+		   endif
 		endif	
 		Aadd( aStatus, nStatus )
 	Next
 	aMenu   := {" LPT1 þ " + aAction[ aStatus[1]] + " þ " + aLpt1[1,2],;
 					" LPT2 þ " + aAction[ aStatus[2]] + " þ " + aLpt2[1,2],;
 					" LPT3 þ " + aAction[ aStatus[3]] + " þ " + aLpt3[1,2],;
-					" COM1 þ " + IIF( FIsPrinter("COM1"), aComPort[1], aComPort[2]) + " þ " + "PORTA SERIAL 1",;
-					" COM2 þ " + IIF( FIsPrinter("COM2"), aComPort[1], aComPort[2]) + " þ " + "PORTA SERIAL 2",;
-					" COM3 þ " + IIF( FIsPrinter("COM3"), aComPort[1], aComPort[2]) + " þ " + "PORTA SERIAL 3",;
+					" COM1 þ " + Iif( FIsPrinter("COM1"), aComPort[1], aComPort[2]) + " þ " + "PORTA SERIAL 1",;
+					" COM2 þ " + Iif( FIsPrinter("COM2"), aComPort[1], aComPort[2]) + " þ " + "PORTA SERIAL 2",;
+					" COM3 þ " + Iif( FIsPrinter("COM3"), aComPort[1], aComPort[2]) + " þ " + "PORTA SERIAL 3",;
 					" USB  þ " + aAction[ aStatus[1]] + " þ IMPRESSORA USB",;
 					" VISUALIZAR   þ ",;
 					" EMAIL        þ ",;
 					" WEB BROWSER  þ ",;
                " SPOOLER      þ ",;
 					" CANCELAR     þ "}
-	MaBox( 05, 10, 18, 62,,"ENTER=IMPRIMIR³CTRL+ENTER=ESCOLHER³CTRL+PGDN=ONLINE")
+	MaBox( 05, 10, 18, 62,,"ENTER=IMPRIMIR?TRL+ENTER=ESCOLHER?TRL+PGDN=ONLINE")
    nChoice := aChoice( 06, 11, 17, 61, aMenu, alDisp, "_Instru80" )
-	IF nChoice = 0 .OR. nChoice = 12
-	   IF Conf("Pergunta: Cancelar Impressao ?")
+	if nChoice = 0 .OR. nChoice = 12
+	   if Conf("Pergunta: Cancelar Impressao ?")
 		   lCancelou := OK
-   	   Return( FALSO )
-	   EndIF
-	EndIF	
+   	   return( FALSO )
+	   endif
+	endif	
 	aNewLpt := aLpt1
 	Do Case
 		Case nChoice = 1
@@ -5765,42 +5765,42 @@ WHILE OK
 	SetarVariavel( aNewLpt )
 	Do Case
    Case nChoice = 0 .OR. nChoice = 12
-		IF lCancelou
+		if lCancelou
 			lCancelou := FALSO
 			Loop
-		EndIF
-		IF Conf("Pergunta: Cancelar Impressao ?")
-			Return( FALSO )
-		EndIF
+		endif
+		if Conf("Pergunta: Cancelar Impressao ?")
+			return( FALSO )
+		endif
 	Case nChoice = 7
 		nPortaDeImpressao := 1
 		SaidaParaUsb()
-		Return( OK )
+		return( OK )
 	Case nChoice = 8
 		nPortaDeImpressao := 1
       return( SaidaParaArquivo())
 	Case nChoice = 9
 		nPortaDeImpressao := 1
 		SaidaParaEmail()
-		Return( OK )
+		return( OK )
 	Case nChoice = 10
 		nPortaDeImpressao := 1
 		SaidaParaHtml()
-		Return( OK )
+		return( OK )
    Case nChoice = 11
 		nPortaDeImpressao := 1
       SaidaParaSpooler()
-		Return( OK )
+		return( OK )
 	OTherWise
-		nPortaDeImpressao   := IIF( nChoice = 0, 1, nChoice )
+		nPortaDeImpressao   := Iif( nChoice = 0, 1, nChoice )
 		oAmbiente:cArquivo  := ""
 		oAmbiente:Spooler   := FALSO
 		oAmbiente:IsPrinter := nChoice
 		nQualPorta			  := nChoice
-		IF LptOk()
+		if LptOk()
 			ResTela( cScreen )
-			Return( OK )
-		EndIF
+			return( OK )
+		endif
 	EndCase
 EndDo
 ResTela( cScreen )
@@ -5813,66 +5813,66 @@ LOCAL cPath := FChdir()
 Do Case
 Case LastKey() = K_CTRL_PGDN
   lCancelou := OK
-  Return( 0 )
+  return( 0 )
 
 Case Mode = 0
-	Return(2)
+	return(2)
 
 Case Mode = 1 .OR. Mode = 2
 	ErrorBeep()
-	Return(2)
+	return(2)
 
 Case LastKey() = ESC
-	Return(0)
+	return(0)
 
-Case LastKey() = K_RETURN	// ENTER
-	Return(1)
+Case LastKey() = K_return	// ENTER
+	return(1)
 
 
 Case LastKey() = K_CTRL_RET  // CTRL+ENTER
 	FChDir( oAmbiente:xBaseDados )
 	Set Defa To ( oAmbiente:xBaseDados )
-	IF UsaArquivo("PRINTER")
+	if UsaArquivo("PRINTER")
 		PrinterErrada( @cCodi )
-		IF nCorrente = 1
+		if nCorrente = 1
 			aLpt1 := {}
 			Aadd( aLpt1, { Printer->Codi, Printer->Nome, Printer->_Cpi10, Printer->_Cpi12, Printer->Gd, Printer->Pq, Printer->Ng, Printer->Nr, ;
 								Printer->Ca, Printer->c18, Printer->LigSub, Printer->DesSub, Printer->_SaltoOff, Printer->_Spaco1_8, ;
 								Printer->_Spaco1_6, Printer->Reseta })
 			aMenu[1] := " LPT1 þ " + aAction[ aStatus[1]] + " þ " + aLpt1[1,2]
-		ElseIF nCorrente = 2
+		elseif nCorrente = 2
 			aLpt2 := {}
 			Aadd( aLpt2, { Printer->Codi, Printer->Nome, Printer->_Cpi10, Printer->_Cpi12, Printer->Gd, Printer->Pq, Printer->Ng, Printer->Nr, ;
 								Printer->Ca, Printer->c18, Printer->LigSub, Printer->DesSub, Printer->_SaltoOff, Printer->_Spaco1_8, ;
 								Printer->_Spaco1_6, Printer->Reseta })
 
 			aMenu[2] := " LPT2 þ " + aAction[ aStatus[2]] + " þ " + aLpt2[1,2]
-		ElseIF nCorrente = 3
+		elseif nCorrente = 3
 			aLpt3 := {}
 			Aadd( aLpt3, { Printer->Codi, Printer->Nome, Printer->_Cpi10, Printer->_Cpi12, Printer->Gd, Printer->Pq, Printer->Ng, Printer->Nr, ;
 								Printer->Ca, Printer->c18, Printer->LigSub, Printer->DesSub, Printer->_SaltoOff, Printer->_Spaco1_8, ;
 								Printer->_Spaco1_6, Printer->Reseta })
 			aMenu[3] := " LPT3 þ " + aAction[ aStatus[3]] + " þ " + aLpt3[1,2]
-		EndIf
+		endif
 		Printer->(DbCloseArea())
-		IF UsaArquivo("USUARIO")
-			IF Usuario->(DbSeek( oAmbiente:xUsuario ))
-				IF Usuario->(TravaReg())
-					Usuario->Lpt1 := IIF( aLpt1[1,1] = NIL, "", aLpt1[1,1])
-					Usuario->Lpt2 := IIF( aLpt2[1,1] = NIL, "", aLpt2[1,1])
-					Usuario->Lpt3 := IIF( aLpt3[1,1] = NIL, "", aLpt3[1,1])
+		if UsaArquivo("USUARIO")
+			if Usuario->(DbSeek( oAmbiente:xUsuario ))
+				if Usuario->(TravaReg())
+					Usuario->Lpt1 := Iif( aLpt1[1,1] = NIL, "", aLpt1[1,1])
+					Usuario->Lpt2 := Iif( aLpt2[1,1] = NIL, "", aLpt2[1,1])
+					Usuario->Lpt3 := Iif( aLpt3[1,1] = NIL, "", aLpt3[1,1])
 					Usuario->(Libera())
-				EndIF
-			EndIF
+				endif
+			endif
 			Usuario->(DbCloseArea())
-		EndIF
-	EndIF
+		endif
+	endif
 	FChDir( cPath )
 	Set Defa To ( cPath )
-	Return(2)
+	return(2)
 
 OtherWise
-	Return(2)
+	return(2)
 
 EndCase
 
@@ -5893,7 +5893,7 @@ PUBLIC _SALTOOFF := MsDecToChr( aNewLpt[1,++nPos] )
 PUBLIC _SPACO1_8 := MsDecToChr( aNewLpt[1,++nPos] )
 PUBLIC _SPACO1_6 := MsDecToChr( aNewLpt[1,++nPos] )
 PUBLIC RESETA	  := MsDecToChr( aNewLpt[1,++nPos] )
-Return
+return
 
 Function Impressora()
 *********************
@@ -5903,59 +5903,59 @@ LOCAL aMenu   := {}
 
 oMenu:Limpa()
 WHILE OK
-	aMenu := { " LPT1 þ " + IIF( aLpt1[1,2] != NIL, aLpt1[1,2],""),;
-				  " LPT2 þ " + IIF( aLpt2[1,2] != NIL, aLpt2[1,2],""),;
-				  " LPT3 þ " + IIF( aLpt3[1,2] != NIL, aLpt3[1,2],"")}
+	aMenu := { " LPT1 þ " + Iif( aLpt1[1,2] != NIL, aLpt1[1,2],""),;
+				  " LPT2 þ " + Iif( aLpt2[1,2] != NIL, aLpt2[1,2],""),;
+				  " LPT3 þ " + Iif( aLpt3[1,2] != NIL, aLpt3[1,2],"")}
 	M_Title(" TECLE ENTER PARA ESCOLHER, ESC CANCELAR")
 	nChoice := FazMenu( 09, 14, aMenu, Cor())
-	IF  nChoice = 0
+	if  nChoice = 0
 		ResTela( cScreen )
-		Return
-	Else
+		return
+	else
 		MudaImpressora( nChoice )
-	EndIF
+	endif
 EndDo
 
 Proc MudaImpressora( nCorrente )
 ********************************
 LOCAL cCodi := Space(02)
 
-IF UsaArquivo("PRINTER")
+if UsaArquivo("PRINTER")
 	PrinterErrada( @cCodi )
-	IF nCorrente = 1
+	if nCorrente = 1
 		aLpt1 := {}
 		Aadd( aLpt1, { Printer->Codi, Printer->Nome, Printer->_Cpi10, Printer->_Cpi12, Printer->Gd, Printer->Pq, Printer->Ng, Printer->Nr, ;
 							Printer->Ca, Printer->c18, Printer->LigSub, Printer->DesSub, Printer->_SaltoOff, Printer->_Spaco1_8, ;
 							Printer->_Spaco1_6, Printer->Reseta })
-	ElseIF nCorrente = 2
+	elseif nCorrente = 2
 		aLpt2 := {}
 		Aadd( aLpt2, { Printer->Codi, Printer->Nome, Printer->_Cpi10, Printer->_Cpi12, Printer->Gd, Printer->Pq, Printer->Ng, Printer->Nr, ;
 							Printer->Ca, Printer->c18, Printer->LigSub, Printer->DesSub, Printer->_SaltoOff, Printer->_Spaco1_8, ;
 							Printer->_Spaco1_6, Printer->Reseta })
 
-	ElseIF nCorrente = 3
+	elseif nCorrente = 3
 		aLpt3 := {}
 		Aadd( aLpt3, { Printer->Codi, Printer->Nome, Printer->_Cpi10, Printer->_Cpi12, Printer->Gd, Printer->Pq, Printer->Ng, Printer->Nr, ;
 							Printer->Ca, Printer->c18, Printer->LigSub, Printer->DesSub, Printer->_SaltoOff, Printer->_Spaco1_8, ;
 							Printer->_Spaco1_6, Printer->Reseta })
-	EndIf
+	endif
 	Printer->(DbCloseArea())
-	IF UsaArquivo("USUARIO")
-		IF Usuario->(DbSeek( oAmbiente:xUsuario ))
-			IF Usuario->(TravaReg())
-				Usuario->Lpt1 := IIF( aLpt1[1,1] = NIL, "", aLpt1[1,1])
-				Usuario->Lpt2 := IIF( aLpt2[1,1] = NIL, "", aLpt2[1,1])
-				Usuario->Lpt3 := IIF( aLpt3[1,1] = NIL, "", aLpt3[1,1])
+	if UsaArquivo("USUARIO")
+		if Usuario->(DbSeek( oAmbiente:xUsuario ))
+			if Usuario->(TravaReg())
+				Usuario->Lpt1 := Iif( aLpt1[1,1] = NIL, "", aLpt1[1,1])
+				Usuario->Lpt2 := Iif( aLpt2[1,1] = NIL, "", aLpt2[1,1])
+				Usuario->Lpt3 := Iif( aLpt3[1,1] = NIL, "", aLpt3[1,1])
 				Usuario->(Libera())
-			EndIF
-		EndIF
+			endif
+		endif
 		Usuario->(DbCloseArea())
-	EndIF
-EndIF
+	endif
+endif
 
 Function Instruim()
 *******************
-Return( Instru80() )
+return( Instru80() )
 
 Function InstruEt()
 *******************
@@ -5964,20 +5964,20 @@ LOCAL nChoice
 oMenu:Limpa()
 ErrorBeep()
 nChoice := Alert(" INSTRU€ŽO PARA EMISSŽO DE ETIQUETAS      " + ;
-						";; û Coloque Formulario Etiqueta.        " + ;
-						"; û Acerte a Altura do Picote           " + ;
-						"; û Resete ou Ligue a Impressora        ", { "Imprimir", "Visualizar", "Cancelar"})
+						";; ?Coloque Formulario Etiqueta.        " + ;
+						"; ?Acerte a Altura do Picote           " + ;
+						"; ?Resete ou Ligue a Impressora        ", { "Imprimir", "Visualizar", "Cancelar"})
 ResTela( cScreen )
-IF nChoice = 1
+if nChoice = 1
 	oAmbiente:cArquivo := ""
 	oAmbiente:Spooler  := FALSO
-	Return( OK )
-ElseIF nChoice = 2
+	return( OK )
+elseif nChoice = 2
 	SaidaParaArquivo()
-	Return( OK )
-Else
-	Return( FALSO )
-EndIF
+	return( OK )
+else
+	return( FALSO )
+endif
 
 Function PrinterErrada( cCodi )
 *******************************
@@ -5988,13 +5988,13 @@ LOCAL lRetVal := OK
 
 Area("Printer")
 Printer->(Order( PRINTER_CODI ))
-IF Printer->(!DbSeek( cCodi ))
+if Printer->(!DbSeek( cCodi ))
 	Printer->(Order( PRINTER_NOME ))
 	Printer->(Escolhe( 00, 00, 24, "Codi + ' ' + Nome", "ID NOME DA IMPRESSORA", aRotina ))
 	cCodi := Printer->Codi
-EndIF
+endif
 AreaAnt( Arq_Ant, Ind_Ant )
-Return( lRetVal )
+return( lRetVal )
 
 Function PrinterDbedit()
 ************************
@@ -6005,9 +6005,9 @@ LOCAL oBrowse	:= MsBrowse():New()
 LOCAL nField
 Set Key -8 To
 
-IF !UsaArquivo("Printer")
-	Return( nil )
-EndIF
+if !UsaArquivo("Printer")
+	return( nil )
+endif
 
 oMenu:Limpa()
 Area("Printer")
@@ -6072,9 +6072,9 @@ FIELD _Spaco1_6
 FIELD _Spaco1_8
 FIELD Reseta
 
-IF !UsaArquivo("PRINTER")
-	Return
-EndIF
+if !UsaArquivo("PRINTER")
+	return
+endif
 Area("Printer")
 Printer->(DbGoBottom())
 nTam	:= Printer->(Len( Codi ))
@@ -6101,15 +6101,15 @@ WHILE OK
 	@ Row()+1, nCol Say "Espacamento 1/6..:" Get c_Spaco1_6 Pict "@!"
 	@ Row()+1, nCol Say "RESETAR..........:" Get cReseta    Pict "@!"
 	Read
-	IF LastKey() = ESC
+	if LastKey() = ESC
 		ResTela( cScreen )
 		Exit
-	EndIF
+	endif
 	ErrorBeep()
 	nOpcao := Alerta(" Pergunta: Voce Deseja ? ", {" Incluir ", " Alterar ", " Sair " })
-	IF nOpcao = 1 // Incluir
-		IF PrinterCerto( @cCodi )
-			IF Printer->(Incluiu())
+	if nOpcao = 1 // Incluir
+		if PrinterCerto( @cCodi )
+			if Printer->(Incluiu())
 				Printer->Codi		 := cCodi
 				Printer->Nome		 := cNome
 				Printer->_Cpi10	 := c_Cpi10
@@ -6128,14 +6128,14 @@ WHILE OK
 				Printer->Reseta	 := cReseta
 				cCodi 				 := Printer->(StrZero( Val( Codi ) +1, nTam ))
 				Printer->(Libera())
-			EndIF
-		EndIF
-	ElseIF nOpcao = 2 // Alterar
+			endif
+		endif
+	elseif nOpcao = 2 // Alterar
 		Loop
-	ElseIF nOpcao = 3 // Sair
+	elseif nOpcao = 3 // Sair
 		ResTela( cScreen )
 		Exit
-	EndIF
+	endif
 END
 
 Function PrinterCerto( cCodi )
@@ -6147,43 +6147,43 @@ LOCAL lRetVal := OK
 
 Area("Printer")
 Printer->(Order( PRINTER_CODI ))
-IF Printer->(DbSeek( cCodi ))
+if Printer->(DbSeek( cCodi ))
 	ErrorBeep()
 	Alerta("Erro: Codigo ja Registrado.")
 	cCodi := StrZero( Val( cCodi ) + 1, nTam )
 	lRetVal := FALSO
-EndIF
+endif
 AreaAnt( Arq_Ant, Ind_Ant )
-Return( lRetVal )
+return( lRetVal )
 
 Function CpfCgcIntToStr( nCpfCgc )
 **********************************
 LOCAL cCgc	:= AllTrim( Str( nCpfCgc ))
 LOCAL nTam	:= Len( cCgc )
 
-IF nTam <= 11
+if nTam <= 11
 	cCpf1 := Left( cCgc, 3 )
 	cCpf2 := SubStr( cCgc, 4, 3 )
 	cCpf3 := SubStr( cCgc, 7, 3 )
 	cCpf4 := SubStr( cCgc, 10, 2 )
 	cCgc	:= cCpf1 + "." + cCpf2 + "." + cCpf3 + "-" + cCpf4
-Else
+else
 	cCgc1 := Left( cCgc, 2 )
 	cCgc2 := SubStr( cCgc, 3, 3 )
 	cCgc3 := SubStr( cCgc, 6, 3 )
 	cCgc4 := SubStr( cCgc, 9, 4 )
 	cCgc5 := SubStr( cCgc, 13, 2 )
 	cCgc	:= cCgc1 + "." + cCgc2 + "." + cCgc3 + "/" + cCgc4 + "-" + cCgc5
-EndIF
-Return( cCgc )
+endif
+return( cCgc )
 
 Function DbfEmUso( cBcoDados )
 ******************************
 LOCAL nArea := Select( cBcoDados )
-IF nArea = 0
-	Return( FALSO )
-EndIF
-Return( OK )
+if nArea = 0
+	return( FALSO )
+endif
+return( OK )
 
 Function EanDig( cString )
 **************************
@@ -6209,12 +6209,12 @@ nSoma := nNumero1 + nNumero2
 
 nResto := Mod( nSoma, 10 )
 nTotal := nSoma
-IF nResto <> 0
+if nResto <> 0
 	nTotal -= nResto
 	nTotal += 10
-EndIF
+endif
 nDig := nTotal - nSoma
-Return( StrZero( nDig, 1 ))
+return( StrZero( nDig, 1 ))
 
 Function R_NTX( ARG1, ARG2, ARG3, ARG4, ARG5, ARG6, ARG7, ARG8 )
 ****************************************************************
@@ -6223,24 +6223,24 @@ LOCAL LOCAL2
 LOCAL LOCAL3
 LOCAL1 := &( "{ || " + Trim(ARG1) + " }" )
 LOCAL2 := LastRec()
-LOCAL3 := R_Opnbar(IIF( ARG3 = Nil, "INDEXING: " + Trim(Alias()), ARG3 ), LTrim(Str(LOCAL2)) + " Registro(s)", ARG5, ARG6, ARG7, ARG8)
-If ( LOCAL2 == 0 )
+LOCAL3 := R_Opnbar(Iif( ARG3 = Nil, "INDEXING: " + Trim(Alias()), ARG3 ), LTrim(Str(LOCAL2)) + " Registro(s)", ARG5, ARG6, ARG7, ARG8)
+if ( LOCAL2 == 0 )
 	LOCAL2 := 1
-EndIf
+endif
 Index On ( R_Updbar(LOCAL3, 100 * RecNo() / LOCAL2), Eval(LOCAL1) ) To (ARG2)
 R_Clsbar(LOCAL3)
-Return Nil
+return Nil
 
 *:--------------------------------------------------------
 Function R_CLSBAR( ARG1 )
 *************************
 Local LOCAL1
 LOCAL1 := Set(_SET_DEVICE, "SCREEN")
-If ( ValType(ARG1) = "A" )
+if ( ValType(ARG1) = "A" )
 	RestScreen(ARG1[ 2 ], ARG1[ 3 ], ARG1[ 2 ] + 5, ARG1[ 3 ] + 54, ARG1[ 1 ])
-EndIf
+endif
 Set(_SET_DEVICE, LOCAL1)
-Return Nil
+return Nil
 
 *:-----------------------------------------------------
 Function R_OPNBAR( ARG1, ARG2, ARG3, ARG4, ARG5, ARG6 )
@@ -6248,39 +6248,39 @@ Function R_OPNBAR( ARG1, ARG2, ARG3, ARG4, ARG5, ARG6 )
 Local LOCAL1, LOCAL2, LOCAL3, LOCAL4, LOCAL5, LOCAL6, LOCAL7, LOCAL8, LOCAL9, LOCAL10, LOCAL11
 LOCAL1 := {}
 LOCAL3 := Set(_SET_DEVICE, "SCREEN")
-LOCAL9 := "ª‘š˜–Œ‹šš›ß‰šŒ–‘ß™ß­ ½ž³–×ÖßÒßˆž–‹ßÇßŒšœ‘›ŒÑ"
+LOCAL9 := "?š˜–Œ‹šš›?šŒ–‘?™ß­ ??×ÖßÒ?ž–‹ßÇ?šœ‘›Œ?
 LOCAL10 := ""
 For LOCAL11 := 1 To Len(LOCAL9)
 	LOCAL10 := LOCAL10 + Chr(255 - Asc(SubStr(LOCAL9, LOCAL11, 1)))
 Next
-ARG2 := IIF( ARG2 = Nil, "", ARG2 )
-ARG3 := IIF( ARG3 = Nil, 10, ARG3 )
-ARG4 := IIF( ARG4 = Nil, 13, ARG4 )
-ARG5 := IIF( ARG5 = Nil, "W+/B", ARG5 )
-ARG6 := IIF( ARG6 = Nil, "GR+/B", ARG6 )
-If ( ARG3 > 19 )
+ARG2 := Iif( ARG2 = Nil, "", ARG2 )
+ARG3 := Iif( ARG3 = Nil, 10, ARG3 )
+ARG4 := Iif( ARG4 = Nil, 13, ARG4 )
+ARG5 := Iif( ARG5 = Nil, "W+/B", ARG5 )
+ARG6 := Iif( ARG6 = Nil, "GR+/B", ARG6 )
+if ( ARG3 > 19 )
 	ARG3 := 19
-EndIf
-If ( ARG4 > 25 )
+endif
+if ( ARG4 > 25 )
 	ARG4 := 25
-EndIf
+endif
 LOCAL5 := ARG3 + 4
 LOCAL6 := ARG4 + 53
 AAdd(LOCAL1, SaveScreen(ARG3, ARG4, LOCAL5 + 1, LOCAL6 + 1))
 LOCAL2 := SetColor(ARG5)
 Bar_Shbox(ARG3, ARG4, LOCAL5, LOCAL6)
-If ( !Empty(ARG1) )
-	If ( Len(ARG1) > LOCAL6 - ARG4 - 3 )
+if ( !Empty(ARG1) )
+	if ( Len(ARG1) > LOCAL6 - ARG4 - 3 )
 		ARG1 := Left(ARG1, LOCAL6 - ARG4 - 3)
-	EndIf
+	endif
 	@ ARG3, ARG4 + ( LOCAL6 - ARG4 - Len(ARG1) - 1 ) / 2 Say "þ " + ARG1 + " þ"
-EndIf
-If ( !Empty(ARG2) )
-	If ( Len(ARG2) > LOCAL6 - ARG4 - 3 )
+endif
+if ( !Empty(ARG2) )
+	if ( Len(ARG2) > LOCAL6 - ARG4 - 3 )
 		ARG2 := Left(ARG2, LOCAL6 - ARG4 - 3)
-	EndIf
+	endif
 	@ LOCAL5, ARG4 + ( LOCAL6 - ARG4 - Len(ARG2) - 1 ) / 2 Say "þ " + ARG2 + " þ"
-EndIf
+endif
 @ ARG3 + 1, ARG4 + 25 Say Transform(0, "999%")
 @ ARG3 + 3, ARG4 + 2 Say ""
 For LOCAL4 := 1 To 9
@@ -6291,23 +6291,23 @@ Next
 Set Color To (LOCAL2)
 AAdd(LOCAL1, ARG3)
 AAdd(LOCAL1, ARG4)
-AAdd(LOCAL1, IIF( Procname(1) = "R_NTX", -1, 0 ))
+AAdd(LOCAL1, Iif( Procname(1) = "R_NTX", -1, 0 ))
 AAdd(LOCAL1, ARG5)
 AAdd(LOCAL1, ARG6)
 Setcursor(0)
 Set(_SET_DEVICE, LOCAL3)
-Return LOCAL1
+return LOCAL1
 
 *:--------------------------------------------------------
 Function R_PACK( ARG1, ARG2, ARG3, ARG4, ARG5 )
 ***********************************************
 Local LOCAL1, LOCAL2, LOCAL3, LOCAL4, LOCAL5, LOCAL6
 LOCAL1 := Alias()
-LOCAL2 := IIF( LastRec() < 1, 1, LastRec() )
+LOCAL2 := Iif( LastRec() < 1, 1, LastRec() )
 LOCAL3 := 0
 LOCAL4 := Set(_SET_DELETED, .T.)
 LOCAL5 := {}
-LOCAL6 := R_Opnbar(IIF( ARG1 = Nil, "PACKING: " + Trim(Alias()), ARG1 ), LTrim(Str(LOCAL2)) + " record(s)", ARG2, ARG3, ARG4, ARG5)
+LOCAL6 := R_Opnbar(Iif( ARG1 = Nil, "PACKING: " + Trim(Alias()), ARG1 ), LTrim(Str(LOCAL2)) + " record(s)", ARG2, ARG3, ARG4, ARG5)
 Copy Structure To RvGTmp
 Use RvGTmp New
 Select (LOCAL1)
@@ -6324,31 +6324,31 @@ Select (LOCAL1)
 Erase RvGTmp.DBF
 Erase RvGTmp.DBT
 Set Deleted (LOCAL4)
-Return R_Clsbar(LOCAL6)
+return R_Clsbar(LOCAL6)
 
 *:--------------------------------------------------------
 Function R_UPDBAR( ARG1, ARG2 )
 *******************************
 Local LOCAL1, LOCAL2, LOCAL3
-If ( ARG2 > 100 )
+if ( ARG2 > 100 )
 	ARG2 := 100
-EndIf
+endif
 LOCAL3 := Int(ARG2 / 2)
-If ( ValType(ARG1) = "A" )
-	If ( ARG1[ 4 ] < 0 )
+if ( ValType(ARG1) = "A" )
+	if ( ARG1[ 4 ] < 0 )
 		ARG1[ 4 ] := 0
-	ElseIf ( LOCAL3 > ARG1[ 4 ] )
+	elseif ( LOCAL3 > ARG1[ 4 ] )
 		LOCAL2 := Set(_SET_DEVICE, "SCREEN")
 		LOCAL1 := SetColor(ARG1[ 5 ])
 		@ ARG1[ 2 ] + 1, ARG1[ 3 ] + 25 Say Transform(ARG2, "999%")
 		Set Color To (ARG1[ 6 ])
-		@ ARG1[ 2 ] + 2, ARG1[ 3 ] + 2 Say Replicate("Û", LOCAL3)
+		@ ARG1[ 2 ] + 2, ARG1[ 3 ] + 2 Say Replicate("?, LOCAL3)
 		ARG1[ 4 ] := LOCAL3
 		Set Color To (LOCAL1)
 		Set(_SET_DEVICE, LOCAL2)
-	EndIf
-EndIf
-Return .T.
+	endif
+endif
+return .T.
 
 *:--------------------------------------------------------
 Static Function BAR_GETREC
@@ -6356,13 +6356,13 @@ Static Function BAR_GETREC
 Local LOCAL1
 LOCAL1 := {}
 Aeval(Dbstruct(), { | _1, _2 | AAdd(LOCAL1, Fieldget(_2)) })
-Return LOCAL1
+return LOCAL1
 
 *:--------------------------------------------------------
 Static Function BAR_PUTREC( ARG1 )
 **********************************
 Aeval(Dbstruct(), { | _1, _2 | Fieldput(_2, ARG1[ _2 ]) })
-Return Nil
+return Nil
 
 *:--------------------------------------------------------
 Static Function BAR_SHBOX( ARG1, ARG2, ARG3, ARG4 )
@@ -6380,7 +6380,7 @@ For LOCAL2 := 2 To Len(LOCAL1) Step 2
 	LOCAL1 := Stuff(LOCAL1, LOCAL2, 1, "")
 Next
 RestScreen(ARG1 + 1, ARG4 + 1, ARG3 + 1, ARG4, LOCAL1)
-Return Nil
+return Nil
 
 
 Function NtxProgress
@@ -6390,13 +6390,13 @@ LOCAL nUltimo	 := LastRec()
 LOCAL nPorcento := ( nReg / nUltimo ) * 100
 LOCAL cComplete := LTrim( Str( Int( nPorcento )))
 
-IF cComplete = "99"
+if cComplete = "99"
 	cComplete := "100"
-EndIF
+endif
 @ 08, 11 Say "þ " + LTrim(Str(nReg)) + " de " + LTrim(Str(nUltimo )) + " Registros"
 @ 09, 11 Say "þ " + cComplete + "%"
-@ 10, 11 Say Replicate("Û", nPorcento/2 ) Color "W+/r"
-Return .T.
+@ 10, 11 Say Replicate("?, nPorcento/2 ) Color "W+/r"
+return .T.
 
 Function LookUp( cString, aArray )
 **********************************
@@ -6405,12 +6405,12 @@ LOCAL aDados := {}
 LOCAL nY 	 := Len( aArray )
 LOCAL nX 	 := 0
 
-IF DbSeek( cString )
+if DbSeek( cString )
 	For nX := 1 To nY
 		Aadd( aDados, FieldGet( FieldPos( aArray[ nX ] )))
 	Next
-EndIF
-Return( aDados )
+endif
+return( aDados )
 
 Function MsDecrypt( Pal )
 **************************
@@ -6420,7 +6420,7 @@ LOCAL nX 		:= 0
 For nX := 0 To 10
 	cChave += Chr( Asc( Chr( nX )))
 Next
-Return( Decrypt( Pal, cChave ))
+return( Decrypt( Pal, cChave ))
 
 Function MsEncrypt( Pal )
 *************************
@@ -6430,7 +6430,7 @@ LOCAL nX 		:= 0
 For nX := 0 To 10
 	cChave += Chr( Asc( Chr( nX )))
 Next
-Return( Encrypt( Pal, cChave ))
+return( Encrypt( Pal, cChave ))
 
 
 Function CriaNtx( Col_1, Lin_1, Nome_Field, Nome_Ntx, cTag )
@@ -6441,19 +6441,19 @@ SetColor("W*+/N")
 Write( Col_1, Lin_1, Chr(10))
 MacroNtx( Nome_Field, Nome_Ntx, cTag )
 SetColor("W+/R")
-Write( Col_1, Lin_1, Chr(251)) // û
-Return Nil
+Write( Col_1, Lin_1, Chr(251)) // ?
+return Nil
 
 Function MacroNtx( Nome_Field, Nome_Ntx, cTag )
 ***********************************************
 	LOCAL cScreen := SaveScreen()
 
-	IF RddSetDefa() = "DBFNTX"
+	if RddSetDefa() = "DBFNTX"
 	  MaBox( 07, 10, 11, 61 )
 	  Index On &Nome_Field. To &Nome_Ntx. Eval NtxProgress() Every LastRec()/1000
-	Else
+	else
 	  Index On &Nome_Field. Tag &Nome_Ntx. TO ( cTag ) EVAL Odometer() Every 10
-	EndIF
+	endif
 	ResTela( cScreen )
 	return Nil
 
@@ -6465,16 +6465,16 @@ Function FazMenu( nTopo, nEsquerda, aArray, Cor )
 	LOCAL nTamTitle  := ( Len( m_Title() ) + 12 )
 	LOCAL nDireita   := ( nEsquerda + AmaxStrLen( aArray ) + 1 )
 	LOCAL cTitulo    := m_Title() 
-	LOCAL cChar      :=  "³û³ð³³"
+	LOCAL cChar      :=  "³û³ð??"
 	DEFAU Cor        TO Cor( 1 )  // oAmbiente:CorMenu
 
-	IF ( nDireita - nEsquerda ) <  nTamTitle
+	if ( nDireita - nEsquerda ) <  nTamTitle
 		nDireita := ( nEsquerda + nTamTitle )
-	EndIF
+	endif
 	
-	IF ( nFundo > MaxRow() )
+	if ( nFundo > MaxRow() )
 		nFundo := MaxRow()-2
-	EndIF
+	endif
 	
 	MS_Box( nTopo, nEsquerda, nFundo, nDireita, cFrame, Cor )
 	Print( nFundo-2, nEsquerda+1, Repl(SubStr( cFrame,2,1),(nDireita-nEsquerda)-1), Cor)
@@ -6492,21 +6492,21 @@ Function MaBox( nTopo, nEsq, nFundo, nDireita, Cabecalho, Rodape, lInverterCor )
 	LOCAL pUns     := Roloc( pFore )
 	LOCAL cCor     := Cor( 5 ) // oAmbiente:CorLightBar
 	
-	IF nDireita > MaxCol()
+	if nDireita > MaxCol()
 		nDireita = MaxCol()
-	EndIf
+	endif
 
    hb_DispBox( nTopo, nEsq, nFundo, nDireita, oAmbiente:Frame + cPattern, pfore )
 	
-	IF !(IsNil( Cabecalho ))
-		aPrint( nTopo, nEsq+1, "Û", cCor, (nDireita-nEsq)-1)
+	if !(IsNil( Cabecalho ))
+		aPrint( nTopo, nEsq+1, "?, cCor, (nDireita-nEsq)-1)
 		aPrint( nTopo, nEsq+1, Padc( Cabecalho, ( nDireita-nEsq)-1), cCor )
-	EndIF
+	endif
 	
-	IF !(IsNil( Rodape ))
-		aPrint( nFundo, nEsq+1, "Û", cCor, (nDireita-nEsq)-1)
+	if !(IsNil( Rodape ))
+		aPrint( nFundo, nEsq+1, "?, cCor, (nDireita-nEsq)-1)
 		aPrint( nFundo, nEsq+1, Padc( Rodape, ( nDireita-nEsq)-1), cCor )
-	EndIF
+	endif
 	nSetColor( pfore, pback, pUns )
 	
 return NIL
@@ -6562,15 +6562,15 @@ Function Conf( Texto, aDados )
 	LOCAL nComp
 	LOCAL nChoice
 	
-	IF aDados = NIL
-		IF oAmbiente:Visual
-			Return(( nButton := MsgBox2( Texto ) == 1 ))
+	if aDados = NIL
+		if oAmbiente:Visual
+			return(( nButton := MsgBox2( Texto ) == 1 ))
 			ResTela( cScreen )
-		EndIF
-	EndIF
+		endif
+	endif
 
-	LargJan := IIF( LargJan < 16, 16, LargJan )
-	Les	  := IIF( Les = Nil .OR. Les = 0, 19, Les )
+	LargJan := Iif( LargJan < 16, 16, LargJan )
+	Les	  := Iif( Les = Nil .OR. Les = 0, 19, Les )
 	Ces	  := (MaxCol()-LargJan)/2
 	Com	  := Ces + LargJan
 	Coluna  := (LargJan - 9 ) / 2
@@ -6580,14 +6580,14 @@ Function Conf( Texto, aDados )
 	nComp   := ( Com - Ces )-1
 	
 	M_Title( Texto )
-	IF aDados != NIL
+	if aDados != NIL
 		nLen := Len( aDados )
 		//ColorSet( @cFundo, @PBack )
 		MSFrame( Les-nLen, Ces, Les+3, Com, oAmbiente:CorMsg )
 		nChoice := aChoice( (Les-nLen)+3, Ces+4, Les+5, Com-3, aDados )
 		ResTela( cScreen )
-		Return( nChoice )
-	EndIF
+		return( nChoice )
+	endif
 	//ColorSet( @cFundo, @PBack )
 	MsFrame( Les-2, Ces, Les+3, Com, oAmbiente:CorMsg )
 	nRetVal := aChoice( Les+1, Ces+4, Les+5, Com-3, aArray )
@@ -6597,7 +6597,7 @@ Function Conf( Texto, aDados )
 Function MsFrame( nTopo, nEsquerda, nFundo, nDireita, Cor )
 ***********************************************************
 	LOCAL cFrame2	:= SubStr( oAmbiente:Frame, 2, 1 )
-	LOCAL pFore 	:= IIF( Cor = NIL, Cor(), Cor )
+	LOCAL pFore 	:= Iif( Cor = NIL, Cor(), Cor )
 	LOCAL cPattern := " "
 	LOCAL pBack
 
@@ -6614,31 +6614,31 @@ return( NIL )
 Function IntToStrRepl( nValor, nTam )
 ************************************
 LOCAL cStr := StrTran( StrTran( Tran( nValor, "9999999999999.99" ), ".")," ", "0")
-Return( Right( cStr, nTam ))
+return( Right( cStr, nTam ))
 
 Proc LigaTela()
 ***************
 Set Cons On
 Set Devi To Screen
-Return
+return
 
 Proc DesLigaTela()
 ******************
 Set Cons Off
 Set Devi To Print
-Return
+return
 
 Function AchaSegunda( dDate )
 *****************************
-IF cDow( dDate ) = 'Monday'
-	Return( dDate + 7 )
-EndIF
+if cDow( dDate ) = 'Monday'
+	return( dDate + 7 )
+endif
 For i = 1 To 7
-	 IF cDow( dDate + i ) = 'Monday'
-		 Return( dDate + i )
-	 EndIF
+	 if cDow( dDate + i ) = 'Monday'
+		 return( dDate + i )
+	 endif
 Next
-Return dDate
+return dDate
 
 Function TempNew( cDeleteFile)
 ******************************
@@ -6658,10 +6658,10 @@ LOCAL nDivi  := nDivisor / nDividendo
 LOCAL nMult  := nDivi * 100
 LOCAL Result := ( nMult - 100 )
 
-IF Result == -100
+if Result == -100
 	Result := 100
-EndIF
-Return( Result )
+endif
+return( Result )
 
 *:--------------------------------------------------------
 Function RD( ARG1 )
@@ -6673,7 +6673,7 @@ Function RD( ARG1 )
 		LOCAL1 := LOCAL1 * 100 + Seconds()
 	EndDo
 	STATIC1 := ( STATIC1 + LOCAL1 ) / ( LOCAL2 := STATIC1 * LOCAL1 % ARG1 + 1 )
-	Return Int(LOCAL2)
+	return Int(LOCAL2)
 
 * EOF
 
@@ -6695,22 +6695,22 @@ Procedure SHUFFLE
 	Do While ( InKey(0.05) == 0 )
 		LOCAL13 := {}
 		LOCAL14 := 0
-		If ( LOCAL1 < 24 .AND. LOCAL5  !=  3 )
+		if ( LOCAL1 < 24 .AND. LOCAL5  !=  3 )
 			AAdd(LOCAL13, 1)
 			LOCAL14++
-		EndIf
-		If ( LOCAL4 > 0 .AND. LOCAL5	!=  4 )
+		endif
+		if ( LOCAL4 > 0 .AND. LOCAL5	!=  4 )
 			AAdd(LOCAL13, 2)
 			LOCAL14++
-		EndIf
-		If ( LOCAL3 > 0 .AND. LOCAL5	!=  1 )
+		endif
+		if ( LOCAL3 > 0 .AND. LOCAL5	!=  1 )
 			AAdd(LOCAL13, 3)
 			LOCAL14++
-		EndIf
-		If ( LOCAL2 < 79 .AND. LOCAL5  !=  2 )
+		endif
+		if ( LOCAL2 < 79 .AND. LOCAL5  !=  2 )
 			AAdd(LOCAL13, 4)
 			LOCAL14++
-		EndIf
+		endif
 		LOCAL5 := LOCAL13[ Rd(LOCAL14) ]
 		LOCAL7 := LOCAL8 := 0
 		Do Case
@@ -6729,13 +6729,13 @@ Procedure SHUFFLE
 		EndCase
 		For LOCAL6 := 1 To 5
 			Scroll(LOCAL3, LOCAL4, LOCAL1, LOCAL2, LOCAL7, LOCAL8)
-			If ( InKey(0.05)	!=  0 )
+			if ( InKey(0.05)	!=  0 )
 				Exit
-			EndIf
+			endif
 		Next
-		If ( LOCAL6 <= 5 )
+		if ( LOCAL6 <= 5 )
 			Exit
-		EndIf
+		endif
 		Do Case
 		Case LOCAL5 == 1
 			LOCAL3 := LOCAL3 + 5
@@ -6751,7 +6751,7 @@ Procedure SHUFFLE
 	RestScreen(Nil, Nil, Nil, Nil, LOCAL12)
 	SetPos(LOCAL10, LOCAL11)
 	Setcursor(LOCAL9)
-	Return
+	return
 *:-------------------------------------------------------
 
 Proc ScrollEsq()
@@ -6762,7 +6762,7 @@ For i := 1 To 13
 	//Shift( 0, 0, 24, MaxCol(), -i )
 	//   Inkey(.01)
 Next
-Return
+return
 
 *:-------------------------------------------------------
 
@@ -6774,19 +6774,19 @@ For i := 1 To 13
 	//Shift( 0, 0, 24, MaxCol(), i )
 	//Inkey(.01)
 Next
-Return
+return
 
 *:-------------------------------------------------------
 
 Proc CenturyOn()
 *****************
 Set Cent On
-Return
+return
 
 Proc CenturyOff()
 ****************
 Set Cent Off
-Return
+return
 
 Function FTempName( xCoringa, cDir )
 ************************************
@@ -6813,16 +6813,16 @@ FUNCTION HB_TempName()
 
    nFileHandle := HB_FTempCreate( ,,, @cFileName )
 
-   IF nFileHandle > 0
+   if nFileHandle > 0
      FClose( nFileHandle )
-   ENDIF
-   RETURN cFileName
+   endif
+   return cFileName
 	
 FUNCTION MS_TempName( xCoringa, cDir ) 
 **************************************
-//Return(FT_TEMPFIL( FCurdir()))
-//Return(HB_FTEMPCREATE())
-//Return(HB_FTEMPCREATEeX())
+//return(FT_TEMPFIL( FCurdir()))
+//return(HB_FTEMPCREATE())
+//return(HB_FTEMPCREATEeX())
 LOCAL nPos     := Rat(".", xCoringa)
 LOCAL nLen     := Len(xCoringa)
 DEFAU cDir TO FCurdir()
@@ -6859,7 +6859,7 @@ Sx_ClrScope( 0 )
 Sx_ClrScope( 1 )
 Sx_SetScope( 0, xStrTop )
 Sx_SetScope( 1, xStrBottom )
-Return
+return
 
 Proc Sx_DbSetFilter( xStrTop, xStrBottom )
 ******************************************
@@ -6867,21 +6867,21 @@ Sx_ClrScope( S_TOP )
 Sx_ClrScope( S_BOTTOM )
 Sx_SetScope( S_TOP, xStrTop )
 Sx_SetScope( S_BOTTOM, xStrBottom )
-Return
+return
 
 Proc Sx_DbClearFilter()
 ***********************
 Sx_ClrScope( S_TOP )
 Sx_ClrScope( S_BOTTOM )
 DbGoTop()
-Return
+return
 
 Function Sx_Count()
 *******************
-IF !Eof()
-	Return( 1 )
-EndIF
-Return( 0)
+if !Eof()
+	return( 1 )
+endif
+return( 0)
 
 Proc ArrPrinter()
 *****************
@@ -6931,7 +6931,7 @@ Aadd( aPrinter, {'23','HP LASERJET 6L',  '#27#38#107#48#83',   '#27#40#115#112#7
 Aadd( aPrinter, {'37','HP LASERJET 4L',  '#27#38#107#48#83',   '#27#38#107#52#83',   '#27#40#115#51#66#27#40#115#54#72','#27#38#107#50#83','#27#40#115#51#66','#27#40#115#48#66','#27#38#107#48#83','#27#38#107#48#83','#27#38#100#49#68','#27#38#100#64','#27#38#108#48#76','#27#38#108#54#67','#27#38#108#56#67','#27#69', Date()})
 Aadd( aPrinter, {'38',' ARQUIVO',        '#255','#255','#255','#255','#255','#255','#255','#255','#255','#255','#255','#255','#255','#255',Date()})
 nTam := Len( aPrinter )
-IF Printer->(TravaArq())
+if Printer->(TravaArq())
   For nX := 1 To nTam
 	  Printer->(DbAppend())
 	  For nField := 1 To Printer->(FCount())
@@ -6939,13 +6939,13 @@ IF Printer->(TravaArq())
 	  Next
   Next
   Printer->(Libera())
-EndIF
-Return
+endif
+return
 
 Function lAnoBissexto( dData )
 ******************************
 LOCAL nAno := Year( dData )
-Return( nAno % 4 == 0 .AND. nAno % 100 != 0)
+return( nAno % 4 == 0 .AND. nAno % 100 != 0)
 
 Function Grafico( aArray, MostraVal, Titulo1, Titulo2, Titulo3, nBase )
 ***********************************************************************
@@ -6973,8 +6973,8 @@ LOCAL Num1     := 0
 LOCAL Num2     := 0
 LOCAL xY
 
-nBase 	  := IIF( nBase = Nil, 1, nBase )
-MostraVal  := IIF( MostraVal = NIL, .F., .T. )
+nBase 	  := Iif( nBase = Nil, 1, nBase )
+MostraVal  := Iif( MostraVal = NIL, .F., .T. )
 Afill(aChr, Chr(219))
 Porc       := aMax( aArray[1])
 
@@ -7011,31 +7011,31 @@ For nN := 1 To Tam
    For j := nMaxRow-4 To Bar Step -1
       @ j, t + Larg+1 Say Repl(aChr[nN],Larg) Color CorBarra[nN]
 	Next J
-	IF MostraVal
+	if MostraVal
       @ Bar, t + Larg + ( Larg / 2 )-3 Say Tran(Int( aArray[ nN, 1 ]/nBase), "99999999") Color CorLetra[nN]
-	EndIF
+	endif
    t += ( Larg + 1 )
 Next nN
 
 /*
-IF Titulo1 != NIL
+if Titulo1 != NIL
    Write( MaxRow()-1, 00, Padc(Titulo1 + " - " + Titulo2, nMaxCol))
-EndIF
-IF Titulo3 != NIL
+endif
+if Titulo3 != NIL
    Write( 00, 00, Padc(Titulo3, nMaxCol))
-EndIF
-Return Nil
+endif
+return Nil
 */
 
 Function Tecla_ESC()
 ********************
 LOCAL cScreen := SaveScreen()
 
-IF Inkey() == ESC
+if Inkey() == ESC
 	ErrorBeep()
-   Return(Conf("Pergunta: Deseja cancelar?"))
-EndIF
-Return(FALSO)
+   return(Conf("Pergunta: Deseja cancelar?"))
+endif
+return(FALSO)
 //******************************************************************************
 
 Function RJust( cString, nTam, cChar)
@@ -7045,10 +7045,10 @@ LOCAL cStrTrim := AllTrim(cString)
 LOCAL nLenTrim := Len(cStrTrim)
 LOCAL cRetChar
 
-IF( cChar = NIL, cChar := Space(1), cChar )
-IF( nTam  = NIL, nTam  := (nLenStr-nLenTrim), nTam := (nTam-nLenTrim))
+if( cChar = NIL, cChar := Space(1), cChar )
+if( nTam  = NIL, nTam  := (nLenStr-nLenTrim), nTam := (nTam-nLenTrim))
 cRetChar := Replicate(cChar, nTam) + cStrTrim
-RETURN( cRetChar )
+return( cRetChar )
 
 //******************************************************************************
 
@@ -7059,30 +7059,30 @@ LOCAL cStrTrim := AllTrim(cString)
 LOCAL nLenTrim := Len(cStrTrim)
 LOCAL cRetChar
 
-IF( cChar = NIL, cChar := Space(1), cChar )
-IF( nTam  = NIL, nTam  := (nLenStr-nLenTrim), nTam := (nTam-nLenTrim))
+if( cChar = NIL, cChar := Space(1), cChar )
+if( nTam  = NIL, nTam  := (nLenStr-nLenTrim), nTam := (nTam-nLenTrim))
 cRetChar := cStrTrim + Replicate(cChar, nTam)
-RETURN( cRetChar )
+return( cRetChar )
 	
 //******************************************************************************
 	
 FUNCTION FBof( nHandle )
 ************************
-   RETURN FTell( nHandle) == 0
+   return FTell( nHandle) == 0
 
 //******************************************************************************	
 	
 FUNCTION FBot( nHandle )
 ************************
    LOCAL nPos := FSeek( nHandle, 0, FS_END )
-   RETURN nPos	!= -2	
+   return nPos	!= -2	
 	
 //******************************************************************************			
 			
 FUNCTION FTop( nHandle )
 ************************
    LOCAL nPos := FSeek( nHandle, 0, FS_SET )
-   RETURN nPos	!= -2	
+   return nPos	!= -2	
 
 //******************************************************************************
 	
@@ -7096,25 +7096,25 @@ FUNCTION MS_FReadStr( nH, cB, nMaxLine )
 		LOCAL nNumRead
 		#define EOL HB_OSNEWLINE()
 		
-		IF( nMaxLine = NIL, nMaxLine := 512, nMaxLine)
+		if( nMaxLine = NIL, nMaxLine := 512, nMaxLine)
 		cLine := space( nMaxLine )
       cB    := ''
       nSavePos := FSEEK( nH, 0, FS_RELATIVE )
       nNumRead := FREAD( nH, @cLine, nMaxLine )
-      IF ( nEol := AT( EOL, substr( cLine, 1, nNumRead ) ) ) == 0
+      if ( nEol := AT( EOL, substr( cLine, 1, nNumRead ) ) ) == 0
         cB := cLine
-      ELSE
+      else
         cB := SUBSTR( cLine, 1, nEol - 1 )
         FSEEK( nH, nSavePos + nEol + 1, FS_SET )
-      ENDIF
+      endif
 		FSEEK( nH, nSavePos, FS_SET )
-      //RETURN nNumRead != 0
-		RETURN(cB)
+      //return nNumRead != 0
+		return(cB)
 
 //******************************************************************************		
 		
 // nH = file handle obtained from FOPEN() .OR. FCREATE()
-// nMaxLine = maximum number of bytes to read, IFNIL = default 512
+// nMaxLine = maximum number of bytes to read, ifNIL = default 512
 FUNCTION FReadLine( nH, nMaxLine )
 **********************************
    LOCAL nSavePos
@@ -7124,18 +7124,18 @@ FUNCTION FReadLine( nH, nMaxLine )
 	LOCAL cB
 	#define EOL HB_OSNEWLINE()		
 	
-	nMaxLine := IF( nMaxLine = NIL, 512, nMaxLine)
+	nMaxLine := if( nMaxLine = NIL, 512, nMaxLine)
 	cBuffer  := Space(nMaxLine)
    nSavePos := FSEEK( nH, 0, FS_RELATIVE )
    nNumRead := FREAD( nH, @cBuffer, nMaxLine )
-	IF ( nEol := AT( EOL, substr( cBuffer, 1, nNumRead ))) == 0
+	if ( nEol := AT( EOL, substr( cBuffer, 1, nNumRead ))) == 0
       cB := cBuffer
-   ELSE
+   else
       cB := SUBSTR( cBuffer, 1, nEol - 1 )
       FSEEK( nH, nSavePos + nEol + 1, FS_SET )
-   ENDIF
+   endif
 	FSEEK( nH, nSavePos, FS_SET )
-   RETURN cB
+   return cB
 
 //******************************************************************************	
 	
@@ -7146,7 +7146,7 @@ FUNCTION FReadByte( nH )
    nSavePos := FSEEK( nH, 0, FS_RELATIVE )
    nNumRead := FREAD( nH, @cBuffer, 1 )
 	FSEEK( nH, nSavePos, FS_SET )
-   RETURN cBuffer	
+   return cBuffer	
 
 //******************************************************************************	
   
@@ -7161,13 +7161,13 @@ FUNCTION FAdvance( nHandle )
 	#define EOL HB_OSNEWLINE()
 
    cText := FReadStr( nHandle, j)
-	IF ( nPos := At(EOL, cText )) == 0
+	if ( nPos := At(EOL, cText )) == 0
       nPos := FLen( nHandle )
-   ELSE
+   else
       nPos := k + nPos + 1
-   ENDIF
+   endif
 	lRetval := FSeek( nHandle, nPos, FS_SET )
-	RETURN( lRetVal )
+	return( lRetVal )
 */
 	
 #define MAXLINELENGTH 2048
@@ -7180,16 +7180,16 @@ FUNCTION FAdvance( nH )
 	LOCAL nMaxLine
 	#define EOL HB_OSNEWLINE()		
 	
-	nMaxLine := IF( nMaxLine = NIL, 512, nMaxLine)
+	nMaxLine := if( nMaxLine = NIL, 512, nMaxLine)
 	cBuffer  := Space(nMaxLine)
    nSavePos := FSEEK( nH, 0, FS_RELATIVE )
    nNumRead := FREAD( nH, @cBuffer, nMaxLine )
-	IF ( nEol := AT( EOL, substr( cBuffer, 1, nNumRead ))) == 0
+	if ( nEol := AT( EOL, substr( cBuffer, 1, nNumRead ))) == 0
       nPos := nSavePos
-   Else
+   else
 	   nPos := nSavePos + nEol + 1
-	ENDIF
-	RETURN( FSEEK( nH, nPos, FS_SET))
+	endif
+	return( FSEEK( nH, nPos, FS_SET))
 	
 	
 
@@ -7202,16 +7202,16 @@ FUNCTION FLocate( nHandle, cStr, lFlag )
    LOCAL cText   := Space( j )
 
    FRead( nHandle , @cText , j )
-   IF HB_IsLogical( lFlag ) .and. lFlag
+   if HB_IsLogical( lFlag ) .and. lFlag
       j := hb_AtI( cStr, cText )
-   ELSE
+   else
       j := hb_At( cStr, cText )
-   ENDIF   
-   IF j > 0
+   endif   
+   if j > 0
       nNewPos := nPos + j - 1
       FSeek( nHandle, nNewPos, FS_SET )
-   ENDIF
-   RETURN nNewPos
+   endif
+   return nNewPos
 
 //******************************************************************************	
 	
@@ -7219,12 +7219,12 @@ FUNCTION FLen( nHandle )
    LOCAL nPos := FSeek( nHandle, 0, FS_RELATIVE )
    LOCAL nLen := FSeek( nHandle, 0, FS_END )
    FSeek( nHandle, nPos, FS_SET )
-   RETURN nLen
+   return nLen
 	
 //******************************************************************************
 	
 FUNCTION FTell( nHandle )
-   RETURN FSeek(nHandle, 0, FS_RELATIVE)
+   return FSeek(nHandle, 0, FS_RELATIVE)
 
 	//******************************************************************************
 	
@@ -7238,7 +7238,7 @@ FUNCTION FWriteLine( nH, cBuffer)
    FBot(nH)
 	nNumRead := FWRITE( nH, cBuffer + EOL)
 	FSEEK( nH, nSavePos, FS_SET )
-   RETURN nNumRead != 0	
+   return nNumRead != 0	
 
 //******************************************************************************	
 
@@ -7248,9 +7248,9 @@ LOCAL nLenStr  := Len(cString)
 LOCAL cChar    := Space(1)
 LOCAL cRetChar
 
-IF( nTam  = NIL, nTam := nLenStr, nTam)
+if( nTam  = NIL, nTam := nLenStr, nTam)
 cRetChar := cString + Replicate(cChar, nTam)
-RETURN( Left(cRetChar,nTam))
+return( Left(cRetChar,nTam))
 
 //******************************************************************************
 
@@ -7259,7 +7259,7 @@ Function FCurdir()
 LOCAL cRetChar
 
 cRetChar := CurDrive() + ':\' + Curdir()
-RETURN(cRetChar)
+return(cRetChar)
 
 //******************************************************************************
 
@@ -7272,9 +7272,9 @@ LOCAL x
 
 For x := 1 To nTam
 	nLen := Len(xArray[x])
-	IF nMaxLen < nLen
+	if nMaxLen < nLen
 		nMaxLen := nLen
-	EndIF	
+	endif	
 Next
 return( nMaxLen )
 
@@ -7293,15 +7293,15 @@ Function StrSwap( string, cChar, nPos, cSwap)
 	      nX,;
 			nLen
 	
-	IF nConta > 0
+	if nConta > 0
       aPos := aStrPos(string, cChar)
 		nLen := Len(aPos)
-		IF nLen >= 0
-		   IF nPos <= nLen
+		if nLen >= 0
+		   if nPos <= nLen
 		      string := Stuff(string, aPos[nPos], Len(cChar), cSwap)
-		   EndIF
-		EndIF	
-	EndIF
+		   endif
+		endif	
+	endif
 return( string)
 
 //******************************************************************************
@@ -7314,13 +7314,13 @@ LOCAL cChar   := Repl("%",nLen)
 LOCAL aNum    := {}
 LOCAL x
 
-IF cChar == delims
+if cChar == delims
    cChar := Repl("*",delims)
-EndIF	
+endif	
 
-IF nConta = 0
-   Return(aNum)
-EndIF
+if nConta = 0
+   return(aNum)
+endif
 
 FOR x := 1 To nConta 
    nPos   := At( Delims, string )
@@ -7328,7 +7328,7 @@ FOR x := 1 To nConta
 	Aadd( aNum, nPos)
 Next
 Aadd( aNum, Len(string)+1)
-Return(aNum)
+return(aNum)
 
 //******************************************************************************
 
@@ -7347,13 +7347,13 @@ LOCAL nFim
 LOCAL x
 LOCAL nPos
 
-IF cChar == delims
+if cChar == delims
    cChar := Repl("*",nLen)
-EndIF	
+endif	
 
-IF nConta = 0 .AND. ocurrence > 0
+if nConta = 0 .AND. ocurrence > 0
   return(string)
-ENDIF
+endif
 	
 
 /*
@@ -7386,19 +7386,19 @@ aPos   := aStrPos(string, Delims)
 nConta := Len(aPos)
 For x := 1 to nConta 
    nInicio  := aPos[x]
-	IF x = 1
+	if x = 1
 	   cString   := Left(String, nInicio-1)
-	Else
+	else
 		nFim     := aPos[x-1]
 	   cString  := SubStr(String, nFim+1, nInicio-nFim-1)
-	EndIF	
+	endif	
 	Aadd( aArray, cString)
 Next
 
 nConta := Len(aArray)
-IF ocurrence > nConta .OR. oCurrence = 0
+if ocurrence > nConta .OR. oCurrence = 0
    return(string)
-EndIF
+endif
 return(aArray[ocurrence])
 
 //******************************************************************************
@@ -7418,7 +7418,7 @@ return(NIL)
 //******************************************************************************
 
 Function FTruncate()
-Return NIL
+return NIL
 
 //******************************************************************************
 
@@ -7446,10 +7446,10 @@ DEFAU attrib TO ColorStrToInt(SetColor()),;
       length TO nLen
 DEFAU cChar TO Space(1)
 
-IF length > nLen
+if length > nLen
    string += Repl(cChar,length-nlen)
 	nLen   := length
-EndIF	
+endif	
 SetColor(ColorIntToStr(attrib))
 DevPos(row, col) ; DevOut(Left(string,nLen))
 SetColor( Color_Ant)
@@ -7464,15 +7464,15 @@ LOCAL Color_Ant := SetColor(), ;
 DEFAU attrib TO ColorStrToInt(SetColor()),;
       length TO nLen
 
-IF length > nLen
+if length > nLen
    string += Repl(Space(1),length-nlen)
 	nLen   := length
-EndIF	
+endif	
 
 SetColor(ColorIntToStr(attrib))
 DevPos(row, col) ; DevOut(Left(string,nLen))
 SetColor( Color_Ant)
-Return NIL
+return NIL
 
 //******************************************************************************
 
@@ -7480,7 +7480,7 @@ Function Roloc(nColor)
 **********************
 LOCAL cColor  := ColorIntToStr(nColor)
 LOCAL inverse := FT_InvClr( cColor)
-Return(nColor := ColorStrToInt(inverse))
+return(nColor := ColorStrToInt(inverse))
 
 //******************************************************************************
 
@@ -7540,7 +7540,7 @@ else
 	cScreen := NIL
 endif
 
-IF cScreen == NIL
+if cScreen == NIL
    //for x := row To row1
 	   //ft_WrtChr( nX, nY, PanoFundo, Cor())
       //ft_VidStr( x, col, Panofundo, corfundo) 
@@ -7560,7 +7560,7 @@ IF cScreen == NIL
 	xPanoFundo := PanoFundo
 	xCorFundo  := CorFundo
 	cScreen    := SaveScreen()
-EndIF
+endif
 //FT_Shadow(oAmbiente:sombra)
 return( restela( cScreen ))
 
@@ -7627,7 +7627,7 @@ cColor := cStd + ',' + cEnh + ',,,' + cUns
 //cColor := strswap(cColor, "," , 2, cEnh)
 //cColor := strswap(cColor, "," , 4, cUns)
 Setcolor( cColor )
-Return Nil
+return Nil
 
 //******************************************************************************
 
@@ -7676,10 +7676,10 @@ MS_Box(09,12,29,70)
 For a := 1 to 256
 	   //Print( x, y*3, Repl(Chr(x+64),3), x*y,)
 		//Print( a,   b*6, hb_NToColor(a*b), a*b)
-		IF y >= 64
+		if y >= 64
 		   y := 10
 			x++
-		EndIF	
+		endif	
 		y += 4
 		Print( x, y, StrZero(HB_ColorToN(hb_NToColor(a)),3), a,)
 Next
@@ -7695,10 +7695,10 @@ MS_Box(09,15,28,135)
 For a := 1 to 256
 	   //Print( x, y*3, Repl(Chr(x+64),3), x*y,)
 		//Print( a,   b*6, hb_NToColor(a*b), a*b)
-		IF y >= 128
+		if y >= 128
 		   y := 10
 			x++
-		EndIF	
+		endif	
 		y += 8
 		Print( x, y, hb_NToColor(a), a,)
 Next
@@ -7707,10 +7707,10 @@ return NIL
 //******************************************************************************
 
 //FUNCTION FT_DskSize( cDrive )
-//   RETURN hb_vfDirSpace( cDrive + hb_osDriveSeparator(), HB_DISK_TOTAL )
+//   return hb_vfDirSpace( cDrive + hb_osDriveSeparator(), HB_DISK_TOTAL )
 
 //FUNCTION FT_DskFree( cDrive )
-//   RETURN hb_vfDirSpace( cDrive + hb_osDriveSeparator(), HB_DISK_FREE )
+//   return hb_vfDirSpace( cDrive + hb_osDriveSeparator(), HB_DISK_FREE )
 
 Function ShellRun( cComando )
 *****************************
@@ -7722,7 +7722,7 @@ LOCAL oExec
 /*
 intWindowStyle
 0 Hides the window and activates another window.
-1 Activates and displays a window. If the window is minimized or maximized, the system restores it to its original size and position. An application should specify this flag when displaying the window for the first time.
+1 Activates and displays a window. if the window is minimized or maximized, the system restores it to its original size and position. An application should specify this flag when displaying the window for the first time.
 2 Activates the window and displays it as a minimized window.
 3 Activates the window and displays it as a maximized window.
 4 Displays a window in its most recent size and position. The active window remains active.
@@ -7730,7 +7730,7 @@ intWindowStyle
 6 Minimizes the specified window and activates the next top-level window in the Z order.
 7 Displays the window as a minimized window. The active window remains active.
 8 Displays the window in its current state. The active window remains active.
-9 Activates and displays the window. If the window is minimized or maximized, the system restores it to its original size and position. An application should specify this flag when restoring a minimized window.
+9 Activates and displays the window. if the window is minimized or maximized, the system restores it to its original size and position. An application should specify this flag when restoring a minimized window.
 10 Sets the show-state based on the state of the program that started the application.
 */
 
@@ -7742,7 +7742,7 @@ intWindowStyle
 
 lRet     := WshShell:Run("%comspec% /c " + cComando, intWindowStyle, .F.)
 WshShell := NIL
-return IIF( lRet = 0, .T., .F.)
+return Iif( lRet = 0, .T., .F.)
 	
 Function ShellExec( cComando )
 *******************************
@@ -7754,7 +7754,7 @@ LOCAL oExec
 /*
 intWindowStyle
 0 Hides the window and activates another window.
-1 Activates and displays a window. If the window is minimized or maximized, the system restores it to its original size and position. An application should specify this flag when displaying the window for the first time.
+1 Activates and displays a window. if the window is minimized or maximized, the system restores it to its original size and position. An application should specify this flag when displaying the window for the first time.
 2 Activates the window and displays it as a minimized window.
 3 Activates the window and displays it as a maximized window.
 4 Displays a window in its most recent size and position. The active window remains active.
@@ -7762,7 +7762,7 @@ intWindowStyle
 6 Minimizes the specified window and activates the next top-level window in the Z order.
 7 Displays the window as a minimized window. The active window remains active.
 8 Displays the window in its current state. The active window remains active.
-9 Activates and displays the window. If the window is minimized or maximized, the system restores it to its original size and position. An application should specify this flag when restoring a minimized window.
+9 Activates and displays the window. if the window is minimized or maximized, the system restores it to its original size and position. An application should specify this flag when restoring a minimized window.
 10 Sets the show-state based on the state of the program that started the application.
 */
 
@@ -7776,7 +7776,7 @@ intWindowStyle
 oExec    := WshShell:Exec(cComando)
 lRet     := oExec:Status 
 WshShell := NIL
-return IIF( lRet = 0, .T., .F.)
+return Iif( lRet = 0, .T., .F.)
 	
 Function M_View( row, col, row1, col1, cFile, nCor )
 ****************************************************
@@ -7794,14 +7794,14 @@ Function MX_PopFile( row, col, row1, col1, xCoringa, nColor)
 	Aeval( Directory( xCoringa ), {|aDirectory|;
 								Aadd( aFileList,;
 								Upper(PADR( aDirectory[F_NAME], 15 )) + ;
-                        IF( SUBSTR( aDirectory[F_ATTR], 1,1) == "D", "   <DIR>", ;
+                        if( SUBSTR( aDirectory[F_ATTR], 1,1) == "D", "   <DIR>", ;
                         TRAN(       aDirectory[F_SIZE], "99,999,999 B"))  + "  " + ;
                         DTOC(       aDirectory[F_DATE])       + "  " + ;
                         SUBSTR(     aDirectory[F_TIME], 1, 5) + "  " + ;
 								SUBSTR(     aDirectory[F_ATTR], 1, 4) + "  " )})
-	IF (nChoice := FazMenu(row, col, aFileList, nColor)) = 0
+	if (nChoice := FazMenu(row, col, aFileList, nColor)) = 0
 	   return ""
-	EndIF
+	endif
 	return( AllTrim(left(aFileList[nChoice],15)))
 	
 Function MS_Version()

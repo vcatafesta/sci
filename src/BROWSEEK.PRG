@@ -9,7 +9,7 @@
  *    Arguments: xKey      - Key's value
  *             : lSoftSeek - .T. softseek will be on
  *             : oObj      - Browse object
- * Return Value: lFound    - .T. if found, .F. otherwise
+ * return Value: lFound    - .T. if found, .F. otherwise
  *     See Also: SetHilite()
  *
  */
@@ -18,32 +18,32 @@ FUNCTION SeekIt(xKey, lSoftSeek, oObj)
    LOCAL lFound, nRecNo
 
    nRecNo    := RecNo()
-   lSoftSeek := IF(ValType(lSoftSeek) == "L", lSoftSeek, .F.)
+   lSoftSeek := if(ValType(lSoftSeek) == "L", lSoftSeek, .F.)
 
-   IF !(lFound := DBSeek( xKey, lSoftSeek ))
-      IF EoF()
+   if !(lFound := DBSeek( xKey, lSoftSeek ))
+      if EoF()
          // Not found.
          // Keep pointer in the same place
          DBGoto(nRecNo)
          oObj:invalidate()
 
-      ELSE
+      else
          // Not Found but, SoftSeek is on!
          // But there is that behaviour on TBrowse...
          //
          SetHilite(oObj)
 
-      ENDIF
+      endif
 
-   ELSE
+   else
       // Found!
       // But there is that behaviour on TBrowse...
       //
       SetHilite(oObj)
 
-   ENDIF
+   endif
 
-   RETURN (lFound)
+   return (lFound)
 
 /*****
  *
@@ -54,7 +54,7 @@ FUNCTION SeekIt(xKey, lSoftSeek, oObj)
  *    Copyright: Computer Associates
  *
  *    Arguments: oObj   - TBrowse object
- * Return Value: .T.
+ * return Value: .T.
  *     See Also: SeekIt()
  *
  */
@@ -76,6 +76,6 @@ FUNCTION SetHilite(oObj)
    END
 
    DispEnd()
-   RETURN (.T.)
+   return (.T.)
 
 // EOF - BROWSEEK.PRG //

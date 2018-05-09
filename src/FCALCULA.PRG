@@ -416,14 +416,14 @@ enddo
 restscreen(calc_lin, calc_col, calc_lin + 15, calc_col + 23, ;
                tl_ant)
 setcolor(c_cor_ant)
-IF tecla_press = PGDN
+if tecla_press = PGDN
    Num_Saida = LTRIM(STR(corrente,16,2))
    Num_Saida = STRTRAN(Num_Saida,".",",") && OPCIONAL: SUBSTITUI O PONTO DECIMAL POR VIRGULA
    KEYBOARD Num_Saida
-ENDIF
+endif
 
 SetColor(corhel)
-Return .t.
+return .t.
 *
 *
 *********************
@@ -537,5 +537,5 @@ corrente = atual
 primeiro = .t.
 dp = 0
 
-Return .t.
+return .t.
 

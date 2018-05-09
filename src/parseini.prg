@@ -13,18 +13,18 @@ PROCEDURE Main( cName )
    @ nRow++, 5 SAY "Call from command-line using a .ini filename as the only parameter"
    nRow++
 
-   IF Empty( cName )
+   if Empty( cName )
       cName := "parseini.ini"
       @ nRow++, 5 SAY "Using default parseini.ini file"
-   ENDIF
+   endif
 
    @ nRow, 0
 
    ? "Content of", cName
 
-   IF Empty( hIni := hb_iniRead( cName ) )
+   if Empty( hIni := hb_iniRead( cName ) )
       ? "Not a valid .ini file!"
-   ELSE
+   else
       FOR EACH cSection IN hIni:Keys
          ?
          ? "Section [" + cSection + "]"
@@ -34,7 +34,7 @@ PROCEDURE Main( cName )
             ? cKey, "=", aSect[ cKey ]
          NEXT
       NEXT
-   ENDIF
+   endif
 
    ?
    ? "Adding section 'Added', with key NEW := new"
@@ -42,11 +42,11 @@ PROCEDURE Main( cName )
    hIni[ "Added" ][ "NEW" ] := "new"
 
    ? "Writing output to parseini_out.ini"
-   IF hb_iniWrite( "parseini_out.ini", hIni, "#Generated file; don't touch", "#End of file" )
+   if hb_iniWrite( "parseini_out.ini", hIni, "#Generated file; don't touch", "#End of file" )
       ? "File written"
-   ELSE
+   else
       ? "Could not write file"
-   ENDIF
+   endif
    ?
    WAIT
 
@@ -57,16 +57,16 @@ PROCEDURE Main( cName )
    ?
    ? "Content of", cName
 
-   IF Empty( hIni := hb_iniRead( cName, ;
+   if Empty( hIni := hb_iniRead( cName, ;
                                  /* default case */, ;
                                  /* default key indicators */, .F. ) )
       ? "Not a valid .ini file!"
-   ELSE
+   else
       FOR EACH cSection IN hIni:Keys
          /* Now (without automatic main), toplevel options may be in the root hash */
          aSect := hIni[ cSection ]
 
-         IF HB_ISHASH( aSect )
+         if HB_ISHASH( aSect )
             /* It's a section */
             ?
             ? "Section [" + cSection + "]"
@@ -74,12 +74,12 @@ PROCEDURE Main( cName )
             FOR EACH cKey IN aSect:Keys
                ? cKey, "=", aSect[ cKey ]
             NEXT
-         ELSE
+         else
             /* It's a toplevel option */
             ? "TOPLEVEL option:", cSection, "=", aSect
-         ENDIF
+         endif
       NEXT
-   ENDIF
+   endif
 
    ?
    ? "Adding section 'Added', with key NEW := new"
@@ -87,13 +87,13 @@ PROCEDURE Main( cName )
    hIni[ "Added" ][ "NEW" ] := "new"
 
    ? "Writing output to parseini_out1.ini"
-   IF hb_iniWrite( "parseini_out1.ini", hIni, ;
+   if hb_iniWrite( "parseini_out1.ini", hIni, ;
                    "#Generated file without main auto section; don't touch", "#End of file", ;
                    .F. )
       ? "File written"
-   ELSE
+   else
       ? "Could not write file"
-   ENDIF
+   endif
    ?
    WAIT
 
@@ -118,16 +118,16 @@ PROCEDURE Main( cName )
    ?
    ? "Content:"
 
-   IF Empty( hIni := hb_iniReadStr( cIni, ;
+   if Empty( hIni := hb_iniReadStr( cIni, ;
                                     /* default case */, ;
                                     /* default key indicators */, .F. ) )
       ? "Not a valid .ini file!"
-   ELSE
+   else
       FOR EACH cSection IN hIni:Keys
          /* Now (without automatic main), toplevel options may be in the root hash */
          aSect := hIni[ cSection ]
 
-         IF HB_ISHASH( aSect )
+         if HB_ISHASH( aSect )
             /* It's a section */
             ?
             ? "Section [" + cSection + "]"
@@ -135,12 +135,12 @@ PROCEDURE Main( cName )
             FOR EACH cKey IN aSect:Keys
                ? cKey, "=", aSect[ cKey ]
             NEXT
-         ELSE
+         else
             /* It's a toplevel option */
             ? "TOPLEVEL option:", cSection, "=", aSect
-         ENDIF
+         endif
       NEXT
-   ENDIF
+   endif
 
    ?
    WAIT
@@ -159,4 +159,4 @@ PROCEDURE Main( cName )
    ?
    WAIT
 
-   RETURN
+   return

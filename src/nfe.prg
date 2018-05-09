@@ -23,7 +23,7 @@ Local oICMSCons :=oXml:CreateICMSCons("vBCICMSSTCons" ,"vICMSSTCons"   ,"UFcons"
 Local oICMSInter :=oXml:CreateICMSInter( "vBCICMSSTDest", "vICMSSTDest"  )
 Local oICMSCOMB :=oXml:CreateICMSCOMB( "vBCICMS"  ,"vICMS"    ,"vBCICMSST", "vICMSST"  )
 Local oCide :=oXml:CreateCide( "qBCprod"  ,"vAliqProd", "vCIDE"    )
-Local oComb :=oXml:CreateComb("cProdANP","CODIF"   ,"qTemp" ,oCide,  oICMSComb,oICMSInter,oICMSCons )
+Local oComb :=oXml:CreateComb("cProdANP","CODif"   ,"qTemp" ,oCide,  oICMSComb,oICMSInter,oICMSCons )
 Local oProd1,oProd2
 Local o1 := oXml:CreateICMS00( "orig","CST","modBC","vBC","pICMS","vICMS ")
 Local o2 := oXml:CreateICMS10( "orig","CST","modBC","vBC","pICMS","vICMS","modBCST","pMVAST ","pRedBCST","vBCST","pICMSST","vICMSST ")
@@ -112,11 +112,11 @@ s1:write("bb.xml")
 s2:write("cc.xml",s3)
 
 
-RETURN nil
+return nil
 
 function ConvertText(cText)
 
-RETURN Alltrim(cText)
+return Alltrim(cText)
 
 #endif
 
@@ -150,7 +150,7 @@ Create CLASS NFEENVLOTE
    METHOD CreateICMSInter( vBCICMSSTDest, vICMSSTDest  )
    METHOD CreateICMSCOMB( vBCICMS  ,vICMS    ,vBCICMSST, vICMSST  )
    METHOD CreateCide( qBCprod  ,vAliqProd, vCIDE    )
-   METHOD CreateComb(cProdANP,CODIF   ,qTemp ,oCide,  oICMSComb,oICMSInter,oICMSCons )
+   METHOD CreateComb(cProdANP,CODif   ,qTemp ,oCide,  oICMSComb,oICMSInter,oICMSCons )
    METHOD CreateICMS00( orig,CST,modBC,vBC,pICMS,vICMS )
    METHOD CreateICMS10( orig,CST,modBC,vBC,pICMS,vICMS,modBCST,pMVAST ,pRedBCST,vBCST,pICMSST,vICMSST )
    METHOD CreateICMS20( orig,CST,modBC,pRedBC,vBC,pICMS,vICMS )
@@ -209,7 +209,7 @@ end class
 METHOD New()
 **************************************************************************************
 
-RETURN self
+return self
 
 
 **************************************************************************************
@@ -253,7 +253,7 @@ METHOD EnviNFe(Versao,idLote,infVersao)
 
    ::oXml:oRoot:AddBelow(oenviNFe )
 
-RETURN Self
+return Self
 
 
 **************************************************************************************
@@ -279,7 +279,7 @@ METHOD infNew(id1)
 
    ::oXml:oRoot:AddBelow(oNFe )
 
-RETURN Self
+return Self
 
 **************************************************************************************
 METHOD CreateIDe(cUF   ,cNF    ,natOp  ,indPag ,mod    ,serie  ,nNF    ,dEmi   ,dSaiEnt,tpNF   ,cMunFG ,refNFe ,tpImp  ,tpEmis ,cDV    )
@@ -306,7 +306,7 @@ METHOD CreateIDe(cUF   ,cNF    ,natOp  ,indPag ,mod    ,serie  ,nNF    ,dEmi   ,
    ::oInfNfe:AddBelow(::oIde)
 
 
-RETURN self
+return self
 
 **************************************************************************************
 METHOD Createemit(CNPJ   ,xNome  ,xFant  ,  xLgr   ,nro    ,xBairro,cMun   ,xMun   ,UF     ,CEP    ,cPais  ,xPais  ,fone   ,IE ,IEst,IM,CNAE    )
@@ -341,7 +341,7 @@ Local oEnderemit := TXMLNodeEx( ):New( HBXML_TYPE_TAG, "enderEmit" )
    endif
    ::oInfNfe:AddBelow(::oEmit)
 
-RETURN self
+return self
 
 **************************************************************************************
 METHOD CreateDest(CNPJCPF    ,xNome   ,xLgr    ,nro     ,xBairro ,cMun    ,xMun    ,UF      ,CEP     ,cPais   ,xPais   ,fone    ,IE, ISUF )
@@ -394,7 +394,7 @@ METHOD CreateDest(CNPJCPF    ,xNome   ,xLgr    ,nro     ,xBairro ,cMun    ,xMun 
 
    ::oInfNfe:AddBelow(::oDest)
 
-RETURN self
+return self
 
 
 **************************************************************************************
@@ -411,7 +411,7 @@ METHOD Write(cFile)
 
    fclose(n)
 
-RETURN self
+return self
 
 
 
@@ -482,7 +482,7 @@ METHOD CreateProd( cProd   , cEAN    ,xProd   ,NCM     ,EXTIPI  ,genero  ,CFOP  
 
    //::oInfNfe:AddBelow()
 
-RETURN oProd
+return oProd
 
 
 **************************************************************************************
@@ -498,7 +498,7 @@ METHOD CreateDi( nDI, dDi, xLocDesemb, UFDesemb, dDesemb, cExportador )
    if !empty(dDesemb       ) ; odi:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,    "dDesemb",,   dDesemb          ) ); endif
    if !empty(cExportador   ) ; odi:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,    "cExportador",,   cExportador      ) ); endif
 
-RETURN odi
+return odi
 
 
 **************************************************************************************
@@ -512,7 +512,7 @@ METHOD CreateADi(nAdicao, nSeqAdic, cFabricante, vDescDI)
    if !empty( cFabricante ) ; oAdi:addBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,    "cFabricante",,cFabricante      ) ); endif
    if !empty( vDescDI     ) ; oAdi:addBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,    "vDescDI",,   vDescDI          ) ); endif
 
-RETURN oadi
+return oadi
 
 
 
@@ -545,7 +545,7 @@ Local oAvei := TXMLNodeEx( ):New( HBXML_TYPE_TAG, "veicProd" )
    if !empty( condVeic ) ; oaVei:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,    "condVeic",, condVeic  ) ); endif
    if !empty( cMod     ) ; oaVei:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,    "cMod",,     cMod      ) ); endif
 
-RETURN oaVei
+return oaVei
 
 
 
@@ -562,16 +562,16 @@ Local oamed :=TXMLNodeEx( ):New( HBXML_TYPE_TAG, "med" )
    if !empty(vPMC  ) ; oamed:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,    "vPMC",,   vPMC  ) ); endif
 
 
-RETURN oamed
+return oamed
 
 
 **************************************************************************************
-METHOD CreateComb(cProdANP,CODIF   ,qTemp ,oCide,  oICMSComb,oICMSInter,oICMSCons )
+METHOD CreateComb(cProdANP,CODif   ,qTemp ,oCide,  oICMSComb,oICMSInter,oICMSCons )
 **************************************************************************************
 Local oComb :=TXMLNodeEx( ):New( HBXML_TYPE_TAG, "comb" )
 
    if !empty(cProdANP) ; oComb:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,    "cProdANP",,  cProdANP             ) ); endif
-   if !empty(CODIF   ) ; oComb:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,    "CODIF",,     CODIF                ) ); endif
+   if !empty(CODif   ) ; oComb:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,    "CODif",,     CODif                ) ); endif
    if !empty(qTemp   ) ; oComb:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,    "qTemp",,     qTemp                ) ); endif
 
    if valtype( oCide ) == "O"
@@ -588,7 +588,7 @@ Local oComb :=TXMLNodeEx( ):New( HBXML_TYPE_TAG, "comb" )
       oComb:AddBelow( oICMSCons )
    endif
 
-RETURN oComb
+return oComb
 
 
 **************************************************************************************
@@ -600,7 +600,7 @@ Local oCide :=TXMLNodeEx( ):New( HBXML_TYPE_TAG, "CIDE" )
    if !empty(vAliqProd) ; oCide:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,    "vAliqProd",,   vAliqProd                ) );endif
    if !empty(vCIDE    ) ; oCide:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,    "vCIDE",,       vCIDE                    ) );endif
 
-RETURN oCide
+return oCide
 
 
 
@@ -614,7 +614,7 @@ METHOD CreateICMSCOMB( vBCICMS  ,vICMS    ,vBCICMSST, vICMSST  )
    if !empty(vBCICMSST);oICMSComb:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,    "vBCICMSST" ,, vBCICMSST ));endif
    if !empty(vICMSST  );oICMSComb:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,    "vICMSST"   ,, vICMSST   ));endif
 
-RETURN oICMSComb
+return oICMSComb
 
 
 **************************************************************************************
@@ -625,7 +625,7 @@ METHOD CreateICMSInter( vBCICMSSTDest, vICMSSTDest  )
    if !empty(vBCICMSSTDest) ;oICMSInter:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vBCICMSSTDest" ,,vBCICMSSTDest ));endif
    if !empty(vICMSSTDest  ) ;oICMSInter:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vICMSSTDest"   ,,vICMSSTDest   ));endif
 
-RETURN oICMSInter
+return oICMSInter
 
 **************************************************************************************
 METHOD CreateICMSCons(vBCICMSSTCons ,vICMSSTCons   ,UFcons )
@@ -637,7 +637,7 @@ METHOD CreateICMSCons(vBCICMSSTCons ,vICMSSTCons   ,UFcons )
   if !empty(vICMSSTCons  ) ; oICMSCons:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vICMSSTCons"   ,,vICMSSTCons   ));endif
   if !empty(UFcons       ) ; oICMSCons:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "UFcons"        ,,UFcons        ));endif
 
-RETURN oICMSCons
+return oICMSCons
 
 
 
@@ -659,7 +659,7 @@ METHOD CreateICMS( oICMS00, oICMS10,oICMS20,oICMS30,oICMS40,oICMS51,oICMS60,oICM
    if valtype( oICMS70 ) == "O" ; oICMS:AddBelow( oICMS70) ; endif
    if valtype( oICMS90 ) == "O" ; oICMS:AddBelow( oICMS90) ; endif
 
-RETURN oICMS
+return oICMS
 
 
 **************************************************************************************
@@ -675,7 +675,7 @@ METHOD CreateICMS00( orig,CST,modBC,vBC,pICMS,vICMS )
    if !empty(pICMS) ;oICMS00:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "pICMS" ,,pICMS ));endif
    if !empty(vICMS );oICMS00:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vICMS" ,,vICMS ));endif
 
-RETURN oICMS00
+return oICMS00
 
 **************************************************************************************
 METHOD CreateICMS10( orig,CST,modBC,vBC,pICMS,vICMS,modBCST,pMVAST ,pRedBCST,vBCST,pICMSST,vICMSST )
@@ -696,7 +696,7 @@ METHOD CreateICMS10( orig,CST,modBC,vBC,pICMS,vICMS,modBCST,pMVAST ,pRedBCST,vBC
    if !empty(pICMSST ) ;oICMS10:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "pICMSST"  ,,pICMSST  ));endif
    if !empty(vICMSST  );oICMS10:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vICMSST"  ,,vICMSST  ));endif
 
-RETURN oICMS10
+return oICMS10
 
 
 **************************************************************************************
@@ -712,7 +712,7 @@ METHOD CreateICMS20( orig,CST,modBC,pRedBC,vBC,pICMS,vICMS )
    if !empty(pICMS) ;oICMS20:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "pICMS"  ,,pICMS ));endif
    if !empty(vICMS );oICMS20:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vICMS"  ,,vICMS ));endif
 
-RETURN oICMS20
+return oICMS20
 
 
 **************************************************************************************
@@ -730,7 +730,7 @@ METHOD CreateICMS30( orig,CST,modBCST,pMVAST,pRedBCST,vBCST,pICMSST,vICMSST)
    if !empty( pICMSST )  ;oICMS30:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "pICMSST"  ,, pICMSST    ));endif
    if !empty( vICMSST )  ;oICMS30:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vICMSST"  ,, vICMSST ));endif
 
-RETURN oICMS30
+return oICMS30
 
 **************************************************************************************
 METHOD CreateICMS40( orig,CST )
@@ -740,7 +740,7 @@ METHOD CreateICMS40( orig,CST )
    if !empty( orig )     ;oICMS40:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "orig"     ,, orig  ));endif
    if !empty( CST )      ;oICMS40:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "CST"      ,, CST   ));endif
 
-RETURN  oICMS40
+return  oICMS40
 
 **************************************************************************************
 METHOD CreateICMS51( orig,CST,modBC,pRedBC,vBC,pICMS,vICMS )
@@ -755,7 +755,7 @@ METHOD CreateICMS51( orig,CST,modBC,pRedBC,vBC,pICMS,vICMS )
    if !empty(pICMS) ;oICMS51:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "pICMS"  ,,pICMS ));endif
    if !empty(vICMS );oICMS51:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vICMS"  ,,vICMS ));endif
 
-RETURN oICMS51
+return oICMS51
 
 **************************************************************************************
 METHOD CreateICMS60( orig,CST,vBCST,vICMSST )
@@ -767,7 +767,7 @@ Local oICMS60 :=TXMLNodeEx( ):New( HBXML_TYPE_TAG, "ICMS60" )
    if !empty(vBCST  ) ;oICMS60:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vBCST"    ,,vBCST   ));endif
    if !empty(vICMSST );oICMS60:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vICMSST"  ,,vICMSST ));endif
 
-RETURN oICMS60
+return oICMS60
 
 **************************************************************************************
 METHOD CreateICMS70( orig,CST,modBC,pRedBC,vBC,pICMS,vICMS ,modBCST,pMVAST,pRedBCST,vBCST,pICMSST,vICMSST )
@@ -789,7 +789,7 @@ Local oICMS70 :=TXMLNodeEx( ):New( HBXML_TYPE_TAG, "ICMS70" )
    if !empty(pICMSST ) ;oICMS70:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "pICMSST"   ,,pICMSST ));endif
    if !empty(vICMSST ) ;oICMS70:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vICMSST"   ,,vICMSST ));endif
 
-RETURN oICMS70
+return oICMS70
 
 **************************************************************************************
 METHOD CreateICMS90( orig ,CST ,modBC ,pRedBC ,vBC      ,pICMS    ,vICMS    ,modBCST  ,pMVAST   ,pRedBCST ,vBCST    ,pICMSST ,vICMSST  )
@@ -809,7 +809,7 @@ METHOD CreateICMS90( orig ,CST ,modBC ,pRedBC ,vBC      ,pICMS    ,vICMS    ,mod
    if !empty(pRedBCST) ;oICMS90:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vBCST"  ,,vBCST   ));endif
    if !empty(pRedBCST) ;oICMS90:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "pICMSST"  ,,pICMSST ));endif
    if !empty(pRedBCST) ;oICMS90:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vICMSST"  ,,vICMSST ));endif
-RETURN oICMS90
+return oICMS90
 
 
 **************************************************************************************
@@ -828,7 +828,7 @@ METHOD CreateIPI( clEnq   ,CNPJProd,cSelo   ,qSelo   ,cEnq    ,vIPI ,oIPINT    )
       oIPI:AddBelow( oIPINT )
    endif
 
-RETURN oIpi
+return oIpi
 
 
 **************************************************************************************
@@ -839,7 +839,7 @@ METHOD CreateIPINT( CST )
 
 	if !empty( CST   ) ;oIPINT:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "CST"    ,,CST       ));endif
 
-RETURN oIPINT
+return oIPINT
 
 **************************************************************************************
 METHOD CreateII(vBC )
@@ -848,7 +848,7 @@ METHOD CreateII(vBC )
    Local oII :=TXMLNodeEx( ):New( HBXML_TYPE_TAG, "II" )
    if !empty(vBC   ) ;oII:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vBC"    ,,vBC       ));endif
 
-RETURN oII
+return oII
 
 
 **************************************************************************************
@@ -863,7 +863,7 @@ METHOD CreatePis(oPISAliq,oPISQtde,oPISNT,oPISOutr,oPISST)
    if valtype(oPisOutr) == "O" ; oPIs:AddBelow(oPisOutr) ; endif
    if valtype(oPisST  ) == "O" ; oPIs:AddBelow(oPisST  ) ; endif
 
-RETURN oPis
+return oPis
 
 **************************************************************************************
 METHOD CreatePISAliq(CST,vBC,pPIS,vPIS)
@@ -876,7 +876,7 @@ METHOD CreatePISAliq(CST,vBC,pPIS,vPIS)
    if !empty( pPIS ) ;oPISAliq:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "pPIS"    ,,pPIS       ));endif
    if !empty( vPIS ) ;oPISAliq:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vPIS"    ,,vPIS       ));endif
 
-RETURN oPISAliq
+return oPISAliq
 
 
 **************************************************************************************
@@ -889,7 +889,7 @@ METHOD CreatePISQtde(CST,qBCProd,vAliqProd,vPIS)
    if !empty( vAliqProd  ) ;oPISQtde:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vAliqProd"     ,,vAliqProd        ));endif
    if !empty( vPIS       ) ;oPISQtde:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vPIS"     ,,vPIS             ));endif
 
-RETURN oPISQtde
+return oPISQtde
 
 **************************************************************************************
 METHOD CreatePISNT( CST )
@@ -898,7 +898,7 @@ METHOD CreatePISNT( CST )
 
    if !empty( CST  ) ;oPISNT:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "CST"     ,,CST        ));endif
 
-RETURN oPISNT
+return oPISNT
 
 **************************************************************************************
 METHOD CreatePISOutr(CST,vBC,pPIS,qBCProd,vAliqProd,vPIS)
@@ -911,7 +911,7 @@ METHOD CreatePISOutr(CST,vBC,pPIS,qBCProd,vAliqProd,vPIS)
    if !empty( qBCProd  ) ;oPISOutr:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "qBCProd"   ,,qBCProd    ));endif
    if !empty( vAliqProd) ;oPISOutr:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vAliqProd" ,,vAliqProd  ));endif
    if !empty( vPIS     ) ;oPISOutr:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vPIS"      ,,vPIS       ));endif
-RETURN oPISOutr
+return oPISOutr
 
 
 
@@ -927,7 +927,7 @@ METHOD CreatePISST(vBC      ,pPIS     ,qBCProd  ,vAliqProd,vPIS     )
    if !empty( vAliqProd ) ;oPISST:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vAliqProd" ,,vAliqProd        ));endif
    if !empty( vPIS      ) ;oPISST:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vPIS"      ,,vPIS             ));endif
 
-RETURN  oPISST
+return  oPISST
 
 
 **************************************************************************************
@@ -941,7 +941,7 @@ METHOD CreateConfins(oCOFINSAliq, oCOFINSQtde,oCOFINSNT,oCOFINSOutr,oCOFINSST )
    if Valtype(oCofinsOutr) =="O" ; oCOFINS:AddBelow( oCofinsOutr ); endif
    if Valtype(oCofinsST  ) =="O" ; oCOFINS:AddBelow( oCofinsST   ); endif
 
-RETURN oCOFINS
+return oCOFINS
 
 
 **************************************************************************************
@@ -954,7 +954,7 @@ METHOD CreateCOFINSAliq( CST     ,vBC     ,pCOFINS ,vCOFINS  )
    if !empty( pCOFINS ) ;oCOFINSAliq:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "pCOFINS"       ,, pCOFINS ));endif
    if !empty( vCOFINS ) ;oCOFINSAliq:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vCOFINS"       ,, vCOFINS ));endif
 
-RETURN  oCOFINSAliq
+return  oCOFINSAliq
 
 
 **************************************************************************************
@@ -967,7 +967,7 @@ METHOD CreateCOFINSQtde( CST,qBCProd,vAliqProd,vCOFINS)
    if !empty( vAliqProd ) ;oCOFINSQtde:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vAliqProd"       ,, vAliqProd ));endif
    if !empty( vCOFINS   ) ;oCOFINSQtde:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vCOFINS"       ,, vCOFINS   ));endif
 
-RETURN oCOFINSQtde
+return oCOFINSQtde
 
 
 
@@ -977,7 +977,7 @@ METHOD CreateCOFINSNT( CST,qBCProd,vAliqProd,vCOFINS)
 **************************************************************************************
   Local oCOFINSNT :=TXMLNodeEx( ):New( HBXML_TYPE_TAG, "COFINSNT" )
   if !empty( CST       ) ;oCOFINSNT:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "CST"       ,, CST       ));endif
-RETURN  oCOFINSNT
+return  oCOFINSNT
 
 
 **************************************************************************************
@@ -993,7 +993,7 @@ METHOD CreateCOFINSOutr( CST,vBC,pCOFINS,qBCProd,vAliqProd,vCOFINS)
    if !empty( vAliqProd ) ;oCOFINSOutr:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vAliqProd" ,, vAliqProd ));endif
    if !empty( vCOFINS   ) ;oCOFINSOutr:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vCOFINS"   ,, vCOFINS   ));endif
 
-RETURN oCOFINSOutr
+return oCOFINSOutr
 
 
 //COFINSST
@@ -1009,7 +1009,7 @@ METHOD CreateCOFINSST( vBC,pCOFINS,qBCProd,vAliqProd,vCOFINS)
    if !empty( vAliqProd ) ;oCOFINSST:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vAliqProd"   ,, vAliqProd ));endif
    if !empty( vCOFINS   ) ;oCOFINSST:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vCOFINS"   ,, vCOFINS   ));endif
 
-RETURN oCOFINSST
+return oCOFINSST
 
 
 **************************************************************************************
@@ -1024,7 +1024,7 @@ METHOD CreateISSQN(vBC,vAliq,vISSQN,cMunFG,cListServ)
    if !empty( cMunFG    ) ;oISSQN:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "cMunFG"    ,, cMunFG    ));endif
    if !empty( cListServ ) ;oISSQN:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "cListServ" ,, cListServ ));endif
 
-RETURN  oISSQN
+return  oISSQN
 
 **************************************************************************************
 METHOD CreateImposto(oICMS,oIPI,oPIS, oCOFINS,oISSQN)
@@ -1037,7 +1037,7 @@ METHOD CreateImposto(oICMS,oIPI,oPIS, oCOFINS,oISSQN)
    if Valtype( oCOFINS) == "O" ; oImposto:AddBelow( oCOFINS ) ; endif
    if Valtype( oISSQN ) == "O" ; oImposto:AddBelow( oISSQN  ) ; endif
 
-RETURN  oImposto
+return  oImposto
 
 
 **************************************************************************************
@@ -1056,7 +1056,7 @@ Local oDet
 
    ::oInfNfe:AddBelow(oDet)
 
-RETURN Self
+return Self
 
 
 **************************************************************************************
@@ -1079,7 +1079,7 @@ METHOD  CreateICMSTot( vBC, vICMS, vBCST, vST, vProd, vFrete, vSeg, vDesc, vII, 
    if !empty( vOutro  ) ;oICMSTot:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vOutro  " ,, vOutro  ));endif
    if !empty( vNF     ) ;oICMSTot:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vNF"      ,, vNF     ));endif
 
-RETURN oICMSTot
+return oICMSTot
 
 **************************************************************************************
 METHOD CreateISSQNtot(vServ, vBC, vISS, vPIS, vCOFINS )
@@ -1094,7 +1094,7 @@ METHOD CreateISSQNtot(vServ, vBC, vISS, vPIS, vCOFINS )
    if !empty( vCOFINS  ) ;oISSQNtot:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vCOFINS" ,, vCOFINS  ));endif
 
 
-RETURN oISSQNtot
+return oISSQNtot
 
 
 **************************************************************************************
@@ -1110,7 +1110,7 @@ METHOD CreateretTrib(vRetPIS   ,vRetCOFINS,vRetCSLL  ,vBCIRRF,vIRRF,vBCRetPrev,v
    if !empty( vBCRetPrev ) ;oretTrib:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vBCRetPrev" ,, vBCRetPrev ));endif
    if !empty( vRetPrev   ) ;oretTrib:AddBelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vRetPrev"   ,, vRetPrev   ));endif
 
-RETURN oretTrib
+return oretTrib
 
 **************************************************************************************
 METHOD CreateTotal( oICMSTot, oISSQNtot, oretTrib )
@@ -1123,7 +1123,7 @@ METHOD CreateTotal( oICMSTot, oISSQNtot, oretTrib )
 
 
    ::oInfNfe:AddBelow(oTotal)
-RETURN self
+return self
 
 
 **************************************************************************************
@@ -1142,7 +1142,7 @@ METHOD Createtransp(modFrete,otransporta,oretTransp,oveicTransp,oreboque,ovol,ol
    ::oInfNfe:AddBelow(otransp)
 
 
-RETURN Self
+return Self
 
 
 **************************************************************************************
@@ -1159,7 +1159,7 @@ METHOD Createtransporta(CNPJ      ,CPF       ,xNome ,IE    ,xEnder,xMun  ,UF    
    if !empty( xMun   ) ; otransp:addbelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "xMun"    ,, xMun   )) ; endif
    if !empty( UF     ) ; otransp:addbelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "UF"      ,, UF     )) ; endif
 
-RETURN otransp
+return otransp
 
 **************************************************************************************
 METHOD CreateretTransp(vServ,vBCRet,pICMSRet,vICMSRet,CFOP,cMunFG)
@@ -1174,7 +1174,7 @@ METHOD CreateretTransp(vServ,vBCRet,pICMSRet,vICMSRet,CFOP,cMunFG)
    if !empty( cMunFG   ) ; oretTransp:addbelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "cMunFG"     ,, cMunFG  )) ; endif
 
 
-RETURN  oretTransp
+return  oretTransp
 
 **************************************************************************************
 METHOD CreateveicTransp(placa ,UF    ,RNTC  )
@@ -1185,7 +1185,7 @@ Local oveicTransp :=TXMLNodeEx( ):New( HBXML_TYPE_TAG, "veicTransp" )
    if !empty( UF    ) ; oveicTransp:addbelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "UF"     ,, UF   )) ; endif
    if !empty( RNTC  ) ; oveicTransp:addbelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "RNTC"   ,, RNTC )) ; endif
 
-RETURN oveicTransp
+return oveicTransp
 
 **************************************************************************************
 METHOD Createreboque(placa ,UF    ,RNTC  )
@@ -1196,7 +1196,7 @@ Local oreboque :=TXMLNodeEx( ):New( HBXML_TYPE_TAG, "reboque" )
    if !empty( UF    ) ; oreboque:addbelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "UF"     ,, UF   )) ; endif
    if !empty( RNTC  ) ; oreboque:addbelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "RNTC"   ,, RNTC )) ; endif
 
-RETURN oreboque
+return oreboque
 
 **************************************************************************************
 METHOD Createvol(qVol,esp,marca,nVol,pesoL,pesoB)
@@ -1209,7 +1209,7 @@ Local ovol :=TXMLNodeEx( ):New( HBXML_TYPE_TAG, "vol" )
    if !empty( nVol  ) ; ovol:addbelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "nVol"   ,,nVol  )) ; endif
    if !empty( pesoL ) ; ovol:addbelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "pesoL"  ,,pesoL )) ; endif
    if !empty( pesoB ) ; ovol:addbelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "pesoB"  ,,pesoB )) ; endif
-RETURN oVol
+return oVol
 
 **************************************************************************************
 METHOD Createlacres( nLacre  )
@@ -1218,7 +1218,7 @@ Local olacres :=TXMLNodeEx( ):New( HBXML_TYPE_TAG, "lacres" )
 
 	if !empty( nLacre ) ; olacres:addbelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "nLacre",,nLacre ) ) ; endif
 
-RETURN olacres
+return olacres
 
 
 **************************************************************************************
@@ -1234,7 +1234,7 @@ METHOD Createcobr(oFat,oDup)
    ::oInfNfe:AddBelow(ocobr)
 
 
-   RETURN self
+   return self
 
 **************************************************************************************
 METHOD Createfat(nFat,vOrig,vDesc,vLiq)
@@ -1249,7 +1249,7 @@ METHOD Createfat(nFat,vOrig,vDesc,vLiq)
    if !empty( vLiq  ) ; ofat:addbelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vLiq"   ,, vLiq )) ; endif
 
 
-RETURN ofat
+return ofat
 
 
 **************************************************************************************
@@ -1262,7 +1262,7 @@ METHOD Createdup(nDup,dVenc,vDup)
    if !empty( dVenc ) ; odup:addbelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "dVenc"  ,, dVenc )) ; endif
    if !empty( vDup  ) ; odup:addbelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "vDup"   ,, vDup  )) ; endif
 
-RETURN odup
+return odup
 
 
 **************************************************************************************
@@ -1278,7 +1278,7 @@ METHOD CreateinfAdic(infAdFisco,infCpl,oobsCont,oobsFisco,oprocRef)
 
    ::oInfNfe:AddBelow(oinfAdic)
 
-RETURN self
+return self
 
 
 
@@ -1295,7 +1295,7 @@ METHOD CreateobsCont(xCampo,xTexto)
 
    if !empty( xTexto ) ; oobsCont:addbelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "xTexto" ,, xTexto  )) ; endif
 
-RETURN oobsCont
+return oobsCont
 
 
 
@@ -1313,7 +1313,7 @@ METHOD CreateobsFisco(xCampo,xTexto )
    if !empty( xTexto ) ; oobsFisco:addbelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "xTexto" ,, xTexto  )) ; endif
 
 
-RETURN oobsFisco
+return oobsFisco
 
 
 
@@ -1325,7 +1325,7 @@ METHOD CreateprocRef(nProc,indProc)
    if !empty( nProc   ) ; oprocRef:addbelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "nProc"    ,, nProc   )) ; endif
    if !empty( indProc ) ; oprocRef:addbelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "indProc"  ,, indProc )) ; endif
 
-RETURN oprocRef
+return oprocRef
 
 **************************************************************************************
 METHOD Createexporta(UFEmbarq  ,xLocEmbarq)
@@ -1337,7 +1337,7 @@ METHOD Createexporta(UFEmbarq  ,xLocEmbarq)
 
    ::oInfNfe:AddBelow(oexporta)
 
-RETURN self
+return self
 
 
 **************************************************************************************
@@ -1351,7 +1351,7 @@ METHOD CreateCompra(xNEmp ,xPed  ,xCont )
 
    ::oInfNfe:AddBelow(ocompra)
 
-RETURN self
+return self
 
 **************************************************************************************
 CLASS ConsReciNFe
@@ -1383,7 +1383,7 @@ Local oconsReciNFe
    ::oXml:oRoot:AddBelow( TXMLNodeEx():New( HBXML_TYPE_PI,'xml' , ,;
                                       'version="1.0"  encoding="UTF-8"' ) )
  	::oXml:oRoot:AddBelow(oconsReciNFe )
-RETURN Self
+return Self
 
 
 **************************************************************************************
@@ -1395,7 +1395,7 @@ METHOD Write( cXml ) CLASS  consReciNFe
    fclose(nHandle)
 
 
-RETURN self
+return self
 
 
 **************************************************************************************
@@ -1419,7 +1419,7 @@ METHOD New(versao) CLASS  cancNFe
    hHash["versao"]:=Versao
    ::ocancNFe:=TXMLNodeEx( ) :New( HBXML_TYPE_TAG, "cancNFe" ,hHash)
 
-RETURN Self
+return Self
 
 
 **************************************************************************************
@@ -1437,7 +1437,7 @@ Local oinfCanc
    if !empty( xJust ) ; oinfCanc:addbelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "xJust"    ,, xJust )) ; endif
 
 
-RETURN oinfCanc
+return oinfCanc
 
 
 
@@ -1454,7 +1454,7 @@ METHOD Write( cXml,oInfCanc ) CLASS  cancNFe
    fclose(nHandle)
 
 
-RETURN self
+return self
 
 
 //// inutnfe
@@ -1477,7 +1477,7 @@ METHOD New(versao) CLASS  inutNFe
 
    ::oinutNFe:=TXMLNodeEx( ) :New( HBXML_TYPE_TAG, "inutNFe" ,hHash)
 
-RETURN Self
+return Self
 
 
 **************************************************************************************
@@ -1501,7 +1501,7 @@ METHOD CreateinfInut(Id,tpAmb,xServ,cUF,ano,CNPJ,mod,serie,nNFIni,nNFFin,xJust )
   if !empty( xJust  ) ; oinfInut:addbelow( TXMLNodeEx( ) :New( HBXML_TYPE_TAG,   "xJust"     ,, xJust  )) ; endif
 
 
-RETURN oInfInut
+return oInfInut
 
 **************************************************************************************
 METHOD Write( cXml,oInfInut ) CLASS  inutNFe
@@ -1517,7 +1517,7 @@ METHOD Write( cXml,oInfInut ) CLASS  inutNFe
    fwrite(nHandle,@::oXml:ToString( HBXML_STYLE_INDENT + HBXML_STYLE_THREESPACES  ) )
    fclose(nHandle)
 
-RETURN self
+return self
 
 
 //
@@ -1553,7 +1553,7 @@ METHOD New(Versao,tpAmb,xServ,chNFe) CLASS consSitNFe
    ::oXml:oRoot:AddBelow(oconsReciNFe )
 
 
-RETURN Self
+return Self
 
 
 **************************************************************************************
@@ -1564,7 +1564,7 @@ METHOD Write( cXml ) CLASS  consSitNFe
    fWrite( nHandle , @::oXml:ToString( HBXML_STYLE_INDENT + HBXML_STYLE_THREESPACES  ) )
    fClose( nHandle )
 
-RETURN self
+return self
 
 
 //
@@ -1602,7 +1602,7 @@ METHOD New(Versao,tpAmb,cUF,xServ) CLASS consStatServ
     ::oXml:oRoot:AddBelow(oconsStatServ )
 
 
-RETURN Self
+return Self
 
 **************************************************************************************
 METHOD Write( cXml ) CLASS  consStatServ
@@ -1613,7 +1613,7 @@ METHOD Write( cXml ) CLASS  consStatServ
    fclose(nHandle)
 
 
-RETURN self
+return self
 
 
 **************************************************************************************
@@ -1640,7 +1640,7 @@ METHOD New( nType, cName, aAttributes, cData ) CLASS TXMLNodeEx
 
   ::super:New( nType, cName, aAttributes, cData )
 
-RETURN Self
+return Self
 
 
 

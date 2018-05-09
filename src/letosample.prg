@@ -4,12 +4,12 @@ FUNCTION Main()
    LOCAL cServer:='//127.0.0.1:2812/'
    REQUEST LETO
    RDDSETDEFAULT("LETO")
-   IF Leto_Connect(cServer)==-1
+   if Leto_Connect(cServer)==-1
       MSG('Sem conexao com o servidor '+cServer)
-      RETURN NIL
-   ELSE
+      return NIL
+   else
       MSG('Servidor escutando em:' +cServer)
-   ENDIF
+   endif
    DBCreate( cServer + 'TESTE',{;                         
                                {'CODI', 'N',  03,0},;
                                {'NOME', 'C',  40,0},;
@@ -27,19 +27,20 @@ FUNCTION Main()
       Teste->(DBAppend())
       Teste->Codi  := i
       Teste->Nome  := 'Registro '+Str(i,3)
-      Teste->Fecha := Date()
+      Teste->Data  := Date()
       Teste->(DBUnlock())
    NEXT
    Teste->(DBSeek(50))
    MSG(Teste->Nome)
    Teste->(DBCloseArea())
-RETURN NIL
-#pragma BEGINDUMP
-#include "windows.h"
-#include "hbapi.h"
+return NIL
 
-HB_FUNC(  MSG )
-{
-   MessageBox( GetActiveWindow(), hb_parc(1), "Ok", 0 );
-}
+#pragma BEGINDUMP
+	#include "windows.h"
+	#include "hbapi.h"
+
+	HB_FUNC(  MSG )
+	{
+		MessageBox( GetActiveWindow(), hb_parc(1), "Ok", 0 );
+	}
 #pragma ENDDUMP

@@ -29,7 +29,7 @@ CLASS TvMenu FROM TAmbiente
         Var Menu
         Var PanoFundo
         Var NomeFirma
-        Var CodiFirma
+        Var Codifirma
         Var Sombra
 
 		Export:
@@ -49,7 +49,7 @@ ENDCLASS
 
 Method Limpa
         Cls( ::CorFundo, ::PanoFundo )
-		  Return Self
+		  return Self
 
 Method New()
        ::StatusSup     := "MicroBras"
@@ -65,7 +65,7 @@ Method New()
        ::CorFundo      := 8
        ::Frame         := "ÚÄ¿³ÙÄÀ³"
        ::NomeFirma     := "MICROBRAS COM DE PROD DE INFORMATICA LTDA"
-       ::CodiFirma     := "0001"
+       ::Codifirma     := "0001"
        ::Sombra        := OK
        //setattrib("y", ::CorMenu - 1)   // Cor de Menu - 1
        //setattrib("v", 12+16)           // Vermelho
@@ -73,7 +73,7 @@ Method New()
        //setattrib("d", 10+16)           // Verde
        //setattrib("c", 11+16)           // Ciano
        //setattrib("m", 13+16)           // Magenta setattrib("z", 126)
-Return( Self )
+return( Self )
 
 Method Show
         LOCAL nChoice
@@ -81,23 +81,23 @@ Method Show
 		  M_Frame( ::Frame )
         ::StatSup()
         ::StatInf()
-		  Return( nChoice := M_Menu( ::Ativo, ::Menu, ::CorMenu, 1 ))
+		  return( nChoice := M_Menu( ::Ativo, ::Menu, ::CorMenu, 1 ))
 		  
 
 Method StatInf( cMensagem )
         LOCAL nCol  := LastRow()
         LOCAL nTam  := MaxCol()
         LOCAL nPos  := ( nTam - Len( ::NomeFirma ))
-        aPrint( nCol, 00,    IF( cMensagem = NIL, ::StatusInf, cMensagem), ::CorCabec, MaxCol() )
-        aPrint( nCol, nPos,  ::CodiFirma + ':' + ::NomeFirma, ::CorCabec )
-        Return Self
+        aPrint( nCol, 00,    if( cMensagem = NIL, ::StatusInf, cMensagem), ::CorCabec, MaxCol() )
+        aPrint( nCol, nPos,  ::Codifirma + ':' + ::NomeFirma, ::CorCabec )
+        return Self
 
 Method StatSup( cCabecalho )
         LOCAL nTam  := MaxCol()
         LOCAL nPos  := ( nTam - Len( ::StatusSup ))
-        aPrint( 00, 00, Padc( IF( cCabecalho = NIL, ::StatusSup, cCabecalho), nTam ),  ::CorCabec, nTam )
+        aPrint( 00, 00, Padc( if( cCabecalho = NIL, ::StatusSup, cCabecalho), nTam ),  ::CorCabec, nTam )
         aPrint( 00, ( nTam-8), Clock( 00, (nTam-8), ::CorCabec ), ::CorCabec )
-        Return Self
+        return Self
 
 
 Method SetaCor( nTipo )
@@ -105,7 +105,7 @@ Method SetaCor( nTipo )
 LOCAL aTipo      := { ::CorMenu, ::CorCabec, ::CorFundo, ::CorDesativada }
 LOCAL cPanoFundo := ::PanoFundo
 LOCAL cScreen    := SaveScreen()
-LOCAL xTipo      := IF( nTipo = NIL, 1, nTipo )
+LOCAL xTipo      := if( nTipo = NIL, 1, nTipo )
 LOCAL xColor     := aTipo[ xTipo ]
 LOCAL CorAnt     := aTipo[ xTipo ]
 LOCAL ikey
@@ -124,13 +124,13 @@ WHILE .T.
    M_Frame( ::Frame )
    M_Message("Cor Atual = "+ StrZero( xColor, 3 ) + " - Enter Para Setar ou ESCape", xColor )
    Ikey := WaitKey( 0 )
-   IF ( Ikey == 24)
-      aTipo[ xTipo ] := ( XColor  := IIF( xColor  == 0, 255, --xColor  ))
-   ELSEIF ( Ikey == 5)
-      ( aTipo[ xTipo ] ) :=  ( xColor  := IIF( xColor  == 255, 0, ++xColor  ))
-    ELSEIF ( Ikey == 27 ) .OR. ( IKey == 13 )
+   if ( Ikey == 24)
+      aTipo[ xTipo ] := ( XColor  := Iif( xColor  == 0, 255, --xColor  ))
+   elseif ( Ikey == 5)
+      ( aTipo[ xTipo ] ) :=  ( xColor  := Iif( xColor  == 255, 0, ++xColor  ))
+    elseif ( Ikey == 27 ) .OR. ( IKey == 13 )
        Exit
-    EndIF
+    endif
     oCor:CorMenu       := aTipo[ 1 ]
     oCor:CorCabec      := aTipo[ 2 ]
     oCor:CorFundo      := aTipo[ 3 ]
@@ -141,7 +141,7 @@ End
 ::CorFundo      := aTipo[ 3 ]
 ::CorDesativada := aTipo[ 4 ]
 ResTela( cScreen )
-Return SeLF
+return SeLF
 
 Method SetaFrame
 ****************
@@ -157,17 +157,17 @@ LOCAL aFrames := {"        ",;
                   "ÉÐËÇÊÌÈ¶"}
 nChoice := ::FazMenu( 03, 10, aFrames, ::CorMenu )
 ResTela( cScreen )
-IF nChoice = 0
-   Return
-EndIF
+if nChoice = 0
+   return
+endif
 ::Frame  := aFrames[nChoice]
 M_Frame( ::Frame )
-Return Self
+return Self
 
 Method SetaSombra
 *****************
 FT_Shadow( ::Sombra )
-Return Self
+return Self
 
 Method SetaBorda
 ****************
@@ -191,22 +191,22 @@ WHILE .T.
    M_Frame( ::Frame )
    M_Message("Cor Borda Atual = "+ StrZero( xColor, 3 ) + " - Enter Para Setar ou ESCape", xColor )
    Ikey := WaitKey( 0 )
-   IF ( Ikey == 24)
-      XColor  := IIF( xColor  == 0, 63, --xColor  )
+   if ( Ikey == 24)
+      XColor  := Iif( xColor  == 0, 63, --xColor  )
       oCor:CorBorda  := xColor
       ::CorBorda     := xColor
-   ELSEIF ( Ikey == 5)
-      xColor  := IIF( xColor  == 63, 0, ++xColor  )
+   elseif ( Ikey == 5)
+      xColor  := Iif( xColor  == 63, 0, ++xColor  )
       oCor:CorBorda  := xColor
       ::CorBorda     := xColor
-    ELSEIF ( Ikey == 27 ) .OR. ( IKey == 13 )
+    elseif ( Ikey == 27 ) .OR. ( IKey == 13 )
        Exit
-    EndIF
+    endif
     //Border( ::CorBorda )
 End
 //Border( ::CorBorda )
 ResTela( cScreen )
-Return SeLF
+return SeLF
 
 Method SetaPano
 ***************
@@ -218,7 +218,7 @@ LOCAL oCor
 
 nPano          := Len( ::Panos )
 nPos           := Ascan( ::Panos, ::Panofundo )
-Selecionado    := IF( nPos = 0, 1, nPos )
+Selecionado    := if( nPos = 0, 1, nPos )
 cPanoFundo     := ::PanoFundo
 cCorMenu       := ::CorMenu
 cCorCabec      := ::CorCabec
@@ -236,62 +236,62 @@ WHILE .T.
    M_Frame( ::Frame )
    M_Message("Use as setas CIMA e BAIXO para trocar, ENTER para aceitar. N§ " + StrZero( Selecionado, 3 ), ::CorMenu )
    nKey := Inkey(0)
-   IF ( nKey == 27 .OR. nKey = 13 )
+   if ( nKey == 27 .OR. nKey = 13 )
       Exit
-   ElseIF nKey == 24
-      Selecionado := IF( Selecionado == 1, nPano, --Selecionado  )
+   elseif nKey == 24
+      Selecionado := if( Selecionado == 1, nPano, --Selecionado  )
       oCor:PanoFundo := ::Panos[ Selecionado ]
-   ElseIF nKey == 5
-      Selecionado := IF( Selecionado == nPano, 1, ++Selecionado  )
+   elseif nKey == 5
+      Selecionado := if( Selecionado == nPano, 1, ++Selecionado  )
       oCor:PanoFundo := ::Panos[ Selecionado ]
-   EndIF
+   endif
 EndDo
 ::PanoFundo := ::Panos[ Selecionado ]
 PATTERN     := ::PanoFundo
-Return Self
+return Self
 
 Method MaBox( nTopo, nEsq, nFundo, nDireita, Cabecalho, Rodape, lInverterCor )
 ******************************************************************************
 LOCAL cPattern := " "
-LOCAL nCor     := IF( lInverterCor = NIL, ::CorMenu,  lInverterCor )
+LOCAL nCor     := if( lInverterCor = NIL, ::CorMenu,  lInverterCor )
 LOCAL pback
 
 DispBegin()
-IF nDireita = 79
+if nDireita = 79
    nDireita = MaxCol()
-EndIf
+endif
 ColorSet( @nCor, @pback )
 Box( nTopo, nEsq, nFundo, nDireita, ::Frame + cPattern, nCor )
-IF Cabecalho != Nil
+if Cabecalho != Nil
    aPrint( nTopo, nEsq+1, "Û", Roloc( nCor ), (nDireita-nEsq)-1)
    aPrint( nTopo, nEsq+1, Padc( Cabecalho, ( nDireita-nEsq)-1), Roloc( nCor ))
-EndIF
-IF Rodape != Nil
+endif
+if Rodape != Nil
    aPrint( nFundo, nEsq+1, "Û", Roloc( nCor ), (nDireita-nEsq)-1)
    aPrint( nFundo, nEsq+1, Padc( Rodape, ( nDireita-nEsq)-1), Roloc( nCor ))
-EndIF
+endif
 cSetColor( SetColor())
 nSetColor( nCor, Roloc( nCor ))
 DispEnd()
-Return
+return
 
 Method FazMenu( nTopo, nEsquerda, aArray, Cor )
 ***********************************************
 LOCAL nFundo     := ( nTopo + Len( aArray ) + 3 )
 LOCAL nTamTitle  := ( Len( M_Title() ) + 12 )
 LOCAL nDireita   := ( nEsquerda + AmaxStrLen( aArray ) + 1 )
-IF ( nDireita - nEsquerda ) <  nTamTitle
+if ( nDireita - nEsquerda ) <  nTamTitle
    nDireita := ( nEsquerda + nTamTitle )
-EndIF
-Cor := IF( Cor = NIL, ::CorMenu, Cor )
+endif
+Cor := if( Cor = NIL, ::CorMenu, Cor )
 ::MaBox( nTopo, nEsquerda, nFundo, nDireita, "", "", Cor )
 //nChoice := Mx_Choice( @nTopo, @nEsquerda, @nFundo, @nDireita, aArray, Cor )
 nChoice := Achoice( @nTopo, @nEsquerda, @nFundo, @nDireita, aArray)
-Return( nChoice )
+return( nChoice )
 
 *:----------------------------------------------------------------------------
 
 Function TvMenuNew()
-   Return( TvMenu():New())
+   return( TvMenu():New())
 
 *:----------------------------------------------------------------------------

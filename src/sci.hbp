@@ -1,42 +1,89 @@
-﻿#compiladores - usar na linha de comando
+﻿# compiladores - usar na linha de comando
 #-comp=msvc
 #-comp=bcc
 #-comp=mingw
 #-comp=watcom
 #-comp=poc
 
-#
+######################################################################################
+# /hwgui-src
+######################################################################################
+# adapt path to base directory of HwGUI
+-env:HWGUI_DIR=C:\hwgui-src
+-n2
+-w
+#-q0
+-es2
+#-gui
+-mt
+-strip
+
+-i${HWGUI_DIR}/include
+{bcc}-L${HWGUI_DIR}/lib/bcc
+{mingw}-L${HWGUI_DIR}/lib/mingw
+{mingw64}-L${HWGUI_DIR}/lib/mingw64
+-lhbxml
+-lhwgui
+-lprocmisc
+{win}-manifest=${HWGUI_DIR}/image/WindowsXP.Manifest
+
+######################################################################################
+# /github/letodbf
+######################################################################################
+#-env:LETO_DIR=C:\letodbf
+#-i${LETO_DIR}/include
+#-#{bcc}letodb/letodb.hbc
+#-{mingw|mingw64}/letodbf/letodb.hbc
+######################################################################################
+
 #-b
 #-beep
 #-trace
-#-info
-#-icon=sci.ico
+-inc
+#-inc-
+#-rebuild
+-info
+#-q
+#-p
+-icon=sci.ico
 -osci
 #-o..\release\sci
 #-o${hb_comp}\SCI
--inc
--mt
+#-compr=max
+#-w3 
+#-mt
+#-std
 #-gui
 #-mwindows
 #-gc1
 #-kc
-#-q
+
+#-workdir=C:\lixo
+
+#especifica flags para o Harbour
+#-prgflag=<f> 
 #-prgflag= -ic:\c2wm\harbour\include;c:\c2wm\include;c:\c2wm\mingw\include;c:\c2w\include
+
+#especifica flags para o compilador C
+#-cflag=<f> 
+#-cflag= -cpp -w0 -Wwrite-strings -Wunused-variable -Wformat
+-cflag= -cpp -w0
+
+#especifica flags para o compilador de recursos (apenas windows)
+#-resflag=<f> 
+
+#especifica flags para o linkeditor (executável)
+#-ldflag=<f> 
 #-ldflag=-Wl,--allow-multiple-definition
 
+#informar flags para o linkeditor (biblioteca dinânica)
+#-dflag=<f> 
+
+#passa flag para o linkeditor (lib estática)
+#-aflag=<f> 
 
 #para gerar uma biblioteca
 #-hblib funcoes.prg -ofuncoes
-
-#Bibliotecas
--lhbblink
--lhbct
--lhbxpp
--lxhb
--lhboslib
--lhbgt
--lhbwin
--lhbnf
 
 #Biblioteca C3
 #-lccc32
@@ -65,10 +112,16 @@
 #-Lc:\harbour\prg           -lfunckycl
 #-Lc:\harbour\prg           -lfunckyvm
 
--prgflag= -i..\include
+-prgflag= -ic:\sci\include
+-ic:\sci\include
+#{mingw|mingw64}-ldflag=-Wl,--allow-multiple-definition
 
 sci.prg
-sciext.prg
+sciapi.c 
+dbfio.prg
+#sciext.prg
+api.prg
+#winapi.c 
 achoice.prg
 dbedit.prg
 apoio.prg
@@ -96,14 +149,39 @@ tget.prg
 tindice.prg
 tini.prg
 tmenu.prg
+textrato.prg
 tprotege.prg
 treceposi.prg
 trelato.prg
+tdbf.prg
+tstring.prg
 #tvmenu.prg
 #tgui.prg
 #printdc.c
 #romcksum.c
 
+#Bibliotecas
+-lhbblink
+-lhbct
+-lhbxpp
+-lxhb
+-lhboslib
+-lhbgt
+-lhbwin
+-lhbnf
+-lhbgzio
+-lhbmemio
+#letodbf novo
+#-lleto
+-lrddleto
 
-
-
+hbblink.hbc 
+hbct.hbc 
+hbxpp.hbc
+xhb.hbc 
+hboslib.hbc 
+hbgt.hbc 
+hbwin.hbc 
+hbnf.hbc 
+hbgzio.hbc 
+hbmemio.hbc

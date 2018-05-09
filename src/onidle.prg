@@ -23,26 +23,26 @@ PROCEDURE Main()
    pH4 := hb_idleAdd( {||                             hb_DispOutAt( 0, 61, 1000 * ( Seconds() - nPrev ) ), nPrev := Seconds() } )
    ? ValType( pH1 ), pH1, ValType( pH2 ), pH2, ValType( pH3 ), pH3, ValType( pH4 ), pH4
    Inkey( 30 )
-   IF ! Empty( pH3 )
+   if ! Empty( pH3 )
       @ 14, 2 SAY "Delete task 3: " + hb_ValToStr( pH3 )
       hb_idleDel( pH3 )
-   ENDIF
-   IF ! Empty( pH2 )
+   endif
+   if ! Empty( pH2 )
       @ 15, 2 SAY "Delete task 2: " + hb_ValToStr( pH2 )
       hb_idleDel( pH2 )
-   ENDIF
-   IF ! Empty( pH1 )
+   endif
+   if ! Empty( pH1 )
       @ 16, 2 SAY "Delete task 1: " + hb_ValToStr( pH1 )
       hb_idleDel( pH1 )
-   ENDIF
-   IF ! Empty( pH4 )
+   endif
+   if ! Empty( pH4 )
       @ 17, 2 SAY "Delete task 4: " + hb_ValToStr( pH4 )
       hb_idleDel( pH4 )
-   ENDIF
+   endif
    @ 18, 2 SAY "Memory after idle states " + hb_ntos( Memory( HB_MEM_USED ) )
    hb_gcAll()
    @ 19, 2 SAY "Memory after collecting " + hb_ntos( Memory( HB_MEM_USED ) )
-   RETURN
+   return
 STATIC PROCEDURE Test()
    LOCAL a, b, c
    LOCAL cb
@@ -60,4 +60,4 @@ STATIC PROCEDURE Test()
    c[ 3 ] := c
    cb := {| x | x := cb }
    Eval( cb )
-   RETURN
+   return

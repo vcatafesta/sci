@@ -17,4 +17,4 @@ PROCEDURE Main()
    ? PadR( "ft_AEMaxLen( ATail( myarray1 ) ) ->", 35 ), ft_AEMaxLen( ATail( myarray1 ) )
    ?
 
-   RETURN
+   return

@@ -1,4 +1,3 @@
-
 /*
   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
  İ³																								 ³
@@ -16,16 +15,7 @@
  ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 */
 
-#Include "Lista.Ch"
-#Include "Inkey.Ch"
-#Include "Set.Ch"
-#Include "Setcurs.Ch"
-#Include "Error.Ch"
-#Include "Permissao.Ch"
-#Include "Common.Ch"
-#Include "Indice.Ch"
-#Include "FileIo.Ch"
-#Include "Picture.Ch"
+#Include <sci.ch>
 
 #DEFINE CURSOR 					{ || Setcursor(IIf( Readinsert(!Readinsert()), 1, 2 )) }
 #Define ALTERACAO_ON( b )		( b:cargo := TRUE  )

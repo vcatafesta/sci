@@ -1,51 +1,59 @@
+/*
+ * $Id: tbdemo.prg [vcatafesta] $
+	14:53 segunda-feira, 16 de abril de 2018
+ */
+ 
 #include <box.ch>
 #include <fileIO.ch>
 #include <directry.ch>
 
+#define def 	function
+#define true 	.t.
 
-Function Main(argc)
-/******************/
-LOCAL xCoringa := "*.DBF"
-LOCAL aFileList  := {}
-LOCAL aFiles[Adir( xCoringa )]
-LOCAL aSelect[Adir( xCoringa )]
-LOCAL nChoice
+*-----------------*
+def Main(argc)
+*-----------------*
+	LOCAL xCoringa   := "*.DBF"
+	LOCAL aFileList  := {}
+	LOCAL aFiles[ Adir(xCoringa)]
+	LOCAL aSelect[Adir(xCoringa)]
+	LOCAL nChoice
 
-if argc = nil 
-	Afill( aselect, .T.)
-	Adir( xCoringa , aFiles)
-	Aeval(aFiles, { |element| Qout(element) })
-	Aeval( Directory(xCoringa), {|aDirectory|;
-								Aadd( aFileList,;
-								DTOC(       aDirectory[F_DATE])       + "  " + ;
-								SUBSTR(     aDirectory[F_TIME], 1, 5) + "  " + ;
-								IF( SUBSTR( aDirectory[F_ATTR], 1,1) == "D", "   <DIR>", ;
-								TRAN(       aDirectory[F_SIZE], "99,999,999 Bytes"))  + "  " + ;
-								Upper(PADR( aDirectory[F_NAME], 15 )))})
-								
-								/*
-								Upper(PADR( aDirectory[F_NAME], 15 )) + ;
-                        IF( SUBSTR( aDirectory[F_ATTR], 1,1) == "D", "   <DIR>", ;
-                        TRAN(       aDirectory[F_SIZE], "99,999,999 Bytes"))  + "  " + ;
-                        DTOC(       aDirectory[F_DATE])       + "  " + ;
-                        SUBSTR(     aDirectory[F_TIME], 1, 5) + "  " + ;
-								SUBSTR(     aDirectory[F_ATTR], 1, 4) + "  " )})
-								*/
-	cls
-	SetColor("W+/B")
-	nRow1 := 05 + Len( aFileList)
-	if nRow1 > 24
-	   nRow1 = 24
-	endif	
-	@ 05, 10, nRow1+1, 70 BOX B_SINGLE_DOUBLE + SPACE(1)
-	nChoice := aChoice(06, 11, nRow1, 69, aFileList)
-	if nchoice = 0
-		setcolor("")
-	   @ 24, 0 
-	   quit
+	Set Dele ON
+	if argc = nil 
+		Afill(aselect, true)
+		Adir(xCoringa , aFiles)
+		Aeval(aFiles, { |element| Qout(element) })
+		Aeval( Directory(xCoringa), {|aDirectory|;
+									Aadd( aFileList,;
+									dtoc(       aDirectory[F_DATE])        + "  " + ;
+									substr(     aDirectory[F_TIME], 1 , 5) + "  " + ;
+									if( substr( aDirectory[F_ATTR], 1 , 1) == "D", "   <DIR>", ;
+									tran(       aDirectory[F_SIZE], "99,999,999 Bytes"))  + "  " + ;									
+									padr(       aDirectory[F_NAME], 15 ))})
+									//Upper(PADR( aDirectory[F_NAME], 15 )))})
+		cls
+		? "Macrosoft TDBdemo, Copyright (c), Vilmar Catafesta"
+		? "[ESC] sair, [ENTER] selecionar"
+		SetColor("W+/B")
+		nRow1 := 05 + Len( aFileList)
+		if nRow1 > 24
+			nRow1 = 24
+		endif			
+		@ 5 , 10 , nRow1 + 1 , 70 BOX B_SINGLE_DOUBLE + space(1)
+		nChoice := aChoice(06 , 11 , nRow1, 69 , aFileList)
+		if nchoice = 0
+			QuitTBDemo()
+		endif	
+		use (AllTrim(right(aFileList[nChoice],15))) new
+	else
+		Use (argc) New
 	endif
-	use (AllTrim(right(aFileList[nChoice],15))) new
-else
-	Use (argc) New
-endif
-Browse()
+	Browse()
+	QuitTBDemo()
+	
+def QuitDemo()
+	setcolor("")
+	SetPos(maxrow(), 0)
+	? "Macrosoft TDBdemo terminate!"
+	quit

@@ -44,10 +44,10 @@ FUNCTION MyPsw(oGet)
 
    // Check for initial typeout
    // (no editable positions)
-   IF (oGet:typeOut)
+   if (oGet:typeOut)
       oGet:exitState := GE_ENTER
 
-   ENDIF
+   endif
    // Apply keystrokes until exit
    WHILE (oGet:exitState == GE_NOEXIT)
       // Process key
@@ -56,21 +56,21 @@ FUNCTION MyPsw(oGet)
       //          all movement keys are handled
       //
       nKey := INKEY(0)
-      IF (nKey == K_ENTER)
+      if (nKey == K_ENTER)
          oGet:exitState := GE_ENTER
 
-      ELSEIF (nKey == K_ESC)
+      elseif (nKey == K_ESC)
          cAuxVar := cOriginal
          oGet:undo()
          oGet:exitState := GE_ESCAPE
 
-      ELSEIF (nKey == K_BS)
+      elseif (nKey == K_BS)
          cAuxVar := STUFF(cAuxVar, oGet:pos - 1, 1, " ")
          oGet:backSpace()
 
-      ELSE
+      else
          // Data Key
-         IF (nKey >= LOW) .AND. (nKey <= HIGH)
+         if (nKey >= LOW) .AND. (nKey <= HIGH)
             cKey := CHR(nKey)
             // Insert character in the auxiliary variable
             // and ECHO_CHAR in the buffer
@@ -78,14 +78,14 @@ FUNCTION MyPsw(oGet)
             oGet:insert(ECHO_CHAR)
 
             // Type-out?
-            IF (oGet:typeOut)
+            if (oGet:typeOut)
                oGet:exitState := GE_ENTER
 
-            ENDIF
+            endif
 
-         ENDIF
+         endif
 
-      ENDIF
+      endif
 
    END
 
@@ -93,6 +93,6 @@ FUNCTION MyPsw(oGet)
    oGet:killFocus()
 
    restscreen(,,,,cScreen)
-   RETURN (cAuxVar)
+   return (cAuxVar)
 
 // EOF - GET12.PRG //

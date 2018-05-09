@@ -1,23 +1,23 @@
 /*
-  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
- İ³																								 ³
- İ³	Programa.....: PONTOLAN.PRG														 ³
- İ³	Aplicacaoo...: SISTEMA DE CONTROLE DE PONTO									 ³
- İ³	Versao.......: 19.50 																 ³
- İ³	Programador..: Vilmar Catafesta													 ³
- İ³	Empresa......: MicroBras Com de Prod de Informatica Ltda 				 ³
- İ³	Inicio.......: 12 de Novembro de 1991. 										 ³
- İ³	Ult.Atual....: 06 de Dezembro de 1998. 										 ³
- İ³	Compilacao...: Clipper 5.02														 ³
- İ³	Linker.......: Blinker 3.20														 ³
- İ³	Bibliotecas..: Clipper/Funcoes/Mouse/Funcky15/Funcky50/Classe/Classic ³
+  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ?
+ İ³																								 ?
+ İ³	Modulo.......: PONTOLAN.PRG														 ?
+ İ³	Sistema......: CONTROLE DE PONTO								          	    ?
+ İ³	Aplicacao....: SCI - SISTEMA COMERCIAL INTEGRADO                      ?
+ İ³	Versao.......: 8.5.00							                            ?
+ İ³	Programador..: Vilmar Catafesta				                            ?
+ İ³   Empresa......: Macrosoft Informatica Ltda                             ?
+ İ³	Inicio.......: 12.11.1991 						                            ?
+ İ³   Ult.Atual....: 12.04.2018                                             ?
+ İ³   Compilador...: Harbour 3.2/3.4                                        ?
+ İ³   Linker.......: BCC/GCC/MSCV                                           ?
+ İ³	Bibliotecas..:  									                            ?
  İÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
  ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 */
-#Include "InKey.Ch"
-#Include "SetCurs.Ch"
-#Include "Lista.Ch"
-#Include "Indice.Ch"
+
+#include <sci.ch>
+
 *:==================================================================================================================================
 
 Proc PontoLan()
@@ -30,13 +30,13 @@ PUBLI cCaixa		:= Space(04)
 *:==================================================================================================================================
 AbreArea()
 oMenu:Limpa()
-IF !VerSenha( @cCaixa, @cVendedor )
+if !VerSenha( @cCaixa, @cVendedor )
 	Mensagem("Aguarde, Fechando Arquivos." )
 	DbCloseAll()
 	Set KEY F2 TO
 	Set KEY F3 TO
-	Return
-EndIF
+	return
+endif
 *:==================================================================================================================================
 oMenu:Limpa()
 *:==================================================================================================================================
@@ -48,10 +48,10 @@ WHILE lOk
 		Do Case
 		Case Op = 0.0 .OR. Op = 1.01
 			ErrorBeep()
-			IF Conf("Pergunta: Encerrar este modulo ?")
+			if Conf("Pergunta: Encerrar este modulo ?")
 				lOk := FALSO
 				Break
-			EndIf
+			endif
 		Case op = 2.01 ; Servidor()
 		Case op = 2.02 ; MoviPonto()
 		Case op = 2.03 ; PontoAuto()
@@ -69,7 +69,7 @@ WHILE lOk
 EndDo
 Mensagem("Aguarde, Fechando Arquivos.")
 FechaTudo()
-Return
+return
 
 *:==================================================================================================================================
 
@@ -116,10 +116,10 @@ LOCAL oCol	  := oBrowse:getColumn( oBrowse:colPos )
 LOCAL Arq_Ant := Alias()
 LOCAL Ind_Ant := IndexOrd()
 
-IF !PodeAlterar()
-	Return( FALSO)
-EndIF
-Return( OK )
+if !PodeAlterar()
+	return( FALSO)
+endif
+return( OK )
 
 Function PosServidor( oBrowse )
 *******************************
@@ -131,15 +131,15 @@ LOCAL Retorno	 := NIL
 Do Case
 Case oCol:Heading = "SENHA"
 	Retorno := AlterarSenha( Servidor->Codi )
-	IF Retorno != NIL
-		IF Servidor->(TravaReg())
+	if Retorno != NIL
+		if Servidor->(TravaReg())
 			Servidor->Senha := Retorno
 			Servidor->Atualizado := Date()
-		EndIF
-	EndIF
+		endif
+	endif
 EndCase
 AreaAnt( Arq_Ant, Ind_Ant )
-Return( OK )
+return( OK )
 
 *:==================================================================================================================================
 
@@ -171,32 +171,32 @@ WHILE OK
 	@ 09, 03 Say "Carga Mensal:" Get nCarga Pict "999999.99"
 	@ 10, 03 Say "Senha.......:"
 	Read
-	IF LastKey() = ESC
+	if LastKey() = ESC
 		ResTela( cScreen )
 		Exit
-	EndIf
+	endif
 	cSenha := Senha( 10, 17, 14 )
 	ErrorBeep()
 	nOpcao := Alerta( "Pergunta: Voce Deseja ?", {" Incluir ", " Alterar ", " Sair "})
-	IF nOpcao = 1 // Incluir
-		IF SerCerto( @cCodi )
-			IF Servidor->(Incluiu())
+	if nOpcao = 1 // Incluir
+		if SerCerto( @cCodi )
+			if Servidor->(Incluiu())
 				 Servidor->Codi  := cCodi
 				 Servidor->Nome  := cNome
 				 Servidor->Cargo := cCargo
 				 Servidor->Carga := nCarga
 				 Servidor->Senha := MsEncrypt( cSenha )
 				 Servidor->(Libera())
-			Endif
-		Endif
-	ElseIF nOpcao = 2  // Alterar
+			endif
+		endif
+	elseif nOpcao = 2  // Alterar
 		Loop
-	ElseIF nOpcao = 3  // Sair
+	elseif nOpcao = 3  // Sair
 		Exit
-	EndIF
+	endif
 EndDo
 ResTela( cScreen )
-Return
+return
 
 *:==================================================================================================================================
 
@@ -217,24 +217,24 @@ WHILE OK
 	MaBox( 10, 11, 12, 47 )
 	Write( 11, 12, "Senha de acesso..: " )
 	Passe  := Senha( 11, 32, 14 )
-	IF LastKey() = ESC
+	if LastKey() = ESC
 		AreaAnt( Arq_Ant, Ind_Ant )
 		ResTela( cScreen )
-		Return( FALSO )
-	EndIF
-	IF !Empty( Passe) .AND. ( AllTrim( cSenha ) == AllTrim( Passe ))
+		return( FALSO )
+	endif
+	if !Empty( Passe) .AND. ( AllTrim( cSenha ) == AllTrim( Passe ))
 		AreaAnt( Arq_Ant, Ind_Ant )
 		ResTela( cScreen )
-		Return( OK )
-	Else
+		return( OK )
+	else
 		ErrorBeep()
-		IF Conf("Pergunta: Senha Nao Confere. Novamente ?")
+		if Conf("Pergunta: Senha Nao Confere. Novamente ?")
 			Loop
-		EndIF
+		endif
 		AreaAnt( Arq_Ant, Ind_Ant )
 		ResTela( cScreen )
-		Return( FALSO )
-  EndIF
+		return( FALSO )
+  endif
 EndDo
 
 *:==================================================================================================================================
@@ -248,16 +248,16 @@ LOCAL cSenha2
 
 oMenu:Limpa()
 Servidor->(Order( SERVIDOR_CODI ))
-IF cCodi = NIL
+if cCodi = NIL
 	MaBox( 00, 10, 04, 50 )
 	@ 01, 11 Say "Servidor....: " Get cCodi Pict "@!" Valid UsuarioErrado( @cCodi )
 	Read
-	IF LastKey() = ESC
+	if LastKey() = ESC
 		ResTela( cScreen )
-		Return NIL
-	EndIF
-EndIF
-IF SenhaServidor( cCodi )
+		return NIL
+	endif
+endif
+if SenhaServidor( cCodi )
 	WHILE OK
 		MaBox( 00, 10, 04, 50 )
 		@	 01, 11 Say "Servidor.............: " + cCodi
@@ -265,27 +265,27 @@ IF SenhaServidor( cCodi )
 		Write( 03, 11, "Verificacao de Senha.: " )
 		cSenha1 := Senha( 02, 34, 14 )
 		cSenha2 := Senha( 03, 34, 14 )
-		IF LastKey() = ESC
+		if LastKey() = ESC
 			ResTela( cScreen )
-			Return NIL
-		EndIF
-		IF Empty( cSenha1 )
+			return NIL
+		endif
+		if Empty( cSenha1 )
 			Loop
-		EndIF
-		IF cSenha1 == cSenha2
+		endif
+		if cSenha1 == cSenha2
 			ResTela( cScreen )
-			Return( MsEncrypt( cSenha1 ))
-		EndIF
+			return( MsEncrypt( cSenha1 ))
+		endif
 		ErrorBeep()
-		IF Conf("Erro: Senha nao Confere. Novamente ?")
+		if Conf("Erro: Senha nao Confere. Novamente ?")
 			Loop
-		EndIF
+		endif
 		ResTela( cScreen )
-		Return NIL
+		return NIL
 	EndDo
-EndIF
+endif
 ResTela( cScreen )
-Return NIL
+return NIL
 
 *:==================================================================================================================================
 
@@ -294,22 +294,22 @@ Function SerCerto( cCodi )
 LOCAL Arq_Ant := Alias()
 LOCAL Ind_Ant := IndexOrd()
 
-IF Empty( cCodi )
+if Empty( cCodi )
 	ErrorBeep()
 	Alerta( "Erro: Codigo Servidor Invalido...")
-	Return( FALSO )
-EndIf
+	return( FALSO )
+endif
 Area("Servidor")
 Servidor->(Order( SERVIDOR_CODI ))
-IF Servidor->(DbSeek( cCodi ))
+if Servidor->(DbSeek( cCodi ))
 	ErrorBeep()
 	Alerta( "Erro: Codigo Servidor Registrado.")
 	cCodi := StrZero( Val( cCodi ) + 1, 4 )
 	AreaAnt( Arq_Ant, Ind_Ant )
-	Return( FALSO )
-EndIF
+	return( FALSO )
+endif
 AreaAnt( Arq_Ant, Ind_Ant )
-Return( OK )
+return( OK )
 
 *:==================================================================================================================================
 
@@ -321,16 +321,16 @@ LOCAL Ind_Ant := IndexOrd()
 
 Area("Servidor")
 Servidor->(Order( SERVIDOR_CODI ))
-IF Servidor->(!DbSeek( cCodi ))
+if Servidor->(!DbSeek( cCodi ))
 	Servidor->( Order( SERVIDOR_NOME ))
 	Servidor->(Escolhe( 00, 00, 24, "Codi + ' ' + Nome", "CODI NOME DO SERVIDOR", aRotina ))
-EndIF
+endif
 cCodi := Servidor->Codi
-IF nRow != Nil
+if nRow != Nil
 	Write( nRow, nCol, Servidor->Nome )
-EndIF
+endif
 AreaAnt( Arq_Ant, Ind_Ant )
-Return( OK )
+return( OK )
 
 *:==================================================================================================================================
 
@@ -342,7 +342,7 @@ LOCAL aParcial   := { " Geral   ", " Parcial   " }
 LOCAL nChoice	  := 0
 LOCAL nParcial   := 0
 LOCAL cCodiIni   := Space(04)
-LOCAL cCodiFim   := Space(04)
+LOCAL cCodifim   := Space(04)
 LOCAL oBloco
 
 WHILE OK
@@ -352,7 +352,7 @@ WHILE OK
 	Do Case
 	Case nParcial = 0
 		ResTela( cScreen )
-		Return
+		return
 
 	Case nParcial = 1
 		Area("Servidor")
@@ -363,17 +363,17 @@ WHILE OK
 
 	Case nParcial = 2
 		cCodiIni   := Space(4)
-		cCodiFim   := Space(4)
+		cCodifim   := Space(4)
 		MaBox( 10, 10, 13, 79 )
 		@ 11, 11 Say 'Codigo Inicial.:' Get cCodiIni Pict '9999' Valid ServErrado( @cCodiIni, Row(), Col()+1 )
-		@ 12, 11 Say 'Codigo Final...:' Get cCodiFim Pict '9999' Valid ServErrado( @cCodiFim, Row(), Col()+1 )
+		@ 12, 11 Say 'Codigo Final...:' Get cCodifim Pict '9999' Valid ServErrado( @cCodifim, Row(), Col()+1 )
 		Read
-		IF LastKey() = ESC
+		if LastKey() = ESC
 			Loop
-		EndIF
+		endif
 		Area("Servidor")
 		Servidor->(Order( SERVIDOR_CODI ))
-		oBloco := { || Servidor->Codi >= cCodiIni .AND. Servidor->Codi <= cCodiFim }
+		oBloco := { || Servidor->Codi >= cCodiIni .AND. Servidor->Codi <= cCodifim }
 		Servidor->(DbSeek( cCodiIni ))
 		PrintServidor( oBloco )
 	EndCase
@@ -393,17 +393,17 @@ FIELD Nome
 FIELD Cargo
 FIELD Carga
 
-IF !Instru80()
+if !Instru80()
 	ResTela( cScreen )
-	Return
-EndIF
+	return
+endif
 Mensagem("Aguarde, Imprimindo.")
 PrintOn()
 FPrint( _CPI12 )
 SetPrc( 0, 0 )
 Col := 58
 WHILE Eval( oBloco ) .AND. Rel_Ok()
-	IF Col >=  58
+	if Col >=  58
 		Write( 00, 00, Linha1( Tam, @Pagina))
 		Write( 01, 00, Linha2())
 		Write( 02, 00, Linha3(Tam))
@@ -413,18 +413,18 @@ WHILE Eval( oBloco ) .AND. Rel_Ok()
 		Write( 06, 00, "CODI NOME DO SERVIDOR                         CARGO                         CARGA HORARIA")
 		Write( 07, 00, Linha5(Tam))
 		Col := 8
-	EndIf
+	endif
 	Qout( Codi, Nome, Cargo, Carga )
 	Col++
 	DbSkip()
-	IF Col >= 58 .OR. Eof()
+	if Col >= 58 .OR. Eof()
 		Write( Col, 0, Repl( SEP, Tam ))
 		__Eject()
-	EndIf
+	endif
 EndDo
 PrintOff()
 ResTela( cScreen )
-Return
+return
 
 *:==================================================================================================================================
 
@@ -444,55 +444,55 @@ WHILE OK
 	oMenu:Limpa()
 	M_Title("ESCOLHA O PERIODO")
 	nChoice := FazMenu( 05, 05, aMenu )
-	IF nChoice = 0
+	if nChoice = 0
 		ResTela( cScreen )
-		Return
-	EndIF
+		return
+	endif
 	cString := "INCLUSAO DE PONTO: " + Upper( aMenu[nChoice] )
 	WHILE OK
 		cCodi := Space(04)
 		MaBox( 13, 05, 15, 78, cString )
 		@ 14, 06 Say "Codigo......:" Get cCodi   Pict "9999"     Valid CodiErrado( @cCodi,, Row(), Col()+1 )
 		Read
-		IF LastKey() = ESC
+		if LastKey() = ESC
 			Exit
-		EndIf
-		IF !SenhaServidor( cCodi )
+		endif
+		if !SenhaServidor( cCodi )
 			Loop
-		EndIF
+		endif
 		ErrorBeep()
 		nOpcao := Alerta( "Pergunta: Voce Deseja ?", {" Incluir ", " Alterar ", " Sair "})
-		IF nOpcao = 1 // Incluir
+		if nOpcao = 1 // Incluir
 			cMovi := cCodi + DateToStr( dData )
 			Area("Ponto")
 			Ponto->(Order( PONTO_CODI_DATA ))
-			IF Ponto->(!DbSeek( cMovi ))
+			if Ponto->(!DbSeek( cMovi ))
 				Ponto->(Incluiu())
 				Ponto->Codi := cCodi
 				Ponto->Data := dData
-			Else
+			else
 				Ponto->(TravaReg())
-			EndIF
-			IF nChoice = 1
+			endif
+			if nChoice = 1
 				Ponto->Manha1	 := Time()
-			ElseIF nChoice = 2
+			elseif nChoice = 2
 				Ponto->Manha2	 := Time()
-			ElseIF nChoice = 3
+			elseif nChoice = 3
 				Ponto->Tarde1	 := Time()
-			ElseIF nChoice = 4
+			elseif nChoice = 4
 				Ponto->Tarde2	 := Time()
-			EndIF
+			endif
 			CalculaPonto(Ponto->( RecNo() ))
 			Ponto->(Libera())
-		ElseIF nOpcao = 2  // Alterar
+		elseif nOpcao = 2  // Alterar
 			Loop
-		ElseIF nOpcao = 3  // Sair
+		elseif nOpcao = 3  // Sair
 			Exit
-		EndIF
+		endif
 	EndDo
 EndDo
 ResTela( cScreen )
-Return
+return
 
 *:==================================================================================================================================
 
@@ -524,15 +524,15 @@ WHILE OK
 	@ 09, 03 Say "Tarde.......:" Get cTarde1 Pict "99:99" Valid VerHora( cTarde1 )
 	@ 09, 24 						  Get cTarde2 Pict "99:99" Valid VerHora( cTarde2 )
 	Read
-	IF LastKey() = ESC
+	if LastKey() = ESC
 		ResTela( cScreen )
 		Exit
-	EndIf
+	endif
 	ErrorBeep()
 	nOpcao := Alerta( "Pergunta: Voce Deseja ?", {" Incluir ", " Alterar ", " Sair "})
-	IF nOpcao = 1 // Incluir
-		IF AchaMov( cCodi, dData )
-			IF Ponto->(Incluiu())
+	if nOpcao = 1 // Incluir
+		if AchaMov( cCodi, dData )
+			if Ponto->(Incluiu())
 				Ponto->Codi 	 := cCodi
 				Ponto->Data 	 := dData
 				Ponto->Manha1	 := cManha1
@@ -541,16 +541,16 @@ WHILE OK
 				Ponto->Tarde2	 := cTarde2
 				CalculaPonto(Ponto->( RecNo() ))
 				Ponto->(Libera())
-			EndiF
-		EndiF
-	ElseIF nOpcao = 2  // Alterar
+			endif
+		endif
+	elseif nOpcao = 2  // Alterar
 		Loop
-	ElseIF nOpcao = 3  // Sair
+	elseif nOpcao = 3  // Sair
 		Exit
-	EndIF
+	endif
 EndDo
 ResTela( cScreen )
-Return
+return
 
 *:==================================================================================================================================
 
@@ -560,27 +560,27 @@ LOCAL nHora   := Val( Left( cHora, 2 ))
 LOCAL nMinuto := Val( Right( cHora, 2 ))
 LOCAL nTam	  := Len( AllTrim( cHora ))
 
-IF nTam < 5  // 00:00
+if nTam < 5  // 00:00
 	ErrorBeep()
 	Alerta("Erro: Hora Invalida.")
-	Return( FALSO )
-EndIF
-IF nHora > 24
+	return( FALSO )
+endif
+if nHora > 24
 	ErrorBeep()
 	Alerta("Erro: Hora Invalida.")
-	Return( FALSO )
-EndIF
-IF nMinuto > 59
+	return( FALSO )
+endif
+if nMinuto > 59
 	ErrorBeep()
 	Alerta("Erro: Hora Invalida.")
-	Return( FALSO )
-EndIF
-IF nHora = 24 .AND. nMinuto > 0
+	return( FALSO )
+endif
+if nHora = 24 .AND. nMinuto > 0
 	ErrorBeep()
 	Alerta("Erro: Hora Invalida.")
-	Return( FALSO )
-EndiF
-Return( OK )
+	return( FALSO )
+endif
+return( OK )
 
 *:==================================================================================================================================
 
@@ -591,19 +591,19 @@ LOCAL Arq_Ant := Alias()
 LOCAL Ind_Ant := IndexOrd()
 
 Area("Servidor")
-Servidor->(Order( IF( cCodi = Space(40), SERVIDOR_NOME, SERVIDOR_CODI )))
-IF Servidor->(!DbSeek( cCodi ))
+Servidor->(Order( if( cCodi = Space(40), SERVIDOR_NOME, SERVIDOR_CODI )))
+if Servidor->(!DbSeek( cCodi ))
 	Servidor->(Order( SERVIDOR_NOME ))
 	Servidor->(DbGoTop())
 	Escolhe( 00, 00, 24, "Codi + ' ' + Nome", 'CODIGO     NOME DO SERVIDOR', aRotina )
-EndIF
+endif
 cCodi := Servidor->Codi
 cNome := Servidor->Nome
-IF nRow != Nil
+if nRow != Nil
 	Write( nRow  , nCol, cNome )
-EndiF
+endif
 AreaAnt( Arq_Ant, Ind_Ant )
-Return(OK)
+return(OK)
 
 *:==================================================================================================================================
 
@@ -615,14 +615,14 @@ LOCAL cString := cCodi + Dtoc( dData )
 
 Area("Ponto")
 Ponto->(Order( PONTO_CODI_DATA ))
-IF Ponto->(!DbSeek( cString ))
+if Ponto->(!DbSeek( cString ))
 	AreaAnt( Arq_Ant, Ind_Ant )
-	Return( OK )
-EndIF
+	return( OK )
+endif
 AreaAnt( Arq_Ant, Ind_Ant )
 ErrorBeep()
 Alerta("Erro: Use Pesquisa/Altera Ponto.")
-Return(FALSO)
+return(FALSO)
 
 *:==================================================================================================================================
 
@@ -667,20 +667,20 @@ Do Case
 Case oCol:Heading = "NOME"
 	ErrorBeep()
 	Alerta("Erro: Alteracao nao permitida.")
-	Return( FALSO )
+	return( FALSO )
 Case oCol:Heading = "CARGA HORARIA"
 	ErrorBeep()
 	Alerta("Erro: Alteracao nao permitida.")
-	Return( FALSO )
+	return( FALSO )
 EndCase
-IF oBrowse:ColPos >= 3 .AND. oBrowse:ColPos <= 6
-	IF Ponto->(TravaReg())
+if oBrowse:ColPos >= 3 .AND. oBrowse:ColPos <= 6
+	if Ponto->(TravaReg())
 		CalculaPonto()
 		Ponto->(Libera())
-		Return( OK )
-	EndIF
-EndIF
-Return( OK )
+		return( OK )
+	endif
+endif
+return( OK )
 
 *:==================================================================================================================================
 
@@ -708,7 +708,7 @@ Case oCol:Heading = "ENT TARDE"
 Case oCol:Heading = "SAI TARDE"
 	VerHora( Ponto->Tarde2 )
 EndCase
-Return( OK )
+return( OK )
 
 STATIC Proc AbreArea()
 **********************
@@ -717,21 +717,21 @@ ErrorBeep()
 Mensagem("Aguarde, Abrindo base de dados.", WARNING, _LIN_MSG )
 FechaTudo()
 
-IF !UsaArquivo("PONTO")
+if !UsaArquivo("PONTO")
 	MensFecha()
-	Return
-EndiF
+	return
+endif
 
-IF !UsaArquivo("SERVIDOR")
+if !UsaArquivo("SERVIDOR")
 	MensFecha()
-	Return
-EndIF
+	return
+endif
 
-IF !UsaArquivo("VENDEDOR")
+if !UsaArquivo("VENDEDOR")
 	MensFecha()
-	Return
-EndIF
-Return
+	return
+endif
+return
 
 
 
@@ -743,16 +743,16 @@ LOCAL AtPrompt := {}
 LOCAL cStr_Get
 LOCAL cStr_Sombra
 
-IF oAmbiente:Get_Ativo
+if oAmbiente:Get_Ativo
 	cStr_Get := "Desativar Get Tela Cheia"
-Else
+else
 	cStr_Get := "Ativar Get Tela Cheia"
-EndIF
-IF oMenu:Sombra
+endif
+if oMenu:Sombra
 	cStr_Sombra := "DesLigar Sombra"
-Else
+else
 	cStr_Sombra := "Ligar Sombra"
-EndIF
+endif
 AADD( AtPrompt, {"Sair",               {"Encerrar Sessao"}})
 AADD( AtPrompt, {"Inclusao",           {"Servidores", "Ponto Manual", "Ponto Automatico"}})
 AADD( AtPrompt, {"Alteracao",          {"Servidores", "Ponto", "Ajustar Carga Horaria"}})
@@ -760,20 +760,20 @@ AADD( AtPrompt, {"Consulta",           {"Servidores", "Ponto"}})
 AADD( AtPrompt, {"Exclusao",           {"Servidores", "Ponto"}})
 AADD( AtPrompt, {"Relatorios",         {"Servidores", "Folha Ponto"}})
 AADD( AtPrompt, {"Help",               {"Help"}})
-Return( AtPrompt )
+return( AtPrompt )
 
 *:==================================================================================================================================
 
 Function aDispPontoLan()
 ************************
-LOCAL oPontolan := TIniNew( oAmbiente:xBaseDados + "\" + oAmbiente:xUsuario + ".INI")
+LOCAL oPontolan := TIniNew( oAmbiente:xUsuario + ".INI")
 LOCAL AtPrompt := oMenuPontoLan()
 LOCAL nMenuH   := Len(AtPrompt)
 LOCAL aDisp 	:= Array( nMenuH, 22 )
 LOCAL aMenuV   := {}
 
 Mensagem("Aguarde, Verificando Diretivas do CONTROLE DE PONTO.")
-Return( aDisp := ReadIni("pontolan", nMenuH, aMenuV, AtPrompt, aDisp, oPontoLan))
+return( aDisp := ReadIni("pontolan", nMenuH, aMenuV, AtPrompt, aDisp, oPontoLan))
 
 *:==================================================================================================================================
 
@@ -796,7 +796,7 @@ WHILE OK
 	Do Case
 	Case nParcial = 0
 		ResTela( cScreen )
-		Return
+		return
 
 	Case nParcial = 1
 		cCodi := Space(04)
@@ -807,9 +807,9 @@ WHILE OK
 		@ 12, 11 Say 'Data Inicial.:' Get dIni  Pict '##/##/##'
 		@ 13, 11 Say 'Data Final...:' Get dFim  Pict '##/##/##'
 		Read
-		IF LastKey() = ESC
+		if LastKey() = ESC
 			Loop
-		EndIF
+		endif
 		Servidor->(Order( SERVIDOR_CODI ))
 		Servidor->(DbSeek( cCodi ))
 		Ponto->(Order( PONTO_CODI_DATA ))
@@ -824,9 +824,9 @@ WHILE OK
 		@ 11, 11 Say 'Data Inicial.:' Get dIni Pict '##/##/##'
 		@ 12, 11 Say 'Data Final...:' Get dFim Pict '##/##/##' Valid dFim >= dIni
 		Read
-		IF LastKey() = ESC
+		if LastKey() = ESC
 			Loop
-		EndIF
+		endif
 		Servidor->(Order( SERVIDOR_CODI ))
 		Servidor->(DbGoTop())
 		Ponto->(Order( PONTO_CODI_DATA ))
@@ -842,7 +842,7 @@ Proc AjustaCarga()
 LOCAL cScreen := SaveScreen()
 
 Area("Ponto")
-IF Ponto->(TravaArq())
+if Ponto->(TravaArq())
 	Ponto->(DbGoTop())
 	Mensagem("Aguarde, Ajustando Carga Horaria.")
 	WHILE Ponto->(!Eof())
@@ -850,9 +850,9 @@ IF Ponto->(TravaArq())
 		Ponto->( dbSkip(1) )
 	EndDo
 	Ponto->(Libera())
-EndIF
+endif
 Restela( cScreen )
-Return
+return
 
 Proc FolhaPonto( oBloco1, oBloco2, dIni, dFim )
 ***********************************************
@@ -879,10 +879,10 @@ LOCAL nExtra	  := 0
 LOCAL nExtraSab  := 0
 LOCAL nExtraNor  := 0
 
-IF !Instru80()
+if !Instru80()
 	ResTela( cScreen )
-	Return
-EndIF
+	return
+endif
 Mensagem( "Aguarde, Imprimindo.")
 PrintOn()
 FPrint( PQ )
@@ -901,10 +901,10 @@ WHILE Eval( oBloco1 ) .AND. Rel_Ok()
 	cCodi 	:= Servidor->Codi
 	cNome 	:= Alltrim( Servidor->Nome )
 	cPeriodo := ' REF O PERIODO DE ' + Dtoc( dIni ) + ' A ' + Dtoc( dFim )
-	IF Ponto->(DbSeek( cCodi ))
+	if Ponto->(DbSeek( cCodi ))
 		WHILE Ponto->Codi = cCodi .AND. REL_OK()
-			IF Eval( oBloco2 )
-				IF Col >=  58
+			if Eval( oBloco2 )
+				if Col >=  58
 					Write( 00, 00, Linha1( Tam, @Pagina))
 					Write( 01, 00, Linha2())
 					Write( 02, 00, Linha3(Tam))
@@ -914,17 +914,17 @@ WHILE Eval( oBloco1 ) .AND. Rel_Ok()
 					Write( 06, 00, 'DATA        DIA SEMANA     ENT MANHA   SAI MANHA   ENT TARDE   SAI TARDE   HORAS TRAB  HRS EXTRA  HRS EX SAB')
 					Write( 07, 00, Linha5(Tam))
 					Col := 8
-				EndIF
+				endif
 				cDia		:= Upper(cDowPort( Ponto->Data))
 				nTamanho := Len( cDia )
 				nExtraSab := Ponto->Quant - 4
 				nExtraNor := Ponto->Quant - 8
-				IF nExtraSab < 0
+				if nExtraSab < 0
 					nExtraSab := 0
-				EndIF
-				IF nExtraNor < 0
+				endif
+				if nExtraNor < 0
 					nExtraNor := 0
-				EndIF
+				endif
 				Qout( Ponto->Data,	'  |  ', ;
 						cDia + Space(8-nTamanho), '  |  ',;
 						Ponto->Manha1, '  |  ',;
@@ -932,63 +932,63 @@ WHILE Eval( oBloco1 ) .AND. Rel_Ok()
 						Ponto->Tarde1, '  |  ',;
 						Ponto->Tarde2, '  |  ',;
 						Tran( Ponto->Quant, '99.99'), '  |  ' )
-						IF cDia = 'SABADO'
+						if cDia = 'SABADO'
 							QQout( Space(05), '  |  ' )
 							QQout( Tran( nExtraSab, '99.99'), '  |  ')
-						Else
+						else
 							QQout( Tran( nExtraNor, '99.99'), '  |  ')
-						EndIF
+						endif
 				nCarga  += Ponto->Quant
 				nGeral  += Ponto->Quant
 				nSobra1 := nGeral - Int( nGeral )
 				nSobra  := nCarga - Int( nCarga )
-				IF cDia = 'SABADO'
+				if cDia = 'SABADO'
 					nSabado	+= nExtraSab
-				ElseIF cDia = 'DOMINGO'
+				elseif cDia = 'DOMINGO'
 					nDomingo += ( Ponto->Quant )
-				Else
+				else
 					nNormal += nExtraNor
-				EndIF
-				IF ( nSobra > 0.59 )
+				endif
+				if ( nSobra > 0.59 )
 					nCarga -= nSobra
 					nSobra -= 0.6
 					nCarga ++
 					nCarga += nSobra
-				EndIF
-				IF ( nSobra1 > 0.59 )
+				endif
+				if ( nSobra1 > 0.59 )
 					nGeral  -= nSobra1
 					nSobra1 -= 0.6
 					nGeral  ++
 					nGeral  += nSobra1
-				EndIF
+				endif
 				nRestNormal := nNormal - Int( nNormal )
-				IF ( nRestNormal > 0.59 )
+				if ( nRestNormal > 0.59 )
 					nNormal		-= nRestNormal
 					nRestNormal -= 0.6
 					nNormal		++
 					nNormal		+= nRestNormal
-				EndIF
+				endif
 				nRestSabado := nSabado - Int( nSabado )
-				IF ( nRestSabado > 0.59 )
+				if ( nRestSabado > 0.59 )
 					nSabado		-= nRestSabado
 					nRestSabado -= 0.6
 					nSabado		++
 					nSabado		+= nRestSabado
-				EndIF
+				endif
 				nRestDomingo := nDomingo - Int( nDomingo )
-				IF ( nRestDomingo > 0.59 )
+				if ( nRestDomingo > 0.59 )
 					nDomingo 	 -= nRestDomingo
 					nRestDomingo -= 0.6
 					nDomingo 	 ++
 					nDomingo 	 += nRestDomingo
-				EndIF
+				endif
 				Col++
-				IF Col >= 57
+				if Col >= 57
 					nQuant := 0
 					Write( ++Col, 0, "** Sub-Total **" + Space(64) + Tran( nCarga, "999999.99"))
 					__Eject()
-				EndIF
-			EndIF
+				endif
+			endif
 			Ponto->(DbSkip(1))
 		EndDo
 		nExtra	:= (( nNormal + nSabado ) + nDomingo )
@@ -1022,15 +1022,15 @@ WHILE Eval( oBloco1 ) .AND. Rel_Ok()
 		Write( ++Col, 01, Space(44) + Repl('-',40))
 		Write( ++Col, 01, '____/____/____' + Space(30) + cNome )
 		__Eject()
-		IF !Rel_Ok()
+		if !Rel_Ok()
 			Exit
-		EndiF
-	EndiF
+		endif
+	endif
 	Servidor->(DbSkip(1))
 EndDo
 PrintOff()
 ResTela( cScreen )
-Return
+return
 
 Proc CalculaPonto()
 *******************
@@ -1043,12 +1043,12 @@ LOCAL nSoma2 := TimeDiff( Tarde1, Tarde2)
 LOCAL nSobra := 0
 LOCAL nCarga := 0
 
-IF ( Ponto->Manha1 = "00:00" .AND. Ponto->Manha2 = "24:00" .AND. Ponto->Tarde1 = "00:00" .AND. Ponto->Tarde2 = "00:00" )
+if ( Ponto->Manha1 = "00:00" .AND. Ponto->Manha2 = "24:00" .AND. Ponto->Tarde1 = "00:00" .AND. Ponto->Tarde2 = "00:00" )
 	 Nsoma1 := "24:00:00"
-ENDIF
-IF ( Ponto->Manha1 = "00:00" .AND. Ponto->Tarde2 = "24:00" .AND. Ponto->Manha2 = "00:00" .AND. Ponto->Tarde1 = "00:00" )
+endif
+if ( Ponto->Manha1 = "00:00" .AND. Ponto->Tarde2 = "24:00" .AND. Ponto->Manha2 = "00:00" .AND. Ponto->Tarde1 = "00:00" )
 	 Nsoma1 := "24:00:00"
-ENDIF
+endif
 nSoma1  := Val(Stuff(Left(Nsoma1, 5), 3, 1, "."))
 nSoma2  := Val(Stuff(Left(Nsoma2, 5), 3, 1, "."))
 ***************************************************
@@ -1056,9 +1056,9 @@ nSobra1 := nSoma1 - Int( nSoma1 )
 nSobra2 := nSoma2 - Int( nSoma2 )
 nCarga  := Int( nSoma1) + Int( nSoma2 )
 nDiff   := ( nSobra1 + nSobra2 )
-IF nDiff > 0.59
+if nDiff > 0.59
 	 nDiff -= 0.6
 	 nCarga ++
-ENDIF
+endif
 Ponto->Quant := ( nCarga + nDiff )
-Return
+return

@@ -24,26 +24,26 @@ Function IntroMain()
 	END WINDOW
    CENTER WINDOW Trax_1
 
-   IF FILE( 'MTFLASH3.BMP' )
+   if FILE( 'MTFLASH3.BMP' )
       DEFINE WINDOW MT_Splash ;
          AT 0, 0 ;
          WIDTH 365 HEIGHT 92 ;
          TOPMOST NOCAPTION ;
          ON INIT SplashDelay()
 			
-         IF FILE('SCI.PNG' )
+         if FILE('SCI.PNG' )
             @ -4, -4 IMAGE img_1 ;
                PICTURE 'SCI.PNG' ;
                WIDTH 365 ;
                HEIGHT 92
-         ENDIF
+         endif
 
       END WINDOW
       CENTER WINDOW MT_Splash
       ACTIVATE WINDOW MT_Splash, Trax_1
-   ELSE
+   else
       ACTIVATE WINDOW Trax_1
-   ENDIF
+   endif
 		
 		
 FUNCTION SplashDelay
@@ -55,7 +55,7 @@ FUNCTION SplashDelay
    EndDo
    MT_Splash.Release
 
-RETURN NIL
+return NIL
 
 *------------------------------------------------------------*
 function TextPaint()
@@ -84,7 +84,7 @@ function TextPaint()
       VALUE "Macrosoft Sistemas de Informatica Ltda." ;
       FONT "Tahoma" SIZE 10 ITALIC ;
       FONTCOLOR { 151, 223, 255 } TRANSPARENT
-Return Nil
+return Nil
 
 #pragma BEGINDUMP
    #include <windows.h>

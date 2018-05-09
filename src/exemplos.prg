@@ -36,7 +36,7 @@ METHOD CalculaImpostos()
    ::StValor := Max( 0, Int( ::StBase * ::StAliquota ) / 100 - ::IcmValor )
    SetPos( 11, 0 )
    ? "Icmbase:", ::IcmBase, "STBase", ::StBase
-   RETURN .T.
+   return .T.
 	
 *****************************************************************************************************************
 	
@@ -46,7 +46,7 @@ Local obj := myFirstClass1():New(3)
  
    ? obj:x       // 3
    ?
-RETURN Nil
+return Nil
  
 CLASS myFirstClass1
    VAR   x
@@ -65,7 +65,7 @@ FUNCTION Main3
    ? "????? ???????? mySecondClass:", mySecondClass():nKolObj
    ? obj1:x, obj2:x
    ? 
-RETURN Nil
+return Nil
  
 CLASS myFirstClass
    VAR   x
@@ -87,7 +87,7 @@ METHOD New( n, s ) CLASS mySecondClass
    Super:New( n )
    ::nKolObj ++
    ::cStringS := s
-RETURN Self
+return Self
 
 *****************************************************************************************************************
 
@@ -120,7 +120,7 @@ ENDCLASS
  
 Function fr1( y, z )
 Local o := QSelf()
-Return o:x * y * z
+return o:x * y * z
 
 *****************************************************************************************************************
 
@@ -139,7 +139,7 @@ FUNCTION Main5
    ? oTable:F1, oTable:F2       // "FirstRec"     1
    ?
  
-   RETURN nil
+   return nil
  
 CLASS Table
  
@@ -154,33 +154,33 @@ METHOD Create( cName, aStru ) CLASS Table
  
    dbCreate( cName, aStru )
    USE (cName) NEW EXCLUSIVE
-RETURN Self
+return Self
  
 METHOD nRec( n ) CLASS Table
  
-   IF n != Nil
+   if n != Nil
       dbGoTo( n )
-   ENDIF
-RETURN Recno()
+   endif
+return Recno()
  
 METHOD OnError( xParam ) CLASS Table
 Local cMsg := __GetMessage(), cFieldName, nPos
 Local xValue
  
-   IF Left( cMsg, 1 ) == '_'
+   if Left( cMsg, 1 ) == '_'
       cFieldName := Substr( cMsg,2 )
-   ELSE
+   else
       cFieldName := cMsg
-   ENDIF
-   IF ( nPos := FieldPos( cFieldName ) ) == 0
+   endif
+   if ( nPos := FieldPos( cFieldName ) ) == 0
       Alert( cFieldName + " wrong field name!" )
-   ELSEIF cFieldName == cMsg
-      RETURN FieldGet( nPos )
-   ELSE
+   elseif cFieldName == cMsg
+      return FieldGet( nPos )
+   else
       FieldPut( nPos, xParam )
-   ENDIF
+   endif
  
-Return Nil
+return Nil
 
 
 *****************************************************************************************************************
@@ -198,7 +198,7 @@ local harr := hb_Hash( "six", 6, "eight", 8, "eleven", 11 )
    ? len(harr)                                            // 6
    ?
  
-   RETURN nil
+   return nil
 	
 *****************************************************************************************************************
 

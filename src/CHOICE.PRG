@@ -34,7 +34,7 @@
  *             : nMsgRow - Line to display messages
  *             : bBlock  - Codeblock to be executed while waiting for a key
  *             : cClrStr - Color pattern (as a string)
- * Return Value: nRet    - Subscript
+ * return Value: nRet    - Subscript
  *
  */
 
@@ -54,24 +54,24 @@ FUNCTION AChoose( nTop, nLeft, nBottom, nRight, aItems, ;
 
    // Parameter checking
    nLen    := Len( aItems )
-   cClrStr := IF(cClrStr == NIL, BROW_DEFAULT_COLORS, cClrStr)
+   cClrStr := if(cClrStr == NIL, BROW_DEFAULT_COLORS, cClrStr)
 
    lIsMsg := (ValType(aMsg) == "A")
-   nMsgRow := IF(nMsgRow == NIL, MaxRow(), nMsgRow)
+   nMsgRow := if(nMsgRow == NIL, MaxRow(), nMsgRow)
 
    // No logical array so, create one!
-   IF ValType(aLogic) != "A"
+   if ValType(aLogic) != "A"
       aLogic := Array(nLen)
       AFill( aLogic, .T. )
 
-   ENDIF
+   endif
 
    nInitPos := 0
    nWindow  := nBottom - nTop
    nWidth   := nRight - nLeft - 1
    nRet     := 0
 
-   bBlock := IF(bBlock == NIL, {|| .F.}, bBlock)
+   bBlock := if(bBlock == NIL, {|| .F.}, bBlock)
 
    // Draw the Box and Gauge
    cSaveClr := SetColor(;
@@ -121,68 +121,68 @@ FUNCTION AChoose( nTop, nLeft, nBottom, nRight, aItems, ;
       END
       DispEnd()
 
-      IF (oBrow:hitTop .OR. oBrow:hitBottom )
+      if (oBrow:hitTop .OR. oBrow:hitBottom )
          Tone(87.3,1)
          Tone(40,3.5)
 
-      ENDIF
+      endif
 
       // Update Bar Gauge
       nNewPos := nWindow / (nLen / nSubs)
-      IF nSubs == 1
+      if nSubs == 1
          nNewPos := 0
 
-      ELSEIF nSubs == nLen
+      elseif nSubs == nLen
          nNewPos := nWindow
 
-      ENDIF
-      IF ( nInitPos != nNewPos )
+      endif
+      if ( nInitPos != nNewPos )
          @ nTop + nInitPos,nRight + 1 SAY CHR(219) ;
                                       COLOR SCROLL_BAR_BGND_COLOR
          @ nTop + nNewPos, nRight + 1 SAY CHR(219) ;
                                       COLOR BUTTOM_COLOR
          nInitPos := nNewPos
 
-      ENDIF
+      endif
       // Messages?
-      IF lIsMsg
+      if lIsMsg
          @ nMsgRow, 0 SAY Space(MaxCol() + 1) COLOR ;
            Substr(cClrStr, RAt(",", cClrStr) + 1)
          @ nMsgRow, 0 SAY aMsg[nSubs] COLOR ;
            Substr(cClrStr, RAt(",", cClrStr) + 1)
 
-      ENDIF
+      endif
       WHILE ((nKey := InKey(0.1)) == 0)
          // Evaluate a code block
          Eval(bBlock)
 
       END
 
-      IF !TBMoveCursor( nKey, oBrow )
+      if !TBMoveCursor( nKey, oBrow )
          // Key was not handled there
          // Lets try here
-         IF ( nKey     == K_ESC )
+         if ( nKey     == K_ESC )
             EXIT
 
-         ELSEIF ( nKey == K_ENTER )
+         elseif ( nKey == K_ENTER )
             // Is the item selectable?
-            IF aLogic[nSubs]
-               // If so, return array subscript for
+            if aLogic[nSubs]
+               // if so, return array subscript for
                // the element
                nRet := nSubs
                EXIT
 
-            ENDIF
+            endif
 
-         ENDIF
+         endif
 
-      ENDIF
+      endif
 
    END
 
    PopScr()
    PopSets()
 
-   RETURN (nRet)
+   return (nRet)
 
 // EOF - CHOICE.PRG //

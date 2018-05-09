@@ -1,24 +1,24 @@
 /*
   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
  İ³																								 ³
- İ³	Programa.....: VENLAN.PRG															 ³
- İ³	Aplicacaoo...: SISTEMA DE CONTROLE DE VENDEDORES							 ³
- İ³	Versao.......: 19.50 																 ³
- İ³	Programador..: Vilmar Catafesta													 ³
- İ³	Empresa......: Microbras Com de Prod de Informatica Ltda 				 ³
- İ³	Inicio.......: 12 de Novembro de 1991. 										 ³
- İ³	Ult.Atual....: 13 de Maio de 1999.												 ³
- İ³	Compilacao...: Clipper 5.2e														 ³
- İ³	Linker.......: Blinker 3.20														 ³
- İ³	Bibliotecas..: Clipper/Funcoes/Mouse/Funcky15/Funcky50/Classe/Classic ³
+ İ³	Modulo.......: VENLAN.PRG   														 ³ 						 
+ İ³	Sistema......: CONTROLE DE VENDEDORES						            	 ³ 
+ İ³	Aplicacao....: SCI - SISTEMA COMERCIAL INTEGRADO                      ³
+ İ³	Versao.......: 8.5.00							                            ³
+ İ³	Programador..: Vilmar Catafesta				                            ³
+ İ³   Empresa......: Macrosoft Informatica Ltda                             ³
+ İ³	Inicio.......: 12.11.1991 						                            ³
+ İ³   Ult.Atual....: 12.04.2018                                             ³
+ İ³   Compilador...: Harbour 3.2/3.4                                        ³
+ İ³   Linker.......: BCC/GCC/MSCV                                           ³
+ İ³	Bibliotecas..:  									                            ³
  İÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
  ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 */
-#Include "Lista.Ch"
-#Include "SetCurs.Ch"
-#Include "InKey.Ch"
-#Include "Indice.Ch"
-#Include "Permissao.Ch"
+
+#include <sci.ch>
+
+*:==================================================================================================================================
 
 Proc VenLan()
 *************
@@ -30,13 +30,13 @@ PUBLI cCaixa		:= Space(04)
 *:==================================================================================================================================
 AbreArea()
 oMenu:Limpa()
-IF !VerSenha( @cCaixa, @cVendedor )
+if !VerSenha( @cCaixa, @cVendedor )
 	Mensagem("Aguarde, Fechando Arquivos." )
 	DbCloseAll()
 	Set KEY F2 TO
 	Set KEY F3 TO
-	Return
-EndIF
+	return
+endif
 /******************************************************************************/
 oMenu:Limpa()
 RefreshClasse()
@@ -46,11 +46,11 @@ WHILE lOk
 		Do Case
 		Case Op = 0.0 .OR. op = 1.01
 			ErrorBeep()
-			IF Conf("Pergunta: Encerrar este modulo ?")
+			if Conf("Pergunta: Encerrar este modulo ?")
 				GravaDisco()
 				lOk := FALSO
 				Break
-			EndIF
+			endif
 		Case Op = 2.01 ; FuncInclusao()
 		Case Op = 2.02 ; CadastraSenha()
 		Case Op = 2.03 ; Func_Adian()
@@ -81,7 +81,7 @@ WHILE lOk
 EndDo
 Mensagem("Aguarde... Fechando Arquivos.", WARNING, _LIN_MSG )
 FechaTudo()
-Return
+return
 
 STATIC Proc RefreshClasse()
 ***************************
@@ -89,7 +89,7 @@ oMenu:StatusSup		:= oMenu:StSupArray[6]
 oMenu:StatusInf		:= oMenu:StInfArray[6]
 oMenu:Menu				:= oMenu:MenuArray[6]
 oMenu:Disp				:= oMenu:DispArray[6]
-Return
+return
 
 *:==================================================================================================================================
 
@@ -114,20 +114,20 @@ WHILE OK
 	@ 09, 11 Say "Codigo....:" Get cCodi Pict "9999" Valid FunErrado( @cCodi,, Row(), Col()+1 )
 	@ 10, 11 Say "Data......:" Get dData      Pict "##/##/##"
 	@ 11, 11 Say "Docto N§..:" Get cDocnr     Pict "@!"
-	@ 12, 11 Say "Valor.....:" Get nVlr       Pict "99999999.99" Valid IF( nVlr <= 0,           ( ErrorBeep(), Alerta("Erro: Valor Invalido"), FALSO ), OK )
-	@ 13, 11 Say "Descricao.:" Get cDescricao Pict "@!" Valid IF( Empty( cDescricao ), ( ErrorBeep(), Alerta("Erro: Campo nao Pode ser Vazio"), FALSO ), OK )
+	@ 12, 11 Say "Valor.....:" Get nVlr       Pict "99999999.99" Valid if( nVlr <= 0,           ( ErrorBeep(), Alerta("Erro: Valor Invalido"), FALSO ), OK )
+	@ 13, 11 Say "Descricao.:" Get cDescricao Pict "@!" Valid if( Empty( cDescricao ), ( ErrorBeep(), Alerta("Erro: Campo nao Pode ser Vazio"), FALSO ), OK )
 	Read
-	IF LastKey() = ESC .OR. LastKey() = K_ALT_F4
+	if LastKey() = ESC .OR. LastKey() = K_ALT_F4
 		ResTela( cScreen )
 		Exit
-	EndIF
+	endif
 	ErrorBeep()
-	IF Conf( "Confirma Inclusao do Debito ?" )
-		IF Vendedor->(TravaReg())
-			IF Vendemov->(!Incluiu())
+	if Conf( "Confirma Inclusao do Debito ?" )
+		if Vendedor->(TravaReg())
+			if Vendemov->(!Incluiu())
 				Vendedor->(Libera())
 				Loop
-			EndIF
+			endif
 			Vendemov->CodiVen   := cCodi
 			Vendemov->Data 	  := dData
 			Vendemov->Docnr	  := cDocnr
@@ -143,10 +143,10 @@ WHILE OK
 			Vendedor->Comdisp   := ( nDisp + nVlr )
 			Vendedor->Comissao  := ( nComi + nVlr )
 			Vendedor->(Libera())
-		EndIF
-	EndIF
+		endif
+	endif
 EndDo
-Return
+return
 
 *:==================================================================================================================================
 
@@ -184,24 +184,24 @@ WHILE OK
 		 cDocnr = Space( Len( Vendemov->Docnr )-2 )
 		 @ 19, 21 Say "Docto N§...¯" Get cDocnr Pict "@!" Valid DocFuerr( cDocnr )
 		 Read
-		 IF LastKey( ) = ESC
+		 if LastKey( ) = ESC
 			 ResTela( aTela )
 			 Loop
-		 EndIf
+		 endif
 		 Copy Stru To ( cArquivo )
 		 Use (cArquivo) Exclusive New
 		 oBloco := {|| Vendemov->Docnr = cDocnr }
 		 oMenu:Limpa()
 		 cTela := Mensagem("Aguarde. Verificando movimento.", Cor())
 		 WHILE Eval( oBloco ) .AND. Rep_Ok()
-			 IF Vendemov->Descricao = Space(40)
+			 if Vendemov->Descricao = Space(40)
 				 Vendemov->(DbSkip(1))
 				 Loop
-			 EndIF
-			 IF Vendemov->Dc = "C"
+			 endif
+			 if Vendemov->Dc = "C"
 				 Vendemov->(DbSkip(1))
 				 Loop
-			 EndIF
+			 endif
 			 DbAppend()
 			 For nField := 1 To FCount()
 				 FieldPut( nField, Vendemov->(FieldGet( nField )))
@@ -225,25 +225,25 @@ WHILE OK
 		cCodi := Space(04)
 		@ 19,21 Say "Codigo..¯" Get cCodi Pict "9999" Valid FunErrado( @cCodi )
 		Read
-		IF LastKey( ) = ESC
+		if LastKey( ) = ESC
 			ResTela( aTela )
 			Loop
-		EndIf
-		IF Vendemov->(DbSeek( cCodi ))
+		endif
+		if Vendemov->(DbSeek( cCodi ))
 			Copy Stru To ( cArquivo )
 			Use (cArquivo) Exclusive New
 			oBloco := {|| Vendemov->CodiVen = cCodi }
 			oMenu:Limpa()
 			cTela := Mensagem("Aguarde. Verificando movimento.", Cor())
 			WHILE Eval( oBloco ) .AND. Rep_Ok()
-				IF Vendemov->Descricao = Space(40)
+				if Vendemov->Descricao = Space(40)
 					Vendemov->(DbSkip(1))
 					Loop
-				EndIF
-				IF Vendemov->Dc = "C"
+				endif
+				if Vendemov->Dc = "C"
 					Vendemov->(DbSkip(1))
 					Loop
-				EndIF
+				endif
 				DbAppend()
 				For nField := 1 To FCount()
 					FieldPut( nField, Vendemov->(FieldGet( nField )))
@@ -257,10 +257,10 @@ WHILE OK
 			DbClearRel()
 			DbCloseArea()
 			Ferase( cArquivo )
-		Else
+		else
 			Nada()
 			Restela( aTela )
-		EndIF
+		endif
 
 	Case op1 = 3
 		Vendedor->( Order( VENDEDOR_CODIVEN ))
@@ -271,25 +271,25 @@ WHILE OK
 		dData = Date()
 		@ 19,21 Say "Data....¯" Get dData Pict "##/##/##"
 		Read
-		IF LastKey( ) = ESC
+		if LastKey( ) = ESC
 			ResTela( aTela )
 			Loop
-		EndIf
-		IF Vendemov->(DbSeek( dData ))
+		endif
+		if Vendemov->(DbSeek( dData ))
 			Copy Stru To ( cArquivo )
 			Use (cArquivo) Exclusive New
 			oBloco := {|| Vendemov->Data = dData }
 			oMenu:Limpa()
 			cTela := Mensagem("Aguarde. Verificando movimento.", Cor())
 			WHILE Eval( oBloco ) .AND. Rep_Ok()
-				IF Vendemov->Descricao = Space(40)
+				if Vendemov->Descricao = Space(40)
 					Vendemov->(DbSkip(1))
 					Loop
-				EndIF
-				IF Vendemov->Dc = "C"
+				endif
+				if Vendemov->Dc = "C"
 					Vendemov->(DbSkip(1))
 					Loop
-				EndIF
+				endif
 				DbAppend()
 				For nField := 1 To FCount()
 					FieldPut( nField, Vendemov->(FieldGet( nField )))
@@ -303,10 +303,10 @@ WHILE OK
 			DbClearRel()
 			DbCloseArea()
 			Ferase( cArquivo )
-		Else
+		else
 			Nada()
 			Restela( aTela )
-		EndIF
+		endif
 
 	 Case op1 = 4
 		 Vendedor->( Order( VENDEDOR_CODIVEN ))
@@ -319,14 +319,14 @@ WHILE OK
 		 oMenu:Limpa()
 		 cTela := Mensagem("Aguarde. Verificando movimento.", Cor())
 		 WHILE Eval( oBloco ) .AND. Rep_Ok()
-			 IF Vendemov->Descricao = Space(40)
+			 if Vendemov->Descricao = Space(40)
 				 Vendemov->(DbSkip(1))
 				 Loop
-			 EndIF
-			 IF Vendemov->Dc = "C"
+			 endif
+			 if Vendemov->Dc = "C"
 				 Vendemov->(DbSkip(1))
 				 Loop
-			 EndIF
+			 endif
 			 DbAppend()
 			 For nField := 1 To FCount()
 				 FieldPut( nField, Vendemov->(FieldGet( nField )))
@@ -356,7 +356,7 @@ MaBox( 01, 00, MaxRow()-1, MaxCol(), "CONSULTA DE LANCAMENTOS" )
 Seta1(23)
 DbEdit( 02, 01, MaxRow()-2, MaxCol()-1, Mostra2, OK, OK, Mostra1 )
 ResTela( cScreen )
-Return
+return
 
 *:==================================================================================================================================
 
@@ -394,24 +394,24 @@ WHILE OK
 		 cDocnr = Space( Len( Vendemov->Docnr )-2 )
 		 @ 19, 21 Say "Docto N§...¯" Get cDocnr Pict "@!" Valid DocFuerr( cDocnr )
 		 Read
-		 IF LastKey( ) = ESC
+		 if LastKey( ) = ESC
 			 ResTela( aTela )
 			 Loop
-		 EndIf
+		 endif
 		 Copy Stru To ( cArquivo )
 		 Use (cArquivo) Exclusive New
 		 oBloco := {|| Vendemov->Docnr = cDocnr }
 		 oMenu:Limpa()
 		 cTela := Mensagem("Aguarde. Verificando movimento.", Cor())
 		 WHILE Eval( oBloco ) .AND. Rep_Ok()
-			 IF Vendemov->Descricao = Space(40)
+			 if Vendemov->Descricao = Space(40)
 				 Vendemov->(DbSkip(1))
 				 Loop
-			 EndIF
-			 IF Vendemov->Dc = "D"
+			 endif
+			 if Vendemov->Dc = "D"
 				 Vendemov->(DbSkip(1))
 				 Loop
-			 EndIF
+			 endif
 			 DbAppend()
 			 For nField := 1 To FCount()
 				 FieldPut( nField, Vendemov->(FieldGet( nField )))
@@ -435,25 +435,25 @@ WHILE OK
 		cCodi := Space(04)
 		@ 19,21 Say "Codigo..¯" Get cCodi Pict "9999" Valid FunErrado( @cCodi )
 		Read
-		IF LastKey( ) = ESC
+		if LastKey( ) = ESC
 			ResTela( aTela )
 			Loop
-		EndIf
-		IF Vendemov->(DbSeek( cCodi ))
+		endif
+		if Vendemov->(DbSeek( cCodi ))
 			Copy Stru To ( cArquivo )
 			Use (cArquivo) Exclusive New
 			oBloco := {|| Vendemov->CodiVen = cCodi }
 			oMenu:Limpa()
 			cTela := Mensagem("Aguarde. Verificando movimento.", Cor())
 			WHILE Eval( oBloco ) .AND. Rep_Ok()
-				IF Vendemov->Descricao = Space(40)
+				if Vendemov->Descricao = Space(40)
 					Vendemov->(DbSkip(1))
 					Loop
-				EndIF
-				IF Vendemov->Dc = "D"
+				endif
+				if Vendemov->Dc = "D"
 					Vendemov->(DbSkip(1))
 					Loop
-				EndIF
+				endif
 				DbAppend()
 				For nField := 1 To FCount()
 					FieldPut( nField, Vendemov->(FieldGet( nField )))
@@ -467,10 +467,10 @@ WHILE OK
 			DbClearRel()
 			DbCloseArea()
 			Ferase( cArquivo )
-		Else
+		else
 			Nada()
 			Restela( aTela )
-		EndIF
+		endif
 
 	Case op1 = 3
 		Vendedor->( Order( VENDEDOR_CODIVEN ))
@@ -481,25 +481,25 @@ WHILE OK
 		dData = Date()
 		@ 19,21 Say "Data....¯" Get dData Pict "##/##/##"
 		Read
-		IF LastKey( ) = ESC
+		if LastKey( ) = ESC
 			ResTela( aTela )
 			Loop
-		EndIf
-		IF Vendemov->(DbSeek( dData ))
+		endif
+		if Vendemov->(DbSeek( dData ))
 			Copy Stru To ( cArquivo )
 			Use (cArquivo) Exclusive New
 			oBloco := {|| Vendemov->Data = dData }
 			oMenu:Limpa()
 			cTela := Mensagem("Aguarde. Verificando movimento.", Cor())
 			WHILE Eval( oBloco ) .AND. Rep_Ok()
-				IF Vendemov->Descricao = Space(40)
+				if Vendemov->Descricao = Space(40)
 					Vendemov->(DbSkip(1))
 					Loop
-				EndIF
-				IF Vendemov->Dc = "D"
+				endif
+				if Vendemov->Dc = "D"
 					Vendemov->(DbSkip(1))
 					Loop
-				EndIF
+				endif
 				DbAppend()
 				For nField := 1 To FCount()
 					FieldPut( nField, Vendemov->(FieldGet( nField )))
@@ -513,10 +513,10 @@ WHILE OK
 			DbClearRel()
 			DbCloseArea()
 			Ferase( cArquivo )
-		Else
+		else
 			Nada()
 			Restela( aTela )
-		EndIF
+		endif
 
 	 Case op1 = 4
 		 Vendedor->( Order( VENDEDOR_CODIVEN ))
@@ -529,14 +529,14 @@ WHILE OK
 		 oMenu:Limpa()
 		 cTela := Mensagem("Aguarde. Verificando movimento.", Cor())
 		 WHILE Eval( oBloco ) .AND. Rep_Ok()
-			 IF Vendemov->Descricao = Space(40)
+			 if Vendemov->Descricao = Space(40)
 				 Vendemov->(DbSkip(1))
 				 Loop
-			 EndIF
-			 IF Vendemov->Dc = "D"
+			 endif
+			 if Vendemov->Dc = "D"
 				 Vendemov->(DbSkip(1))
 				 Loop
-			 EndIF
+			 endif
 			 DbAppend()
 			 For nField := 1 To FCount()
 				 FieldPut( nField, Vendemov->(FieldGet( nField )))
@@ -576,20 +576,20 @@ WHILE OK
 	@ 09, 11 Say "Codigo....:" Get cCodi      Pict "9999" Valid FunErrado( @cCodi,, Row(), Col()+1 )
 	@ 10, 11 Say "Data......:" Get dData      Pict "##/##/##"
 	@ 11, 11 Say "Docto N§..:" Get cDocnr     Pict "@!"
-	@ 12, 11 Say "Valor.....:" Get nVlr       Pict "99999999.99" Valid IF( nVlr <= 0,           ( ErrorBeep(), Alerta("Erro: Valor Invalido"), FALSO ), OK )
-	@ 13, 11 Say "Descricao.:" Get cDescricao Pict "@!"          Valid IF( Empty( cDescricao ), ( ErrorBeep(), Alerta("Erro: Campo nao Pode ser Vazio"), FALSO ), OK )
+	@ 12, 11 Say "Valor.....:" Get nVlr       Pict "99999999.99" Valid if( nVlr <= 0,           ( ErrorBeep(), Alerta("Erro: Valor Invalido"), FALSO ), OK )
+	@ 13, 11 Say "Descricao.:" Get cDescricao Pict "@!"          Valid if( Empty( cDescricao ), ( ErrorBeep(), Alerta("Erro: Campo nao Pode ser Vazio"), FALSO ), OK )
 	Read
-	IF LastKey() = ESC .OR. LastKey() = K_ALT_F4
+	if LastKey() = ESC .OR. LastKey() = K_ALT_F4
 		ResTela( cScreen )
 		Exit
-	EndIf
+	endif
 	ErrorBeep()
-	IF Conf( "Confirma Inclusao do Debito ?" )
-		IF Vendedor->(TravaReg())
-			IF Vendemov->(!Incluiu())
+	if Conf( "Confirma Inclusao do Debito ?" )
+		if Vendedor->(TravaReg())
+			if Vendemov->(!Incluiu())
 				Vendedor->(Libera())
 				Loop
-			EndIF
+			endif
 			Vendemov->CodiVen   := cCodi
 			Vendemov->Data 	  := dData
 			Vendemov->Docnr	  := cDocnr
@@ -605,10 +605,10 @@ WHILE OK
 			Vendedor->Comdisp   := ( nDisp - nVlr )
 			Vendedor->Comissao  := ( nComi - nVlr )
 			Vendedor->(Libera())
-		EndIf
-	EndIf
+		endif
+	endif
 EndDo
-Return
+return
 
 *:==================================================================================================================================
 
@@ -646,22 +646,22 @@ WHILE OK
 		@ 18, 11 Say "Data Inicial.:" Get dIni  Pict "##/##/##"
 		@ 19, 11 Say "Data Final...:" Get dFim  Pict "##/##/##"
 		Read
-		IF LastKey( ) = ESC
+		if LastKey( ) = ESC
 			Loop
-		EndIf
+		endif
 		Vendedor->( Order( VENDEDOR_CODIVEN ))
 		Receber->( Order( RECEBER_CODI ))
 		Area( "VendeMov")
 		Set Rela To Codi Into Receber, Codiven Into Vendedor
 		Vendemov->(Order( VENDEMOV_CODIVEN ))
-		IF Vendemov->(!DbSeek( cCodi ))
+		if Vendemov->(!DbSeek( cCodi ))
 			Nada()
-		Else
+		else
 			oBloco  := {|| Vendemov->Codiven = cCodi }
 			oBloco1 := {|| Vendemov->Data >= dIni .AND. Vendemov->Data <= dFim }
 			oBloco2 := {|| Vendemov->Descricao != Space(40) }
 			oBloco3 := {|| Vendemov->Dc = "D" }
-		EndIF
+		endif
 		FunImp( oBloco, oBloco1, oBloco2, oBloco3, dIni, dFim, "D" )
 
 	Case Choice = 2
@@ -671,23 +671,23 @@ WHILE OK
 		@ 17, 11 Say "Data Inicial.:" Get dIni  Pict "##/##/##"
 		@ 18, 11 Say "Data Final...:" Get dFim  Pict "##/##/##"
 		Read
-		IF LastKey( ) = ESC
+		if LastKey( ) = ESC
 			Loop
-		EndIf
+		endif
 		Vendedor->( Order( VENDEDOR_CODIVEN ))
 		Receber->( Order( RECEBER_CODI ))
 		Area( "VendeMov")
 		Set Rela To Codi Into Receber, Codiven Into Vendedor
 		Vendemov->(Order( VENDEMOV_CODIVEN ))
 		Vendemov->(DbGoTop())
-		IF Vendemov->(LastRec() = 0 )
+		if Vendemov->(LastRec() = 0 )
 			Nada()
-		Else
+		else
 			oBloco  := {|| Vendemov->(!Eof()) }
 			oBloco1 := {|| Vendemov->Data >= dIni .AND. Vendemov->Data <= dFim }
 			oBloco2 := {|| Vendemov->Descricao != Space(40) }
 			oBloco3 := {|| Vendemov->Dc = "D" }
-		EndIF
+		endif
 		FunImp( oBloco, oBloco1, oBloco2, oBloco3, dIni, dFim, "D" )
 	EndCase
 	Vendemov->( DbClearRel())
@@ -704,7 +704,7 @@ LOCAL NovoCodiVen   := OK
 LOCAL nTotalVend	  := 0
 LOCAL nSubTotal	  := 0
 LOCAL nTotalGeral   := 0
-LOCAL cRelato		  := "RELATORIO DE " + IF( cDC = "D", "DEBITOS ", "CREDITOS ") + " REF " + Dtoc( dIni ) + " A " + DToc( dFim )
+LOCAL cRelato		  := "RELATORIO DE " + if( cDC = "D", "DEBITOS ", "CREDITOS ") + " REF " + Dtoc( dIni ) + " A " + DToc( dFim )
 LOCAL UltCodiVen
 fIELD CodiVen
 fIELD Data
@@ -712,16 +712,16 @@ FIELD Docnr
 FIELD Descricao
 FIELD Vlr
 
-IF !Instru80()
+if !Instru80()
 	ResTela( cScreen )
-	Return
-EndIf
+	return
+endif
 UltCodiVen := CodiVen
 Mensagem("Aguarde, Imprimindo.")
 PrintOn()
 SetPrc( 0, 0 )
 While Eval( oBloco ) .AND. REL_OK()
-	IF Col >=  58
+	if Col >=  58
 		Write( 00, 00, Linha1( Tam, @Pagina))
 		Write( 01, 00, Linha2())
 		Write( 02, 00, Linha3(Tam))
@@ -731,51 +731,51 @@ While Eval( oBloco ) .AND. REL_OK()
 		Write( 06, 00,"DATA     DOCTO N§  DESCRICAO                                               VALOR")
 		Write( 07, 00, Linha5(Tam))
 		Col := 8
-	EndIF
-	IF Col = 8
+	endif
+	if Col = 8
 		Write( Col, 00, NG + "VENDEDOR : " + Vendemov->CodiVen + " " + Vendedor->Nome + NR )
 		Col += 2
-	EndIf
-	IF NovoCodiVen
+	endif
+	if NovoCodiVen
 		NovoCodiVen := FALSO
 		nSubTotal	:= 0
 		nTotalVend	:= 0
-	EndIF
-	IF Eval( OBloco1 )
-		IF Eval( OBloco2 )
-			IF Eval( OBloco3 )
+	endif
+	if Eval( OBloco1 )
+		if Eval( OBloco2 )
+			if Eval( OBloco3 )
 				Write( Col, 0, Dtoc( Data ) + " " + Docnr + " " + Descricao +  "       " + Tran( Vlr, "@E 999,999,999.99" ) )
 				Col++
 				nTotalVend	+= Vlr
 				nSubTotal	+= Vlr
 				nTotalGeral += Vlr
-			EndIF
-		EndIF
-	EndIF
+			endif
+		endif
+	endif
 	UltCodiVen := Vendemov->CodiVen
 	Vendemov->(DbSkip(1))
-	IF Col = 55 .OR. UltCodiVen != CodiVen
+	if Col = 55 .OR. UltCodiVen != CodiVen
 		Write( (Col + 1), 00, "*** SubTotal Vendedor *** ")
 		Write( (Col + 1), ( MaxCol() - 13), Tran( nSubTotal, "@E 999,999,999.99" ) )
 		nSubTotal := 0
-		IF UltCodiVen != CodiVen
+		if UltCodiVen != CodiVen
 			NovoCodiVen := OK
 			Write( (Col + 2), 00, "*** Total Vendedor *** ")
 			Write( (Col + 2), ( MaxCol() - 13), Tran( nTotalVend, "@E 999,999,999.99" ) )
-		EndIF
-		IF !Eval( oBloco )
+		endif
+		if !Eval( oBloco )
 			Write( (Col + 3), 00, "*** Total Geral *** ")
 			Write( (Col + 3), ( MaxCol() - 13), Tran( nTotalGeral, "@E 999,999,999.99" ) )
-		EndIF
-		IF Col >= 55
+		endif
+		if Col >= 55
 			Col := 55
 			__Eject()
-		EndIF
-	EndIF
+		endif
+	endif
 EndDo
 PrintOff()
 ResTela( cScreen )
-Return
+return
 
 Proc FunCreditos()
 *****************
@@ -811,22 +811,22 @@ WHILE OK
 		@ 18, 11 Say "Data Inicial.:" Get dIni  Pict "##/##/##"
 		@ 19, 11 Say "Data Final...:" Get dFim  Pict "##/##/##"
 		Read
-		IF LastKey( ) = ESC
+		if LastKey( ) = ESC
 			Loop
-		EndIf
+		endif
 		Vendedor->( Order( VENDEDOR_CODIVEN ))
 		Receber->( Order( RECEBER_CODI ))
 		Area( "VendeMov")
 		Set Rela To Codi Into Receber, Codiven Into Vendedor
 		Vendemov->(Order( VENDEMOV_CODIVEN ))
-		IF Vendemov->(!DbSeek( cCodi ))
+		if Vendemov->(!DbSeek( cCodi ))
 			Nada()
-		Else
+		else
 			oBloco  := {|| Vendemov->Codiven = cCodi }
 			oBloco1 := {|| Vendemov->Data >= dIni .AND. Vendemov->Data <= dFim }
 			oBloco2 := {|| Vendemov->Descricao != Space(40) }
 			oBloco3 := {|| Vendemov->Dc = "C" }
-		EndIF
+		endif
 		FunImp( oBloco, oBloco1, oBloco2, oBloco3, dIni, dFim, "C" )
 
 	Case Choice = 2
@@ -836,23 +836,23 @@ WHILE OK
 		@ 17, 11 Say "Data Inicial.:" Get dIni  Pict "##/##/##"
 		@ 18, 11 Say "Data Final...:" Get dFim  Pict "##/##/##"
 		Read
-		IF LastKey( ) = ESC
+		if LastKey( ) = ESC
 			Loop
-		EndIf
+		endif
 		Vendedor->( Order( VENDEDOR_CODIVEN ))
 		Receber->( Order( RECEBER_CODI ))
 		Area( "VendeMov")
 		Set Rela To Codi Into Receber, Codiven Into Vendedor
 		Vendemov->(Order( VENDEMOV_CODIVEN ))
 		Vendemov->(DbGoTop())
-		IF Vendemov->(LastRec() = 0 )
+		if Vendemov->(LastRec() = 0 )
 			Nada()
-		Else
+		else
 			oBloco  := {|| Vendemov->(!Eof()) }
 			oBloco1 := {|| Vendemov->Data >= dIni .AND. Vendemov->Data <= dFim }
 			oBloco2 := {|| Vendemov->Descricao != Space(40) }
 			oBloco3 := {|| Vendemov->Dc = "C" }
-		EndIF
+		endif
 		FunImp( oBloco, oBloco1, oBloco2, oBloco3, dIni, dFim, "C" )
 	EndCase
 	Vendemov->( DbClearRel())
@@ -892,20 +892,20 @@ WHILE OK
 		@ 12, 11 Say "Data Inicial.:" Get dIni  Pict "##/##/##"
 		@ 13, 11 Say "Data Final...:" Get dFim  Pict "##/##/##"
 		Read
-		IF LastKey() = ESC
+		if LastKey() = ESC
 			Loop
-		EndIF
+		endif
 		Vendedor->( Order( VENDEDOR_CODIVEN ))
 		Receber->(Order( RECEBER_CODI ))
 		Area( "VendeMov" )
 		Vendemov->(Order( VENDEMOV_CODIVEN ))
 		Set Rela To Vendemov->Codi Into Receber, Vendemov->Codiven Into Vendedor
 		oBloco := {|| Vendemov->CodiVen = cCodi }
-		IF Vendemov->(!DbSeek( cCodi ))
+		if Vendemov->(!DbSeek( cCodi ))
 			Nada()
-		Else
+		else
 			FunReVenImp( oBloco, dIni, dFim )
-		EndIF
+		endif
 
 	Case Choice = 2
 		cRegiao := Space( 2 )
@@ -916,22 +916,22 @@ WHILE OK
 		@ 12, 11 Say "Data Inicial.:" Get dIni    Pict "##/##/##"
 		@ 13, 11 Say "Data Final...:" Get dFim    Pict "##/##/##"
 		Read
-		IF LastKey( ) = ESC
+		if LastKey( ) = ESC
 			Loop
-		EndIF
+		endif
 		Vendedor->( Order( VENDEDOR_CODIVEN ))
 		Receber->(Order( RECEBER_CODI ))
 		Area( "VendeMov" )
 		Vendemov->(Order( VENDEMOV_REGIAO ))
 		Set Rela To Vendemov->Codi Into Receber, Vendemov->Codiven Into Vendedor
 		OBloco := {|| Vendemov->(!Eof()) }
-		IF Vendemov->(!DbSeek( cRegiao ))
+		if Vendemov->(!DbSeek( cRegiao ))
 			Nada()
-		Else
+		else
 			Vendemov->(Order( VENDEMOV_CODIVEN ))
 			Vendemov->(DbGoTop())
 			FunReVenImp( oBloco, dIni, dFim, cRegiao )
-		EndIf
+		endif
 
 	Case Choice = 3
 		cForma  := Space( 2 )
@@ -942,21 +942,21 @@ WHILE OK
 		@ 12, 11 Say "Data Inicial.:" Get dIni    Pict "##/##/##"
 		@ 13, 11 Say "Data Final...:" Get dFim    Pict "##/##/##"
 		Read
-		IF LastKey( ) = ESC
+		if LastKey( ) = ESC
 			ResTela( cScreen )
 			Loop
-		EndIF
+		endif
 		Vendedor->( Order( VENDEDOR_CODIVEN ))
 		Receber->(Order( RECEBER_CODI ))
 		Area( "VendeMov" )
 		Vendemov->(Order( VENDEMOV_FORMA ))
 		Set Rela To Vendemov->Codi Into Receber, Vendemov->Codiven Into Vendedor
 		oBloco := {|| Vendemov->Forma = cForma }
-		IF Vendemov->(!DbSeek( cForma ))
+		if Vendemov->(!DbSeek( cForma ))
 			Nada()
-		Else
+		else
 			FunReVenImp( oBloco, dIni, dFim )
-		EndIF
+		endif
 	Case Choice = 4
 		Area("VendeMov")
 		Vendemov->(Order( VENDEMOV_CODIVEN ))
@@ -966,10 +966,10 @@ WHILE OK
 		@ 11, 11 Say "Data Inicial.:" Get dIni Pict "##/##/##"
 		@ 12, 11 Say "Data Final...:" Get dFim Pict "##/##/##"
 		Read
-		IF LastKey( ) = ESC
+		if LastKey( ) = ESC
 			ResTela( cScreen )
 			Loop
-		EndIf
+		endif
 		Vendedor->( Order( VENDEDOR_CODIVEN ))
 		Receber->(Order( RECEBER_CODI ))
 		Area( "VendeMov" )
@@ -977,11 +977,11 @@ WHILE OK
 		Set Rela To Vendemov->Codi Into Receber, Vendemov->Codiven Into Vendedor
 		OBloco := {|| Vendemov->(!Eof()) }
 		Vendemov->(DbGoTop())
-		IF Vendemov->(LastRec() = 0 )
+		if Vendemov->(LastRec() = 0 )
 			Nada()
-		Else
+		else
 			FunReVenImp( oBloco, dIni, dFim )
-		EndIF
+		endif
 	EndCase
 	Vendemov->(DbClearRel())
 	Vendemov->(DbGoTop())
@@ -1005,21 +1005,21 @@ LOCAL oBloco1	 := {|| Empty( Vendemov->Descricao )}
 LOCAL oBloco2	 := {|| Vendemov->Data >= dIni .AND. Vendemov->Data <= dFim }
 LOCAL oBloco3	 := NIL
 
-IF !Instru80()
+if !Instru80()
 	ResTela( cScreen )
-	Return
-EndIf
+	return
+endif
 Mensagem("Aguarde, Imprimindo.")
-IF cRegiao != NIL
+if cRegiao != NIL
 	oBloco3	 := {|| Vendemov->Regiao = cRegiao }
 	Relato += " - REGIAO : " + cRegiao
-Else
+else
 	oBloco3	 := {|| Vendemov->(!Eof()) }
-EndIF
+endif
 PrintOn()
 SetPrc( 0, 0 )
 While Eval( oBloco ) .AND. REL_OK()
-	IF Col >=  58
+	if Col >=  58
 		Write( 00, 00, Linha1( Tam, @Pagina))
 		Write( 01, 00, Linha2())
 		Write( 02, 00, Linha3(Tam))
@@ -1029,62 +1029,62 @@ While Eval( oBloco ) .AND. REL_OK()
 		Write( 06, 00, "FATURA    CLIENTE                                  RG FP  PORC      VALOR FATURA")
 		Write( 07, 00, Linha5(Tam))
 		Col := 8
-	EndIF
-	IF Eval( oBloco1 )
-		IF Eval( oBloco2 )
-			IF Eval( oBloco3 )
-				IF Col = 8
+	endif
+	if Eval( oBloco1 )
+		if Eval( oBloco2 )
+			if Eval( oBloco3 )
+				if Col = 8
 					Write( 08, 00, NG + "VENDEDOR : " + Vendemov->CodiVen + " " + Vendedor->Nome + NR )
 					Qout()
 					Col := 10
-				EndIF
-				IF lNovo
+				endif
+				if lNovo
 					lNovo 	 := FALSO
 					nSubTotal := 0
 					nTotal	 := 0
-				EndIf
+				endif
 				Qout( Vendemov->Fatura, Receber->Nome, Receber->Regiao, Vendemov->Forma, Vendemov->Porc, Tran( Vendemov->Vlr, "@E 99,999,999,999.99" ))
 				Col++
 				nTotal	 += Vendemov->Vlr
 				nGeral	 += Vendemov->Vlr
 				nSubTotal += Vendemov->Vlr
-			EndIF
-		EndIF
-	EndIF
+			endif
+		endif
+	endif
 	lUltimo := Vendemov->CodiVen
 	Vendemov->(DbSkip(1))
-	IF Col = 55 .OR. lUltimo != Vendemov->CodiVen
-		IF nSubTotal != 0
+	if Col = 55 .OR. lUltimo != Vendemov->CodiVen
+		if nSubTotal != 0
 			Col++
 			Write( Col, 00, "*** SubTotal Vendedor *** ")
 			Write( Col, (MaxCol()-15), Tran( nSubTotal, "@E 9,999,999,999.99" ) )
 			Col++
 			nSubTotal := 0
-		EndIF
-		IF lUltimo != Vendemov->CodiVen
+		endif
+		if lUltimo != Vendemov->CodiVen
 			lNovo := OK
-			IF nTotal != 0
+			if nTotal != 0
 				Write( Col, 00, "*** Total Vendedor *** ")
 				Write( Col, ( MaxCol() - 15), Tran( nTotal, "@E 9,999,999,999.99" ) )
 				Col++
 				nTotal := 0
-				IF !Eval( oBloco )
+				if !Eval( oBloco )
 					 Write( Col, 00, "*** Total Geral *** ")
 					 Write( Col, ( MaxCol() - 15), Tran( nGeral, "@E 9,999,999,999.99" ) )
 					 Col := 58
-				EndIF
+				endif
 				Col := 58
-			EndIF
-		EndIF
-		IF Col >= 55
+			endif
+		endif
+		if Col >= 55
 			Col := 58
 		  __Eject()
-		EndIF
-	EndIF
+		endif
+	endif
 EndDo
 PrintOff()
 ResTela( cScreen )
-Return
+return
 
 *:==================================================================================================================================
 
@@ -1154,7 +1154,7 @@ Case oCol:Heading = "DESATIVADO"
 	AreaAnt( Arq_Ant, Ind_Ant )
 OtherWise
 EndCase
-Return( OK )
+return( OK )
 
 Proc FunReLac()
 ***************
@@ -1182,22 +1182,22 @@ WHILE OK
 		MaBox( 14, 16, 16, 38 )
 		@ 15, 17 Say "Codigo..:" Get cCodi Valid FuncErr( @cCodi )
 		Read
-		IF LastKey() = ESC
+		if LastKey() = ESC
 			ResTela( cScreen )
 			Loop
-		EndIF
+		endif
 		oBloco := {|| Vendedor->Codiven = cCodi }
 		RelProdu1( oBloco )
 
 	Case nChoice = 2
 		M_Title( "RELACAO VENDEDORES")
 		nChoice := FazMenu( 09, 18, aOrdem )
-		IF nChoice = 0
+		if nChoice = 0
 			ResTela( cScreen )
 			Loop
-		EndIF
+		endif
 		Area("Vendedor")
-		Vendedor->(Order( IF( nChoice = 1, VENDEDOR_CODIVEN, VENDEDOR_NOME )))
+		Vendedor->(Order( if( nChoice = 1, VENDEDOR_CODIVEN, VENDEDOR_NOME )))
 		Vendedor->(DbGoTop())
 		oBloco := {|| Vendedor->(!Eof()) }
 		RelProdu1( oBloco )
@@ -1211,14 +1211,14 @@ LOCAL Tam	  := 80
 LOCAL Col	  := 58
 LOCAL Pagina  := 0
 
-IF !Instru80()
+if !Instru80()
 	ResTela( cScreen )
-	Return
-EndIf
+	return
+endif
 PrintOn()
 SetPrc( 0, 0 )
 WHILE Eval( oBloco ) .AND. REL_OK( )
-	IF Col >= 58
+	if Col >= 58
 		 Write( 00, 00, Linha1( Tam, @Pagina))
 		 Write( 01, 00, Linha2())
 		 Write( 02, 00, Linha3(Tam))
@@ -1228,69 +1228,69 @@ WHILE Eval( oBloco ) .AND. REL_OK( )
 		 Write( 06, 00, "CODI         NOME VENDEDOR")
 		 Write( 07, 00, Linha5(Tam))
 		 Col := 8
-	Endif
+	endif
 	Write(	Col, 0, NG + Vendedor->CodiVen + " " + Vendedor->Nome + NR )
 	Write( ++Col, 5, Vendedor->Cpf  + Space(10) + Vendedor->Rg)
 	Write( ++Col, 5, Vendedor->Ende	+ " " + Vendedor->Bair )
 	Write( ++Col, 5, Vendedor->Cep  + "/" + AlLTrim( Vendedor->Cida ) + "-" + Vendedor->Esta )
 	Col += 2
-	IF Col = 58
+	if Col = 58
 		Write( Col, 0,  Repl( SEP, Tam ) )
 		__Eject()
-	EndIF
+	endif
 	Vendedor->(DbSkip(1))
 EndDo
 PrintOff()
 Restela( cScreen )
-Return
+return
 
 Function VerMovimento( cCodiVen )
 *********************************
 Vendemov->(Order( VENDEMOV_CODIVEN ))
-IF Vendemov->(!DbSeek( cCodiVen ))
+if Vendemov->(!DbSeek( cCodiVen ))
 	Nada()
-	Return( FALSO )
-EndIF
-Return( OK )
+	return( FALSO )
+endif
+return( OK )
 
 Function DocFuerr( cDocnr )
 ***************************
-IF Empty( cDocnr )
+if Empty( cDocnr )
 	ErrorBeep()
 	Alerta( "ERRO: Codigo Documento Inv lido." )
-	Return( FALSO )
-EndIf
-IF !DbSeek( cDocnr )
+	return( FALSO )
+endif
+if !DbSeek( cDocnr )
 	 ErrorBeep()
 	 Alerta( "ERRO: Documento nao Localizado." )
-	 Return( FALSO )
-EndIf
-Return( OK )
+	 return( FALSO )
+endif
+return( OK )
 
-Function FuncErr( cCodiFun, cCodi, nRow, nCol )
+Function FuncErr( cCodifun, cCodi, nRow, nCol )
 ***********************************************
 LOCAL aRotinaInc := {{|| FuncInclusao() }}
 LOCAL aRotinaAlt := {{|| FuncInclusao(OK) }}
 LOCAL Arq_Ant := Alias()
 LOCAL Ind_Ant := IndexOrd()
 
-IF (Lastrec() = 0 )
+if (Lastrec() = 0 )
 	Nada()
-	Return( FALSO )
-EndIf
+	return( FALSO )
+endif
 Area( "Vendedor")
-Vendedor->(Order( IF( Len( cCodiFun) < 40, VENDEDOR_CODIVEN, VENDEDOR_NOME )))
-IF Vendedor->(!DbSeek( cCodiFun ))
+Vendedor->(Order( if( Len( cCodifun) < 40, VENDEDOR_CODIVEN, VENDEDOR_NOME )))
+if Vendedor->(!DbSeek( cCodifun ))
 	Vendedor->(Order( VENDEDOR_NOME ))
 	Vendedor->(Escolhe( 03, 01, MaxRow()-2, "CodiVen + 'İ' + Nome + 'İ' + Fone", "CODI NOME DO VENDEDOR" + Space(25)+ "TELEFONE", aRotinaInc, NIL, aRotinaAlt ))
-	cCodiFun := IF( Len( cCodiFun ) < 40, Vendedor->CodiVen, Vendedor->Nome )
+	cCodifun := if( Len( cCodifun ) < 40, Vendedor->CodiVen, Vendedor->Nome )
 	cCodi 	:= Vendedor->CodiVen
-EndIf
-IF nRow != NIL
+endif
+if nRow != NIL
 	Write( nRow, nCol, Vendedor->Nome )
-EndIF
+endif
 AreaAnt( Arq_Ant, Ind_Ant )
-Return( OK )
+return( OK )
 
 STATIC Proc AbreArea()
 **********************
@@ -1299,39 +1299,39 @@ ErrorBeep()
 Mensagem("Aguarde, Abrindo base de dados.", WARNING, _LIN_MSG )
 FechaTudo()
 
-IF !UsaArquivo("VENDEDOR")
+if !UsaArquivo("VENDEDOR")
 	MensFecha()
-	Return
-EndIF
-IF !UsaArquivo("VENDEMOV")
+	return
+endif
+if !UsaArquivo("VENDEMOV")
 	MensFecha()
-	Return
-EndIF
-IF !UsaArquivo("RECEMOV")
+	return
+endif
+if !UsaArquivo("RECEMOV")
 	MensFecha()
-	Return
-EndIF
-IF !UsaArquivo("RECEBER")
+	return
+endif
+if !UsaArquivo("RECEBER")
 	MensFecha()
-	Return
-EndIF
-IF !UsaArquivo("FORMA")
+	return
+endif
+if !UsaArquivo("FORMA")
 	MensFecha()
-	Return
-EndIF
-IF !UsaArquivo("REGIAO")
+	return
+endif
+if !UsaArquivo("REGIAO")
 	MensFecha()
-	Return
-EndIF
-IF !UsaArquivo("SAIDAS")
+	return
+endif
+if !UsaArquivo("SAIDAS")
 	MensFecha()
-	Return
-EndIF
-IF !UsaArquivo("NOTA")
+	return
+endif
+if !UsaArquivo("NOTA")
 	MensFecha()
-	Return
-EndIF
-Return
+	return
+endif
+return
 
 Proc RelSaldos()
 ****************
@@ -1349,10 +1349,10 @@ FIELD Comissao
 
 ErrorBeep()
 lDesativados := Conf("Pergunta: Imprimir Desativados ?")
-IF !Instru80()
+if !Instru80()
 	ResTela( cScreen )
-	Return
-EndIf
+	return
+endif
 Area( "Vendedor")
 Vendedor->( Order( VENDEDOR_CODIVEN ))
 DbGoTop()
@@ -1360,7 +1360,7 @@ Mensagem( "Aguarde, Imprimindo.")
 PrintOn()
 SetPrc( 0, 0 )
 While !Eof() .AND. REL_OK()
-	IF Col >=  58
+	if Col >=  58
 		Write( 00, 00, Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
 		Write( 01, 00, Date() )
 		Write( 02, 00, Padc( XNOMEFIR, Tam ) )
@@ -1370,31 +1370,31 @@ While !Eof() .AND. REL_OK()
 		Write( 06, 00,"CODI VENDEDOR                                  BLOQUEADA DISPONIVEL      TOTAL")
 		Write( 07, 00, Repl( SEP, Tam ) )
 		Col := 8
-	EndIf
-	IF lDesativados = FALSO
-		IF Rol = OK
+	endif
+	if lDesativados = FALSO
+		if Rol = OK
 			DbSkip(1)
 			Loop
-		EndIF
-	EndIF
+		endif
+	endif
 	Qout( Codiven, Nome, Tran( ComBloq, "@E 999,999.99" ), Tran( ComDisp, "@E 999,999.99" ), Tran( Comissao, "@E 999,999.99" ))
 	Col++
 	nTotal += Comissao
 	DbSkip(1)
-	IF Eof()
+	if Eof()
 		Qout("")
 		Qout( "*** Total Geral *** ")
 		QQout( Space(44) + Tran( nTotal, "@E 999,999,999.99" ))
-	EndIF
-	IF Col >= 58
+	endif
+	if Col >= 58
 		Col := 8
 		__Eject()
-	EndIF
+	endif
 EndDo
 __Eject()
 PrintOff()
 ResTela( cScreen )
-Return
+return
 
 *:---------------------------------------------------------------------------------------------------------------------------------
 Proc SaldoConsulta()
@@ -1410,11 +1410,11 @@ LOCAL aStruct
 
 oMenu:Limpa()
 Area("Vendedor")
-IF !VerSenha( @cCaixa, @cVendedor )
+if !VerSenha( @cCaixa, @cVendedor )
 	ResTela( cScreen )
 	AreaAnt( Arq_Ant, Ind_Ant )
-	Return
-EndIF
+	return
+endif
 aStruct := Vendedor->(DbStruct())
 DbCreate( xTemp, aSTruct )
 Use ( xTemp ) Alias xVendedor Exclusive New
@@ -1497,17 +1497,17 @@ WHILE OK
 		@ 17, 21 Say "Data Inicial..:" Get dIni Pict "##/##/##"
 		@ 18, 21 Say "Data Final....:" Get dFim Pict "##/##/##"
 		Read
-		IF LastKey( ) = ESC
+		if LastKey( ) = ESC
 			ResTela( cScreen )
 			Loop
-		EndIf
+		endif
 		Area( "VendeMov" )
 		Vendemov->(Order( VENDEMOV_CODIVEN ))
-		IF Vendemov->(!DbSeek( cCodi ))
+		if Vendemov->(!DbSeek( cCodi ))
 			ErrorBeep()
 			Nada()
 			Loop
-		EndIF
+		endif
 		Receber->( Order( RECEBER_CODI ))
 		Vendedor->( Order( VENDEDOR_CODIVEN ))
 		Set Rela To Vendemov->Codiven Into Vendedor, Vendemov->Codi Into Receber
@@ -1517,41 +1517,41 @@ WHILE OK
 
 	Case nChoice = 2
 		cCodi 	:= Space(04)
-		cCodiFim := Space(04)
+		cCodifim := Space(04)
 		dFim		:= Date()
 		dIni		:= Date() - Day( Date() ) + 1
 		MaBox( 15, 20, 20, 48 )
 		@ 16, 21 Say "Vendedor Inicial.:" Get cCodi    Pict "9999" Valid FunErrado( @cCodi )
-		@ 17, 21 Say "Vendedor Final...:" Get cCodiFim Pict "9999" Valid FunErrado( @cCodiFim )
+		@ 17, 21 Say "Vendedor Final...:" Get cCodifim Pict "9999" Valid FunErrado( @cCodifim )
 		@ 18, 21 Say "Data Inicial.....:" Get dIni     Pict "##/##/##"
 		@ 19, 21 Say "Data Final.......:" Get dFim     Pict "##/##/##"
 		Read
-		IF LastKey( ) = ESC
+		if LastKey( ) = ESC
 			ResTela( cScreen )
 			Loop
-		EndIF
+		endif
 		lEncontrou := FALSO
 		Vendedor->(Order( VENDEDOR_CODIVEN ))
 		Vendedor->(DbSeek( cCodi ))
 		Area( "VendeMov" )
 		Vendemov->(Order( VENDEMOV_CODIVEN ))
-		While Vendedor->CodiVen >= cCodi .AND. Vendedor->CodiVen <= cCodiFim
+		While Vendedor->CodiVen >= cCodi .AND. Vendedor->CodiVen <= cCodifim
 			cCodi := Vendedor->CodiVen
-			IF Vendemov->(DbSeek( cCodi ))
+			if Vendemov->(DbSeek( cCodi ))
 				lEncontrou := OK
 				Exit
-			EndIf
+			endif
 			Vendedor->(DbSkip(1))
 		EndDo
-		IF !lEncontrou
+		if !lEncontrou
 			ResTela( cScreen )
 			Nada()
 			Loop
-		EndIF
+		endif
 		Receber->( Order( RECEBER_CODI ))
 		Vendedor->( Order( VENDEDOR_CODIVEN ))
 		Set Rela To Vendemov->Codiven Into Vendedor, Vendemov->Codi Into Receber
-		oBloco	:= {|| Vendemov->CodiVen >= cCodi .AND. Vendemov->CodiVen <= cCodiFim }
+		oBloco	:= {|| Vendemov->CodiVen >= cCodi .AND. Vendemov->CodiVen <= cCodifim }
 		oSkipper := {|| Vendemov->Data >= dIni .AND. Vendemov->Data <= dFim }
 		DemosImp( dIni, dFim, oBloco, oSkipper )
 
@@ -1566,17 +1566,17 @@ WHILE OK
 		@ 18, 21 Say "Data Inicial.....:" Get dIni     Pict "##/##/##"
 		@ 19, 21 Say "Data Final.......:" Get dFim     Pict "##/##/##"
 		Read
-		IF LastKey( ) = ESC
+		if LastKey( ) = ESC
 			ResTela( cScreen )
 			Loop
-		EndIF
+		endif
 		Area( "VendeMov" )
 		Vendemov->(Order( VENDEMOV_CODIVEN ))
-		IF Vendemov->(!DbSeek( cCodi ))
+		if Vendemov->(!DbSeek( cCodi ))
 			ResTela( cScreen )
 			Nada()
 			Loop
-		EndIF
+		endif
 		Receber->( Order( RECEBER_CODI ))
 		Vendedor->( Order( VENDEDOR_CODIVEN ))
 		Set Rela To Vendemov->Codiven Into Vendedor, Vendemov->Codi Into Receber
@@ -1591,18 +1591,18 @@ WHILE OK
 		@ 16, 21 Say "Data Inicial..:" Get dIni Pict "##/##/##"
 		@ 17, 21 Say "Data Final....:" Get dFim Pict "##/##/##"
 		Read
-		IF LastKey( ) = ESC
+		if LastKey( ) = ESC
 			ResTela( cScreen )
 			Loop
-		EndIF
+		endif
 		Area( "VendeMov" )
 		Vendemov->(Order( VENDEMOV_CODIVEN ))
 		Vendemov->(DbGoTop())
-		IF Vendemov->(Eof())
+		if Vendemov->(Eof())
 			ErrorBeep()
 			Nada()
 			Loop
-		EndIF
+		endif
 		Receber->( Order( RECEBER_CODI ))
 		Vendedor->( Order( VENDEDOR_CODIVEN ))
 		Set Rela To Vendemov->Codiven Into Vendedor, Vendemov->Codi Into Receber
@@ -1643,29 +1643,29 @@ WHILE OK
 		@ 17, 21 Say "Data Inicial.:" Get dIni Pict "##/##/##"
 		@ 18, 21 Say "Data Final...:" Get dFim Pict "##/##/##"
 		Read
-		IF LastKey( ) = ESC
+		if LastKey( ) = ESC
 			ResTela( cScreen )
 			Loop
-		EndIF
+		endif
 		Area("Vendemov")
 		Vendemov->(Order( VENDEMOV_CODIVEN ))
-		IF Vendemov->(!DbSeek( cCodiIni ))
+		if Vendemov->(!DbSeek( cCodiIni ))
 			Nada()
 			ResTela( cScreen )
 			Loop
-		EndIF
+		endif
 		nConta := 0
 		Copy Stru To ( xAlias )
 		Use ( xAlias ) Exclusive Alias xTemp New
 		Mensagem("Aguarde, Processando.", Cor())
 		WHILE Vendemov->Codiven = cCodiIni
-			 IF Vendemov->Data >= dIni .AND. Vendemov->Data <= dFim .AND. Vendemov->Descricao = ""
+			 if Vendemov->Data >= dIni .AND. Vendemov->Data <= dFim .AND. Vendemov->Descricao = ""
 				xTemp->(DbAppend())
 				For nField := 1 To FCount()
 					FieldPut( nField, Vendemov->(FieldGet( nField )))
 				Next
 				nConta++
-			 EndIF
+			 endif
 			 Vendemov->(DbSkip(1))
 		EndDo
 		Receber->(Order( RECEBER_CODI ))
@@ -1676,11 +1676,11 @@ WHILE OK
 						xTemp->Forma Into Forma,;
 						xTemp->Codi Into Receber
 		xTemp->(DbGoTop())
-		IF nConta = 0
+		if nConta = 0
 			Nada()
-		Else
+		else
 			PagarImp( dIni, dFim )
-		EndIF
+		endif
 		xTemp->(DbClearRel())
 		xTemp->(DbGoTop())
 		xTemp->(DbCloseArea())
@@ -1691,37 +1691,37 @@ WHILE OK
 	Case Opcao = 2
 		MaBox( 15, 20, 20, 48 )
 		cCodiIni := Space( 04 )
-		cCodiFim := Space( 04 )
+		cCodifim := Space( 04 )
 		dIni		:= Date() - Day( Date()) + 1
 		dFim		:= Date()
 		@ 16, 21 Say "Vendedor Inicial.:" Get cCodiIni Pict "9999" Valid FunErrado( @cCodiIni ) .AND. VerMovimento( @cCodiIni )
-		@ 17, 21 Say "Vendedor Final...:" Get cCodiFim Pict "9999" Valid FunErrado( @cCodiFim ) .AND. VerMovimento( @cCodiFim )
+		@ 17, 21 Say "Vendedor Final...:" Get cCodifim Pict "9999" Valid FunErrado( @cCodifim ) .AND. VerMovimento( @cCodifim )
 		@ 18, 21 Say "Data Inicial.....:" Get dIni     Pict "##/##/##"
 		@ 19, 21 Say "Data Final.......:" Get dFim     Pict "##/##/##"
 		Read
-		IF LastKey( ) = ESC
+		if LastKey( ) = ESC
 			ResTela( cScreen )
 			Loop
-		EndIF
+		endif
 		Area("Vendemov")
 		Vendemov->(Order( VENDEMOV_CODIVEN ))
-		IF Vendemov->(!DbSeek( cCodiIni ))
+		if Vendemov->(!DbSeek( cCodiIni ))
 			ResTela( cScreen )
 			Nada()
 			Loop
-		EndIF
+		endif
 		nConta := 0
 		Copy Stru To ( xAlias )
 		Use ( xAlias ) Exclusive Alias xTemp New
 		Mensagem("Aguarde, Processando.", Cor())
-		WHILE Vendemov->Codiven >= cCodiIni .AND. Vendemov->Codiven <= cCodiFim
-			 IF Vendemov->Data >= dIni .AND. Vendemov->Data <= dFim .AND. Vendemov->Descricao = ""
+		WHILE Vendemov->Codiven >= cCodiIni .AND. Vendemov->Codiven <= cCodifim
+			 if Vendemov->Data >= dIni .AND. Vendemov->Data <= dFim .AND. Vendemov->Descricao = ""
 				xTemp->(DbAppend())
 				For nField := 1 To FCount()
 					FieldPut( nField, Vendemov->(FieldGet( nField )))
 				Next
 				nConta++
-			 EndIF
+			 endif
 			 Vendemov->(DbSkip(1))
 		EndDo
 		Receber->(Order( RECEBER_CODI ))
@@ -1732,11 +1732,11 @@ WHILE OK
 						xTemp->Forma Into Forma,;
 						xTemp->Codi Into Receber
 		xTemp->(DbGoTop())
-		IF nConta = 0
+		if nConta = 0
 			Nada()
-		Else
+		else
 			PagarImp( dIni, dFim )
-		EndIF
+		endif
 		xTemp->(DbClearRel())
 		xTemp->(DbGoTop())
 		xTemp->(DbCloseArea())
@@ -1755,29 +1755,29 @@ WHILE OK
 		@ 18, 21 Say "Data Inicial.....:" Get dIni     Pict "##/##/##"
 		@ 19, 21 Say "Data Final.......:" Get dFim     Pict "##/##/##"
 		Read
-		IF LastKey( ) = ESC
+		if LastKey( ) = ESC
 			ResTela( cScreen )
 			Loop
-		EndIF
+		endif
 		Area("Vendemov")
 		Vendemov->(Order( VENDEMOV_CODIVEN ))
-		IF Vendemov->(!DbSeek( cCodiIni ))
+		if Vendemov->(!DbSeek( cCodiIni ))
 			ResTela( cScreen )
 			Nada()
 			Loop
-		EndIF
+		endif
 		nConta := 0
 		Copy Stru To ( xAlias )
 		Use ( xAlias ) Exclusive Alias xTemp New
 		Mensagem("Aguarde, Processando.", Cor())
 		WHILE Vendemov->Codiven = cCodiIni
-			 IF Vendemov->Data >= dIni .AND. Vendemov->Data <= dFim .AND. Vendemov->Forma = cForma .AND. Vendemov->Descricao = ""
+			 if Vendemov->Data >= dIni .AND. Vendemov->Data <= dFim .AND. Vendemov->Forma = cForma .AND. Vendemov->Descricao = ""
 				xTemp->(DbAppend())
 				For nField := 1 To FCount()
 					FieldPut( nField, Vendemov->(FieldGet( nField )))
 				Next
 				nConta++
-			 EndIF
+			 endif
 			 Vendemov->(DbSkip(1))
 		EndDo
 		Receber->(Order( RECEBER_CODI ))
@@ -1788,11 +1788,11 @@ WHILE OK
 						xTemp->Forma Into Forma,;
 						xTemp->Codi Into Receber
 		xTemp->(DbGoTop())
-		IF nConta = 0
+		if nConta = 0
 			Nada()
-		Else
+		else
 			PagarImp( dIni, dFim )
-		EndIF
+		endif
 		xTemp->(DbClearRel())
 		xTemp->(DbGoTop())
 		xTemp->(DbCloseArea())
@@ -1807,10 +1807,10 @@ WHILE OK
 		@ 16, 21 Say "Data Inicial.....:" Get dIni     Pict "##/##/##"
 		@ 17, 21 Say "Data Final.......:" Get dFim     Pict "##/##/##"
 		Read
-		IF LastKey( ) = ESC
+		if LastKey( ) = ESC
 			ResTela( cScreen )
 			Loop
-		EndIF
+		endif
 		Area("Vendemov")
 		Vendemov->(Order( VENDEMOV_CODIVEN ))
 		Vendemov->(DbGoTop())
@@ -1819,13 +1819,13 @@ WHILE OK
 		Use ( xAlias ) Exclusive Alias xTemp New
 		Mensagem("Aguarde, Processando.", Cor())
 		WHILE Vendemov->(!Eof())
-			 IF Vendemov->Data >= dIni .AND. Vendemov->Data <= dFim .AND. Vendemov->Descricao = ""
+			 if Vendemov->Data >= dIni .AND. Vendemov->Data <= dFim .AND. Vendemov->Descricao = ""
 				xTemp->(DbAppend())
 				For nField := 1 To FCount()
 					FieldPut( nField, Vendemov->(FieldGet( nField )))
 				Next
 				nConta++
-			 EndIF
+			 endif
 			 Vendemov->(DbSkip(1))
 		EndDo
 		Receber->(Order( RECEBER_CODI ))
@@ -1836,11 +1836,11 @@ WHILE OK
 						xTemp->Forma Into Forma,;
 						xTemp->Codi Into Receber
 		xTemp->(DbGoTop())
-		IF nConta = 0
+		if nConta = 0
 			Nada()
-		Else
+		else
 			PagarImp( dIni, dFim )
-		EndIF
+		endif
 		xTemp->(DbClearRel())
 		xTemp->(DbGoTop())
 		xTemp->(DbCloseArea())
@@ -1859,20 +1859,20 @@ LOCAL AtPrompt := {}
 LOCAL cStr_Get
 LOCAL cStr_Sombra
 
-If !aPermissao[SCI_VENDEDORES]
-	Return( AtPrompt )
-EndIF
+if !aPermissao[SCI_VENDEDORES]
+	return( AtPrompt )
+endif
 
-IF oAmbiente:Get_Ativo
+if oAmbiente:Get_Ativo
 	cStr_Get := "Desativar Get Tela Cheia"
-Else
+else
 	cStr_Get := "Ativar Get Tela Cheia"
-EndIF
-IF oMenu:Sombra
+endif
+if oMenu:Sombra
 	cStr_Sombra := "DesLigar Sombra"
-Else
+else
 	cStr_Sombra := "Ligar Sombra"
-EndIF
+endif
 AADD( AtPrompt, {"Sair",        {"Encerrar Sessao"}})
 AADD( AtPrompt, {"Inclusao",    {"Vendedores", "Senha", "Debitos","Creditos"}})
 AADD( AtPrompt, {"Alteracao",   {"Vendedores", "Senha", "Re-Lancamento Parcial de Comissoes", "Re-Lancamento Geral de Comissoes", "Ajustar Saldo de Comissoes", "Limpar Comissao", "Debitos", "Creditos"}})
@@ -1880,24 +1880,24 @@ AADD( AtPrompt, {"Exclusao",    {"Vendedores", "Senha"}})
 AADD( AtPrompt, {"Consulta",    {"Vendedores", "Saldos", "Debitos","Creditos"}})
 AADD( AtPrompt, {"Relatorios",  {"Comissoes a Pagar","Demostrativo de Comissoes","Relatorios Vendas","Relatorios de Debitos","Relatorios de Creditos","Relatorio de Vendedores","Saldos Vendedores"}})
 AADD( AtPrompt, {"Help",        {"Help"}})
-Return( AtPrompt )
+return( AtPrompt )
 
 *==================================================================================================================================
 
 Function aDispVenlan()
 **********************
-LOCAL oVenlan	:= TIniNew( oAmbiente:xBaseDados + "\" + oAmbiente:xUsuario + ".INI")
+LOCAL oVenlan	:= TIniNew( oAmbiente:xUsuario + ".INI")
 LOCAL AtPrompt := oMenuVenlan()
 LOCAL nMenuH   := Len(AtPrompt)
 LOCAL aDisp 	:= Array( nMenuH, 22 )
 LOCAL aMenuV   := {}
 
-IF !aPermissao[SCI_VENDEDORES]
-	Return( aDisp )
-EndIF
+if !aPermissao[SCI_VENDEDORES]
+	return( aDisp )
+endif
 
 Mensagem("Aguarde, Verificando Diretivas do CONTROLE DE VENDEDORES.")
-Return( aDisp := ReadIni("venlan", nMenuH, aMenuV, AtPrompt, aDisp, oVenLan))
+return( aDisp := ReadIni("venlan", nMenuH, aMenuV, AtPrompt, aDisp, oVenLan))
 
 *==================================================================================================================================
 
@@ -1909,10 +1909,10 @@ LOCAL nAtraso := 0
 
 oMenu:Limpa()
 lResumo := Conf("Pergunta: Imprimir somente Resumo ?")
-IF !Instru80() .OR. !LptOk()
+if !Instru80() .OR. !LptOk()
 	ResTela( cScreen )
-	Return
-EndIF
+	return
+endif
 Mensagem("Aguarde, Imprimindo.", Cor())
 Tam			  := 132
 Col			  := 59
@@ -1937,7 +1937,7 @@ AbreSpooler()
 PrintOn()
 FPrint( PQ )
 WHILE !Eof() .AND. REL_OK()
-	IF Col >=  57
+	if Col >=  57
 		Write( 00, 00, Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
 		Write( 01, 00, Date() )
 		Write( 02, 00, Padc( XNOMEFIR, Tam ) )
@@ -1947,34 +1947,34 @@ WHILE !Eof() .AND. REL_OK()
 		Write( 06, 00, "NOME DO CLIENTE                           EMISSAO  VENCTO ATRAS  N§ DOCTO  FATURA   CP    VLR FATURA  PERC   COM. TOTAL COM.LIBERADA")
 		Write( 07, 00, Repl( SEP, Tam ) )
 		Col := 08
-	EndIf
-	IF NovoCodiVen .OR. Col = 08
-		IF NovoCodiVen
+	endif
+	if NovoCodiVen .OR. Col = 08
+		if NovoCodiVen
 			NovoCodiVen := FALSO
-		EndIF
-		IF !lResumo
-			IF Col != 08
+		endif
+		if !lResumo
+			if Col != 08
 				Qout()
 				Col++
-			EndIF
+			endif
 			Qout( "VENDEDOR : " + CodiVen + " " + Vendedor->Nome )
 			Qout()
 			Col += 2
-		EndIF
-	EndIF
+		endif
+	endif
 	nComis		:= xTemp->Comdisp
 	nComisTotal := Round(( xTemp->Porc * xTemp->Vlr ) / 100, 2)
-	IF Empty( Vcto )
+	if Empty( Vcto )
 		nAtraso := 0
-	Else
+	else
 		nAtraso := ( Vcto - Data )
-	EndIF
-	IF !lResumo
+	endif
+	if !lResumo
 		Qout( Receber->Nome, Data, Vcto, Tran( nAtraso, '9999'), Docnr, Fatura, Forma->Forma, Tran( Vlr, "@E 99,999,999.99"), ;
 				Porc, Tran( nComisTotal, "@E 9,999,999.99" ),;
 				Tran( nComis, "@E 9,999,999.99" ))
 		Col++
-	EndIF
+	endif
 	nTotalComis += nComis
 	nGeralComis += nComis
 	nTotalValor += Vlr
@@ -1984,9 +1984,9 @@ WHILE !Eof() .AND. REL_OK()
 	UltCodiVen	:= CodiVen
 	cNome 		:= Vendedor->Nome
 	DbSkip(1)
-	IF UltCodiVen != CodiVen
+	if UltCodiVen != CodiVen
 		NovoCodiVen := OK
-		IF !lResumo
+		if !lResumo
 			Qout()
 			Qout("*** Total Vendedor *** ")
 			QQout( Space(64))
@@ -1995,7 +1995,7 @@ WHILE !Eof() .AND. REL_OK()
 			QQout( Tran( nTotal, 	  "@E 9,999,999.99" ) )
 			QQout( Space(01))
 			QQout( Tran( nTotalComis, "@E 9,999,999.99" ) )
-		Else
+		else
 			Qout( cNome )
 			QQout( Space(47))
 			QQout( Tran( nTotalValor, "@E 99,999,999.99" ) )
@@ -2003,17 +2003,17 @@ WHILE !Eof() .AND. REL_OK()
 			QQout( Tran( nTotal, 	  "@E 9,999,999.99" ) )
 			QQout( Space(01))
 			QQout( Tran( nTotalComis, "@E 9,999,999.99" ) )
-		EndIF
+		endif
 		nTotalValor := 0
 		nTotal		:= 0
 		nTotalComis := 0
 		Col++
-	EndIF
-	IF Col >= 57
+	endif
+	if Col >= 57
 		__Eject()
-	EndIF
+	endif
 EndDo
-IF nGeralValor != 0
+if nGeralValor != 0
 	Qout("***  Total Geral   *** ")
 	QQout( Space(64))
 	Qqout( Tran( nGeralValor, "@E 99,999,999.99" ) )
@@ -2022,10 +2022,10 @@ IF nGeralValor != 0
 	QQout( Space(01))
 	Qqout( Tran( nGeralComis, "@E 9,999,999.99" ) )
   __Eject()
-EndIF
+endif
 PrintOff()
 ResTela( cScreen )
-Return
+return
 
 Proc DemosImp( dIni, dFim, oBloco, oSkipper )
 *********************************************
@@ -2076,15 +2076,15 @@ FIELD Comissao
 FIELD Forma
 FIELD Regiao
 
-IF !Instru80()
+if !Instru80()
 	ResTela( cScreen )
-	Return
-EndIF
+	return
+endif
 Mensagem("Aguarde, Imprimindo")
 PrintOn()
 FPrint( PQ )
 While Eval( oBloco ) .AND. Rel_Ok()
-	IF Col >=  58
+	if Col >=  58
 		Write( 00, 00, Linha1( Tam, @Pagina))
 		Write( 01, 00, Linha2())
 		Write( 02, 00, Linha3(Tam))
@@ -2094,14 +2094,14 @@ While Eval( oBloco ) .AND. Rel_Ok()
 		Write( 06, 00,"CLIENTE/HISTORICO        DATA     VCTO ATR  FATURA    N§ DOCTO FP RG  PERC  VLR FATU  COMISSAO  COM.BLOQ  COM.DISP CREDITOS   ADIANT")
 		Write( 07, 00, Repl( SEP, Tam ) )
 		Col := 8
-	EndIF
-	IF Eval( oSkipper )
-		IF Col = 8
+	endif
+	if Eval( oSkipper )
+		if Col = 8
 			Write( 08, 00, NG + "VENDEDOR : " + CodiVen + " " + Vendedor->Nome + NR )
 			Qout()
 			Col := 10
-		EndIF
-		IF NovoCodiVen
+		endif
+		if NovoCodiVen
 			NovoCodiVen 	:= FALSO
 			nGdVlr			:= 0
 			nPrVlr			:= 0
@@ -2115,34 +2115,34 @@ While Eval( oBloco ) .AND. Rel_Ok()
 			nPrDebitos		:= 0
 			nGdCreditos 	:= 0
 			nPrCreditos 	:= 0
-		EndIf
+		endif
 		nComissao := 0
 		nComDisp  := 0
 		nComBloq  := 0
 		nDebitos  := 0
 		nCreditos := 0
-		IF Empty( Descricao )
+		if Empty( Descricao )
 			cStr0 	 := Left( Receber->Nome, 20 )
 			cStr1 	 := Vendemov->Fatura
 			cStr2 	 := Vendemov->Docnr
 			nComissao := Vendemov->Comissao
 			nComDisp  := Vendemov->ComDisp
 			nComBloq  := Vendemov->ComBloq
-		Else
+		else
 			cStr0 	 := Left( Vendemov->Descricao, 20 )
 			cStr1 	 := Vendemov->Fatura
 			cStr2 	 := Vendemov->Docnr
-			IF Dc = "D"
+			if Dc = "D"
 				nDebitos  := Vlr
-			Else
+			else
 				nCreditos := Vlr
-			EndIF
-		EndIF
-		IF Empty( Vendemov->Vcto )
+			endif
+		endif
+		if Empty( Vendemov->Vcto )
 			nAtraso := 0
-		Else
+		else
 			nAtraso := ( Vendemov->Vcto - Vendemov->Data )
-		EndIF
+		endif
 		Qout( cStr0, Data, Vcto, Tran( nAtraso,'999'), cStr1, cStr2, Forma, Regiao, Porc,;
 				Tran( Vlr,			 "@E 99,999.99"),;
 				Tran( nComissao,	 "@E 99,999.99"),;
@@ -2163,11 +2163,11 @@ While Eval( oBloco ) .AND. Rel_Ok()
 		nGdCreditos += nCreditos
 		nPrCreditos += nCreditos
 		Col++
-	EndIF
+	endif
 	UltCodiVen := CodiVen
 	DbSkip(1)
-	IF Col = 55 .OR. UltCodiVen != CodiVen
-		IF nPrVlr != 0
+	if Col = 55 .OR. UltCodiVen != CodiVen
+		if nPrVlr != 0
 			Qout( Repl( SEP, Tam ))
 			Qout( "** SubTotal **", Space(58),;
 			Tran( nPrVlr,		 "@E 999,999.99"),;
@@ -2185,10 +2185,10 @@ While Eval( oBloco ) .AND. Rel_Ok()
 			nLiquido 		:= ( nGdComissao + nGdCreditos ) - nGdDebitos
 			Col ++
 			Col ++
-		EndIF
-		IF UltCodiVen != CodiVen
+		endif
+		if UltCodiVen != CodiVen
 			NovoCodiVen := OK
-			IF nGdVlr != 0
+			if nGdVlr != 0
 				Qout( "** Total **", Space(61), ;
 				Tran( nGdVlr,		 "@E 999,999.99"),;
 				Tran( nGdComissao, "@E 99,999.99"),;
@@ -2201,17 +2201,17 @@ While Eval( oBloco ) .AND. Rel_Ok()
 				Col ++
 				Col ++
 				Col := 58
-			EndIF
-		EndIF
-		IF Col >= 55
+			endif
+		endif
+		if Col >= 55
 			Col := 58
 		  __Eject()
-		EndIF
-	EndIF
+		endif
+	endif
 EndDo
 PrintOff()
 ResTela( cScreen )
-Return
+return
 
 Proc VarreParcial()
 *******************
@@ -2239,15 +2239,15 @@ MaBox( 10, 10, 13, 40 )
 @ 11, 11 Say "Data Inicial.:" Get dIni Pict "##/##/##"
 @ 12, 11 Say "Data Final...:" Get dFim Pict "##/##/##"
 Read
-IF LastKey( ) = ESC
+if LastKey( ) = ESC
 	ResTela( cScreen )
-	Return
-EndIf
+	return
+endif
 ErrorBeep()
-IF !Conf("Pergunta: Confirma o ajuste das comissoes?")
+if !Conf("Pergunta: Confirma o ajuste das comissoes?")
 	ResTela( cScreen )
-	Return
-EndIF
+	return
+endif
 nComissao	:= 0
 nDebito		:= 0
 nCredito 	:= 0
@@ -2260,34 +2260,34 @@ Saidas->(Order( SAIDAS_FATURA ))
 Vendemov->(Order( VENDEMOV_FATURA ))
 Area("Nota")
 Nota->(Order( NOTA_DATA ))
-IF Nota->(DbSeek( dIni, OK ))
+if Nota->(DbSeek( dIni, OK ))
 	While Nota->(Eval( oBloco ))
 		Mensagem("Aguarde, Ajustando comissoes. Passo #1")
 		cFatura := Nota->Numero
-		If Vendemov->(DbSeek( cFatura ))
+		if Vendemov->(DbSeek( cFatura ))
 			Mensagem("Aguarde, Ajustando comissoes. Passo #2")
 			nConta := 0
 			While Vendemov->Fatura = cFatura
-				If nConta > 1 // Fatura dupla?
-					IF Vendemov->(Travareg())
+				if nConta > 1 // Fatura dupla?
+					if Vendemov->(Travareg())
 						Vendemov->(DbDelete())
 						Vendemov->(Libera())
 						Vendemov->(DbSkip(1))
 						Loop
-					EndIF
-				EndIF
-				If Saidas->(DbSeek( cFatura ))
-					IF Empty( Saidas->Codiven )
-						IF Vendemov->(Travareg())
+					endif
+				endif
+				if Saidas->(DbSeek( cFatura ))
+					if Empty( Saidas->Codiven )
+						if Vendemov->(Travareg())
 							Vendemov->(DbDelete())
 							Vendemov->(Libera())
 							Vendemov->(DbSkip(1))
 							Loop
-						EndIF
-					EndIF
-					IF Eval( oDados )
+						endif
+					endif
+					if Eval( oDados )
 						Mensagem("Aguarde, Ajustando comissoes. Passo #3")
-						IF Vendemov->(Travareg())
+						if Vendemov->(Travareg())
 							Vendemov->CodiVen  := Saidas->Codiven
 							Vendemov->Codi 	 := Saidas->Codi
 							Vendemov->Vlr		 := Saidas->VlrFatura
@@ -2303,17 +2303,17 @@ IF Nota->(DbSeek( dIni, OK ))
 							Vendemov->ComBloq  := 0
 							Vendemov->ComDisp  := 0
 							Vendemov->(Libera())
-						EndIF
-					EndIF
-				EndIF
+						endif
+					endif
+				endif
 				nConta ++
 				Vendemov->(DbSkip(1))
 			EndDo
-		Else
-			If Saidas->(DbSeek( cFatura ))
-				IF !Empty( Saidas->Codiven )
+		else
+			if Saidas->(DbSeek( cFatura ))
+				if !Empty( Saidas->Codiven )
 					Mensagem("Aguarde, Ajustando comissoes. Passo #4")
-					IF Vendemov->(Incluiu())
+					if Vendemov->(Incluiu())
 						Vendemov->CodiVen  := Saidas->Codiven
 						Vendemov->Codi 	 := Saidas->Codi
 						Vendemov->Vlr		 := Saidas->VlrFatura
@@ -2329,13 +2329,13 @@ IF Nota->(DbSeek( dIni, OK ))
 						Vendemov->ComBloq  := 0
 						Vendemov->ComDisp  := 0
 						Vendemov->(Libera())
-					EndIF
-				EndIF
-			EndIF
-		EndIf
+					endif
+				endif
+			endif
+		endif
 		Nota->(DbSkip(1))
 	EndDo
-EndIf
+endif
 
 Proc VarreGeral( lSim)
 **********************
@@ -2345,22 +2345,22 @@ LOCAL cFatura		:= ''
 LOCAL nConta
 LOCAL nRecno
 
-If lSim = NIL
+if lSim = NIL
    oMenu:Limpa()
    ErrorBeep()
-   IF !Conf("Pergunta: A tarefa pode ser extremamente demorada. Continuar ?")
+   if !Conf("Pergunta: A tarefa pode ser extremamente demorada. Continuar ?")
       ResTela( cScreen )
-      Return
-   EndIF
-EndIF
+      return
+   endif
+endif
 oMenu:Limpa()
 Area("Vendemov")
-IF Vendemov->(!TravaArq())
+if Vendemov->(!TravaArq())
 	ErrorBeep()
 	Alerta("Erro: Nao consigo travar o arquivo de comissoes.")
 	Restela( cScreen )
-	Return
-EndIF
+	return
+endif
 oMenu:Limpa()
 ErrorBeep()
 Mensagem("Aguarde, Preparando Arquivo. Passo #1 de 3")
@@ -2379,9 +2379,9 @@ ErrorBeep()
 Mensagem("Aguarde, Re-Lancando comissoes. Passo #3 de 3")
 While Nota->(!Eof())
 	cFatura := Nota->Numero
-	If Saidas->(DbSeek( cFatura ))
-		IF !Empty( Saidas->Codiven )
-			IF Vendemov->(Incluiu())
+	if Saidas->(DbSeek( cFatura ))
+		if !Empty( Saidas->Codiven )
+			if Vendemov->(Incluiu())
 				Vendemov->CodiVen  := Saidas->Codiven
 				Vendemov->Codi 	 := Saidas->Codi
 				Vendemov->Vlr		 := Saidas->VlrFatura
@@ -2397,9 +2397,9 @@ While Nota->(!Eof())
 				Vendemov->ComBloq  := 0
 				Vendemov->ComDisp  := 0
 				Vendemov->(Libera())
-			EndIF
-		EndIF
-	EndIF
+			endif
+		endif
+	endif
 	Nota->(DbSkip(1))
 EndDo
 oMenu:Limpa()
@@ -2421,44 +2421,44 @@ WHILE OK
 	Do Case
 	Case Choice = 0
 		ResTela( cScreen )
-      Return
+      return
 
 	Case Choice = 1
 		MaBox( 16, 10, 19, 76 )
 		@ 17, 11 Say "Vendedor.........:" Get cCodi Pict "@!" Valid FunErrado( @cCodi, NIL, Row(), Col()+1 )
 		@ 18, 11 Say "Limpar at‚ o dia.:" Get dIni  Pict "##/##/##"
 		Read
-		IF LastKey() = ESC
+		if LastKey() = ESC
 			ResTela( cScreen )
-			Return
-		EndIF
+			return
+		endif
 		oBloco := {|| Saidas->Codiven = cCodi .AND. Saidas->Emis <= dIni}
       Exit
 	Case Choice = 2
 		MaBox( 16, 10, 18, 76 )
 		@ 17, 11 Say "Limpar at‚ o dia.:" Get dIni  Pict "##/##/##"
 		Read
-		IF LastKey() = ESC
+		if LastKey() = ESC
 			ResTela( cScreen )
-			Return
-		EndIF
+			return
+		endif
       oBloco := {|| Saidas->Emis <= dIni }
       Exit
 	EndCase
 EndDo
 ErrorBeep()
-IF !Conf("Pergunta: A tarefa pode ser extremamente demorada. Continuar ?")
+if !Conf("Pergunta: A tarefa pode ser extremamente demorada. Continuar ?")
 	ResTela( cScreen )
-	Return
-EndIF
+	return
+endif
 oMenu:Limpa()
 Area("Saidas")
-IF Saidas->(!TravaArq())
+if Saidas->(!TravaArq())
 	ErrorBeep()
 	Alerta("Erro: Nao consigo travar o arquivo SAIDAS")
 	Restela( cScreen )
-	Return
-EndIF
+	return
+endif
 ErrorBeep()
 Mensagem("Aguarde, Preparando Arquivo. Passo #1 de 1")
 DBEval( {|| _FIELD->saidas->codiven := Space(04), _FIELD->Saidas->Porc := 0}, oBloco,,,, .F. )
@@ -2483,26 +2483,26 @@ LOCAL oSkipper
 
 M_Title("AJUSTAR COMISSAO")
 nChoice := FazMenu( 10, 10, aArrayMenu, Cor())
-IF nChoice = 0
+if nChoice = 0
 	ResTela( cScreen )
-	Return
-ElseIF nChoice  = 1
+	return
+elseif nChoice  = 1
 	Area("Vendemov")
 	Vendemov->(Order( VENDEMOV_CODIVEN_DATA ))
 	cCodiVen := Space(4)
 	MaBox( 16, 10, 18, 79 )
 	@ 17, 11 Say "Codigo.......:" Get cCodiVen Pict "9999" Valid FunErrado( @cCodiven, NIL, Row(), Col()+1 )
 	Read
-	IF LastKey( ) = ESC
+	if LastKey( ) = ESC
 		ResTela( cScreen )
-		Return
-	EndIf
+		return
+	endif
 	oMenu:Limpa()
 	ErrorBeep()
-	IF !Conf("Pergunta: Confirma o ajuste da comissao deste vendedor?")
+	if !Conf("Pergunta: Confirma o ajuste da comissao deste vendedor?")
 		ResTela( cScreen )
-		Return
-	EndIF
+		return
+	endif
 	nComissao	:= 0
 	nDebito		:= 0
 	nCredito 	:= 0
@@ -2511,41 +2511,41 @@ ElseIF nChoice  = 1
 	Mensagem("Aguarde o termino do ajuste individual de comissao.")
 	Area("Vendemov")
 	Vendemov->(Order( VENDEMOV_CODIVEN ))
-	IF Vendemov->(DbSeek( cCodiVen ))
+	if Vendemov->(DbSeek( cCodiVen ))
 		oBloco	 := {|| Vendemov->CodiVen = cCodiven .AND. Vendemov->(!Eof()) .AND. Rel_Ok() }
 		nComissao := EvalComissao( cCodiven, oBloco, @nCredito, @nDebito )
-	EndIF
+	endif
 	Recemov->(Order( RECEMOV_CODIVEN ))
-	IF Recemov->(DbSeek( cCodiVen ))
+	if Recemov->(DbSeek( cCodiVen ))
 		While Recemov->CodiVen = cCodiven
-			IF Recemov->Comissao // Liberar Comissao ?
+			if Recemov->Comissao // Liberar Comissao ?
 				nComis_Bloq += Round(( Recemov->Vlr * Recemov->Porc ) / 100,2 )
-			EndIF
+			endif
 			Recemov->(DbSkip(1))
 		EndDo
-	EndIf
+	endif
 	Vendedor->(Order( VENDEDOR_CODIVEN ))
-	IF Vendedor->(DbSeek( cCodiVen ))
+	if Vendedor->(DbSeek( cCodiVen ))
 		nComissao	:= ((nComissao + nCredito ) - nDebito )
 		nComis_Disp := ( nComissao - nComis_Bloq )
-		IF Vendedor->(TravaReg())
+		if Vendedor->(TravaReg())
 			Vendedor->Comissao := nComissao
 			Vendedor->ComBloq  := nComis_Bloq
 			Vendedor->ComDisp  := nComis_Disp
 			Vendedor->(Libera())
-		EndIF
-	EndIF
+		endif
+	endif
 	oMenu:Limpa()
 	ErrorBeep()
 	Alerta('Ajuste individual de Comissao. Tarefa efetuada.')
 
-ElseIf nChoice = 2
+elseif nChoice = 2
 	oMenu:Limpa()
 	ErrorBeep()
-	IF !Conf("Pergunta: Confirma o ajuste geral das comissoes?")
+	if !Conf("Pergunta: Confirma o ajuste geral das comissoes?")
 		ResTela( cScreen )
-		Return
-	EndIF
+		return
+	endif
 	Mensagem("Aguarde o termino do ajuste geral das comissoes.")
 	Vendedor->(Order( VENDEDOR_CODIVEN ))
 	Vendedor->(DbGoTop())
@@ -2557,35 +2557,35 @@ ElseIf nChoice = 2
 		nComis_Disp := 0
 		cCodiVen 	:= Vendedor->Codiven
 		Vendemov->(Order( VENDEMOV_CODIVEN ))
-		IF Vendemov->(DbSeek( cCodiVen ))
+		if Vendemov->(DbSeek( cCodiVen ))
 			oBloco	 := {|| Vendemov->CodiVen = cCodiven .AND. Vendemov->(!Eof()) .AND. Rel_Ok() }
 			nComissao := EvalComissao( cCodiven, oBloco, @nDebito, @nCredito )
-		EndIF
+		endif
 		Recemov->(Order( RECEMOV_CODIVEN ))
-		IF Recemov->(DbSeek( cCodiVen ))
+		if Recemov->(DbSeek( cCodiVen ))
 			While Recemov->CodiVen = cCodiven
-				IF Recemov->Comissao // Liberar Comissao ?
+				if Recemov->Comissao // Liberar Comissao ?
 					nComis_Bloq += Round(( Recemov->Vlr * Recemov->Porc ) / 100,2 )
-				EndIF
+				endif
 				Recemov->(DbSkip(1))
 			EndDo
-		EndIF
+		endif
 		nComissao	:= ((nComissao + nCredito ) - nDebito )
 		nComis_Disp := ( nComissao - nComis_Bloq )
-		IF Vendedor->(TravaReg())
+		if Vendedor->(TravaReg())
 			Vendedor->Comissao := nComissao
 			Vendedor->ComBloq  := nComis_Bloq
 			Vendedor->ComDisp  := nComis_Disp
 			Vendedor->(Libera())
-		EndIF
+		endif
 		Vendedor->(DbSkip(1))
 	EndDo
 	oMenu:Limpa()
 	ErrorBeep()
 	Alerta('Ajuste geral de Comissoes. Tarefa efetuada.')
-EndIF
+endif
 ResTela( cScreen )
-Return
+return
 
 Function EvalComissao( cCodiven, oBloco, nCredito, nDebito )
 ************************************************************
@@ -2593,14 +2593,14 @@ LOCAL nRecno	 := 0
 LOCAL nComissao := 0
 
 While Vendemov->Codiven = cCodiven .AND. Eval( oBloco )
-	IF !Empty( Vendemov->Descricao )
-		IF Vendemov->Dc = "C"
+	if !Empty( Vendemov->Descricao )
+		if Vendemov->Dc = "C"
 			nCredito += Vendemov->Vlr
-		Else
+		else
 			nDebito	+= Vendemov->Vlr
-		EndIF
-	EndIF
+		endif
+	endif
 	nComissao += Round(( Vendemov->Vlr * Vendemov->Porc ) / 100,2)
 	Vendemov->(DbSkip(1))
 EndDo
-Return( nComissao )
+return( nComissao )

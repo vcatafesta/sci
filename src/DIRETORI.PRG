@@ -1,12 +1,27 @@
-#include "Fileman.ch"
-#include "Directry.ch"
-#include "Inkey.ch"
-#include "Memoedit.ch"
-#include "Achoice.ch"
+/*
+  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ?
+ Ý³																								 ?
+ Ý³	Modulo.......: DIRETORI.PRG		  												 ?
+ Ý³	Sistema......: AUXILIAR CONTROLE DE CONTROLE DE ESTOQUE	             ?
+ Ý³	Aplicacao....: SCI - SISTEMA COMERCIAL INTEGRADO                      ?
+ Ý³	Versao.......: 8.5.00							                            ?
+ Ý³	Programador..: Vilmar Catafesta				                            ?
+ Ý³   Empresa......: Macrosoft Informatica Ltda                             ?
+ Ý³	Inicio.......: 12.11.1991 						                            ?
+ Ý³   Ult.Atual....: 12.04.2018                                             ?
+ Ý³   Compilador...: Harbour 3.2/3.4                                        ?
+ Ý³   Linker.......: BCC/GCC/MSCV                                           ?
+ Ý³	Bibliotecas..:  									                            ?
+ ÝÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+ ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+*/
 
-Function Diretorio( nRowTop, nColumnTop, nRowBottom, ;
-                  cColorString, cDefaultPath )
-*****************************************************
+#include <sci.ch>
+
+*:==================================================================================================================================
+
+Function Diretorio( nRowTop, nColumnTop, nRowBottom, cColorString, cDefaultPath )
+*********************************************************************************
 Local lSetScore
 MEMVAR GetList
 PUBL aFileMan, aFileList
@@ -22,51 +37,51 @@ PUBL nEl, nRel, lReloadDir, nFileItem
    aFileMan    := {}
    aFileList   := {}
    aFileMan    := ARRAY( FM_ELEMENTS )
-   IF nRowTop  = NIL
+   if nRowTop  = NIL
       nRowTop  := 0
 
-   ELSE
-      IF nRowTop > (MaxRow() - 7)
+   else
+      if nRowTop > (MaxRow() - 7)
          nRowTop := MaxRow() - 7
 
-      EndIf
-   EndIf
+      endif
+   endif
    aFileMan[ FM_ROWTOP ] := nRowTop
-   IF nColumnTop = NIL
+   if nColumnTop = NIL
       nColumnTop := 0
 
-   ELSE
-      IF nColumnTop > (MaxCol() - 52)
+   else
+      if nColumnTop > (MaxCol() - 52)
          nColumnTop := MaxRow() - 52
 
-      EndIf
+      endif
 
-   EndIf
+   endif
    aFileMan[ FM_COLTOP ] := nColumnTop
 
-   IF nRowBottom = NIL
+   if nRowBottom = NIL
       nRowBottom := 0
 
-   ELSE
-      IF nRowBottom > MaxRow()
+   else
+      if nRowBottom > MaxRow()
          nRowBottom := MaxRow()
 
-      EndIf
-   EndIf
+      endif
+   endif
    aFileMan[ FM_ROWBOTTOM ] := nRowBottom
    aFileMan[ FM_COLBOTTOM ] := nColumnTop + 51
 
-   IF cColorString = NIL
+   if cColorString = NIL
       cColorString := SetColor()
 
-   EndIf
+   endif
    aFileMan[ FM_COLOR ] := cColorString
 
-   IF cDefaultPath = NIL
+   if cDefaultPath = NIL
       cDefaultPath := FCURDIR() + "\*.*"
       cDefaultPath := STRTRAN( cDefaultPath, "\\", "\" )
 
-   EndIf
+   endif
    aFileMan[ FM_PATH ] := cDefaultPath
    aFileMan[ FM_OLDCOLOR ] := SetColor( aFileMan[ FM_COLOR ] )
    aFileMan[ FM_OLDSELECT ] := SELECT()
@@ -86,7 +101,7 @@ PUBL nEl, nRel, lReloadDir, nFileItem
    SetColor( aFileMan[ FM_OLDCOLOR ] )
    SET( _SET_SCOREBOARD, lSetScore )
    SELECT ( aFileMan[ FM_OLDSELECT ] )
-   RETURN( aFileMan[ FM_RETURNFILE ] )
+   return( aFileMan[ FM_returnFILE ] )
 
 Static Function GetFiles
 ************************
@@ -95,31 +110,31 @@ Static Function GetFiles
    Local nLastKey    := 0
 
    DO WHILE !lDone
-      IF lReloadDir
+      if lReloadDir
          nEl   := 1
          nRel  := 1
-         IF !LoadFiles()
+         if !LoadFiles()
             ErrorBeep()
             Message( "Erro: Arquivos nao Encontrados!..." )
             InKey( 0 )
-            IF YesOrNo( "Mudar de path? (S/N)", "S" )
+            if YesOrNo( "Mudar de path? (S/N)", "S" )
                GetNewPath( aFileMan[ FM_PATH ] )
-               IF LASTKEY() == K_ESC
+               if LASTKEY() == K_ESC
                   lDone := .T.
 
-               ELSE
+               else
                   LOOP
 
-               EndIf
-            ELSE
+               endif
+            else
                lDone := .T.
 
-            EndIf
-         ELSE
+            endif
+         else
             lReloadDir := .F.
 
-         EndIf
-      EndIf
+         endif
+      endif
       TabUpdate( hScrollBar, nEl, LEN( aFileList ), .T. )
       nCurrent := ACHOICE( aFileMan[ FM_ROWTOP ] + 3, ;
                            aFileMan[ FM_COLTOP ] + 2, ;
@@ -137,27 +152,27 @@ Static Function GetFiles
 
          CASE nLastKey == K_RIGHT
             nMenuItem++
-            IF nMenuItem > 6
+            if nMenuItem > 6
                ErrorBeep()
                nMenuItem := 6
 
-            EndIf
+            endif
             DisplayMenu()
 
          CASE nLastKey == K_LEFT
             nMenuItem--
-            IF nMenuItem < 1
+            if nMenuItem < 1
                ErrorBeep()
                nMenuItem := 1
-            EndIf
+            endif
             DisplayMenu()
 
          CASE nLastKey == K_ESC
-            aFileMan[ FM_RETURNFILE ] := ""
+            aFileMan[ FM_returnFILE ] := ""
             lDone := .T.
 
          CASE nLastKey == K_ENTER
-            aFileMan[ FM_RETURNFILE ] := ;
+            aFileMan[ FM_returnFILE ] := ;
                      SUBSTR( aFileMan[ FM_PATH ], 1, ;
                      RAT( "\", aFileMan[ FM_PATH ] ) ) + ;
                      TRIM( SUBSTR( aFileList[ nCurrent ], 1, 12 ) )
@@ -179,11 +194,11 @@ Static Function GetFiles
                   PrintFile()
 
                CASE nMenuItem == MN_OPEN
-                  IF AT( '<DIR>', aFileList[ nFileItem ] ) = 0
+                  if AT( '<DIR>', aFileList[ nFileItem ] ) = 0
                      lDone := .T.
-                  ELSE
+                  else
                      LookAtFile()
-                  EndIf
+                  endif
 
             ENDCASE
 
@@ -197,28 +212,28 @@ Static Function GetFiles
             UnTagAllFiles()
 
          CASE nLastKey == K_SPACE
-            IF AT( "D", SUBSTR( aFileList[ nCurrent ], 43, 6 ) ) == 0
-               IF SUBSTR( aFileList[ nCurrent ], 14, 1 ) == " "
+            if AT( "D", SUBSTR( aFileList[ nCurrent ], 43, 6 ) ) == 0
+               if SUBSTR( aFileList[ nCurrent ], 14, 1 ) == " "
                   aFileList[ nCurrent ] := STUFF( aFileList[ nCurrent ], ;
                                            14, 1, FM_CHECK )
                   nTagged++
-               ELSE
+               else
                   aFileList[ nCurrent ] := STUFF( aFileList[ nCurrent ], ;
                                            14, 1, " " )
                   nTagged--
-               EndIf
-            EndIf
+               endif
+            endif
 
       ENDCASE
    ENDDO
 
-   RETURN NIL
+   return NIL
 
 Static Function LoadFiles
 *************************
    Local aDirectory := {}
    Local nItem := 0
-   Local lReturnValue := .T.
+   Local lreturnValue := .T.
    Local nNumberOfItems := 0
    Local cFileString := ""
 
@@ -227,18 +242,18 @@ Static Function LoadFiles
      aFileMan[ FM_ROWBOTTOM ] - 3, aFileMan[ FM_COLBOTTOM ] - 4
 
    aDirectory := DIRECTORY( aFileMan[ FM_PATH ], "D" )
-   nNumberOfItems := IF( VALTYPE( aDirectory ) != "A", 0, LEN( aDirectory ) )
+   nNumberOfItems := if( VALTYPE( aDirectory ) != "A", 0, LEN( aDirectory ) )
    aFileList := {}
-   IF nNumberOfItems < 1
-      lReturnValue := .F.
+   if nNumberOfItems < 1
+      lreturnValue := .F.
 
-   ELSE
+   else
       Message( "Sorteando o Diretorio Corrente..." )
       ASORT( aDirectory,,, { | x, y | x[ F_NAME ] < y[ F_NAME ] } )
       Message( "Processando o Diretorio Corrente..." )
       FOR nItem := 1 TO nNumberOfItems
          AADD( aFileList, PADR( aDirectory[ nItem, F_NAME ], 15 ) + ;
-                          IF( SUBSTR( aDirectory[ nItem, F_ATTR ], ;
+                          if( SUBSTR( aDirectory[ nItem, F_ATTR ], ;
                           1, 1 ) == "D", "   <DIR>", ;
                           STR( aDirectory[ nItem, F_SIZE ], 8 ) ) + "  " + ;
                           DTOC( aDirectory[ nItem, F_DATE ] ) + "  " + ;
@@ -246,13 +261,13 @@ Static Function LoadFiles
                           SUBSTR( aDirectory[ nItem, F_ATTR ], 1, 4 ) + "  " )
       NEXT
 
-   EndIf
+   endif
    Message( aFileMan[ FM_PATH ] )
-   Return( lReturnValue )
+   return( lreturnValue )
 
 Function ProcessKey( nStatus, nElement, nRelative )
 ***************************************************
-   Local nReturnValue := AC_CONT
+   Local nreturnValue := AC_CONT
    nEl  := nElement
    nRel := nRelative
    DO CASE
@@ -266,31 +281,31 @@ Function ProcessKey( nStatus, nElement, nRelative )
    CASE nStatus == AC_EXCEPT
       DO CASE
       CASE LASTKEY() == K_ESC
-         nReturnValue := AC_ABORT
+         nreturnValue := AC_ABORT
 
       CASE LASTKEY() == K_HOME
          KEYBOARD CHR( K_CTRL_PGUP )
-         nReturnValue := AC_CONT
+         nreturnValue := AC_CONT
 
       CASE LASTKEY() == K_END
          KEYBOARD CHR( K_CTRL_PGDN )
-         nReturnValue := AC_CONT
+         nreturnValue := AC_CONT
 
       CASE LASTKEY() == K_LEFT .OR. LASTKEY() == K_RIGHT
-         nReturnValue := AC_SELECT
+         nreturnValue := AC_SELECT
 
       CASE UPPER(CHR(LASTKEY())) $ ;
          "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 " .OR. ;
          LASTKEY() == K_DEL .OR. LASTKEY() == K_ENTER .OR. ;
          LASTKEY() == K_F5 .OR. LASTKEY() == K_F6
 
-         nReturnValue := AC_SELECT
+         nreturnValue := AC_SELECT
 
       ENDCASE
 
    ENDCASE
 
-   RETURN (nReturnValue)
+   return (nreturnValue)
 
 Static Function Message( cString )
 **********************************
@@ -301,7 +316,7 @@ Static Function Message( cString )
 
    SetColor( cOldColor )
 
-   RETURN NIL
+   return NIL
 
 Static Function GetNewPath( cPath )
 ***********************************
@@ -314,19 +329,19 @@ Static Function GetNewPath( cPath )
 
    cPath := LTRIM(TRIM(cPath))
 
-   IF RIGHT( cPath, 1 ) == "\"
+   if RIGHT( cPath, 1 ) == "\"
       cPath += "*.*"
-   EndIf
-   IF RIGHT( cPath, 1 ) == ":"
+   endif
+   if RIGHT( cPath, 1 ) == ":"
       cPath += "\*.*"
-   EndIf
+   endif
 
    aFileMan[ FM_PATH ] := cPath
 
    Message( cPath )
 
    SetColor( cOldColor )
-   RETURN( TRIM( cPath ) )
+   return( TRIM( cPath ) )
 
 Static Function YesOrNo( cMessage, cDefault )
 *********************************************
@@ -339,10 +354,10 @@ Static Function YesOrNo( cMessage, cDefault )
          cDefault PICTURE "!"
    READ
 
-   lYesOrNo := IF( cDefault == "S", .T., .F. )
+   lYesOrNo := if( cDefault == "S", .T., .F. )
    SetColor( cOldColor )
 
-   RETURN (lYesOrNo)
+   return (lYesOrNo)
 
 Static Function ClearMessage
 ****************************
@@ -352,7 +367,7 @@ Static Function ClearMessage
 
    SetColor( cOldColor )
 
-   RETURN NIL
+   return NIL
 
 Static Function CreateScreen()
 ******************************
@@ -398,7 +413,7 @@ Static Function CreateScreen()
 
    DisplayMenu()
 
-   RETURN NIL
+   return NIL
 
 Static Function DisplayMenu
 ***************************
@@ -440,7 +455,7 @@ Static Function DisplayMenu
 
    SetColor( cOldColor )
 
-   RETURN NIL
+   return NIL
 
 
 Static Function TabNew( nTopRow, nTopColumn, nBottomRow, ;
@@ -453,17 +468,17 @@ Static Function TabNew( nTopRow, nTopColumn, nBottomRow, ;
    aTab[ TB_ROWBOTTOM ] := nBottomRow
    aTab[ TB_COLBOTTOM ] := nTopColumn
 
-   IF cColorString == NIL
+   if cColorString == NIL
 	  cColorString := "W/N"
-   EndIf
+   endif
    aTab[ TB_COLOR ] 	:= cColorString
 
-   IF nInitPosition == NIL
+   if nInitPosition == NIL
 	  nInitPosition := 1
-   EndIf
+   endif
    aTab[ TB_POSITION ]	:= nInitPosition
 
-   RETURN aTab
+   return aTab
 
 
 Static Function TabDisplay( aTab )
@@ -481,7 +496,7 @@ Static Function TabDisplay( aTab )
 
    SetColor( cOldColor )
 
-   RETURN aTab
+   return aTab
 
 
 Static Function TabUpdate( aTab, nCurrent, nTotal, lForceUpdate )
@@ -489,41 +504,41 @@ Static Function TabUpdate( aTab, nCurrent, nTotal, lForceUpdate )
    Local cOldColor, nNewPosition
    Local nScrollHeight := (aTab[TB_ROWBOTTOM]-1)-(aTab[TB_ROWTOP])
 
-   IF nTotal < 1
+   if nTotal < 1
 	  nTotal := 1
-   EndIf
+   endif
 
-   IF nCurrent < 1
+   if nCurrent < 1
 	  nCurrent := 1
-   EndIf
+   endif
 
-   IF nCurrent > nTotal
+   if nCurrent > nTotal
 	  nCurrent := nTotal
-   EndIf
+   endif
 
-   IF lForceUpdate == NIL
+   if lForceUpdate == NIL
 	  lForceUpdate := .F.
-   EndIf
+   endif
 
    cOldColor := SetColor( aTab[ TB_COLOR ] )
 
    nNewPosition := ROUND( (nCurrent / nTotal) * nScrollHeight, 0 )
 
-   nNewPosition := IF( nNewPosition < 1, 1, nNewPosition )
-   nNewPosition := IF( nCurrent == 1, 1, nNewPosition )
-   nNewPosition := IF( nCurrent >= nTotal, nScrollHeight, nNewPosition )
+   nNewPosition := if( nNewPosition < 1, 1, nNewPosition )
+   nNewPosition := if( nCurrent == 1, 1, nNewPosition )
+   nNewPosition := if( nCurrent >= nTotal, nScrollHeight, nNewPosition )
 
-   IF nNewPosition <> aTab[ TB_POSITION ] .OR. lForceUpdate
+   if nNewPosition <> aTab[ TB_POSITION ] .OR. lForceUpdate
 	  @ (aTab[ TB_POSITION ] + aTab[ TB_ROWTOP ]), aTab[ TB_COLTOP ] SAY ;
 		TB_BACKGROUND
 	  @ (nNewPosition + aTab[ TB_ROWTOP ]), aTab[ TB_COLTOP ] SAY;
 		TB_HIGHLIGHT
 	  aTab[ TB_POSITION ] := nNewPosition
-   EndIf
+   endif
 
    SetColor( cOldColor )
 
-   RETURN aTab
+   return aTab
 
 
 Static Function UpPath( cPath )
@@ -535,18 +550,14 @@ Static Function UpPath( cPath )
    cPath     := LEFT( cPath, RAT( "\", cPath ) )
    cPath     += cFileSpec
 
-   RETURN (cPath)
-
-Static Function GetFileExtension( cFile )
-*****************************************
-   RETURN( UPPER( SUBSTR( cFile, AT( ".", cFile ) + 1, 3 ) ) )
+   return (cPath)
 
 Static Function LookAtFile
 **************************
    Local cExtension := ""
    Local cOldScreen := SaveScreen( 0, 0, MaxRow(), MaxCol() )
 
-   IF AT( "D", SUBSTR( aFileList[ nFileItem ], 43, 6 ) ) <> 0
+   if AT( "D", SUBSTR( aFileList[ nFileItem ], 43, 6 ) ) <> 0
       DO CASE
       CASE SUBSTR( aFileList[ nFileItem ], 1, 3 ) == ".  "
          GetNewPath( aFileMan[ FM_PATH ] )
@@ -560,22 +571,22 @@ Static Function LookAtFile
             TRIM(SUBSTR(aFileList[nFileItem],1,12)) + "\*.*")
       ENDCASE
       lReloadDir := .T.
-   ELSE
+   else
       cExtension := GetFileExtension( SUBSTR(aFileList[nFileItem],1,12) )
 
       DO CASE
       CASE cExtension == "DBF"
-         DBFViewer( aFileMan[ FM_RETURNFILE ] )
+         DBFViewer( aFileMan[ FM_returnFILE ] )
 
       OTHERWISE
-         OlharGenerico( aFileMan[ FM_RETURNFILE ] )
+         OlharGenerico( aFileMan[ FM_returnFILE ] )
 
       ENDCASE
 
       RestScreen( 0, 0, MaxRow(), MaxCol(), cOldScreen )
 
-   EndIf
-   RETURN NIL
+   endif
+   return NIL
 
 Static Function CopyFile
 ************************
@@ -590,22 +601,22 @@ Static Function CopyFile
                                    aFileMan[ FM_COLTOP ] + 2,;
                                    aFileMan[ FM_ROWTOP ] + 6,;
                                    aFileMan[ FM_COLTOP ] + 51 )
-   IF AT( "<DIR>", aFileList[ nFileItem ] ) = 0
+   if AT( "<DIR>", aFileList[ nFileItem ] ) = 0
       ErrorBeep()
-      IF nTagged > 0
-         IF YesOrNo( "Copiar Arquivos Marcados ? (S/N)", "N" )
+      if nTagged > 0
+         if YesOrNo( "Copiar Arquivos Marcados ? (S/N)", "N" )
             lKeepGoing := .T.
 
-         EndIf
-      ELSE
+         endif
+      else
          @ aFileMan[ FM_ROWTOP ] + 3 + nRel, aFileMan[ FM_COLTOP ] + 1 SAY;
            CHR( 16 )
          @ aFileMan[ FM_ROWTOP ] + 3 + nRel, aFileMan[ FM_COLBOTTOM ] - 3 SAY;
            CHR( 17 )
-         IF YesOrNo( "Copiar Este Arquivo ? (S/N)", "N" )
+         if YesOrNo( "Copiar Este Arquivo ? (S/N)", "N" )
             lKeepGoing := .T.
-         EndIf
-      EndIf
+         endif
+      endif
 
       ClearMessage()
 
@@ -620,9 +631,9 @@ Static Function CopyFile
                               TRIM( SUBSTR( aFileList[ nFileItem ], 1, 12 ) ),;
                               45 )
 
-      IF lKeepGoing
+      if lKeepGoing
 
-         IF nTagged > 0
+         if nTagged > 0
 
             cNewName := PADR( SUBSTR( aFileMan[ FM_PATH ], 1, RAT( "\", ;
                                 aFileMan[ FM_PATH ] ) ), 45 )
@@ -631,13 +642,13 @@ Static Function CopyFile
             @ aFileMan[ FM_ROWTOP ]+5, aFileMan[ FM_COLTOP ]+4 GET;
               cNewName PICTURE "@!@S46@K"
             READ
-            IF LASTKEY() <> K_ESC
+            if LASTKEY() <> K_ESC
                cNewName := TRIM( cNewName )
-               IF RIGHT( cNewName, 1 ) <> "\"
+               if RIGHT( cNewName, 1 ) <> "\"
                   cNewName += "\"
-               EndIf
+               endif
                FOR nCurrent := 1 TO LEN( aFileList )
-                  IF SUBSTR( aFileList[ nCurrent ], 14, 1 ) == FM_CHECK
+                  if SUBSTR( aFileList[ nCurrent ], 14, 1 ) == FM_CHECK
                      cCurrentFile := SUBSTR( aFileMan[ FM_PATH ], 1, ;
                                      RAT( "\", aFileMan[ FM_PATH ])) + ;
                                      TRIM( SUBSTR( aFileList[ nCurrent ], 1, 12))
@@ -649,42 +660,42 @@ Static Function CopyFile
                                               14, 1, " " )
                      nTagged--
                      nCount++
-                     IF InKey() = K_ESC
+                     if InKey() = K_ESC
                         EXIT
-                     EndIf
-                  EndIf
+                     endif
+                  endif
                NEXT
                @ aFileMan[ FM_ROWTOP ] + 4, aFileMan[ FM_COLTOP ] + 3 CLEAR TO ;
                  aFileMan[ FM_ROWTOP ] + 5, aFileMan[ FM_COLTOP ] + 50
                @ aFileMan[ FM_ROWTOP ]+4, aFileMan[ FM_COLTOP ]+4 SAY;
-                 LTRIM(STR( nCount )) + IF( nCount > 1, " Arquivos Copiados.  ", ;
+                 LTRIM(STR( nCount )) + if( nCount > 1, " Arquivos Copiados.  ", ;
                                         " Arquivo Copiado.  " ) + "Tecle Algo..."
                InKey(0)
-            EndIf
-         ELSE
+            endif
+         else
             @ aFileMan[ FM_ROWTOP ]+4, aFileMan[ FM_COLTOP ]+4 SAY;
               "Copiar Arquivo Corrente Para..."
             @ aFileMan[ FM_ROWTOP ]+5, aFileMan[ FM_COLTOP ]+4 GET;
               cNewName PICTURE "@!@S46@K"
             READ
-            IF LASTKEY() <> K_ESC
-               IF RIGHT( cNewName, 1 ) == "\"
+            if LASTKEY() <> K_ESC
+               if RIGHT( cNewName, 1 ) == "\"
                   cNewName += TRIM( SUBSTR( cOldName, RAT( "\", cOldName) ;
                               + 1, 12 ))
-               EndIf
+               endif
                COPY FILE ( cOldName ) TO ( cNewName )
                @ aFileMan[ FM_ROWTOP ] + 4, aFileMan[ FM_COLTOP ] + 3 CLEAR TO ;
                  aFileMan[ FM_ROWTOP ] + 5, aFileMan[ FM_COLTOP ] + 50
                @ aFileMan[ FM_ROWTOP ]+4, aFileMan[ FM_COLTOP ]+4 SAY;
                  "1 Arquivo Copiado. Tecle Algo..."
                InKey(0)
-            EndIf
+            endif
 
-         EndIf
+         endif
 
          lReloadDir := .T.
-      EndIf
-   EndIf
+      endif
+   endif
 
 
    RestScreen( aFileMan[ FM_ROWTOP ] + 3, ;
@@ -698,7 +709,7 @@ Static Function CopyFile
    @ aFileMan[ FM_ROWTOP ] + 3 + nRel, aFileMan[ FM_COLBOTTOM ] - 3 SAY;
      CHR( 32 )
 
-   RETURN NIL
+   return NIL
 
 Static Function RenameFile
 **************************
@@ -708,7 +719,7 @@ Static Function RenameFile
                                    aFileMan[ FM_ROWTOP ] + 6,;
                                    aFileMan[ FM_COLTOP ] + 51 )
 
-   IF AT( "<DIR>", aFileList[ nFileItem ] ) = 0
+   if AT( "<DIR>", aFileList[ nFileItem ] ) = 0
 
       @ aFileMan[ FM_ROWTOP ] + 3, aFileMan[ FM_COLTOP ] + 2, ;
         aFileMan[ FM_ROWTOP ] + 6, aFileMan[ FM_COLTOP ] + 51 BOX;
@@ -728,8 +739,8 @@ Static Function RenameFile
         cNewName PICTURE "@!@S43@K"
       READ
 
-      IF LASTKEY() <> K_ESC
-         IF FILE( cNewName )
+      if LASTKEY() <> K_ESC
+         if FILE( cNewName )
             ErrorBeep()
             @ aFileMan[ FM_ROWTOP ] + 4, aFileMan[ FM_COLTOP ] + 3 CLEAR TO ;
               aFileMan[ FM_ROWTOP ] + 5, aFileMan[ FM_COLTOP ] + 50
@@ -738,13 +749,13 @@ Static Function RenameFile
             @ aFileMan[ FM_ROWTOP ] + 5, aFileMan[ FM_COLTOP ] + 4 SAY ;
                "Tecle Algo..."
             InKey( 0 )
-         ELSE
+         else
             lReloadDir := .T.
             RENAME ( TRIM( cOldName ) ) TO ( TRIM( cNewName ) )
-         EndIf
-      EndIf
+         endif
+      endif
 
-   EndIf
+   endif
 
    RestScreen( aFileMan[ FM_ROWTOP ] + 3, ;
                aFileMan[ FM_COLTOP ] + 2, ;
@@ -752,31 +763,31 @@ Static Function RenameFile
                aFileMan[ FM_COLTOP ] + 51,;
                cOldScreen )
 
-   RETURN NIL
+   return NIL
 
 Static Function DeleteFile
 **************************
    Local nCurrentFile := 0
    Local cFile := ""
    ErrorBeep()
-   IF nTagged > 0
-      IF YesOrNo( "Deletar Arquivos Marcados ? (S/N)", "N" )
+   if nTagged > 0
+      if YesOrNo( "Deletar Arquivos Marcados ? (S/N)", "N" )
          lReloadDir := .T.
          FOR nCurrentFile := 1 TO LEN( aFileList )
             cFile := SUBSTR( aFileMan[ FM_PATH ], 1, ;
                      RAT( "\", aFileMan[ FM_PATH ] ) ) + ;
                      TRIM( SUBSTR( aFileList[ nCurrentFile ], 1, 12 ) )
-            IF SUBSTR( aFileList[ nCurrentFile ], 14, 1 ) == FM_CHECK
+            if SUBSTR( aFileList[ nCurrentFile ], 14, 1 ) == FM_CHECK
                ERASE ( cFile )
                Message( "Deletando... " + TRIM( cFile ) )
-            EndIf
+            endif
          NEXT
          Message( LTRIM( STR( nTagged ) ) + " Arquivo(s) Deletados... ")
          InKey( 0 )
          nTagged := 0
-      EndIf
-   ELSE
-      IF AT( "<DIR>", aFileList[ nFileItem ] ) = 0
+      endif
+   else
+      if AT( "<DIR>", aFileList[ nFileItem ] ) = 0
          cFile := SUBSTR( aFileMan[ FM_PATH ], 1, ;
                   RAT( "\", aFileMan[ FM_PATH ] ) ) + ;
                   TRIM( SUBSTR( aFileList[ nFileItem ], 1, 12 ) )
@@ -784,20 +795,20 @@ Static Function DeleteFile
            CHR( 16 )
          @ aFileMan[ FM_ROWTOP ] + 3 + nRel, aFileMan[ FM_COLBOTTOM ] - 3 SAY;
            CHR( 17 )
-         IF YesOrNo( "Deletar Este Arquivo ? (S/N)", "N" )
+         if YesOrNo( "Deletar Este Arquivo ? (S/N)", "N" )
             ERASE ( cFile )
             lReloadDir := .T.
 
-         EndIf
-      EndIf
-   EndIf
+         endif
+      endif
+   endif
 
    @ aFileMan[ FM_ROWTOP ] + 3 + nRel, aFileMan[ FM_COLTOP ] + 1 SAY;
      CHR( 32 )
    @ aFileMan[ FM_ROWTOP ] + 3 + nRel, aFileMan[ FM_COLBOTTOM ] - 3 SAY;
      CHR( 32 )
    Message( aFileMan[ FM_PATH ] )
-   RETURN NIL
+   return NIL
 
 Static Function PrintFile
 *************************
@@ -810,20 +821,20 @@ Static Function PrintFile
    DevOut( Chr( 16 ) )
    DevPos( aFileMan[ FM_ROWTOP ] + 3 + nRel, aFileMan[ FM_COLBOTTOM ] - 3  )
    DevOut( Chr( 17 ) )
-   IF YesOrNo( "Imprimir Este Arquivo ?", "N" )
-      IF IsPrinter()
+   if YesOrNo( "Imprimir Este Arquivo ?", "N" )
+      if IsPrinter()
          Message( "Imprimindo " + TRIM( cFile ) )
          Copy File ( cFile ) To Prn
          __Eject()
 
-      Else
+      else
          ErrorBeep()
          Message( "ERRO: Impressora Nao Responde!" )
          InKey( 20 )
 
-      EndIf
+      endif
 
-   EndIf
+   endif
 
    ClearMessage()
    DevPos( aFileMan[ FM_ROWTOP ] + 3 + nRel, aFileMan[ FM_COLTOP ] + 1 )
@@ -831,21 +842,21 @@ Static Function PrintFile
    DevPos( aFileMan[ FM_ROWTOP ] + 3 + nRel, aFileMan[ FM_COLBOTTOM ] - 3 )
    DevOut( Chr( 32 ) )
    Message( aFileMan[ FM_PATH ] )
-   Return Nil
+   return Nil
 
 Static Function DBFViewer( cDatabase )
 **************************************
    Local cRecords := ""
    USE (cDatabase) ALIAS LookFile SHARED NEW READONLY
-   IF !NetErr()
+   if !NetErr()
       cRecords := "REGISTROS # " + LTRIM( STR( RECCOUNT()))
       StatusInf( cRecords, Trim( cDataBase ))
       MaBox( 0, 0, MaxRow() -1, MaxCol() )
       DbEdit( 1, 1, 22, 78 )
       Use
       Select ( aFileMan[ FM_OLDSELECT ] )
-   EndIf
-   RETURN (cDatabase)
+   endif
+   return (cDatabase)
 
 #define GV_BLOCKSIZE    50000
 
@@ -858,29 +869,29 @@ Static Function OlharGenerico( cFile )
  
    cBuffer := Space( GV_BLOCKSIZE )
    nHandle := Fopen( cFile )
-   IF Ferror() != 0
+   if Ferror() != 0
       cBuffer := "Erro Leitura Arquivo!"
-   Else
+   else
       nBytes = Fread( nHandle, @cBuffer, GV_BLOCKSIZE )
-   EndIf
+   endif
    Fclose( nHandle )
    cBuffer := RTRIM( cBuffer )
-   StatusInf( Trim( cFile ), "USE " + Chr(27)+Chr(18)+Chr(26) + "³ESC Sair")
+   StatusInf( Trim( cFile ), "USE " + Chr(27)+Chr(18)+Chr(26) + "?SC Sair")
    MaBox(0, 0, MaxRow()-1, MaxCol())
    DevPos( MaxRow(),  INT( (MaxCol( ) - 48 ) / 2) )
    MemoEdit( cBuffer, 1, 2, MaxRow() - 2, MaxCol() - 1, .F., "MemoUDF" , 300 )
    RestScreen(,,,, cScreen )
-   Return( cFile )
+   return( cFile )
 
 #undef GV_BLOCKSIZE
 
 Function MemoUDF( Modo, Linha, Coluna )
 ***************************************
-IF Modo < 4
-   Return( ME_DEFAULT )
-Else
-   Return( ME_DEFAULT )
-Endif
+if Modo < 4
+   return( ME_DEFAULT )
+else
+   return( ME_DEFAULT )
+endif
 
 Static Function TagAllFiles
 ***************************
@@ -888,13 +899,13 @@ Static Function TagAllFiles
 
    nTagged := 0
    FOR nCurrent := 1 TO LEN( aFileList )
-      IF AT( "D", SUBSTR( aFileList[ nCurrent ], 43, 6 ) ) == 0
+      if AT( "D", SUBSTR( aFileList[ nCurrent ], 43, 6 ) ) == 0
          aFileList[ nCurrent ] := STUFF( aFileList[ nCurrent ], ;
                                          14, 1, FM_CHECK )
          nTagged++
-      EndIf
+      endif
    NEXT
-   Return NIL
+   return NIL
 
 Static Function UnTagAllFiles
 *****************************
@@ -904,4 +915,4 @@ Static Function UnTagAllFiles
       aFileList[ nCurrent ] := STUFF( aFileList[ nCurrent ], 14, 1, " " )
 
    NEXT
-   Return NIL
+   return NIL

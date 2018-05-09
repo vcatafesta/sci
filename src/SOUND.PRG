@@ -1,13 +1,13 @@
 lok := .f.
-IF lOk   // Good Sound
+if lOk   // Good Sound
    Tone(  500, 1 )
    Tone( 4000, 1 )
    Tone( 2500, 1 )
-ELSE     // Bad Sound
+else     // Bad Sound
    Tone(  300, 1 )
    Tone(  499, 5 )
    Tone(  700, 5 )
-ENDIF
+endif
 inkey(0)
 //
 Tone( 800, 1 )                         // same as ? Chr( 7 )

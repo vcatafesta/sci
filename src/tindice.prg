@@ -1,10 +1,4 @@
-#include "hbclass.ch"
-#include "inkey.ch"
-
-#xcommand WA_USE( <alias> )      => USE <alias> SHARED NEW ;;
-                                    HB_DBDETACH( <(alias)> )
-#xcommand WA_LOCK( <alias> )     => HB_DBREQUEST( <(alias)> )
-#xcommand WA_UNLOCK( <alias> )   => HB_DBDETACH( <(alias)> )
+#include <sci.ch>
 
 CLASS TIndice
 	 Export:
@@ -27,10 +21,9 @@ CLASS TIndice
 		  METHOD ProgNtx
 		  METHOD PackDbf
 		  METHOD Limpa
-
 ENDCLASS
 
-Method New( cAlias )
+METHOD New( cAlias )
 	Self:ProgressoNtx := .F.
 	Self:Reindexando	:= .F.
 	Self:aNome_Campo	:= {}
@@ -42,116 +35,152 @@ Method New( cAlias )
 	Self:Reindexado	:= .F.
 	Self:Final			:= .F.
 	Self:DbfNtx( cAlias )
-	Return( Self )
+	return( Self )
 
-Method Limpa()
-	Self:aNome_Campo	:= {}
-	Self:aNome_Ntx 	:= {}
-	Self:acTag			:= {}
-	Return( Self )
+METHOD Limpa()
+	::aNome_Campo	:= {}
+	::aNome_Ntx 	:= {}
+	::acTag			:= {}
+	return( Self )
 
-Method DbfNtx( cAlias )
+METHOD DbfNtx( cAlias )
 ***********************
 	LOCAL bQuery
 	Self:aNome_Campo	:= {}
 	Self:aNome_Ntx 	:= {}
-	Self:acTag			:= {}
-	IF cAlias != NIL		
-		WA_USE((cAlias))
-		WA_LOCK((cAlias))
+	Self:acTag			:= {}	
+		
+	if cAlias != NIL			
+		if (oAmbiente:LetoAtivo)
+			if !Used()
+				if !NetUse( cAlias, MONO )			
+					resTela( cTela )
+					return(FALSO)
+				endif			
+			endif	
+		else
+			if !Used()
+				WA_USE((cAlias))
+				WA_LOCK((cAlias))
+			endif
+		endif			
 		Sele (cAlias)		
-	EndIF
-	IF Used()
+	endif
+	if Used()
 		Self:Alias := Alias()
-	EndIF
-	Return( Self )
+	endif
+	return( Self )
 
-Method PackDbf( cAlias )
-************************
-	IF Self:Compactar
-		IF cAlias != NIL
-			WA_USE((cAlias))
-			WA_LOCK((cAlias))
-			Sele (cAlias)
-		EndIF
-		IF Used()
+METHOD PackDbf( cAlias )
+	
+	if Self:Compactar
+		if cAlias != NIL			
+			if (oAmbiente:LetoAtivo)		
+				if !Used()
+					if !NetUse( cAlias, MONO )			
+						resTela( cTela )
+						return(FALSO)
+					endif			
+				endif	
+			else
+				if !Used()
+					WA_USE((cAlias))
+					WA_LOCK((cAlias))
+				endif	
+			endif
+			Sele (cAlias)		
+		endif
+		if Used()
 			Self:Alias := Alias()
-		EndIF
-		Mensagem("Aguarde, Compactando : " + cAlias )
-		__DbPack()
-	EndIF
-	Return( Self )
+			mensagem(" Aguarde, Compactando ;-;;#" + cAlias)
+			__DbPack()
+		endif
+	endif
+	return( Self )
 
-Method AddNtx( Nome_Campo, Nome_Ntx, cTag )
-****************************************
+METHOD AddNtx( Nome_Campo, Nome_Ntx, cTag )
 	Aadd( Self:aNome_Campo, Nome_Campo )
 	Aadd( Self:aNome_Ntx,	Nome_Ntx   )
 	Aadd( Self:acTag, 		cTag		  )
-	Return( Self )
+	return( Self )
 
-Method CriaNtx()
-****************
+METHOD CriaNtx()
 	LOCAL cScreen := SaveScreen()
 	LOCAL nLen	  := Len( Self:aNome_Campo )
 	LOCAL nX 	  := 0
 	LOCAL nCol	  := Self:Row - 2
-	LOCAL Nome_Campo
-	LOCAL Nome_Ntx
-	LOCAL cTag
+	PRIVA Nome_Campo
+	PRIVA Nome_Ntx
+	PRIVA cTag
 
-	oMenu:Limpa()
-	MaBox( Self:Row, Self:Col, Self:Row+nLen+1, 42, Self:Alias )
-	For nX := 1 To nLen
-		Nome_Campo := Self:aNome_Campo[nX]
-		Nome_Ntx   := Self:aNome_Ntx[nX]
-		cTag		  := Self:acTag[nX]
-		Self:Reindexando	:= .T.
-		Self:Reindexado	:= .T.
-		//nSetColor( Roloc( Cor()))
+	if Used() // 13:56 25/04/2018
+		oMenu:Limpa()
+		MaBox( Self:Row, Self:Col, Self:Row+nLen+1, 42, Self:Alias )
+		
+		Self:Reindexando	:= true
+		Self:Reindexado	:= false
+		For nX := 1 To nLen
+			Nome_Campo := ::aNome_Campo[nX]			
+			Nome_Ntx   := ::aNome_Ntx[nX]
+			cTag	  	  := ::acTag[nX] + INDEXEXT
+			
+			//? (&Nome_Ntx.)
 
-		Write( Self:Row+nX, Self:Col+1, Self:aNome_Ntx[nX] + Repl("Ä", 24 - Len( Self:aNome_Ntx[nX])))
-		Write( Self:Row+nX, Self:Col+15+10, Chr(10))
+			//nSetColor( Roloc( Cor()))
 
-		IF RddSetDefa() = "DBFNTX"
-			IF Self:ProgressoNtx
-				MaBox( Self:Row-5, Self:Col, Self:Row-1, Self:Row+57 )
-				Index On &Nome_Campo. To &Nome_Ntx. Eval Self:ProgNtx() Every LastRec() / 100
-			Else
-				Index On &Nome_Campo. To &Nome_Ntx.
-			EndIF
-		Else
-			IF Self:ProgressoNtx
-				MaBox( Self:Row-5, Self:Col, Self:Row-1, Self:Row+57 )
-				Index On &Nome_Campo. Tag &Nome_Ntx. To ( cTag ) Eval Self:ProgNtx() Every Lastrec() / 100
-				//Index On &Nome_Campo. Tag &Nome_Ntx. To ( cTag ) Eval Odometer() Every 10
-			Else
-				Index On &Nome_Campo. Tag &Nome_Ntx. To ( cTag )
-				//Index On &Nome_Campo. Tag &Nome_Ntx. To ( cTag ) Eval Odometer() Every 10
-			EndIF
-		EndIF
-		Self:Reindexando	:= .F.
-		nSetColor(Cor())
-		Write( Self:Row+nX, Self:Col+1, Self:aNome_Ntx[nX] + Repl("Ä", 24 - Len( Self:aNome_Ntx[nX])))
-		Write( Self:Row+nX, Self:Col+15+10, Chr(251))
-	Next
-	ResTela( cScreen )
-	Return( Self )
+			Write( Self:Row+nX, Self:Col+1, Self:aNome_Ntx[nX] + Repl("Ä", 24 - Len( Self:aNome_Ntx[nX])))
+			Write( Self:Row+nX, Self:Col+15+10, Chr(10))
 
-Method ProgNtx
-**************
+			if RddSetDefa() = "DBFNTX"
+				if Self:ProgressoNtx
+					MaBox( Self:Row-5, Self:Col, Self:Row-1, Self:Row+57 )
+					Index On &Nome_Campo. To &Nome_Ntx. Eval Self:ProgNtx() Every LastRec() / 100
+				else
+					Index On &Nome_Campo. To &Nome_Ntx.
+				endif
+			else
+				if Self:ProgressoNtx
+					MaBox( Self:Row-5, Self:Col, Self:Row-1, Self:Row+57 )
+					if (oAmbiente:LetoAtivo)					
+						//Index On &Nome_Campo. Tag &Nome_Ntx. To ( cTag )						
+						Index On &Nome_Campo. Tag &Nome_Ntx. To ( cTag ) Eval Self:ProgNtx() Every Lastrec() / 100						
+					else
+						Index On &Nome_Campo. Tag &Nome_Ntx. To ( cTag ) Eval Self:ProgNtx() Every Lastrec() / 100
+					endif
+					//Index On &Nome_Campo. Tag &Nome_Ntx. To ( cTag ) Eval Odometer() Every 10
+				else
+					Index On &Nome_Campo. Tag &Nome_Ntx. To ( cTag )
+					//Index On &Nome_Campo. Tag &Nome_Ntx. To ( cTag ) Eval Odometer() Every 10
+				endif
+			endif
+			nSetColor(Cor())
+			Write( Self:Row+nX, Self:Col+1, Self:aNome_Ntx[nX] + Repl("Ä", 24 - Len( Self:aNome_Ntx[nX])))
+			Write( Self:Row+nX, Self:Col+15+10, Chr(251))		
+		Next	
+		Self:Reindexando	:= false
+		Self:Reindexado	:= true
+		resTela( cScreen )		
+		if Used()
+			DbCloseArea() // 13:57 25/04/2018
+		endif	
+		return( Self )	
+	endif
+
+METHOD def ProgNtx
 	LOCAL nReg		 := Recno()
 	LOCAL nUltimo	 := LastRec()
 	LOCAL nPorcento := ( nReg / nUltimo ) * 100
 	LOCAL cComplete := LTrim( Str( Int( nPorcento )))
-	IF cComplete  = "99"
+	
+	if cComplete  = "99"
 		cComplete := "100"
-	EndIF
+	endif
 	@ Self:Row-4, Self:Col+1 Say "þ " + LTrim(Str(nReg)) + " de " + LTrim(Str(nUltimo )) + " Registros"
 	@ Self:Row-3, Self:Col+1 Say "þ " + cComplete + "%"
 	@ Self:Row-2, Self:Col+1 Say Replicate(" ", 100/2 ) Color "W+/r"
 	@ Self:Row-2, Self:Col+1 Say Replicate("Û", nPorcento/2 ) Color "W+/r"
-	Return .T.
+	return true
+	
 
-Function TIndiceNew( cAlias )
-*****************************
-	Return( TIndice():New( cAlias ))
+def TIndiceNew( cAlias )
+	return( TIndice():New( cAlias ))

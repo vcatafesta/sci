@@ -58,7 +58,7 @@ for nX := 1 To 16
 	for nY := 1 To 16
 		if nCor = aPattern[nX,nY] 
 			return( aPattern[nX,nPos])
-		endIf
+		endif
 	next
 next
 return( 0 )
@@ -70,8 +70,8 @@ proc teste
         AADD(aArr,{"one","two"})
         AADD(aArr,{"three","four"})
         AADD(aArr,{"five","six"})
-        ? "aArr     ", ASCAN(aArr,     {|aArr| aArr[1] == "one"})         // Returns 2
-		  ? "aPattern ", ASCAN(aPattern, {|aArr| aArr[8] == 23 })           // Returns 2
+        ? "aArr     ", ASCAN(aArr,     {|aArr| aArr[1] == "one"})         // returns 2
+		  ? "aPattern ", ASCAN(aPattern, {|aArr| aArr[8] == 23 })           // returns 2
 
 		  
  aArray := { "Tom", "Mary", "Sue" }

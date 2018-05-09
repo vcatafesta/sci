@@ -1,15 +1,16 @@
 Function main()
-	//vc_for()
+	// vc_for()
 	//vc_len({1,2,3})
-	for i := 1 to 255
-		? vc_chr(i)
+	for i := 65 to 127
+		?? vc_chr(i)
 	next	
-	
+		msg("Tecle algo para iniciar", "Macrosoft SCI for Windows", 2)
+	msginfo("Tecle algo para iniciar", "Macrosoft SCI for Windows", 2)
 	///dbcreate("TEST.DBF", {{"AUTO", "+", 4, 0}, {"ALL","V", 255, 0}, {"CURRENCY", "Y", 8, 4}})
 	//use test shared new
    //a := dbstruct()
 	
-	? vc_printf("%d %s %s %s %s", {10, "VILMAR", NIL, NIL, "EVILI"})
+	? vc_printf("%0d %s %s %s %s", {10, "VILMAR", NIL, NIL, "EVILI"})
 	//? vc_printf("Result: %s %s %d", {"VILMAR", "EVILI", 2})
 	
 		
@@ -90,11 +91,15 @@ Function main()
 		return 0;
 	}
 	
-	
+	HB_FUNC(MSG)
+	{
+		MessageBox( GetActiveWindow(), hb_parc(1), hb_parc(2), 0 );		
+	}
+		
 	HB_FUNC( VC_PRINTF)
 	{
 		PHB_ITEM pArray = hb_param( 2, HB_IT_ARRAY);
-		HB_SIZE itam    = hb_parinfa( 2, 0 );
+		//HB_SIZE itam    = hb_parinfa( 2, 0 );
 		HB_SIZE nlen    = hb_arrayLen(pArray ); /* retrieves the array len */
 		HB_TYPE xType; 
 		HB_SIZE nIndex;
@@ -152,6 +157,7 @@ Function main()
 			hb_ret();
 			return;
 		}
+		*argc = NULL;		
 		hb_retc(buffer);
 		return;
 	}	
@@ -215,7 +221,7 @@ char *replicate(char *str, int vezes)
 		//char *pItem = "Hello World from C";
 		char pItem[] = "Hello World from C";		
 		int n;
-		for( n=0; n <= 1000; ++n )			
+		for( n=0; n <= 10; ++n )			
 			printf("%s %i\n", pItem, n);				
 		hb_retc_null();
 	}

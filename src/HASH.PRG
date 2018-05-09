@@ -76,7 +76,6 @@ NEXT
 WAIT "Tecle algo"
 
 
-
 hCustomer := { => } // Declare / define an empty hash
 DBGOTOP()
 WHILE .NOT. EOF()

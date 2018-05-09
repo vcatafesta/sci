@@ -2,6 +2,11 @@
 #include "hbclass.ch"
 #include "hmg.ch"
 
+def uno()
+proc duo()
+procedure tres()
+func quatro()
+
 FUNCTION Main()
 
    DEFINE WINDOW Form_1   ;
@@ -22,12 +27,12 @@ FUNCTION Main()
 
    Form_1.Activate
 
-   RETURN NIL
+   return NIL
 
 
 FUNCTION none()
 
-   RETURN NIL
+   return NIL
 
 
 
@@ -97,7 +102,7 @@ PROCEDURE Main2()
    @ 12, 20 SAY "Var 3:" GET cVar3
    READ
 
-   RETURN
+   return
 
 	
    //         This program creates the Rectangle CLASS.
@@ -135,7 +140,7 @@ Function Main3()
       DO CASE
       CASE nKey = K_ESC
          CLEAR SCREEN
-         RETURN .T.
+         return .T.
       CASE nKey = K_RIGHT
          oRect:MoveRight()
       CASE nKey = K_UP
@@ -154,7 +159,7 @@ Function Main3()
          oRect:Expand()
       ENDCASE
    ENDDO
-   RETURN nil
+   return nil
 
    //--------------------------------------------------------------------//
 
@@ -182,7 +187,7 @@ METHOD View() CLASS Rectangle
       @ self:Top, self:Left TO self:Bottom, self:Right DOUBLE
    ENDCASE
 
-   RETURN Self
+   return Self
 
 METHOD MoveRight() CLASS Rectangle
 
@@ -190,7 +195,7 @@ METHOD MoveRight() CLASS Rectangle
    self:Right ++
    self:View()
 
-   RETURN Self
+   return Self
 
 METHOD MoveUp() CLASS Rectangle
 
@@ -198,7 +203,7 @@ METHOD MoveUp() CLASS Rectangle
    self:Bottom --
    self:View()
 
-   RETURN Self
+   return Self
 
 METHOD MoveLeft() CLASS Rectangle
 
@@ -206,7 +211,7 @@ METHOD MoveLeft() CLASS Rectangle
    self:Right --
    self:View()
 
-   RETURN Self
+   return Self
 
 METHOD MoveDown() CLASS Rectangle
 
@@ -214,38 +219,38 @@ METHOD MoveDown() CLASS Rectangle
    self:Bottom ++
    self:View()
 
-   RETURN Self
+   return Self
 
 METHOD Squeeze() CLASS Rectangle
 
    self:Right --
    self:View()
 
-   RETURN Self
+   return Self
 
 METHOD Widen() CLASS Rectangle
 
    self:Right ++
    self:View()
 
-   RETURN Self
+   return Self
 
 METHOD Crush() CLASS Rectangle
 
    self:Bottom --
    self:View()
 
-   RETURN Self
+   return Self
 
 METHOD Expand() CLASS Rectangle
 
    self:Bottom ++
    self:View()
 
-   RETURN Self
+   return Self
 
 Function Main4()
 
    Wapi_PlaySound( "dog.wav" )
    
-   RETURN nil
+   return nil

@@ -32,7 +32,7 @@ LRESULT CALLBACK WndProc (HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
   hb_vmPushLong( lParam );
   hb_vmDo( 4 );
 
-  if ( hb_arrayGetType( &hb_stack.Return, 1 ) == HB_IT_NIL )
+  if ( hb_arrayGetType( &hb_stack.return, 1 ) == HB_IT_NIL )
   {
     return DefWindowProc( ( HWND ) hWnd, message, wParam, lParam );
   }
@@ -404,7 +404,7 @@ HB_FUNC( INITEDITBOX )
   hwnd = (HWND) hb_parnl (1);
   
   hbutton = CreateWindowEx( WS_EX_CLIENTEDGE, "EDIT" , "" ,
-  ES_WANTRETURN | WS_CHILD | WS_VISIBLE | WS_TABSTOP | ES_MULTILINE | WS_VSCROLL | WS_HSCROLL | ES_AUTOHSCROLL,
+  ES_WANTreturn | WS_CHILD | WS_VISIBLE | WS_TABSTOP | ES_MULTILINE | WS_VSCROLL | WS_HSCROLL | ES_AUTOHSCROLL,
   hb_parni(3), hb_parni(4) , hb_parni(5), hb_parni(6) ,  
   hwnd,(HMENU)hb_parni(2) , GetModuleHandle(NULL) , NULL ) ;
 
@@ -509,7 +509,7 @@ HB_FUNC ( ADDLISTVIEWITEMS )
   c = ListView_GetItemCount (h);
   caption	= hb_itemGetCPtr ( hArray->item.asArray.value->pItems );
 
-  LI.mask=LVIF_TEXT ;
+  LI.mask=LVif_TEXT ;
   LI.state=0;
   LI.stateMask=0;
         LI.iImage=0;
@@ -548,7 +548,7 @@ HB_FUNC( INITTABCONTROL )
   hb_parni(3), hb_parni(4) , hb_parni(5), hb_parni(6) ,
   hwnd,(HMENU)hb_parni(2) , GetModuleHandle(NULL) , NULL ) ;
 
-  tie.mask = TCIF_TEXT | TCIF_IMAGE; 
+  tie.mask = TCif_TEXT | TCif_IMAGE; 
   tie.iImage = -1; 
 
   for (i = l ; i>=0 ; i=i-1 )

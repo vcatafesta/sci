@@ -56,11 +56,11 @@ aModeMenu := {"Resetar Fonte Para Normal",;
 						  "Fonte Grego",;
 						  "Fonte Hebreu"}
 
-IF Argc() != 0
+if Argc() != 0
    Eval( TabelaFonte[ Val(Argv(1))] )
    Qout('þ Fonte Setada para ' + aModeMenu[Val(Argv(1))])
-   Return
-EndIF
+   return
+endif
 
 
 While.T.
@@ -73,7 +73,7 @@ While.T.
    nChoice := AChoice( 01, 10, 23, 45, aModeMenu )
 	Do Case
 	Case nChoice = 0
-		Return
+		return
 	Case VidType() == 0
       Tone(100,2)
       Alert("Erro: Placa de Video Monocromatica." )

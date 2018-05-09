@@ -26,713 +26,723 @@
 #endif
 */
 
-#Include "lista.ch"
-#Include "inkey.ch"
-#Include "directry.ch"
-#Include "permissao.ch"
-#Include "indice.ch"
-#Include "rddName.ch"
-#Include <picture.ch>
-#Include <fileio.ch>
-#Include <dbinfo.ch>
-#include <hbthread.ch>
-#include <hbver.ch>
-#include <error.ch>
-//#Include "Pragma.ch"
+#Include <sci.ch>
 
 REQUEST HB_CODEPAGE_PT850
 REQUEST HB_CODEPAGE_PTISO
 REQUEST HB_CODEPAGE_PT860
 REQUEST HB_CODEPAGE_UTF8
-REQUEST HB_LANG_PT_BR
+REQUEST HB_LANG_EN
 REQUEST HB_LANG_PT
-#xcommand WA_USE( <alias> )      => USE <alias> SHARED NEW ;;
-                                       HB_DBDETACH( <(alias)> )
-#xcommand WA_LOCK( <alias> )     => HB_DBREQUEST( <(alias)> )
-#xcommand WA_UNLOCK( <alias> )   => HB_DBDETACH( <(alias)> )
-
 static s_hMutex
 
-Function Main()
-***************
-LOCAL lOk		 := OK
-LOCAL Opc		 := 1
-LOCAL cTela
-LOCAL ph1     
-PUBL aLpt1		 := {}
-PUBL aLpt2		 := {}
-PUBL aLpt3		 := {}
-PUBL aMensagem  := {}
-PUBL aItemNff	 := {}
-PUBL aPermissao := {}
-PUBL aInscMun	 := {}
-PUBL aIss		 := {}
-PUBL XCFGPIRACY := MsEncrypt( ENCRYPT )
-
-//Altd()        //Debug
-PUBL oAmbiente  := TAmbiente():New()
-//PUBL oMenu		 := TMenuNew()
-PUBL oMenu      := oAmbiente
-PUBL oIni		 := TIniNew( oAmbiente:xBase + "\SCI0001.INI")
-PUBL oIndice	 := TIndiceNew()
-PUBL oProtege	 := TProtegeNew()
-PUBL oReindexa
-PUBL oSci
-PUBL oIni
-PUBL cCaixa
-*:----------------------------------------------------------------------------
-//Eval( oAmbiente:TabelaFonte[ oAmbiente:Fonte ])
-hb_langSelect( "pt_br" )      
-hb_cdpSelect( "PT860" )
-hb_langSelect( "pt_br" )      
-*:----------------------------------------------------------------------------
-//IntroMain()
-SetMode(oAmbiente:AlturaFonteDefaultWindows, oAmbiente:LarguraFonteDefaultWindows)
-//Turbo(OK)
-//OL_AutoYield(OK)
-SetColor("")
-SetaIni()
-*:----------------------------------------------------------------------------
-REQUEST HB_LANG_PT
-REQUEST HB_CODEPAGE_PT850  
-RddSetDefa( RDDNAME )
-Acesso()
-SetKey( F8, 		  {|| AcionaSpooler()})
-//SetKey( F10,		  {|| FT_Adder()})
-SetKey( F10,		  {|| Calc()})
-SetKey( F12,		  {|| ConfigurarEtiqueta()})
-SetKey( TECLA_ALTC, {|| Altc() })
-SetKey( K_CTRL_END, {|| GravaDisco() })
-SetKey( K_SH_F10,   {|| AutorizaVenda() })
-*:----------------------------------------------------------------------------
-#IFDEF DEMO
-	oMenu:Limpa()
-	ErrorBeep()
-	Alerta( oIni:ReadString("string", "string4") + ;
-           oIni:ReadString("string", "string5") + ;
-		     oIni:ReadString("string", "string6") + ;
-		     oIni:ReadString("string", "string7") + ;
-		     oIni:ReadString("string", "string8") )
-#ENDIF
-*:----------------------------------------------------------------------------
-oAmbiente:Clock           := Time() 
-oAmbiente:HoraCerta       := Array(100)
-oAmbiente:TarefaConcluida := Array(100)
-Afill( oAmbiente:HoraCerta, Time())
-Afill( oAmbiente:TarefaConcluida, FALSO )
-//s_hMutex       := hb_mutexCreate()
-//s_mainThreadID := hb_threadSelf()/
-//hb_threadStart(HB_THREAD_INHERIT_MEMVARS, @RealClock())
-//ph1 := hb_idleAdd( {|| CronTab()})
-Empresa()
-FechaTudo()
-IF !VerIndice()
-	Alert("ERRO Tente mais tarde.")
-	FChDir( oAmbiente:xBase )
-	SalvaMem()
+def Main(...)
+*-----------*
+	LOCAL lOk		  := OK
+	LOCAL Opc		  := 1
+	LOCAL cTela
+	LOCAL ph1     
+	PUBLI aLpt1		  := {}
+	PUBLI aLpt2		  := {}
+	PUBLI aLpt3		  := {}
+	PUBLI aMensagem  := {}
+	PUBLI aItemNff	  := {}
+	PUBLI aPermissao := {}
+	PUBLI aInscMun	  := {}
+	PUBLI aIss		  := {}
+	PUBLI XCFGPIRACY := MsEncrypt( ENCRYPT )
+	*:----------------------------------------------------------------------------
+	hb_langSelect( "pt" ) 	
+	//hb_cdpSelect( "PT860" )
+	//Altd()        //Debug
+	PUBLI oAmbiente := TAmbiente():New()
+	PUBLI oMenu     := oAmbiente
+	PUBLI oIni		 := TIniNew("SCI.INI")
+	PUBLI oIndice	 := TIndiceNew()
+	PUBLI oProtege	 := TProtegeNew()
+	PUBLI oReindexa  // Controle de Reindexacao 
+	PUBLI oSci       // Controle de Usuario
+	PUBLI cCaixa
+	*:----------------------------------------------------------------------------
+	//Eval( oAmbiente:TabelaFonte[ oAmbiente:Fonte ])
+	//IntroMain()
+	//Turbo(OK)
+	//OL_AutoYield(OK)
 	SetMode(oAmbiente:AlturaFonteDefaultWindows, oAmbiente:LarguraFonteDefaultWindows)
-	Cls
-	Quit
-EndIF
-IF AbreUsuario()
-	Usuario()
-Else
-	SalvaMem()
-	ResTela()
-	SetMode(oAmbiente:AlturaFonteDefaultWindows, oAmbiente:LarguraFonteDefaultWindows)
-	Quit
-EndIF
-SetaIni()
-oMenu:Limpa()
-SetaClasse()
-RefreshClasse()
-WHILE lOk
-	BEGIN Sequence
-		SetKey( F5, {|| PrecosConsulta()})
+	SetColor("")
+	SetaIni()
+	//RddSetDefault( RDDNAME )
+	Acesso()
+	*:----------------------------------------------------------------------------
+	SetKey( F8, 		  {|| AcionaSpooler()})
+	//SetKey( F10,		  {|| FT_Adder()})
+	SetKey( F10,		  {|| Calc()})
+	SetKey( F12,		  {|| ConfigurarEtiqueta()})
+	SetKey( TECLA_ALTC, {|| Altc() })
+	SetKey( K_CTRL_END, {|| GravaDisco() })
+	SetKey( K_SH_F10,   {|| AutorizaVenda() })
+	*:----------------------------------------------------------------------------
+	#IFDEF DEMO
 		oMenu:Limpa()
-		Opc := oMenu:Show()
-		Do Case
-		Case opc = 0.0 .OR. opc = 1.01
-			ErrorBeep()
-			IF Conf("Pergunta: Deseja finalizar esta sessao ?" )
-				lOk := FALSO
-				Break
-			EndIF
-		Case opc = 1.03
-			Empresa()
-			IF !VerIndice()
-				Alert("ERRO: Arquivos nao disponivel para indexacao. Tente mais tarde.")
-				SalvaMem()
-				ResTela()
-				SetMode(oAmbiente:AlturaFonteDefaultWindows, oAmbiente:LarguraFonteDefaultWindows)
-				Quit
-			EndIF
-			oMenu:Limpa()
-			IF AbreUsuario()
-				Usuario()
-			Else
-				SalvaMem()
-				SetMode(oAmbiente:AlturaFonteDefaultWindows, oAmbiente:LarguraFonteDefaultWindows)
-				Quit
-			EndIF
-			SetaClasse()
-			RefreshClasse()
-		Case opc = 1.04
-			IF AbreUsuario()
-				SetKey( F5, NIL )
-				Usuario()
-				SetaClasse()
-				FechaTudo()
-			EndIF
-			RefreshClasse()
+		ErrorBeep()
+		Alerta( oIni:ReadString("string", "string4") + ;
+				  oIni:ReadString("string", "string5") + ;
+				  oIni:ReadString("string", "string6") + ;
+				  oIni:ReadString("string", "string7") + ;
+				  oIni:ReadString("string", "string8") )
+	#ENDIF
+	*:----------------------------------------------------------------------------
+	oAmbiente:Clock           := Time() 
+	oAmbiente:HoraCerta       := Array(100)
+	oAmbiente:TarefaConcluida := Array(100)
+	Afill( oAmbiente:HoraCerta, Time())
+	Afill( oAmbiente:TarefaConcluida, FALSO )
+	//s_hMutex       := hb_mutexCreate()
+	//s_mainThreadID := hb_threadSelf()/
+	//hb_threadStart(HB_THREAD_INHERIT_MEMVARS, @RealClock())
+	//ph1 := hb_idleAdd( {|| CronTab()})
+	Empresa()
+	FechaTudo()
+	if !VerIndice()
+		Alert("ERRO Tente mais tarde.")
+		FChDir( oAmbiente:xBase )
+		SalvaMem()
+		SetMode(oAmbiente:AlturaFonteDefaultWindows, oAmbiente:LarguraFonteDefaultWindows)
+		Cls
+		Quit
+	endif
+	if AbreUsuario()
+		Usuario()
+	else
+		SalvaMem()
+		ResTela()
+		SetMode(oAmbiente:AlturaFonteDefaultWindows, oAmbiente:LarguraFonteDefaultWindows)
+		Quit
+	endif
+	SetaIni()
+	oMenu:Limpa()
+	SetaClasse()
+	RefreshClasse()
+	WHILE lOk
+		BEGIN Sequence
 			SetKey( F5, {|| PrecosConsulta()})
-		Case opc = 1.06
-			MacroBackup()
-		Case opc = 1.07
-			MacroRestore()
-		Case opc = 2.01
-			#IFDEF TESTELAN
-            //Acesso(OK)
-				ListaLan()
-				RefreshClasse()
-			#ELSE
-			   Alerta("INFORME: Modulo nao disponivel para esse cliente.")
-			#ENDIF
-			
-		Case opc = 2.02
-			#IFDEF RECELAN
-				if aPermissao[SCI_CONTAS_A_RECEBER]
-					//Acesso(OK)
-					Recelan()
-					RefreshClasse()			
-				else
-					Alerta("INFORME ao usuario " + oAmbiente:xUsuario + ";;Voce nao tem permissao para usar esse modulo.;Consulte o gerente de suporte para maiores informacoes.")							
-				endif	
-			#ELSE
-			   Alerta("INFORME: Modulo nao disponivel para esse cliente.")
-			#ENDIF
-		Case opc = 2.03
-			#IFDEF PAGALAN
-            //Acesso(OK)
-				PagaLan()
-				RefreshClasse()
-			#ELSE
-			   Alerta("INFORME: Modulo nao disponivel para esse cliente.")			
-			#ENDIF
-		Case opc = 2.04
-			#IFDEF CHELAN
-            //Acesso(OK)
-				Chelan()
-				RefreshClasse()
-			#ELSE
-			   Alerta("INFORME: Modulo nao disponivel para esse cliente.")			
-			#ENDIF
-		Case Opc = 2.05
-			#IFDEF SCP
-				if aPermissao[SCI_CONTROLE_DE_PRODUCAO]
-					//Acesso(OK)
-					ScpLan()
-					RefreshClasse()
-				else	
-					Alerta("INFORME ao usuario " + oAmbiente:xUsuario + ";;Voce nao tem permissao para usar esse modulo.;Consulte o gerente de suporte para maiores informacoes.")			
-				endif
-			#ELSE
-			   Alerta("INFORME: Modulo nao disponivel para esse cliente.")			
-			#ENDIF
-		Case Opc = 2.06
-			#IFDEF PONTO
-            //Acesso(OK)
-				PontoLan()
-				RefreshClasse()
-			#ELSE
-			   Alerta("INFORME: Modulo nao disponivel para esse cliente.")			
-			#ENDIF
-		Case Opc = 2.07
-			Carta()
-		Case Opc = 2.08
-			#IFDEF VENLAN
-            //Acesso(OK)
-				Venlan()
-				RefreshClasse()
-			#ELSE
-			   Alerta("INFORME: Modulo nao disponivel para esse cliente.")			
-			#ENDIF
-		Case opc = 3.01
-			#IFDEF ORCALAN
-            //Acesso(OK)
-				Orcamento( FALSO )
-			#ELSE
-			   Alerta("INFORME: Modulo nao disponivel para esse cliente.")			
-			#ENDIF
-		Case opc = 3.02
-			IF !UsaArquivo("LISTA") ; Break ; EndiF
-			IF !UsaArquivo("GRUPO") ; Break ; EndiF
-			IF !UsaArquivo("SUBGRUPO") ; Break ; EndiF
-			IF !UsaArquivo("PAGAR") ; Break ; EndiF
-			IF !UsaArquivo("REPRES") ; Break ; EndiF
-			TermPrecos()
-		Case opc = 3.03
-			cTela := Mensagem("Aguarde, Abrindo Arquivos.")
-			IF !UsaArquivo("SAIDAS")  ; Break ; EndiF
-			IF !UsaArquivo("RECEBER") ; Break ; EndiF
-			IF !UsaArquivo("FORMA")   ; Break ; EndiF
-			IF !UsaArquivo("LISTA")   ; Break ; EndiF
-			IF !UsaArquivo("CEP")     ; Break ; EndiF
-			IF !UsaArquivo("REGIAO")  ; Break ; EndiF
-			ResTela( cTela )
-			VendasTipo()
-			FechaTudo()
-		Case opc = 3.04
-			cTela := Mensagem("Aguarde, Abrindo Arquivos.")
-			IF !UsaArquivo("SAIDAS")  ; Break ; EndiF
-			IF !UsaArquivo("RECEBER") ; Break ; EndiF
-			IF !UsaArquivo("FORMA")   ; Break ; EndiF
-			IF !UsaArquivo("REGIAO")  ; Break ; EndiF
-			IF !UsaArquivo("RECEMOV") ; Break ; EndiF
-			IF !UsaArquivo("CEP")     ; Break ; EndiF
-			ResTela( cTela )
-			WHILE OK
+			oMenu:Limpa()
+			Opc := oMenu:Show()
+			Do Case
+			Case opc = 0.0 .OR. opc = 1.01
+				ErrorBeep()
+				//IF hwg_MsgYesNo("Pergunta: Deseja finalizar esta sessao ?" )
+				IF conf("Pergunta: Deseja finalizar esta sessao ?" )
+					lOk := FALSO
+					Break
+				EndIF
+			Case opc = 1.03
+				Empresa()
+				IF !VerIndice()
+					Alert("ERRO: Arquivos nao disponivel para indexacao. Tente mais tarde.")
+					SalvaMem()
+					ResTela()
+					SetMode(oAmbiente:AlturaFonteDefaultWindows, oAmbiente:LarguraFonteDefaultWindows)
+					Quit
+				EndIF
 				oMenu:Limpa()
-				M_Title("TIPO DE RELATORIO")
-				nChoice := FazMenu( 03, 20, {"Por Vencimento", "Por Emissao *"})
-				Do Case
-				Case nChoice = 0
-					Exit
-				Case nChoice = 1
-					PrnAlfabetica(1)
-				Case nChoice = 2
-					PrnAlfabetica(2)
-				EndCase
-			EndDo
-			FechaTudo()
-		Case opc = 3.05
-			cTela := Mensagem("Aguarde, Abrindo Arquivos.")
-			IF !UsaArquivo("SAIDAS")  ; Break ; EndiF
-			IF !UsaArquivo("RECEBER") ; Break ; EndiF
-			IF !UsaArquivo("RECEBIDO"); Break ; EndiF
-			IF !UsaArquivo("VENDEDOR"); Break ; EndiF
-			IF !UsaArquivo("FORMA")   ; Break ; EndiF
-			IF !UsaArquivo("REGIAO")  ; Break ; EndiF
-			ResTela( cTela )
-			RelRecebido()
-			FechaTudo()
-		Case opc = 3.06
-			IF UsaArquivo("VENDEDOR" )
-				CadastraSenha()
+				IF AbreUsuario()
+					Usuario()
+				Else
+					SalvaMem()
+					SetMode(oAmbiente:AlturaFonteDefaultWindows, oAmbiente:LarguraFonteDefaultWindows)
+					Quit
+				EndIF
+				SetaClasse()
+				RefreshClasse()
+			Case opc = 1.04
+				IF AbreUsuario()
+					SetKey( F5, NIL )
+					Usuario()
+					SetaClasse()
+					FechaTudo()
+				EndIF
+				RefreshClasse()
+				SetKey( F5, {|| PrecosConsulta()})
+			Case opc = 1.06
+				MacroBackup()
+			Case opc = 1.07
+				MacroRestore()
+			Case opc = 2.01
+				#IFDEF TESTELAN
+					//Acesso(OK)
+					ListaLan()
+					RefreshClasse()
+				#ELSE
+					Alerta("INFORME: Modulo nao disponivel para esse cliente.")
+				#ENDIF
+				
+			Case opc = 2.02
+				#IFDEF RECELAN
+					if aPermissao[SCI_CONTAS_A_RECEBER]
+						//Acesso(OK)
+						Recelan()
+						RefreshClasse()			
+					else
+						Alerta("INFORME ao usuario " + oAmbiente:xUsuario + ";;Voce nao tem permissao para usar esse modulo.;Consulte o gerente de suporte para maiores informacoes.")							
+					endif	
+				#ELSE
+					Alerta("INFORME: Modulo nao disponivel para esse cliente.")
+				#ENDIF
+			Case opc = 2.03
+				#IFDEF PAGALAN
+					//Acesso(OK)
+					PagaLan()
+					RefreshClasse()
+				#ELSE
+					Alerta("INFORME: Modulo nao disponivel para esse cliente.")			
+				#ENDIF
+			Case opc = 2.04
+				#IFDEF CHELAN
+					//Acesso(OK)
+					Chelan()
+					RefreshClasse()
+				#ELSE
+					Alerta("INFORME: Modulo nao disponivel para esse cliente.")			
+				#ENDIF
+			Case Opc = 2.05
+				#IFDEF SCP
+					if aPermissao[SCI_CONTROLE_DE_PRODUCAO]
+						//Acesso(OK)
+						ScpLan()
+						RefreshClasse()
+					else	
+						Alerta("INFORME ao usuario " + oAmbiente:xUsuario + ";;Voce nao tem permissao para usar esse modulo.;Consulte o gerente de suporte para maiores informacoes.")			
+					endif
+				#ELSE
+					Alerta("INFORME: Modulo nao disponivel para esse cliente.")			
+				#ENDIF
+			Case Opc = 2.06
+				#IFDEF PONTO
+					//Acesso(OK)
+					PontoLan()
+					RefreshClasse()
+				#ELSE
+					Alerta("INFORME: Modulo nao disponivel para esse cliente.")			
+				#ENDIF
+			Case Opc = 2.07
+				Carta()
+			Case Opc = 2.08
+				#IFDEF VENLAN
+					//Acesso(OK)
+					Venlan()
+					RefreshClasse()
+				#ELSE
+					Alerta("INFORME: Modulo nao disponivel para esse cliente.")			
+				#ENDIF
+			Case opc = 3.01
+				#IFDEF ORCALAN
+					//Acesso(OK)
+					Orcamento( FALSO )
+				#ELSE
+					Alerta("INFORME: Modulo nao disponivel para esse cliente.")			
+				#ENDIF
+			Case opc = 3.02
+				IF !UsaArquivo("LISTA") ; Break ; EndiF
+				IF !UsaArquivo("GRUPO") ; Break ; EndiF
+				IF !UsaArquivo("SUBGRUPO") ; Break ; EndiF
+				IF !UsaArquivo("PAGAR") ; Break ; EndiF
+				IF !UsaArquivo("REPRES") ; Break ; EndiF
+				TermPrecos()
+			Case opc = 3.03
+				cTela := Mensagem("Aguarde, Abrindo Arquivos.")
+				IF !UsaArquivo("SAIDAS")  ; Break ; EndiF
+				IF !UsaArquivo("RECEBER") ; Break ; EndiF
+				IF !UsaArquivo("FORMA")   ; Break ; EndiF
+				IF !UsaArquivo("LISTA")   ; Break ; EndiF
+				IF !UsaArquivo("CEP")     ; Break ; EndiF
+				IF !UsaArquivo("REGIAO")  ; Break ; EndiF
+				ResTela( cTela )
+				VendasTipo()
 				FechaTudo()
-			EndIF
-		Case opc = 3.08
-			IF !UsaArquivo("RECEBIDO") ; Break ; EndiF
-			IF !UsaArquivo("VENDEDOR") ; Break ; EndiF
-			IF !UsaArquivo("CHEMOV")   ; Break ; EndiF
-			IF !UsaArquivo("RECEMOV")  ; Break ; EndiF
-			IF !UsaArquivo("RECEBER")  ; Break ; EndiF
-			IF !UsaArquivo("SAIDAS")   ; Break ; EndiF
-			DetalheCaixa(, FALSO )
-			FechaTudo()
-		Case opc = 3.09
-			IF !UsaArquivo("RECEBIDO") ; Break ; EndiF
-			IF !UsaArquivo("VENDEDOR") ; Break ; EndiF
-			IF !UsaArquivo("CHEMOV")   ; Break ; EndiF
-			IF !UsaArquivo("RECEMOV")  ; Break ; EndiF
-			IF !UsaArquivo("RECEBER")  ; Break ; EndiF
-			IF !UsaArquivo("SAIDAS")  ; Break ; EndiF
-			DetalheCaixa(, OK )
-			FechaTudo()
-		Case opc = 3.10
-			IF !UsaArquivo("RECEBIDO") ; Break ; EndiF
-			IF !UsaArquivo("VENDEDOR") ; Break ; EndiF
-			IF !UsaArquivo("CHEMOV")   ; Break ; EndiF
-			IF !UsaArquivo("RECEMOV")  ; Break ; EndiF
-			IF !UsaArquivo("RECEBER")  ; Break ; EndiF
-			IF !UsaArquivo("CHEQUE")   ; Break ; EndiF
-			IF !UsaArquivo("SAIDAS")   ; Break ; EndiF
-			DetalheCaixa(, OK, Opc )
-			FechaTudo()
-		Case opc = 3.11
-			IF !UsaArquivo("VENDEDOR") ; Break ; EndiF
-         IF !UsaArquivo("RECIBO")   ; Break ; EndiF
-         DetalheRecibo(,1)
-			FechaTudo()
-      Case opc = 3.12
-			IF !UsaArquivo("VENDEDOR") ; Break ; EndiF
-         IF !UsaArquivo("RECIBO")   ; Break ; EndiF
-         DetalheRecibo(,2)
-			FechaTudo()
-      Case opc = 3.13
-			IF !UsaArquivo("VENDEDOR") ; Break ; EndiF
-         IF !UsaArquivo("RECIBO")   ; Break ; EndiF
-         DetalheRecibo(,3)
-			FechaTudo()
-      Case opc = 3.15
-			IF UsaArquivo("SAIDAS")
-				IF UsaArquivo("LISTA")
-					IF UsaArquivo("RECEBER")
-						ImprimeDebito()
-						FechaTudo()
+			Case opc = 3.04
+				cTela := Mensagem("Aguarde, Abrindo Arquivos.")
+				IF !UsaArquivo("SAIDAS")  ; Break ; EndiF
+				IF !UsaArquivo("RECEBER") ; Break ; EndiF
+				IF !UsaArquivo("FORMA")   ; Break ; EndiF
+				IF !UsaArquivo("REGIAO")  ; Break ; EndiF
+				IF !UsaArquivo("RECEMOV") ; Break ; EndiF
+				IF !UsaArquivo("CEP")     ; Break ; EndiF
+				ResTela( cTela )
+				WHILE OK
+					oMenu:Limpa()
+					M_Title("TIPO DE RELATORIO")
+					nChoice := FazMenu( 03, 20, {"Por Vencimento", "Por Emissao *"})
+					Do Case
+					Case nChoice = 0
+						Exit
+					Case nChoice = 1
+						PrnAlfabetica(1)
+					Case nChoice = 2
+						PrnAlfabetica(2)
+					EndCase
+				EndDo
+				FechaTudo()
+			Case opc = 3.05
+				cTela := Mensagem("Aguarde, Abrindo Arquivos.")
+				IF !UsaArquivo("SAIDAS")  ; Break ; EndiF
+				IF !UsaArquivo("RECEBER") ; Break ; EndiF
+				IF !UsaArquivo("RECEBIDO"); Break ; EndiF
+				IF !UsaArquivo("VENDEDOR"); Break ; EndiF
+				IF !UsaArquivo("FORMA")   ; Break ; EndiF
+				IF !UsaArquivo("REGIAO")  ; Break ; EndiF
+				ResTela( cTela )
+				RelRecebido()
+				FechaTudo()
+			Case opc = 3.06
+				IF UsaArquivo("VENDEDOR" )
+					CadastraSenha()
+					FechaTudo()
+				EndIF
+			Case opc = 3.08
+				IF !UsaArquivo("RECEBIDO") ; Break ; EndiF
+				IF !UsaArquivo("VENDEDOR") ; Break ; EndiF
+				IF !UsaArquivo("CHEMOV")   ; Break ; EndiF
+				IF !UsaArquivo("RECEMOV")  ; Break ; EndiF
+				IF !UsaArquivo("RECEBER")  ; Break ; EndiF
+				IF !UsaArquivo("SAIDAS")   ; Break ; EndiF
+				DetalheCaixa(, FALSO )
+				FechaTudo()
+			Case opc = 3.09
+				IF !UsaArquivo("RECEBIDO") ; Break ; EndiF
+				IF !UsaArquivo("VENDEDOR") ; Break ; EndiF
+				IF !UsaArquivo("CHEMOV")   ; Break ; EndiF
+				IF !UsaArquivo("RECEMOV")  ; Break ; EndiF
+				IF !UsaArquivo("RECEBER")  ; Break ; EndiF
+				IF !UsaArquivo("SAIDAS")  ; Break ; EndiF
+				DetalheCaixa(, OK )
+				FechaTudo()
+			Case opc = 3.10
+				IF !UsaArquivo("RECEBIDO") ; Break ; EndiF
+				IF !UsaArquivo("VENDEDOR") ; Break ; EndiF
+				IF !UsaArquivo("CHEMOV")   ; Break ; EndiF
+				IF !UsaArquivo("RECEMOV")  ; Break ; EndiF
+				IF !UsaArquivo("RECEBER")  ; Break ; EndiF
+				IF !UsaArquivo("CHEQUE")   ; Break ; EndiF
+				IF !UsaArquivo("SAIDAS")   ; Break ; EndiF
+				DetalheCaixa(, OK, Opc )
+				FechaTudo()
+			Case opc = 3.11
+				IF !UsaArquivo("VENDEDOR") ; Break ; EndiF
+				IF !UsaArquivo("RECIBO")   ; Break ; EndiF
+				DetalheRecibo(,1)
+				FechaTudo()
+			Case opc = 3.12
+				IF !UsaArquivo("VENDEDOR") ; Break ; EndiF
+				IF !UsaArquivo("RECIBO")   ; Break ; EndiF
+				DetalheRecibo(,2)
+				FechaTudo()
+			Case opc = 3.13
+				IF !UsaArquivo("VENDEDOR") ; Break ; EndiF
+				IF !UsaArquivo("RECIBO")   ; Break ; EndiF
+				DetalheRecibo(,3)
+				FechaTudo()
+			Case opc = 3.15
+				IF UsaArquivo("SAIDAS")
+					IF UsaArquivo("LISTA")
+						IF UsaArquivo("RECEBER")
+							ImprimeDebito()
+							FechaTudo()
+						EndIF
 					EndIF
 				EndIF
-			EndIF
-      Case opc = 3.16
-			IF UsaArquivo("SAIDAS")
-				IF UsaArquivo("LISTA")
-					IF UsaArquivo("RECEBER")
-						IF UsaArquivo("CHEQUE")
-							IF UsaArquivo("CHEMOV")
-								MostraDebito()
-								FechaTudo()
+			Case opc = 3.16
+				IF UsaArquivo("SAIDAS")
+					IF UsaArquivo("LISTA")
+						IF UsaArquivo("RECEBER")
+							IF UsaArquivo("CHEQUE")
+								IF UsaArquivo("CHEMOV")
+									MostraDebito()
+									FechaTudo()
+								EndIF
 							EndIF
 						EndIF
 					EndIF
 				EndIF
-			EndIF
-      Case opc = 3.17
-			IF UsaArquivo("SAIDAS")
-				IF UsaArquivo("LISTA")
-					IF UsaArquivo("RECEBER")
-						DebitoC_C()
-						FechaTudo()
+			Case opc = 3.17
+				IF UsaArquivo("SAIDAS")
+					IF UsaArquivo("LISTA")
+						IF UsaArquivo("RECEBER")
+							DebitoC_C()
+							FechaTudo()
+						EndIF
 					EndIF
 				EndIF
-			EndIF
-      Case opc = 3.18
-			IF !UsaArquivo("LISTA")    ; Break ; EndiF
-			IF !UsaArquivo("RECEBER")  ; Break ; EndiF
-			IF !UsaArquivo("SAIDAS")   ; Break ; EndiF
-			IF !UsaArquivo("CHEMOV")   ; Break ; EndiF
-			IF !UsaArquivo("CHEQUE")   ; Break ; EndiF
-			IF !UsaArquivo("VENDEDOR") ; Break ; EndiF
-			BaixaDebitoc_c()
-			FechaTudo()
-      Case opc = 3.20
-         EcfComandos()
-		Case opc = 4.01
-			MacroBackup()
-		Case opc = 4.02
-			MacroRestore()
-			oMenu:Limpa()
-			ErrorBeep()
-			IF Conf("Pergunta: Reindexar os Arquivos Agora ?")
-				IF MenuIndice()
-					CriaIndice()
-				EndIF
-			EndIF
-		Case Opc = 4.03
-			GeraBatch()
-		Case Opc = 4.05
-			 IF MenuIndice()
-				 CriaIndice()
-			 EndIF
-		Case Opc = 4.06
-			 IF MenuIndice()
-				 FechaTudo()
-				 IF AbreArquivo()
-					 Duplicados()
-					 CriaIndice()
-				 EndIF
-			 EndIF
-		Case Opc = 4.07
-			 IF MenuIndice()
-				 Reindexar()
-				 oIndice:Compactar	 := FALSO
-				 oIndice:ProgressoNtx := FALSO
-			 EndIF
-		Case Opc = 4.08
-			ExcluirTemporarios()
-		Case Opc = 5.01
-			Edicao()
-		Case Opc = 5.02
-			Impressao()
-		Case Opc = 5.03
-		   FechaTudo()
-			//WA_USE('PRINTER'); hb_threadJoin(hb_threadStart(HB_THREAD_INHERIT_MEMVARS, @CriaIndice(), "PRINTER"))			
-			aThreads := {}
-			s_hMutex := hb_mutexCreate()
-			lEnd     := .F.
-			WA_USE('PRINTER'); AAdd( aThreads, hb_threadStart(HB_THREAD_INHERIT_MEMVARS,@CriaIndice(), "PRINTER", @lEnd ))
-			WA_USE('RECEBER'); AAdd( aThreads, hb_threadStart(HB_THREAD_INHERIT_MEMVARS,@CriaIndice(), "RECEBER", @lEnd ))
-			WA_USE('RECEMOV'); AAdd( aThreads, hb_threadStart(HB_THREAD_INHERIT_MEMVARS,@CriaIndice(), "RECEMOV", @lEnd ))
-			WA_USE('NOTA');    AAdd( aThreads, hb_threadStart(HB_THREAD_INHERIT_MEMVARS,@CriaIndice(), "NOTA",    @lEnd ))
-			Inkey( 5 )
-			lEnd := .T.
-			AEval( aThreads, {| x | hb_threadJoin( x ) } )
-			
-		Case oPc = 6.01
-			Spooler()
-		Case oPc = 6.02
-			oMenu:SetaFonte()
-			SalvaMem()
-		Case oPc = 6.04
-			oMenu:SetaCor( 3 )
-		Case oPc = 6.05
-			oMenu:SetaCor( 1 )
-			SalvaMem()
-		Case oPc = 6.06
-			oMenu:SetaCor( 2 )
-			SalvaMem()
-		Case oPc = 6.07
-			oMenu:SetaCorAlerta(8)
-			oAmbiente:CorAlerta := oMenu:CorAlerta
-			SalvaMem()
-		Case oPc = 6.08
-			oMenu:SetaCorBorda(10)
-			SalvaMem()
-		Case oPc = 6.09
-			oMenu:SetaCor( 4 )
-			SalvaMem()
-		Case oPc = 6.10
-			oMenu:SetaCorMsg(9)
-			oAmbiente:CorMsg := oMenu:CorMsg
-			SalvaMem()
-		Case oPc = 6.11
-			oMenu:SetaCor( 5 ) // ::CorLigthBar
-			SalvaMem()
-		Case oPc = 6.12
-			oMenu:SetaCor( 6 ) // ::CorHotKey
-	   	SalvaMem()			
-		Case oPc = 6.13
-			oMenu:SetaCor( 7 ) // ::CorLightBarHotKey
-			SalvaMem()	
-		Case oPc = 6.15
-			oMenu:SetaPano()
-			SalvaMem()
-		Case oPc = 6.16
-			oMenu:SetaFrame()
-			SalvaMem()
-		Case oPc = 6.17
-			oMenu:Sombra	  := !(oIni:ReadBool( oAmbiente:xUsuario, 'sombra', FALSO ))
-			oAmbiente:Sombra := oMenu:Sombra
-			oMenu:SetaSombra()
-         oMenu:Menu := oSciMenuSci()
-			SalvaMem()
-		Case oPc = 6.18
-			oAmbiente:Get_Ativo := !(oIni:ReadBool( oAmbiente:xUsuario, 'get_ativo', FALSO ))
-         oMenu:Menu := oSciMenuSci()
-			SalvaMem()
-		Case oPc = 6.19
-			IF !UsaArquivo("USUARIO") ; Break ; EndIF
-			IF !UsaArquivo("PRINTER") ; Break ; EndIF
-			AltSenha()
-			FechaTudo()
-		Case Opc = 7.01
-			oMenu:Limpa()
-			Diretorio( 03, 05, LastRow() - 2, "W+/B,N/W,,,W+/N")
-		Case Opc = 7.02
-			TbDemo()
-		Case Opc = 7.04
-			 IF MenuIndice()
-				 CriaIndice()
-			 EndIF
-		Case Opc = 7.05
-			 IF MenuIndice()
-				 FechaTudo()
-				 IF AbreArquivo()
-					 Duplicados()
-					 CriaIndice()
-				 EndIF
-			 EndIF
-		Case Opc = 7.07
-			 ExcluirTemporarios()
-		Case opc = 7.08
-			IF !UsaArquivo("USUARIO") ; Break ; EndIF
-			IF !UsaArquivo("PRINTER") ; Break ; EndIF
-			CadastraUsuario()
-			RefreshClasse()
-			FechaTudo()
-		Case opc = 7.09
-			ConfBaseDados()
-			FechaTudo()
-		Case opc = 7.10
-         #IFDEF MICROBRAS
-				IF !UsaArquivo("RETORNO") ; Break ; EndIF
-				IF !UsaArquivo("RECEBER") ; Break ; EndIF
-				IF !UsaArquivo("RECEMOV") ; Break ; EndIF
-				IF !UsaArquivo("CEP")     ; Break ; EndIF
-				IF !UsaArquivo("REGIAO")  ; Break ; EndIF
-				Retorno()
+			Case opc = 3.18
+				IF !UsaArquivo("LISTA")    ; Break ; EndiF
+				IF !UsaArquivo("RECEBER")  ; Break ; EndiF
+				IF !UsaArquivo("SAIDAS")   ; Break ; EndiF
+				IF !UsaArquivo("CHEMOV")   ; Break ; EndiF
+				IF !UsaArquivo("CHEQUE")   ; Break ; EndiF
+				IF !UsaArquivo("VENDEDOR") ; Break ; EndiF
+				BaixaDebitoc_c()
 				FechaTudo()
-			#ENDIF
-		Case opc = 7.11
-			Alerta("Informa: Em implantacao.")
-			/*
-			IF !UsaArquivo("CHEMOV") ; Break ; EndIF
-			MoviAnual()
-			FechaTudo()
-			*/
-		Case opc = 7.12
-			AutoCaixa()
-			FechaTudo()
-		Case opc = 7.13
-			ZeraCaixa()
-			FechaTudo()
-		Case oPc = 7.14
-			CadastroImpressoras()
-			FechaTudo()
-		Case oPc =7.15
-			PrinterDbedit()
-			FechaTudo()
-		Case oPc = 7.16
-			CenturyOn()
-			Hard( 3 )
-			oMenu:Limpa()
-			oMenu:CorCabec := Roloc( oMenu:CorCabec )
-			oMenu:StatSup("SOBRE O " + SISTEM_NA1 + " " + SISTEM_VERSAO )
-         Info(2)
-			CenturyOff()
-		Case opc = 8.01
-			IntBaseDados()
-		Case opc = 8.02
-			CriaNewNota()
-		Case oPc = 8.03
-			 ErrorBeep()
-			 IF Conf("Pergunta: Continuar com a opera‡ao ?")
-				 CriaNewPrinter()
-				 FechaTudo()
-				 IF AbreArquivo('PRINTER')
-					 oIndice:ProgressoNtx := OK
-					 CriaIndice('PRINTER')
-					 oIndice:ProgressoNtx := FALSO
+			Case opc = 3.20
+				EcfComandos()
+			Case opc = 4.01
+				MacroBackup()
+			Case opc = 4.02
+				MacroRestore()
+				oMenu:Limpa()
+				ErrorBeep()
+				IF Conf("Pergunta: Reindexar os Arquivos Agora ?")
+					IF MenuIndice()
+						CriaIndice()
+					EndIF
+				EndIF
+			Case Opc = 4.03
+				GeraBatch()
+			Case Opc = 4.05
+				 if MenuIndice()
+					 CriaIndice()
+				 endif
+			Case Opc = 4.06
+				 IF MenuIndice()
 					 FechaTudo()
+					 IF AbreArquivo()
+						 Duplicados()
+						 CriaIndice()
+					 EndIF
 				 EndIF
-			 EndIF
-		Case oPc = 8.04
-			 ErrorBeep()
-			 IF Conf("Pergunta: Continuar com a opera‡ao ?")
-				 CriaNewEnt()
-				 FechaTudo()
-				 IF AbreArquivo('ENTNOTA')
-					 oIndice:ProgressoNtx := OK
-					 CriaIndice('ENTNOTA')
-					 oIndice:ProgressoNtx := FALSO
-					 FechaTudo()
-				 EndIF
-			 EndIF
-		Case oPc = 8.05
-			 ErrorBeep()
-			 IF Conf("Pergunta: Continuar com a opera‡ao ?")
-				 Fechatudo()
-				 IF AbreArquivo('PREVENDA')
-					 oIndice:ProgressoNtx := OK
-					 oIndice:Compactar	 := OK
-					 CriaIndice('PREVENDA')
-					 oIndice:ProgressoNtx := FALSO
+			Case Opc = 4.07
+				 IF MenuIndice()
+					 Reindexar()
 					 oIndice:Compactar	 := FALSO
-                FechaTudo()
+					 oIndice:ProgressoNtx := FALSO
 				 EndIF
-			 EndIF
-		Case Opc = 9.01
-			Dos()
-		Case Opc = 9.02
-			Comandos()
-		Case opc = 10.01
-			oMenu:Limpa()
-			oMenu:CorCabec := Roloc( oMenu:CorCabec )
-			oMenu:StatSup("SOBRE O " + SISTEM_NA1 + " " + SISTEM_VERSAO )
-         Info(2)
-		Case oPc = 10.02
-			Novidades()
-		Case oPc = 10.03
-			Help()
-		EndCase
-	Recover
-		//NNetTtsAb()
-		FechaTudo()
-	End Sequence
-EndDo
-Encerra()
+			Case Opc = 4.08
+				ExcluirTemporarios()
+			Case Opc = 5.01
+				Edicao()
+			Case Opc = 5.02
+				Impressao()
+			Case Opc = 5.03
+				FechaTudo()
+				//WA_USE('PRINTER'); hb_threadJoin(hb_threadStart(HB_THREAD_INHERIT_MEMVARS, @CriaIndice(), "PRINTER"))			
+				aThreads := {}
+				s_hMutex := hb_mutexCreate()
+				lEnd     := .F.
+				WA_USE('PRINTER'); AAdd( aThreads, hb_threadStart(HB_THREAD_INHERIT_MEMVARS,@CriaIndice(), "PRINTER", @lEnd ))
+				WA_USE('RECEBER'); AAdd( aThreads, hb_threadStart(HB_THREAD_INHERIT_MEMVARS,@CriaIndice(), "RECEBER", @lEnd ))
+				WA_USE('RECEMOV'); AAdd( aThreads, hb_threadStart(HB_THREAD_INHERIT_MEMVARS,@CriaIndice(), "RECEMOV", @lEnd ))
+				WA_USE('NOTA');    AAdd( aThreads, hb_threadStart(HB_THREAD_INHERIT_MEMVARS,@CriaIndice(), "NOTA",    @lEnd ))
+				Inkey( 5 )
+				lEnd := .T.
+				AEval( aThreads, {| x | hb_threadJoin( x ) } )
+				
+			Case oPc = 6.01
+				Spooler()
+			Case oPc = 6.02
+				oMenu:SetaFonte()
+				SalvaMem()
+			Case oPc = 6.04
+				oMenu:SetaCor( 3 )
+			Case oPc = 6.05
+				oMenu:SetaCor( 1 )
+				SalvaMem()
+			Case oPc = 6.06
+				oMenu:SetaCor( 2 )
+				SalvaMem()
+			Case oPc = 6.07
+				oMenu:SetaCorAlerta(8)
+				oAmbiente:CorAlerta := oMenu:CorAlerta
+				SalvaMem()
+			Case oPc = 6.08
+				oMenu:SetaCorBorda(10)
+				SalvaMem()
+			Case oPc = 6.09
+				oMenu:SetaCor( 4 )
+				SalvaMem()
+			Case oPc = 6.10
+				oMenu:SetaCorMsg(9)
+				oAmbiente:CorMsg := oMenu:CorMsg
+				SalvaMem()
+			Case oPc = 6.11
+				oMenu:SetaCor( 5 ) // ::CorLigthBar
+				SalvaMem()
+			Case oPc = 6.12
+				oMenu:SetaCor( 6 ) // ::CorHotKey
+				SalvaMem()			
+			Case oPc = 6.13
+				oMenu:SetaCor( 7 ) // ::CorLightBarHotKey
+				SalvaMem()	
+			Case oPc = 6.15
+				oMenu:SetaPano()
+				SalvaMem()
+			Case oPc = 6.16
+				oMenu:SetaFrame()
+				SalvaMem()
+			Case oPc = 6.17
+				oMenu:Sombra	  := !(oIni:ReadBool( oAmbiente:xUsuario, 'sombra', FALSO ))
+				oAmbiente:Sombra := oMenu:Sombra
+				oMenu:SetaSombra()
+				oMenu:Menu := oSciMenuSci()
+				SalvaMem()
+			Case oPc = 6.18
+				oAmbiente:Get_Ativo := !(oIni:ReadBool( oAmbiente:xUsuario, 'get_ativo', FALSO ))
+				oMenu:Menu := oSciMenuSci()
+				SalvaMem()
+			Case oPc = 6.19
+				IF !UsaArquivo("USUARIO") ; Break ; EndIF
+				IF !UsaArquivo("PRINTER") ; Break ; EndIF
+				AltSenha()
+				FechaTudo()
+			Case Opc = 7.01
+				oMenu:Limpa()
+				Diretorio( 03, 05, LastRow() - 2, "W+/B,N/W,,,W+/N")
+			Case Opc = 7.02
+				TbDemo()
+			Case Opc = 7.04
+				 IF MenuIndice()
+					 CriaIndice()
+				 EndIF
+			Case Opc = 7.05
+				 IF MenuIndice()
+					 FechaTudo()
+					 IF AbreArquivo()
+						 Duplicados()
+						 CriaIndice()
+					 EndIF
+				 EndIF
+			Case Opc = 7.07
+				 ExcluirTemporarios()
+			Case opc = 7.08
+				IF !UsaArquivo("USUARIO") ; Break ; EndIF
+				IF !UsaArquivo("PRINTER") ; Break ; EndIF
+				CadastraUsuario()
+				RefreshClasse()
+				FechaTudo()
+			Case opc = 7.09
+				ConfBaseDados()
+				FechaTudo()
+			Case opc = 7.10
+				#IFDEF MICROBRAS
+					IF !UsaArquivo("RETORNO") ; Break ; EndIF
+					IF !UsaArquivo("RECEBER") ; Break ; EndIF
+					IF !UsaArquivo("RECEMOV") ; Break ; EndIF
+					IF !UsaArquivo("CEP")     ; Break ; EndIF
+					IF !UsaArquivo("REGIAO")  ; Break ; EndIF
+					Retorno()
+					FechaTudo()
+				#ENDIF
+			Case opc = 7.11
+				Alerta("Informa: Em implantacao.")
+				/*
+				IF !UsaArquivo("CHEMOV") ; Break ; EndIF
+				MoviAnual()
+				FechaTudo()
+				*/
+			Case opc = 7.12
+				AutoCaixa()
+				FechaTudo()
+			Case opc = 7.13
+				ZeraCaixa()
+				FechaTudo()
+			Case oPc = 7.14
+				CadastroImpressoras()
+				FechaTudo()
+			Case oPc =7.15
+				PrinterDbedit()
+				FechaTudo()
+			Case oPc = 7.16
+				CenturyOn()
+				Hard( 3 )
+				oMenu:Limpa()
+				oMenu:CorCabec := Roloc( oMenu:CorCabec )
+				oMenu:StatSup("SOBRE O " + SISTEM_NA1 + " " + SISTEM_VERSAO )
+				Info(2)
+				CenturyOff()
+			Case opc = 8.01
+				IntBaseDados()
+			Case opc = 8.02
+				CriaNewNota()
+			Case oPc = 8.03
+				 ErrorBeep()
+				 IF Conf("Pergunta: Continuar com a opera‡ao ?")
+					 CriaNewPrinter()
+					 FechaTudo()
+					 IF AbreArquivo('PRINTER')
+						 oIndice:ProgressoNtx := OK
+						 CriaIndice('PRINTER')
+						 oIndice:ProgressoNtx := FALSO
+						 FechaTudo()
+					 EndIF
+				 EndIF
+			Case oPc = 8.04
+				 ErrorBeep()
+				 IF Conf("Pergunta: Continuar com a opera‡ao ?")
+					 CriaNewEnt()
+					 FechaTudo()
+					 IF AbreArquivo('ENTNOTA')
+						 oIndice:ProgressoNtx := OK
+						 CriaIndice('ENTNOTA')
+						 oIndice:ProgressoNtx := FALSO
+						 FechaTudo()
+					 EndIF
+				 EndIF
+			Case oPc = 8.05
+				 ErrorBeep()
+				 IF Conf("Pergunta: Continuar com a opera‡ao ?")
+					 Fechatudo()
+					 IF AbreArquivo('PREVENDA')
+						 oIndice:ProgressoNtx := OK
+						 oIndice:Compactar	 := OK
+						 CriaIndice('PREVENDA')
+						 oIndice:ProgressoNtx := FALSO
+						 oIndice:Compactar	 := FALSO
+						 FechaTudo()
+					 EndIF
+				 EndIF
+			Case Opc = 9.01
+				Dos()
+			Case Opc = 9.02
+				Comandos()
+			Case opc = 10.01
+				oMenu:Limpa()
+				oMenu:CorCabec := Roloc( oMenu:CorCabec )
+				oMenu:StatSup("SOBRE O " + SISTEM_NA1 + " " + SISTEM_VERSAO )
+				Info(2)
+			Case oPc = 10.02
+				Novidades()
+			Case oPc = 10.03
+				Help()
+			EndCase
+		Recover
+			//NNetTtsAb()
+			FechaTudo()
+		FINALLY
+	EndDo
+	Encerra()
+endef
 
-Proc SetaClasse()
-*****************
-LOCAL cSn1 := SISTEM_NA1
-LOCAL cSn2 := SISTEM_NA2
-LOCAL cSn3 := SISTEM_NA3
-LOCAL cSn4 := SISTEM_NA4
-LOCAL cSn5 := SISTEM_NA5
-LOCAL cSn6 := SISTEM_NA6
-LOCAL cSn7 := SISTEM_NA7
-LOCAL cSn8 := SISTEM_NA8
+def SetaClasse()
+*--------------*
+	LOCAL cSn1 := SISTEM_NA1
+	LOCAL cSn2 := SISTEM_NA2
+	LOCAL cSn3 := SISTEM_NA3
+	LOCAL cSn4 := SISTEM_NA4
+	LOCAL cSn5 := SISTEM_NA5
+	LOCAL cSn6 := SISTEM_NA6
+	LOCAL cSn7 := SISTEM_NA7
+	LOCAL cSn8 := SISTEM_NA8
 
-LOCAL cSv  := SISTEM_VERSAO
-LOCAL cSp  := Space(1)
-LOCAL cSt1 := "F1-HELP³F5-PRECOS³F10-CALC³"
-LOCAL cSt2 := "F1-HELP³F5-LISTA³F8-SPOOL³ESC-RETORNA³"
-LOCAL cSt3 := "F1-HELP³F5-LISTA³F8-SPOOL³ESC-RETORNA³"
-LOCAL cSt4 := "F1-HELP³F5-LISTA³F8-SPOOL³ESC-RETORNA³"
-LOCAL cSt5 := "F1-HELP³F5-LISTA³F8-SPOOL³ESC-RETORNA³"
-LOCAL cSt6 := "F1-HELP³F5-LISTA³F8-SPOOL³ESC-RETORNA³"
-LOCAL cSt7 := "F1-HELP³F5-LISTA³F8-SPOOL³ESC-RETORNA³"
-LOCAL cSt8 := "F1-HELP³F5-LISTA³F8-SPOOL³ESC-RETORNA³"
+	LOCAL cSv  := SISTEM_VERSAO
+	LOCAL cSp  := Space(1)
+	LOCAL cSt1 := "F1-HELP³F5-PRECOS³F10-CALC³"
+	LOCAL cSt2 := "F1-HELP³F5-LISTA³F8-SPOOL³ESC-RETORNA³"
+	LOCAL cSt3 := "F1-HELP³F5-LISTA³F8-SPOOL³ESC-RETORNA³"
+	LOCAL cSt4 := "F1-HELP³F5-LISTA³F8-SPOOL³ESC-RETORNA³"
+	LOCAL cSt5 := "F1-HELP³F5-LISTA³F8-SPOOL³ESC-RETORNA³"
+	LOCAL cSt6 := "F1-HELP³F5-LISTA³F8-SPOOL³ESC-RETORNA³"
+	LOCAL cSt7 := "F1-HELP³F5-LISTA³F8-SPOOL³ESC-RETORNA³"
+	LOCAL cSt8 := "F1-HELP³F5-LISTA³F8-SPOOL³ESC-RETORNA³"
 
-oMenu:StSupArray               := { cSn1+cSp+cSv, cSn2+cSp+cSv,cSn3+cSp+cSv,cSn4+cSp+cSv,cSn5+cSp+cSv,cSn6+cSp+cSv, cSn7+cSp+cSv, cSn8+cSp+cSv }
-oMenu:StInfArray               := { cSt1, cSt2, cSt3, cSt4, cSt5, cSt6, cSt7, cSt8,  }
-oMenu:MenuArray                := { oSciMenuSci(), oMenuTesteLan(),   oMenuRecelan(),   oMenuPagaLan(),   oMenuChelan(),   oMenuVenLan(), oMenuScpLan(), oMenuPontoLan() }
-oMenu:DispArray                := { aDispSci(),    aDispTesteLan(),   aDispRecelan(),   aDispPagaLan(),   aDispChelan(),   aDispVenLan(), aDispScpLan(), aDispPontoLan() }
-//oMenu:LetraHotKeyArray         := { aLtHKSci(),    aLtHKTesteLan(),   aLtHKRecelan(),   aLtHKPagaLan(),   aLtHKChelan(),   aLtHKVenLan() }
-//oMenu:LetraLightBarHotKeyArray := { aLtLBHKSci(),  aLtLBHKTesteLan(), aLtLBHKRecelan(), aLtLBHKPagaLan(), aLtLBHKChelan(), aLtLBHKVenLan() }
-Return
+	oMenu:StSupArray               := { cSn1+cSp+cSv, cSn2+cSp+cSv,cSn3+cSp+cSv,cSn4+cSp+cSv,cSn5+cSp+cSv,cSn6+cSp+cSv, cSn7+cSp+cSv, cSn8+cSp+cSv }
+	oMenu:StInfArray               := { cSt1, cSt2, cSt3, cSt4, cSt5, cSt6, cSt7, cSt8,  }
+	oMenu:MenuArray                := { oSciMenuSci(), oMenuTesteLan(),   oMenuRecelan(),   oMenuPagaLan(),   oMenuChelan(),   oMenuVenLan(), oMenuScpLan(), oMenuPontoLan() }
+	oMenu:DispArray                := { aDispSci(),    aDispTesteLan(),   aDispRecelan(),   aDispPagaLan(),   aDispChelan(),   aDispVenLan(), aDispScpLan(), aDispPontoLan() }
+	//oMenu:LetraHotKeyArray         := { aLtHKSci(),    aLtHKTesteLan(),   aLtHKRecelan(),   aLtHKPagaLan(),   aLtHKChelan(),   aLtHKVenLan() }
+	//oMenu:LetraLightBarHotKeyArray := { aLtLBHKSci(),  aLtLBHKTesteLan(), aLtLBHKRecelan(), aLtLBHKPagaLan(), aLtLBHKChelan(), aLtLBHKVenLan() }
+	Return
+endef
 
-Proc RefreshClasse()
-********************
-oMenu:StatusSup		          := oMenu:StSupArray[1]
-oMenu:StatusInf	           	 := oMenu:StInfArray[1]
-oMenu:Menu		           	 	 := oMenu:MenuArray[1]
-oMenu:Disp				          := oMenu:DispArray[1]
-//oMenu:LetraHotKeyArray         := oMenu:LetraHotKeyArray[1]
-//oMenu:LetraLightBarHotKeyArray := oMenu:LetraLightBarHotKeyArray[1]
-Return
+def RefreshClasse()
+	oMenu:StatusSup		          := oMenu:StSupArray[1]
+	oMenu:StatusInf	           	 := oMenu:StInfArray[1]
+	oMenu:Menu		           	 	 := oMenu:MenuArray[1]
+	oMenu:Disp				          := oMenu:DispArray[1]
+	//oMenu:LetraHotKeyArray         := oMenu:LetraHotKeyArray[1]
+	//oMenu:LetraLightBarHotKeyArray := oMenu:LetraLightBarHotKeyArray[1]
+	return nil
+endef	
 
-Function SetaIni()
-******************
-oMenu:Frame 				 := oIni:ReadString( oAmbiente:xUsuario,  'frame',         oAmbiente:Frame )
-oMenu:PanoFundo			 := oIni:ReadString( oAmbiente:xUsuario,  'panofundo',     oAmbiente:PanoFundo )
-oMenu:CorMenu				 := oIni:ReadInteger( oAmbiente:xUsuario, 'cormenu',       oAmbiente:CorMenu )
-oMenu:CorMsg				 := oIni:ReadInteger( oAmbiente:xUsuario, 'cormsg',        oAmbiente:CorMsg )
-oMenu:CorFundo 			 := oIni:ReadInteger( oAmbiente:xUsuario, 'corfundo',      oAmbiente:Corfundo )
-oMenu:CorCabec 			 := oIni:ReadInteger( oAmbiente:xUsuario, 'corcabec',      oAmbiente:CorCabec )
-oMenu:CorDesativada		 := oIni:ReadInteger( oAmbiente:xUsuario, 'cordesativada', oAmbiente:CorDesativada )
-oMenu:CorBox				 := oIni:ReadInteger( oAmbiente:xUsuario, 'corbox',        oAmbiente:CorBox )
-oMenu:CorCima				 := oIni:ReadInteger( oAmbiente:xUsuario, 'corcima',       oAmbiente:CorCima )
-oMenu:Selecionado 		 := oIni:ReadInteger( oAmbiente:xUsuario, 'selecionado',   oAmbiente:Selecionado )
-oMenu:CorAntiga			 := oIni:ReadInteger( oAmbiente:xUsuario, 'corantiga',     oAmbiente:CorAntiga )
-oMenu:CorBorda 			 := oIni:ReadInteger( oAmbiente:xUsuario, 'corborda',      oAmbiente:CorBorda )
-oMenu:CorAlerta			 := oIni:ReadInteger( oAmbiente:xUsuario, 'coralerta',     oAmbiente:CorAlerta )
-oMenu:Fonte 				 := oIni:ReadInteger( oAmbiente:xUsuario, 'fonte',         oAmbiente:Fonte )
-oMenu:FonteManualAltura  := oIni:ReadInteger( oAmbiente:xUsuario, 'FonteManualAltura', oAmbiente:FonteManualAltura )
-oMenu:FonteManualLargura := oIni:ReadInteger( oAmbiente:xUsuario, 'FonteManualLargura', oAmbiente:FonteManualLargura )
-oMenu:Sombra				:= oIni:ReadBool( oAmbiente:xUsuario,	  'sombra',        oAmbiente:Sombra )
-oMenu:CorLightBar       := oIni:ReadInteger( oAmbiente:xUsuario, 'CorLightBar',   oAmbiente:CorLightBar )
-oMenu:CorHotKey         := oIni:ReadInteger( oAmbiente:xUsuario, 'CorHotKey',     oAmbiente:CorHotKey )
-oMenu:CorHKLightBar     := oIni:ReadInteger( oAmbiente:xUsuario, 'CorHKLightBar', oAmbiente:CorHKLightBar)
-oMenu:SetaSombra()
+def SalvaMem()	
+	oIni:WriteString(  oAmbiente:xUsuario,	'frame',         oMenu:Frame )
+	oIni:WriteString(  oAmbiente:xUsuario,	'panofundo',     oMenu:PanoFundo )
+	oIni:WriteInteger( oAmbiente:xUsuario, 'selecionado',   oMenu:Selecionado )
+	oIni:WriteInteger( oAmbiente:xUsuario, 'cormenu',       oMenu:CorMenu )
+	oIni:WriteInteger( oAmbiente:xUsuario, 'CorLightBar',   oMenu:CorLightBar )
+	oIni:WriteInteger( oAmbiente:xUsuario, 'CorHotKey',     oMenu:CorHotKey )
+	oIni:WriteInteger( oAmbiente:xUsuario, 'CorHKLightBar', oMenu:CorHKLightBar)
+	oIni:WriteInteger( oAmbiente:xUsuario, 'corfundo',      oMenu:Corfundo )
+	oIni:WriteInteger( oAmbiente:xUsuario, 'corcabec',      oMenu:CorCabec )
+	oIni:WriteInteger( oAmbiente:xUsuario, 'cordesativada', oMenu:CorDesativada )
+	oIni:WriteInteger( oAmbiente:xUsuario, 'corbox',        oMenu:CorBox )
+	oIni:WriteInteger( oAmbiente:xUsuario, 'corcima',       oMenu:CorCima )
+	oIni:WriteInteger( oAmbiente:xUsuario, 'corantiga',     oMenu:CorAntiga )
+	oIni:WriteInteger( oAmbiente:xUsuario, 'corborda',      oMenu:CorBorda )
+	oIni:WriteInteger( oAmbiente:xUsuario, 'fonte',         oMenu:Fonte )
+	oIni:WriteInteger( oAmbiente:xUsuario, 'fonte',         oMenu:Fonte )
+	oIni:WriteInteger( oAmbiente:xUsuario, 'FonteManualAltura', oMenu:FonteManualAltura )
+	oIni:WriteInteger( oAmbiente:xUsuario, 'FonteManualLargura', oMenu:FonteManualLargura )
+	oIni:WriteInteger( oAmbiente:xUsuario, 'coralerta',     oAmbiente:CorAlerta )
+	oIni:WriteInteger( oAmbiente:xUsuario, 'cormsg',        oAmbiente:CorMsg )
+	oIni:WriteBool(    oAmbiente:xUsuario, 'sombra',        oMenu:Sombra )
+	oIni:WriteBool(    oAmbiente:xUsuario, 'get_ativo',     oAmbiente:Get_Ativo )
+	//oAmbiente:ShowVar()
+	//alert("OPEN :" + strzero(oini:WriteOpen, 5) + " WRITE :" + strzero(oini:WriteCount, 5))
+	SetaIni()
+	return NIL
+endef
 
-oAmbiente:Get_Ativo           := oIni:ReadBool( oAmbiente:xUsuario,    'get_ativo',     oAmbiente:Get_Ativo )
-oAmbiente:Mostrar_Desativados := oIni:ReadBool( "sistema",'Mostrar_Desativados', oAmbiente:Mostrar_Desativados )
-oAmbiente:Mostrar_Recibo      := oIni:ReadBool( "sistema",'Mostrar_Recibo', oAmbiente:Mostrar_Recibo )
-oAmbiente:Frame               := oMenu:Frame
-oAmbiente:PanoFundo     		:= oMenu:PanoFundo
-oAmbiente:CorMenu 	      	:= oMenu:CorMenu
-oAmbiente:CorLightBar         := oMenu:CorLightBar
-oAmbiente:CorHotKey           := oMenu:CorHotKey
-oAmbiente:CorHKLightBar       := oMenu:CorHKLightBar
-oAmbiente:CorMsg			      := oMenu:CorMsg
-oAmbiente:CorFundo		      := oMenu:CorFundo
-oAmbiente:CorCabec		      := oMenu:CorCabec
-oAmbiente:CorDesativada       := oMenu:CorDesativada
-oAmbiente:CorBox			      := oMenu:CorBox
-oAmbiente:CorCima 		      := oMenu:CorCima
-oAmbiente:Selecionado	      := oMenu:Selecionado
-oAmbiente:CorAntiga		      := oMenu:CorAntiga
-oAmbiente:CorBorda		      := oMenu:CorBorda
-oAmbiente:CorAlerta		      := oMenu:CorAlerta
-oAmbiente:Fonte			      := oMenu:Fonte
-oAmbiente:FonteManualAltura   := oMenu:FonteManualAltura
-oAmbiente:FonteManualLargura  := oMenu:FonteManualLargura
-oAmbiente:Sombra			      := oMenu:Sombra
-IF oAmbiente:Fonte > 1
-	Eval( oAmbiente:TabelaFonte[ oAmbiente:Fonte] )
-EndIF
-return( NIL)
+def SetaIni()		
+	oMenu:Frame 				 := oIni:ReadString( oAmbiente:xUsuario,  'frame',         oAmbiente:Frame )
+	oMenu:PanoFundo			 := oIni:ReadString( oAmbiente:xUsuario,  'panofundo',     oAmbiente:PanoFundo )
+	oMenu:CorMenu				 := oIni:ReadInteger( oAmbiente:xUsuario, 'cormenu',       oAmbiente:CorMenu )
+	oMenu:CorMsg				 := oIni:ReadInteger( oAmbiente:xUsuario, 'cormsg',        oAmbiente:CorMsg )
+	oMenu:CorFundo 			 := oIni:ReadInteger( oAmbiente:xUsuario, 'corfundo',      oAmbiente:Corfundo )
+	oMenu:CorCabec 			 := oIni:ReadInteger( oAmbiente:xUsuario, 'corcabec',      oAmbiente:CorCabec )
+	oMenu:CorDesativada		 := oIni:ReadInteger( oAmbiente:xUsuario, 'cordesativada', oAmbiente:CorDesativada )
+	oMenu:CorBox				 := oIni:ReadInteger( oAmbiente:xUsuario, 'corbox',        oAmbiente:CorBox )
+	oMenu:CorCima				 := oIni:ReadInteger( oAmbiente:xUsuario, 'corcima',       oAmbiente:CorCima )
+	oMenu:Selecionado 		 := oIni:ReadInteger( oAmbiente:xUsuario, 'selecionado',   oAmbiente:Selecionado )
+	oMenu:CorAntiga			 := oIni:ReadInteger( oAmbiente:xUsuario, 'corantiga',     oAmbiente:CorAntiga )
+	oMenu:CorBorda 			 := oIni:ReadInteger( oAmbiente:xUsuario, 'corborda',      oAmbiente:CorBorda )
+	oMenu:CorAlerta			 := oIni:ReadInteger( oAmbiente:xUsuario, 'coralerta',     oAmbiente:CorAlerta )
+	oMenu:Fonte 				 := oIni:ReadInteger( oAmbiente:xUsuario, 'fonte',         oAmbiente:Fonte )
+	oMenu:FonteManualAltura  := oIni:ReadInteger( oAmbiente:xUsuario, 'FonteManualAltura', oAmbiente:FonteManualAltura )
+	oMenu:FonteManualLargura := oIni:ReadInteger( oAmbiente:xUsuario, 'FonteManualLargura', oAmbiente:FonteManualLargura )
+	oMenu:Sombra		 		 := oIni:ReadBool( oAmbiente:xUsuario,	  'sombra',        oAmbiente:Sombra )
+	oMenu:CorLightBar        := oIni:ReadInteger( oAmbiente:xUsuario, 'CorLightBar',   oAmbiente:CorLightBar )
+	oMenu:CorHotKey          := oIni:ReadInteger( oAmbiente:xUsuario, 'CorHotKey',     oAmbiente:CorHotKey )
+	oMenu:CorHKLightBar      := oIni:ReadInteger( oAmbiente:xUsuario, 'CorHKLightBar', oAmbiente:CorHKLightBar)
+	oMenu:SetaSombra()
 
+	oAmbiente:Get_Ativo           := oIni:ReadBool( oAmbiente:xUsuario,    'get_ativo',     oAmbiente:Get_Ativo )
+	oAmbiente:Mostrar_Desativados := oIni:ReadBool( "sistema",'Mostrar_Desativados', oAmbiente:Mostrar_Desativados )
+	oAmbiente:Mostrar_Recibo      := oIni:ReadBool( "sistema",'Mostrar_Recibo', oAmbiente:Mostrar_Recibo )
+	oAmbiente:Frame               := oMenu:Frame
+	oAmbiente:PanoFundo     		:= oMenu:PanoFundo
+	oAmbiente:CorMenu 	      	:= oMenu:CorMenu
+	oAmbiente:CorLightBar         := oMenu:CorLightBar
+	oAmbiente:CorHotKey           := oMenu:CorHotKey
+	oAmbiente:CorHKLightBar       := oMenu:CorHKLightBar
+	oAmbiente:CorMsg			      := oMenu:CorMsg
+	oAmbiente:CorFundo		      := oMenu:CorFundo
+	oAmbiente:CorCabec		      := oMenu:CorCabec
+	oAmbiente:CorDesativada       := oMenu:CorDesativada
+	oAmbiente:CorBox			      := oMenu:CorBox
+	oAmbiente:CorCima 		      := oMenu:CorCima
+	oAmbiente:Selecionado	      := oMenu:Selecionado
+	oAmbiente:CorAntiga		      := oMenu:CorAntiga
+	oAmbiente:CorBorda		      := oMenu:CorBorda
+	oAmbiente:CorAlerta		      := oMenu:CorAlerta
+	oAmbiente:Fonte			      := oMenu:Fonte
+	oAmbiente:FonteManualAltura   := oMenu:FonteManualAltura
+	oAmbiente:FonteManualLargura  := oMenu:FonteManualLargura
+	oAmbiente:Sombra			      := oMenu:Sombra
+	IF oAmbiente:Fonte > 1
+		Eval( oAmbiente:TabelaFonte[ oAmbiente:Fonte] )
+	EndIF
+	return( NIL)
+		
+	endef
+	
 Proc GeraBatch()
 ****************
 LOCAL Handle
@@ -823,7 +833,7 @@ IF LastKey() = 27 .OR. !Instru80()
 	ResTela( cScreen )
 	Return
 EndIF
-Mensagem("Aguarde, Imprimindo", Cor())
+Mensagem("Aguarde, Imprimindo")
 PrintOn()
 SetPrc( 0, 0 )
 For X := 1 To nCopias
@@ -841,854 +851,169 @@ Set Defa To ( oAmbiente:xBaseDados )
 ResTela( cScreen )
 Return
 
-Function Seta( Mode, Line, Col )
-********************************
-Do Case
-Case Mode = 0
-	Return(0)
+*==================================================================================================*		
 
-Case LastKey() = -1	 && F2	GRAVA E SAI
-	Return( 23 )
+def Seta( Mode, Line, Col )
+	Do Case
+	Case Mode = 0
+		Return(0)
+	Case LastKey() = -1	 && F2	GRAVA E SAI
+		Return( 23 )
+	OtherWise
+		Return(0)
+	EndCase
+endef	
 
-OtherWise
-	Return(0)
 
-EndCase
+def empresa( cTela )
+	LOCAL cScreen := SaveScreen()
+	LOCAL GetList := {}
+	LOCAL cCodi   := Space(4)
+	LOCAL cBase   := oAmbiente:xBase
+	LOCAL cBaseDados	
+	LOCAL cScr
+	LOCAL cCmd
+	LOCAL cSpooler
+	LOCAL cHtm
+	LOCAL cDoc
+	LOCAL cTxt	
+	LOCAL nTela
 
-Function ArrayIndices()
-**********************
-LOCAL aArquivos := {}
-Aadd( aArquivos, { "NOTA",      "NOTA1", "NOTA2", "NOTA3"})
-Aadd( aArquivos, { "LISTA",     "LISTA1", "LISTA2", "LISTA3","LISTA4","LISTA5","LISTA6","LISTA7","LISTA8","LISTA9","LISTA10","LISTA11"})
-Aadd( aArquivos, { "SAIDAS",    "SAIDAS1","SAIDAS2","SAIDAS3","SAIDAS4","SAIDAS5","SAIDAS6","SAIDAS7"})
-Aadd( aArquivos, { "RECEBER",   "RECEBER1","RECEBER2","RECEBER3", "RECEBER4", "RECEBER5","RECEBER6","RECEBER7","RECEBER8","RECEBER9","RECEBER10"})
-Aadd( aArquivos, { "REPRES",    "REPRES1","REPRES2","REPRES3"})
-Aadd( aArquivos, { "GRUPO",     "GRUPO1","GRUPO2"})
-Aadd( aArquivos, { "SUBGRUPO",  "SUBGRUPO1"})
-Aadd( aArquivos, { "VENDEDOR",  "VENDEDO1","VENDEDO2"})
-Aadd( aArquivos, { "VENDEMOV",  "VENDEMO1","VENDEMO2","VENDEMO3","VENDEMO4", "VENDEMO5", "VENDEMO6"})
-Aadd( aArquivos, { "RECEMOV",   "RECEMOV1","RECEMOV2","RECEMOV3","RECEMOV4","RECEMOV5","RECEMOV6","RECEMOV7", "RECEMOV8","RECEMOV9", "RECEMOV10", "RECEMOV11", "RECEMOV12"})
-Aadd( aArquivos, { "ENTRADAS",  "ENTRADA1","ENTRADA2","ENTRADA3","ENTRADA4"})
-Aadd( aArquivos, { "PAGAR",     "PAGAR1","PAGAR2","PAGAR3"})
-Aadd( aArquivos, { "PAGAMOV",   "PAGAMOV1","PAGAMOV2","PAGAMOV3","PAGAMOV4"})
-Aadd( aArquivos, { "TAXAS",     "TAXAS1","TAXAS2"})
-Aadd( aArquivos, { "PAGO",      "PAGO1","PAGO2","PAGO3"})
-Aadd( aArquivos, { "RECEBIDO",  "RECEBID1","RECEBID2","RECEBID3","RECEBID4","RECEBID5","RECEBID6","RECEBID7","RECEBID8","RECEBID9","RECEBID10","RECEBID11","RECEBID12"})
-Aadd( aArquivos, { "CHEQUE",    "CHEQUE1","CHEQUE2","CHEQUE3"})
-Aadd( aArquivos, { "CHEMOV",    "CHEMOV1","CHEMOV2","CHEMOV3","CHEMOV4","CHEMOV5","CHEMOV6"})
-Aadd( aArquivos, { "CHEPRE",    "CHEPRE1","CHEPRE2","CHEPRE3","CHEPRE4", "CHEPRE5"})
-Aadd( aArquivos, { "USUARIO",   "USUARIO1"})
-Aadd( aArquivos, { "FORMA",     "FORMA1"})
-Aadd( aArquivos, { "CURSOS",    "CURSOS1"})
-Aadd( aArquivos, { "CURSADO",   "CURSADO1","CURSADO2","CURSADO3"})
-Aadd( aArquivos, { "REGIAO",    "REGIAO1", "REGIAO2"})
-Aadd( aArquivos, { "CEP",       "CEP1", "CEP2"})
-Aadd( aArquivos, { "PONTO",     "PONTO1", "PONTO2", "PONTO3"})
-Aadd( aArquivos, { "SERVIDOR",  "SERVIDO1", "SERVIDO2"})
-Aadd( aArquivos, { "PRINTER",   "PRINTER1", "PRINTER2"})
-Aadd( aArquivos, { "ENTNOTA",   "ENTNOTA1", "ENTNOTA2", "ENTNOTA3","ENTNOTA4"})
-Aadd( aArquivos, { "CONTA",     "CONTA1"})
-Aadd( aArquivos, { "SUBCONTA",  "SUBCONT1", "SUBCONT2"})
-Aadd( aArquivos, { "RETORNO",   "RETORNO1"})
-Aadd( aArquivos, { "PREVENDA",  "PREVEND1","PREVEND2","PREVEND3"})
-Aadd( aArquivos, { "CORTES",    "CORTES1"})
-Aadd( aArquivos, { "SERVICO",   "SERVICO1", "SERVICO2"})
-Aadd( aArquivos, { "MOVI",      "MOVI1", "MOVI2","MOVI3","MOVI4"})
-Aadd( aArquivos, { "FUNCIMOV",  "FUNCIMO1", "FUNCIMO2","FUNCIMO3"})
-Aadd( aArquivos, { "GRPSER",    "GRPSER1", "GRPSER2"})
-Aadd( aArquivos, { "RECIBO",    "RECIBO1","RECIBO2","RECIBO3", "RECIBO4", "RECIBO5", "RECIBO6","RECIBO7","RECIBO8","RECIBO9","RECIBO10","RECIBO11", "RECIBO12"})
-Aadd( aArquivos, { "AGENDA",    "AGENDA1","AGENDA2","AGENDA3", "AGENDA4", "AGENDA5", "AGENDA6", "AGENDA7"})
-Aadd( aArquivos, { "CM",        "CM1","CM2","CM2","CM3"})
-//Aadd( aArquivos, { "EMPRESA",   "EMPRESA1"})
-Return( aArquivos )
-
-Function VerIndice()
-********************
-LOCAL lReindexar := FALSO
-LOCAL aIndice	  := ArrayIndices()
-LOCAL cDbf
-LOCAL cLocalDbf
-LOCAL cIndice
-LOCAL nTodos
-LOCAL nX
-
-oReindexa := TIniNew( oAmbiente:xBaseDados + "\REINDEXA.INI")
-oMenu:Limpa()
-nTodos := Len( aIndice )
-#IFDEF FOXPRO
-	For nX := 1 To nTodos
-		cDbf		 := aIndice[nX,1]
-		cLocalDbf := cDbf + '.DBF'
-		cIndice	 := cDbf + '.' + CEXT
-		IF !File( cIndice )
-			IF !AbreArquivo( cDbf )
-				Return( FALSO )
+	if right(TrimStr(oAmbiente:xBase),1) == "/"
+		oAmbiente:xBase := left(oAmbiente:xBase, len(oAmbiente:xBase)-1)
+	endif		
+	cBase := oAmbiente:xBase
+	oMenu:Limpa()
+	Info(2)
+	FechaTudo()	
+	FChDir(cBase)
+	Set Defa To (cBase)
+	CriaBcoDadosEmpresa()
+	
+	while(true)
+		nTela := MaBox( 02, 10, 06, MaxCol()-15, "SELECIONE EMPRESA" )
+		@ 03, 11 Say "Site Dados.: " + cBase
+		@ 04, 11 Say "Codigo.....:" Get cCodi Pict "9999" Valid EmpErrada( @cCodi,,Row()+1, 24 )
+		@ 05, 11 Say "Empresa....:"
+		Read
+		IF LastKey() = ESC
+			IF Conf("Pergunta: Encerrar a Execucao do Sistema ?")
+				Encerra()
 			EndIF
-			CriaIndice( cDbf )
-		Else
-			IF !oReindexa:ReadBool('reindexando', cLocalDbf, FALSO )
-				ErrorBeep()
-				IF Conf('Erro: Arquivo ' + cDbf + ' nao foi reindexado com sucesso. Reindexar agora ?')
-					IF !AbreArquivo( cDbf )
-						Return( FALSO )
-					EndIF
-				  CriaIndice( cDbf )
-				EndIF
-			EndIF
+			Loop
+		EndIF		
+		
+		if Conf('Pergunta: Selecao de Empresa Correta ?')					
+			oIni:Close()				
+			cScr		  := Mensagem("Informa: Aguarde...")
+			
+			if (oAmbiente:Letoativo)
+				__SEP              := ""
+				cBase              := ""
+				oAmbiente:xBase    := cBase
+				oAmbiente:LetoPath := cBase
+			else
+			   __SEP := DEF_SEP
+				cBase := oAmbiente:xBase
+			endif
+			
+			oIni 		  := TIniNew('SCI' + oAmbiente:_EMPRESA + '.INI')
+			cCmd		  := cBase + __SEP + 'CMD'
+			cDoc		  := cBase + __SEP + 'DOC'		
+			cSpooler   := cBase + __SEP + 'SPOOLER'
+			cTmp       := cBase + __SEP + 'TMP'
+			cTxt       := cBase + __SEP + 'TXT'
+			cHtm       := cBase + __SEP + 'HTM'			
+			cBaseDados := cBase + __SEP + 'EMP' + cCodi
+
+			oMenu:CodiFirma            := cCodi
+			oMenu:NomeFirma       		:= AllTrim( Empresa->Nome )		
+			oAmbiente:RelatorioCabec   := oIni:ReadString('sistema','relatoriocabec', XFANTA   + Space(40-Len(XFANTA)))
+			oAmbiente:xFanta           := oIni:ReadString('sistema','fantasia',       XFANTA   + Space(40-Len(XFANTA)))
+			oAmbiente:xEmpresa         := oIni:ReadString('sistema','nomeempresa',    XNOMEFIR + Space(40-Len(XNOMEFIR)))
+			oAmbiente:xNomefir         := oIni:ReadString('sistema','nomeempresa',    XNOMEFIR + Space(40-Len(XNOMEFIR)))
+			oAmbiente:xJuroMesSimples  := oIni:ReadInteger('financeiro','JuroMesSimples', 0)
+			oAmbiente:xJuroMesComposto := oIni:ReadInteger('financeiro','JuroMesComposto', 0)
+			oAmbiente:aSciArray[1,SCI_JUROMESSIMPLES]  := Empresa->Juro
+			oAmbiente:aSciArray[1,SCI_DIASAPOS]        := Empresa->DiasApos
+			oAmbiente:aSciArray[1,SCI_DESCAPOS]        := Empresa->DescApos
+			oAmbiente:aSciArray[1,SCI_MULTA]           := Empresa->Multa
+			oAmbiente:aSciArray[1,SCI_DIAMULTA]        := Empresa->DiaMulta
+			oAmbiente:aSciArray[1,SCI_CARENCIA]        := Empresa->Carencia
+			oAmbiente:aSciArray[1,SCI_DESCONTO]        := Empresa->Desconto
+			oAmbiente:aSciArray[1,SCI_JUROMESCOMPOSTO] := oAmbiente:xJuroMesComposto		
+			aMensagem  := { Empresa->Mens1, Empresa->Mens2, Empresa->Mens3, Empresa->Mens4 }
+			aItemNff   := { Empresa->ItemNff }
+			aInscMun   := { Empresa->InscMun  }
+			aIss		  := { Empresa->Iss	}
+			FechaTudo()
+			ms_makeDir(cBaseDados, cCmd, cDoc, cSpooler, cTxt, cHtm, cTmp)			
+
+			if (oAmbiente:Letoativo)			
+				cBaseDados         += '/'
+				cDoc  				 += '/'
+				cTxt  				 += '/'
+				cTmp  				 += '/'
+			endif	
+			oAmbiente:LetoPath   := cBaseDados 
+			oAmbiente:xBase      := cBaseDados
+			oAmbiente:xBaseDoc   := cDoc
+			oAmbiente:xBaseTxt   := cTxt
+			oAmbiente:xBaseTmp   := cTmp
+			oAmbiente:xBaseDados := cBaseDados			
+			Set Defa To (cBaseDados)
+			fchdir( cBaseDados )
+			resTela( cScr )
+			CriaArquivo()
+			return nil
 		EndIF
-	Next
-#ELSE
-	For nX := 1 To nTodos
-		cDbf		 := aIndice[nX,1]
-		cLocalDbf := cDbf + '.DBF'
-		nLen		 := Len(aIndice[nX])
-		For nY := 2 To nLen
-			cIndice := aIndice[nX, nY ]
-			IF !File( cIndice + '.' + CEXT )
-				IF !AbreArquivo( cDbf )
-					Return( FALSO )
-				EndIF
-				CriaIndice( cDbf )
-				Exit
-			Else
-				IF !oReindexa:ReadBool('reindexando', cLocalDbf, FALSO )
-					IF !AbreArquivo( cDbf )
-						Return( FALSO )
-					EndIF
-					CriaIndice( cDbf )
-					Exit
-				EndIF
-			EndIF
-		Next
-	Next
-#ENDIF
-IF oIndice:Reindexado
-	Return(OK)
-EndIF
-ErrorBeep()
-IF !Conf("Pergunta: Deseja entrar sem reindexar ?")
-	IF MenuIndice()
-		CriaIndice()
-	Else
-		Return( FALSO )
-	EndIF
-EndIF
-Return(OK)
+	Enddo
+endef	
 
-Function AbreArquivo( cArquivo )
-********************************
-LOCAL cTela  := Mensagem(" Aguarde... Verificando Arquivos.", WARNING, _LIN_MSG )
-LOCAL nQt
-LOCAL nPos
-LOCAL nQtArquivos
-LOCAL aArquivos
-
-// FechaTudo()
-aArquivos := ArrayArquivos()
-IF cArquivo != NIL
-	nPos := Ascan( aArquivos,{ |oBloco|oBloco[1] = cArquivo })
-	IF nPos != 0
-		cArquivo := aArquivos[nPos,1]
-		IF !NetUse( cArquivo, MONO )
-			ResTela( cTela )
-			Return(FALSO)
-		EndIF
-		Return( OK )
-	EndIF
-	Return( FALSO )
-EndIF
-nQtArquivos := Len( aArquivos )
-For nQt := 1 To nQtArquivos
-	cArquivo := aArquivos[nQt,1]
-	IF !NetUse( cArquivo, MONO )
-		ResTela( cTela )
-		Return(FALSO)
-	EndIF
-Next
-ResTela( cTela )
-Return( OK )
-
-Function CriaIndice( cDbf )
-***************************
-LOCAL cScreen						:= SaveScreen()
-LOCAL nY 							:= 0
-LOCAL lRetornaArrayDeArquivos := OK
-LOCAL nTodos						:= 0
-LOCAL nPos							:= 0
-LOCAL cLocalDbf					:= ''
-LOCAL cLocalNtx					:= ''
-LOCAL aProc 						:= {}
-		Aadd( aProc, {"CHEMOV",   {||Re_Chemov()}})
-		Aadd( aProc, {"SAIDAS",   {||Re_Saidas()}})
-		Aadd( aProc, {"RECEBIDO", {||Re_Recebido()}})
-		Aadd( aProc, {"LISTA",    {||Re_Lista()}})
-		Aadd( aProc, {"CEP",      {||Re_Cep()}})
-		Aadd( aProc, {"CHEQUE",   {||Re_Cheque()}})
-		Aadd( aProc, {"CHEPRE",   {||Re_Chepre()}})
-		Aadd( aProc, {"CONTA",    {||Re_Conta()}})
-		Aadd( aProc, {"CORTES",   {||Re_Cortes()}})
-		Aadd( aProc, {"CURSOS",   {||Re_Cursos()}})
-		Aadd( aProc, {"CURSADO",  {||Re_Cursado()}})
-		Aadd( aProc, {"ENTRADAS", {||Re_Entradas()}})
-		Aadd( aProc, {"FORMA",    {||Re_Forma()}})
-		Aadd( aProc, {"FUNCIMOV", {||Re_Funcimov()}})
-		Aadd( aProc, {"GRUPO",    {||Re_Grupo()}})
-		Aadd( aProc, {"GRPSER",   {||Re_GrpSer()}})
-		Aadd( aProc, {"MOVI",     {||Re_Movi()}})
-		Aadd( aProc, {"ENTNOTA",  {||Re_EntNota()}})
-		Aadd( aProc, {"NOTA",     {||Re_Nota()}})
-		Aadd( aProc, {"PAGAR",    {||Re_Pagar()}})
-		Aadd( aProc, {"PAGAMOV",  {||Re_Pagamov()}})
-		Aadd( aProc, {"PAGO",     {||Re_Pago()}})
-		Aadd( aProc, {"PREVENDA", {||Re_Prevenda()}})
-		Aadd( aProc, {"PRINTER",  {||Re_Printer()}})
-		Aadd( aProc, {"PONTO",    {||Re_Ponto()}})
-		Aadd( aProc, {"RECEMOV",  {||Re_Recemov()}})
-		Aadd( aProc, {"REGIAO",   {||Re_Regiao()}})
-		Aadd( aProc, {"RECEBER",  {||Re_Receber()}})
-		Aadd( aProc, {"REPRES",   {||Re_Representante()}})
-		Aadd( aProc, {"RETORNO",  {||Re_Retorno()}})
-		Aadd( aProc, {"SERVICO",  {||Re_Servico()}})
-		Aadd( aProc, {"SERVIDOR", {||Re_Servidor()}})
-		Aadd( aProc, {"SUBCONTA", {||Re_SubConta()}})
-		Aadd( aProc, {"SUBGRUPO", {||Re_SubGrupo()}})
-		Aadd( aProc, {"TAXAS",    {||Re_Taxas()}})
-		Aadd( aProc, {"USUARIO",  {||Re_Usuario()}})
-		Aadd( aProc, {"VENDEDOR", {||Re_Vendedor()}})
-		Aadd( aProc, {"VENDEMOV", {||Re_Vendemov()}})
-      Aadd( aProc, {"RECIBO",   {||Re_Recibo()}})
-      Aadd( aProc, {"AGENDA",   {||Re_Agenda()}})
-      Aadd( aProc, {"CM",       {||Re_Cm()}})
-
-nTodos := Len( aProc )
-//----------------------------------------------------------------//
-Aeval( Directory( "*.$$$"), { | aFile | Ferase( aFile[ F_NAME ] )})
-Aeval( Directory( "*.TMP"), { | aFile | Ferase( aFile[ F_NAME ] )})
-Aeval( Directory( "*.BAK"), { | aFile | Ferase( aFile[ F_NAME ] )})
-Aeval( Directory( "*.MEM"), { | aFile | Ferase( aFile[ F_NAME ] )})
-Aeval( Directory( "T0*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
-Aeval( Directory( "T1*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
-Aeval( Directory( "T2*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
-Aeval( Directory( "*."),    { | aFile | Ferase( aFile[ F_NAME ] )})
-//-----------------------------------------------------------------//
-
-//hb_mutexLock( s_hMutex )
-//hb_mutexUnlock( s_hMutex )
-
-//oMenu:Limpa()
-oReindexa := TIniNew( oAmbiente:xBaseDados + "\REINDEXA.INI")
-cDbf		 := IF( cDbf != NIL, Upper( cDbf ), NIL )
-IF cDbf = NIL
-	Aeval( Directory( "*.NSX"), { | aFile | Ferase( aFile[ F_NAME ] )})
-	Aeval( Directory( "*.CDX"), { | aFile | Ferase( aFile[ F_NAME ] )})
-	Aeval( Directory( "*.NTX"), { | aFile | Ferase( aFile[ F_NAME ] )})
-EndIF
-IF cDbf != NIL
-	nPos := Ascan( aProc,{ |oBloco|oBloco[1] = cDbf })
-	IF nPos != 0
-		cLocalDbf := aProc[nPos,1] + '.DBF'
-		cLocalNtx := aProc[nPos,1] + '.' + CEXT
-		Ferase( cLocalNtx )
-		oReindexa:WriteBool('reindexando', cLocalDbf, FALSO )
-		Eval( aProc[ nPos, 2 ] )
-		oReindexa:WriteBool('reindexando', cLocalDbf, OK )
-		//ResTela( cScreen )
-		Mensagem("Aguarde, Fechando Arquivos.", WARNING, _LIN_MSG )
-		//ResTela( cScreen )
-		// FechaTudo()
-		return(nil)
-	EndIF
-EndIF
-// FechaTudo()
-//oIndice:Limpa()
-For nY := 1 To nTodos
-	cDbf		 := aProc[ nY, 1 ]
-	cLocalDbf := cDbf + '.DBF'
-	IF AbreArquivo( cDbf )
-		oReindexa:WriteBool('reindexando', cLocalDbf, FALSO )
-		Eval( aProc[ nY, 2 ] )
-		oReindexa:WriteBool('reindexando', cLocalDbf, OK )
-	EndIF
-Next
-//ResTela( cScreen )
-Mensagem("Aguarde, Fechando Arquivos.", WARNING, _LIN_MSG )
-//ResTela( cScreen )
-// FechaTudo()
-return(nil)
-
-Proc Re_Cortes()
-****************
-oIndice:DbfNtx("CORTES")
-oIndice:PackDbf("CORTES")
-oIndice:AddNtx("Tabela", "CORTES1", "CORTES" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_GrpSer()
-****************
-oIndice:DbfNtx("GRPSER")
-oIndice:PackDbf("GRPSER")
-oIndice:AddNtx("Grupo",    "GRPSER1", "GRPSER" )
-oIndice:AddNtx("DesGrupo", "GRPSER2", "GRPSER" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Servico()
-*****************
-oIndice:DbfNtx("SERVICO")
-oIndice:PackDbf("SERVICO")
-oIndice:AddNtx("CodiSer", "SERVICO1", "SERVICO" )
-oIndice:AddNtx("Nome",    "SERVICO2", "SERVICO" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Movi()
-**************
-oIndice:DbfNtx("MOVI")
-oIndice:PackDbf("MOVI")
-oIndice:AddNtx("Tabela",  "MOVI1", "MOVI" )
-oIndice:AddNtx("Codiven+Left(Tabela,4)+CodiSer", "MOVI2", "MOVI" )
-oIndice:AddNtx("Data",     "MOVI3", "MOVI" )
-oIndice:AddNtx("Codiven+DateToStr(Data)", "MOVI4", "MOVI" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Funcimov()
-******************
-oIndice:DbfNtx("FUNCIMOV")
-oIndice:PackDbf("FUNCIMOV")
-oIndice:AddNtx("Data",    "FUNCIMO1", "FUNCIMOV" )
-oIndice:AddNtx("Docnr",   "FUNCIMO2", "FUNCIMOV" )
-oIndice:AddNtx("Codiven+DateToStr(Data)", "FUNCIMO3", "FUNCIMOV" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Retorno()
-*****************
-oIndice:DbfNtx("RETORNO")
-oIndice:PackDbf("RETORNO")
-oIndice:AddNtx("Codi", "RETORNO1", "RETORNO" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Conta()
-***************
-oIndice:DbfNtx("CONTA")
-oIndice:PackDbf("CONTA")
-oIndice:AddNtx("Codi", "CONTA1", "CONTA" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_SubConta()
-***************
-oIndice:DbfNtx("SUBCONTA")
-oIndice:PackDbf("SUBCONTA")
-oIndice:AddNtx("Codi",   "SUBCONT1", "SUBCONTA" )
-oIndice:AddNtx("SubCodi","SUBCONT2", "SUBCONTA" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Cep()
-*************
-oIndice:DbfNtx("CEP")
-oIndice:PackDbf("CEP")
-oIndice:AddNtx("Cep",  "CEP1", "CEP" )
-oIndice:AddNtx("Cida", "CEP2", "CEP" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Usuario()
-*****************
-oIndice:DbfNtx("USUARIO")
-oIndice:PackDbf("USUARIO")
-oIndice:AddNtx("Nome", "USUARIO1", "USUARIO" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Forma()
-**************
-oIndice:DbfNtx("FORMA")
-oIndice:PackDbf("FORMA")
-oIndice:AddNtx("Forma", "FORMA1", "FORMA" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Cursos()
-****************
-oIndice:DbfNtx("CURSOS")
-oIndice:PackDbf("CURSOS")
-oIndice:AddNtx("Curso", "CURSOS1", "CURSOS" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Cursado()
-*****************
-oIndice:DbfNtx("CURSADO")
-oIndice:PackDbf("CURSADO")
-oIndice:AddNtx( "Curso",   "CURSADO1", "CURSADO" )
-oIndice:AddNtx( "Codi",    "CURSADO2", "CURSADO" )
-oIndice:AddNtx( "Fatura",  "CURSADO3", "CURSADO" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Regiao()
-****************
-oIndice:DbfNtx("REGIAO")
-oIndice:PackDbf("REGIAO")
-oIndice:AddNtx("Regiao", "REGIAO1", "REGIAO" )
-oIndice:AddNtx("Nome",   "REGIAO2", "REGIAO" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_SubGrupo()
-*******************
-oIndice:DbfNtx("SUBGRUPO")
-oIndice:PackDbf("SUBGRUPO")
-oIndice:AddNtx("codsgrupo","SUBGRUPO1", "SUBGRUPO" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Nota()
-**************
-oIndice:DbfNtx("NOTA")
-oIndice:PackDbf("NOTA")
-oIndice:AddNtx("Numero", "NOTA1", "NOTA" )
-oIndice:AddNtx("Codi",   "NOTA2", "NOTA" )
-oIndice:AddNtx("Data",   "NOTA3", "NOTA" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_EntNota()
-*****************
-oIndice:DbfNtx("ENTNOTA")
-oIndice:PackDbf("ENTNOTA")
-oIndice:AddNtx("Data",   "ENTNOTA1", "ENTNOTA" )
-oIndice:AddNtx("Codi",   "ENTNOTA2", "ENTNOTA" )
-oIndice:AddNtx("Numero", "ENTNOTA3", "ENTNOTA" )
-oIndice:AddNtx("Entrada","ENTNOTA4", "ENTNOTA" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Printer()
-*****************
-oIndice:Limpa()
-oIndice:DbfNtx("PRINTER")
-oIndice:PackDbf("PRINTER")
-oIndice:AddNtx("Codi", "PRINTER1", "PRINTER" )
-oIndice:AddNtx("Nome", "PRINTER2", "PRINTER" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Grupo()
-***************
-oIndice:DbfNtx("GRUPO")
-oIndice:PackDbf("GRUPO")
-oIndice:AddNtx("CodGrupo","GRUPO1", "GRUPO" )
-oIndice:AddNtx("DesGrupo","GRUPO2", "GRUPO" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Taxas()
-***************
-oIndice:DbfNtx("TAXAS")
-oIndice:PackDbf("TAXAS")
-oIndice:AddNtx("Dini", "TAXAS1", "TAXAS" )
-oIndice:AddNtx("DFim", "TAXAS2", "TAXAS" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Vendedor()
-******************
-oIndice:DbfNtx("VENDEDOR")
-oIndice:PackDbf("VENDEDOR")
-oIndice:AddNtx("Codiven", "VENDEDO1", "VENDEDOR" )
-oIndice:AddNtx("nome",    "VENDEDO2", "VENDEDOR" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Ponto()
-***************
-oIndice:DbfNtx("PONTO")
-oIndice:PackDbf("PONTO")
-oIndice:AddNtx("Codi",  "PONTO1",             "PONTO" )
-oIndice:AddNtx("Data",  "PONTO2",             "PONTO" )
-oIndice:AddNtx("Codi + DateToStr( Data)","PONTO3", "PONTO" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Cheque()
-****************
-oIndice:DbfNtx("CHEQUE")
-oIndice:PackDbf("CHEQUE")
-oIndice:AddNtx("Codi",    "CHEQUE1", "CHEQUE" )
-oIndice:AddNtx("Titular", "CHEQUE2", "CHEQUE" )
-oIndice:AddNtx("Horario", "CHEQUE3", "CHEQUE" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Receber()
-*****************
-oIndice:DbfNtx("RECEBER")
-oIndice:PackDbf("RECEBER")
-oIndice:AddNtx("nome",                "RECEBER1", "RECEBER" )
-oIndice:AddNtx("codi",                "RECEBER2", "RECEBER" )
-oIndice:AddNtx("cida",                "RECEBER3", "RECEBER" )
-oIndice:AddNtx("Regiao",              "RECEBER4", "RECEBER" )
-oIndice:AddNtx("Esta+DateToStr(Data)","RECEBER5", "RECEBER" )
-oIndice:AddNtx("Fanta",               "RECEBER6", "RECEBER" )
-oIndice:AddNtx("Bair+Ende",           "RECEBER7", "RECEBER" )
-oIndice:AddNtx("Ende",                "RECEBER8", "RECEBER" )
-oIndice:AddNtx("Fone",                "RECEBER9", "RECEBER" )
-oIndice:AddNtx("Fax",                 "RECEBER10", "RECEBER" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Representante()
-***********************
-oIndice:DbfNtx("REPRES")
-oIndice:PackDbf("REPRES")
-oIndice:AddNtx("nome",      "REPRES1", "REPRES" )
-oIndice:AddNtx("Repres",    "REPRES2", "REPRES" )
-oIndice:AddNtx("cida+nome", "REPRES3", "REPRES" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Pagar()
-***************
-oIndice:DbfNtx("PAGAR")
-oIndice:PackDbf("PAGAR")
-oIndice:AddNtx("nome",      "PAGAR1", "PAGAR")
-oIndice:AddNtx("codi",      "PAGAR2", "PAGAR")
-oIndice:AddNtx("cida+nome", "PAGAR3", "PAGAR")
-oIndice:CriaNtx()
-Return
-
-Proc Re_Pagamov()
-*****************
-oIndice:DbfNtx("PAGAMOV")
-oIndice:PackDbf("PAGAMOV")
-oIndice:AddNtx("Docnr",              "PAGAMOV1", "PAGAMOV" )
-oIndice:AddNtx("Vcto",               "PAGAMOV2", "PAGAMOV" )
-oIndice:AddNtx("Codi + DateToStr(Vcto)", "PAGAMOV3", "PAGAMOV" )
-oIndice:AddNtx("Codi + DateToStr(Emis)", "PAGAMOV4", "PAGAMOV" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Chepre()
-****************
-oIndice:DbfNtx("CHEPRE")
-oIndice:PackDbf("CHEPRE")
-oIndice:AddNtx("Codi  + DateToStr(Vcto)",  "CHEPRE1", "CHEPRE" )
-oIndice:AddNtx("Docnr + DateToStr(Vcto)",  "CHEPRE2", "CHEPRE" )
-oIndice:AddNtx("Praca + DateToStr(Vcto)",  "CHEPRE3", "CHEPRE" )
-oIndice:AddNtx("Banco + DateToStr(Vcto)",  "CHEPRE4", "CHEPRE" )
-oIndice:AddNtx("DateToStr(Vcto)",          "CHEPRE5", "CHEPRE" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Pago()
-**************
-oIndice:DbfNtx("PAGO")
-oIndice:PackDbf("PAGO")
-oIndice:AddNtx("Docnr",   "PAGO1", "PAGO" )
-oIndice:AddNtx("Datapag", "PAGO2", "PAGO" )
-oIndice:AddNtx("Codi + DateToStr( Datapag )", "PAGO3", "PAGO")
-oIndice:CriaNtx()
-Return
-
-Proc Re_Servidor()
-******************
-oIndice:DbfNtx("SERVIDOR")
-oIndice:PackDbf("SERVIDOR")
-oIndice:AddNtx("Nome", "SERVIDO1", "SERVIDOR"  )
-oIndice:AddNtx("Codi", "SERVIDO2", "SERVIDOR"  )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Entradas()
-******************
-oIndice:DbfNtx("ENTRADAS")
-oIndice:PackDbf("ENTRADAS")
-oIndice:AddNtx("Codigo+DateToStr(Data)","ENTRADA1", "ENTRADAS" )
-oIndice:AddNtx("Fatura",                "ENTRADA2", "ENTRADAS"  )
-oIndice:AddNtx("Data",                  "ENTRADA3", "ENTRADAS"  )
-oIndice:AddNtx("Codi",                  "ENTRADA4", "ENTRADAS" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Vendemov()
-******************
-oIndice:DbfNtx("VENDEMOV")
-oIndice:PackDbf("VENDEMOV")
-oIndice:AddNtx("data",    "VENDEMO1", "VENDEMOV" )
-oIndice:AddNtx("docnr",   "VENDEMO2", "VENDEMOV" )
-oIndice:AddNtx("Codiven+DateToStr(Data)", "VENDEMO3", "VENDEMOV" )
-oIndice:AddNtx("Fatura",  "VENDEMO4", "VENDEMOV"  )
-oIndice:AddNtx("Forma",   "VENDEMO5", "VENDEMOV"  )
-oIndice:AddNtx("Regiao",  "VENDEMO6", "VENDEMOV"  )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Recibo()
-******************
-oIndice:DbfNtx("RECIBO")
-oIndice:PackDbf("RECIBO")
-oIndice:AddNtx("tipo",       "RECIBO1", "RECIBO" )
-oIndice:AddNtx("codi",       "RECIBO2", "RECIBO" )
-oIndice:AddNtx("docnr",      "RECIBO3", "RECIBO" )
-oIndice:AddNtx("vcto",       "RECIBO4", "RECIBO" )
-oIndice:AddNtx("data",       "RECIBO5", "RECIBO" )
-oIndice:AddNtx("usuario",    "RECIBO6", "RECIBO"  )
-oIndice:AddNtx("caixa",      "RECIBO7", "RECIBO"  )
-oIndice:AddNtx("nome",       "RECIBO8", "RECIBO"  )
-oIndice:AddNtx("codi+docnr", "RECIBO9", "RECIBO"  )
-oIndice:AddNtx("fatura",     "RECIBO10", "RECIBO"  )
-oIndice:AddNtx("Codi+DateToStr(Data)", "RECIBO11", "RECIBO" )
-oIndice:AddNtx("Right(Docnr, 8)",      "RECIBO12", "RECIBO" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Agenda()
-****************
-oIndice:DbfNtx("AGENDA")
-oIndice:PackDbf("AGENDA")
-oIndice:AddNtx("codi",    "AGENDA1", "AGENDA" )
-oIndice:AddNtx("hist",    "AGENDA2", "AGENDA" )
-oIndice:AddNtx("data",    "AGENDA3", "AGENDA" )
-oIndice:AddNtx("usuario", "AGENDA4", "AGENDA"  )
-oIndice:AddNtx("caixa",   "AGENDA5", "AGENDA"  )
-oIndice:AddNtx("Codi+DateToStr(Data)", "AGENDA6", "AGENDA" )
-oIndice:AddNtx("DateToStr(Data)+Codi", "AGENDA7", "AGENDA" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Cm()
-************
-oIndice:DbfNtx("CM")
-oIndice:PackDbf("CM")
-oIndice:AddNtx("inicio",  "CM1", "CM" )
-oIndice:AddNtx("fim",     "CM2", "CM" )
-oIndice:AddNtx("DateToStr(inicio)", "CM3", "CM" )
-oIndice:AddNtx("DateToStr(fim)",    "CM4", "CM" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Chemov()
-****************
-oIndice:DbfNtx("CHEMOV")
-oIndice:PackDbf("CHEMOV")
-oIndice:AddNtx("docnr",  "CHEMOV1", "CHEMOV"  )
-oIndice:AddNtx("data",   "CHEMOV2", "CHEMOV"  )
-oIndice:AddNtx("Codi + DateToStr( Data )", "CHEMOV3", "CHEMOV" )
-oIndice:AddNtx("Fatura", "CHEMOV4", "CHEMOV"  )
-oIndice:AddNtx("Codi + DateToStr( Baixa )", "CHEMOV5", "CHEMOV" )
-oIndice:AddNtx("DateToStr( Data ) + Docnr", "CHEMOV6", "CHEMOV" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Recemov()
-*****************
-oIndice:DbfNtx("RECEMOV")
-oIndice:PackDbf("RECEMOV")
-oIndice:AddNtx("Docnr",      "RECEMOV1", "RECEMOV" )
-oIndice:AddNtx("Codi",       "RECEMOV2", "RECEMOV"  )
-oIndice:AddNtx("Vcto",       "RECEMOV3", "RECEMOV"  )
-oIndice:AddNtx("Fatura",     "RECEMOV4", "RECEMOV"  )
-oIndice:AddNtx("Regiao+Codi","RECEMOV5", "RECEMOV"  )
-oIndice:AddNtx("Emis",       "RECEMOV6", "RECEMOV"  )
-oIndice:AddNtx("Codiven",    "RECEMOV7", "RECEMOV"  )
-oIndice:AddNtx("Tipo+Codi",  "RECEMOV8", "RECEMOV"  )
-oIndice:AddNtx("Datapag",    "RECEMOV9", "RECEMOV"  )
-oIndice:AddNtx("Codi + DateToStr( Vcto )",    "RECEMOV10", "RECEMOV" )
-oIndice:AddNtx("Codi + DateToStr( Datapag )", "RECEMOV11", "RECEMOV" )
-oIndice:AddNtx("Right(Docnr, 8)",             "RECEMOV12", "RECEMOV" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Recebido()
-******************
-oIndice:DbfNtx("RECEBIDO")
-oIndice:PackDbf("RECEBIDO")
-oIndice:AddNtx("Docnr",    "RECEBID1", "RECEBIDO"  )
-oIndice:AddNtx("DataPag",  "RECEBID2", "RECEBIDO"  )
-oIndice:AddNtx("Fatura",   "RECEBID3", "RECEBIDO"  )
-oIndice:AddNtx("Codi + DateToStr( Vcto )", "RECEBID4", "RECEBIDO" )
-oIndice:AddNtx("CodiVen",  "RECEBID5", "RECEBIDO"  )
-oIndice:AddNtx("Port",     "RECEBID6", "RECEBIDO"  )
-oIndice:AddNtx("Forma",    "RECEBID7", "RECEBIDO"  )
-oIndice:AddNtx("Baixa",    "RECEBID8", "RECEBIDO"  )
-oIndice:AddNtx("Regiao",   "RECEBID9", "RECEBIDO"  )
-oIndice:AddNtx("Vcto",     "RECEBID10","RECEBIDO"  )
-oIndice:AddNtx("Tipo+Codi","RECEBID11","RECEBIDO"  )
-oIndice:AddNtx("Codi + DateToStr( Datapag )", "RECEBID12", "RECEBIDO" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Saidas()
-****************
-oIndice:DbfNtx("SAIDAS")
-oIndice:PackDbf("SAIDAS")
-oIndice:AddNtx("Codigo",        "SAIDAS1", "SAIDAS" )
-oIndice:AddNtx("Regiao",        "SAIDAS2", "SAIDAS" )
-oIndice:AddNtx("Fatura+Codigo", "SAIDAS3", "SAIDAS" )
-oIndice:AddNtx("Emis",          "SAIDAS4", "SAIDAS" )
-oIndice:AddNtx("Codi",          "SAIDAS5", "SAIDAS" )
-oIndice:AddNtx("CodiVen",       "SAIDAS6", "SAIDAS" )
-oIndice:AddNtx("Forma",         "SAIDAS7", "SAIDAS" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_prevenda()
-****************
-oIndice:DbfNtx("PREVENDA")
-oIndice:PackDbf("PREVENDA")
-oIndice:AddNtx("Fatura", "PREVEND1", "PREVENDA" )
-oIndice:AddNtx("Emis",   "PREVEND2", "PREVENDA" )
-oIndice:AddNtx("Codigo", "PREVEND3", "PREVENDA" )
-oIndice:CriaNtx()
-Return
-
-Proc Re_Lista()
-***************
-oIndice:DbfNtx("LISTA")
-oIndice:PackDbf("LISTA")
-oIndice:AddNtx("CodGrupo",                         "LISTA1", "LISTA" )
-oIndice:AddNtx("Codigo",                           "LISTA2", "LISTA" )
-oIndice:AddNtx("Descricao",                        "LISTA3", "LISTA" )
-oIndice:AddNtx("CodGrupo + CodSgrupo + Descricao", "LISTA4", "LISTA" )
-oIndice:AddNtx("CodGrupo + CodSgrupo + Codigo",    "LISTA5", "LISTA" )
-oIndice:AddNtx("Data",                             "LISTA6", "LISTA")
-oIndice:AddNtx("CodGrupo + CodSgrupo + N_Original","LISTA7", "LISTA" )
-oIndice:AddNtx("CodsGrupo",                        "LISTA8", "LISTA" )
-oIndice:AddNtx("Codi + Descricao",                 "LISTA9", "LISTA" )
-oIndice:AddNtx("N_Original",                       "LISTA10","LISTA" )
-oIndice:AddNtx("CodeBar",                          "LISTA11","LISTA" )
-oIndice:CriaNtx()
-Return
-
-Proc FechaTudo()
-****************
-DbCloseAll()
-Return
-
-Function Empresa( cTela	)
-*************************
-LOCAL cScreen := SaveScreen()
-LOCAL GetList := {}
-LOCAL cCodi   := Space(4)
-LOCAL cScr
-LOCAL cCmd
-LOCAL cSpooler
-LOCAL cHtm
-LOCAL cDoc
-LOCAL cTxt
-LOCAL Var1
-LOCAL Var2
-LOCAL nTela
-
-oMenu:Limpa()
-Info(2)
-FechaTudo()
-FChDir( oAmbiente:xBase )
-Set Defa To ( oAmbiente:xBase )
-BcoDados()
-WHILE OK
-	nTela := MaBox( 02, 10, 06, MaxCol()-15, "SELECIONE EMPRESA" )
-	@ 03, 11 Say "Site Dados.: " + oAmbiente:xBase
-	@ 04, 11 Say "Codigo.....:" Get cCodi Pict "9999" Valid EmpErrada( @cCodi,,Row()+1, 24 )
-	@ 05, 11 Say "Empresa....:"
-	Read
-	IF LastKey() = ESC
-		IF Conf("Pergunta: Encerrar a Execucao do Sistema ?")
-			Encerra()
-		EndIF
-		Loop
-	EndIF
-	IF Conf('Pergunta: Selecao de Empresa Correta ?')
-	   oIni       := TIniNew( oAmbiente:xBase + '\SCI' + oAmbiente:_EMPRESA + '.INI')
-		cScr		  := Mensagem("Informa: Aguarde...", Cor())
-		Var1		  := oAmbiente:xBase
-		cCmd		  := Var1 + '\CMD'
-		cDoc		  := Var1 + '\DOC'		
-      cSpooler   := Var1 + '\SPOOLER'
-      cTxt       := Var1 + '\TXT'
-      cHtm       := Var1 + '\HTM'
-		Var2		  := Var1 + '\EMP' + cCodi
-
-      oMenu:CodiFirma      := cCodi
-		oMenu:NomeFirma		:= AllTrim( Empresa->Nome )		
-      oAmbiente:RelatorioCabec   := oIni:ReadString('sistema','relatoriocabec', XFANTA   + Space(40-Len(XFANTA)))
-      oAmbiente:xFanta           := oIni:ReadString('sistema','fantasia',       XFANTA   + Space(40-Len(XFANTA)))
-      oAmbiente:xEmpresa         := oIni:ReadString('sistema','nomeempresa',    XNOMEFIR + Space(40-Len(XNOMEFIR)))
-      oAmbiente:xNomefir         := oIni:ReadString('sistema','nomeempresa',    XNOMEFIR + Space(40-Len(XNOMEFIR)))
-      oAmbiente:xJuroMesSimples  := oIni:ReadInteger('financeiro','JuroMesSimples', 0)
-      oAmbiente:xJuroMesComposto := oIni:ReadInteger('financeiro','JuroMesComposto', 0)
-      oAmbiente:xBaseDoc         := cDoc
-		oAmbiente:xBaseTxt         := cTxt
-      oAmbiente:xBaseDados       := Var2		
-      oAmbiente:aSciArray[1,SCI_JUROMESSIMPLES]  := Empresa->Juro
-      oAmbiente:aSciArray[1,SCI_DIASAPOS]        := Empresa->DiasApos
-      oAmbiente:aSciArray[1,SCI_DESCAPOS]        := Empresa->DescApos
-      oAmbiente:aSciArray[1,SCI_MULTA]           := Empresa->Multa
-      oAmbiente:aSciArray[1,SCI_DIAMULTA]        := Empresa->DiaMulta
-      oAmbiente:aSciArray[1,SCI_CARENCIA]        := Empresa->Carencia
-      oAmbiente:aSciArray[1,SCI_DESCONTO]        := Empresa->Desconto
-      oAmbiente:aSciArray[1,SCI_JUROMESCOMPOSTO] := oAmbiente:xJuroMesComposto		
-		aMensagem  := { Empresa->Mens1, Empresa->Mens2, Empresa->Mens3, Empresa->Mens4 }
-		aItemNff   := { Empresa->ItemNff }
-		aInscMun   := { Empresa->InscMun  }
-		aIss		  := { Empresa->Iss	}
-		FechaTudo()
-      Set Defa To (Var2)
-		MkDir( Var2 )
+def ms_makeDir(cBaseDados, cCmd, cDoc, cSpooler, cTxt, cHtm, cTmp)
+	if (oAmbiente:LetoAtivo)
+		Leto_MakeDir( cBaseDados )
+		Leto_MakeDir( cCmd )
+		Leto_MakeDir( cDoc )
+		Leto_MakeDir( cSpooler )
+		Leto_MakeDir( cTxt )
+		Leto_MakeDir( cHtm )				
+		Leto_MakeDir( cTmp )				
+	else
+		MkDir( cBaseDados )
 		MkDir( cCmd )
 		MkDir( cDoc )
-      MkDir( cSpooler )
-      MkDir( cTxt )
-      MkDir( cHtm )
-		ResTela( cScr )
+		MkDir( cSpooler )
+		MkDir( cTxt )
+		MkDir( cHtm )	
+		MkDir( cTmp )	
+	endif
+	return nil
+endef
 
-      FChDir( Var2 )
-      CriaArquivo()
-      return( nil)
+def EmpErrada( cCodi, cNome, nRow, nCol )
+*----------------------------------------*
+	LOCAL aRotina := {{|| CadastraEmpresa() }}
+	LOCAL Arq_Ant := Alias()
+	LOCAL Ind_Ant := IndexOrd()
+	LOCAL Var1
+	LOCAL Var2
 
-      /*
-      IF FChDir( Var2 )
-			CriaArquivo()
-			Exit
-		Else
-			ErrorBeep()
-			ResTela( cScreen )
-			Alerta("Erro: Na Criacao do Diretorio de Trabalho...")
-			Loop
-		EndIF
-      */
-
+	Area("Empresa")
+	IF !DbSeek( cCodi )
+		Escolhe( 00, 00, MaxRow(), "Codi + ' ' + Nome", "CODI NOME DA EMPRESA", aRotina )
 	EndIF
-Enddo
-
-Function EmpErrada( cCodi, cNome, nRow, nCol )
-**********************************************
-LOCAL aRotina := {{|| CadastraEmpresa() }}
-LOCAL Arq_Ant := Alias()
-LOCAL Ind_Ant := IndexOrd()
-LOCAL Var1
-LOCAL Var2
-
-Area("Empresa")
-IF !DbSeek( cCodi )
-   Escolhe( 00, 00, MaxRow(), "Codi + ' ' + Nome", "CODI NOME DA EMPRESA", aRotina )
-EndIF
-cCodi := Empresa->Codi
-cNome := Empresa->Nome
-IF nRow != Nil
-	Write( nRow  , nCol, Empresa->Nome )
-EndiF
-oAmbiente:_Empresa := cCodi
-oAmbiente:xEmpresa := Empresa->Nome
-oAmbiente:xNomefir := Empresa->Nome
-AreaAnt( Arq_Ant, Ind_Ant )
-return( OK )
+	cCodi := Empresa->Codi
+	cNome := Empresa->Nome
+	IF nRow != Nil
+		Write( nRow  , nCol, Empresa->Nome )
+	EndiF
+	oAmbiente:_Empresa := cCodi
+	oAmbiente:xEmpresa := Empresa->Nome
+	oAmbiente:xNomefir := Empresa->Nome
+	AreaAnt( Arq_Ant, Ind_Ant )
+	return( OK )
+endef
 
 Function CadastraEmpresa()
 **************************
@@ -1741,377 +1066,420 @@ EndIF
 AreaAnt( Arq_Ant, Ind_Ant )
 Return(RetVal)
 
-Proc BcoDados()
-***************
-LOCAL cScreen	:= SaveScreen()
-LOCAL Dbf1
+def CriaBcoDadosEmpresa()
+*------------------------*
+	LOCAL cDbf    := 'EMPRESA.DBF'
+	LOCAL cNtx    := 'EMPRESA.' + CEXT
+	LOCAL cScreen := SaveScreen()	
+	LOCAL aDbf	  := {{ "CODI",     "C", 04, 0 },;
+							{ "NOME",     "C", 40, 0 },;
+							{ "DESCONTO", "N", 06, 2 },;
+							{ "DESCAPOS", "N", 06, 2 },;
+							{ "MENS1",    "C", 40, 0 },;
+							{ "MENS2",    "C", 40, 0 },;
+							{ "MENS3",    "C", 40, 0 },;
+							{ "MENS4",    "C", 40, 0 },;
+							{ "JURO",     "N", 03, 0 },;
+							{ "MULTA",    "N", 03, 0 },;
+							{ "DIAMULTA", "N", 03, 0 },;
+							{ "ITEMNFF",  "N", 03, 0 },; // Quantidade de Items na nff
+							{ "INSCMUN",  "C", 15, 0 },; // Inscricao Municipal do Usuario
+							{ "ISS",      "N", 05, 2 },; // Percentual do ISS
+							{ "CARENCIA", "N", 03, 0 },;
+							{ "DIASAPOS", "N", 03, 0 }}
+	
 
-Dbf1 := {{ "CODI",     "C", 04, 0 },;
-			{ "NOME",     "C", 40, 0 },;
-			{ "DESCONTO", "N", 06, 2 },;
-			{ "DESCAPOS", "N", 06, 2 },;
-			{ "MENS1",    "C", 40, 0 },;
-			{ "MENS2",    "C", 40, 0 },;
-			{ "MENS3",    "C", 40, 0 },;
-			{ "MENS4",    "C", 40, 0 },;
-			{ "JURO",     "N", 03, 0 },;
-			{ "MULTA",    "N", 03, 0 },;
-			{ "DIAMULTA", "N", 03, 0 },;
-			{ "ITEMNFF",  "N", 03, 0 },; // Quantidade de Items na nff
-			{ "INSCMUN",  "C", 15, 0 },; // Inscricao Municipal do Usuario
-			{ "ISS",      "N", 05, 2 },; // Percentual do ISS
-			{ "CARENCIA", "N", 03, 0 },;
-			{ "DIASAPOS", "N", 03, 0 }}
-IF !File("EMPRESA.DBF" )
-	oMenu:Limpa()
-	Mensagem("Aguarde... Gerando o Arquivo EMPRESA", WARNING )
-	DbCreate("EMPRESA", Dbf1 )
-Else
-	IF NetUse("EMPRESA", MULTI )
-		Integridade( Dbf1, WARNING, _LIN_MSG )
-	Else
-		SetMode(oAmbiente:AlturaFonteDefaultWindows, oAmbiente:LarguraFonteDefaultWindows)
-		Cls		
-		Quit
-	EndIF
-EndIF
-#IFDEF FOXPRO
-	IF !File("EMPRESA." + CEXT )
+	if !ms_swap_File(cDbf)
 		oMenu:Limpa()
-		Mensagem(" Aguarde... Verificando Arquivos.", WARNING )
-		DbCloseAll()
-		IF !NetUse("Empresa", FALSO )
+		Mensagem("Aguarde... Gerando o Arquivo EMPRESA")
+		ms_swap_DbCreate(cDbf, aDbf )
+	else
+		if NetUse(cDbf, MULTI )
+			Integridade(cDbf, aDbf)
+		else
 			SetMode(oAmbiente:AlturaFonteDefaultWindows, oAmbiente:LarguraFonteDefaultWindows)
-			Cls
+			Cls		
 			Quit
-		EndIF
+		endif
+	endif
+
+#ifdef FOXPRO	
+	if !ms_swap_File(cNtx)
+		oMenu:Limpa()
+		Mensagem(" Aguarde... Verificando Arquivos.")
+		FechaTudo()
+		//IF !NetUse(xDbf, FALSO )
+		//	SetMode(oAmbiente:AlturaFonteDefaultWindows, oAmbiente:LarguraFonteDefaultWindows)
+		//	Cls
+		//	Quit
+		//EndIF
 		MaBox( 10, 10, 13, 42, "EMPRESA" )
 		Write( 12, 11, "CODIGO ÄÄÄÄÄÄÄÛ" )
 		oIndice:DbfNtx("EMPRESA")
 		oIndice:AddNtx("Codi","EMPRESA", "EMPRESA" )
 		oIndice:CriaNtx()
-	EndIF
+	endif
+	
 	oMenu:Limpa()
 	ErrorBeep()
-	Mensagem("Aguarde... Verificando os Arquivos.", Cor())
-	DbCloseAll()
-	Mensagem("Aguarde... Abrindo o Arquivo EMPRESA.", WARNING )
-	IF NetUse("Empresa", MULTI )
-		DbSetIndex("EMPRESA")
-	Else
+	Mensagem("Aguarde... Verificando os Arquivos.")
+	FechaTudo()
+	Mensagem("Aguarde... Abrindo o Arquivo EMPRESA.")	
+	if NetUse(cDbf, MULTI )
+		DbSetIndex(cNtx)
+	else
 		SetMode(oAmbiente:AlturaFonteDefaultWindows, oAmbiente:LarguraFonteDefaultWindows)
 		Cls
 		Quit
-	EndIF
-	ResTela( cScreen )
-	Return
-#ELSE
-	IF !File("EMPRESA1." + CEXT )
+	endif
+	return(resTela( cScreen ))	
+	
+#else 
+	cNtx := "EMPRESA1." + CEXT
+	if !ms_swap_File(cIndice)	
 		oMenu:Limpa()
-		Mensagem(" Aguarde... Verificando Arquivos.", WARNING )
-		DbCloseAll()
-		IF !NetUse("Empresa", FALSO )
-			SetMode(oAmbiente:AlturaFonteDefaultWindows, oAmbiente:LarguraFonteDefaultWindows)
-			Cls
-			Quit
-		EndIF
+		Mensagem(" Aguarde... Verificando Arquivos.")
+		Fechatudo()
+		//IF !NetUse(xDbf, FALSO )
+		//	SetMode(oAmbiente:AlturaFonteDefaultWindows, oAmbiente:LarguraFonteDefaultWindows)
+		//	Cls
+		//	Quit
+		//EndIF
 		oIndice:DbfNtx("EMPRESA")
-		oIndice:AddNtx("Codi","EMPRESA1", "EMPRESA" )
+		oIndice:AddNtx("Codi", "EMPRESA1", "EMPRESA" )
 		oIndice:CriaNtx()
 	EndIF
 	oMenu:Limpa()
 	ErrorBeep()
-	Mensagem("Aguarde... Verificando os Arquivos.", Cor())
-	DbCloseAll()
-	Mensagem("Aguarde... Abrindo o Arquivo EMPRESA.", WARNING )
-	IF NetUse("Empresa", MULTI )
-		DbSetIndex("EMPRESA1")
-	Else
+	Mensagem("Aguarde... Verificando os Arquivos.")
+	Fechatudo()
+	Mensagem("Aguarde... Abrindo o Arquivo EMPRESA.")
+	if NetUse(cDbf, MULTI )
+		DbSetIndex(cNtx)
+	else
 		SetMode(oAmbiente:AlturaFonteDefaultWindows, oAmbiente:LarguraFonteDefaultWindows)
 		Cls
 		Quit
-	EndIF
+	endif
+	return(restela(cScreen))
+#endif
+endef
+
+def PrecosAltera()
+	IF !UsaArquivo("PAGAR") ; Break ; EndIF
+	IF !UsaArquivo("LISTA") ; Break ; EndIF
+	ConLista()
+	FechaTudo()
+	Return nil
+endef	
+
+def PrecosConsulta()
+	LOCAL cScreen := SaveScreen()
+
+	IF !UsaArquivo("LISTA")    ; Break ; EndIF
+	IF !UsaArquivo("ENTRADAS") ; Break ; EndIF
+	IF !UsaArquivo("SAIDAS")   ; Break ; EndIF
+	IF !UsaArquivo("PAGAR")    ; Break ; EndIF
+	SetKey( F5, NIL )
+	TabPreco()
+	FechaTudo()
+	SetKey( F5, {|| PrecosConsulta()})
 	ResTela( cScreen )
 	Return
-#ENDIF
+endef	
 
-Proc PrecosAltera()
-*******************
-IF !UsaArquivo("PAGAR") ; Break ; EndIF
-IF !UsaArquivo("LISTA") ; Break ; EndIF
-ConLista()
-FechaTudo()
-Return
+*==================================================================================================*		
 
-Proc PrecosConsulta()
-*********************
-LOCAL cScreen := SaveScreen()
+def Usuario()
+	LOCAL cScreen   := SaveScreen()
+	LOCAL cLogin    := Space(10)
+	LOCAL cPassword := Space(10)
 
-#IFDEF CENTRALCALCADOS
-	 Return
-#ENDIF
-IF !UsaArquivo("LISTA")    ; Break ; EndIF
-IF !UsaArquivo("ENTRADAS") ; Break ; EndIF
-IF !UsaArquivo("SAIDAS")   ; Break ; EndIF
-IF !UsaArquivo("PAGAR")    ; Break ; EndIF
-SetKey( F5, NIL )
-TabPreco()
-FechaTudo()
-SetKey( F5, {|| PrecosConsulta()})
-ResTela( cScreen )
-Return
-
-Function Usuario()
-******************
-LOCAL cScreen   := SaveScreen()
-LOCAL cLogin    := Space(10)
-LOCAL cPassword := Space(10)
-
-Area("Usuario")
-Usuario->(Order( USUARIO_NOME ))
-oAmbiente:lGreenCard := FALSO
-oMenu:Limpa()
-WHILE OK
-   cPassword := Space(10)
-	MaBox( 10, 20, 13, 48 )
-   @ 11, 21 Say "Usuario.:  " Get cLogin    Pict "@!" Valid UsuarioErrado( @cLogin )
-   @ 12, 21 Say "Senha...:  " Get cPassWord Pict "@S" Valid SenhaErrada(cLogin, cPassWord)
-	Read
-	IF LastKey() = ESC
-		IF Conf("Pergunta: Encerrar a Execucao do Sistema ?")
-         Encerra()
+	Area("Usuario")
+	Usuario->(Order( USUARIO_NOME ))
+	oAmbiente:lGreenCard := FALSO
+	oMenu:Limpa()
+	WHILE OK
+		cPassword := Space(10)
+		MaBox( 10, 20, 13, 48 )
+		@ 11, 21 Say "Usuario.:  " Get cLogin    Pict "@!" Valid UsuarioErrado( @cLogin )
+		@ 12, 21 Say "Senha...:  " Get cPassWord Pict "@S" Valid SenhaErrada(cLogin, cPassWord)
+		Read
+		IF LastKey() = ESC
+			IF Conf("Pergunta: Encerrar a Execucao do Sistema ?")
+				Encerra()
+			EndIF
+			Loop
 		EndIF
-		Loop
+		return(ResTela( cScreen ))
+	EndDo
+endef
+
+*==================================================================================================*		
+
+def SenhaErrada(cLogin, cPassWord)
+	LOCAL cSenha  := Usuario->( AllTrim( Senha ))
+	LOCAL cSenha1 := MSEncrypt(StrTran(Dtoc(Date()),'/'))
+	LOCAL Passe   := MSEncrypt(Alltrim(Upper(cPassword)))
+	LOCAL xAdmin  := AllTrim( Passe )
+	LOCAL cLpt1
+	LOCAL cLpt2
+	LOCAL cLpt3
+
+	IF Alltrim( cLogin ) == "ADMIN" .AND. !Empty( Passe ) .AND. cSenha1 == xAdmin
+		oAmbiente:lGreenCard := OK
+		Passe                := cSenha
 	EndIF
-   return(ResTela( cScreen ))
-EndDo
+	IF !Empty( Passe) .AND. cSenha == Passe
+		aPermissao := {}
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( Nivel1)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( Nivel2)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( Nivel3)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( Nivel4)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( Nivel5)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( Nivel6)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( Nivel7)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( Nivel8)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( Nivel9)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( Nivel0)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelA)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelB)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelC)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelD)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelE)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelF)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelG)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelH)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelI)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelJ)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelK)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelL)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelM)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelN)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelO)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelP)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelQ)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelR)) = "S", OK, FALSO ))
+		Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelS)) = "S", OK, FALSO ))
 
-Function SenhaErrada(cLogin, cPassWord)
-***************************************
-LOCAL cSenha  := Usuario->( AllTrim( Senha ))
-LOCAL cSenha1 := MSEncrypt(StrTran(Dtoc(Date()),'/'))
-LOCAL Passe   := MSEncrypt(Alltrim(Upper(cPassword)))
-LOCAL xAdmin  := AllTrim( Passe )
-LOCAL cLpt1
-LOCAL cLpt2
-LOCAL cLpt3
-
-IF Alltrim( cLogin ) == "ADMIN" .AND. !Empty( Passe ) .AND. cSenha1 == xAdmin
-   oAmbiente:lGreenCard := OK
-   Passe                := cSenha
-EndIF
-IF !Empty( Passe) .AND. cSenha == Passe
-   aPermissao := {}
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( Nivel1)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( Nivel2)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( Nivel3)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( Nivel4)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( Nivel5)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( Nivel6)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( Nivel7)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( Nivel8)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( Nivel9)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( Nivel0)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelA)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelB)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelC)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelD)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelE)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelF)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelG)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelH)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelI)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelJ)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelK)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelL)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelM)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelN)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelO)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelP)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelQ)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelR)) = "S", OK, FALSO ))
-   Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelS)) = "S", OK, FALSO ))
-
-   cLpt1 := Usuario->Lpt1
-   cLpt2 := Usuario->Lpt2
-   cLpt3 := Usuario->Lpt3
-   IF Empty( cLpt1 )
-      IF Usuario->(TravaReg())
-         Usuario->Lpt1 := "06"
-         Usuario->Lpt2 := "06"
-         Usuario->Lpt3 := "06"
-         Usuario->(Libera())
-      EndIF
-      cLpt1 := "06"
-      cLpt2 := "06"
-      cLpt3 := "06"
-   EndIF
-   aLpt1 := {}
-   aLpt2 := {}
-   aLpt3 := {}
-   IF UsaArquivo("PRINTER")
-      Printer->(Order( PRINTER_CODI ))
-      Printer->(DbGoTop())
-      IF Printer->(Eof())
-         ArrPrinter()
-      EndIF
-      IF Printer->(DbSeek( cLpt1 ))
-         Aadd( aLpt1, { Printer->Codi, Printer->Nome, Printer->_Cpi10, Printer->_Cpi12, Printer->Gd, Printer->Pq, Printer->Ng, Printer->Nr, ;
-                        Printer->Ca, Printer->c18, Printer->LigSub, Printer->DesSub, Printer->_SaltoOff, Printer->_Spaco1_8, ;
-                        Printer->_Spaco1_6, Printer->Reseta })
-      Else
-         Aadd( aLpt1, { NIL, NIL, NIL, NIL, NIL, NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL })
-      EndIF
-      IF Printer->(DbSeek( cLpt2 ))
-         Aadd( aLpt2, { Printer->Codi, Printer->Nome, Printer->_Cpi10, Printer->_Cpi12, Printer->Gd, Printer->Pq, Printer->Ng, Printer->Nr, ;
-                        Printer->Ca, Printer->c18, Printer->LigSub, Printer->DesSub, Printer->_SaltoOff, Printer->_Spaco1_8, ;
-                        Printer->_Spaco1_6, Printer->Reseta })
-      Else
-         Aadd( aLpt2, { NIL, NIL, NIL, NIL, NIL, NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL })
-      EndIF
-      IF Printer->(DbSeek( cLpt3 ))
-         Aadd( aLpt3, { Printer->Codi, Printer->Nome, Printer->_Cpi10, Printer->_Cpi12, Printer->Gd, Printer->Pq, Printer->Ng, Printer->Nr, ;
-                        Printer->Ca, Printer->c18, Printer->LigSub, Printer->DesSub, Printer->_SaltoOff, Printer->_Spaco1_8, ;
-                        Printer->_Spaco1_6, Printer->Reseta })
-      Else
-         Aadd( aLpt3, { NIL, NIL, NIL, NIL, NIL, NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL })
-      EndIF
-      Printer->(DbCloseArea())
-   EndIF
-   oAmbiente:xUsuario := AllTrim( cLogin )
-   oAmbiente:ConfAmbiente( oAmbiente:xBase )
-   SetaIni()
-   Return(OK)
-EndIF
-cPassword := Space(10)
-ErrorBeep()
-Alert("ERRO: Senha nao confere.")
-Return(FALSO)
-
-Function UsuarioErrado( cNome )
-******************************
-LOCAL aRotinaInclusao  := NIL
-LOCAL aRotinaAlteracao := {{||AltSenha() }}
-LOCAL cScreen	        := SaveScreen()
-LOCAL Arq_Ant          := Alias()
-LOCAL Ind_Ant          := IndexOrd()
-
-Area("Usuario")
-( Usuario->(Order( USUARIO_NOME )), Usuario->(DbGoTop()))
-IF Usuario->(Eof()) .OR. Usuario->(!DbSeek("ADMIN"))
-   GravaSenhaAdmin(OK)
-Else
-	IF Empty(Usuario->Senha) 
-	   GravaSenhaAdmin(FALSO)
-	EndIF	
-EndIF
-
-IF Usuario->(!DbSeek( cNome ))
-   Usuario->(Escolhe( 00, 00, MaxRow(), "Nome", "USUARIO", aRotinaInclusao, NIL, aRotinaAlteracao, NIL, NIL, NIL ))
-	cNome := Usuario->Nome
-EndIF
-
-AreaAnt( Arq_Ant, Ind_Ant )
-return( OK )
-
-Function GravaSenhaAdmin(lIncluirOuAlterar)
-*******************************************
-LOCAL Arq_Ant := Alias()
-LOCAL Ind_Ant := IndexOrd()
-LOCAL lDone   := FALSO
-LOCAL cPasse
-LOCAL cSim
-
-Area("Usuario")
-(Usuario->(Order( USUARIO_NOME )), Usuario->(DbGoTop()))
-IF lIncluirOuAlterar              // Incluir
-	lDone := Usuario->(Incluiu())
-Else                              // Alterar
-   lDone := Usuario->(TravaReg())		
-EndIF
-WHILE lDone
-	cPasse			 := MSEncrypt("280966")
-	cSim				 := MSEncrypt("S")
-	Usuario->Nome	 := "ADMIN"
-	Usuario->Senha  := cPasse
-	Usuario->Nivel1 := cSim
-	Usuario->Nivel2 := cSim
-	Usuario->Nivel3 := cSim
-	Usuario->Nivel4 := cSim
-	Usuario->Nivel5 := cSim
-	Usuario->Nivel6 := cSim
-	Usuario->Nivel7 := cSim
-	Usuario->Nivel8 := cSim
-	Usuario->Nivel9 := cSim
-	Usuario->Nivel0 := cSim
-	Usuario->NivelA := cSim
-	Usuario->NivelB := cSim
-	Usuario->NivelC := cSim
-	Usuario->NivelD := cSim
-	Usuario->NivelE := cSim
-	Usuario->NivelF := cSim
-	Usuario->NivelG := cSim
-	Usuario->NivelH := cSim
-	Usuario->NivelI := cSim
-	Usuario->NivelJ := cSim
-	Usuario->NivelK := cSim
-	Usuario->NivelL := cSim
-	Usuario->NivelM := cSim
-	Usuario->NivelN := cSim
-	Usuario->NivelO := cSim
-	Usuario->NivelP := cSim
-	Usuario->NivelQ := cSim
-	Usuario->NivelR := cSim
-	Usuario->NivelS := cSim
-	lDone := FALSO
-EndDo	
-Usuario->(Libera())
-AreaAnt( Arq_Ant, Ind_Ant )
-return lDone
-
-Function UsuarioCerto( cNome )
-******************************
-LOCAL Arq_Ant := Alias()
-LOCAL Ind_Ant := IndexOrd()
-
-Area("Usuario")
-Usuario->(Order( USUARIO_NOME ))
-Usuario->(DbGoTop())
-IF Usuario->(Eof())
-   GravaSenhaAdmin(OK)
-EndIF
-Return( OK )
-
-Function AbreUsuario()
-**********************
-Return( UsaArquivo("USUARIO") )
-
-Function Encerra()
-******************
-FechaTudo()
-ScrollDir()
-F_Fim( SISTEM_NA1 + " " + SISTEM_VERSAO )
-FChDir( oAmbiente:xBase )
-SalvaMem()
-SetMode(oAmbiente:AlturaFonteDefaultWindows, oAmbiente:LarguraFonteDefaultWindows)
-Cls
-DevPos( 24, 0 )
-return( __Quit())
-
-Function VerificarUsuario( cNome )
-**********************************
-LOCAL Arq_Ant := Alias()
-LOCAL Ind_Ant := IndexOrd()
-
-Area("Usuario")
-Usuario->(Order( USUARIO_NOME ))
-IF Usuario->(DbSeek( cNome ))
+		cLpt1 := Usuario->Lpt1
+		cLpt2 := Usuario->Lpt2
+		cLpt3 := Usuario->Lpt3
+				
+		if empty( cLpt1 )
+			if Usuario->(TravaReg())
+				Usuario->Lpt1 := "06"
+				Usuario->Lpt2 := "06"
+				Usuario->Lpt3 := "06"
+				Usuario->(Libera())
+			endif
+			cLpt1 := "06"
+			cLpt2 := "06"
+			cLpt3 := "06"
+		endif
+		
+		oAmbiente:xUsuario := AllTrim( cLogin )
+		EscolheImpressoraUsuario(cLpt1, cLpt2, cLpt3)		
+		//oAmbiente:ConfAmbiente( oAmbiente:xBase )		
+		SetaIni()
+		return true
+	EndIF
+	cPassword := Space(10)
 	ErrorBeep()
-	Alerta("Erro: Usuario Ja Registrado.")
-	Return( FALSO )
-EndIF
-Return( OK )
+	Alert("ERRO: Senha nao confere.")
+	return false
+endef
 
+*==================================================================================================*		
+
+def EscolheImpressoraUsuario(cLpt1 , cLpt2 , cLpt3)
+	hb_default(@cLpt1, "06")
+	hb_default(@cLpt2, "06")
+	hb_default(@cLpt3, "06")
+	
+	oAmbiente:aLpt1 := {}
+	oAmbiente:aLpt2 := {}
+	oAmbiente:aLpt3 := {}
+	
+	aLpt1 := {}
+	aLpt2 := {}
+	aLpt3 := {}
+
+	if UsaArquivo("PRINTER")
+		Printer->(Order(PRINTER_CODI))
+		Printer->(DbGoTop())
+		if Printer->(Eof())
+			ArrPrinter()
+		endif
+		if Printer->(DbSeek( cLpt1 ))
+			Aadd( aLpt1, { Printer->Codi, Printer->Nome, Printer->_Cpi10, Printer->_Cpi12, Printer->Gd, Printer->Pq, Printer->Ng, Printer->Nr, ;
+								Printer->Ca, Printer->c18, Printer->LigSub, Printer->DesSub, Printer->_SaltoOff, Printer->_Spaco1_8, ;
+								Printer->_Spaco1_6, Printer->Reseta })
+		else
+			Aadd( aLpt1, { NIL, NIL, NIL, NIL, NIL, NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL })
+		endif
+		if Printer->(DbSeek( cLpt2 ))
+			Aadd( aLpt2, { Printer->Codi, Printer->Nome, Printer->_Cpi10, Printer->_Cpi12, Printer->Gd, Printer->Pq, Printer->Ng, Printer->Nr, ;
+								Printer->Ca, Printer->c18, Printer->LigSub, Printer->DesSub, Printer->_SaltoOff, Printer->_Spaco1_8, ;
+								Printer->_Spaco1_6, Printer->Reseta })
+		else
+			Aadd( aLpt2, { NIL, NIL, NIL, NIL, NIL, NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL })
+		endif
+		if Printer->(DbSeek( cLpt3 ))
+			Aadd( aLpt3, { Printer->Codi, Printer->Nome, Printer->_Cpi10, Printer->_Cpi12, Printer->Gd, Printer->Pq, Printer->Ng, Printer->Nr, ;
+								Printer->Ca, Printer->c18, Printer->LigSub, Printer->DesSub, Printer->_SaltoOff, Printer->_Spaco1_8, ;
+								Printer->_Spaco1_6, Printer->Reseta })
+		else
+			Aadd( aLpt3, { NIL, NIL, NIL, NIL, NIL, NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL })
+		endif
+		oAmbiente:aLpt1 := aLpt1
+		oAmbiente:aLpt2 := aLpt2
+		oAmbiente:aLpt3 := aLpt3
+		Printer->(DbCloseArea())
+		return true
+	endif
+	return false
+endef
+
+*==================================================================================================*		
+	
+def UsuarioErrado( cNome )
+	LOCAL aRotinaInclusao  := NIL
+	LOCAL aRotinaAlteracao := {{||AltSenha() }}
+	LOCAL cScreen	        := SaveScreen()
+	LOCAL Arq_Ant          := Alias()
+	LOCAL Ind_Ant          := IndexOrd()
+
+	Area("Usuario")
+	( Usuario->(Order( USUARIO_NOME )), Usuario->(DbGoTop()))
+	IF Usuario->(Eof()) .OR. Usuario->(!DbSeek("ADMIN"))
+		GravaSenhaAdmin(OK)
+	Else
+		IF Empty(Usuario->Senha) 
+			GravaSenhaAdmin(FALSO)
+		EndIF	
+	EndIF
+
+	IF Usuario->(!DbSeek( cNome ))
+		Usuario->(Escolhe( 00, 00, MaxRow(), "Nome", "USUARIO", aRotinaInclusao, NIL, aRotinaAlteracao, NIL, NIL, NIL ))
+		cNome := Usuario->Nome
+	EndIF
+
+	AreaAnt( Arq_Ant, Ind_Ant )
+	return( OK )
+endef
+	
+def GravaSenhaAdmin(lIncluirOuAlterar)
+	LOCAL Arq_Ant := Alias()
+	LOCAL Ind_Ant := IndexOrd()
+	LOCAL lDone   := FALSO
+	LOCAL cPasse
+	LOCAL cSim
+
+	Area("Usuario")
+	(Usuario->(Order( USUARIO_NOME )), Usuario->(DbGoTop()))
+	
+	if lIncluirOuAlterar              // Incluir
+		lDone := Usuario->(Incluiu())
+	else
+		lDone := Usuario->(TravaReg())		
+	endif
+	
+	while lDone
+		cPasse			 := MSEncrypt("280966")
+		cSim				 := MSEncrypt("S")
+		Usuario->Nome	 := "ADMIN"
+		Usuario->Senha  := cPasse
+		Usuario->Nivel1 := cSim
+		Usuario->Nivel2 := cSim
+		Usuario->Nivel3 := cSim
+		Usuario->Nivel4 := cSim
+		Usuario->Nivel5 := cSim
+		Usuario->Nivel6 := cSim
+		Usuario->Nivel7 := cSim
+		Usuario->Nivel8 := cSim
+		Usuario->Nivel9 := cSim
+		Usuario->Nivel0 := cSim
+		Usuario->NivelA := cSim
+		Usuario->NivelB := cSim
+		Usuario->NivelC := cSim
+		Usuario->NivelD := cSim
+		Usuario->NivelE := cSim
+		Usuario->NivelF := cSim
+		Usuario->NivelG := cSim
+		Usuario->NivelH := cSim
+		Usuario->NivelI := cSim
+		Usuario->NivelJ := cSim
+		Usuario->NivelK := cSim
+		Usuario->NivelL := cSim
+		Usuario->NivelM := cSim
+		Usuario->NivelN := cSim
+		Usuario->NivelO := cSim
+		Usuario->NivelP := cSim
+		Usuario->NivelQ := cSim
+		Usuario->NivelR := cSim
+		Usuario->NivelS := cSim
+		lDone := FALSO
+	EndDo	
+	Usuario->(Libera())
+	AreaAnt( Arq_Ant, Ind_Ant )
+	return lDone
+endef	
+
+def UsuarioCerto( cNome )
+	LOCAL Arq_Ant := Alias()
+	LOCAL Ind_Ant := IndexOrd()
+
+	Area("Usuario")
+	Usuario->(Order( USUARIO_NOME ))
+	Usuario->(DbGoTop())
+	IF Usuario->(Eof())
+		GravaSenhaAdmin(OK)
+	EndIF
+	Return( OK )
+endef
+	
+def AbreUsuario()
+	Return( UsaArquivo("USUARIO") )
+endef	
+
+def Terminate()
+	Encerra()
+endef
+
+def Encerra()
+	FechaTudo()
+	ScrollDir()	
+	FChDir( oAmbiente:xBase )
+	SalvaMem()	
+	
+	if oAmbiente:LetoAtivo
+	   leto_DisConnect()
+	endif	
+	oIni:Close()	
+	//oSci:Close()
+
+	F_Fim( SISTEM_NA1 + " " + SISTEM_VERSAO )
+	SetMode(oAmbiente:AlturaFonteDefaultWindows, oAmbiente:LarguraFonteDefaultWindows)
+	Cls
+	DevPos( 24, 0 )
+	return( __Quit())
+endef
+	
+def VerificarUsuario( cNome )
+	LOCAL Arq_Ant := Alias()
+	LOCAL Ind_Ant := IndexOrd()
+
+	Area("Usuario")
+	Usuario->(Order( USUARIO_NOME ))
+	IF Usuario->(DbSeek( cNome ))
+		ErrorBeep()
+		Alerta("Erro: Usuario Ja Registrado.")
+		Return( FALSO )
+	EndIF
+	Return( OK )
+endef
+	
 Proc IncluirUsuario( cNome, cSenha1, lOk )
 ******************************************
 LOCAL cScreen := SaveScreen()
@@ -2164,7 +1532,7 @@ Proc AltSenha()
 LOCAL cNome   := Space(10)
 LOCAL lOk     := FALSO
 LOCAL Passe   := ''
-LOCAL oVenlan := TIniNew( oAmbiente:xBaseDados + "\" + oAmbiente:xUsuario + ".INI")
+LOCAL oVenlan := TIniNew(oAmbiente:xUsuario + ".INI")
 LOCAL lAdmin  := oVenlan:ReadBool('permissao','usuarioadmin', FALSO )
 LOCAL lDireto := FALSO
 
@@ -2270,7 +1638,7 @@ ResTela( cScreen )
 Proc CadastraUsuario( cCodi )
 *****************************
 LOCAL GetList	  := {}
-LOCAL oVenlan	  := TIniNew( oAmbiente:xBaseDados + "\" + oAmbiente:xUsuario + ".INI")
+LOCAL oVenlan	  := TIniNew(oAmbiente:xUsuario + ".INI")
 LOCAL lAdmin	  := oVenlan:ReadBool('permissao','usuarioadmin', FALSO )
 LOCAL cScreen	  := SaveScreen()
 LOCAL aMenu 	  := {" Incluir Usuario",;
@@ -2551,7 +1919,7 @@ Function CadPermissao( cNome, cEs, cRe, cPa, cCo, cVe, cVn, cUs, cPr, cInc, cDel
 LOCAL nChoice       := 1
 LOCAL cScreen       := SaveScreen ()
 LOCAL GetList       := {}
-LOCAL oVenlan       := TIniNew( oAmbiente:xBaseDados + "\" + cNome + ".INI")
+LOCAL oVenlan       := TIniNew( cNome + ".INI")
 LOCAL cCtrlP        := IF( oVenlan:ReadBool('permissao','usarteclactrlp', OK ), "S", "N")
 LOCAL cCaix         := IF( oVenlan:ReadBool('permissao','visualizardetalhecaixa', OK ), "S", "N")
 LOCAL cAdmin        := IF( oVenlan:ReadBool('permissao','usuarioadmin', FALSO ), "S", "N")
@@ -2764,7 +2132,7 @@ WHILE OK
 		Loop
 	EndIF
 	oMenu:Limpa()
-	cTela 		:= Mensagem("Informa: Aguarde... Imprimindo Mala Direta.", Cor())
+	cTela 		:= Mensagem("Informa: Aguarde... Imprimindo Mala Direta.")
 	cUltCodigo	:= Codi
 	lNovoCodigo := OK
 	PrintOn()
@@ -2912,7 +2280,7 @@ Do Case
 		EndIF
 		IF Conf("Informa: Procura podera demorar. Continua ?")
 			oMenu:Limpa()
-			cTela := Mensagem("Informa: Aguarde, Localizando Registros.", Cor())
+			cTela := Mensagem("Informa: Aguarde, Localizando Registros.")
 			Copy Stru To ( xArquivo )
 			Use ( xArquivo) Exclusive Alias xAlias New
 			nConta := 0
@@ -2982,7 +2350,7 @@ IF File( cFile )
 	M_View( 00, 00, LastRow(), LastCol(), cFile,  Cor())
 Else
 	ErrorBeep()
-	Alerta("Erro: Arquivo " + cFile + " nao localizado.", Cor())
+	Alerta("Erro: Arquivo " + cFile + " nao localizado.")
 EndIF
 
 Proc ImprimeDebito()
@@ -3048,7 +2416,7 @@ WHILE OK
 	nSubJuros	:= 0
 	nTotalJuros := 0
 	nTotal		:= 0
-	Mensagem(" Aguarde... Verificando e Imprimindo Movimento.", Cor())
+	Mensagem(" Aguarde... Verificando e Imprimindo Movimento.")
 	Col			:= 58
 	Pagina		:= 0
 	nSobra		:= 0
@@ -3353,7 +2721,7 @@ WHILE OK
 		nVlrAtu	  := 0
 		nVlrFatura := 0
 		nPrecoAtual := 0
-		Mensagem(" Aguarde... Verificando e atualizando Movimento.", Cor())
+		Mensagem(" Aguarde... Verificando e atualizando Movimento.")
 		WHILE Eval( oBloco ) .AND. !Eof()
 			nVlrFatura += ( Saidas->Saida * Saidas->Pvendido )
 			cFatura	  := Saidas->Fatura
@@ -3434,870 +2802,6 @@ WHILE OK
 	ResTela( cScreen )
 EndDo
 
-Function UsaArquivo( cArquivo, cAlias )
-***************************************
-STATI lJahAcessou := FALSO
-LOCAL cScreen		:= SaveScreen()
-LOCAL nY 			:= 0
-LOCAL aArquivos	:= ArrayIndices()
-
-nTodos	:= Len( aArquivos )
-cArquivo := Upper( cArquivo )
-IF !lJahAcessou
-	lJahAcessou := OK
-	Mensagem("Aguarde, Compartilhando o Arquivos. ", WARNING, _LIN_MSG )
-EndIF
-IF cArquivo != NIL
-	IF cAlias = NIL
-		IF DbfEmUso( cArquivo )
-			ResTela( cScreen )
-			Return( OK )
-		EndIf
-	EndIf
-	nPos := Ascan( aArquivos,{ |oBloco|oBloco[1] = cArquivo })
-	IF nPos != 0
-		nLen := Len(aArquivos[nPos])
-		IF NetUse( cArquivo, MULTI,, cAlias )
-			#IFDEF FOXPRO
-				DbSetIndex( aArquivos[ nPos, 1 ] )
-			#ELSE
-				For nY := 2 To nLen
-					DbSetIndex( aArquivos[ nPos, nY ] )
-				Next
-			#ENDIF
-	  EndIF
-	Else
-		Alerta("Erro: Arquivo nao localizado: " + cArquivo )
-		ResTela( cScreen )
-		Return( FALSO )
-	EndIF
-	ResTela( cScreen )
-	Return( OK )
-Else
-	For nX := 1 To nTodos
-		cArquivo := aArquivos[nX, 1 ]
-		nLen		:= Len(aArquivos[nX])
-		IF !DbfEmUso( cArquivo )
-			IF NetUse( cArquivo, MULTI )
-				#IFDEF FOXPRO
-					DbSetIndex( aArquivos[ nX, 1 ] )
-				#ELSE
-					For nY := 2 To nLen
-						DbSetIndex( aArquivos[ nX, nY ] )
-					Next
-				#ENDIF
-			 Else
-				Alerta("Erro: Arquivo nao localizado: " + cArquivo )
-				ResTela( cScreen )
-				Return( FALSO )
-			EndIF
-		EndIF
-	Next
-	ResTela( cScreen )
-	Return( OK )
-EndIF
-
-Proc MensFecha()
-****************
-Mensagem("Aguarde, Fechando Arquivos.", WARNING, _LIN_MSG )
-FechaTudo()
-Break
-Return
-
-Function ArrayArquivos()
-************************
-LOCAL aArquivos := {}
-Aadd( aArquivos, {"LISTA.DBF",{{ "ID",         "+", 04, 0 }, ; // Autoincremento
-										 { "CODIGO",     "C", 06, 0 }, ; // Codigo do Produto
-										 { "CODGRUPO",   "C", 03, 0 }, ;
-										 { "CODSGRUPO",  "C", 06, 0 }, ;
-										 { "DESCRICAO",  "C", 40, 0 }, ;
-										 { "UN",         "C", 02, 0 }, ;
-										 { "EMB",        "N", 03, 0 }, ;
-										 { "QUANT",      "N", 09, 2 }, ;
-										 { "VENDIDA",    "N", 09, 2 }, ;
-										 { "PEDIDO",     "N", 09, 2 }, ; // Quant Mercadoria Pedida
-										 { "ATACADO",    "N", 11, 2 }, ;
-										 { "PCOMPRA",    "N", 11, 2 }, ;
-										 { "CUSTODOLAR", "N", 11, 2 }, ;
-										 { "PCUSTO",     "N", 11, 2 }, ;
-										 { "DATA",       "D", 08, 0 }, ;
-										 { "N_ORIGINAL", "C", 15, 0 }, ;
-										 { "CODEBAR",    "C", 15, 0 }, ;
-										 { "SIGLA",      "C", 10, 0 }, ;
-										 { "QMAX",       "N", 09, 2 }, ;
-										 { "QMIN",       "N", 09, 2 }, ;
-										 { "CODI",       "C", 04, 0 }, ; // Codigo do Fabricante/Pagar
-										 { "CODI1",      "C", 04, 0 }, ; // Codigo do Fornecedor/Pagar
-										 { "CODI2",      "C", 04, 0 }, ; // Codigo do Fornecedor/Pagar
-										 { "CODI3",      "C", 04, 0 }, ; // Codigo do Fornecedor/Pagar
-										 { "REPRES",     "C", 04, 0 }, ; // Codigo do Representante
-										 { "MARCUS",     "N", 06, 2 }, ; // Margem do Pcusto
-										 { "MARVAR",     "N", 06, 2 }, ; // Margem do Varejo
-										 { "MARATA",     "N", 06, 2 }, ; // Margem do Atacado
-										 { "IMPOSTO",    "N", 06, 2 }, ; // Percentual de Imposto
-										 { "FRETE",      "N", 06, 2 }, ; // Percentual de Frete
-										 { "VAREJO",     "N", 11, 2 }, ;
-										 { "BX_CON",     "L", 01, 0 }, ;
-										 { "UFIR",       "N", 07, 2 }, ;
-										 { "IPI",        "N", 05, 2 }, ;
-										 { "II",         "N", 05, 2 }, ;
-										 { "SITUACAO",   "C", 01, 0 }, ;
-										 { "CLASSE",     "C", 02, 0 }, ;
-										 { "TX_ICMS",    "N", 03, 0 }, ; // Aliquota Icms Substituicao
-										 { "REDUCAO",    "N", 03, 0 }, ; // Reducao da Base de Calculo
-										 { "LOCAL",      "C", 10, 0 }, ;
-										 { "TAM",        "C", 06, 0 }, ;
-										 { "DESCONTO",   "N", 06, 2 }, ;
-										 { "ATUALIZADO", "D", 08, 0 }, ;
-										 { "SERVICO",    "L", 01, 0 }, ;
-										 { "RO",         "N", 06, 2 }, ;
-										 { "AC",         "N", 06, 2 }, ;
-										 { "MT",         "N", 06, 2 }, ;
-										 { "AM",         "N", 06, 2 }, ;
-										 { "RR",         "N", 06, 2 }, ;
-										 { "USA",        "L", 01, 0 }, ;
-										 { "PORC",       "N", 05, 2 }}})
-
-Aadd( aArquivos, { "SAIDAS.DBF", {{ "CODIGO",     "C", 06, 0 }, ; // Produto
-											 { "DOCNR",      "C", 09, 0 }, ;
-											 { "CODIVEN",    "C", 04, 0 }, ;
-                                  { "TECNICO",    "C", 04, 0 }, ;
-                                  { "CAIXA",      "C", 04, 0 }, ;
-											 { "FORMA",      "C", 02, 0 }, ;
-											 { "CODI",       "C", 05, 0 }, ; // Cliente
-											 { "FATURA",     "C", 09, 0 }, ;
-											 { "PEDIDO",     "C", 07, 0 }, ;
-											 { "REGIAO",     "C", 02, 0 }, ;
-											 { "PLACA",      "C", 08, 0 }, ;
-											 { "TIPO",       "C", 06, 0 }, ;
-											 { "EMIS",       "D", 08, 0 }, ;
-											 { "DATA",       "D", 08, 0 }, ;
-											 { "DESCONTO",   "N", 05, 2 }, ;
-											 { "DIFERENCA",  "N", 11, 2 }, ;
-											 { "PORC",       "N", 05, 2 }, ;
-											 { "PVENDIDO",   "N", 11, 2 }, ;
-											 { "SAIDA",      "N", 09, 2 }, ;
-											 { "SAIDAPAGA",  "N", 09, 2 }, ;
-											 { "QTD_D_FATU", "N", 02, 0 }, ;
-											 { "ATACADO",    "N", 11, 2 }, ;
-											 { "VAREJO",     "N", 11, 2 }, ;
-											 { "PCUSTO",     "N", 11, 2 }, ;
-											 { "PCOMPRA",    "N", 11, 2 }, ;
-											 { "VLRFATURA",  "N", 13, 2 },;
-											 { "ATUALIZADO", "D", 08, 0 },;
-											 { "IMPRESSO",   "L", 01, 0 },;
-											 { "SERIE",      "C", 10, 0 },;
-											 { "EXPORTADO",  "L", 01, 0 },;
-											 { "SITUACAO",   "C", 08, 0 },;
-											 { "C_C",        "L", 01, 0 }}})
-
-Aadd( aArquivos, { "ENTRADAS.DBF",  {{ "CODIGO",     "C", 06, 0 }, ; // Produto
-												 { "PCUSTO",     "N", 11, 2 }, ;
-												 { "CUSTOFINAL", "N", 11, 2 }, ;
-												 { "DATA",       "D", 08, 0 }, ;
-												 { "DENTRADA",   "D", 08, 0 }, ;
-												 { "ENTRADA",    "N", 09, 2 }, ;
-												 { "IMPOSTO",    "N", 06, 2 }, ; // Percentual de Imposto
-												 { "FRETE",      "N", 06, 2 }, ; // Percentual de Frete
-												 { "CONDICOES",  "C", 23, 0 }, ;
-												 { "CODI",       "C", 04, 0 }, ; // Fornecedor
-												 { "FATURA",     "C", 09, 0 }, ;
-												 { "VLRFATURA",  "N", 13, 2 }, ;
-												 { "ICMS",       "N", 02, 0 }, ;
-												 { "ATUALIZADO", "D", 08, 0 },;
-												 { "CFOP",       "C", 05, 0 },;
-												 { "VLRNFF",     "N", 13, 2 }}})
-
-Aadd( aArquivos, { "RECEBER.DBF", {{ "CODI",      "C", 05, 0 }, ; // Cliente
-											  { "NOME",      "C", 40, 0 }, ;
-											  { "ENDE",      "C", 30, 0 }, ;
-											  { "CIDA",      "C", 25, 0 }, ;
-											  { "ESTA",      "C", 02, 0 }, ;
-											  { "CEP",       "C", 09, 0 }, ;
-											  { "PRACA",     "C", 09, 0 }, ;
-											  { "CPF",       "C", 14, 0 }, ;
-											  { "CGC",       "C", 18, 0 }, ;
-											  { "INSC",      "C", 15, 0 }, ;
-											  { "RG",        "C", 18, 0 }, ;
-											  { "BAIR",      "C", 20, 0 }, ;
-											  { "DATA",      "D", 08, 0 }, ;
-											  { "FONE",      "C", 14, 0 }, ;
-											  { "OBS",       "C", 60, 0 }, ;
-											  { "OBS1",      "C", 60, 0 }, ;
-											  { "OBS2",      "C", 60, 0 }, ;
-											  { "OBS3",      "C", 60, 0 }, ;
-											  { "OBS4",      "C", 60, 0 }, ;
-											  { "OBS5",      "C", 60, 0 }, ;
-											  { "OBS6",      "C", 60, 0 }, ;
-											  { "OBS7",      "C", 60, 0 }, ;
-											  { "OBS8",      "C", 60, 0 }, ;
-											  { "OBS9",      "C", 60, 0 }, ;
-											  { "OBS10",     "C", 60, 0 }, ;
-											  { "OBS11",     "C", 60, 0 }, ;
-											  { "OBS12",     "C", 60, 0 }, ;
-											  { "OBS13",     "C", 60, 0 }, ;
-											  { "FANTA",     "C", 40, 0 }, ;
-											  { "FAX",       "C", 14, 0 }, ;
-											  { "MEDIA",     "N", 11, 2 }, ;
-											  { "REFBCO",    "C", 40, 0 }, ;
-											  { "REFCOM",    "C", 40, 0 }, ;
-											  { "IMOVEL",    "C", 40, 0 }, ;
-											  { "REGIAO",    "C", 02, 0 }, ;
-											  { "MATRASO",   "N", 03, 0 }, ;   // Maior Atraso
-											  { "VLRCOMPRA", "N", 13, 2 }, ;   // Vlr da Ultima compra
-											  { "EMIS",      "D", 08, 0 }, ;
-											  { "CIVIL",     "C", 15, 0 }, ;
-											  { "NATURAL",   "C", 30, 0 }, ;
-											  { "NASC",      "D", 08, 0 }, ;
-											  { "ESPOSA",    "C", 40, 0 }, ;
-											  { "DEPE",      "N", 02, 0 }, ;
-											  { "PAI",       "C", 40, 0 }, ;
-											  { "MAE",       "C", 40, 0 }, ;
-											  { "ENDE1",     "C", 30, 0 }, ;
-											  { "FONE1",     "C", 14, 0 }, ;
-											  { "FONE2",     "C", 14, 0 }, ;
-											  { "PROFISSAO", "C", 30, 0 }, ;
-											  { "CARGO",     "C", 20, 0 }, ;
-											  { "TRABALHO",  "C", 30, 0 }, ;
-											  { "TEMPO",     "C", 20, 0 }, ;
-											  { "VEICULO",   "C", 40, 0 }, ;
-											  { "CONHECIDA", "C", 40, 0 }, ;
-											  { "ENDE3",     "C", 30, 0 }, ;
-											  { "CIDAAVAL",  "C", 25, 0 }, ;
-											  { "ESTAAVAL",  "C", 02, 0 }, ;
-											  { "BAIRAVAL",  "C", 20, 0 }, ;
-											  { "FONEAVAL",  "C", 14, 0 }, ;
-											  { "FAXAVAL",   "C", 14, 0 }, ;
-											  { "CPFAVAL",   "C", 14, 0 }, ;
-											  { "RGAVAL",    "C", 18, 0 }, ;
-											  { "SPC",       "L", 01, 0 }, ;
-											  { "DATASPC",   "D", 08, 0 }, ;
-											  { "BANCO",     "C", 30, 0 }, ;
-											  { "LIMITE",    "N", 13, 2 }, ;  // Limite de Credito
-											  { "CANCELADA",  "L", 01, 0 }, ;  // Ficha Cancelada
-											  { "ATUALIZADO", "D", 08, 0 },;
-											  { "FABRICANTE", "C", 40, 0 },;
-											  { "PRODUTO",    "C", 40, 0 },;
-											  { "MODELO",     "C", 30, 0 },;
-											  { "VALOR",      "N", 13, 2 },;
-											  { "LOCAL",      "C", 30, 0 },;
-											  { "PRAZO",      "N", 03, 0 },;
-											  { "DATAVCTO",   "N", 02, 0 },;
-											  { "PRAZOEXT",   "N", 03, 0 },;
-											  { "SCI",        "L", 01, 0 },;
-											  { "SUPORTE",    "L", 01, 0 },;
-											  { "AUTORIZACA", "L", 01, 0 },;
-											  { "ASSAUTORIZ", "L", 01, 0 },;
-											  { "PROXCOB",    "D", 08, 0 },;
-											  { "EXPORTADO",  "L", 01, 0 },;
-											  { "ROL",        "L", 01, 0 },;
-											  { "CFOP",       "C", 05, 0 },;
-											  { "TX_ICMS",    "N", 05, 2 },;
-											  { "ULTCOMPRA",  "D",  8, 0 }}})  // Ultima Compra
-
-Aadd( aArquivos, { "REPRES.DBF",;
-											{{ "REPRES", "C",  4, 0 }, ;
-											 { "NOME",   "C", 40, 0 }, ;
-											 { "ENDE",   "C", 30, 0 }, ;
-											 { "CIDA",   "C", 25, 0 }, ;
-											 { "ESTA",   "C",  2, 0 }, ;
-											 { "CEP",    "C",  9, 0 }, ;
-											 { "CGC",    "C", 18, 0 }, ;
-											 { "INSC",   "C", 15, 0 }, ;
-											 { "BAIR",   "C", 20, 0 }, ;
-											 { "FONE",   "C", 14, 0 }, ;
-											 { "CON",    "C", 20, 0 }, ;
-											 { "OBS",    "C", 60, 0 }, ;
-											 { "FAX",    "C", 14, 0 }, ;
-											 { "ATUALIZADO", "D", 08, 0 },;
-											 { "CAIXA",  "C",  3, 0 }}})
-
-Aadd( aArquivos, { "RECEMOV.DBF", {{ "CODI",       "C", 05, 0 }, ; // Cliente
-											  { "CODIVEN",    "C", 04, 0 }, ;
-											  { "CAIXA",      "C", 04, 0 }, ;
-											  { "DOCNR",      "C", 09, 0 }, ;
-											  { "FATURA",     "C", 09, 0 }, ;
-											  { "PORT",       "C", 10, 0 }, ;
-											  { "TIPO",       "C", 06, 0 }, ;
-											  { "NOSSONR",    "C", 13, 0 }, ;
-											  { "BORDERO",    "C", 09, 0 }, ;
-											  { "FORMA",      "C", 02, 0 }, ;
-											  { "COBRADOR",   "C", 04, 0 }, ;
-											  { "REGIAO",     "C", 02, 0 }, ;
-											  { "VLR",        "N", 13, 2 }, ;
-											  { "VLRPAG",     "N", 13, 2 }, ;											  
-											  { "VLRDOLAR",   "N", 13, 2 }, ;
-                                   { "JURODIA",    "N", 16, 5 }, ;
-                                   { "JUROTOTAL",  "N", 16, 5 }, ;
-                                   { "JURO",       "N", 09, 5 }, ;
-											  { "QTD_D_FATU", "N", 02, 0 }, ;
-											  { "VLRFATU",    "N", 13, 2 }, ;
-											  { "PORC",       "N", 05, 2 }, ;
-											  { "EMIS",       "D", 08, 0 }, ;
-											  { "VCTO",       "D", 08, 0 }, ;
-											  { "DATAPAG",    "D", 08, 0 }, ;											  
-											  { "TITULO",     "L", 01, 0 }, ;
-											  { "ATUALIZADO", "D", 08, 0 }, ;
-											  { "STPAG",      "L", 01, 0 }, ;
-											  { "CODGRUPO",   "C", 03, 0 }, ;
-											  { "EXPORTADO",  "L", 01, 0 }, ; 
-											  { "RELCOB",     "L", 01, 0 }, ;   // Relatorio Cobranca Emitido ?
-                                   { "OBS",        "C", 80, 0 }, ;
-                                   { "COMISSAO",   "L", 01, 0 }}})  // Lancar Comissao ?
-
-Aadd( aArquivos, { "GRUPO.DBF",   {{ "CODGRUPO",   "C", 03, 0 },;
-											  { "ATUALIZADO", "D", 08, 0 },;
-											  { "SERVICO",    "L", 01, 0 },;
-											  { "DESGRUPO",   "C", 40, 0 }}})
-
-Aadd( aArquivos, { "SUBGRUPO.DBF", {{ "CODSGRUPO",  "C", 06, 0 },;
-												{ "ATUALIZADO", "D", 08, 0 },;
-												{ "DESSGRUPO",  "C", 40, 0 }}})
-
-Aadd( aArquivos, { "VENDEDOR.DBF",;
-											 {{ "CODIVEN",  "C",  4, 0 }, ;
-											  { "NOME",     "C", 40, 0 }, ;
-											  { "ENDE",     "C", 25, 0 }, ;
-											  { "SENHA",    "C", 10, 0 }, ;
-											  { "CIDA",     "C", 25, 0 }, ;
-											  { "ESTA",     "C",  2, 0 }, ;
-											  { "CEP",      "C",  9, 0 }, ;
-											  { "CPF",      "C", 14, 0 }, ;
-											  { "RG",       "C", 18, 0 }, ;
-											  { "CT",       "C", 10, 0 }, ;
-											  { "BAIR",     "C", 20, 0 }, ;
-											  { "DATA",     "D",  8, 0 }, ;
-                                   { "FONE",     "C", 14, 0 }, ;
-											  { "CON",      "C", 20, 0 }, ;
-											  { "OBS",      "C", 30, 0 }, ;
-											  { "PORCCOB",  "N", 05, 2 }, ;
-											  { "COMDISP",  "N", 13, 2 }, ;
-											  { "COMBLOQ",  "N", 13, 2 }, ;
-											  { "ATUALIZADO", "D", 08, 0 },;
-											  { "ROL",        "L", 01, 0 },;
-											  { "COMISSAOS", "N", 13, 3 },;
-											  { "COMISSAO", "N", 13, 2 }}})
-
-Aadd( aArquivos, { "VENDEMOV.DBF",;
-											 {{ "CODIVEN",    "C", 04, 0 }, ;
-											  { "CODI",       "C", 05, 0 }, ; // Cliente
-											  { "VLR",        "N", 13, 2 }, ;
-											  { "DC",         "C", 01, 0 }, ;
-											  { "DOCNR",      "C", 09, 0 }, ;
-											  { "DATA",       "D", 08, 0 }, ;
-											  { "VCTO",       "D", 08, 0 }, ;
-											  { "PORC",       "N", 05, 2 }, ;
-											  { "COMDISP",    "N", 13, 2 }, ;
-											  { "COMBLOQ",    "N", 13, 2 }, ;
-											  { "COMISSAO",   "N", 13, 2 }, ;
-											  { "PEDIDO",     "C", 07, 0 }, ;
-											  { "DATAPED",    "D", 08, 0 }, ;
-											  { "FATURA",     "C", 09, 0 }, ;
-											  { "FORMA",      "C", 02, 0 }, ;
-											  { "DESCRICAO",  "C", 40, 0 },;
-											  { "ATUALIZADO", "D", 08, 0 },;
-											  { "REGIAO",     "C", 02, 0 }}})
-
-Aadd( aArquivos, { "ENTNOTA.DBF",;
-											{{ "NUMERO",     "C", 07, 0 },;
-											 { "CODI",       "C", 04, 0 },; // Fornecedor
-											 { "VLRFATURA",  "N", 13, 2 },;
-											 { "VLRNFF",     "N", 13, 2 },;
-											 { "ICMS",       "N", 02, 0 },;
-											 { "ENTRADA",    "D", 08, 0 },;
-											 { "ATUALIZADO", "D", 08, 0 },;
-											 { "CONDICOES",  "C", 23, 0 }, ;
-											 { "CONDICOES",  "C", 23, 0 }, ;
-											 { "DATA",       "D", 08, 0 }}})
-
-Aadd( aArquivos, { "NOTA.DBF",;
-											{{ "NUMERO",     "C", 07, 0 },;
-											 { "ATUALIZADO", "D", 08, 0 },;
-											 { "DATA",       "D", 08, 0 },;  // Data Nota Fiscal
-											 { "SITUACAO",   "C", 08, 0 },;
-                                  { "CAIXA",      "C", 04, 0 },;
-											 { "CODI",       "C", 05, 0 }}}) // Cliente
-
-Aadd( aArquivos, { "PAGAMOV.DBF",;
-											 {{ "CODI",       "C", 04, 0 }, ; // Fornecedor
-											  { "DESC",       "C", 04, 0 }, ;
-											  { "VLR",        "N", 13, 2 }, ;
-											  { "JURODIA",    "N", 13, 2 }, ;
-											  { "DESCONTO",   "N", 06, 2 }, ;
-											  { "JURO",       "N", 06, 2 }, ;
-											  { "EMIS",       "D", 08, 0 }, ;
-											  { "VCTO",       "D", 08, 0 }, ;
-											  { "DOCNR",      "C", 09, 0 }, ;
-											  { "PORT",       "C", 10, 0 }, ;
-											  { "TIPO",       "C", 06, 0 }, ;
-											  { "FATURA",     "C", 09, 0 }, ;
-											  { "VLRFATU",    "N", 13, 2 }, ;
-											  { "OBS1",       "C", 60, 0 }, ;
-											  { "OBS2",       "C", 60, 0 }, ;
-											  { "ATUALIZADO", "D", 08, 0 }}})
-
-Aadd( aArquivos, { "PAGAR.DBF",;
-											{{ "CODI",   "C",  4, 0 }, ; // Fornecedor
-											 { "REPRES", "C",  4, 0 }, ; // Codigo do Representante
-											 { "NOME",   "C", 40, 0 }, ;
-											 { "SIGLA",  "C", 10, 0 }, ; // Sigla do Fornecedor
-											 { "ENDE",   "C", 30, 0 }, ;
-											 { "CIDA",   "C", 25, 0 }, ;
-											 { "ESTA",   "C",  2, 0 }, ;
-											 { "CEP",    "C",  9, 0 }, ;
-											 { "CPF",    "C", 14, 0 }, ;
-											 { "CGC",    "C", 18, 0 }, ;
-											 { "INSC",   "C", 15, 0 }, ;
-											 { "RG",     "C", 18, 0 }, ;
-											 { "BAIR",   "C", 20, 0 }, ;
-											 { "DATA",   "D",  8, 0 }, ;
-											 { "FONE",   "C", 14, 0 }, ;
-											 { "CON",    "C", 20, 0 }, ;
-											 { "OBS",    "C", 30, 0 }, ;
-											 { "TIPO",   "C",  6, 0 }, ;
-											 { "FANTA",  "C", 40, 0 }, ;
-											 { "FAX",    "C", 14, 0 }, ;
-											 { "ATUALIZADO", "D", 08, 0 },;
-											 { "CAIXA",  "C",  3, 0 }}})
-
-Aadd( aArquivos, { "TAXAS.DBF",;
-											 {{ "DINI",    "D", 08, 0 }, ;
-											  { "DFIM",    "D", 08, 0 }, ;
-											  { "TXATU",   "N", 06, 2 }, ;
-											  { "JURATA",  "N", 06, 2 }, ;
-											  { "UFIR",    "N", 07, 2 }, ;
-											  { "JURVAR",  "N", 06, 2 }, ;
-											  { "ATUALIZADO", "D", 08, 0 },;
-											  { "COTACAO", "N", 11, 2 }}})
-
-Aadd( aArquivos, { "PAGO.DBF",;
-											 {{ "CODI",       "C", 04, 0 },; // Fornecedor
-											  { "VLR",        "N", 13, 2 },;
-											  { "EMIS",       "D", 08, 0 },;
-											  { "VCTO",       "D", 08, 0 },;
-											  { "DOCNR",      "C", 09, 0 },;
-											  { "FATURA",     "C", 09, 0 }, ;
-											  { "DATAPAG",    "D", 08, 0 },;
-											  { "VLRPAG",     "N", 13, 2 },;
-											  { "PORT",       "C", 10, 0 },;
-											  { "TIPO",       "C", 06, 0 },;
-											  { "JURO",       "N", 06, 2 },;
-											  { "OBS1",       "C", 60, 0 }, ;
-											  { "OBS2",       "C", 60, 0 }, ;
-											  { "ATUALIZADO", "D", 08, 0 },;
-											  { "NDEB",       "C", 03, 0 }}})
-
-Aadd( aArquivos, { "RECEBIDO.DBF",;
-                                  {{ "CODI" ,    "C",  05 , 0 },; // Cliente
-                                   { "REGIAO",   "C",  02 , 0 },;
-                                   { "CAIXA",    "C",  04 , 0 }, ;
-											  { "CODIVEN",  "C" , 04 , 0 },;
-											  { "DOCNR" ,   "C" , 09 , 0 },;
-											  { "FATURA",   "C" , 09 , 0 },;
-											  { "PORT" ,    "C" , 10 , 0 },;
-											  { "TIPO" ,    "C" , 06 , 0 },;
-											  { "NOSSONR" , "C" , 13 , 0 },;
-											  { "BORDERO" , "C" , 09 , 0 },;
-											  { "FORMA",    "C",  02 , 0 },;
-											  { "OBS",      "C",  40 , 0 },;
-											  { "DATAPAG" , "D" , 08 , 0 },;
-											  { "BAIXA",    "D",  08 , 0 },;
-											  { "EMIS" ,    "D" , 08 , 0 },;
-											  { "VCTO" ,    "D" , 08 , 0 },;
-											  { "VLR" ,     "N" , 13 , 2 },;
-											  { "VLRPAG" ,  "N" , 13 , 2 },;
-											  { "ATUALIZADO", "D", 08, 0 },;
-                                   { "EXPORTADO","L", 01, 0 },;
-											  { "PARCIAL",  "C",  01, 0 },;
-											  { "JURO" ,    "N",  06, 2 }}})
-Aadd( aArquivos, { "CHEQUE.DBF",;
-											 {{ "CODI",     "C", 04, 0 },; // Conta
-											  { "BANCO",    "C", 10, 0 },;
-											  { "TITULAR",  "C", 40, 0 },;
-											  { "AG",       "C", 25, 0 },;
-											  { "CGC",      "C", 18, 0 },;
-											  { "CONTA",    "C",  8, 0 },;
-											  { "DATA",     "D",  8, 0 },;
-											  { "SALDO",    "N", 17, 2 },;
-											  { "DEBITOS",  "N", 18, 2 },;
-											  { "CREDITOS", "N", 18, 2 },;
-                                   { "FONE",     "C", 14, 0 },;
-											  { "MENS",     "L", 01, 0 },;
-											  { "OBS",      "C", 40, 0 },;
-											  { "CPF",      "C", 15, 0 },;
-											  { "CPF1",     "C", 15, 0 },;
-											  { "RG",       "C", 18, 0 },;
-											  { "RG1",      "C", 18, 0 },;
-											  { "NASCI",    "D", 08, 0 },;
-											  { "ENDE",     "C", 35, 0 },;
-											  { "ENDE1",    "C", 35, 0 },;
-											  { "CIDA",     "C", 25, 0 },;
-											  { "ESTA",     "C", 02, 0 },;
-											  { "PROFISSAO","C", 15, 0 },;
-											  { "TRABALHO", "C", 40, 0 },;
-                                   { "FONE1",    "C", 14, 0 },;
-                                   { "FONE2",    "C", 14, 0 },;
-											  { "RESP",     "C", 40, 0 },;
-											  { "HORARIO",  "C", 11, 0 },;
-											  { "DIAS",     "C", 15, 0 },;
-											  { "C_C",      "L", 01, 0 },;
-											  { "EXTERNA",  "L", 01, 0 },;
-											  { "ATIVO",    "L", 01, 0 },;
-											  { "CURSO",    "C", 04, 0 },;
-											  { "RENOVADO", "L", 01, 0 },;
-											  { "POUPANCA", "L", 01, 0 },;
-											  { "ATUALIZADO", "D", 08, 0 },;
-											  { "DEB_DEB",    "C", 01, 0 },;
-											  { "DEB_CRE",    "C", 01, 0 },;
-											  { "CRE_DEB",    "C", 01, 0 },;
-											  { "CRE_CRE",    "C", 01, 0 },;
-											  { "DURACAO",    "N", 02, 0 }}})
-
-Aadd( aArquivos, { "CHEMOV.DBF",;
-											{{ "CODI",   "C", 04, 0 } , ; // Conta
-											 { "DATA",   "D", 08, 0 } , ;
-											 { "EMIS",   "D", 08, 0 } , ;
-											 { "BAIXA",  "D", 08, 0 } , ;
-											 { "SALDO",  "N", 15, 2 } , ;
-											 { "HIST",   "C", 40, 0 } , ;
-											 { "DOCNR",  "C", 09, 0 } , ;
-											 { "FATURA", "C", 09, 0 } , ;
-											 { "CAIXA",  "C", 04, 0 } , ;
-											 { "CRE",    "N", 15, 2 } , ;
-											 { "DEB",    "N", 15, 2 } , ;
-											 { "ATUALIZADO", "D", 08, 0 },;
-											 { "CPARTIDA", "L", 01, 0 },;
-											 { "TIPO",     "C", 06, 0 }}})
-
-Aadd( aArquivos, { "CHEPRE.DBF",;
-											 {{ "CODI",       "C", 04, 0 } , ; // Conta
-											  { "BANCO",      "C", 10, 0 } , ;
-											  { "CONTA",      "C", 08, 0 } , ;
-											  { "DATA",       "D", 08, 0 } , ;
-											  { "VCTO",       "D", 08, 0 } , ;
-											  { "SALDO",      "N", 15, 2 } , ;
-											  { "HIST",       "C", 40, 0 } , ;
-											  { "DOCNR",      "C", 09, 0 } , ;
-											  { "VALOR",      "N", 15, 2 } , ;
-											  { "PRACA",      "C", 20, 0 } , ;
-											  { "AGENCIA",    "C", 10, 0 } , ;
-											  { "CPFCGC",     "C", 14, 0 } , ;
-											  { "DEBCRE",     "C", 01, 0 } , ;
-											  { "ATUALIZADO", "D", 08, 0 },;
-											  { "OBS",        "C", 40, 0 }}})
-
-Aadd( aArquivos, { "REGIAO.DBF",;
-											 {{ "REGIAO",  "C", 02, 0 },;
-											  { "ATUALIZADO", "D", 08, 0 },;
-											  { "NOME",    "C", 40, 0 }}})
-
-Aadd( aArquivos, { "USUARIO.DBF",;
-											 {{ "NOME",    "C", 10, 0 },;
-											  { "SENHA",   "C", 10, 0 },;
-											  { "NIVEL1",  "C", 01, 0 },;
-											  { "NIVEL2",  "C", 01, 0 },;
-											  { "NIVEL3",  "C", 01, 0 },;
-											  { "NIVEL4",  "C", 01, 0 },;
-											  { "NIVEL5",  "C", 01, 0 },;
-											  { "NIVEL6",  "C", 01, 0 },;
-											  { "NIVEL7",  "C", 01, 0 },;
-											  { "NIVEL8",  "C", 01, 0 },;
-											  { "NIVEL9",  "C", 01, 0 },;
-											  { "NIVEL0",  "C", 01, 0 },;
-											  { "NIVELA",  "C", 01, 0 },;
-											  { "NIVELB",  "C", 01, 0 },;
-											  { "NIVELC",  "C", 01, 0 },;
-											  { "NIVELD",  "C", 01, 0 },;
-											  { "NIVELE",  "C", 01, 0 },;
-											  { "NIVELF",  "C", 01, 0 },;
-											  { "NIVELG",  "C", 01, 0 },;
-											  { "NIVELH",  "C", 01, 0 },;
-											  { "NIVELI",  "C", 01, 0 },;
-											  { "NIVELJ",  "C", 01, 0 },;
-											  { "NIVELK",  "C", 01, 0 },;
-											  { "NIVELL",  "C", 01, 0 },;
-											  { "NIVELM",  "C", 01, 0 },;
-											  { "NIVELN",  "C", 01, 0 },;
-											  { "NIVELO",  "C", 01, 0 },;
-											  { "NIVELP",  "C", 01, 0 },;
-											  { "NIVELQ",  "C", 01, 0 },;
-											  { "NIVELR",  "C", 01, 0 },;
-											  { "NIVELS",  "C", 01, 0 },;
-											  { "LPT1",    "C", 02, 0 },;
-											  { "LPT2",    "C", 02, 0 },;
-											  { "LPT3",    "C", 02, 0 },;
-											  { "LPT4",    "C", 02, 0 },;
-											  { "COM1",    "C", 02, 0 },;
-											  { "COM2",    "C", 02, 0 },;
-											  { "COM3",    "C", 02, 0 },;
-											  { "ATUALIZADO", "D", 08, 0 },;
-											  { "COM4",    "C", 02, 0 }}})
-
-Aadd( aArquivos, { "CURSOS.DBF",;
-											 {{ "CURSO",   "C", 04, 0 } , ;
-											  { "OBS",     "C", 40, 0 } , ;
-											  { "MENSAL",  "N", 13, 2 } , ;
-											  { "RENOVA",  "N", 13, 2 } , ;
-											  { "TAXA",    "N", 13, 2 } , ;
-											  { "ATUALIZADO", "D", 08, 0 },;
-											  { "DURACAO", "N", 03, 0 }}})
-Aadd( aArquivos, { "CURSADO.DBF",;
-											 {{ "CURSO",       "C", 04, 0 } , ;
-											  { "CODI",        "C", 05, 0 } , ; // Cliente
-											  { "FATURA",      "C", 09, 0 } , ;
-											  { "MENSALIDAD",  "N", 13, 2 } , ;
-											  { "MATRICULA",   "N", 13, 2 } , ;
-											  { "INICIO",      "D", 08, 0 } , ;
-											  { "ATUALIZADO", "D", 08, 0 },;
-											  { "TERMINO",     "D", 08, 0 }}})
-
-Aadd( aArquivos, { "FORMA.DBF",;
-											 {{ "FORMA",      "C", 02, 0 },;
-											  { "CONDICOES",  "C", 40, 0 },;
-											  { "DESCRICAO",  "C", 40, 0 },;
-											  { "COMISSAO",   "N", 05, 2 },;
-											  { "IOF",        "N", 08, 4 },;
-											  { "DESDOBRAR",  "L", 01, 0 },;
-											  { "VISTA",      "L", 01, 0 },;
-											  { "PARCELAS",   "N", 02, 0 },;
-											  { "DIAS",       "N", 03, 0 },;
-											  { "ATUALIZADO", "D", 08, 0 }}})
-
-Aadd( aArquivos, { "CEP.DBF",;
-											 {{ "CEP",        "C", 09, 0 }, ;
-											  { "CIDA",       "C", 25, 0 }, ;
-											  { "ESTA",       "C", 02, 0 }, ;
-											  { "ATUALIZADO", "D", 08, 0 }, ;
-											  { "BAIR",       "C", 20, 0 }}})
-
-Aadd( aArquivos, { "SERVIDOR.DBF",;
-											 {{ "CODI",    "C", 04, 0 }, ;
-											  { "NOME",    "C", 40, 0 }, ;
-											  { "SENHA",   "C", 10, 0 },;
-											  { "CARGO",   "C", 30, 0 }, ;
-											  { "QUANT",   "N", 09, 2 }, ;
-											  { "ATUALIZADO", "D", 08, 0 },;
-											  { "CARGA",   "N", 09, 2 }}})
-
-Aadd( aArquivos, { "PONTO.DBF",;
-											 {{ "CODI",    "C", 04, 0 }, ;
-											  { "DATA",    "D", 08, 0 }, ;
-											  { "QUANT",   "N", 09, 2 }, ;
-											  { "MANHA1",  "C", 05, 0 }, ;
-											  { "MANHA2",  "C", 05, 0 }, ;
-											  { "TARDE1",  "C", 05, 0 }, ;
-											  { "ATUALIZADO", "D", 08, 0 },;
-											  { "TARDE2",  "C", 05, 0 }}})
-
-Aadd( aArquivos, { "PRINTER.DBF",;
-											 {{ "CODI",      "C", 02, 0 },;
-											  { "NOME",      "C", 40, 0 },;
-											  { "_CPI10",    "C", 40, 0 },;
-											  { "_CPI12",    "C", 40, 0 },;
-											  { "GD",        "C", 40, 0 },;
-											  { "PQ",        "C", 40, 0 },;
-											  { "NG",        "C", 40, 0 },;
-											  { "NR",        "C", 40, 0 },;
-											  { "CA",        "C", 40, 0 },;
-											  { "C18",       "C", 40, 0 },;
-											  { "LIGSUB",    "C", 40, 0 },;
-											  { "DESSUB",    "C", 40, 0 },;
-											  { "_SALTOOFF", "C", 40, 0 },;
-											  { "_SPACO1_8", "C", 40, 0 },;
-											  { "_SPACO1_6", "C", 40, 0 },;
-											  { "RESETA",    "C", 40, 0 },;
-											  { "ATUALIZADO", "D", 08, 0 }}})
-Aadd( aArquivos, { "CONTA.DBF",;
-											 {{ "CODI",       "C", 02, 0 },;
-											  { "HIST",       "C", 40, 0 },;
-											  { "ATUALIZADO", "D", 08, 0 }}})
-Aadd( aArquivos, { "SUBCONTA.DBF",;
-											 {{ "CODI",       "C", 02, 0 },;
-											  { "SUBCODI",    "C", 04, 0 },;
-											  { "DEBCRE",     "C", 01, 0 },;
-											  { "ATUALIZADO", "D", 08, 0 }}})
-
-Aadd( aArquivos, { "RETORNO.DBF",;
-											  {{"ID",         "N", 07, 0 },;
-												{"CODI",       "C", 05, 0 },; // Cliente
-												{"EMPRESA",    "C", 40, 0 },;
-												{"INTERNO",    "C", 12, 0 },;
-												{"CODIGO",     "C", 13, 0 },;
-												{"HORA",       "C", 08, 0 },;
-												{"VERSAO",     "N", 01, 0 },;
-												{"LIMITE",     "D", 08, 0 },;
-												{"DATA",       "D", 08, 0 },;
-												{"NOME",       "C", 10, 0 },;
-												{"ATUALIZADO", "D", 08, 0 }}})
-
-Aadd( aArquivos, { "PREVENDA.DBF",{{ "CODIGO",     "C", 06, 0 }, ; // Codigo do Produto
-											  { "CODIVEN",    "C", 04, 0 }, ;
-											  { "CODI",       "C", 05, 0 }, ;
-											  { "NOME",       "C", 40, 0 }, ;
-											  { "FATURA",     "C", 07, 0 }, ;
-											  { "EMIS",       "D", 08, 0 }, ;
-											  { "PVENDIDO",   "N", 11, 2 }, ;
-											  { "UNITARIO",   "N", 11, 2 }, ;
-											  { "DESCONTO",   "N", 05, 2 }, ;
-											  { "DESCMAX",    "N", 06, 2 }, ;
-											  { "SAIDA",      "N", 09, 2 }, ;
-											  { "QUANT",      "N", 09, 2 }, ;
-											  { "ATACADO",    "N", 11, 2 }, ;
-											  { "VAREJO",     "N", 11, 2 }, ;
-											  { "PCUSTO",     "N", 11, 2 }, ;
-											  { "VLRFATURA",  "N", 13, 2 },;
-											  { "DESCRICAO",  "C", 40, 0 },;
-											  { "UN",         "C", 02, 0 },;
-											  { "TAM",        "C", 06, 0 },;
-                                   { "SIGLA",      "C", 10, 0 },;
-											  { "PORC",       "N", 05, 2 },;
-											  { "TOTAL",      "N", 13, 2 },;
-											  { "SERIE",      "C", 10, 0 },;
-											  { "FORMA",      "C", 02, 0 },;
-											  { "APARELHO",   "C", 20, 0 },;
-											  { "MARCA",      "C", 20, 0 },;
-											  { "MODELO",     "C", 20, 0 },;
-											  { "NRSERIE",    "C", 20, 0 },;
-											  { "OBS",        "C", 40, 0 },;
-											  { "OBS1",       "C", 40, 0 },;
-											  { "OBS2",       "C", 40, 0 },;
-											  { "ENDE",       "C", 25, 0 },;
-                                   { "FONE",       "C", 14, 0 },;
-											  { "REGIAO",     "C", 02, 0 },;
-											  { "ANO",        "C", 04, 0 },;
-											  { "COR",        "C", 20, 0 },;
-											  { "PLACA",      "C", 08, 0 },;
-											  { "ESTADO",     "C", 20, 0 },;
-											  { "ATUALIZADO", "D", 08, 0 }}})
-
-Aadd( aArquivos, { "GRPSER.DBF",;
-			  {{ "GRUPO",      "C", 03, 0 }, ;
-				{ "DESGRUPO",   "C", 40, 0 }, ;
-				{ "ATUALIZADO", "D", 08, 0 }}})
-
-Aadd( aArquivos, { "SERVICO.DBF",;
-			  {{ "CODISER",    "C", 03, 0 }, ;
-				{ "NOME",       "C", 40, 0 }, ;
-				{ "GRUPO",      "C", 03, 0 }, ;
-				{ "ATUALIZADO", "D", 08, 0 },;
-				{ "VALOR",      "N", 13, 4 }}})
-
-Aadd( aArquivos, { "CORTES.DBF",;
-			  {{ "TABELA",     "C", 08, 0 }, ;
-				{ "QTD",        "N", 05, 0 }, ;
-				{ "SOBRA",      "N", 05, 0 }, ;
-				{ "CODISER",    "C", 03, 0 }, ;
-				{ "CODIGO",     "C", 06, 0 }, ;
-				{ "ATUALIZADO", "D", 08, 0 },;
-				{ "DATA",       "D", 08, 0 }}})
-
-Aadd( aArquivos, { "MOVI.DBF",;
-			  {{ "TABELA",     "C", 08, 0 },;
-				{ "QTD",        "N", 05, 0 },;
-				{ "CODIVEN",    "C", 04, 0 },;
-				{ "CODISER",    "C", 03, 0 },;
-				{ "CODIGO",     "C", 06, 0 },;
-				{ "BAIXADO",    "L", 01, 0 },;
-				{ "ATUALIZADO", "D", 08, 0 },;
-				{ "DATA",       "D", 08, 0 }}})
-
-Aadd( aArquivos, { "FUNCIMOV.DBF",;
-			  {{ "CODIVEN",   "C", 04, 0 }, ;
-				{ "CODI",      "C", 04, 0 }, ;
-				{ "CRE",       "N", 11, 4 }, ;
-				{ "DEB",       "N", 11, 4 }, ;
-				{ "VLR",       "N", 11, 4 }, ;
-				{ "DOCNR",     "C", 09, 0 }, ;
-				{ "DATA",      "D", 08, 0 }, ;
-				{ "DESCRICAO", "C", 40, 0 }, ;
-				{ "ATUALIZADO","D", 08, 0 },;
-				{ "COMISSAO",  "N", 13, 4 }}})
-
-Aadd( aArquivos, { "RECIBO.DBF",;
-           {{ "ID",         "+", 04, 0 }, ;
-			   { "TIPO",       "C", 06, 0 }, ;
-            { "CODI",       "C", 05, 0 }, ;
-            { "NOME",       "C", 40, 0 }, ;
-            { "VLR",        "N", 13, 2 }, ;
-            { "FATURA",     "C", 09, 0 }, ;
-            { "DOCNR",      "C", 09, 0 }, ;
-            { "VCTO",       "D", 08, 0 }, ;
-            { "DATA",       "D", 08, 0 }, ;
-            { "HORA",       "C", 08, 0 }, ;
-            { "USUARIO",    "C", 10, 0 }, ;
-            { "CAIXA",      "C", 04, 0 }, ;
-            { "ATUALIZADO", "D", 08, 0 }, ;
-            { "HIST",       "C", 120, 0 }}})
-
-Aadd( aArquivos, { "AGENDA.DBF",;
-           {{ "ID",         "+", 04, 0 }, ;
-				{ "CODI",       "C", 05, 0 }, ;
-            { "HIST",       "C", 132, 0 }, ;
-            { "DATA",       "D", 08, 0 }, ;
-            { "HORA",       "C", 08, 0 }, ;
-            { "USUARIO",    "C", 10, 0 }, ;
-            { "CAIXA",      "C", 04, 0 }, ;
-            { "ULTIMO",     "L", 01, 0 }, ;
-            { "ATUALIZADO", "D", 08, 0 }}})
-
-Aadd( aArquivos, { "CM.DBF",;
-           {{ "CODI",       "C", 05, 0 }, ;
-            { "INICIO",     "D", 08, 0 }, ;
-            { "FIM",        "D", 08, 0 },;
-            { "INDICE",     "N", 09, 4 }, ;
-            { "OBS",        "C", 40, 0 }, ;
-            { "ULTIMO",     "L", 01, 0 }, ;
-            { "ATUALIZADO", "D", 08, 0 }}})
-
-Return( aArquivos )
-
-Proc CriaArquivo( cArquivo )
-****************************
-LOCAL cScreen := SaveScreen()
-LOCAL aArquivos := {}
-LOCAL cTela
-LOCAL nQtArquivos
-LOCAL nQt
-LOCAL nTam
-LOCAL nX
-LOCAL nPos
-
-aArquivos := ArrayArquivos()
-IF cArquivo != NIL
-	nPos := Ascan( aArquivos,{ |oBloco|oBloco[1] = cArquivo })
-	IF nPos != 0
-		cArquivo := aArquivos[nPos,1]
-		IF !File( cArquivo )
-			Mensagem( "Aguarde, Gerando Arquivo " + cArquivo, Cor())
-			DbCreate( cArquivo, aArquivos[ nPos, 2] )
-			Return( OK )
-		EndIF
-	EndIF
-	Return( FALSO )
-EndIF
-nQtArquivos := Len( aArquivos )
-For nQt := 1 To nQtArquivos
-	cArquivo := aArquivos[nQt,1]
-	IF !File( cArquivo )
-		Mensagem( "Aguarde, Gerando Arquivo " + cArquivo, Cor())
-		DbCreate( cArquivo, aArquivos[nQt,2] )
-	Else
-		IF NetUse( cArquivo, MULTI )
-			Integridade( aArquivos[nQt, 2], Cor())
-		Else
-			SetMode(oAmbiente:AlturaFonteDefaultWindows, oAmbiente:LarguraFonteDefaultWindows)
-			Cls
-			Quit
-		EndIF
-	EndIF
-Next
-ResTela( cScreen )
-cTela := Mensagem("Aguarde, Fechando Base de Dados.", Cor())
-FechaTudo()
-ResTela( cTela )
-Return
-
 Function ExcluirTemporarios()
 *****************************
 LOCAL cTela := Mensagem("Aguarde, Excluindo Arquivos Temporarios.")
@@ -4341,7 +2845,7 @@ cTela := Mensagem("Verificando: " + cFile )
 xDbf := ""
 
 Sele Saidas
-Inde On Codigo + Docnr + CodiVen + Codi + Fatura + Pedido + DateToStr( Data ) To ( xNtx ) Unique
+Inde On Codigo + Docnr + CodiVen + Codi + Fatura + Pedido + Dtos( Data ) To ( xNtx ) Unique
 nX := 0
 WHILE File(( xDbf := cFile + "." + StrZero( ++nX, 3 )))
 EndDo
@@ -4354,7 +2858,7 @@ cTela := Mensagem("Verificando: " + cFile )
 xDbf := ""
 
 Sele Recemov
-Inde On Docnr + Fatura + Codi + CodiVen + Caixa + Str( Vlr, 13,2 ) + DateToStr( Vcto ) To ( xNtx ) Unique
+Inde On Docnr + Fatura + Codi + CodiVen + Caixa + Str( Vlr, 13,2 ) + dTos( Vcto ) To ( xNtx ) Unique
 nX := 0
 WHILE File(( xDbf := cFile + "." + StrZero( ++nX, 3 )))
 EndDo
@@ -4367,7 +2871,7 @@ cTela := Mensagem("Verificando: " + cFile )
 xDbf := ""
 
 Sele Vendemov
-Inde On Fatura + CodiVen + Codi + Str( Vlr, 13,2 ) + DateToStr( Data ) To ( xNtx) Unique
+Inde On Fatura + CodiVen + Codi + Str( Vlr, 13,2 ) + dTos( Data ) To ( xNtx) Unique
 nX := 0
 WHILE File(( xDbf := cFile + "." + StrZero( ++nX, 3 )))
 EndDo
@@ -4393,7 +2897,7 @@ cTela := Mensagem("Verificando: " + cFile )
 xDbf := ""
 
 Sele Pago
-Inde On Codi + Str( Vlr, 13, 2 ) + DateToStr( Vcto ) + Docnr + DateToStr( DataPag) + Str( VlrPag, 13, 2 ) To ( xNtx ) Unique
+Inde On Codi + Str( Vlr, 13, 2 ) + dTos( Vcto ) + Docnr + dTos( DataPag) + Str( VlrPag, 13, 2 ) To ( xNtx ) Unique
 nX := 0
 WHILE File(( xDbf := cFile + "." + StrZero( ++nX, 3 )))
 EndDo
@@ -4549,7 +3053,7 @@ cTela := Mensagem("Verificando: " + cFile )
 xDbf := ""
 
 Sele Chemov
-Inde On Codi + DateToStr( Data ) + DateToStr( Emis ) + Hist + Docnr + Fatura + Caixa + Str( Cre, 13,2) + Str(Deb, 13,2) + Tipo To ( xNtx ) Unique
+Inde On Codi + dTos( Data ) + dTos( Emis ) + Hist + Docnr + Fatura + Caixa + Str( Cre, 13,2) + Str(Deb, 13,2) + Tipo To ( xNtx ) Unique
 nX := 0
 WHILE File(( xDbf := cFile + "." + StrZero( ++nX, 3 )))
 EndDo
@@ -4562,7 +3066,7 @@ cTela := Mensagem("Verificando: " + cFile )
 xDbf := ""
 
 Sele Recebido
-Inde On Codi + Str(Vlr,13,2) + DateToStr(Emis) + DateToStr(Vcto) + Docnr + Fatura + DateToStr( DataPag ) + Str(VlrPag, 13,2 ) To ( xNtx ) Unique
+Inde On Codi + Str(Vlr,13,2) + dTos(Emis) + dTos(Vcto) + Docnr + Fatura + dTos( DataPag ) + Str(VlrPag, 13,2 ) To ( xNtx ) Unique
 nX := 0
 WHILE File(( xDbf := cFile + "." + StrZero( ++nX, 3 )))
 EndDo
@@ -4575,7 +3079,7 @@ cTela := Mensagem("Verificando: " + cFile )
 xDbf := ""
 
 Sele Entradas
-Inde On Codi + DateToStr( Data ) + Codigo + Fatura + Str(VlrFatura,13,2) To ( xNtx ) Unique
+Inde On Codi + dTos( Data ) + Codigo + Fatura + Str(VlrFatura,13,2) To ( xNtx ) Unique
 nX := 0
 WHILE File(( xDbf := cFile + "." + StrZero( ++nX, 3 )))
 EndDo
@@ -4588,7 +3092,7 @@ cTela := Mensagem("Verificando: " + cFile )
 xDbf := ""
 
 Sele Chepre
-Inde On Codi + Docnr + DateToStr( Data ) + DateToStr( Vcto ) + Hist + DebCre + Str( Valor, 13 ,2 ) To ( xNtx ) Unique
+Inde On Codi + Docnr + dTos( Data ) + dTos( Vcto ) + Hist + DebCre + Str( Valor, 13 ,2 ) To ( xNtx ) Unique
 nX := 0
 WHILE File(( xDbf := cFile + "." + StrZero( ++nX, 3 )))
 EndDo
@@ -4633,7 +3137,7 @@ cTela := Mensagem("Verificando: " + cFile )
 xDbf := ""
 
 Sele Saidas
-Inde On Codigo + Docnr + CodiVen + Codi + Fatura + Pedido + DateToStr( Data ) To ( xNtx ) Unique
+Inde On Codigo + Docnr + CodiVen + Codi + Fatura + Pedido + dTos( Data ) To ( xNtx ) Unique
 nX := 0
 WHILE File(( xDbf := cFile + "." + StrZero( ++nX, 3 )))
 EndDo
@@ -4660,7 +3164,7 @@ cTela := Mensagem("Verificando: " + cFile )
 xDbf := ""
 
 Sele Recemov
-Inde On Docnr + Fatura + Codi + CodiVen + Caixa + Str( Vlr, 13,2 ) + DateToStr( Vcto) To ( xNtx ) Unique
+Inde On Docnr + Fatura + Codi + CodiVen + Caixa + Str( Vlr, 13,2 ) + dTos( Vcto) To ( xNtx ) Unique
 nX := 0
 WHILE File(( xDbf := cFile + "." + StrZero( ++nX, 3 )))
 EndDo
@@ -4687,7 +3191,7 @@ cTela := Mensagem("Verificando: " + cFile )
 xDbf := ""
 
 Sele Recebido
-Inde On Codi + DateToStr( DataPag ) + DateToStr( Emis ) + Docnr + Fatura + Str( VlrPag, 13, 2 ) + Tipo  To ( xNtx ) Unique
+Inde On Codi + dTos( DataPag ) + dTos( Emis ) + Docnr + Fatura + Str( VlrPag, 13, 2 ) + Tipo  To ( xNtx ) Unique
 nX := 0
 WHILE File(( xDbf := cFile + "." + StrZero( ++nX, 3 )))
 EndDo
@@ -4714,7 +3218,7 @@ cTela := Mensagem("Verificando: " + cFile )
 xDbf := ""
 
 Sele Chemov
-Inde On Codi + DateToStr( Data ) + DateToStr( Emis ) + Hist + Docnr + Fatura + Caixa + Str( Cre, 13,2) + Str(Deb, 13,2) + Tipo To ( xNtx ) Unique
+Inde On Codi + dTos( Data ) + dTos( Emis ) + Hist + Docnr + Fatura + Caixa + Str( Cre, 13,2) + Str(Deb, 13,2) + Tipo To ( xNtx ) Unique
 nX := 0
 WHILE File(( xDbf := cFile + "." + StrZero( ++nX, 3 )))
 EndDo
@@ -4795,7 +3299,7 @@ cTela := Mensagem("Verificando: " + cFile )
 xDbf := ""
 
 Sele Entradas
-Inde On Codi + DateToStr( Data ) + Codigo + Fatura + Str(VlrFatura,13,2) To ( xNtx ) Unique
+Inde On Codi + dTos( Data ) + Codigo + Fatura + Str(VlrFatura,13,2) To ( xNtx ) Unique
 nX := 0
 WHILE File(( xDbf := cFile + "." + StrZero( ++nX, 3 )))
 EndDo
@@ -4822,7 +3326,7 @@ cTela := Mensagem("Verificando: " + cFile )
 xDbf := ""
 
 Sele Pagamov
-Inde On Docnr + Fatura + Codi + Str( Vlr, 13,2 ) + DateToStr( Vcto) + DateToStr( Emis ) To ( xNtx ) Unique
+Inde On Docnr + Fatura + Codi + Str( Vlr, 13,2 ) + dTos( Vcto) + dTos( Emis ) To ( xNtx ) Unique
 nX := 0
 WHILE File(( xDbf := cFile + "." + StrZero( ++nX, 3 )))
 EndDo
@@ -4831,189 +3335,175 @@ RenDup( cFile, xDbf, xNtx )
 ResTela( cTela )
 Return
 
-Function Acesso( lNaoMostrarConfig )
-********************************
-IfNil( lNaoMostrarConfig, FALSO )
-#IFDEF ANO2000
-	oAmbiente:Ano2000On()
-#ELSE
-	oAmbiente:Ano2000Off()
-#ENDIF
-oAmbiente:lComCodigoAcesso := FALSO
-#IFDEF MICROBRAS
-	Configuracao( OK, lNaoMostrarConfig )
-	Return nil
-#ENDIF
-#IFDEF AGROMATEC
-	Configuracao( OK, lNaoMostrarConfig )
-	Return nil
-#ENDIF
-oAmbiente:lComCodigoAcesso := OK
-Configuracao(NIL, lNaoMostrarConfig )
-Return nil
+*==================================================================================================*	
 
-Function CriaNewNota( lSimNao )
-*******************************
-LOCAL GetList := {}
-LOCAL cScreen := SaveScreen()
-LOCAL cFatura := ""
-LOCAL xNtx
-LOCAL cTela
+def CriaNewNota( lSimNao )
+*+------------------------+*
+	LOCAL GetList := {}
+	LOCAL cScreen := SaveScreen()
+	LOCAL cFatura := ""
+	LOCAL xNtx    := FTempName("T*.TMP")
+	LOCAL cTela
 
-IF lSimNao = NIL
-	ErrorBeep()
-	IF !Conf("Pergunta: Verificacao podera demorar. Continuar ?")
-		return(ResTela( cScreen))
-	EndIF
-EndIF
-xNtx	:= FTempName("T*.TMP")
-cTela := Mensagem(" Aguarde... Verificando Arquivos.", WARNING, _LIN_MSG )
-FechaTudo()
-IF !NetUse("Saidas",  MONO )   ; ResTela( cTela ); Return(FALSO) ; EndIF
-IF !NetUse("Nota",    MONO )   ; ResTela( cTela ); Return(FALSO) ; EndIF
-IF !NetUse("Recemov", MONO )   ; ResTela( cTela ); Return(FALSO) ; EndIF
-ResTela( cTela )
-cTela := Mensagem("Verificando: SAIDAS.DBF")
-Area("Recemov")
-Area("Saidas")
-Area("Nota")
-Nota->(__DbZap())
-Inde On Nota->Numero To ( xNtx )
-Saidas->(Order( SAIDAS_FATURA ))
-Saidas->(DbGoTop())
-WHILE Saidas->(!Eof()) .AND. lCancelou() .AND. oMenu:ContaReg()    
-	cFatura := Saidas->Fatura
-	IF Nota->(!DbSeek( cFatura ))
-		Nota->(DbAppend())
-		Nota->Codi		  := Saidas->Codi
-		Nota->Numero	  := Saidas->Fatura
-		Nota->Atualizado := Date()
-		Nota->Data		  := Saidas->Data
-		Nota->Situacao   := Saidas->Situacao
-      Nota->Caixa      := Saidas->Caixa
-	EndIF
-	Saidas->(DbSkip(1))
-EndDo
-
-cTela := Mensagem("Verificando: RECEMOV.DBF")
-Recemov->(Order(RECEMOV_FATURA))
-Recemov->(DbGotop())
-while Recemov->(!Eof()) .AND. lCancelou() .AND. oMenu:ContaReg() 
-	cFatura := Recemov->Fatura
-	IF Nota->(!DbSeek( cFatura ))
-		Nota->(DbAppend())
-		Nota->Codi		  := Recemov->Codi
-		Nota->Numero	  := Recemov->Fatura
-		Nota->Atualizado := Date()
-		Nota->Data		  := Recemov->Emis
-		Nota->Situacao   := 'RECEBER'
-      Nota->Caixa      := Recemov->Caixa
-	EndIF
-	Recemov->(DbSkip(1))
-enddo
-Nota->(Order( NATURAL ))
-Sort On Numero To NewNota
-Nota->(__DbZap())
-Nota->(__DbPack())
-Appe From NewNota
-FechaTudo()
-Ferase('NOTA.' + CEXT)
-VerIndice()
-oReindexa:WriteBool('reindexando', 'NOTA.DBF', OK )
-FechaTudo()
-ResTela( cTela )
-Return
-
-Proc CriaNewEnt()
-*****************
-LOCAL cFatura := ""
-LOCAL xNtx	  := FTempName("T*.TMP")
-LOCAL cTela   := Mensagem(" Aguarde... Verificando Arquivos.", WARNING, _LIN_MSG )
-FechaTudo()
-IF !NetUse("Entradas", MONO )   ; ResTela( cTela ); Return(FALSO) ; EndIF
-IF !NetUse("ENTNOTA",  MONO )   ; ResTela( cTela ); Return(FALSO) ; EndIF
-ResTela( cTela )
-
-cTela := Mensagem("Verificando: ENTRADAS.DBF")
-Area("Entradas")
-Area("ENTNOTA")
-ENTNOTA->(__DbZap())
-Inde On ENTNOTA->Numero To ( xNtx )
-Entradas->(DbGoTop())
-WHILE Entradas->(!Eof())
-	cFatura := Entradas->Fatura
-	IF ENTNOTA->(!DbSeek( cFatura ))
-		ENTNOTA->(DbAppend())
-		ENTNOTA->Codi		  := Entradas->Codi
-		ENTNOTA->Numero	  := Entradas->Fatura
-		ENTNOTA->VlrFatura  := Entradas->VlrFatura
-		ENTNOTA->VlrNff	  := Entradas->VlrNFF
-		ENTNOTA->Icms		  := Entradas->Icms
-		ENTNOTA->Entrada	  := Entradas->DEntrada
-		ENTNOTA->Data		  := Entradas->Data
-		ENTNOTA->Condicoes  := Entradas->Condicoes
-		ENTNOTA->Atualizado := Date()
-	EndIF
-	Entradas->(DbSkip(1))
-EndDo
-FechaTudo()
-ResTela( cTela )
-Return
-
-Function lCancelou()
-********************
-if LastKey() = ESC
-   if alerta("INFO: Tarefa n„o concluida. Banco de Dados poder  ficar inconsitente.;; Deseja cancelar mesmo assim?", {" Sim ", " Nao "}) == 1
-		FechaTudo()
-		return FALSO			
-	endif
-endif
-return OK
-
-
-Proc CriaNewPrinter()
-*********************
-LOCAL cTela   := Mensagem("Aguarde, Verificando Arquivos.", WARNING, _LIN_MSG )
-FechaTudo()
-IF !NetUse("PRINTER", MONO ) ; ResTela( cTela ); Return(FALSO) ; EndIF
-ResTela( cTela )
-
-cTela := Mensagem("Verificando: PRINTER.DBF")
-Area("Printer")
-Printer->(__DbZap())
-ArrPrinter()
-FechaTudo()
-ResTela( cTela )
-Return
-
-
-Proc _SaidaVideo()
-***************
-LOCAL cScreen := SaveScreen()
-LOCAL aCep	  := {}
-LOCAL cTela
-
-Area("Cep")
-Cep->(Order( CEP_CEP ))
-Cep->(DbGoTop())
-cTela := Mensagem("Aguarde ... ", Cor())
-
-WHILE !Eof() .AND. Rep_Ok()
-	 Aadd( aCep,  Cep->Cep + " " + Cep->Cida + " " + Cep->Esta + " " + Cep->Bair )
-	 Cep->(DbSkip(1))
-EndDo
-
-IF Len( aCep ) != ZERO
+	if lSimNao = NIL
+		ErrorBeep()
+		if !Conf("Pergunta: Verificacao podera demorar. Continuar ?")
+			return(ResTela( cScreen))
+		endif
+	endif	
+	
+	cTela := Mensagem(" Aguarde... Verificando Arquivos.")
+	FechaTudo()
+	IF !NetUse("Saidas",  MONO )   ; ResTela( cTela ); Return(FALSO) ; EndIF
+	IF !NetUse("Nota",    MONO )   ; ResTela( cTela ); Return(FALSO) ; EndIF
+	IF !NetUse("Recemov", MONO )   ; ResTela( cTela ); Return(FALSO) ; EndIF
 	ResTela( cTela )
-	cString := " CEP       CIDADE                    UF BAIRRO"
-	Print( 00, 00, cString + Space( 80 - Len(  cString )), Roloc(Cor()))
-	M_Title( "ESC Retorna ")
-	FazMenu( 01, 00, aCep, Cor())
-EndIF
+	
+	cTela := Mensagem("Verificando: SAIDAS.DBF")
+	Area("Recemov")
+	Area("Saidas")
+	Area("Nota")
+	Nota->(__DbZap())	
+	Inde On Numero To (xNtx)
+	Saidas->(Order( SAIDAS_FATURA ))
+	Saidas->(DbGoTop())
+	
+	WHILE Saidas->(!Eof()) .AND. lCancelou() .AND. oMenu:ContaReg()    
+		cFatura := Saidas->Fatura
+		IF Nota->(!DbSeek( cFatura ))
+			Nota->(DbAppend())
+			Nota->Codi		  := Saidas->Codi
+			Nota->Numero	  := Saidas->Fatura
+			Nota->Atualizado := Date()
+			Nota->Data		  := Saidas->Data
+			Nota->Situacao   := Saidas->Situacao
+			Nota->Caixa      := Saidas->Caixa
+		EndIF
+		Saidas->(DbSkip(1))
+	EndDo
 
-ResTela( cScreen )
-return
+	cTela := Mensagem("Verificando: RECEMOV.DBF")
+	Recemov->(Order(RECEMOV_FATURA))
+	Recemov->(DbGotop())
+	
+	while Recemov->(!Eof()) .AND. lCancelou() .AND. oMenu:ContaReg() 
+		cFatura := Recemov->Fatura
+		IF Nota->(!DbSeek( cFatura ))
+			Nota->(DbAppend())
+			Nota->Codi		  := Recemov->Codi
+			Nota->Numero	  := Recemov->Fatura
+			Nota->Atualizado := Date()
+			Nota->Data		  := Recemov->Emis
+			Nota->Situacao   := 'RECEBER'
+			Nota->Caixa      := Recemov->Caixa
+		EndIF
+		Recemov->(DbSkip(1))
+	enddo
+	
+	Nota->(Order( NATURAL ))
+	Sort On Numero To NewNota
+	Nota->(__DbZap())
+	Nota->(__DbPack())
+	Appe From NewNota
+	FechaTudo()
+	ms_swap_ferase('NOTA.' + CEXT)
+	VerIndice()
+	oReindexa:WriteBool('reindexando', 'NOTA.DBF', OK )
+	FechaTudo()
+	return( ResTela( cTela ))
+endef
+	
+def CriaNewEnt()
+*+---------------+*
+	LOCAL cFatura := ""
+	LOCAL xNtx	  := FTempName("T*.TMP")
+	LOCAL cTela   := Mensagem(" Aguarde... Verificando Arquivos.", WARNING, _LIN_MSG )
 
+	FechaTudo()
+	IF !NetUse("Entradas", MONO )   ; ResTela( cTela ); Return(FALSO) ; EndIF
+	IF !NetUse("EntNota",  MONO )   ; ResTela( cTela ); Return(FALSO) ; EndIF
+	ResTela( cTela )
+
+	cTela := Mensagem("Verificando: ENTRADAS.DBF")
+	Area("Entradas")
+	Area("EntNota")
+	EntNota->(__DbZap())
+	Inde On Numero To ( xNtx )
+	Entradas->(DbGoTop())
+	
+	while Entradas->(!Eof())
+		cFatura := Entradas->Fatura
+		IF EntNota->(!DbSeek( cFatura ))
+			EntNota->(DbAppend())
+			EntNota->Codi		  := Entradas->Codi
+			EntNota->Numero	  := Entradas->Fatura
+			EntNota->VlrFatura  := Entradas->VlrFatura
+			EntNota->VlrNff	  := Entradas->VlrNFF
+			EntNota->Icms		  := Entradas->Icms
+			EntNota->Entrada	  := Entradas->DEntrada
+			EntNota->Data		  := Entradas->Data
+			EntNota->Condicoes  := Entradas->Condicoes
+			EntNota->Atualizado := Date()
+		EndIF
+		Entradas->(DbSkip(1))
+	EndDo
+	FechaTudo()
+	return(ResTela( cTela ))
+endef
+
+def lCancelou()
+*+-------------+*
+	if LastKey() = K_ESC
+		if alerta("INFO: Tarefa n„o concluida. Banco de Dados poder  ficar inconsitente.;; Deseja cancelar mesmo assim?", {" Sim ", " Nao "}) == 1
+			FechaTudo()
+			return false
+		endif
+	endif
+	return true
+endef	
+
+def CriaNewPrinter()
+*+------------------------+*
+	LOCAL cTela   := Mensagem("Aguarde, Verificando Arquivos.", WARNING, _LIN_MSG )
+	
+	FechaTudo()
+	IF !NetUse("PRINTER", MONO ) ; ResTela( cTela ); Return(FALSO) ; EndIF
+	ResTela( cTela )
+
+	cTela := Mensagem("Verificando: PRINTER.DBF")
+	Area("Printer")
+	Printer->(__DbZap())
+	ArrPrinter()
+	FechaTudo()
+	ResTela( cTela )
+	Return
+endef
+
+def _SaidaVideo()
+*+------------------------+*
+	LOCAL cScreen := SaveScreen()
+	LOCAL aCep	  := {}
+	LOCAL cTela
+
+	Area("Cep")
+	Cep->(Order( CEP_CEP ))
+	Cep->(DbGoTop())
+	cTela := Mensagem("Aguarde ... ")
+
+	while !Eof() .AND. Rep_Ok()
+		Aadd( aCep,  Cep->Cep + " " + Cep->Cida + " " + Cep->Esta + " " + Cep->Bair )
+		Cep->(DbSkip(1))
+	enddo
+	
+	if Len( aCep ) != ZERO
+		ResTela( cTela )
+		cString := " CEP       CIDADE                    UF BAIRRO"
+		Print( 00, 00, cString + Space( 80 - Len(  cString )), Roloc(Cor()))
+		M_Title( "ESC Retorna ")
+		FazMenu( 01, 00, aCep, Cor())
+	EndIF
+	return(ResTela( cScreen ))
+endef
 
 Proc DetalheRecibo( cCaixa, cTipoDetalhe )
 ******************************************
@@ -5925,80 +4415,26 @@ FechaTudo()
 ResTela( cScreen )
 Return
 
-Function MenuIndice()
-*********************
-LOCAL cScreen := SaveScreen()
-LOCAL aMenu   := {"Cancelar",;
-						"Sem grafico progresso (recomendado)",;
-						"Com grafico de progresso",;
-						"Com compactacao e sem grafico (periodicamente)",;
-						"Com compactacao e com grafico (periodicamente)"}
 
-oMenu:Limpa()
-M_Title("ESCOLHA O TIPO DE REINDEXACAO")
-nChoice := FazMenu( 07, 15, aMenu, Cor())
-IF nChoice = 0 .OR. nChoice = 1
-	oIndice:ProgressoNtx := FALSO
-	ResTela( cScreen )
-	Return( FALSO )
-ElseIF nChoice = 2
-  oIndice:ProgressoNtx := FALSO
-ElseIF nChoice = 3
-  oIndice:ProgressoNtx := OK
-ElseIF nChoice = 4
-  oIndice:Compactar := OK
-ElseIF nChoice = 5
-  oIndice:Compactar := OK
-  oIndice:ProgressoNtx := OK
-EndIF
-ResTela( cScreen )
-Return( OK )
 
-Function SalvaMem()
-******************
-oIni:WriteString(  oAmbiente:xUsuario,	'frame',         oMenu:Frame )
-oIni:WriteString(  oAmbiente:xUsuario,	'panofundo',     oMenu:PanoFundo )
-
-oIni:WriteInteger( oAmbiente:xUsuario, 'selecionado',   oMenu:Selecionado )
-oIni:WriteInteger( oAmbiente:xUsuario, 'cormenu',       oMenu:CorMenu )
-oIni:WriteInteger( oAmbiente:xUsuario, 'CorLightBar',   oMenu:CorLightBar )
-oIni:WriteInteger( oAmbiente:xUsuario, 'CorHotKey',     oMenu:CorHotKey )
-oIni:WriteInteger( oAmbiente:xUsuario, 'CorHKLightBar', oMenu:CorHKLightBar)
-oIni:WriteInteger( oAmbiente:xUsuario, 'corfundo',      oMenu:Corfundo )
-oIni:WriteInteger( oAmbiente:xUsuario, 'corcabec',      oMenu:CorCabec )
-oIni:WriteInteger( oAmbiente:xUsuario, 'cordesativada', oMenu:CorDesativada )
-oIni:WriteInteger( oAmbiente:xUsuario, 'corbox',        oMenu:CorBox )
-oIni:WriteInteger( oAmbiente:xUsuario, 'corcima',       oMenu:CorCima )
-oIni:WriteInteger( oAmbiente:xUsuario, 'corantiga',     oMenu:CorAntiga )
-oIni:WriteInteger( oAmbiente:xUsuario, 'corborda',      oMenu:CorBorda )
-oIni:WriteInteger( oAmbiente:xUsuario, 'fonte',         oMenu:Fonte )
-oIni:WriteInteger( oAmbiente:xUsuario, 'fonte',         oMenu:Fonte )
-oIni:WriteInteger( oAmbiente:xUsuario, 'FonteManualAltura', oMenu:FonteManualAltura )
-oIni:WriteInteger( oAmbiente:xUsuario, 'FonteManualLargura', oMenu:FonteManualLargura )
-oIni:WriteInteger( oAmbiente:xUsuario, 'coralerta',     oAmbiente:CorAlerta )
-oIni:WriteInteger( oAmbiente:xUsuario, 'cormsg',        oAmbiente:CorMsg )
-oIni:WriteBool(    oAmbiente:xUsuario, 'sombra',        oMenu:Sombra )
-oIni:WriteBool(    oAmbiente:xUsuario, 'get_ativo',     oAmbiente:Get_Ativo )
-SetaIni()
-return NIL
-
+	
 Function PickTipoVenda( cPick )
-********************************
-LOCAL aList 	 := { "Normal", "Conta Corrente"}
-LOCAL aSituacao := { "N", "S" }
-LOCAL cScreen	 := SaveScreen()
-LOCAL nChoice
+	LOCAL aList 	 := { "Normal", "Conta Corrente"}
+	LOCAL aSituacao := { "N", "S" }
+	LOCAL cScreen	 := SaveScreen()
+	LOCAL nChoice
 
-IF Ascan( aSituacao, cPick ) != 0
+	IF Ascan( aSituacao, cPick ) != 0
+		Return( OK )
+	EndIF
+	MaBox( 11, 01, 14, 44, NIL, NIL, Roloc( Cor()) )
+	IF (nChoice := AChoice( 12, 02, 13, 43, aList )) != 0
+		cPick := aSituacao[ nChoice ]
+	EndIf
+	ResTela( cScreen )
 	Return( OK )
-EndIF
-MaBox( 11, 01, 14, 44, NIL, NIL, Roloc( Cor()) )
-IF (nChoice := AChoice( 12, 02, 13, 43, aList )) != 0
-	cPick := aSituacao[ nChoice ]
-EndIf
-ResTela( cScreen )
-Return( OK )
-
+endef
+	
 Function lPickSimNao( lPick )
 ****************************
 LOCAL aList 	 := { "Sim", "Nao"}
@@ -6041,8 +4477,17 @@ Function ConfBaseDados()
 ************************
 LOCAL cScreen		:= SaveScreen()
 LOCAL GetList		:= {}
-LOCAL aMenu 		:= {"Saidas", "Entradas", "financeiro", "Nota Fiscal", "ECF Cupom Fiscal","Relatorios", "Arquivos de Impressao", "Prevenda","Geral"}
 LOCAL nChoice		:= 0
+LOCAL aMenu 		:= {"Saidas", ;
+							 "Entradas",;
+							 "financeiro",;
+							 "Nota Fiscal",; 
+							 "ECF Cupom Fiscal",;
+							 "Relatorios",;
+							 "Arquivos de Impressao",;
+							 "Prevenda",; 
+							 "Servidor banco de Dados",; 
+							 "Geral"}
 
 WHILE OK
 	oMenu:Limpa()
@@ -6069,6 +4514,8 @@ WHILE OK
 	Case nChoice = 8
 		ConfPrevenda()
 	Case nChoice = 9
+		ConfServidorBcoDados()		
+	Case nChoice = 10
 		ConfGeral()
 	EndCase
 EndDo
@@ -6782,6 +5229,39 @@ WHILE OK
 	EndIF
 EndDo
 
+def ConfServidorBcoDados()
+*-------------------------*
+	LOCAL oLeto		   := TIniNew( oAmbiente:xRoot + "\SCI.INI")
+	LOCAL cScreen		:= SaveScreen()
+	LOCAL GetList		:= {}	
+	LOCAL cPath 	   := FCurdir()
+	
+	Set Defa To ( oAmbiente:xBase )
+	WHILE OK
+		oMenu:Limpa()
+		cLetoIP    := oLeto:ReadString('LETO', 'ip',    oAmbiente:LetoIP )
+		cLetoPort  := oLeto:ReadString('LETO', 'port',  oAmbiente:LetoPort )
+		cLetoPath  := oLeto:ReadString('LETO', 'path',  oAmbiente:LetoPath )
+		
+		MaBox( 01, 01, 05, 79, "CONFIGURACAO SERVIDOR LETO")
+		@ 02, 02 Say "Ip Servidor.........: " Get cLetoIp        Pict "@!"
+		@ 03, 02 Say "Porta Servidor......: " Get cLetoPort      Pict "9999"
+		@ 04, 02 Say "Path Servidor.......: " Get cLetoPath      Pict "@!"
+		Read
+		IF LastKey() = K_ESC
+			Set Defa To (cPath )		
+			ResTela( cScreen )
+			Exit
+		EndIF
+		ErrorBeep()
+		IF Conf("Pergunta: Confirma  ?")
+			oLeto:WriteString('LETO','ip',   cLetoIP)
+			oLeto:WriteString('LETO','port', cLetoPort)
+			oLeto:WriteString('LETO','path', cLetoPath)			
+		EndIF
+	EndDo
+endef
+
 Proc TermPrecos()
 *****************
 LOCAL GetList	:= {}
@@ -6939,7 +5419,7 @@ Proc ConfOpcoesFaturamento( cNome )
 ***********************************
 LOCAL cScreen := SaveScreen()
 LOCAL GetList := {}
-LOCAL oVenlan	:= TIniNew( oAmbiente:xBaseDados + "\" + cNome + ".INI")
+LOCAL oVenlan	:= TIniNew( cNome + ".INI")
 LOCAL c2_01
 LOCAL c2_02
 LOCAL c2_03
@@ -6983,7 +5463,7 @@ Proc ConfFiscal( cNome )
 ************************
 LOCAL cScreen := SaveScreen()
 LOCAL GetList := {}
-LOCAL oVenlan	:= TIniNew( oAmbiente:xBaseDados + "\" + cNome + ".INI")
+LOCAL oVenlan	:= TIniNew( cNome + ".INI")
 LOCAL c2_01
 LOCAL c2_02
 LOCAL c2_03
@@ -7890,7 +6370,7 @@ Return( aFiscal )
 
 Function AbreIniFiscal()
 *************************
-Return( oFiscal := TIniNew( oAmbiente:xBaseDados + "\" + oAmbiente:xUsuario + ".INI"))
+	Return( oFiscal := TIniNew(oAmbiente:xUsuario + ".INI"))
 
 Function SnFiscal( nChoice )
 *****************************
@@ -8167,7 +6647,7 @@ Proc ConfIniReceber( cNome )
 ****************************
 LOCAL cScreen	:= SaveScreen()
 LOCAL GetList	:= {}
-LOCAL oRecelan := TIniNew( oAmbiente:xBaseDados + "\" + cNome + ".INI")
+LOCAL oRecelan := TIniNew( cNome + ".INI")
 LOCAL oConf 	:= TAmbienteNew()
 LOCAL aDisp 	:= aDispRecelan()
 LOCAL nMaior	:= 1
@@ -8212,7 +6692,7 @@ Proc ConfIniPagar( cNome )
 **************************
 LOCAL cScreen	:= SaveScreen()
 LOCAL GetList	:= {}
-LOCAL oPagalan := TIniNew( oAmbiente:xBaseDados + "\" + cNome + ".INI")
+LOCAL oPagalan := TIniNew( cNome + ".INI")
 LOCAL oConf 	:= TAmbienteNew()
 LOCAL aDisp 	:= aDispPagaLan()
 LOCAL nMaior	:= 1
@@ -8257,7 +6737,7 @@ Proc ConfIniCorrentes( cNome )
 ******************************
 LOCAL cScreen	:= SaveScreen()
 LOCAL GetList	:= {}
-LOCAL oPagalan := TIniNew( oAmbiente:xBaseDados + "\" + cNome + ".INI")
+LOCAL oPagalan := TIniNew( cNome + ".INI")
 LOCAL oConf 	:= TAmbienteNew()
 LOCAL aDisp 	:= aDispChelan()
 LOCAL nMaior	:= 1
@@ -8302,7 +6782,7 @@ Proc ConfIniProducao( cNome )
 *****************************
 LOCAL cScreen	:= SaveScreen()
 LOCAL GetList	:= {}
-LOCAL oScpLan	:= TIniNew( oAmbiente:xBaseDados + "\" + cNome + ".INI")
+LOCAL oScpLan	:= TIniNew( cNome + ".INI")
 LOCAL oConf 	:= TAmbienteNew()
 LOCAL aDisp 	:= aDispScpLan()
 LOCAL nMaior	:= 1
@@ -8347,7 +6827,7 @@ Proc ConfIniEstoque( cNome )
 ****************************
 LOCAL cScreen	 := SaveScreen()
 LOCAL GetList	 := {}
-LOCAL oTestelan := TIniNew( oAmbiente:xBaseDados + "\" + cNome + ".INI")
+LOCAL oTestelan := TIniNew( cNome + ".INI")
 LOCAL oConf 	 := TAmbienteNew()
 LOCAL aDisp 	 := aDispTestelan()
 LOCAL nMaior	 := 1
@@ -8401,7 +6881,7 @@ LOCAL cMenor	 := ''
 LOCAL cRegra	 := ''
 LOCAL op 		 := 1
 
-oSci				 := TIniNew( oAmbiente:xBaseDados + "\" + cNome + ".INI")
+oSci				 := TIniNew( cNome + ".INI")
 oConf:Disp		 := aDisp
 oConf:Ativo 	 := 1
 oConf:Menu		 := oSciMenuSci()
@@ -8467,7 +6947,7 @@ Proc ConfIniVendedores( cNome )
 *******************************
 LOCAL cScreen	:= SaveScreen()
 LOCAL GetList	:= {}
-LOCAL oVenlan	:= TIniNew( oAmbiente:xBaseDados + "\" + cNome + ".INI")
+LOCAL oVenlan	:= TIniNew( cNome + ".INI")
 LOCAL oConf 	:= TAmbienteNew()
 LOCAL aDisp 	:= aDispVenLan()
 LOCAL nMaior	:= 1
@@ -8590,7 +7070,7 @@ Proc ConfIniPonto( cNome )
 **************************
 	LOCAL cScreen	 := SaveScreen()
 	LOCAL GetList	 := {}
-	LOCAL oPontoLan := TIniNew( oAmbiente:xBaseDados + "\" + cNome + ".INI")
+	LOCAL oPontoLan := TIniNew( cNome + ".INI")
 	LOCAL oConf 	 := TAmbienteNew()
 	LOCAL aDisp 	 := aDispPontoLan()
 	LOCAL nMaior	 := 1
@@ -8639,7 +7119,7 @@ Function aDispSci()
 	LOCAL nMenuH   := Len(AtPrompt)
 	LOCAL aDisp    := Array(nMenuH, 22 )
 	LOCAL aMenuV   := {}
-			oSci     := TIniNew( oAmbiente:xBaseDados + "\" + oAmbiente:xUsuario + ".INI")
+			oSci     := TIniNew(oAmbiente:xUsuario + ".INI")
 
 	Mensagem("Aguarde, Verificando Diretivas do Sistema DO MENU PRINCIPAL.")
 	aDisp := ReadIni('sci', nMenuH, aMenuV, AtPrompt, aDisp, oSci)
@@ -9039,426 +7519,1974 @@ Return
 
 Proc ErrorSys()
 ****************
-Private ErrorSys := 9876543210
-ErrorBlock( {|Erro| MacroErro(Erro)} )
-return
+	Private ErrorSys := 9876543210
+	ErrorBlock( {|Erro| MacroErro(Erro)} )
+	return
 
 Function MacroErro(e)
 *********************
-LOCAL cScreen	 := SaveScreen()
-LOCAL cPrograma := StrTran( Upper(Program()), ".EXE", ".ERR")
-LOCAL cmens
-LOCAL i
-LOCAL cmessage
-LOCAL aoptions
-LOCAL nchoice
-LOCAL errodos
-LOCAL ab
-LOCAL abdes
-LOCAL abexp
-LOCAL abacao
-LOCAL abacao1
-LOCAL adbf
-LOCAL adbfdes
-LOCAL adbfexp
-LOCAL adbfacao
-LOCAL adbfacao1
+	LOCAL cScreen	 := SaveScreen()
+	LOCAL cPrograma := StrTran( Upper(Program()), ".EXE", ".ERR")
+	LOCAL cmens
+	LOCAL i
+	LOCAL cmessage
+	LOCAL aoptions
+	LOCAL nchoice
+	LOCAL errodos
+	LOCAL ab
+	LOCAL abdes
+	LOCAL abexp
+	LOCAL abacao
+	LOCAL abacao1
+	LOCAL adbf
+	LOCAL adbfdes
+	LOCAL adbfexp
+	LOCAL adbfacao
+	LOCAL adbfacao1
 
-cmens 	 := ""
-errodos	 := {}
-ab 		 := {}
-abdes 	 := {}
-abexp 	 := {}
-abacao	 := {}
-abacao1	 := {}
-adbf		 := {}
-adbfdes	 := {}
-adbfexp	 := {}
-adbfacao  := {}
-adbfacao1 := {}
-If (e:gencode() == 5)
-	Return 0
-EndIf
-If (e:gencode() == 21 .AND. e:oscode() == 32 .AND. e:candefault())
-	neterr(.T.)
-	Return .F.
-EndIf
-If (e:gencode() == 40 .AND. e:candefault())
-	neterr(.T.)
-	Return .F.
-EndIf
-AAdd(ab, 1002)
-AAdd(abdes, "ALIAS NAO EXISTE.")
-AAdd(abexp, "O ALIAS ESPECIFICADO NAO ASSOCIADO COM A AREA DE TRABALHO ATUAL.")
-AAdd(abacao, "ENTRE EM CONTATO COM O SUPORTE TECNICO.")
-AAdd(abacao1, "")
-AAdd(ab, 1003)
-AAdd(abdes, "VARIAVEL NAO EXISTE.")
-AAdd(abexp, "A VARIAVEL ESPECIFICADA NAO EXISTE OU NAO E VISIVEL.")
-AAdd(abacao, "ENTRE EM CONTATO COM O SUPORTE TECNICO.")
-AAdd(abacao1, "")
-AAdd(ab, 1004)
-AAdd(abdes, "VARIAVEL NAO EXISTE.")
-AAdd(abexp, "A VARIAVEL ESPECIFICADA NAO EXISTE OU NAO E VISIVEL.")
-AAdd(abacao, "ENTRE EM CONTATO COM O SUPORTE TECNICO.")
-AAdd(abacao1, "")
-AAdd(ab, 2006)
-AAdd(abdes,   "ERRO DE GRAVACAO/CRIACAO DE ARQUIVO.")
-AAdd(abexp,   "O ARQUIVO ESPECIFICADO NAO PODE SER GRAVADO/CRIADO.")
-AAdd(abacao,  "VERIFIQUE SEUS DIREITOS EM AMBIENTE DE REDE. ESPACO")
-AAdd(abacao1, "EM DISCO, OU SE O ARQUIVO ESTA ATRIBUIDO PARA SOMENTE LEITURA.")
-AAdd(ab, 5300)
-AAdd(abdes, "MEMORIA BAIXA.")
-AAdd(abexp, "MEMORIA DISPONIVEL INSUFICIENTE PARA RODAR O APLICATIVO.")
-AAdd(abacao, "LIBERE MAIS MEMORIA CONVENCIONAL VERIFICANDO OS ARQUIVOS")
-AAdd(abacao1, "CONFIG.SYS E AUTOEXEC.BAT.")
+	cmens 	 := ""
+	errodos	 := {}
+	ab 		 := {}
+	abdes 	 := {}
+	abexp 	 := {}
+	abacao	 := {}
+	abacao1	 := {}
+	adbf		 := {}
+	adbfdes	 := {}
+	adbfexp	 := {}
+	adbfacao  := {}
+	adbfacao1 := {}
 
-AAdd(adbf, 1001)
-AAdd(adbfdes, "ERRO DE ABERTURA DO ARQUIVO ESPECIFICADO.")
-AAdd(adbfexp, "O ARQUIVO ESPECIFICADO NAO PODE SER ABERTO.")
-AAdd(adbfacao, "VERIFIQUE SEUS DIREITOS EM AMBIENTE DE REDE. ESPACO")
-AAdd(adbfacao1, "EM DISCO, OU SE O ARQUIVO ESTA ATRIBUIDO PARA SOMENTE LEITURA.")
-AAdd(adbf, 1003)
-AAdd(adbfdes, "ERRO DE ABERTURA DO ARQUIVO ESPECIFICADO.")
-AAdd(adbfexp, "O ARQUIVO ESPECIFICADO NAO PODE SER ABERTO.")
-AAdd(adbfacao, "VERIFIQUE SEUS DIREITOS EM AMBIENTE DE REDE. ESPACO")
-AAdd(adbfacao1, "EM DISCO, OU SE O ARQUIVO ESTA ATRIBUIDO PARA SOMENTE LEITURA.")
-AAdd(adbf, 1004)
-AAdd(adbfdes, "ERRO DE CRIACAO DE ARQUIVO.")
-AAdd(adbfexp, "O ARQUIVO ESPECIFICADO NAO PODE SER CRIADO.")
-AAdd(adbfacao, "VERIFIQUE SEUS DIREITOS EM AMBIENTE DE REDE. ESPACO")
-AAdd(adbfacao1, "EM DISCO, OU SE O ARQUIVO ESTA ATRIBUIDO PARA SOMENTE LEITURA.")
-AAdd(adbf, 1006)
-AAdd(adbfdes, "ERRO DE CRIACAO DE ARQUIVO.")
-AAdd(adbfexp, "O ARQUIVO ESPECIFICADO NAO PODE SER CRIADO.")
-AAdd(adbfacao, "VERIFIQUE SEUS DIREITOS EM AMBIENTE DE REDE. ESPACO")
-AAdd(adbfacao1,"EM DISCO, OU SE O ARQUIVO ESTA ATRIBUIDO PARA SOMENTE LEITURA.")
-AAdd(adbf, 1010)
-AAdd(adbfdes, "ERRO DE LEITURA DE ARQUIVO.")
-AAdd(adbfexp, "UM ERRO DE LEITURA OCORREU NO ARQUIVO ESPECIFICADO.")
-AAdd(adbfacao, "VERIFIQUE SEUS DIREITOS EM AMBIENTE DE REDE, OU SE")
-AAdd(adbfacao1, "O ARQUIVO NAO ESTA TRUNCADO.")
-AAdd(adbf, 1011)
-AAdd(adbfdes, "ERRO DE GRAVACAO DE ARQUIVO.")
-AAdd(adbfexp, "UM ERRO DE GRAVACAO OCORREU NO ARQUIVO ESPECIFICADO.")
-AAdd(adbfacao, "VERIFIQUE SEUS DIREITOS EM AMBIENTE DE REDE. ESPACO")
-AAdd(adbfacao1, "EM DISCO, OU SE O ARQUIVO ESTA ATRIBUIDO PARA SOMENTE LEITURA.")
-AAdd(adbf, 1012)
-AAdd(adbfdes, "CORRUPCAO DE ARQUIVOS DETECTADA.")
-AAdd(adbfexp, "OS ARQUIVOS DE DADOS .DBF E/OU INDICES .NTX ESTAO CORROMPIDOS.")
-AAdd(adbfacao, "APAGUE OS ARQUIVOS COM EXTENSAO .NTX E TENTE NOVAMENTE.")
-AAdd(adbfacao1, "")
-AAdd(adbf, 1020)
-AAdd(adbfdes, "ERRO DE TIPO DE DADO.")
-AAdd(adbfexp, "OS TIPOS DE DADOS SAO IMCOMPATIVEIS.")
-AAdd(adbfacao, "ENTRE EM CONTATO COM O SUPORTE TECNICO.")
-AAdd(adbfacao1, "")
-AAdd(adbf, 1021)
-AAdd(adbfdes, "ERRO DE TAMANHO DE DADO.")
-AAdd(adbfexp, "O TAMANHO DE DADO EH MAIOR QUE O CAMPO.")
-AAdd(adbfacao, "VERIFIQUE DATAS DE VCTO, EMISSAO E OU CALCULOS MUITO ")
-AAdd(adbfacao1, "GRANDES.")
-AAdd(adbf, 1022)
-AAdd(adbfdes, "TRAVAMENTO DE ARQUIVO REQUERIDO.")
-AAdd(adbfexp, "TENTATIVA DE ALTERAR UM REGISTRO SEM PRIMEIRO OBTER TRAVAMENTO.")
-AAdd(adbfacao, "ENTRE EM CONTATO COM O SUPORTE TECNICO.")
-AAdd(adbfacao1, "")
-AAdd(adbf, 1023)
-AAdd(adbfdes, "O ARQUIVO REQUER ABERTURA EXCLUSIVA")
-AAdd(adbfexp, "O INICIO DA OPERACAO REQUER ABERTURA DE ARQUIVO EXCLUSIVA.")
-AAdd(adbfacao, "ENTRE EM CONTATO COM O SUPORTE TECNICO.")
-AAdd(adbfacao1, "")
-AAdd(adbf, 1027)
-AAdd(adbfdes, "LIMITE EXCEDIDO.")
-AAdd(adbfexp, "MUITOS ARQUIVOS DE INDICES ESTAO ABERTOS NA AREA CORRENTE.")
-AAdd(adbfacao, "ENTRE EM CONTATO COM O SUPORTE TECNICO.")
-AAdd(adbfacao1, "")
-nsubcode    := e:subcode()
-csystem	   := e:subsystem()
-cexplanacao := ""
-cacao 	   := ""
-cacao1	   := ""
-nPos		   := 0
-If (csystem = "BASE")
-	npos:= ascan(ab, nsubcode)
-	If (npos != 0)
-		e:description := abdes[npos]
-		cExplanacao   := abexp[npos]
-		cAcao 		  := abacao[npos]
-		cAcao1		  := abacao1[npos]
+	if (e:gencode() == 5)
+		return 0
+	endif
+	if (e:gencode() == 21 .AND. e:oscode() == 32 .AND. e:candefault())
+		neterr( true )
+		return false
 	EndIf
-ElseIf (csystem = "DBFNTX")
-	npos:= ascan(adbf, nsubcode)
-	If (npos != 0)
-		e:description := adbfdes[npos]
-		cExplanacao   := adbfexp[npos]
-		cAcao 		  := adbfacao[npos]
-		cAcao1		  := adbfacao1[npos]
+	if (e:gencode() == 40 .AND. e:candefault())
+		neterr( true )
+		return false
+	endif
+
+	AAdd(ab, 1002)
+	AAdd(abdes, "ALIAS NAO EXISTE.")
+	AAdd(abexp, "O ALIAS ESPECIFICADO NAO ASSOCIADO COM A AREA DE TRABALHO ATUAL.")
+	AAdd(abacao, "ENTRE EM CONTATO COM O SUPORTE TECNICO.")
+	AAdd(abacao1, "")
+	AAdd(ab, 1003)
+	AAdd(abdes, "VARIAVEL NAO EXISTE.")
+	AAdd(abexp, "A VARIAVEL ESPECIFICADA NAO EXISTE OU NAO E VISIVEL.")
+	AAdd(abacao, "ENTRE EM CONTATO COM O SUPORTE TECNICO.")
+	AAdd(abacao1, "")
+	AAdd(ab, 1004)
+	AAdd(abdes, "VARIAVEL NAO EXISTE.")
+	AAdd(abexp, "A VARIAVEL ESPECIFICADA NAO EXISTE OU NAO E VISIVEL.")
+	AAdd(abacao, "ENTRE EM CONTATO COM O SUPORTE TECNICO.")
+	AAdd(abacao1, "")
+	AAdd(ab, 2006)
+	AAdd(abdes,   "ERRO DE GRAVACAO/CRIACAO DE ARQUIVO.")
+	AAdd(abexp,   "O ARQUIVO ESPECIFICADO NAO PODE SER GRAVADO/CRIADO.")
+	AAdd(abacao,  "VERIFIQUE SEUS DIREITOS EM AMBIENTE DE REDE. ESPACO")
+	AAdd(abacao1, "EM DISCO, OU SE O ARQUIVO ESTA ATRIBUIDO PARA SOMENTE LEITURA.")
+	AAdd(ab, 5300)
+	AAdd(abdes, "MEMORIA BAIXA.")
+	AAdd(abexp, "MEMORIA DISPONIVEL INSUFICIENTE PARA RODAR O APLICATIVO.")
+	AAdd(abacao, "LIBERE MAIS MEMORIA CONVENCIONAL VERIFICANDO OS ARQUIVOS")
+	AAdd(abacao1, "CONFIG.SYS E AUTOEXEC.BAT.")
+
+	AAdd(adbf, 1001)
+	AAdd(adbfdes, "ERRO DE ABERTURA DO ARQUIVO ESPECIFICADO.")
+	AAdd(adbfexp, "O ARQUIVO ESPECIFICADO NAO PODE SER ABERTO.")
+	AAdd(adbfacao, "VERIFIQUE SEUS DIREITOS EM AMBIENTE DE REDE. ESPACO")
+	AAdd(adbfacao1, "EM DISCO, OU SE O ARQUIVO ESTA ATRIBUIDO PARA SOMENTE LEITURA.")
+	AAdd(adbf, 1003)
+	AAdd(adbfdes, "ERRO DE ABERTURA DO ARQUIVO ESPECIFICADO.")
+	AAdd(adbfexp, "O ARQUIVO ESPECIFICADO NAO PODE SER ABERTO.")
+	AAdd(adbfacao, "VERIFIQUE SEUS DIREITOS EM AMBIENTE DE REDE. ESPACO")
+	AAdd(adbfacao1, "EM DISCO, OU SE O ARQUIVO ESTA ATRIBUIDO PARA SOMENTE LEITURA.")
+	AAdd(adbf, 1004)
+	AAdd(adbfdes, "ERRO DE CRIACAO DE ARQUIVO.")
+	AAdd(adbfexp, "O ARQUIVO ESPECIFICADO NAO PODE SER CRIADO.")
+	AAdd(adbfacao, "VERIFIQUE SEUS DIREITOS EM AMBIENTE DE REDE. ESPACO")
+	AAdd(adbfacao1, "EM DISCO, OU SE O ARQUIVO ESTA ATRIBUIDO PARA SOMENTE LEITURA.")
+	AAdd(adbf, 1006)
+	AAdd(adbfdes, "ERRO DE CRIACAO DE ARQUIVO.")
+	AAdd(adbfexp, "O ARQUIVO ESPECIFICADO NAO PODE SER CRIADO.")
+	AAdd(adbfacao, "VERIFIQUE SEUS DIREITOS EM AMBIENTE DE REDE. ESPACO")
+	AAdd(adbfacao1,"EM DISCO, OU SE O ARQUIVO ESTA ATRIBUIDO PARA SOMENTE LEITURA.")
+	AAdd(adbf, 1010)
+	AAdd(adbfdes, "ERRO DE LEITURA DE ARQUIVO.")
+	AAdd(adbfexp, "UM ERRO DE LEITURA OCORREU NO ARQUIVO ESPECIFICADO.")
+	AAdd(adbfacao, "VERIFIQUE SEUS DIREITOS EM AMBIENTE DE REDE, OU SE")
+	AAdd(adbfacao1, "O ARQUIVO NAO ESTA TRUNCADO.")
+	AAdd(adbf, 1011)
+	AAdd(adbfdes, "ERRO DE GRAVACAO DE ARQUIVO.")
+	AAdd(adbfexp, "UM ERRO DE GRAVACAO OCORREU NO ARQUIVO ESPECIFICADO.")
+	AAdd(adbfacao, "VERIFIQUE SEUS DIREITOS EM AMBIENTE DE REDE. ESPACO")
+	AAdd(adbfacao1, "EM DISCO, OU SE O ARQUIVO ESTA ATRIBUIDO PARA SOMENTE LEITURA.")
+	AAdd(adbf, 1012)
+	AAdd(adbfdes, "CORRUPCAO DE ARQUIVOS DETECTADA.")
+	AAdd(adbfexp, "OS ARQUIVOS DE DADOS .DBF E/OU INDICES .NTX ESTAO CORROMPIDOS.")
+	AAdd(adbfacao, "APAGUE OS ARQUIVOS COM EXTENSAO .NTX E TENTE NOVAMENTE.")
+	AAdd(adbfacao1, "")
+	AAdd(adbf, 1020)
+	AAdd(adbfdes, "ERRO DE TIPO DE DADO.")
+	AAdd(adbfexp, "OS TIPOS DE DADOS SAO IMCOMPATIVEIS.")
+	AAdd(adbfacao, "ENTRE EM CONTATO COM O SUPORTE TECNICO.")
+	AAdd(adbfacao1, "")
+	AAdd(adbf, 1021)
+	AAdd(adbfdes, "ERRO DE TAMANHO DE DADO.")
+	AAdd(adbfexp, "O TAMANHO DE DADO EH MAIOR QUE O CAMPO.")
+	AAdd(adbfacao, "VERIFIQUE DATAS DE VCTO, EMISSAO E OU CALCULOS MUITO ")
+	AAdd(adbfacao1, "GRANDES.")
+	AAdd(adbf, 1022)
+	AAdd(adbfdes, "TRAVAMENTO DE ARQUIVO REQUERIDO.")
+	AAdd(adbfexp, "TENTATIVA DE ALTERAR UM REGISTRO SEM PRIMEIRO OBTER TRAVAMENTO.")
+	AAdd(adbfacao, "ENTRE EM CONTATO COM O SUPORTE TECNICO.")
+	AAdd(adbfacao1, "")
+	AAdd(adbf, 1023)
+	AAdd(adbfdes, "O ARQUIVO REQUER ABERTURA EXCLUSIVA")
+	AAdd(adbfexp, "O INICIO DA OPERACAO REQUER ABERTURA DE ARQUIVO EXCLUSIVA.")
+	AAdd(adbfacao, "ENTRE EM CONTATO COM O SUPORTE TECNICO.")
+	AAdd(adbfacao1, "")
+	AAdd(adbf, 1027)
+	AAdd(adbfdes, "LIMITE EXCEDIDO.")
+	AAdd(adbfexp, "MUITOS ARQUIVOS DE INDICES ESTAO ABERTOS NA AREA CORRENTE.")
+	AAdd(adbfacao, "ENTRE EM CONTATO COM O SUPORTE TECNICO.")
+	AAdd(adbfacao1, "")
+
+	nsubcode    := e:subcode()
+	csystem	   := e:subsystem()
+	cexplanacao := ""
+	cacao 	   := ""
+	cacao1	   := ""
+	nPos		   := 0
+
+	If (csystem = "BASE")
+		npos:= ascan(ab, nsubcode)
+		If (npos != 0)
+			e:description := abdes[npos]
+			cExplanacao   := abexp[npos]
+			cAcao 		  := abacao[npos]
+			cAcao1		  := abacao1[npos]
+		EndIf
+	ElseIf (csystem = "DBFNTX")
+		npos:= ascan(adbf, nsubcode)
+		If (npos != 0)
+			e:description := adbfdes[npos]
+			cExplanacao   := adbfexp[npos]
+			cAcao 		  := adbfacao[npos]
+			cAcao1		  := adbfacao1[npos]
+		EndIf
+	ElseIf (csystem = "SIXNSX")
+		npos:= ascan(adbf, nsubcode)
+		If (npos != 0)
+			e:description := adbfdes[npos]
+			cExplanacao   := adbfexp[npos]
+			cAcao 		  := adbfacao[npos]
+			cAcao1		  := adbfacao1[npos]
+		EndIf
+	ElseIf ( csystem = "TERM")
+		if e:oscode() != 3	
+			IF LptOk()
+				Return( OK )
+			EndIF		
+			Set Devi To Screen
+			Set Prin Off
+			Set Cons On
+			Set Print to
+			Break
+		endif			
 	EndIf
-ElseIf (csystem = "SIXNSX")
-	npos:= ascan(adbf, nsubcode)
-	If (npos != 0)
-		e:description := adbfdes[npos]
-		cExplanacao   := adbfexp[npos]
-		cAcao 		  := adbfacao[npos]
-		cAcao1		  := adbfacao1[npos]
+
+	If (e:oscode() = 4)
+		e:description := "IMPOSSIVEL ABRIR MAIS ARQUIVOS."
+		cExplanacao   := "O LIMITE DE ABERTURA DE ARQUIVOS FOI EXCEDIDO."
+		cAcao 		  := "INCREMENTE FILES NO CONFIG.SYS OU FILE HANDLES"
+		cAcao1		  := "NO ARQUIVO SHELL.CFG SE EM AMBIENTE DE REDE."
 	EndIf
-ElseIf ( csystem = "TERM")
-	IF LptOk()
-		Return( OK )
+	IF nPos = 0
+		cExplanacao := "ERRO NAO DOCUMENTADO."
+		cAcao 	   := "IMPRIMA ESTA TELA. E ENTRE EM CONTATO COM O"
+		cAcao1	   := "SUPORTE TECNICO ATRAVES DO TEL (69)3451.3085 ou SUPORTE@MACROSOFT.COM.BR"
 	EndIF
+
+	IF nSubCode = 1003
+		FChDir( oAmbiente:xBase )
+		Set Date British
+		Set Console Off
+		FClose( cPrograma )
+		IF !File( cPrograma )
+			cHandle := Fcreate( cPrograma, FC_NORMAL )
+			FClose( cHandle )
+		EndIF
+		cHandle := FOpen( cPrograma, FO_READWRITE + FO_SHARED )
+		IF ( Ferror() != 0 )
+			FClose( cHandle )
+			SetColor("")
+			Cls
+			Alert( "Erro #3: Erro de Abertura " + cPrograma + ". Erro DOS " + Str( Ferror(),3))
+			Break(e)
+			//FlReset()
+			Quit
+		EndIF
+		FBot( cHandle )
+		FWriteLine( cHandle, Replicate("=", 80))
+		FWriteLine( cHandle, "Usuario   : " + oAmbiente:xUsuario )
+		FWriteLine( cHandle, "Data      : " + DToC(Date()))
+		FWriteLine( cHandle, "Horas     : " + Time())
+		FWriteLine( cHandle, "SubSystem : " + csystem )
+		FWriteLine( cHandle, "SubCode   : " + Str(nsubcode, 4))
+		FWriteLine( cHandle, "Variavel  : " + e:operation )
+		FWriteLine( cHandle, "Arquivo   : " + e:filename )
+		FWriteLine( cHandle, "Area      : " + Alias())
+		FWriteLine( cHandle, "Indice    : " + IndexKey( IndexOrd()))
+		FWriteLine( cHandle, "Descricao : " + e:description )
+		FWriteLine( cHandle, "Explanacao: " + cexplanacao )
+		FWriteLine( cHandle, "Acao      : " + cAcao )
+		FWriteLine( cHandle, "Acao      : " + cAcao1 )
+		FWriteLine( cHandle, Replicate("-", 80))
+		FWriteLine( cHandle, "PILHA DE CARGA" )
+		nCol := 0
+		i	  := 2
+		nX   := 0
+		Do While (!Empty(ProcName(i)))
+			nCol++
+			nX++
+			FWriteLine( cHandle, Space(16) + "Linha : " + strzero(procline(i), 6) + "    Proc : " + ProcName(i))
+			i++
+		EndDo
+		FWriteLine( cHandle, Replicate("=", 80))
+		Fclose( cHandle )
+		Set Console On
+		FChDir( oAmbiente:xBase )
+		//Break(e)
+	EndIF
+
+	SetColor("")
+	Cls
+	IF nSubCode = 1012
+		IF !Empty( e:FileName() )
+			ErrorBeep()
+			IF Conf("O arquivo " + AllTrim( e:FileName()) + " corrompeu. Criar um novo ?")
+				cTemp := StrTran( e:FileName(), ".DBF") + ".OLD"
+				Ferase( cTemp )
+				IF FRename( e:FileName(), cTemp )
+					IF CriaArquivo( e:FileName() )
+						Aeval( Directory( "*.NTX"), { | aFile | Ferase( aFile[ F_NAME ] )})
+						Cls
+						ErrorBeep()
+						Alerta("Informa: Arquivo " + e:FileName() + " criado. Carregue novamente o Sistema.")
+						FChDir( oAmbiente:xBase )
+						Break( e )
+						Quit
+					EndIF
+				Else
+					Alerta("Erro: Impossivel consertar o arquivo.")
+				EndIF
+			EndIF
+		EndIF
+	EndIF
+
 	Set Devi To Screen
 	Set Prin Off
 	Set Cons On
 	Set Print to
-	Break
-EndIf
-If (e:oscode() = 4)
-	e:description := "IMPOSSIVEL ABRIR MAIS ARQUIVOS."
-	cExplanacao   := "O LIMITE DE ABERTURA DE ARQUIVOS FOI EXCEDIDO."
-	cAcao 		  := "INCREMENTE FILES NO CONFIG.SYS OU FILE HANDLES"
-	cAcao1		  := "NO ARQUIVO SHELL.CFG SE EM AMBIENTE DE REDE."
-EndIf
-IF nPos = 0
-	cExplanacao := "ERRO NAO DOCUMENTADO."
-	cAcao 	   := "IMPRIMA ESTA TELA. E ENTRE EM CONTATO COM O"
-	cAcao1	   := "SUPORTE TECNICO ATRAVES DO TEL (69)3451.3085 ou SUPORTE@MACROSOFT.COM.BR"
-EndIF
+	Set Color To Gr+/b
+	@ 0, 0 Clear To  9, MaxCol()
+	@ 0, 0 To	8, MaxCol() Color "Gr+/b"
+	@ 1, 1  Say "SubSystem : "
+	@ 1, 35 Say "SubCode : "
+	@ 2, 1  Say "OsCode    : "
+	@ 2, 35 Say "GenCode : "	
+	@ 3, 1  Say "Variavel  : "
+	@ 3, 35 Say "Arquivo : "
+	@ 4, 1  Say "Area      : "
+	@ 4, 35 Say "Indice  : "
 
-IF nSubCode = 1003
-	FChDir( oAmbiente:xBase )
-	Set Date British
-	Set Console Off
-	FClose( cPrograma )
-	IF !File( cPrograma )
-		cHandle := Fcreate( cPrograma, FC_NORMAL )
-		FClose( cHandle )
-	EndIF
-	cHandle := FOpen( cPrograma, FO_READWRITE + FO_SHARED )
-	IF ( Ferror() != 0 )
-		FClose( cHandle )
-		SetColor("")
-		Cls
-		Alert( "Erro #3: Erro de Abertura " + cPrograma + ". Erro DOS " + Str( Ferror(),3))
-		Break(e)
-		//FlReset()
-		Quit
-	EndIF
-	FBot( cHandle )
-	FWriteLine( cHandle, Replicate("=", 80))
-	FWriteLine( cHandle, "Usuario   : " + oAmbiente:xUsuario )
-	FWriteLine( cHandle, "Data      : " + DToC(Date()))
-	FWriteLine( cHandle, "Horas     : " + Time())
-	FWriteLine( cHandle, "SubSystem : " + csystem )
-	FWriteLine( cHandle, "SubCode   : " + Str(nsubcode, 4))
-	FWriteLine( cHandle, "Variavel  : " + e:operation )
-	FWriteLine( cHandle, "Arquivo   : " + e:filename )
-	FWriteLine( cHandle, "Area      : " + Alias())
-	FWriteLine( cHandle, "Indice    : " + IndexKey( IndexOrd()))
-	FWriteLine( cHandle, "Descricao : " + e:description )
-	FWriteLine( cHandle, "Explanacao: " + cexplanacao )
-	FWriteLine( cHandle, "Acao      : " + cAcao )
-	FWriteLine( cHandle, "Acao      : " + cAcao1 )
-	FWriteLine( cHandle, Replicate("-", 80))
-	FWriteLine( cHandle, "PILHA DE CARGA" )
-	nCol := 0
-	i	  := 2
-	nX   := 0
-	Do While (!Empty(ProcName(i)))
-		nCol++
-		nX++
-		FWriteLine( cHandle, Space(16) + "Linha : " + strzero(procline(i), 6) + "    Proc : " + ProcName(i))
+	@ 5, 1 Say "Descri‡ao : "
+	@ 6, 1 Say "Explana‡ao: "
+	@ 7, 1 Say "A‡ao      : "
+	
+	@ 1, 14 Say csystem             				Color "W+/B"
+	@ 1, 45 Say Str(nsubcode, 4)    				Color "W+/B"
+
+	@ 2, 14 Say Str(e:oscode(), 4)    			Color "W+/B"	
+	@ 2, 45 Say Str(e:gencode(), 4)    			Color "W+/B"	
+	
+	@ 3, 14 Say e:operation()       				Color "W+/B"
+	@ 3, 45 Say Upper(e:filename()) 				Color "W+/B"
+
+	@ 4, 14 Say Alias()             				Color "W+/B"
+	@ 4, 45 Say Upper(IndexKey(IndexOrd())) 	Color "W+/B"
+
+	@ 5, 14 Say e:description 						Color "W+/B"
+	@ 6, 14 Say cexplanacao 						Color "W+/B"
+	@ 7, 14 Say cacao 								Color "R/B"
+	@ 8, 14 Say cacao1 								Color "R/B"
+
+	ncol := 16
+	Set Color To Gr+/b
+	@ ncol, 0 Clear To 23, MaxCol()
+	@ ncol, 0		 To 23, MaxCol() Color "Gr+/b"
+	@ ncol, 12 Say "PILHA DE CARGA" Color "W+/B"
+
+	i	:= 2
+	nx := 0
+	ncol ++
+	nRow := 00
+	Do While (!Empty( ProcName(i)))
+		nx++
+		@ ncol, nRow+01 Say "[" + StrZero( i, 2 )   + "]:"        Color "W+/B"
+		@ ncol, nRow+06 Say "[" + strzero(procline(i), 6) + "]:"  Color "GR+/B"
+		@ ncol, nRow+16 Say ProcName(i)								    Color "W+/B"
 		i++
+		nCol++
+		IF nCol >= 23
+			nCol := 17
+			nRow += 40
+		EndIF
 	EndDo
-	FWriteLine( cHandle, Replicate("=", 80))
-	Fclose( cHandle )
-	Set Console On
-	FChDir( oAmbiente:xBase )
-	Break(e)
-EndIF
 
-SetColor("")
-Cls
-IF nSubCode = 1012
-	IF !Empty( e:FileName() )
-		ErrorBeep()
-		IF Conf("O arquivo " + AllTrim( e:FileName()) + " corrompeu. Criar um novo ?")
-			cTemp := StrTran( e:FileName(), ".DBF") + ".OLD"
-			Ferase( cTemp )
-			IF FRename( e:FileName(), cTemp )
-				IF CriaArquivo( e:FileName() )
-					Aeval( Directory( "*.NTX"), { | aFile | Ferase( aFile[ F_NAME ] )})
+	cmessage := "Escolha uma opcao abaixo."
+	aoptions := {"Encerrar"}
+	If (e:canretry())
+		AAdd(aoptions, "Tentar")
+	EndIf
+	If (e:candefault())
+		AAdd(aoptions, "Default")
+	EndIf
+
+	nchoice:= 0
+	Do While (nchoice == 0)
+		nchoice:= alert(cmessage, aoptions)
+		If (!Empty(nchoice))
+			If (aoptions[nchoice] == "Encerrar")
+				nopcao:= alert("Pergunta: Imprimir resultado para ?", {"Nenhum", "Impressora"})
+				If (nopcao == 2)
+					If (instru80() .AND. lptok())
+						printon()
+						setprc(0, 0)
+						Qout(Replicate("=", 80))
+						@	02,  01 Say "SubSystem : " + csystem
+						@	03,  01 Say "SubCode   : " + Str(nsubcode, 4)
+						@	04,  01 Say "Variavel  : " + e:operation()
+						@	05,  01 Say "Arquivo   : " + e:filename()
+						@	06,  01 Say "Area      : " + Alias()
+						@	07,  01 Say "Descricao : " + e:description
+						@	08,  01 Say "Explanacao: " + cexplanacao
+						@	09,  01 Say "Acao      : " + cacao
+						@	10,  13 Say cacao1
+						Qout( Replicate("-", 80))
+						ncol := 12
+						@ ncol,	6 Say "[Pilha de Carga]"
+						i := 2
+						nx := 0
+						Do While (!Empty(ProcName(i)))
+							nCol++
+							nX++
+							@ nCol, 01 Say StrZero(nX, 2) +")Proc:"
+							@ nCol, 09 Say ProcName(i) Color "W+/B"
+							@ nCol, 20 Say "Linha:"
+							@ nCol, 26 Say strzero(procline(i), 6) Color "W+/B"
+							i++
+						EndDo
+						Qout(Replicate("=", 80))
+						Eject
+						PrintOff()
+					EndIf
+				EndIF
+				FChDir( oAmbiente:xBase )
+				Set Date British
+				Set Console Off
+				FClose( cPrograma )
+				IF !File( cPrograma )
+					cHandle := Fcreate( cPrograma, FC_NORMAL )
+					FClose( cHandle )
+				EndIF
+				cHandle := FOpen( cPrograma, FO_READWRITE + FO_SHARED )
+				IF ( Ferror() != 0 )
+					FClose( cHandle )
+					SetColor("")
 					Cls
-					ErrorBeep()
-					Alerta("Informa: Arquivo " + e:FileName() + " criado. Carregue novamente o Sistema.")
-					FChDir( oAmbiente:xBase )
-					Break( e )
+					Alert( "Erro #3: Erro de Abertura " + cPrograma + ". Erro DOS " + Str( Ferror(),3))
+					Break(e)
+					//FlReset()
 					Quit
 				EndIF
-			Else
-				Alerta("Erro: Impossivel consertar o arquivo.")
-			EndIF
-		EndIF
-	EndIF
-EndIF
-Set Devi To Screen
-Set Prin Off
-Set Cons On
-Set Print to
-Set Color To Gr+/b
-@ 0, 0 Clear To  8, MaxCol()
-@ 0, 0 To	8, MaxCol() Color "Gr+/b"
-@ 1, 1 Say "SubSystem : "
-@ 2, 1 Say "Variavel  : "
-@ 3, 1 Say "Area      : "
-@ 4, 1 Say "Descri‡ao : "
-@ 5, 1 Say "Explana‡ao: "
-@ 6, 1 Say "A‡ao      : "
-
-@ 1, 35 Say "SubCode : "
-@ 2, 35 Say "Arquivo : "
-@ 3, 35 Say "Indice  : "
-@ 1, 14 Say csystem Color "W+/B"
-@ 1, 45 Say Str(nsubcode, 4) Color "W+/B"
-@ 2, 14 Say e:operation() Color "W+/B"
-@ 2, 45 Say Upper(e:filename()) Color "W+/B"
-@ 3, 14 Say Alias() Color "W+/B"
-@ 3, 45 Say Upper(IndexKey(IndexOrd())) Color "W+/B"
-@ 4, 14 Say e:description Color "W+/B"
-@ 5, 14 Say cexplanacao Color "W+/B"
-@ 6, 14 Say cacao Color "R/B"
-@ 7, 14 Say cacao1 Color "R/B"
-
-ncol := 16
-Set Color To Gr+/b
-@ ncol, 0 Clear To 23, MaxCol()
-@ ncol, 0		 To 23, MaxCol() Color "Gr+/b"
-@ ncol, 12 Say "PILHA DE CARGA" Color "W+/B"
-i	:= 2
-nx := 0
-ncol ++
-nRow := 00
-Do While (!Empty( ProcName(i)))
-	nx++
-	@ ncol, nRow+01 Say "[" + StrZero( i, 2 )   + "]:"        Color "W+/B"
-	@ ncol, nRow+06 Say "[" + strzero(procline(i), 6) + "]:"  Color "GR+/B"
-	@ ncol, nRow+16 Say ProcName(i)								  Color "W+/B"
-	i++
-	nCol++
-	IF nCol >= 23
-		nCol := 17
-		nRow += 40
-	EndIF
-EndDo
-cmessage := "Escolha uma opcao abaixo."
-aoptions := {"Encerrar"}
-If (e:canretry())
-	AAdd(aoptions, "Tentar")
-EndIf
-If (e:candefault())
-	AAdd(aoptions, "Default")
-EndIf
-nchoice:= 0
-Do While (nchoice == 0)
-	nchoice:= alert(cmessage, aoptions)
-	If (!Empty(nchoice))
-		If (aoptions[nchoice] == "Encerrar")
-			nopcao:= alert("Pergunta: Imprimir resultado para ?", {"Nenhum", "Impressora"})
-			If (nopcao == 2)
-				If (instru80() .AND. lptok())
-					printon()
-					setprc(0, 0)
-					Qout(Replicate("=", 80))
-					@	02,  01 Say "SubSystem : " + csystem
-					@	03,  01 Say "SubCode   : " + Str(nsubcode, 4)
-					@	04,  01 Say "Variavel  : " + e:operation()
-					@	05,  01 Say "Arquivo   : " + e:filename()
-					@	06,  01 Say "Area      : " + Alias()
-					@	07,  01 Say "Descricao : " + e:description
-					@	08,  01 Say "Explanacao: " + cexplanacao
-					@	09,  01 Say "Acao      : " + cacao
-					@	10,  13 Say cacao1
-					Qout( Replicate("-", 80))
-					ncol := 12
-					@ ncol,	6 Say "[Pilha de Carga]"
-					i := 2
-					nx := 0
-					Do While (!Empty(ProcName(i)))
-						nCol++
-						nX++
-						@ nCol, 01 Say StrZero(nX, 2) +")Proc:"
-						@ nCol, 09 Say ProcName(i) Color "W+/B"
-						@ nCol, 20 Say "Linha:"
-						@ nCol, 26 Say strzero(procline(i), 6) Color "W+/B"
-						i++
-					EndDo
-					Qout(Replicate("=", 80))
-					Eject
-					PrintOff()
-				EndIf
-			EndIF
-			FChDir( oAmbiente:xBase )
-			Set Date British
-			Set Console Off
-			FClose( cPrograma )
-			IF !File( cPrograma )
-				cHandle := Fcreate( cPrograma, FC_NORMAL )
-				FClose( cHandle )
-			EndIF
-			cHandle := FOpen( cPrograma, FO_READWRITE + FO_SHARED )
-			IF ( Ferror() != 0 )
-				FClose( cHandle )
+				FBot( cHandle )
+				FWriteLine( cHandle, Replicate("=", 80))
+				FWriteLine( cHandle, "Usuario   : " + oAmbiente:xUsuario )
+				FWriteLine( cHandle, "Data      : " + DToC(Date()))
+				FWriteLine( cHandle, "Horas     : " + Time())
+				FWriteLine( cHandle, "SubSystem : " + csystem )
+				FWriteLine( cHandle, "SubCode   : " + Str(nsubcode, 4))
+				FWriteLine( cHandle, "Variavel  : " + e:operation )
+				FWriteLine( cHandle, "Arquivo   : " + e:filename )
+				FWriteLine( cHandle, "Area      : " + Alias())
+				FWriteLine( cHandle, "Indice    : " + IndexKey( IndexOrd()))
+				FWriteLine( cHandle, "Descricao : " + e:description )
+				FWriteLine( cHandle, "Explanacao: " + cexplanacao )
+				FWriteLine( cHandle, "Acao      : " + cAcao )
+				FWriteLine( cHandle, "Acao      : " + cAcao1 )
+				FWriteLine( cHandle, Replicate("-", 80))
+				FWriteLine( cHandle, "PILHA DE CARGA" )
+				i	:= 2
+				nX := 0
+				Do While (!Empty(ProcName(i)))
+					nCol++
+					nX++
+					FWriteLine( cHandle, Space(16) + "Linha : " + strzero(procline(i), 6) + "    Proc : " + ProcName(i))
+					i++
+				EndDo
+				FWriteLine( cHandle, Replicate("=", 80))
+				Fclose( cHandle )
+				Set Console On
 				SetColor("")
 				Cls
-				Alert( "Erro #3: Erro de Abertura " + cPrograma + ". Erro DOS " + Str( Ferror(),3))
+				FChDir( oAmbiente:xBase )
 				Break(e)
 				//FlReset()
 				Quit
-			EndIF
-			FBot( cHandle )
-			FWriteLine( cHandle, Replicate("=", 80))
-			FWriteLine( cHandle, "Usuario   : " + oAmbiente:xUsuario )
-			FWriteLine( cHandle, "Data      : " + DToC(Date()))
-			FWriteLine( cHandle, "Horas     : " + Time())
-			FWriteLine( cHandle, "SubSystem : " + csystem )
-			FWriteLine( cHandle, "SubCode   : " + Str(nsubcode, 4))
-			FWriteLine( cHandle, "Variavel  : " + e:operation )
-			FWriteLine( cHandle, "Arquivo   : " + e:filename )
-			FWriteLine( cHandle, "Area      : " + Alias())
-			FWriteLine( cHandle, "Indice    : " + IndexKey( IndexOrd()))
-			FWriteLine( cHandle, "Descricao : " + e:description )
-			FWriteLine( cHandle, "Explanacao: " + cexplanacao )
-			FWriteLine( cHandle, "Acao      : " + cAcao )
-			FWriteLine( cHandle, "Acao      : " + cAcao1 )
-			FWriteLine( cHandle, Replicate("-", 80))
-			FWriteLine( cHandle, "PILHA DE CARGA" )
-			i	:= 2
-			nX := 0
-			Do While (!Empty(ProcName(i)))
-				nCol++
-				nX++
-				FWriteLine( cHandle, Space(16) + "Linha : " + strzero(procline(i), 6) + "    Proc : " + ProcName(i))
-				i++
-			EndDo
-			FWriteLine( cHandle, Replicate("=", 80))
-			Fclose( cHandle )
-			Set Console On
+			ElseIf (aoptions[nchoice] == "Tentar")
+				ResTela( cScreen )
+				Return .T.
+			ElseIf (aoptions[nchoice] == "Default")
+				ResTela( cScreen )
+				Return .F.
+			EndIf
+		EndIf
+	EndDo
+	Set Device To Screen
+	Set Printer Off
+	Break
+	Return .T.
+endef
+	
+def ArrayArquivos()
+	LOCAL aArquivos := {}
+	Aadd( aArquivos, {"LISTA.DBF",{{ "ID",         "+", 04, 0 }, ; // Autoincremento
+										 { "CODIGO",     "C", 06, 0 }, ; // Codigo do Produto
+										 { "CODGRUPO",   "C", 03, 0 }, ;
+										 { "CODSGRUPO",  "C", 06, 0 }, ;
+										 { "DESCRICAO",  "C", 40, 0 }, ;
+										 { "UN",         "C", 02, 0 }, ;
+										 { "EMB",        "N", 03, 0 }, ;
+										 { "QUANT",      "N", 09, 2 }, ;
+										 { "VENDIDA",    "N", 09, 2 }, ;
+										 { "PEDIDO",     "N", 09, 2 }, ; // Quant Mercadoria Pedida
+										 { "ATACADO",    "N", 11, 2 }, ;
+										 { "PCOMPRA",    "N", 11, 2 }, ;
+										 { "CUSTODOLAR", "N", 11, 2 }, ;
+										 { "PCUSTO",     "N", 11, 2 }, ;
+										 { "DATA",       "D", 08, 0 }, ;
+										 { "N_ORIGINAL", "C", 15, 0 }, ;
+										 { "CODEBAR",    "C", 15, 0 }, ;
+										 { "SIGLA",      "C", 10, 0 }, ;
+										 { "QMAX",       "N", 09, 2 }, ;
+										 { "QMIN",       "N", 09, 2 }, ;
+										 { "CODI",       "C", 04, 0 }, ; // Codigo do Fabricante/Pagar
+										 { "CODI1",      "C", 04, 0 }, ; // Codigo do Fornecedor/Pagar
+										 { "CODI2",      "C", 04, 0 }, ; // Codigo do Fornecedor/Pagar
+										 { "CODI3",      "C", 04, 0 }, ; // Codigo do Fornecedor/Pagar
+										 { "REPRES",     "C", 04, 0 }, ; // Codigo do Representante
+										 { "MARCUS",     "N", 06, 2 }, ; // Margem do Pcusto
+										 { "MARVAR",     "N", 06, 2 }, ; // Margem do Varejo
+										 { "MARATA",     "N", 06, 2 }, ; // Margem do Atacado
+										 { "IMPOSTO",    "N", 06, 2 }, ; // Percentual de Imposto
+										 { "FRETE",      "N", 06, 2 }, ; // Percentual de Frete
+										 { "VAREJO",     "N", 11, 2 }, ;
+										 { "BX_CON",     "L", 01, 0 }, ;
+										 { "UFIR",       "N", 07, 2 }, ;
+										 { "IPI",        "N", 05, 2 }, ;
+										 { "II",         "N", 05, 2 }, ;
+										 { "SITUACAO",   "C", 01, 0 }, ;
+										 { "CLASSE",     "C", 02, 0 }, ;
+										 { "TX_ICMS",    "N", 03, 0 }, ; // Aliquota Icms Substituicao
+										 { "REDUCAO",    "N", 03, 0 }, ; // Reducao da Base de Calculo
+										 { "LOCAL",      "C", 10, 0 }, ;
+										 { "TAM",        "C", 06, 0 }, ;
+										 { "DESCONTO",   "N", 06, 2 }, ;
+										 { "ATUALIZADO", "D", 08, 0 }, ;
+										 { "SERVICO",    "L", 01, 0 }, ;
+										 { "RO",         "N", 06, 2 }, ;
+										 { "AC",         "N", 06, 2 }, ;
+										 { "MT",         "N", 06, 2 }, ;
+										 { "AM",         "N", 06, 2 }, ;
+										 { "RR",         "N", 06, 2 }, ;
+										 { "USA",        "L", 01, 0 }, ;
+										 { "PORC",       "N", 05, 2 }}})
+
+Aadd( aArquivos, { "SAIDAS.DBF", {{ "CODIGO",     "C", 06, 0 }, ; // Produto
+											 { "DOCNR",      "C", 09, 0 }, ;
+											 { "CODIVEN",    "C", 04, 0 }, ;
+                                  { "TECNICO",    "C", 04, 0 }, ;
+                                  { "CAIXA",      "C", 04, 0 }, ;
+											 { "FORMA",      "C", 02, 0 }, ;
+											 { "CODI",       "C", 05, 0 }, ; // Cliente
+											 { "FATURA",     "C", 09, 0 }, ;
+											 { "PEDIDO",     "C", 07, 0 }, ;
+											 { "REGIAO",     "C", 02, 0 }, ;
+											 { "PLACA",      "C", 08, 0 }, ;
+											 { "TIPO",       "C", 06, 0 }, ;
+											 { "EMIS",       "D", 08, 0 }, ;
+											 { "DATA",       "D", 08, 0 }, ;
+											 { "DESCONTO",   "N", 05, 2 }, ;
+											 { "DIFERENCA",  "N", 11, 2 }, ;
+											 { "PORC",       "N", 05, 2 }, ;
+											 { "PVENDIDO",   "N", 11, 2 }, ;
+											 { "SAIDA",      "N", 09, 2 }, ;
+											 { "SAIDAPAGA",  "N", 09, 2 }, ;
+											 { "QTD_D_FATU", "N", 02, 0 }, ;
+											 { "ATACADO",    "N", 11, 2 }, ;
+											 { "VAREJO",     "N", 11, 2 }, ;
+											 { "PCUSTO",     "N", 11, 2 }, ;
+											 { "PCOMPRA",    "N", 11, 2 }, ;
+											 { "VLRFATURA",  "N", 13, 2 },;
+											 { "ATUALIZADO", "D", 08, 0 },;
+											 { "IMPRESSO",   "L", 01, 0 },;
+											 { "SERIE",      "C", 10, 0 },;
+											 { "EXPORTADO",  "L", 01, 0 },;
+											 { "SITUACAO",   "C", 08, 0 },;
+											 { "C_C",        "L", 01, 0 }}})
+
+Aadd( aArquivos, { "ENTRADAS.DBF",  {{ "CODIGO",     "C", 06, 0 }, ; // Produto
+												 { "PCUSTO",     "N", 11, 2 }, ;
+												 { "CUSTOFINAL", "N", 11, 2 }, ;
+												 { "DATA",       "D", 08, 0 }, ;
+												 { "DENTRADA",   "D", 08, 0 }, ;
+												 { "ENTRADA",    "N", 09, 2 }, ;
+												 { "IMPOSTO",    "N", 06, 2 }, ; // Percentual de Imposto
+												 { "FRETE",      "N", 06, 2 }, ; // Percentual de Frete
+												 { "CONDICOES",  "C", 23, 0 }, ;
+												 { "CODI",       "C", 04, 0 }, ; // Fornecedor
+												 { "FATURA",     "C", 09, 0 }, ;
+												 { "VLRFATURA",  "N", 13, 2 }, ;
+												 { "ICMS",       "N", 02, 0 }, ;
+												 { "ATUALIZADO", "D", 08, 0 },;
+												 { "CFOP",       "C", 05, 0 },;
+												 { "VLRNFF",     "N", 13, 2 }}})
+
+Aadd( aArquivos, { "RECEBER.DBF", {{ "CODI",      "C", 05, 0 }, ; // Cliente
+											  { "NOME",      "C", 40, 0 }, ;
+											  { "ENDE",      "C", 30, 0 }, ;
+											  { "CIDA",      "C", 25, 0 }, ;
+											  { "ESTA",      "C", 02, 0 }, ;
+											  { "CEP",       "C", 09, 0 }, ;
+											  { "PRACA",     "C", 09, 0 }, ;
+											  { "CPF",       "C", 14, 0 }, ;
+											  { "CGC",       "C", 18, 0 }, ;
+											  { "INSC",      "C", 15, 0 }, ;
+											  { "RG",        "C", 18, 0 }, ;
+											  { "BAIR",      "C", 20, 0 }, ;
+											  { "DATA",      "D", 08, 0 }, ;
+											  { "FONE",      "C", 14, 0 }, ;
+											  { "OBS",       "C", 60, 0 }, ;
+											  { "OBS1",      "C", 60, 0 }, ;
+											  { "OBS2",      "C", 60, 0 }, ;
+											  { "OBS3",      "C", 60, 0 }, ;
+											  { "OBS4",      "C", 60, 0 }, ;
+											  { "OBS5",      "C", 60, 0 }, ;
+											  { "OBS6",      "C", 60, 0 }, ;
+											  { "OBS7",      "C", 60, 0 }, ;
+											  { "OBS8",      "C", 60, 0 }, ;
+											  { "OBS9",      "C", 60, 0 }, ;
+											  { "OBS10",     "C", 60, 0 }, ;
+											  { "OBS11",     "C", 60, 0 }, ;
+											  { "OBS12",     "C", 60, 0 }, ;
+											  { "OBS13",     "C", 60, 0 }, ;
+											  { "FANTA",     "C", 40, 0 }, ;
+											  { "FAX",       "C", 14, 0 }, ;
+											  { "MEDIA",     "N", 11, 2 }, ;
+											  { "REFBCO",    "C", 40, 0 }, ;
+											  { "REFCOM",    "C", 40, 0 }, ;
+											  { "IMOVEL",    "C", 40, 0 }, ;
+											  { "REGIAO",    "C", 02, 0 }, ;
+											  { "MATRASO",   "N", 03, 0 }, ;   // Maior Atraso
+											  { "VLRCOMPRA", "N", 13, 2 }, ;   // Vlr da Ultima compra
+											  { "EMIS",      "D", 08, 0 }, ;
+											  { "CIVIL",     "C", 15, 0 }, ;
+											  { "NATURAL",   "C", 30, 0 }, ;
+											  { "NASC",      "D", 08, 0 }, ;
+											  { "ESPOSA",    "C", 40, 0 }, ;
+											  { "DEPE",      "N", 02, 0 }, ;
+											  { "PAI",       "C", 40, 0 }, ;
+											  { "MAE",       "C", 40, 0 }, ;
+											  { "ENDE1",     "C", 30, 0 }, ;
+											  { "FONE1",     "C", 14, 0 }, ;
+											  { "FONE2",     "C", 14, 0 }, ;
+											  { "PROFISSAO", "C", 30, 0 }, ;
+											  { "CARGO",     "C", 20, 0 }, ;
+											  { "TRABALHO",  "C", 30, 0 }, ;
+											  { "TEMPO",     "C", 20, 0 }, ;
+											  { "VEICULO",   "C", 40, 0 }, ;
+											  { "CONHECIDA", "C", 40, 0 }, ;
+											  { "ENDE3",     "C", 30, 0 }, ;
+											  { "CIDAAVAL",  "C", 25, 0 }, ;
+											  { "ESTAAVAL",  "C", 02, 0 }, ;
+											  { "BAIRAVAL",  "C", 20, 0 }, ;
+											  { "FONEAVAL",  "C", 14, 0 }, ;
+											  { "FAXAVAL",   "C", 14, 0 }, ;
+											  { "CPFAVAL",   "C", 14, 0 }, ;
+											  { "RGAVAL",    "C", 18, 0 }, ;
+											  { "SPC",       "L", 01, 0 }, ;
+											  { "DATASPC",   "D", 08, 0 }, ;
+											  { "BANCO",     "C", 30, 0 }, ;
+											  { "LIMITE",    "N", 13, 2 }, ;  // Limite de Credito
+											  { "CANCELADA",  "L", 01, 0 }, ;  // Ficha Cancelada
+											  { "ATUALIZADO", "D", 08, 0 },;
+											  { "FABRICANTE", "C", 40, 0 },;
+											  { "PRODUTO",    "C", 40, 0 },;
+											  { "MODELO",     "C", 30, 0 },;
+											  { "VALOR",      "N", 13, 2 },;
+											  { "LOCAL",      "C", 30, 0 },;
+											  { "PRAZO",      "N", 03, 0 },;
+											  { "DATAVCTO",   "N", 02, 0 },;
+											  { "PRAZOEXT",   "N", 03, 0 },;
+											  { "SCI",        "L", 01, 0 },;
+											  { "SUPORTE",    "L", 01, 0 },;
+											  { "AUTORIZACA", "L", 01, 0 },;
+											  { "ASSAUTORIZ", "L", 01, 0 },;
+											  { "PROXCOB",    "D", 08, 0 },;
+											  { "EXPORTADO",  "L", 01, 0 },;
+											  { "ROL",        "L", 01, 0 },;
+											  { "CFOP",       "C", 05, 0 },;
+											  { "TX_ICMS",    "N", 05, 2 },;
+											  { "ULTCOMPRA",  "D",  8, 0 }}})  // Ultima Compra
+
+Aadd( aArquivos, { "REPRES.DBF",;
+											{{ "REPRES", "C",  4, 0 }, ;
+											 { "NOME",   "C", 40, 0 }, ;
+											 { "ENDE",   "C", 30, 0 }, ;
+											 { "CIDA",   "C", 25, 0 }, ;
+											 { "ESTA",   "C",  2, 0 }, ;
+											 { "CEP",    "C",  9, 0 }, ;
+											 { "CGC",    "C", 18, 0 }, ;
+											 { "INSC",   "C", 15, 0 }, ;
+											 { "BAIR",   "C", 20, 0 }, ;
+											 { "FONE",   "C", 14, 0 }, ;
+											 { "CON",    "C", 20, 0 }, ;
+											 { "OBS",    "C", 60, 0 }, ;
+											 { "FAX",    "C", 14, 0 }, ;
+											 { "ATUALIZADO", "D", 08, 0 },;
+											 { "CAIXA",  "C",  3, 0 }}})
+
+Aadd( aArquivos, { "RECEMOV.DBF", {{ "CODI",       "C", 05, 0 }, ; // Cliente
+											  { "CODIVEN",    "C", 04, 0 }, ;
+											  { "CAIXA",      "C", 04, 0 }, ;
+											  { "DOCNR",      "C", 09, 0 }, ;
+											  { "FATURA",     "C", 09, 0 }, ;
+											  { "PORT",       "C", 10, 0 }, ;
+											  { "TIPO",       "C", 06, 0 }, ;
+											  { "NOSSONR",    "C", 13, 0 }, ;
+											  { "BORDERO",    "C", 09, 0 }, ;
+											  { "FORMA",      "C", 02, 0 }, ;
+											  { "COBRADOR",   "C", 04, 0 }, ;
+											  { "REGIAO",     "C", 02, 0 }, ;
+											  { "VLR",        "N", 13, 2 }, ;
+											  { "VLRORIGINA", "N", 13, 2 }, ;
+											  { "VLRPAG",     "N", 13, 2 }, ;											  
+											  { "VLRDOLAR",   "N", 13, 2 }, ;
+                                   { "JURODIA",    "N", 16, 5 }, ;
+                                   { "JUROTOTAL",  "N", 16, 5 }, ;
+                                   { "JURO",       "N", 09, 5 }, ;
+											  { "QTD_D_FATU", "N", 02, 0 }, ;
+											  { "VLRFATU",    "N", 13, 2 }, ;
+											  { "PORC",       "N", 05, 2 }, ;
+											  { "EMIS",       "D", 08, 0 }, ;
+											  { "VCTO",       "D", 08, 0 }, ;
+											  { "DATAPAG",    "D", 08, 0 }, ;											  
+											  { "TITULO",     "L", 01, 0 }, ;
+											  { "ATUALIZADO", "D", 08, 0 }, ;
+											  { "STPAG",      "L", 01, 0 }, ;
+											  { "CODGRUPO",   "C", 03, 0 }, ;
+											  { "EXPORTADO",  "L", 01, 0 }, ; 
+											  { "RELCOB",     "L", 01, 0 }, ;   // Relatorio Cobranca Emitido ?
+                                   { "OBS",        "C", 80, 0 }, ;
+                                   { "COMISSAO",   "L", 01, 0 }}})  // Lancar Comissao ?
+
+Aadd( aArquivos, { "GRUPO.DBF",   {{ "CODGRUPO",   "C", 03, 0 },;
+											  { "ATUALIZADO", "D", 08, 0 },;
+											  { "SERVICO",    "L", 01, 0 },;
+											  { "DESGRUPO",   "C", 40, 0 }}})
+
+Aadd( aArquivos, { "SUBGRUPO.DBF", {{ "CODSGRUPO",  "C", 06, 0 },;
+												{ "ATUALIZADO", "D", 08, 0 },;
+												{ "DESSGRUPO",  "C", 40, 0 }}})
+
+Aadd( aArquivos, { "VENDEDOR.DBF",;
+											 {{ "CODIVEN",  "C",  4, 0 }, ;
+											  { "NOME",     "C", 40, 0 }, ;
+											  { "ENDE",     "C", 25, 0 }, ;
+											  { "SENHA",    "C", 10, 0 }, ;
+											  { "CIDA",     "C", 25, 0 }, ;
+											  { "ESTA",     "C",  2, 0 }, ;
+											  { "CEP",      "C",  9, 0 }, ;
+											  { "CPF",      "C", 14, 0 }, ;
+											  { "RG",       "C", 18, 0 }, ;
+											  { "CT",       "C", 10, 0 }, ;
+											  { "BAIR",     "C", 20, 0 }, ;
+											  { "DATA",     "D",  8, 0 }, ;
+                                   { "FONE",     "C", 14, 0 }, ;
+											  { "CON",      "C", 20, 0 }, ;
+											  { "OBS",      "C", 30, 0 }, ;
+											  { "PORCCOB",  "N", 05, 2 }, ;
+											  { "COMDISP",  "N", 13, 2 }, ;
+											  { "COMBLOQ",  "N", 13, 2 }, ;
+											  { "ATUALIZADO", "D", 08, 0 },;
+											  { "ROL",        "L", 01, 0 },;
+											  { "COMISSAOS", "N", 13, 3 },;
+											  { "COMISSAO", "N", 13, 2 }}})
+
+Aadd( aArquivos, { "VENDEMOV.DBF",;
+											 {{ "CODIVEN",    "C", 04, 0 }, ;
+											  { "CODI",       "C", 05, 0 }, ; // Cliente
+											  { "VLR",        "N", 13, 2 }, ;
+											  { "DC",         "C", 01, 0 }, ;
+											  { "DOCNR",      "C", 09, 0 }, ;
+											  { "DATA",       "D", 08, 0 }, ;
+											  { "VCTO",       "D", 08, 0 }, ;
+											  { "PORC",       "N", 05, 2 }, ;
+											  { "COMDISP",    "N", 13, 2 }, ;
+											  { "COMBLOQ",    "N", 13, 2 }, ;
+											  { "COMISSAO",   "N", 13, 2 }, ;
+											  { "PEDIDO",     "C", 07, 0 }, ;
+											  { "DATAPED",    "D", 08, 0 }, ;
+											  { "FATURA",     "C", 09, 0 }, ;
+											  { "FORMA",      "C", 02, 0 }, ;
+											  { "DESCRICAO",  "C", 40, 0 },;
+											  { "ATUALIZADO", "D", 08, 0 },;
+											  { "REGIAO",     "C", 02, 0 }}})
+
+Aadd( aArquivos, { "ENTNOTA.DBF",;
+											{{ "NUMERO",     "C", 07, 0 },;
+											 { "CODI",       "C", 04, 0 },; // Fornecedor
+											 { "VLRFATURA",  "N", 13, 2 },;
+											 { "VLRNFF",     "N", 13, 2 },;
+											 { "ICMS",       "N", 02, 0 },;
+											 { "ENTRADA",    "D", 08, 0 },;
+											 { "ATUALIZADO", "D", 08, 0 },;
+											 { "CONDICOES",  "C", 23, 0 },;
+											 { "DATA",       "D", 08, 0 }}})
+
+Aadd( aArquivos, { "NOTA.DBF",;
+											{{ "NUMERO",     "C", 07, 0 },;
+											 { "ATUALIZADO", "D", 08, 0 },;
+											 { "DATA",       "D", 08, 0 },;  // Data Nota Fiscal
+											 { "SITUACAO",   "C", 08, 0 },;
+                                  { "CAIXA",      "C", 04, 0 },;
+											 { "CODI",       "C", 05, 0 }}}) // Cliente
+
+Aadd( aArquivos, { "PAGAMOV.DBF",;
+											 {{ "CODI",       "C", 04, 0 }, ; // Fornecedor
+											  { "DESC",       "C", 04, 0 }, ;
+											  { "VLR",        "N", 13, 2 }, ;
+											  { "JURODIA",    "N", 13, 2 }, ;
+											  { "DESCONTO",   "N", 06, 2 }, ;
+											  { "JURO",       "N", 06, 2 }, ;
+											  { "EMIS",       "D", 08, 0 }, ;
+											  { "VCTO",       "D", 08, 0 }, ;
+											  { "DOCNR",      "C", 09, 0 }, ;
+											  { "PORT",       "C", 10, 0 }, ;
+											  { "TIPO",       "C", 06, 0 }, ;
+											  { "FATURA",     "C", 09, 0 }, ;
+											  { "VLRFATU",    "N", 13, 2 }, ;
+											  { "OBS1",       "C", 60, 0 }, ;
+											  { "OBS2",       "C", 60, 0 }, ;
+											  { "ATUALIZADO", "D", 08, 0 }}})
+
+Aadd( aArquivos, { "PAGAR.DBF",;
+											{{ "CODI",   "C",  4, 0 }, ; // Fornecedor
+											 { "REPRES", "C",  4, 0 }, ; // Codigo do Representante
+											 { "NOME",   "C", 40, 0 }, ;
+											 { "SIGLA",  "C", 10, 0 }, ; // Sigla do Fornecedor
+											 { "ENDE",   "C", 30, 0 }, ;
+											 { "CIDA",   "C", 25, 0 }, ;
+											 { "ESTA",   "C",  2, 0 }, ;
+											 { "CEP",    "C",  9, 0 }, ;
+											 { "CPF",    "C", 14, 0 }, ;
+											 { "CGC",    "C", 18, 0 }, ;
+											 { "INSC",   "C", 15, 0 }, ;
+											 { "RG",     "C", 18, 0 }, ;
+											 { "BAIR",   "C", 20, 0 }, ;
+											 { "DATA",   "D",  8, 0 }, ;
+											 { "FONE",   "C", 14, 0 }, ;
+											 { "CON",    "C", 20, 0 }, ;
+											 { "OBS",    "C", 30, 0 }, ;
+											 { "TIPO",   "C",  6, 0 }, ;
+											 { "FANTA",  "C", 40, 0 }, ;
+											 { "FAX",    "C", 14, 0 }, ;
+											 { "ATUALIZADO", "D", 08, 0 },;
+											 { "CAIXA",  "C",  3, 0 }}})
+
+Aadd( aArquivos, { "TAXAS.DBF",;
+											 {{ "DINI",    "D", 08, 0 }, ;
+											  { "DFIM",    "D", 08, 0 }, ;
+											  { "TXATU",   "N", 06, 2 }, ;
+											  { "JURATA",  "N", 06, 2 }, ;
+											  { "UFIR",    "N", 07, 2 }, ;
+											  { "JURVAR",  "N", 06, 2 }, ;
+											  { "ATUALIZADO", "D", 08, 0 },;
+											  { "COTACAO", "N", 11, 2 }}})
+
+Aadd( aArquivos, { "PAGO.DBF",;
+											 {{ "CODI",       "C", 04, 0 },; // Fornecedor
+											  { "VLR",        "N", 13, 2 },;
+											  { "EMIS",       "D", 08, 0 },;
+											  { "VCTO",       "D", 08, 0 },;
+											  { "DOCNR",      "C", 09, 0 },;
+											  { "FATURA",     "C", 09, 0 }, ;
+											  { "DATAPAG",    "D", 08, 0 },;
+											  { "VLRPAG",     "N", 13, 2 },;
+											  { "PORT",       "C", 10, 0 },;
+											  { "TIPO",       "C", 06, 0 },;
+											  { "JURO",       "N", 06, 2 },;
+											  { "OBS1",       "C", 60, 0 }, ;
+											  { "OBS2",       "C", 60, 0 }, ;
+											  { "ATUALIZADO", "D", 08, 0 },;
+											  { "NDEB",       "C", 03, 0 }}})
+
+Aadd( aArquivos, { "RECEBIDO.DBF",;
+                                  {{ "CODI" ,    "C",  05 , 0 },; // Cliente
+                                   { "REGIAO",   "C",  02 , 0 },;
+                                   { "CAIXA",    "C",  04 , 0 }, ;
+											  { "CODIVEN",  "C" , 04 , 0 },;
+											  { "DOCNR" ,   "C" , 09 , 0 },;
+											  { "FATURA",   "C" , 09 , 0 },;
+											  { "PORT" ,    "C" , 10 , 0 },;
+											  { "TIPO" ,    "C" , 06 , 0 },;
+											  { "NOSSONR" , "C" , 13 , 0 },;
+											  { "BORDERO" , "C" , 09 , 0 },;
+											  { "FORMA",    "C",  02 , 0 },;
+											  { "OBS",      "C",  40 , 0 },;
+											  { "DATAPAG" , "D" , 08 , 0 },;
+											  { "BAIXA",    "D",  08 , 0 },;
+											  { "EMIS" ,    "D" , 08 , 0 },;
+											  { "VCTO" ,    "D" , 08 , 0 },;
+											  { "VLR" ,     "N" , 13 , 2 },;
+											  { "VLRPAG" ,  "N" , 13 , 2 },;
+											  { "ATUALIZADO", "D", 08, 0 },;
+                                   { "EXPORTADO","L", 01, 0 },;
+											  { "PARCIAL",  "C",  01, 0 },;
+											  { "JURO" ,    "N",  06, 2 }}})
+Aadd( aArquivos, { "CHEQUE.DBF",;
+											 {{ "CODI",     "C", 04, 0 },; // Conta
+											  { "BANCO",    "C", 10, 0 },;
+											  { "TITULAR",  "C", 40, 0 },;
+											  { "AG",       "C", 25, 0 },;
+											  { "CGC",      "C", 18, 0 },;
+											  { "CONTA",    "C",  8, 0 },;
+											  { "DATA",     "D",  8, 0 },;
+											  { "SALDO",    "N", 17, 2 },;
+											  { "DEBITOS",  "N", 18, 2 },;
+											  { "CREDITOS", "N", 18, 2 },;
+                                   { "FONE",     "C", 14, 0 },;
+											  { "MENS",     "L", 01, 0 },;
+											  { "OBS",      "C", 40, 0 },;
+											  { "CPF",      "C", 15, 0 },;
+											  { "CPF1",     "C", 15, 0 },;
+											  { "RG",       "C", 18, 0 },;
+											  { "RG1",      "C", 18, 0 },;
+											  { "NASCI",    "D", 08, 0 },;
+											  { "ENDE",     "C", 35, 0 },;
+											  { "ENDE1",    "C", 35, 0 },;
+											  { "CIDA",     "C", 25, 0 },;
+											  { "ESTA",     "C", 02, 0 },;
+											  { "PROFISSAO","C", 15, 0 },;
+											  { "TRABALHO", "C", 40, 0 },;
+                                   { "FONE1",    "C", 14, 0 },;
+                                   { "FONE2",    "C", 14, 0 },;
+											  { "RESP",     "C", 40, 0 },;
+											  { "HORARIO",  "C", 11, 0 },;
+											  { "DIAS",     "C", 15, 0 },;
+											  { "C_C",      "L", 01, 0 },;
+											  { "EXTERNA",  "L", 01, 0 },;
+											  { "ATIVO",    "L", 01, 0 },;
+											  { "CURSO",    "C", 04, 0 },;
+											  { "RENOVADO", "L", 01, 0 },;
+											  { "POUPANCA", "L", 01, 0 },;
+											  { "ATUALIZADO", "D", 08, 0 },;
+											  { "DEB_DEB",    "C", 01, 0 },;
+											  { "DEB_CRE",    "C", 01, 0 },;
+											  { "CRE_DEB",    "C", 01, 0 },;
+											  { "CRE_CRE",    "C", 01, 0 },;
+											  { "DURACAO",    "N", 02, 0 }}})
+
+Aadd( aArquivos, { "CHEMOV.DBF",;
+											{{ "CODI",   "C", 04, 0 } , ; // Conta
+											 { "DATA",   "D", 08, 0 } , ;
+											 { "EMIS",   "D", 08, 0 } , ;
+											 { "BAIXA",  "D", 08, 0 } , ;
+											 { "SALDO",  "N", 15, 2 } , ;
+											 { "HIST",   "C", 40, 0 } , ;
+											 { "DOCNR",  "C", 09, 0 } , ;
+											 { "FATURA", "C", 09, 0 } , ;
+											 { "CAIXA",  "C", 04, 0 } , ;
+											 { "CRE",    "N", 15, 2 } , ;
+											 { "DEB",    "N", 15, 2 } , ;
+											 { "ATUALIZADO", "D", 08, 0 },;
+											 { "CPARTIDA", "L", 01, 0 },;
+											 { "TIPO",     "C", 06, 0 }}})
+
+Aadd( aArquivos, { "CHEPRE.DBF",;
+											 {{ "CODI",       "C", 04, 0 } , ; // Conta
+											  { "BANCO",      "C", 10, 0 } , ;
+											  { "CONTA",      "C", 08, 0 } , ;
+											  { "DATA",       "D", 08, 0 } , ;
+											  { "VCTO",       "D", 08, 0 } , ;
+											  { "SALDO",      "N", 15, 2 } , ;
+											  { "HIST",       "C", 40, 0 } , ;
+											  { "DOCNR",      "C", 09, 0 } , ;
+											  { "VALOR",      "N", 15, 2 } , ;
+											  { "PRACA",      "C", 20, 0 } , ;
+											  { "AGENCIA",    "C", 10, 0 } , ;
+											  { "CPFCGC",     "C", 14, 0 } , ;
+											  { "DEBCRE",     "C", 01, 0 } , ;
+											  { "ATUALIZADO", "D", 08, 0 },;
+											  { "OBS",        "C", 40, 0 }}})
+
+Aadd( aArquivos, { "REGIAO.DBF",;
+											 {{ "REGIAO",  "C", 02, 0 },;
+											  { "ATUALIZADO", "D", 08, 0 },;
+											  { "NOME",    "C", 40, 0 }}})
+
+Aadd( aArquivos, { "USUARIO.DBF",;
+											 {{ "NOME",    "C", 10, 0 },;
+											  { "SENHA",   "C", 10, 0 },;
+											  { "NIVEL1",  "C", 01, 0 },;
+											  { "NIVEL2",  "C", 01, 0 },;
+											  { "NIVEL3",  "C", 01, 0 },;
+											  { "NIVEL4",  "C", 01, 0 },;
+											  { "NIVEL5",  "C", 01, 0 },;
+											  { "NIVEL6",  "C", 01, 0 },;
+											  { "NIVEL7",  "C", 01, 0 },;
+											  { "NIVEL8",  "C", 01, 0 },;
+											  { "NIVEL9",  "C", 01, 0 },;
+											  { "NIVEL0",  "C", 01, 0 },;
+											  { "NIVELA",  "C", 01, 0 },;
+											  { "NIVELB",  "C", 01, 0 },;
+											  { "NIVELC",  "C", 01, 0 },;
+											  { "NIVELD",  "C", 01, 0 },;
+											  { "NIVELE",  "C", 01, 0 },;
+											  { "NIVELF",  "C", 01, 0 },;
+											  { "NIVELG",  "C", 01, 0 },;
+											  { "NIVELH",  "C", 01, 0 },;
+											  { "NIVELI",  "C", 01, 0 },;
+											  { "NIVELJ",  "C", 01, 0 },;
+											  { "NIVELK",  "C", 01, 0 },;
+											  { "NIVELL",  "C", 01, 0 },;
+											  { "NIVELM",  "C", 01, 0 },;
+											  { "NIVELN",  "C", 01, 0 },;
+											  { "NIVELO",  "C", 01, 0 },;
+											  { "NIVELP",  "C", 01, 0 },;
+											  { "NIVELQ",  "C", 01, 0 },;
+											  { "NIVELR",  "C", 01, 0 },;
+											  { "NIVELS",  "C", 01, 0 },;
+											  { "LPT1",    "C", 02, 0 },;
+											  { "LPT2",    "C", 02, 0 },;
+											  { "LPT3",    "C", 02, 0 },;
+											  { "LPT4",    "C", 02, 0 },;
+											  { "COM1",    "C", 02, 0 },;
+											  { "COM2",    "C", 02, 0 },;
+											  { "COM3",    "C", 02, 0 },;
+											  { "ATUALIZADO", "D", 08, 0 },;
+											  { "COM4",    "C", 02, 0 }}})
+
+Aadd( aArquivos, { "CURSOS.DBF",;
+											 {{ "CURSO",   "C", 04, 0 } , ;
+											  { "OBS",     "C", 40, 0 } , ;
+											  { "MENSAL",  "N", 13, 2 } , ;
+											  { "RENOVA",  "N", 13, 2 } , ;
+											  { "TAXA",    "N", 13, 2 } , ;
+											  { "ATUALIZADO", "D", 08, 0 },;
+											  { "DURACAO", "N", 03, 0 }}})
+Aadd( aArquivos, { "CURSADO.DBF",;
+											 {{ "CURSO",       "C", 04, 0 } , ;
+											  { "CODI",        "C", 05, 0 } , ; // Cliente
+											  { "FATURA",      "C", 09, 0 } , ;
+											  { "MENSALIDAD",  "N", 13, 2 } , ;
+											  { "MATRICULA",   "N", 13, 2 } , ;
+											  { "INICIO",      "D", 08, 0 } , ;
+											  { "ATUALIZADO", "D", 08, 0 },;
+											  { "TERMINO",     "D", 08, 0 }}})
+
+Aadd( aArquivos, { "FORMA.DBF",;
+											 {{ "FORMA",      "C", 02, 0 },;
+											  { "CONDICOES",  "C", 40, 0 },;
+											  { "DESCRICAO",  "C", 40, 0 },;
+											  { "COMISSAO",   "N", 05, 2 },;
+											  { "IOF",        "N", 08, 4 },;
+											  { "DESDOBRAR",  "L", 01, 0 },;
+											  { "VISTA",      "L", 01, 0 },;
+											  { "PARCELAS",   "N", 02, 0 },;
+											  { "DIAS",       "N", 03, 0 },;
+											  { "ATUALIZADO", "D", 08, 0 }}})
+
+Aadd( aArquivos, { "CEP.DBF",;
+											 {{ "CEP",        "C", 09, 0 }, ;
+											  { "CIDA",       "C", 25, 0 }, ;
+											  { "ESTA",       "C", 02, 0 }, ;
+											  { "ATUALIZADO", "D", 08, 0 }, ;
+											  { "BAIR",       "C", 20, 0 }}})
+
+Aadd( aArquivos, { "SERVIDOR.DBF",;
+											 {{ "CODI",    "C", 04, 0 }, ;
+											  { "NOME",    "C", 40, 0 }, ;
+											  { "SENHA",   "C", 10, 0 },;
+											  { "CARGO",   "C", 30, 0 }, ;
+											  { "QUANT",   "N", 09, 2 }, ;
+											  { "ATUALIZADO", "D", 08, 0 },;
+											  { "CARGA",   "N", 09, 2 }}})
+
+Aadd( aArquivos, { "PONTO.DBF",;
+											 {{ "CODI",    "C", 04, 0 }, ;
+											  { "DATA",    "D", 08, 0 }, ;
+											  { "QUANT",   "N", 09, 2 }, ;
+											  { "MANHA1",  "C", 05, 0 }, ;
+											  { "MANHA2",  "C", 05, 0 }, ;
+											  { "TARDE1",  "C", 05, 0 }, ;
+											  { "ATUALIZADO", "D", 08, 0 },;
+											  { "TARDE2",  "C", 05, 0 }}})
+
+Aadd( aArquivos, { "PRINTER.DBF",;
+											 {{ "CODI",      "C", 02, 0 },;
+											  { "NOME",      "C", 40, 0 },;
+											  { "_CPI10",    "C", 40, 0 },;
+											  { "_CPI12",    "C", 40, 0 },;
+											  { "GD",        "C", 40, 0 },;
+											  { "PQ",        "C", 40, 0 },;
+											  { "NG",        "C", 40, 0 },;
+											  { "NR",        "C", 40, 0 },;
+											  { "CA",        "C", 40, 0 },;
+											  { "C18",       "C", 40, 0 },;
+											  { "LIGSUB",    "C", 40, 0 },;
+											  { "DESSUB",    "C", 40, 0 },;
+											  { "_SALTOOFF", "C", 40, 0 },;
+											  { "_SPACO1_8", "C", 40, 0 },;
+											  { "_SPACO1_6", "C", 40, 0 },;
+											  { "RESETA",    "C", 40, 0 },;
+											  { "LIGITALIC", "C", 40, 0 },;
+											  { "DESITALIC", "C", 40, 0 },;											  
+											  { "ATUALIZADO", "D", 08, 0 }}})
+Aadd( aArquivos, { "CONTA.DBF",;
+											 {{ "CODI",       "C", 02, 0 },;
+											  { "HIST",       "C", 40, 0 },;
+											  { "ATUALIZADO", "D", 08, 0 }}})
+Aadd( aArquivos, { "SUBCONTA.DBF",;
+											 {{ "CODI",       "C", 02, 0 },;
+											  { "SUBCODI",    "C", 04, 0 },;
+											  { "DEBCRE",     "C", 01, 0 },;
+											  { "ATUALIZADO", "D", 08, 0 }}})
+
+Aadd( aArquivos, { "RETORNO.DBF",;
+											  {{"ID",         "N", 07, 0 },;
+												{"CODI",       "C", 05, 0 },; // Cliente
+												{"EMPRESA",    "C", 40, 0 },;
+												{"INTERNO",    "C", 12, 0 },;
+												{"CODIGO",     "C", 13, 0 },;
+												{"HORA",       "C", 08, 0 },;
+												{"VERSAO",     "N", 01, 0 },;
+												{"LIMITE",     "D", 08, 0 },;
+												{"DATA",       "D", 08, 0 },;
+												{"NOME",       "C", 10, 0 },;
+												{"ATUALIZADO", "D", 08, 0 }}})
+
+Aadd( aArquivos, { "PREVENDA.DBF",{{ "CODIGO",     "C", 06, 0 }, ; // Codigo do Produto
+											  { "CODIVEN",    "C", 04, 0 }, ;
+											  { "CODI",       "C", 05, 0 }, ;
+											  { "NOME",       "C", 40, 0 }, ;
+											  { "FATURA",     "C", 07, 0 }, ;
+											  { "EMIS",       "D", 08, 0 }, ;
+											  { "PVENDIDO",   "N", 11, 2 }, ;
+											  { "UNITARIO",   "N", 11, 2 }, ;
+											  { "DESCONTO",   "N", 05, 2 }, ;
+											  { "DESCMAX",    "N", 06, 2 }, ;
+											  { "SAIDA",      "N", 09, 2 }, ;
+											  { "QUANT",      "N", 09, 2 }, ;
+											  { "ATACADO",    "N", 11, 2 }, ;
+											  { "VAREJO",     "N", 11, 2 }, ;
+											  { "PCUSTO",     "N", 11, 2 }, ;
+											  { "VLRFATURA",  "N", 13, 2 },;
+											  { "DESCRICAO",  "C", 40, 0 },;
+											  { "UN",         "C", 02, 0 },;
+											  { "TAM",        "C", 06, 0 },;
+                                   { "SIGLA",      "C", 10, 0 },;
+											  { "PORC",       "N", 05, 2 },;
+											  { "TOTAL",      "N", 13, 2 },;
+											  { "SERIE",      "C", 10, 0 },;
+											  { "FORMA",      "C", 02, 0 },;
+											  { "APARELHO",   "C", 20, 0 },;
+											  { "MARCA",      "C", 20, 0 },;
+											  { "MODELO",     "C", 20, 0 },;
+											  { "NRSERIE",    "C", 20, 0 },;
+											  { "OBS",        "C", 40, 0 },;
+											  { "OBS1",       "C", 40, 0 },;
+											  { "OBS2",       "C", 40, 0 },;
+											  { "ENDE",       "C", 25, 0 },;
+                                   { "FONE",       "C", 14, 0 },;
+											  { "REGIAO",     "C", 02, 0 },;
+											  { "ANO",        "C", 04, 0 },;
+											  { "COR",        "C", 20, 0 },;
+											  { "PLACA",      "C", 08, 0 },;
+											  { "ESTADO",     "C", 20, 0 },;
+											  { "ATUALIZADO", "D", 08, 0 }}})
+
+Aadd( aArquivos, { "GRPSER.DBF",;
+			  {{ "GRUPO",      "C", 03, 0 }, ;
+				{ "DESGRUPO",   "C", 40, 0 }, ;
+				{ "ATUALIZADO", "D", 08, 0 }}})
+
+Aadd( aArquivos, { "SERVICO.DBF",;
+			  {{ "CODISER",    "C", 03, 0 }, ;
+				{ "NOME",       "C", 40, 0 }, ;
+				{ "GRUPO",      "C", 03, 0 }, ;
+				{ "ATUALIZADO", "D", 08, 0 },;
+				{ "VALOR",      "N", 13, 4 }}})
+
+Aadd( aArquivos, { "CORTES.DBF",;
+			  {{ "TABELA",     "C", 08, 0 }, ;
+				{ "QTD",        "N", 05, 0 }, ;
+				{ "SOBRA",      "N", 05, 0 }, ;
+				{ "CODISER",    "C", 03, 0 }, ;
+				{ "CODIGO",     "C", 06, 0 }, ;
+				{ "ATUALIZADO", "D", 08, 0 },;
+				{ "DATA",       "D", 08, 0 }}})
+
+Aadd( aArquivos, { "MOVI.DBF",;
+			  {{ "TABELA",     "C", 08, 0 },;
+				{ "QTD",        "N", 05, 0 },;
+				{ "CODIVEN",    "C", 04, 0 },;
+				{ "CODISER",    "C", 03, 0 },;
+				{ "CODIGO",     "C", 06, 0 },;
+				{ "BAIXADO",    "L", 01, 0 },;
+				{ "ATUALIZADO", "D", 08, 0 },;
+				{ "DATA",       "D", 08, 0 }}})
+
+Aadd( aArquivos, { "FUNCIMOV.DBF",;
+			  {{ "CODIVEN",   "C", 04, 0 }, ;
+				{ "CODI",      "C", 04, 0 }, ;
+				{ "CRE",       "N", 11, 4 }, ;
+				{ "DEB",       "N", 11, 4 }, ;
+				{ "VLR",       "N", 11, 4 }, ;
+				{ "DOCNR",     "C", 09, 0 }, ;
+				{ "DATA",      "D", 08, 0 }, ;
+				{ "DESCRICAO", "C", 40, 0 }, ;
+				{ "ATUALIZADO","D", 08, 0 },;
+				{ "COMISSAO",  "N", 13, 4 }}})
+
+Aadd( aArquivos, { "RECIBO.DBF",;
+           {{ "ID",         "+", 04, 0 }, ;
+			   { "TIPO",       "C", 06, 0 }, ;
+            { "CODI",       "C", 05, 0 }, ;
+            { "NOME",       "C", 40, 0 }, ;
+            { "VLR",        "N", 13, 2 }, ;
+            { "FATURA",     "C", 09, 0 }, ;
+            { "DOCNR",      "C", 09, 0 }, ;
+            { "DOCNRANT",   "C", 09, 0 }, ;
+            { "VCTO",       "D", 08, 0 }, ;
+            { "DATA",       "D", 08, 0 }, ;
+            { "HORA",       "C", 08, 0 }, ;
+            { "USUARIO",    "C", 10, 0 }, ;
+            { "CAIXA",      "C", 04, 0 }, ;
+            { "ATUALIZADO", "D", 08, 0 }, ;
+            { "HIST",       "C", 120, 0 }}})
+
+Aadd( aArquivos, { "AGENDA.DBF",;
+           {{ "ID",         "+", 04, 0 }, ;
+				{ "CODI",       "C", 05, 0 }, ;
+            { "HIST",       "C", 132, 0 }, ;
+            { "DATA",       "D", 08, 0 }, ;
+            { "HORA",       "C", 08, 0 }, ;
+            { "USUARIO",    "C", 10, 0 }, ;
+            { "CAIXA",      "C", 04, 0 }, ;
+            { "ULTIMO",     "L", 01, 0 }, ;
+            { "ATUALIZADO", "D", 08, 0 }}})
+
+Aadd( aArquivos, { "CM.DBF",;
+           {{ "CODI",       "C", 05, 0 }, ;
+            { "INICIO",     "D", 08, 0 }, ;
+            { "FIM",        "D", 08, 0 },;
+            { "INDICE",     "N", 09, 4 }, ;
+            { "OBS",        "C", 40, 0 }, ;
+            { "ULTIMO",     "L", 01, 0 }, ;
+            { "ATUALIZADO", "D", 08, 0 }}})
+
+Return( aArquivos )
+
+*==================================================================================================*	
+
+def Configuracao( lMicrobras, lNaoMostrarConfig)
+*-----------------------------------------------*
+	LOCAL nX 		:= 1
+	LOCAL nChoice	:= 1
+	LOCAL cString	:= ""
+	LOCAL cUnidade := ""
+	LOCAL cCurDir  := FCurdir()
+	LOCAL cPath    := FCurdir()
+	LOCAL cTemp 	:= StrTran( Time(),":")
+	LOCAL cDbf
+	LOCAL cCfg
+	LOCAL cBase
+	LOCAL cDia
+	LOCAL cMes
+	LOCAL cAno
+	LOCAL lPiracy
+	LOCAL i
+	LOCAL dDate
+	LOCAL nHandle
+	LOCAL nErro
+	LOCAL Handle
+	LOCAL xMicrobras
+	LOCAL xEndereco
+	LOCAL xTelefone
+	LOCAL xCidade
+	LOCAL aEnde_String := {}
+	LOCAL aEnde_Codigo := {}
+	LOCAL aMensagem	 := Array(2,5)
+			aMensagem[1,1] := "[Limite de Codigo de Acesso Vencido]"
+			aMensagem[1,2] := "1 - A data do Sistema Operacional esta correta ?"
+			aMensagem[1,3] := "2 - O arquivo SCI.EXE esta com data diferente do DOS ?"
+			aMensagem[1,4] := "3 - Caso Negativo, solicite novo Codigo de Acesso."
+			aMensagem[1,5] := ""
+
+			aMensagem[2,1] := "[Verificacao de Copia Original]"
+			aMensagem[2,2] := "1 - O SCI esta sendo instalado pela 1?vez ?"
+			aMensagem[2,3] := "2 - Esta atualizando a versao do SCI ?"
+			aMensagem[2,4] := "3 - Esta instalando um novo terminal ?"
+			aMensagem[2,5] := "4 - Caso Afirmativo, solicite Codigo de Acesso."
+
+
+	IfNil( lMicrobras, false )
+	IfNil( lNaoMostrarConfig, false )
+	PUBLIC XNOMEFIR
+	PUBLIC SISTEM_NA1
+	PUBLIC SISTEM_NA2
+	PUBLIC SISTEM_NA3
+	PUBLIC SISTEM_NA4
+	PUBLIC SISTEM_NA5
+	PUBLIC SISTEM_NA6
+	PUBLIC SISTEM_NA7
+	PUBLIC SISTEM_NA8
+	PUBLIC SISTEM_VERSAO
+	PUBLIC XNOME_EXE
+
+	cBase := oAmbiente:xBase
+	CenturyOn()
+	
+	/*
+	if !(oAmbiente:LetoAtivo)
+		if !fchdir( oAmbiente:xBase )
+			oAmbiente:xBase += "\"
+		endif		
+		fchdir( oAmbiente:xBase )
+	endif
+	*/
+	
+	fchdir( oAmbiente:xBase )	
+	oAmbiente:xBase := cBase
+	
+	/*
+	if (oAmbiente:LetoAtivo)
+		Set Defa To (oAmbiente:xBase)
+	endif
+	*/
+	
+	Set Defa To (oAmbiente:xBase)
+	
+	if !lNaoMostrarConfig
+		Qout("þ Localizando Arquivo SCI.DBF.")
+	endif
+
+	/*
+	if (oAmbiente:LetoAtivo)
+		cDbfLeto  := 'SCI.DBF'
+		cPath     := cCurDir 
+		cDbf      := cDbfLeto
+	else
+		cDbfLeto  := 'SCI.DBF'
+		cPath     := cCurDir 
+		cDbf      := cPath + '\SCI.DBF'	
+	endif	
+	*/	
+	
+	cDbf := 'SCI.DBF'
+	if !(ms_swap_file(cDbf))
+		SetColor("")
+		Cls
+		AlertaPy('ERRO #1: Verifique os parametros abaixo: ;-;;' + ;
+					'     Tipo de Erro : ' + 'SCI.DBF nao foi localizado                               ' + ';' + ;
+					' Endereco IP:port : ' + cBase + ';-;;' + ;
+					'             Acao : ' + 'Verifique se o servidor LETO esta ativo ou modo LOCKED,ou' + ';' + ;
+					'                  : ' + 'parametros passados estao corretos                       ' + ';' + ;
+					'         Parametro: ' + trimStr(oAmbiente:argv(1)), 31, false, true, {" Encerrar "})		
+		Quit
+	endif	
+	
+	//cPath := oAmbiente:xBase
+	QQout("þ OK")
+	Set Defa To (cBase)
+	Qout("þ Abrindo Arquivo SCI.DBF em " + cPath)
+	
+	if !NetUse(cDbf, true )
+		Quit
+	endif
+	
+	QQout("þ OK")
+	Qout("þ Lendo Arquivo SCI.DBF em " + cBase)
+	For x := 1 To Sci->(FCount())
+		IF Sci->(FieldName( x )) != "TIME"
+			IF Sci->(Empty( FieldGet( x )))
+				EncerraDbf( FieldName( x ), Procname(), ProcLine())
+			End
+		End
+	Next
+	
+	IF ( XNOMEFIR				 := Sci->( AllTrim( Nome	  ))) != Sci->( MsDecrypt( AllTrim( Empresa  ))) .OR. Empty( XNOMEFIR   ) 	; EncerraDbf(, ProcName(1), ProcLine(1)) ; EndIF
+	IF ( SISTEM_NA1			 := Sci->( AllTrim( Nome_Sci ))) != Sci->( MsDecrypt( AllTrim( Codi_Sci ))) .OR. Empty( SISTEM_NA1 ) 	; EncerraDbf(, ProcName(1), ProcLine(1)) ; EndIF
+	IF ( SISTEM_NA2			 := Sci->( AllTrim( Nome_Est ))) != Sci->( MsDecrypt( AllTrim( Codi_Est ))) .OR. Empty( SISTEM_NA2 ) 	; EncerraDbf(, ProcName(1), ProcLine(1)) ; EndIF
+	IF ( SISTEM_NA3			 := Sci->( AllTrim( Nome_Rec ))) != Sci->( MsDecrypt( AllTrim( Codi_Rec ))) .OR. Empty( SISTEM_NA3 ) 	; EncerraDbf(, ProcName(1), ProcLine(1)) ; EndIF
+	IF ( SISTEM_NA4			 := Sci->( AllTrim( Nome_Pag ))) != Sci->( MsDecrypt( AllTrim( Codi_Pag ))) .OR. Empty( SISTEM_NA4 ) 	; EncerraDbf(, ProcName(1), ProcLine(1)) ; EndIF
+	IF ( SISTEM_NA5			 := Sci->( AllTrim( Nome_Che ))) != Sci->( MsDecrypt( AllTrim( Codi_Che ))) .OR. Empty( SISTEM_NA5 ) 	; EncerraDbf(, ProcName(1), ProcLine(1)) ; EndIF
+	IF ( SISTEM_NA6			 := Sci->( AllTrim( Nome_Ven ))) != Sci->( MsDecrypt( AllTrim( Codi_Ven ))) .OR. Empty( SISTEM_NA6 ) 	; EncerraDbf(, ProcName(1), ProcLine(1)) ; EndIF
+	IF ( SISTEM_NA7			 := Sci->( AllTrim( Nome_Pro ))) != Sci->( MsDecrypt( AllTrim( Codi_Pro ))) .OR. Empty( SISTEM_NA7 ) 	; EncerraDbf(, ProcName(1), ProcLine(1)) ; EndIF
+	IF ( SISTEM_NA8			 := Sci->( AllTrim( Nome_Pon ))) != Sci->( MsDecrypt( AllTrim( Codi_Pon ))) .OR. Empty( SISTEM_NA8 ) 	; EncerraDbf(, ProcName(1), ProcLine(1)) ; EndIF
+	IF ( SISTEM_VERSAO		 := Sci->( AllTrim( Nome_Ver ))) != Sci->( MsDecrypt( AllTrim( Codi_Ver ))) .OR. Empty( SISTEM_VERSAO ) ; EncerraDbf(, ProcName(1), ProcLine(1)) ; EndIF
+	IF Empty(( XNOME_EXE 	 := Sci->(MsDecrypt( AllTrim( NomeExe ))))) ; EncerraDbf(, ProcName(), ProcLine()) ; EndIF
+		oAmbiente:XLIMITE     := Sci->Limite
+	lPiracy := AllTrim( XCFGPIRACY ) != Sci->( AllTrim( Empresa  ))
+	Sci->(DbCloseArea())
+	IF lPiracy
+		SetColor("")
+		Cls
+		ErrorBeep()
+		Alert( "Erro #0: Favor instalar arquivo SCI.DBF original.")
+		Quit
+	EndIF
+	QQout("þ OK")
+
+	** SCI.CFG *******************************************************
+	IF !lNaoMostrarConfig
+		Qout("þ Localizando Arquivo SCI.CFG.")
+	EndIF
+
+	cPath := cCurDir
+	cCfg  := cPath + '\SCI.CFG'
+	FChdir( cPath )
+	Set Defa To (cPath)
+	IF !File(cCfg)
+		cPath := oAmbiente:xBase 
+		cCfg  := cPath + '\SCI.CFG'
+		IF !File( cCfg )
 			SetColor("")
 			Cls
-			FChDir( oAmbiente:xBase )
-			Break(e)
-			//FlReset()
+			Alert( "Erro #1: Arquivo SCI.CFG" + ;
+					 ";Nao localizado em: " + cCurdir + Space(Len(cCurdir+cPath)-Len(cCurdir)) + ;
+					 ";Nao localizado em: " + cPath   + Space(Len(cCurdir+cPath)-Len(cPath)))
 			Quit
-		ElseIf (aoptions[nchoice] == "Tentar")
-			ResTela( cScreen )
-			Return .T.
-		ElseIf (aoptions[nchoice] == "Default")
-			ResTela( cScreen )
-			Return .F.
+		EndIF
+		cPath := oAmbiente:xBase
+	EndIF
+	QQout("þ OK")
+	Qout("þ Abrindo Arquivo SCI.CFG em " + cPath)
+	Handle := FOpen(cCfg)
+	IF ( Ferror() != 0 )
+		FClose( Handle )
+		SetColor("") 
+		Cls
+		Alert( "Erro #3: Erro de Abertura do Arquivo SCI.CFG.")
+		Quit
+	EndIF
+	Qout("þ Lendo Arquivo SCI.CFG em " + cPath)
+	QQout("þ OK")
+
+	nErro := FLocate( Handle, "[ENDERECO_STRING]")
+	IF nErro < 0
+		SetColor("")
+		Cls
+		Alert( "Erro #4: Configuracao de SCI.CFG alterada. [ENDERECO_STRING]")
+		Quit
+	EndIF
+	FAdvance( Handle )
+	For nX := 1 To 4
+		Aadd( aEnde_String, AllTrim( MsReadLine( Handle )))
+	Next
+
+	nErro := FLocate( Handle, "[ENDERECO_CODIGO]")
+	IF nErro < 0
+		SetColor("")
+		Cls
+		Alert( "Erro #5: Configuracao de SCI.CFG alterada. [ENDERECO_CODIGO]")
+		Quit
+	EndIF
+	FAdvance( Handle )
+	For nX := 1 To 4
+		Aadd( aEnde_Codigo, MsDecrypt( AllTrim( MsReadLine( Handle ))))
+	Next
+	For nX := 1 To 4
+		IF aEnde_Codigo[nX] != aEnde_String[nX]
+			SetColor("")
+			Cls
+			Alert("Erro #6: Configuracao de SCI.CFG alterada. [ENDERECO_CODIGO]")
+			Quit
+		EndiF
+	Next
+	FClose( Handle )
+	VerExe()
+	IF !lNaoMostrarConfig
+		Qout("Verificando Aplicativo.")
+	EndIF
+	*:*******************************************************************************
+	oAmbiente:xDataCodigo := MsDecrypt( oAmbiente:XLIMITE )
+	cDia						 := SubStr( oAmbiente:xDataCodigo, 4, 2 )
+	cMes						 := Left(  oAmbiente:xDataCodigo, 2 )
+	cAno						 := Right( oAmbiente:xDataCodigo, 4 )
+	oAmbiente:xDataCodigo := cDia + "/" + cMes + "/" + cAno
+	IF !lMicrobras
+		*:*******************************************************************************
+		Set Date To USA
+		cLimite     := MsDecrypt( oAmbiente:XLIMITE )
+		cDataDos 	:= Dtoc( Date())
+		cTela 		:= SaveScreen()
+		IF Ctod( cDataDos ) > Ctod( cLimite )
+			Hard( 1, ProcName(), ProcLine() )
+		EndIF
+		Set Date Brit
+		ResTela( cTela )
+		IF !lNaoMostrarConfig
+			Qout("Verificando Sistema Instalado.")
 		EndIf
-	EndIf
-EndDo
-Set Device To Screen
-Set Printer Off
-Break
-Return .T.
+		cUnidade := Left( Getenv("COMSPEC"), 2 )
+		IF !CopyOk()
+			Hard( 2, ProcName(), ProcLine() )
+			CopyCria()
+		EndIF
+	EndIF
+	IF !lNaoMostrarConfig
+		LogoTipo( aEnde_String )
+	EndIF
+	CenturyOff()
+	FChdir( oAmbiente:xBaseDados )
+	Set Defa To ( oAmbiente:xBaseDados )
+	return
+endef
+
+
+*==================================================================================================*	
+
+def ms_swap_use(cBcoDados, lModo, cAlias)   	
+	LOCAL cExt       := GetFileExtension(cBcoDados)
+	LOCAL cBcoSemExt := StrTran( cBcoDados, cExt)	
+	
+	hb_default(@lModo, MONO)
+	hb_default(@cAlias, cBcoDados)	
+	cBcoDados := Upper(cBcoDados)     // para compatibilidade em linux 
+	cAlias    := Iif( cAlias = NIL, cBcoSemExt, cAlias )
+	
+	if (oAmbiente:Letoativo)
+		cBcoDados := oAmbiente:LetoPath + cBcoDados		
+	endif
+	
+	if lModo
+		Use (cBcoDados) Shared Alias (cAlias) New	
+	else
+		Use (cBcoDados) Exclusive Alias (cAlias) New	
+	endif	
+	
+endef
+
+*==================================================================================================*	
+
+def GetFileExtension(cFile)
+   
+	return( UPPER( SUBSTR( cFile, AT( ".", cFile ) + 1, 3 )))
+
+endef	
+
+*==================================================================================================*	
+
+def ms_swap_dbcreate(cFile, aStru)
+	LOCAL cLocalFile := ms_swap_sep(cFile)
+	return DbCreate(cLocalFile, aStru)		
+endef
+
+*==================================================================================================*	
+
+def ms_swap_ferase(cFile)   	
+	LOCAL cLocalFile := ms_swap_sep(cFile)
+	
+	if (oAmbiente:Letoativo)
+		return leto_ferase(cLocalFile)		
+	else
+		return Ferase(cLocalFile)
+	endif	
+
+endef
+
+*==================================================================================================*	
+
+def ms_swap_rename(cFile, cNewFile)   	
+	LOCAL cLocalFile := ms_swap_sep(cFile)
+	LOCAL cLocalNew  := ms_swap_sep(cNewFile)
+	
+	if (oAmbiente:Letoativo)
+		return (leto_frename(cLocalFile, cLocalNew) == 0)		
+	else
+		return msrename(cLocalFile, cLocalNew)
+	endif	
+
+endef
+
+*==================================================================================================*	
+
+def ms_swap_sep(cFile)
+	LOCAL cOldFile := cFile
+	
+	if right(TrimStr(oAmbiente:xBase),1) == "/" .OR. ;
+	   right(TrimStr(oAmbiente:xBase),1) == "\"
+		cBase := left(oAmbiente:xBase, len(oAmbiente:xBase)-1)
+	else
+		cBase := oAmbiente:xBase	
+	endif		
+	if (oAmbiente:Letoativo)
+		_SEP_ := '/'
+	else
+		_SEP_ := DEF_SEP
+	endif
+	cFile := cBase + _SEP_ + cFile
+	
+/*
+	alert(;
+				oAmbiente:xBase + " : " + cBase + ";" + ;
+				cOldfile + ";" + ;
+				cfile    + ";" + ;
+				"SWAP_SEP : " + Procname(1) + '(' + strzero(procline(1),4) + ');' +	;
+				"SWAP_SEP : " + Procname(2) + '(' + strzero(procline(2),4) + ');' + ;	
+				"SWAP_SEP : " + Procname(3) + '(' + strzero(procline(3),4) + ');' + ;	
+				"SWAP_SEP : " + Procname(4) + '(' + strzero(procline(4),4) + ');' + ;	
+				"SWAP_SEP : " + Procname(5) + '(' + strzero(procline(5),4) + ');' + ;	
+				"SWAP_SEP : " + Procname(6) + '(' + strzero(procline(6),4) + ');' + ;	
+				"SWAP_SEP : " + Procname(7) + '(' + strzero(procline(7),4) + ')';
+			)	
+*/
+
+	return(cFile)
+endef
+
+*==================================================================================================*	
+
+def ms_swap_tmp(cFile)
+	LOCAL cOldFile := cFile
+	
+	if right(TrimStr(oAmbiente:xBaseTmp),1) == "/" .OR. ;
+	   right(TrimStr(oAmbiente:xBaseTmp),1) == "\"
+		cBase := left(oAmbiente:xBaseTmp, len(oAmbiente:xBaseTmp)-1)
+	else
+		cBase := oAmbiente:xBaseTmp	
+	endif		
+	if (oAmbiente:Letoativo)
+		_SEP_ := '/'
+	else
+		_SEP_ := DEF_SEP
+	endif
+	cFile := cBase + _SEP_ + cFile
+
+	return(cFile)
+endef
+
+*==================================================================================================*	
+
+def ms_swap_file(cFile)
+	LOCAL cLocalFile := ms_swap_sep(cFile)
+
+	//alert(cLocalFile)
+	
+	if (oAmbiente:LetoAtivo)			
+		return Leto_File(cLocalFile)
+	endif
+	return File(cLocalFile)
+endef
+
+*==================================================================================================*	
+
+def ms_swap_fopen(cFile, modo)   	
+	LOCAL cLocalFile := ms_swap_sep(cFile)
+	LOCAL Handle
+	
+	if (oAmbiente:Letoativo)		
+		handle := leto_fopen(cLocalFile, Modo)
+	/*
+		alert(cLocalFile + ';' +;
+				"handle: " + str(handle) + ';' +;
+				"ferror: " + str(leto_ferror()) + ';' +;
+				"Exist : " + formatavar(ms_swap_file(cFile)) + ';' +;
+				"FOPEN : " + Procname(1) + '(' + strzero(procline(1),4) + ');' +	;
+				"FOPEN : " + Procname(2) + '(' + strzero(procline(2),4) + ');' + ;	
+				"FOPEN : " + Procname(3) + '(' + strzero(procline(3),4) + ');' + ;	
+				"FOPEN : " + Procname(4) + '(' + strzero(procline(4),4) + ');' + ;	
+				"FOPEN : " + Procname(5) + '(' + strzero(procline(5),4) + ');' + ;	
+				"FOPEN : " + Procname(6) + '(' + strzero(procline(6),4) + ');' + ;	
+				"FOPEN : " + Procname(7) + '(' + strzero(procline(7),4) + ')')	
+		*/
+		return handle
+	else
+		return Fopen(cFile, Modo)
+	endif	
+endef
+
+*==================================================================================================*	
+
+def ms_swap_fcreate(cFile, modo)   	
+	LOCAL cLocalFile := ms_swap_sep(cFile)
+	LOCAL handle
+	
+	if (oAmbiente:Letoativo)		
+		handle := leto_fcreate(cLocalFile, modo)		
+		/*
+		alert(cLocalFile + ';' +;
+			"handle: " + str(handle) + ';' +;
+			"ferror: " + str(leto_ferror()) + ';' +;
+			"Exist : " + formatavar(ms_swap_file(cFile)) + ';' +;
+			"FCREATE : " + Procname(1) + '(' + strzero(procline(1),4) + ');' + ;
+			"FCREATE : " + Procname(2) + '(' + strzero(procline(2),4) + ');' + ;	
+			"FCREATE : " + Procname(3) + '(' + strzero(procline(3),4) + ');' + ;	
+			"FCREATE : " + Procname(4) + '(' + strzero(procline(4),4) + ');' + ;	
+			"FCREATE : " + Procname(5) + '(' + strzero(procline(5),4) + ');' + ;	
+			"FCREATE : " + Procname(6) + '(' + strzero(procline(6),4) + ');' + ;	
+			"FCREATE : " + Procname(7) + '(' + strzero(procline(7),4) + ')')	
+	*/
+		return handle
+	else
+		return Fcreate(cLocalFile, modo)
+	endif	
+endef
+
+*==================================================================================================*	
+
+def ms_swap_ferror()   	
+   LOCAL nError
+	
+	if (oAmbiente:Letoativo)
+		return leto_ferror()
+	else
+		return Ferror()
+	endif	
+endef
+
+*==================================================================================================*	
+
+def ms_swap_fclose(handle)   	
+	
+	if (oAmbiente:Letoativo)
+		return leto_fclose(handle)		
+	else
+		return Fclose(handle)
+	endif	
+endef
+
+*==================================================================================================*	
+
+def ms_swap_fseek(handle, n, modo)   	
+	
+	if (oAmbiente:Letoativo)
+		return leto_fseek(handle, n, modo)
+	else
+		return fseek(handle, n, modo)
+	endif	
+endef
+
+*==================================================================================================*	
+
+def ms_swap_fwrite(handle, cbuffer)
+
+	if (oAmbiente:Letoativo)
+		return(leto_fwrite(handle, cbuffer))
+	else
+		return(fwrite(handle, cbuffer))
+	endif	
+endef
+
+*==================================================================================================*	
+
+def ms_swap_fread(Handle, cBuffer, nFileLen)   	
+	
+	if (oAmbiente:Letoativo)
+		return leto_fread(Handle, @cBuffer, nFileLen)
+	else
+		return fread(Handle, @cBuffer, nFileLen)
+	endif	
+endef
+
+*==================================================================================================*	
+
+def ms_swap_extensao(cFile, cNewExt)   	
+	LOCAL cOldExt  := GetFileExtension(cFile)
+	LOCAL cNewFile 
+	
+	cNewFile := Left(cFile, len(cFile)-4)	
+	cNewFile += cNewExt
+	
+	return cNewFile
+endef	
+
+*==================================================================================================*	
+
+def GetRoot(cstring)	
+	LOCAL nLen    := len(cstring)
+	LOCAL sep     := DEF_SEP
+	LOCAL npos    := 0
+	
+	if (npos := rat( sep, cString)) > 0	
+	  //alert(hb_strFormat("%s : %d", cstring, npos))
+	  return(left(cstring, --npos))
+	endif
+	return ""
+
+*==================================================================================================*	
+
+def ms_mem_dbCreate(cFile, aStru, cAlias, _rddname)
+	 /*
+	DBCREATE( <cDatabase>, <aStruct>, [<cDriver>], [<lOpen>], [<cAlias>] )
+	<cDatabase> Name of database to be create
+	<aStruct> Name of a multidimensional array that contains the database structure
+	<cDriver> Name of the RDD
+	<lOpenNew> 3-way toggle to Open the file in New or Current workarea:
+								  NIL     The file is not opened.
+								  True    It is opened in a New area.
+								  False   It is opened in the current area.
+	<cAlias> Name of database Alias
+	*/
+	
+	/*
+	//  usando normal pelo nome do alias	
+	xAlias  := FaturaNew(FTempMemory(), "XALIAS")
+	nHandle := FTempMemory()	 
+	xAlias  := FaturaNew(nHandle, "XALIAS")	
+	xNtx	  := FTempMemory()		
+	? 1, xALias
+	? 2, (xalias)
+	
+	Area("XALIAS"))
+	? alias()
+	Inde On Codigo To mem:(xNtx)	
+	? xalias->(Recno())
+	? xAlias->Codigo 	
+	ms_mem_dbclosearea(nHandle)
+	
+	// usando macro
+	xTemp  := FaturaNew(FTempMemory(),)
+	xTemp  := FaturaNew(FTempMemory(),"XTEMP")
+	xTemp  := FaturaNew(,"XTEMP")
+	xTemp  := FaturaNew()
+	Area((xTemp))
+	? (xTemp)->(Recno())
+	? (xTemp)->Codigo 	
+	*/
+	
+	REQUEST HB_MEMIO
+	hb_default(@cFile, FTempMemory())	
+	hb_default(@cAlias, cFile)	
+	hb_default(@_rddname, nil)	// default sistema		
+	dbCreate( "mem:" + (cFile), aStru, _rddname, true, cAlias)	
+	return Alias()
+endef
+
+*==================================================================================================*	
+
+def ms_mem_dbclosearea(cFile)
+	(cFile)->(DbCloseArea())
+   dbDrop( "mem:" + (cFile))
+	return nil 	
+endef	
+
+*==================================================================================================*	
+
+def truefalse(xvar)
+	if xvar
+		return "true"
+	else		
+		return "false"
+	endif	
+endef	
+
+*==================================================================================================*	
+
+def formatavar(xvar)	
+	switch valtype(xvar)
+		case "C" 
+			return(trimstr(xvar))
+		case "N" 
+			return(trimstr(xvar))
+		case "L"
+			return(truefalse(xvar))
+		case "D"	
+			return(dtoc(xvar))				
+	endswitch
+endef
+
+*==================================================================================================*	
+
+def Acesso( lNaoMostrarConfig )
+*------------------------------*
+	RddSetDefault(RDDALTERNATIVO)
+	IfNil( lNaoMostrarConfig, FALSO )
+	#IFDEF ANO2000
+		oAmbiente:Ano2000On()
+	#ELSE
+		oAmbiente:Ano2000Off()
+	#ENDIF
+	oAmbiente:lComCodigoAcesso := FALSO
+	#IFDEF MICROBRAS
+		Configuracao( OK, lNaoMostrarConfig )
+		AcessoLeto()
+		Return nil
+	#ENDIF
+	#IFDEF AGROMATEC
+		Configuracao( OK, lNaoMostrarConfig )
+		AcessoLeto()
+		Return nil
+	#ENDIF
+	oAmbiente:lComCodigoAcesso := OK
+	Configuracao(NIL, lNaoMostrarConfig )
+	AcessoLeto()
+	return nil
+endef
+	
+*==================================================================================================*		
+
+def acessoLeto()
+	#ifdef LETO		
+		SetaIniLeto()	
+		if (oAmbiente:LetoAtivo)	
+			LoginLeto()	
+		endif	
+	#else
+		RddSetDefault(RDDNAME)
+	#endif	   	
+endef
+*==================================================================================================*	
+
+def SetaIniLeto()
+*----------------* 
+	LOCAL cPathLocal := FCurdir()
+	LOCAL cPath      := oAmbiente:xBase
+	LOCAL nPort      := 2812
+	LOCAL nHost      := "127.0.0.1"
+	LOCAL cString    := ""
+	LOCAL cTela
+	LOCAL nChoice
+	LOCAL aPrompt    := {" 1. Continuar a conexao local",;
+								" 2. Conectar ao servidor LETO configurado", ;
+								" 3. Encerrar Execucao do Sistema";
+								}
+	
+	Qout("þ Iniciando Conexao com Servidor LETO.")
+	cTela := SaveScreen()
+	if oAmbiente:argc	== 0	
+		cLetoIP             := oIni:ReadString('LETO', 'ip')
+		cLetoPort           := oIni:ReadString('LETO', 'port')		
+		
+		oAmbiente:LetoIp    := cLetoIP
+		oAmbiente:LetoPort  := cLetoPort		
+		cPath               := oAmbiente:GetLetoPath()				
+		oAmbiente:LetoPath  := cPath
+		oAmbiente:LetoAtivo := false		
+		
+		//RddSetDefault(RDDNAME)		
+		//if leto_Connect(cPath) != F_ERROR
+			oAmbiente:LetoAtivo := true
+			cString := oAmbiente:ShowVarLeto(nil, nil, false)
+			ErrorBeep()			
+			nChoice := AlertaPy(;
+							"!AVISO! SERVIDOR TCP/IP LETO CONFIGURADO EM " + cPathLocal + "\SCI.INI FOI DETECTADO." + ;
+							+ ';-;' + cString + ;						 
+							";-;" + space(27) + "Escolha uma opcao abaixo:", 31, false, true, aPrompt;
+							)
+			if     nchoice == 0 .OR. nChoice == 3
+				Terminate()
+			elseif nChoice == 1
+				leto_DisConnect()					
+				oAmbiente:LetoAtivo := false
+				RddSetDefault(RDDALTERNATIVO)
+				return false
+			elseif nChoice == 2
+				RddSetDefault(RDDNAME)		
+				//LETO_DBDRIVER(RDDALTERNATIVO)   /* to choose your DBF driver independent of the server default */ 
+				LETO_TOGGLEZIP( 1 )             /* switch compressed network traffic */
+				oAmbiente:xBase    := cPath				
+				oAmbiente:LetoPath := cPath
+				return true
+			endif			
+		//endif			
+		RddSetDefault(RDDALTERNATIVO)
+		return false		
+		
+   else
+		cPath := argv(1)      	
+      if !"//" $ cPath 		
+			cPath := "//" + cPath 
+		endif		
+      if !":" $ cPath 
+			cPath := cPath + IiF( ":" $ cPath, "", ":" + TrimStr(nPort))			
+		endif	
+		cPath += iif( right(cPath,1) == "/", "", "/" )		
+		oAmbiente:ShowVarLeto(false, ";-;Aguarde... Tentando conexao com servidor Leto em:;-;;" + cPath)
+		RddSetDefault(RDDNAME)
+	endif		
+	
+	oAmbiente:LetoAtivo := true	
+	oAmbiente:xBase     := cPath	
+	if leto_Connect(cPath) == F_ERROR
+	   restela(cTela)		
+		AlertaPy('ERRO #0: Verifique os parametros abaixo: ;-;;' + ;
+					'     Tipo de Erro : ' + 'Servidor Leto nao localizado                             ' + ';' + ;
+					' Endereco IP:port : ' + cPath + ';-;;' + ;
+					'             Acao : ' + 'Verifique se o servidor LETO esta ativo ou modo LOCKED,ou' + ';' + ;
+					'                  : ' + 'parametros passados estao corretos                       ' + ';' + ;
+					'         Parametro: ' + trimStr(argv(1)), 31, false, true, {" Iniciar modo local "})		
+		
+		if lastkey() == K_ESC
+		   Terminate()
+		endif		
+		
+		oAmbiente:LetoAtivo := false		
+		oAmbiente:xBase     := cPath := FCurdir() // errado ??
+		RddSetDefault(RDDALTERNATIVO)
+		return false
+	endif
+	
+	if leto_Connect(cPath) == F_ERROR
+		MSG('Falha de login (LETO_ERR_LOGIN)', "Macrosoft SCI")		
+		return nil		
+	endif	
+	Leto_disconnect()
+	
+endef
+
+*==================================================================================================*	
+
+def LoginLeto()
+	if leto_Connect( oAmbiente:xBase) == F_ERROR
+		if leto_Connect( oAmbiente:LetoPath ) == F_ERROR
+			nRes := leto_Connect_Err()
+			IF nRes == LETO_ERR_LOGIN
+				MSG('Falha de login (LETO_ERR_LOGIN)', "Macrosoft SCI")
+			ELSEIF nRes == LETO_ERR_RECV
+				MSG('Erro de Recepcao (LETO_ERR_RECV)', "Macrosoft SCI")
+			ELSEIF nRes == LETO_ERR_SEND
+				MSG('Erro de Transmissao (LETO_ERR_SEND)', "Macrosoft SCI")
+			ELSE
+				MSG('Sem conexao', "Macrosoft SCI")
+			ENDIF
+			return false
+		ENDIF
+		//MSG('Servidor escutando em:' + oAmbiente:LetoPath, "Macrosoft SCI")
+		oAmbiente:xBase := oAmbiente:LetoPath
+		return true
+	endif
+	//MSG('Servidor LETO ouvindo em:' + oAmbiente:xBase, "Macrosoft SCI")
+	oAmbiente:LetoPath := oAmbiente:xBase
+	return true
+endef	
+
+*==================================================================================================*	

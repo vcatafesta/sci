@@ -7,4 +7,4 @@
    @  6,10 SAY "Married?:      " GET Married CHECKBOX
    @  7,10 SAY "Home Phone:    " GET Phone
    READ
-   ? ALLTRIM (Name) + " IS " + IIF(Married,"","NOT") + "Married."
+   ? ALLTRIM (Name) + " IS " + Iif(Married,"","NOT") + "Married."

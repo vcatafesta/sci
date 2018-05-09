@@ -1,3 +1,6 @@
+#ifndef _FUNCOES_CH_
+	#define _FUNCOES_CH_
+
 //#COMMAND PrintPos( <row>, <col>, <xpr> [,<color>] )                   ;
 //          => DevPos( <row>, <col> )                                   ;
 //           ; DevOut( <xpr> [, <color>] )
@@ -107,3 +110,4 @@
 #Define  UP             5
 #Define  DOWN           24
 #Define  PGUP           18
+#endif // _FUNCOES_CH_

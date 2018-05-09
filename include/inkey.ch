@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this software; see the file COPYING.txt.  If not, write to
+ * along with this software; see the file COPYING.txt.  if not, write to
  * the Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  * Boston, MA 02111-1307 USA (or visit the web site http://www.gnu.org/).
  *
@@ -33,16 +33,16 @@
  * the executable file might be covered by the GNU General Public License.
  *
  * This exception applies only to the code released by the Harbour
- * Project under the name Harbour.  If you copy code from other
+ * Project under the name Harbour.  if you copy code from other
  * Harbour Project or Free Software Foundation releases into a copy of
  * Harbour, as the General Public License permits, the exception does
  * not apply to the code that you add in this way.  To avoid misleading
  * anyone as to the status of such modified files, you must delete
  * this exception notice from them.
  *
- * If you write modifications of your own for Harbour, it is your choice
+ * if you write modifications of your own for Harbour, it is your choice
  * whether to permit this exception to apply to your modifications.
- * If you do not wish that, delete this exception notice.
+ * if you do not wish that, delete this exception notice.
  *
  */
 
@@ -64,7 +64,9 @@
 #define INKEY_MMIDDLE           32  /* Harbour extension middle button mask */
 #define INKEY_MWHEEL            64  /* Harbour extension mouse wheel mask */
 #define INKEY_KEYBOARD          128
-#define INKEY_ALL               255
+//#define INKEY_ALL               255
+#define INKEY_ALL               ( INKEY_KEYBOARD + INKEY_MOVE + INKEY_LDOWN + INKEY_LUP + INKEY_RDOWN + INKEY_RUP + INKEY_MMIDDLE + INKEY_MWHEEL )
+
 
 #define HB_INKEY_RAW            256 /* Harbour extension */
 #define HB_INKEY_GTEVENT        1024 /* Harbour extension */

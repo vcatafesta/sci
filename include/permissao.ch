@@ -1,3 +1,6 @@
+#ifndef _PERMISSAO_CH_
+#define _PERMISSAO_CH_
+
 #define SCI_CONTROLE_DE_ESTOQUE                1
 #define SCI_CONTAS_A_RECEBER                   2
 #define SCI_CONTAS_A_PAGAR                     3
@@ -33,3 +36,4 @@
 #define SCI_VISUALIZAR_DETALHE_CAIXA          300
 #define SCI_VENDERCOMDEBITOEMATRASO           400
 #define SCI_IMPRIMIRROLCOBRANCA               500
+#endif /* _PERMISSAO_CH_ */

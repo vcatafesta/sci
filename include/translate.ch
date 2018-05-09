@@ -1,22 +1,39 @@
+#ifndef _TRANSLATE_CH_
+#define _TRANSLATE_CH_
 //#DEFINE MSDOS               OK    // Ambiente MSDOS
 #DEFINE MSWINDOWS           OK    // Ambiente MSWINDOWS
 
-#translate IfNil( <var>, <val> )        => IF( <var> = NIL, <var> := <val>, <var> )
-#translate IFNIL( <var>, <val> )        => IF( <var> = NIL, <var> := <val>, <var> )
-#translate IFnil( <var>, <val> )        => IF( <var> = NIL, <var> := <val>, <var> )	
-#translate ifnil( <var>, <val> )        => IF( <var> = NIL, <var> := <val>, <var> )
-#translate ifNIL( <var>, <val> )        => IF( <var> = NIL, <var> := <val>, <var> )
-#translate ifNil( <var>, <val> )        => IF( <var> = NIL, <var> := <val>, <var> )
-#translate iFnil( <var>, <val> )        => IF( <var> = NIL, <var> := <val>, <var> )
+//#xtranslate str(<xValue>)  							=> iif(hb_isNumeric(<xValue>), hb_nToc(<xValue>), <xValue>)
+//#xtranslate trim(<xValue>)  						=> ltrim(rtrim(iif(hb_isNumeric(<xValue>), hb_nToc(<xValue>), <xValue>)))
+#xtranslate alltrim(<xValue>)  						=> ltrim(rtrim(<xValue>))
+#translate ifNIL( <var>, <val> )        			=> if( <var> = NIL, <var> := <val>, <var> )
+#translate MS_DEFAULT( <var>, <val> )    			=> if( <var> = NIL, <var> := <val>, <var> )
+#translate MS_NIL( <var>, <val> )    				=> if( <var> = NIL, <var> := <val>, <var> )
+#translate TrimStr(<xValue>)      					=> alltrim(<xValue>)
+#translate StrTrim(<xValue>)      					=> alltrim(<xValue>)
+#translate xAllTrim(<xValue>)                	=> alltrim(<xValue>)
+#translate TrimStrZero(<xValue>, <nzeros>)   	=> alltrim(strzero(<xValue>, <nzeros>))
+#translate AllTrimStrZero(<xValue>, <nzeros>)   => alltrim(strzero(<xValue>, <nzeros>))
 
-	
-#Translate Try 				 => While
-#Translate EndTry           => EndDo
-#Translate LastCol			 => MaxCol
-#Translate LastRow			 => MaxRow
+#translate def         		 =>   function
+#translate enddef     		 =>   
+#translate Def         	    =>   function
+#translate DEF         		 =>   function
+#translate P_Def( <var>, <val> ) 						=> if( <var> = NIL, <var> := <val>, <var> )
+#translate ifNil( <var>, <val> ) 						=> if( <var> = NIL, <var> := <val>, <var> )
 
+#XCOMMAND DEFAULT <v1> TO <x1> [, <vn> TO <xn> ]								;
+			 =>																				;
+			 if <v1> == NIL ; <v1> := <x1> ; END									;
+			 [; if <vn> == NIL ; <vn> := <xn> ; END ]
 
-#IFDEF MSWINDOWS
+#Translate DEFAU				=> DEFAULT
+#Translate Try					=> While
+#Translate EndTry				=> EndDo
+#Translate LastCol			=> MaxCol
+#Translate LastRow			=> MaxRow
+
+#ifDEF MSWINDOWS
    #UNDEF MSDOS
 	#Translate Beep				 => Tone
 	#Translate CapFirst			 => TokenUpper
@@ -72,8 +89,8 @@
 	
 	#Translate Sx_SetScope   	 => OrdScope
 	#Translate Sx_ClrScope   	 => OrdScope
-
-#ENDIF
+#endif
+#endif _TRANSLATE_CH_
 
 
 

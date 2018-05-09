@@ -300,7 +300,7 @@ DECLARE HBClass ;
 #xcommand ASSIGN <AssignName> [ AS <type> ] [ <export: EXPORTED, VISIBLE>] [<protect: PROTECTED>] [<hidde: HIDDEN>] [<persistent: PERSISTENT, PROPERTY>] [<sync: SYNC>] [_CLASS_DECLARATION_] => ;
    METHOD _<AssignName> [ AS <type> ] <export> <protect> <hidde> <persistent> <sync> _CLASS_DECLARATION_
 
-#xcommand METHOD <type: FUNCTION, PROCEDURE> <MethodName> [CLASS <ClassName>] => ;
+#xcommand METHOD <type: DEF, FUNCTION, PROCEDURE> <MethodName> [CLASS <ClassName>] => ;
    METHOD <type> <MethodName> CLASS __HB_CLS_OPT([<ClassName>,] _CLASS_NAME_) _CLASS_MODE_
 #xcommand METHOD <MethodName> CLASS <ClassName> => METHOD FUNCTION  <MethodName> CLASS <ClassName> _CLASS_MODE_
 #xcommand ACCESS <AccessName> CLASS <ClassName> => METHOD FUNCTION  <AccessName> CLASS <ClassName> _CLASS_MODE_

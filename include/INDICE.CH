@@ -1,3 +1,6 @@
+#ifndef _INDICE_CH_
+#define _INDICE_CH_
+
 #Define ALOG_TIPO    1
 #Define ALOG_CODI    2
 #Define ALOG_NOME    3
@@ -130,6 +133,8 @@
 #Define PAGAMOV_CODI_EMIS						  4
 
 #Define FORMA_FORMA								  1
+#Define FORMA_CONDICOES							  2
+
 #Define CONTA_CODI								  1
 #Define SUBCONTA_CODI							  1
 #Define SUBCONTA_SUBCODI						  2
@@ -175,7 +180,6 @@
 #Define GRPSER_GRUPO                        1
 #Define GRPSER_DESGRUPO 						  2
 
-**** RECIBO.DBF
 #Define RECIBO_TIPO       1
 #Define RECIBO_CODI       2
 #Define RECIBO_DOCNR      3
@@ -187,7 +191,6 @@
 #Define RECIBO_CODI_DOCNR 9
 #Define RECIBO_FATURA     10
 
-**** AGENDA.DBF
 #Define AGENDA_CODI    1
 #Define AGENDA_HIST    2
 #Define AGENDA_DATA    3
@@ -196,8 +199,9 @@
 #Define AGENDA_CODI_DATA 6
 #Define AGENDA_DATA_CODI 7
 
-**** CM.DBF
 #Define CM_INICIO      1
 #Define CM_FIM         3
 #Define CM_STR_INICIO  4
 #Define CM_STR_FIM     4
+
+#endif /* _INDICE_CH_ */

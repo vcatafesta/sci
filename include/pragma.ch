@@ -1,3 +1,5 @@
+#ifndef _PRAGMA_CH_
+#define _PRAGMA_CH_
 #pragma BEGINDUMP
 	#include <hbapi.h>
 	#include <hbapifs.h>
@@ -288,3 +290,4 @@ void ClearScreen( void )
 //********************************************************************************	
 	
 #pragma ENDDUMP
+#endif /* _PRAGMA_CH_ */

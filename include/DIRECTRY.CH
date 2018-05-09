@@ -1,14 +1,6 @@
-/***
-*
-*  Directry.ch
-*
-*  Definitions for DIRECTORY() function
-*
-*  Copyright (c) 1990-1993, Computer Associates International, Inc.
-*  All rights reserved.
-*
-*/
-
+#ifndef _DIRECTRY_CH_
+#define _DIRECTRY_CH_
+#define _DIRECTRY_CH
 
 // Subscripts for DIRECTORY() array
 #define F_NAME        1
@@ -20,5 +12,5 @@
 // Length of array
 #define F_LEN         5
 
-#define _DIRECTRY_CH
+#endif /*_DIRECTRY_CH_ */
 

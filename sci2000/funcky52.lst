@@ -1,0 +1,476 @@
+Publics by module
+
+ACTIVE  	size = 169
+	ACTIVE                          
+
+AFILELOA	size = 142
+	AFILELOAD                       
+
+ARRAYTRI	size = 138
+	ARRAYTRIM                       
+
+BMPCLASS	size = 1905
+	BITMAPNEW                         QBMPCARGO
+	QBMPCOL                           QBMPCOLOR
+	QBMPROW                           QBMPTABLE
+	XBMPCARGO                         XBMPCOL
+	XBMPCOLOR                         XBMPDISPLA
+	XBMPHEIGHT                        XBMPLOAD
+	XBMPREAD                          XBMPROW
+	XBMPSAVE                          XBMPSIZE
+	XBMPSTORE                         XBMPTABLE
+	XBMPWIDTH                       
+
+CSRPUT  	size = 107
+	CSRPUT                          
+
+C_AFILEI	size = 681
+	AFILEINIT                       
+
+C_AFILER	size = 279
+	AFILEREAD                       
+
+C_AMACPR	size = 211
+	AMACPRINT                       
+
+C_AMAXCH	size = 7836
+	AMAXCHOICE                      
+
+C_ARESTO	size = 386
+	AFILEREST                       
+
+C_CCAST 	size = 209
+	CCAST                           
+
+C_CSR   	size = 142
+	CSROFF                            CSRON
+
+C_FGETFO	size = 612
+	FGETFORM                        
+
+C_GREADS	size = 313
+	GREADS                          
+
+C_INSERT	size = 155
+	INSERT                          
+
+C_MAKEDB	size = 1323
+	MAKEDBF                         
+
+C_MAXCHO	size = 7867
+	MAXCHOICE                       
+
+C_MAXDBF	size = 10957
+	MAXDBFVIEW                      
+
+C_MAXDIR	size = 728
+	MAXPOPDIR                       
+
+C_MAXDRI	size = 365
+	MAXPOPDRIV                      
+
+C_MAXFIL	size = 716
+	MAXPOPFILE                      
+
+C_MAXGEF	size = 3430
+	MAXGETFORM                      
+
+C_MAXMOV	size = 1380
+	_CONTROLPA                        _DONUT
+	_MAXMOV                         
+
+C_MAXSCO	size = 14104
+	MAXDBFSCOP                      
+
+C_MAXVIE	size = 9012
+	MAXVIEW                         
+
+C_MX_CHO	size = 110
+	MX_CHOICE                       
+
+C_MX_DBF	size = 144
+	MX_DBFVIEW                      
+
+C_MX_DIR	size = 110
+	MX_POPDIR                       
+
+C_MX_FIL	size = 110
+	MX_POPFILE                      
+
+C_MX_VIE	size = 110
+	MX_VIEW                         
+
+C_M_APRO	size = 1541
+	M_APROMPT                       
+
+C_M_CHOI	size = 157
+	M_CHOICE                        
+
+C_M_DBFV	size = 160
+	M_DBFVIEW                       
+
+C_M_DISP	size = 847
+	M_DISPLAY                       
+
+C_M_MENU	size = 1429
+	M_MENU                          
+
+C_M_MESS	size = 363
+	M_MESSAGE                       
+
+C_M_POPD	size = 157
+	M_POPDIR                        
+
+C_M_POPF	size = 157
+	M_POPFILE                       
+
+C_M_POSI	size = 124
+	M_POSITION                      
+
+C_M_PROM	size = 1494
+	M_PROMPT                        
+
+C_M_QUER	size = 1976
+	M_QUERY                         
+
+C_M_VIEW	size = 157
+	M_VIEW                          
+
+C_PUTKEY	size = 131
+	PUTKEY                          
+
+C_READH 	size = 313
+	READH                           
+
+C_READS 	size = 309
+	READS                           
+
+C_SDFWRI	size = 309
+	FWRITESDF                       
+
+C_SETSNO	size = 129
+	SETSNOW                         
+
+C_STDOT 	size = 142
+	STDOUT                          
+
+C_STDOTL	size = 142
+	STDOUTLINE                      
+
+C_STDOTS	size = 326
+	STDOUTS                         
+
+C_SWAP  	size = 89
+	SWAP                            
+
+C_WORDWR	size = 307
+	FWRITEWORD                      
+
+C_WPWRIT	size = 340
+	FWRITEWP                        
+
+C_WRITEF	size = 439
+	FWRITEFORM                      
+
+C_WSWRIT	size = 395
+	FWRITEWS                        
+
+DATETYPE	size = 365
+	DATETYPE                        
+
+DECIMALS	size = 169
+	DECIMALS                        
+
+DEFAULT 	size = 92
+	DEFAULT                         
+
+DELIMITE	size = 92
+	DELIMITERS                      
+
+DISKFORM	size = 438
+	DISKFORMAT                      
+
+DISKTEST	size = 458
+	DISKTEST                        
+
+ET      	size = 8259
+	MODALEDIT                         _NOTEPAD_
+	_TEXTEDIT_                        __VALTRANS
+
+ETCLASS 	size = 7351
+	QETACOLOR                         QETBCOLOR
+	QETBLOCK                          QETBUFFER
+	QETCARGO                          QETCHAR
+	QETCOL                            QETCOLOR
+	QETCSRCOL                         QETCSRINDE
+	QETCSRROW                         QETEOFCHAR
+	QETEOLCHAR                        QETFOCUS
+	QETLEFTORG                        QETLINE
+	QETLINELEN                        QETPANCOUN
+	QETROW                            QETTABCHAR
+	QETTABSIZE                        QETTOPORG
+	QETWINBOTT                        QETWINCSRC
+	QETWINCSRR                        QETWINLEFT
+	QETWINRIGH                        QETWINTOP
+	QETWORD                           TEXTEDITNE
+	XETACOLOR                         XETBACKSPA
+	XETBCOLOR                         XETBEGINMA
+	XETBLOCK                          XETBLOCKEN
+	XETBLOCKSI                        XETBLOCKST
+	XETBUFFER                         XETBUFFSIZ
+	XETCARGO                          XETCHAR
+	XETCOL                            XETCOLOR
+	XETCSRCOL                         XETCSRINDE
+	XETCSRROW                         XETDELETE
+	XETDELTEXT                        XETDELTOKE
+	XETDISPLAY                        XETENDMARK
+	XETEOFCHAR                        XETEOLCHAR
+	XETFOCUS                          XETGETBOOK
+	XETGETTEXT                        XETGETTOKE
+	XETGOBOOKM                        XETHEIGHT
+	XETINSERT                         XETINSTEXT
+	XETISTOKEN                        XETJUSTIFY
+	XETLEFTJUS                        XETLEFTORG
+	XETLINE                           XETLINECOU
+	XETLINELEN                        XETMARKLIN
+	XETMARKTOK                        XETMAXBUFF
+	XETMAXLINE                        XETOVERWRI
+	XETPAGEDOW                        XETPAGEUP
+	XETPANCOUN                        XETPICTURE
+	XETREPAINT                        XETRETRIEV
+	XETRIGHTJU                        XETROW
+	XETSAVE                           XETSCRCOL
+	XETSCRROW                         XETSETBOOK
+	XETSIZE                           XETSTORE
+	XETTABCHAR                        XETTABSIZE
+	XETTOPORG                         XETUNMARK
+	XETWIDTH                          XETWINBOTT
+	XETWINCSRC                        XETWINCSRR
+	XETWINLEFT                        XETWINRIGH
+	XETWINTOP                         XETWORD
+	XETWORDLEF                        XETWORDRIG
+
+ETO     	size = 5057
+	OMODALEDIT                        _ONOTEPAD_
+	_OTEXTEDIT                        __OVALTRAN
+
+EXECUTE 	size = 267
+	EXECUTE                           _XVAL
+
+FFCOPY  	size = 243
+	FFCOPY                          
+
+FFCOPYBY	size = 473
+	FFCOPYBYTE                      
+
+FFLOCATE	size = 690
+	FFLOCATE                        
+
+FILESCAN	size = 480
+	FILESCAN                        
+
+FKEY    	size = 418
+	FKEY                            
+
+FSCANLIN	size = 277
+	FSCANLINE                       
+
+FUNFATAL	size = 318
+	FUNFATAL                        
+
+F_LUPDAT	size = 96
+	F_LUPDATE                       
+
+GETVAR  	size = 159
+	GETVAR                          
+
+ICOCLASS	size = 1929
+	ICONNEW                           QICOCARGO
+	QICOCOL                           QICOCOLOR
+	QICOROW                           QICOTABLE
+	XICOCARGO                         XICOCOL
+	XICOCOLOR                         XICODISPLA
+	XICOHEIGHT                        XICOLOAD
+	XICOREAD                          XICOROW
+	XICOSAVE                          XICOSIZE
+	XICOSTORE                         XICOTABLE
+	XICOWIDTH                       
+
+INITMVAR	size = 290
+	INITMVARS                       
+
+ISBUTTON	size = 245
+	ISBUTTON                        
+
+ISINDEX 	size = 91
+	ISINDEX                         
+
+ISKEYSET	size = 97
+	ISKEYSET                        
+
+MARGIN  	size = 92
+	MARGIN                          
+
+MGETSYS 	size = 5440
+	GETACTIVE                         GETAPPLYKE
+	GETDOSETKE                        GETMREADER
+	GETPOSTVAL                        GETPREVALI
+	GETREADER                         RANGECHECK
+	READEXIT                          READINSERT
+	READMODAL                         READMOUSE
+	UPDATED                           __KILLREAD
+	__SETFORMA                      
+
+MOUSETRA	size = 846
+	MOUSETRAP                         M_TRAPFEED
+	M_TRAPFREE                        M_TRAPGET
+	M_TRAPNEW                         M_TRAPREST
+	M_TRAPSAVE                        M_TRAPSET
+
+M_INBUTT	size = 264
+	M_INBUTTON                      
+
+M_RELEAS	size = 261
+	M_RELEASE                       
+
+NLEN    	size = 169
+	NLEN                            
+
+NOTBM   	size = 317
+	___bmess                          ___bmeth
+
+NOTCL   	size = 1950
+	___nmess                          ___nmeth
+
+NOTET   	size = 1950
+	___emess                          ___emeth
+
+NOTIC   	size = 317
+	___imess                          ___imeth
+
+NOTSTR  	size = 146
+	___smess                          ___smeth
+
+NPCLASS 	size = 8147
+	NOTEPADNEW                        QNPACOLOR
+	QNPBCOLOR                         QNPBLOCK
+	QNPBUFFER                         QNPCARGO
+	QNPCHAR                           QNPCOL
+	QNPCOLOR                          QNPCSRCOL
+	QNPCSRINDE                        QNPCSRROW
+	QNPEOFCHAR                        QNPEOLCHAR
+	QNPFOCUS                          QNPLEFTORG
+	QNPLINE                           QNPLINELEN
+	QNPPANCOUN                        QNPROW
+	QNPTABCHAR                        QNPTABSIZE
+	QNPTOPORG                         QNPWINBOTT
+	QNPWINCSRC                        QNPWINCSRR
+	QNPWINLEFT                        QNPWINRIGH
+	QNPWINTOP                         QNPWORD
+	XNPACOLOR                         XNPBACKSPA
+	XNPBCOLOR                         XNPBEGINMA
+	XNPBLOCK                          XNPBLOCKEN
+	XNPBLOCKSI                        XNPBLOCKST
+	XNPBUFFER                         XNPBUFFSIZ
+	XNPCARGO                          XNPCHAR
+	XNPCOL                            XNPCOLOR
+	XNPCSRCOL                         XNPCSRINDE
+	XNPCSRROW                         XNPDELETE
+	XNPDELTEXT                        XNPDELTOKE
+	XNPDISPLAY                        XNPENDMARK
+	XNPEOFCHAR                        XNPEOLCHAR
+	XNPFOCUS                          XNPGETBOOK
+	XNPGETTEXT                        XNPGETTOKE
+	XNPGOBOOKM                        XNPHEIGHT
+	XNPINSERT                         XNPINSTEXT
+	XNPISTOKEN                        XNPJUSTIFY
+	XNPLEFTJUS                        XNPLEFTORG
+	XNPLINE                           XNPLINECOU
+	XNPLINELEN                        XNPMARKLIN
+	XNPMARKTOK                        XNPMAXBUFF
+	XNPMAXLINE                        XNPOVERWRI
+	XNPPAGEDOW                        XNPPAGEUP
+	XNPPANCOUN                        XNPPICTURE
+	XNPREPAINT                        XNPRETRIEV
+	XNPRIGHTJU                        XNPROW
+	XNPSAVE                           XNPSCRCOL
+	XNPSCRROW                         XNPSETBOOK
+	XNPSIZE                           XNPSTORE
+	XNPTABCHAR                        XNPTABSIZE
+	XNPTOPORG                         XNPUNMARK
+	XNPWIDTH                          XNPWINBOTT
+	XNPWINCSRC                        XNPWINCSRR
+	XNPWINLEFT                        XNPWINRIGH
+	XNPWINTOP                         XNPWORD
+	XNPWORDLEF                        XNPWORDRIG
+
+NSTUFF  	size = 121
+	NSTUFF                          
+
+NUMGETS 	size = 87
+	NUMGETS                         
+
+ONDO    	size = 524
+	ONDO                            
+
+PATH    	size = 92
+	PATH                            
+
+RELMVARS	size = 248
+	RELMVARS                        
+
+REPLMVAR	size = 230
+	REPLMVARS                       
+
+RESTGETS	size = 93
+	RESTGETS                        
+
+SAVEGETS	size = 101
+	SAVEGETS                        
+
+SCANCODE	size = 111
+	SCANCODE                        
+
+STATUS  	size = 274
+	STATUS                          
+
+STRCLASS	size = 789
+	QSTRCARGO                         STRINGNEW
+	XSTRCARGO                         XSTRDISPLA
+	XSTRLWR                           XSTRSIZE
+	XSTRTRIM                          XSTRUPR
+
+STRSTUFF	size = 254
+	STRSTUFF                        
+
+WAITKEY 	size = 279
+	WAITKEY                         
+
+XSCANCOD	size = 111
+	XSCANCODE                       
+
+_COLORSE	size = 189
+	_COLORSET_                      
+
+_FREE   	size = 30
+	__free                          
+
+_MALLOC 	size = 27
+	__malloc                        
+
+_M_TRAPF	size = 33
+	__M_TRAPFREE                    
+
+__CLIPFL	size = 2
+	___clversion                    
+
+__MDATA 	size = 573
+	M_DATA                            M_DATAREST
+	M_DATASAVE                        M_FRAME
+	M_TITLE                         
+
+__MLIST 	size = 259
+	MOUSEPICK                         _MOUSE_
+
+__PSCRN 	size = 838
+	POPSCREEN                         PUSHSCREEN

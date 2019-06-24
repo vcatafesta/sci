@@ -1,0 +1,7 @@
+.PRG.obj:
+   CLIPPER $*.PRG /M
+
+CFG.OBJ      : CFG.PRG LISTA.CH
+
+CFG.EXE : CFG.OBJ
+   BLINKER @CFG

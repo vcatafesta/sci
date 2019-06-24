@@ -1,0 +1,147 @@
+******************************************************************************
+*                                                                            *
+*                            HR FONTS   verzija 2.0                          *
+*                                za CLIPPER 5.x                              *
+*                                                                            *
+*   Opis:   HRFONTS.LIB sadrzi funkcije za inicijalizaciju HR seta           *
+*           znakova sa rasporedom prema CROSCII i 852 kodnoj stranici, za    *
+*           VGA tekst rezoluciju sa 25 ili 50 redaka                         *
+*           U LIB je ukljucena i funkcija GRAYSC() za konverziju RGB palete  *
+*           u monokromatsku (za monokromatske monitore na kojima se ne vide  *
+*           sve nijanse boja)                                                *
+*                                                                            *
+*   Autor:  Arminio Grgic - GrGa                                             *
+*           (c) m&g software, 1994-1996                                      *
+*                                                                            *
+******************************************************************************
+ 
+ 
+ Sto je na disku ?
+ -----------------
+
+  HRFONTS.LIB          - LIB datoteka koja sadrzi funkcije za inicijalizaciju
+  HRFONTS.DOC          - upravo citate ...
+  DEMO.PRG             - jednostavni primjer upotrebe funkcija
+		
+		
+		_______*  Sadrzaj datoteke HRFONTS.LIB *_______
+ 
+ Funkcije:
+ ---------
+
+ CROASCII( red ) - inicijalizacija HR seta znakova prema CROASCII standardu
+		   za VGA tekst rez. sa 25 redaka (ako je parametar 'red' 25)
+		   ili VGA tekst rez. sa 50 redaka (ako je parametar 'red' 50)
+ 
+ HR852( red )    - inicijalizacija HR seta znakova prema rasporedu LATIN II
+		   (kodna stranica 852) za VGA 25 ili 50 redaka
+	       
+	       *>  Funkcija postavlja SAMO hrvatske znakove a ne citavu 852
+		   kodnu stranicu (pozicija HR slova je ista kao na CP852, 
+		   a ostali znakovi su sa CP437 !!!)
+ 
+ HRSCI852( red ) - inicijalizacija HR seta znakova prema CP852 i CROASCII
+		   standardu (ako pisete univerzalne aplikacije a ne znate
+		   da li ce se koristiti pod CP852 ili CROASCII driverima)
+		   za VGA 25 ili 50 redaka.
+
+	       *>  Funkcija postavlja SAMO hrvatske znakove (pozicija HR 
+		   slova je ista kao na CP852 i CRASCII, a ostali znakovi
+		   su sa CP437 !!!)
+ 
+ ROMFONT( red )  - inicijalizacija ROM seta znakova za VGA 25/50 redaka
+	       
+	       *>  Ponistava HR slova i vraca standardni DOS set znakova
+		   (USA - kodna stranica 437)
+ 
+ GETCSET()       - sprema trenutno aktivni set znakova u string varijablu
+		   (duzina varijable ce biti 4096 znakova)
+		   Koristiti na slijedeci nacin:
+
+			cVar:=GETCSET()
+
+ SETCSET(cVar)   - aktivira set preuzet sa GETCSET(). Funkcija vraca:
+
+			.T. - ako je set uspjesno aktiviran
+			.F. - ako je doslo do greske (cVar ne sadrzi set)
+
+ GRAYSC()        - konverzija VGA RGB palete u monokromatsku - upotrijebite 
+		   ako se aplikacija izvrsava na monokrom. monitorima a ne 
+		   vide se sve nijanse boja (npr. plavo na crvenom ili bijelo
+		   na cyan). Pozivom ove funkcije vrsi se konverzija palete
+		   u monokromatsku i vecina kombinacija postaje vidljiva !)
+	       
+	       *>  Kartica mora biti u COLOR nacinu rada (ako nije, 
+		   upotrijebite DOS komandu MODE CO80) da bi se paleta 
+		   izmijenila. 
+		   
+		   GRAYSC() ne mijenja video mod i ne dira trenutno aktivni
+		   set znakova
+ 
+
+ ==-- NAPOMENA --==
+ Pozivom funkcija za izmjenu fonta, VGA tekst rezolucija se automatski 
+ postavlja na odgovarajuce vrijednosti (50 ili 25 redaka, bez brisanja 
+ ekrana) ali Clipper funkcija MAXROW() NECE davati ispravne vrijednosti !!!
+
+ Stoga, ako se prebacujete iz fonta za 25 redaka u font za 50 redaka (ili
+ obrnuto) a koristite vrijednosti dobivene sa MAXROW(), prije
+ poziva zeljene funkcije upotrijebite Clipper funkciju SETMODE() (vidi
+ primjer DEMO.PRG) !!!
+ Za promjene unutar istih tekst rezolucija SETMODE() ne treba koristiti.
+
+ Ako se nakon poziva neke od funkcija HRFONTS.LIB-a pojavi kursor iako je 
+ prethodno iskljucen (sa SET CURSOR OFF ili SETCURSOR(0)), upisite nakon 
+ poziva funkcije koja je 'upalila' kursor: 
+	
+	SET CURSOR ON
+	SET CURSOR OFF
+ 
+ i stvar je rijesena.
+
+ -> Funkcije mijenjaju DOS set znakova ali ne i raspored tipki na tastaturi !
+    Za to koristite neki od PD i SW programcica kao sto su KEY_CRO, HRKEYB 
+    (ako koristite CROASCII) ili DOS-ov KEYB (za 852) i slicno...
+
+
+ Razvoj Verzija:
+ ---------------
+
+ 1.00	- Prva verzija pustena u promet.
+ 2.00   - Dodane dvije nove funkcije:
+
+		GETCSET, SETCSET
+
+	  Takodjer, autor je promjenio adresu, e-mail i tel. broj
+
+ ***************************************************************************
+
+  Prilozena LIB datoteka je upotrebljiva za CLIPPER 5.x a sve sto vam nije 
+  jasno mozete prouciti i isprobati na prilozenom primjeru aplikacije
+  (DEMO.PRG na poddirektoriju DEMO).
+
+  ......--------===========#                       #===========--------......
+
+  HRFONTS je FLOPPYWARE proizvod - ako vam se svidja, posaljite mi 3.5" HD
+  disketu (tzv. "skromni prilog i poticaj za daljnji razvoj...") !
+
+ ***************************************************************************
+
+  Sve primjedbe, ideje za poboljsanja i savjete saljite na adresu:
+
+
+  Autor:                            €€€€€€
+  ------                           €€ €€ €€
+                                   €€€€€€€€    €€    €€∞           €€€€€€€∞
+  Arminio Grgic - GrGa             €€    €€    €€€∞ €€€∞   ‹‹‹     €∞
+  Istarska 6                       €€€  €€€    €∞€€€€ €∞  €∞  €    €∞
+  34000 Pozega, Hrvatska            €€€€€€     €∞ €€  €∞   €€€∞    €∞ €€€€∞
+                                     €   €     €∞     €∞  €∞  €ﬂ   €∞    €∞
+  tel.: +385 34 241 291            €   €       €∞     €∞  ﬂ€€€€    €€€€€€€∞
+  (Iz Hrvatske: 034/241-291)         €   €                     ﬂ
+                                   €   €       S   O   F   T   W   A   R   E
+  e-mail:                            €   €
+  Arminio.Grgic@iligsoft.fido.hr   €   €
+  
+  FidoNet/CroatiaNet:
+  Arminio Grgic@2:381/140

@@ -1,0 +1,393 @@
+STATIC Function DBEDIT( Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8, Arg9, Arg10, Arg11, Arg12)
+******************************************************************************************
+Local Local1, Local2, Local3, Local4, Local5, Local6, Local7
+IF Arg4 = 78
+   Arg4 := MaxCol()-1
+EndIF
+If (EOF())
+   Goto Bottom
+EndIf
+Local1:= dbedsetup(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8, Arg9, Arg10, Arg11, Arg12)
+Local1:skipblock({ |_1| skipped(_1) })
+Local1:autolite(.F.)
+Local2:= setcursor(0)
+Local7:= {Static13, Static14}
+Static13:= .F.
+Static14:= .T.
+Local5:= .T.
+Local3:= .T.
+Do While (Local3)
+   Do While (!Local1:stabilize())
+      If (nextkey() != 0)
+         Exit
+      EndIf
+   EndDo
+   If ((Local4 := InKey()) == 0)
+      If (Local5)
+         Local3:= calluser(Local1, Arg6, 0)
+         Do While (!Local1:stabilize())
+         EndDo
+      EndIf
+      If (Local3 .AND. Static14)
+         Local1:hilite()
+         Local4:= InKey(0)
+         Local1:dehilite()
+         If ((Local6:= SetKey(Local4)) != Nil)
+            eval(Local6, procname(1), procline(1), "")
+            Loop
+         EndIf
+      Else
+         Static14:= .T.
+      EndIf
+   EndIf
+   Local5:= .T.
+   Do Case
+   Case Local4 == 0
+   Case Local4 == 24
+      If (Static13)
+         Local1:hitbottom(.T.)
+      Else
+         Local1:down()
+      EndIf
+   Case Local4 == 5
+      If (Static13)
+         Local1:hittop(.T.)
+      Else
+         Local1:up()
+      EndIf
+   Case Local4 == 3
+      If (Static13)
+         Local1:hitbottom(.T.)
+      Else
+         Local1:pagedown()
+      EndIf
+   Case Local4 == 18
+      If (Static13)
+         Local1:hittop(.T.)
+      Else
+         Local1:pageup()
+      EndIf
+   Case Local4 == 31
+      If (Static13)
+         Local1:hittop(.T.)
+      Else
+         Local1:gotop()
+      EndIf
+   Case Local4 == 30
+      If (Static13)
+         Local1:hitbottom(.T.)
+      Else
+         Local1:gobottom()
+      EndIf
+   Case Local4 == 4
+      Local1:right()
+   Case Local4 == 19
+      Local1:left()
+   Case Local4 == 1
+      Local1:home()
+   Case Local4 == 6
+      Local1:end()
+   Case Local4 == 26
+      Local1:panleft()
+   Case Local4 == 2
+      Local1:panright()
+   Case Local4 == 29
+      Local1:panhome()
+   Case Local4 == 23
+      Local1:panend()
+   Otherwise
+      Local3:= calluser(Local1, Arg6, Local4)
+      Local5:= .F.
+   EndCase
+EndDo
+setcursor(Local2)
+Static13:= Local7[1]
+Static14:= Local7[2]
+Return .T.
+
+****************************************************************************************************
+STATIC Function DBEDSETUP(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8, Arg9, Arg10, Arg11, Arg12)
+****************************************************************************************************
+LOCAL Local1, Local2, Local3, Local4, Local5, Local6, Local7, Local8
+LOCAL cFrame2     := SubStr( oAmbiente:Frame, 2, 1 )
+LOCAL cFrame3     := SubStr( oAmbiente:Frame, 3, 1 )
+LOCAL cFrame4     := SubStr( oAmbiente:Frame, 4, 1 )
+LOCAL cFrame6     := SubStr( oAmbiente:Frame, 6, 1 )
+
+If (ValType(Arg1) != "N" .OR. Arg1 < 0)
+   Arg1:= 0
+EndIf
+If (ValType(Arg2) != "N" .OR. Arg2 < 0)
+   Arg2:= 0
+EndIf
+If (ValType(Arg3) != "N" .OR. Arg3 > MaxRow() .OR. Arg3 < Arg1)
+   Arg3:= MaxRow()
+EndIf
+If (ValType(Arg4) != "N" .OR. Arg4 > MaxCol() .OR. Arg4 < Arg2)
+   Arg4:= MaxCol()
+EndIf
+If ((Arg4 - Arg2) * (Arg3 - Arg1) > MaxRow() * MaxCol())
+   Arg1:= Arg2:= 0
+   Arg3:= MaxRow()
+   Arg4:= MaxCol()
+EndIf
+Local1:= tbrowsedb(Arg1, Arg2, Arg3, Arg4)
+If (ISARRAY(Arg5))
+   Local3:= Len(Arg5)
+   Local2:= 1
+   Do While (Local2 <= Local3)
+      If (ValType(Arg5[Local2]) != "C" .OR. Empty(Arg5[Local2]))
+         Exit
+      EndIf
+      Local2++
+   EndDo
+   Local3:= Local2 - 1
+Else
+   Local3:= FCount()
+EndIf
+If (Local3 == 0)
+   Return .F.
+EndIF
+Local1:HeadSep   := cFrame2 + cFrame3 + cFrame2
+Local1:ColSep    := Chr(032) + cFrame4 + Chr(032)
+Local1:FootSep   := cFrame2  + cFrame2 + cFrame2
+Local4:= array(Local3, 6)
+If (ISARRAY(Arg5))
+   For Local2:= 1 To Local3
+      If ("->" $ Arg5[Local2])
+         Local6:= At("->", Arg5[Local2])
+         Local4[Local2][3]:= SubStr(Arg5[Local2], 1, Local6 - 1)
+         Local4[Local2][4]:= SubStr(Arg5[Local2], Local6 + 2)
+         Local4[Local2][1]:= Local4[Local2][3] + "->;" + ;
+            Local4[Local2][4]
+      Else
+         Local4[Local2][3]:= Nil
+         Local4[Local2][4]:= Nil
+         Local4[Local2][1]:= Arg5[Local2]
+      EndIf
+      Local4[Local2][2]:= Arg5[Local2]
+   Next
+ElseIf (FCount() > 0)
+   For Local2:= 1 To Local3
+      Local4[Local2][3]:= Nil
+      Local4[Local2][4]:= Nil
+      Local4[Local2][1]:= FieldName(Local2)
+      Local4[Local2][2]:= FieldName(Local2)
+   Next
+Else
+   Return .F.
+EndIf
+For Local2:= 1 To Local3
+   Local5:= ""
+   If (ISARRAY(Arg7))
+      If (Len(Arg7) >= Local2 .AND. ISCHARACTER(Arg7[Local2]) ;
+            .AND. !Empty(Arg7[Local2]))
+         Local5:= Arg7[Local2]
+      EndIf
+   ElseIf (ISCHARACTER(Arg7) .AND. !Empty(Arg7))
+      Local5:= Arg7
+   EndIf
+   Local7:= Nil
+   If (ISMEMO(&(Local4[Local2][2])))
+      Local7:= "{|| '  <Memo>  '}"
+   ElseIf (Empty(Local5))
+      If ("->" $ Local4[Local2][2])
+         If (Upper(Local4[Local2][3]) == "M")
+            Local7:= memvarblock(Local4[Local2][2])
+         ElseIf (Upper(Local4[Local2][3]) == "FIELD")
+            Local7:= fieldwblock(Local4[Local2][4], Select())
+         Else
+            Local7:= fieldwblock(Local4[Local2][4], ;
+               Select(Local4[Local2][3]))
+         EndIf
+      ElseIf (!Empty(fieldpos(Local4[Local2][2])))
+         Local7:= fieldwblock(Local4[Local2][2], Select())
+      EndIf
+   EndIf
+   If (ISNIL(Local7))
+      If (Empty(Local5))
+         Local7:= "{||" + Local4[Local2][2] + "}"
+      Else
+         Local7:= "{|| Transform(" + Local4[Local2][2] + ",'" + ;
+            Local5 + "')}"
+      EndIf
+   EndIf
+   If (ISCHARACTER(Local7))
+      Local4[Local2][2]:= &Local7
+   ElseIf (ISBLOCK(Local7))
+      Local4[Local2][2]:= Local7
+   EndIf
+   If (ISARRAY(Arg8))
+      If (Len(Arg8) >= Local2 .AND. ISCHARACTER(Arg8[Local2]))
+         Local4[Local2][1]:= Arg8[Local2]
+      EndIf
+   ElseIf (ISCHARACTER(Arg8))
+      Local4[Local2][1]:= Arg8
+   EndIf
+   Local4[Local2][3]:= Nil
+   If (ISARRAY(Arg9))
+      If (Len(Arg9) >= Local2 .AND. ISCHARACTER(Arg9[Local2]))
+         Local4[Local2][3]:= Arg9[Local2]
+      EndIf
+   ElseIf (ISCHARACTER(Arg9))
+      Local4[Local2][3]:= Arg9
+   EndIf
+   Local4[Local2][4]:= Nil
+   If (ISARRAY(Arg10))
+      If (Len(Arg10) >= Local2 .AND. ISCHARACTER(Arg10[Local2]))
+         Local4[Local2][4]:= Arg10[Local2]
+      EndIf
+   ElseIf (ISCHARACTER(Arg10))
+      Local4[Local2][4]:= Arg10
+   EndIf
+   Local4[Local2][5]:= Nil
+   If (ISARRAY(Arg11))
+      If (Len(Arg11) >= Local2 .AND. ISCHARACTER(Arg11[Local2]))
+         Local4[Local2][5]:= Arg11[Local2]
+      EndIf
+   ElseIf (ISCHARACTER(Arg11))
+      Local4[Local2][5]:= Arg11
+   EndIf
+   Local4[Local2][6]:= Nil
+   If (ISARRAY(Arg12))
+      If (Len(Arg12) >= Local2 .AND. ISCHARACTER(Arg12[Local2]))
+         Local4[Local2][6]:= Arg12[Local2]
+      EndIf
+   ElseIf (ISCHARACTER(Arg12))
+      Local4[Local2][6]:= Arg12
+   EndIf
+Next
+For Local2:= 1 To Local3
+   Local8:= tbcolumnnew(Local4[Local2][1], Local4[Local2][2])
+   If (Local4[Local2][3] != Nil)
+      Local8:headsep(Local4[Local2][3])
+   EndIf
+   If (Local4[Local2][4] != Nil)
+      Local8:colsep(Local4[Local2][4])
+   EndIf
+   If (Local4[Local2][5] != Nil)
+      Local8:footsep(Local4[Local2][5])
+   EndIf
+   If (Local4[Local2][6] != Nil)
+      Local8:footing(Local4[Local2][6])
+   EndIf
+   Local1:addcolumn(Local8)
+Next
+Return Local1
+
+Static Function SKIPPED(Arg1)
+
+   Local Local1
+   Local1:= 0
+   If (LastRec() != 0)
+      If (Arg1 == 0)
+         Skip 0
+      ElseIf (Arg1 > 0 .AND. RecNo() != LastRec() + 1)
+         Do While (Local1 < Arg1)
+            Skip 
+            If (EOF())
+               Skip -1
+               Exit
+            EndIf
+            Local1++
+         EndDo
+      ElseIf (Arg1 < 0)
+         Do While (Local1 > Arg1)
+            Skip -1
+            If (BOF())
+               Exit
+            EndIf
+            Local1--
+         EndDo
+      EndIf
+   EndIf
+   Return Local1
+
+STATIC Function CALLUSER(Arg1, Arg2, Arg3)
+******************************************
+	LOCAL Local1
+	LOCAL Local2
+	LOCAL Local3
+	LOCAL Local4
+	
+	Do Case
+	Case Arg3 != 0
+		Local1 := 4
+		
+	Case !Static13 .AND. emptyfile()
+		Local1 := 3
+		
+	Case Arg1:hitbottom()
+		Local1 := 2
+		
+	Case Arg1:hittop()
+		Local1 := 1
+		
+	Otherwise
+		Local1 := 0
+		
+	EndCase
+	
+	WHILE (!Arg1:stabilize())
+	EndDo
+	
+	Local3 := RecNo()
+	If (ValType(Arg2) != "C" .OR. Empty(Arg2))
+		If (Arg3 == 13 .OR. Arg3 == 27)
+			Local2 := 0
+		Else
+			Local2 := 1
+		EndIf
+	Else
+		Local2 := &Arg2(Local1, Arg1:colpos())
+	EndIf
+
+	Local4 := Local2 != 0
+	If (!Static13 .AND. EOF() .AND. !emptyfile())
+		Skip -1
+	EndIf
+	
+	If (Local2 == 3)
+		Static13 := !(Static13 .AND. EOF())
+		If (Static13)
+			Goto Bottom
+			Arg1:down()
+		Else
+			Arg1:refreshcurrent()
+		EndIf
+		Static14:= .F.
+	ElseIf (Local2 == 2 .OR. Local3 != RecNo())
+		If (Local4)
+			Static13:= .F.
+			If (Set(_SET_DELETED) .AND. Deleted() .OR. ;
+					!Empty(dbfilter()) .AND. !&(dbfilter()))
+				Skip
+			EndIf
+			If (EOF())
+				Goto Bottom
+			EndIf
+			Local3:= RecNo()
+			Arg1:refreshall()
+			Do While (!Arg1:stabilize())
+			EndDo
+			Do While (Local3 != RecNo())
+				Arg1:up()
+				Do While (!Arg1:stabilize())
+				EndDo
+			EndDo
+			Static14:= .F.
+		EndIf
+	Else
+		Arg1:refreshcurrent()
+	EndIf
+	Return Local4
+
+Static Function EMPTYFILE
+*************************
+	If (LastRec() == 0)
+		Return .T.
+	EndIf
+	If ((EOF() .OR. RecNo() == LastRec() + 1) .AND. BOF())
+		Return .T.
+	EndIf
+	Return .F.

@@ -1,0 +1,4 @@
+Set WshNetwork = CreateObject("WScript.Network")
+WshNetwork.AddWindowsPrinterConnection "\\10.0.0.80\P2"
+WshNetwork.SetDefaultPrinter "\\10.0.0.99\P2"
+msgbox "Sucesso"

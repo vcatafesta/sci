@@ -1,0 +1,44 @@
+/*****
+ *
+ *    File Name: BROWRDD.RMK
+ *  Description: RDD demo make file
+ *       Author: Luiz Quintela
+ * Date created: 03-08-93
+ *    Copyright: 1993 by Computer Associates
+ *
+ */
+
+// Check environment
+#ifeq "$(LIB)" ""
+   #stderr "CRITICAL ERROR: LIB not set!"
+
+#endif
+
+#ifeq "$(INCLUDE)" ""
+   #stderr "CRITICAL ERROR: INCLUDE not set!"
+
+#endif
+
+.prg.obj:
+   SET CLIPPERCMD=/N /W
+   Clipper $< >$*.err
+   IF NOT ERRORLEVEL 1 ERASE $*.err
+
+BROWRDD.OBJ  : browrdd.prg browrdd.ch
+BROWMOVE.OBJ : browmove.prg
+SCRUTI.OBJ   : scruti.prg
+SETUTI.OBJ   : setuti.prg
+SHADOW.OBJ   : shadow.prg
+CHOICE.OBJ   : choice.prg
+BROWSEEK.OBJ : browseek.prg
+RDDSYS.OBJ   : rddsys.prg
+
+.obj.exe:
+   SET RTLINKCMD=/POSITIONAL
+   RTLINK $**,,,DBFNTX DBFCDX DBFMDX DBPX
+
+BROWRDD.EXE : browrdd.obj browmove.obj\
+ setuti.obj scruti.obj shadow.obj choice.obj\
+ browseek.obj rddsys.obj
+
+// EOF - BROWRDD.RMK //

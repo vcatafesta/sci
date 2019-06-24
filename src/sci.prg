@@ -442,6 +442,7 @@ def Main(...)
 				SalvaMem()
 			Case oPc = 6.04
 				oMenu:SetaCor( 3 )
+				SalvaMem()
 			Case oPc = 6.05
 				oMenu:SetaCor( 1 )
 				SalvaMem()
@@ -684,8 +685,7 @@ def SalvaMem()
 	oIni:WriteInteger( oAmbiente:xUsuario, 'cormsg',        oAmbiente:CorMsg )
 	oIni:WriteBool(    oAmbiente:xUsuario, 'sombra',        oMenu:Sombra )
 	oIni:WriteBool(    oAmbiente:xUsuario, 'get_ativo',     oAmbiente:Get_Ativo )
-	//oAmbiente:ShowVar()
-	//alert("OPEN :" + strzero(oini:WriteOpen, 5) + " WRITE :" + strzero(oini:WriteCount, 5))
+	//oAmbiente:ShowVar(true, nil, true)	
 	SetaIni()
 	return NIL
 endef
@@ -978,7 +978,7 @@ def ms_makeDir(cBaseDados, cCmd, cDoc, cSpooler, cTxt, cHtm, cTmp)
 		Leto_MakeDir( cSpooler )
 		Leto_MakeDir( cTxt )
 		Leto_MakeDir( cHtm )				
-		Leto_MakeDir( cTmp )				
+		Leto_MakeDir( cTmp )						
 	else
 		MkDir( cBaseDados )
 		MkDir( cCmd )
@@ -1444,7 +1444,21 @@ def AbreUsuario()
 endef	
 
 def Terminate()
-	Encerra()
+	FechaTudo()
+	ScrollDir()	
+	FChDir( oAmbiente:xBase )
+	
+	if oAmbiente:LetoAtivo
+	   leto_DisConnect()
+	endif	
+	oIni:Close()	
+	//oSci:Close()
+
+	F_Fim( SISTEM_NA1 + " " + SISTEM_VERSAO )
+	SetMode(oAmbiente:AlturaFonteDefaultWindows, oAmbiente:LarguraFonteDefaultWindows)
+	Cls
+	DevPos( 24, 0 )
+	return( __Quit())
 endef
 
 def Encerra()
@@ -2343,15 +2357,15 @@ EndCase
 
 Proc Novidades()
 ****************
-LOCAL cFile := oAmbiente:xBase + "\SCI.NEW"
-oMenu:Limpa()
-IF File( cFile )
-	M_Title("ULTIMAS ALTERACOES NO SISTEMA")
-	M_View( 00, 00, LastRow(), LastCol(), cFile,  Cor())
-Else
-	ErrorBeep()
-	Alerta("Erro: Arquivo " + cFile + " nao localizado.")
-EndIF
+	LOCAL cFile := oAmbiente:xBase + "\SCI.NEW"
+	oMenu:Limpa()
+	IF File( cFile )
+		M_Title("ULTIMAS ALTERACOES NO SISTEMA")
+		M_View( 00, 00, LastRow(), LastCol(), cFile,  Cor())
+	Else
+		ErrorBeep()
+		Alerta("Erro: Arquivo " + cFile + " nao localizado.")
+	EndIF
 
 Proc ImprimeDebito()
 ********************
@@ -2802,27 +2816,28 @@ WHILE OK
 	ResTela( cScreen )
 EndDo
 
-Function ExcluirTemporarios()
-*****************************
-LOCAL cTela := Mensagem("Aguarde, Excluindo Arquivos Temporarios.")
+def ExcluirTemporarios()
+*-----------------------*
+	LOCAL cTela := Mensagem("Aguarde, Excluindo Arquivos Temporarios.")
 
-Aeval( Directory( "*.$*"),  { | aFile | Ferase( aFile[ F_NAME ] )})
-Aeval( Directory( "*.$$$"), { | aFile | Ferase( aFile[ F_NAME ] )})
-Aeval( Directory( "*.TMP"), { | aFile | Ferase( aFile[ F_NAME ] )})
-Aeval( Directory( "*.BAK"), { | aFile | Ferase( aFile[ F_NAME ] )})
-Aeval( Directory( "*.MEM"), { | aFile | Ferase( aFile[ F_NAME ] )})
-Aeval( Directory( "T0*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
-Aeval( Directory( "T1*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
-Aeval( Directory( "T2*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
-Aeval( Directory( "T3*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
-Aeval( Directory( "T4*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
-Aeval( Directory( "T5*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
-Aeval( Directory( "T6*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
-Aeval( Directory( "T7*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
-Aeval( Directory( "T8*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
-Aeval( Directory( "T9*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
-Aeval( Directory( "*."),    { | aFile | Ferase( aFile[ F_NAME ] )})
-return(ResTela(cTela))
+	Aeval( Directory( "*.$*"),  { | aFile | Ferase( aFile[ F_NAME ] )})
+	Aeval( Directory( "*.$$$"), { | aFile | Ferase( aFile[ F_NAME ] )})
+	Aeval( Directory( "*.TMP"), { | aFile | Ferase( aFile[ F_NAME ] )})
+	Aeval( Directory( "*.BAK"), { | aFile | Ferase( aFile[ F_NAME ] )})
+	Aeval( Directory( "*.MEM"), { | aFile | Ferase( aFile[ F_NAME ] )})
+	Aeval( Directory( "T0*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
+	Aeval( Directory( "T1*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
+	Aeval( Directory( "T2*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
+	Aeval( Directory( "T3*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
+	Aeval( Directory( "T4*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
+	Aeval( Directory( "T5*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
+	Aeval( Directory( "T6*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
+	Aeval( Directory( "T7*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
+	Aeval( Directory( "T8*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
+	Aeval( Directory( "T9*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
+	Aeval( Directory( "*."),    { | aFile | Ferase( aFile[ F_NAME ] )})
+	return(ResTela(cTela))
+endef	
 
 Proc Duplicados()
 *****************
@@ -3281,69 +3296,59 @@ RenDup( cFile, xDbf, xNtx )
 ResTela( cTela )
 Return
 
-Proc DupEntradas()
-*****************
-LOCAL cFile
-LOCAL xDbf
-LOCAL xNtx
-LOCAL nx
+def DupEntradas()
+*----------------*
+	LOCAL cFile := "ENTRADAS"	
+	LOCAL nx
+	PRIVA xNtx   := FTempMemory()		
+	PRIVA xDbf   := FTempMemory()		
 
-Mensagem("Informa: Aguarde, Excluindo Arquivos Temporarios.")
-oMenu:Limpa()
-ExcluirTemporarios()
-/*************************************************************************************************/
-IF !UsaArquivo("ENTRADAS") ; Break ; EndiF
-cFile := "ENTRADAS"
-xNtx	:= FTempName("T*.TMP")
-cTela := Mensagem("Verificando: " + cFile )
-xDbf := ""
+	Mensagem("Informa: Aguarde, Excluindo Arquivos Temporarios.")
+	oMenu:Limpa()
+	ExcluirTemporarios()
+	IF !UsaArquivo("ENTRADAS") ; Break ; EndiF
+	cTela := Mensagem("Verificando: " + cFile )
+	
+	Area("ENTRADAS")
+	Inde On Codi + dTos( Data ) + Codigo + Fatura + Str(VlrFatura,13,2) To MEM:&xNtx Unique Temporary
+	Copy To MEM:&xDbf
+	RenDup( cFile, MEM:&xDbf, xNtx )
+	ResTela( cTela )
+	Return
+endef	
 
-Sele Entradas
-Inde On Codi + dTos( Data ) + Codigo + Fatura + Str(VlrFatura,13,2) To ( xNtx ) Unique
-nX := 0
-WHILE File(( xDbf := cFile + "." + StrZero( ++nX, 3 )))
-EndDo
-Copy To ( xDbf )
-RenDup( cFile, xDbf, xNtx )
-ResTela( cTela )
-Return
+def DupPagamov()
+*---------------*
+	LOCAL cFile := "PAGAMOV"
+	LOCAL nx
+	PRIVA xNtx   := FTempMemory()		
+	PRIVA xDbf   := FTempMemory()		
 
-Proc DupPagamov()
-*****************
-LOCAL cFile
-LOCAL xDbf
-LOCAL xNtx
-LOCAL nx
+	Mensagem("Informa: Aguarde, Excluindo Arquivos Temporarios.")
+	oMenu:Limpa()
+	ExcluirTemporarios()
+	IF !UsaArquivo("PAGAMOV") ; Break ; EndiF	
+	cTela := Mensagem("Verificando: " + cFile )
 
-Mensagem("Informa: Aguarde, Excluindo Arquivos Temporarios.")
-oMenu:Limpa()
-ExcluirTemporarios()
-/*************************************************************************************************/
-IF !UsaArquivo("PAGAMOV") ; Break ; EndiF
-cFile := "PAGAMOV"
-xNtx	:= FTempName("T*.TMP")
-cTela := Mensagem("Verificando: " + cFile )
-xDbf := ""
-
-Sele Pagamov
-Inde On Docnr + Fatura + Codi + Str( Vlr, 13,2 ) + dTos( Vcto) + dTos( Emis ) To ( xNtx ) Unique
-nX := 0
-WHILE File(( xDbf := cFile + "." + StrZero( ++nX, 3 )))
-EndDo
-Copy To ( xDbf )
-RenDup( cFile, xDbf, xNtx )
-ResTela( cTela )
-Return
+	Area("PAGAMOV")
+	Inde On Docnr + Fatura + Codi + Str( Vlr, 13,2 ) + dTos( Vcto) + dTos( Emis ) To MEM:&xNtx Unique Temporary
+	hb_vfCopyFile( "mem:test.dbf", "test1.dbf" )
+	Copy To MEM:&xDbf
+	RenDup( cFile, MEM:&xDbf, xNtx )
+	ResTela( cTela )
+	return nil
+endef	
 
 *==================================================================================================*	
 
 def CriaNewNota( lSimNao )
 *+------------------------+*
-	LOCAL GetList := {}
-	LOCAL cScreen := SaveScreen()
-	LOCAL cFatura := ""
-	LOCAL xNtx    := FTempName("T*.TMP")
+	LOCAL GetList  := {}
+	LOCAL cScreen  := SaveScreen()
+	LOCAL cFatura  := ""
 	LOCAL cTela
+	PRIVA xNtx     := FTempMemory()		
+	PRIVA xNewNota := FTempMemory()
 
 	if lSimNao = NIL
 		ErrorBeep()
@@ -3352,7 +3357,7 @@ def CriaNewNota( lSimNao )
 		endif
 	endif	
 	
-	cTela := Mensagem(" Aguarde... Verificando Arquivos.")
+	cTela := Mensagem(" Aguarde... Verificando e abrindo arquivos.")
 	FechaTudo()
 	IF !NetUse("Saidas",  MONO )   ; ResTela( cTela ); Return(FALSO) ; EndIF
 	IF !NetUse("Nota",    MONO )   ; ResTela( cTela ); Return(FALSO) ; EndIF
@@ -3363,8 +3368,8 @@ def CriaNewNota( lSimNao )
 	Area("Recemov")
 	Area("Saidas")
 	Area("Nota")
-	Nota->(__DbZap())	
-	Inde On Numero To (xNtx)
+	Nota->(__DbZap())			
+	Inde On Numero To mem:&xNtx Temporary
 	Saidas->(Order( SAIDAS_FATURA ))
 	Saidas->(DbGoTop())
 	
@@ -3401,34 +3406,35 @@ def CriaNewNota( lSimNao )
 	enddo
 	
 	Nota->(Order( NATURAL ))
-	Sort On Numero To NewNota
+	ms_swap_ferase("NEWNOTA.DBF")	
+	Sort On Numero To mem:&xNewNota
 	Nota->(__DbZap())
 	Nota->(__DbPack())
-	Appe From NewNota
+	Appe From mem:&xNewNota
 	FechaTudo()
 	ms_swap_ferase('NOTA.' + CEXT)
-	VerIndice()
-	oReindexa:WriteBool('reindexando', 'NOTA.DBF', OK )
-	FechaTudo()
+	//VerIndice()
+	//oReindexa:WriteBool('reindexando', 'NOTA.DBF', OK )
+	//FechaTudo()
 	return( ResTela( cTela ))
 endef
 	
 def CriaNewEnt()
 *+---------------+*
-	LOCAL cFatura := ""
-	LOCAL xNtx	  := FTempName("T*.TMP")
-	LOCAL cTela   := Mensagem(" Aguarde... Verificando Arquivos.", WARNING, _LIN_MSG )
+	LOCAL cFatura := ""	
+	LOCAL cTela   := Mensagem("Aguarde... Verificando Arquivos.")
+	PRIVA xNtx    := FTempMemory()		
 
 	FechaTudo()
-	IF !NetUse("Entradas", MONO )   ; ResTela( cTela ); Return(FALSO) ; EndIF
-	IF !NetUse("EntNota",  MONO )   ; ResTela( cTela ); Return(FALSO) ; EndIF
+	IF !NetUse("Entradas", MONO ) ; ResTela( cTela ); Return(FALSO) ; EndIF
+	IF !NetUse("EntNota",  MONO ) ; ResTela( cTela ); Return(FALSO) ; EndIF
 	ResTela( cTela )
 
 	cTela := Mensagem("Verificando: ENTRADAS.DBF")
 	Area("Entradas")
 	Area("EntNota")
 	EntNota->(__DbZap())
-	Inde On Numero To ( xNtx )
+	Inde On Numero To mem:&xNtx Temporary
 	Entradas->(DbGoTop())
 	
 	while Entradas->(!Eof())
@@ -3448,6 +3454,10 @@ def CriaNewEnt()
 		Entradas->(DbSkip(1))
 	EndDo
 	FechaTudo()
+	ms_swap_ferase("ENTNOTA." + CEXT)
+	//VerIndice()
+	//oReindexa:WriteBool('reindexando', "ENTNOTA.DBF", OK )
+	//FechaTudo()	
 	return(ResTela( cTela ))
 endef
 
@@ -7324,12 +7334,7 @@ IF !oAmbiente:Visual
 	WriteBox( nMaxRow-4, 10, "extˆns„o da LEI.")
 	SetColor("R")
 	Write( nMaxRow-2,00, "TECLE ALGO PARA INICIARÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ")
-	For nY := 1 To 1000
-		Inkey(.1)
-		IF Lastkey() <> 0
-			Exit
-		EndIF
-	Next
+	Inkey(2)	
 	ScrollEsq()
 ELSE
 	SetColor("")
@@ -7376,149 +7381,169 @@ ELSE
 EndIF
 Return
 
-Function Info(nRow, lInkey)
-***************************
-LOCAL cScreen	  := SaveScreen( )
-LOCAL Drive 	  := Curdrive()
-LOCAL cDiretorio := FCurdir()
-LOCAL nMaxRow	  := MaxRow()
-LOCAL nMaxCol	  := MaxCol()-3
-LOCAL cSistema   := StrTran( SISTEM_NA1 + SISTEM_VERSAO, "MENU PRINCIPAL-","")
-LOCAL nRamLivre  := Memory(0)
-LOCAL nColor
-LOCAL Handle
-LOCAL xMicrobras
-LOCAL xEndereco
-LOCAL xTelefone
-LOCAL xCidade
+def Info(nRow, lInkey)
+*----------------------*
+	LOCAL cScreen	  := SaveScreen( )
+	LOCAL Drive 	  := Curdrive()
+	LOCAL cDiretorio := FCurdir()
+	LOCAL nMaxRow	  := MaxRow()
+	LOCAL nMaxCol	  := MaxCol()-3
+	LOCAL cSistema   := StrTran( SISTEM_NA1 + SISTEM_VERSAO, "MENU PRINCIPAL-","")
+	LOCAL nRamLivre  := Memory(0)
+	LOCAL nColor
+	LOCAL Handle
+	LOCAL xMicrobras
+	LOCAL xEndereco
+	LOCAL xTelefone
+	LOCAL xCidade
 
-IfNil(nRow, 2)
-FChDir( oAmbiente:xBase )
-Handle := Fopen("SCI.CFG")
-IF ( Ferror() != 0 )
+	IfNil(nRow, 2)
+	FChDir( oAmbiente:xBase )
+	Handle := Fopen("SCI.CFG")
+	IF ( Ferror() != 0 )
+		FClose( Handle )
+		SetColor("")
+		Cls
+		Alert( "Erro #3: Erro de Abertura do Arquivo SCI.CFG.")
+		ResTela( cScreen )
+		Return
+	EndIF
+	nErro := FLocate( Handle, "[ENDERECO_STRING]")
+	IF nErro < 0
+		FClose( Handle )
+		SetColor("")
+		Cls
+		Alert( "Erro #4: Configuracao de SCI.CFG alterada. [ENDERECO_STRING]")
+		ResTela( cScreen )
+		Return
+	EndIF
+	FAdvance( Handle )
+	xMicrobras := AllTrim( MsReadLine( Handle ))
+	FAdvance( Handle )
+	xEndereco  := AllTrim( MsReadLine( Handle ))
+	FAdvance( Handle )
+	xTelefone  := AllTrim( MsReadLine( Handle ))
+	FAdvance( Handle )
+	xCidade	  := AllTrim( MsReadLine( Handle ))
 	FClose( Handle )
-	SetColor("")
-	Cls
-	Alert( "Erro #3: Erro de Abertura do Arquivo SCI.CFG.")
-	ResTela( cScreen )
-	Return
-EndIF
-nErro := FLocate( Handle, "[ENDERECO_STRING]")
-IF nErro < 0
-	FClose( Handle )
-	SetColor("")
-	Cls
-	Alert( "Erro #4: Configuracao de SCI.CFG alterada. [ENDERECO_STRING]")
-	ResTela( cScreen )
-	Return
-EndIF
-FAdvance( Handle )
-xMicrobras := AllTrim( MsReadLine( Handle ))
-FAdvance( Handle )
-xEndereco  := AllTrim( MsReadLine( Handle ))
-FAdvance( Handle )
-xTelefone  := AllTrim( MsReadLine( Handle ))
-FAdvance( Handle )
-xCidade	  := AllTrim( MsReadLine( Handle ))
-FClose( Handle )
-CenturyOn()
+	CenturyOn()
 
-oAmbiente:xProgramador := xMicrobras
-nRow                   := (nMaxRow-20)/2
-nSetColor( oMenu:CorMenu )
+	oAmbiente:xProgramador := xMicrobras
+	nRow                   := (nMaxRow-20)/2
+	nSetColor( oMenu:CorMenu )
 
-IF oAmbiente:Visual
-	SetColor("N/W")
-	Cls
-	DeskBox( nRow-01, 01, nRow+24, MaxCol()-1, 2 )
-	DeskBox( nRow, 	02, nRow+23, MaxCol()-2, 1 )
-	SetColor("B/W")
-	Print( nRow+01, 03, Padc( cSistema, MaxCol()-7 ))
-	SetColor("G/W")
-	Print( nRow+02, 03, Padc( xMicrobras, MaxCol()-7 ) )
-	SetColor("GR+/W")
-	Print( nRow+03, 03, Padc( xEndereco + " - " + xTelefone, MaxCol()-7 ))
-	SetColor("R/W")
-	Print( nRow+04, 03, Padc( xCidade, MaxCol()-7 ))
-Else
-
-	MaBox( nRow,	 02, nRow+22, (nMaxCol+1))
-	Print( nRow+01, 03, "") ; printf(Padc(cSistema,   nMaxCol-2), AscanCor(clBrightGreen))
-	Print( nRow+02, 03, "") ; printf(Padc(xMicrobras, nMaxCol-2), AscanCor(clBrightRed))
-	Print( nRow+03, 03, "") ; printf(Padc(xEndereco,  nMaxCol-2), AscanCor(clBrightBlue))
-	Print( nRow+04, 03, "") ; printf(Padc(xTelefone,  nMaxCol-2), AscanCor(clBrightCyan))
-
+	IF oAmbiente:Visual
+		SetColor("N/W")
+		Cls
+		DeskBox( nRow-01, 01, nRow+24, MaxCol()-1, 2 )
+		DeskBox( nRow, 	02, nRow+23, MaxCol()-2, 1 )
+		SetColor("B/W")
+		Print( nRow+01, 03, Padc( cSistema, MaxCol()-7 ))
+		SetColor("G/W")
+		Print( nRow+02, 03, Padc( xMicrobras, MaxCol()-7 ) )
+		SetColor("GR+/W")
+		Print( nRow+03, 03, Padc( xEndereco + " - " + xTelefone, MaxCol()-7 ))
+		SetColor("R/W")
+		Print( nRow+04, 03, Padc( xCidade, MaxCol()-7 ))
+	Else
+		MaBox( nRow,	 02, nRow+24, (nMaxCol+1))
+		Print( nRow+01, 03, "") ; printf(Padc(cSistema,   nMaxCol-2), AscanCor(clBrightGreen))
+		Print( nRow+02, 03, "") ; printf(Padc(xMicrobras, nMaxCol-2), AscanCor(clBrightRed))
+		Print( nRow+03, 03, "") ; printf(Padc(xEndereco,  nMaxCol-2), AscanCor(clBrightBlue))
+		Print( nRow+04, 03, "") ; printf(Padc(xTelefone,  nMaxCol-2), AscanCor(clBrightCyan))
 	EndIF
 
-Print( nRow+06, 03, "S. Operacional : ") ; printf(Os(), AscanCor(clBrightYellow))
-Print( nRow+07, 03, "  Data Sistema : ") ; printf(Date(), AscanCor(clBrightGreen))
-Print( nRow+08, 03, "Drive Corrente : ") ; printf(AllTrim(Drive), AscanCor(clBrightGreen))
-Print( nRow+09, 03, "  Espa‡o Total : ") ; printf(AllTrim(Tran( FT_DskSize(Drive)/1024/1024/1024, "999,999")), AscanCor(clBrightCyan)) ; printf( " GB", AscanCor(clBrightGreen))
-Print( nRow+10, 03, "   Mem¢ria RAM : ") ; printf(hb_ntos(Memory(HB_MEM_BLOCK )/1024/1024), AscanCor(clBrightCyan)) ; printf( " GB", AscanCor(clBrightGreen))
-Print( nRow+11, 03, "   Mem Virtual : ") ; printf(hb_ntos(Memory(HB_MEM_VM)/1024/1024),     AscanCor(clBrightCyan)) ; printf( " MB", AscanCor(clBrightGreen))
-Print( nRow+12, 03, "  Max Used Mem : ") ; printf(hb_ntos(Memory(HB_MEM_USEDMAX)/1024),     AscanCor(clBrightCyan)) ; printf( " KB", AscanCor(clBrightGreen))
-Print( nRow+13, 03, "  Arqs Abertos : " /*+ AllTrim(Str(NextHandle()-6,3))*/)
-Print( nRow+14, 03, "      Ano 2000 : ") ; printf(IF( oAmbiente:Ano2000, "Habilitado", "Desabilitado"), AscanCor(IF( oAmbiente:Ano2000,   clBrightGreen,clBrightRed)))
-Print( nRow+15, 03, "    Base Dados : ") ; printf(IF( oProtege:Protegido,"Protegida",  "DesProtegida"), AscanCor(IF( oProtege:Protegido, clBrightGreen,clBrightRed))) 
-//Print( nRow+16, 03, " Print Spooler : " /*+ IF( IsQueue(), "Sim","Nao")*/)
-Print( nRow+17, 03, "Versao Harbour : ") ; printf(hb_Version(HB_VERSION_HARBOUR ), AscanCor(clBrightCyan))
-Print( nRow+18, 03, "Compiler C++   : ") ; printf(hb_Version(HB_VERSION_COMPILER), AscanCor(clBrightCyan))
-
-Print( nRow+06, ((nMaxCol/2)-2), "   Nome Esta‡„o : ") ; printf(AllTrim(Left(NetName(),20)), AscanCor(clBrightYellow))
-Print( nRow+07, ((nMaxCol/2)-2), "  Horas Sistema : " + Time())
-Print( nRow+08, ((nMaxCol/2)-2), "      Diret¢rio : " + AllTrim(FCurdir()))
-Print( nRow+09, ((nMaxCol/2)-2), "  Espa‡o Livre  : ") ; printf(AllTrim(Tran(DiskSpace(Drive)/1024/1024/1024, "999,999")), AscanCor(clBrightCyan)) ; printf( " GB", AscanCor(clBrightGreen))
-Print( nRow+10, ((nMaxCol/2)-2), "  Mem RAM Livre : " + AllTrim(Str(nRamLivre/1024/1024) + " GB"))
-IF nRamLivre < 100 // Pouca memoria
-Print( nRow+10, ((nMaxCol/2)-2), "  Mem RAM Livre : " + AllTrim(Str(nRamLivre/1024/1024) + " GB"), Roloc(Cor()))
-EndIF
-Print( nRow+11, ((nMaxCol/2)-2), "  Memoria usada : " + hb_ntos(Memory(HB_MEM_USED)/1024) + " KB")
-Print( nRow+12, ((nMaxCol/2)-2), "  Path Corrente : " + AllTrim( oAmbiente:xBase ))
-Print( nRow+13, ((nMaxCol/2)-2), "  Limite Acesso : ") ; printf( oAmbiente:xDataCodigo, AscanCor(clBrightRed))
-Print( nRow+14, ((nMaxCol/2)-2), "   MultiUsuario : ") ; printf(IF( MULTI, "Habilitado", "Desabilitado"), AscanCor(IF( MULTI, clBrightGreen,clBrightRed)))
-// Print( nRow+15, ((nMaxCol/2)-2), "     Portas LPT : " + IF( FisPrinter("LPT1"), "#1 ","NIL,") + IF( FisPrinter("LPT2"), "#2 ","NIL,") + IF( FisPrinter("LPT3"), "#3 ","NIL,") + IF( FisPrinter("LPT4"), "#4","NIL"))
-// Print( nRow+16, ((nMaxCol/2)-2), "     Portas COM : " /*+ IF( FisPrinter("COM1"), "#1 ","NIL,") + IF( FisPrinter("COM2"), "#2 ","NIL,") + IF( FisPrinter("COM3"), "#3 ","NIL,") + IF( FisPrinter("COM4"), "#4","NIL")*/)
-
-IF oAmbiente:Visual
-  Print( nRow+20, 03, Padc( "Software Li‡enciado para", nMaxCol-7), AscanCor(clBrightGreen))
-  Print( nRow+21, 03, Padc( XNOMEFIR, nMaxCol-7 ), AscanCor(clBrightRed))
-Else
-  Print( nRow+20, 03, Padc( "Software Li‡enciado para" , nMaxCol-2), AscanCor(clBrightGreen))
-  Print( nRow+21, 03, Padc( XNOMEFIR, nMaxCol-2 ), AscanCor(clBrightRed))
-EndIF	
+	aHost := GetIp()
+	Print( nRow+06, 03, "S. Operacional : ") ; printf(Os(), AscanCor(clBrightYellow))
+	Print( nRow+07, 03, "  Data Sistema : ") ; printf(Date(), AscanCor(clBrightGreen))
+	Print( nRow+08, 03, "Drive Corrente : ") ; printf(AllTrim(Drive), AscanCor(clBrightGreen))
+	Print( nRow+09, 03, "  Espa‡o Total : ") ; printf(AllTrim(Tran( FT_DskSize(Drive)/1024/1024/1024, "999,999")), AscanCor(clBrightCyan)) ; printf( " GB", AscanCor(clBrightGreen))
+	Print( nRow+10, 03, "   Mem¢ria RAM : ") ; printf(hb_ntos(Memory(HB_MEM_BLOCK )/1024/1024), AscanCor(clBrightCyan)) ; printf( " GB", AscanCor(clBrightGreen))
+	Print( nRow+11, 03, "   Mem Virtual : ") ; printf(hb_ntos(Memory(HB_MEM_VM)/1024/1024),     AscanCor(clBrightCyan)) ; printf( " MB", AscanCor(clBrightGreen))
+	Print( nRow+12, 03, "  Max Used Mem : ") ; printf(hb_ntos(Memory(HB_MEM_USEDMAX)/1024),     AscanCor(clBrightCyan)) ; printf( " KB", AscanCor(clBrightGreen))
+	Print( nRow+13, 03, "  Arqs Abertos : " /*+ AllTrim(Str(NextHandle()-6,3))*/)
+	Print( nRow+14, 03, "      Ano 2000 : ") ; printf(IF( oAmbiente:Ano2000, "Habilitado", "Desabilitado"), AscanCor(IF( oAmbiente:Ano2000,   clBrightGreen,clBrightRed)))
+	Print( nRow+15, 03, "    Base Dados : ") ; printf(IF( oProtege:Protegido,"Protegida",  "DesProtegida"), AscanCor(IF( oProtege:Protegido, clBrightGreen,clBrightRed))) 
+	//Print( nRow+16, 03, " Print Spooler : " /*+ IF( IsQueue(), "Sim","Nao")*/)
+	Print( nRow+17, 03, "Versao Harbour : ") ; printf(hb_Version(HB_VERSION_HARBOUR ), AscanCor(clBrightCyan))
+	Print( nRow+18, 03, "  Compiler C++ : ") ; printf(hb_Version(HB_VERSION_COMPILER), AscanCor(clBrightCyan))
+	Print( nRow+19, 03, "   Versao Leto : ") ; printf(LETO_GETSERVERVERSION(), AscanCor(clBrightCyan))
+	Print( nRow+20, 03, "       Leto IP : ") ; printf(LETO_GETCURRENTCONNECTION(), AscanCor(clBrightCyan))
+	Print( nRow+21, 03, "      IP Local : ") ; printf(StrGetIp(), AscanCor(clBrightCyan))
 	
-Print( ++nRow, (nMaxCol-30), "< Memoria >", AscanCor(clBrightCyan))
-Print( ++nRow, (nMaxCol-30), "  MEM_CHAR       : " + hb_ntos(Memory(HB_MEM_CHAR       )/1024) + " KB")
-Print( ++nRow, (nMaxCol-30), "  MEM_BLOCK      : " + hb_ntos(Memory(HB_MEM_BLOCK      )/1024) + " KB")
-Print( ++nRow, (nMaxCol-30), "  MEM_RUN        : " + hb_ntos(Memory(HB_MEM_RUN        )/1024) + " KB")
-++nRow
-Print( ++nRow, (nMaxCol-30), "  MEM_VM         : " + hb_ntos(Memory(HB_MEM_VM         )/1024/1024) + " MB")
-Print( ++nRow, (nMaxCol-30), "  MEM_EMS        : " + hb_ntos(Memory(HB_MEM_EMS        )/1024) + " KB")
-Print( ++nRow, (nMaxCol-30), "  MEM_FM         : " + hb_ntos(Memory(HB_MEM_FM         )/1024) + " KB")
-Print( ++nRow, (nMaxCol-30), "  MEM_FMSEGS     : " + hb_ntos(Memory(HB_MEM_FMSEGS     )/1024) + " KB")
-Print( ++nRow, (nMaxCol-30), "  MEM_SWAP       : " + hb_ntos(Memory(HB_MEM_SWAP       )/1024) + " KB")
-Print( ++nRow, (nMaxCol-30), "  MEM_CONV       : " + hb_ntos(Memory(HB_MEM_CONV       )/1024) + " KB")
-Print( ++nRow, (nMaxCol-30), "  MEM_EMSUSED    : " + hb_ntos(Memory(HB_MEM_EMSUSED    )/1024) + " KB")
-++nRow
-Print( ++nRow, (nMaxCol-30), "  MEM_USED       : " + hb_ntos(Memory(HB_MEM_USED       )/1024) + " KB")
-Print( ++nRow, (nMaxCol-30), "  MEM_USEDMAX    : " + hb_ntos(Memory(HB_MEM_USEDMAX    )/1024) + " KB")
-Print( ++nRow, (nMaxCol-30), "  MEM_STACKITEMS : " + hb_ntos(Memory(HB_MEM_STACKITEMS )/1024) + " KB")
-Print( ++nRow, (nMaxCol-30), "  MEM_STACK      : " + hb_ntos(Memory(HB_MEM_STACK      )/1024) + " KB")
-Print( ++nRow, (nMaxCol-30), "  MEM_STACK_TOP  : " + hb_ntos(Memory(HB_MEM_STACK_TOP  )/1024) + " KB")
-Print( ++nRow, (nMaxCol-30), "  MEM_BLOCKS     : " + hb_ntos(Memory(HB_MEM_BLOCKS     )/1024) + " KB")
-Print( ++nRow, (nMaxCol-30), "  MEM_STATISTICS : " + hb_ntos(Memory(HB_MEM_STATISTICS )/1024) + " KB")
-Print( ++nRow, (nMaxCol-30), "  MEM_CANLIMIT   : " + hb_ntos(Memory(HB_MEM_CANLIMIT   )/1024) + " KB")
-CenturyOff()
-IF lInkey = NIL
-   SetCursor(0)
-   WaitKey(0)
-	ResTela( cScreen )
-EndIF
-FChDir( cDiretorio )
-Return
+	Print( nRow+06, ((nMaxCol/2)-2), "   Nome Esta‡„o : ") ; printf(AllTrim(Left(NetName(),20)), AscanCor(clBrightYellow))
+	Print( nRow+07, ((nMaxCol/2)-2), "  Horas Sistema : " + Time())
+	Print( nRow+08, ((nMaxCol/2)-2), "      Diret¢rio : " + AllTrim(FCurdir()))
+	Print( nRow+09, ((nMaxCol/2)-2), "  Espa‡o Livre  : ") ; printf(AllTrim(Tran(DiskSpace(Drive)/1024/1024/1024, "999,999")), AscanCor(clBrightCyan)) ; printf( " GB", AscanCor(clBrightGreen))
+	Print( nRow+10, ((nMaxCol/2)-2), "  Mem RAM Livre : " + AllTrim(Str(nRamLivre/1024/1024) + " GB"))
+	IF nRamLivre < 100 // Pouca memoria
+	Print( nRow+10, ((nMaxCol/2)-2), "  Mem RAM Livre : " + AllTrim(Str(nRamLivre/1024/1024) + " GB"), Roloc(Cor()))
+	EndIF
+	Print( nRow+11, ((nMaxCol/2)-2), "  Memoria usada : " + hb_ntos(Memory(HB_MEM_USED)/1024) + " KB")
+	Print( nRow+12, ((nMaxCol/2)-2), "  Path Corrente : " + AllTrim( oAmbiente:xBase ))
+	Print( nRow+13, ((nMaxCol/2)-2), "  Limite Acesso : ") ; printf( oAmbiente:xDataCodigo, AscanCor(clBrightRed))
+	Print( nRow+14, ((nMaxCol/2)-2), "   MultiUsuario : ") ; printf(IF( MULTI, "Habilitado", "Desabilitado"), AscanCor(IF( MULTI, clBrightGreen,clBrightRed)))
+	// Print( nRow+15, ((nMaxCol/2)-2), "     Portas LPT : " + IF( FisPrinter("LPT1"), "#1 ","NIL,") + IF( FisPrinter("LPT2"), "#2 ","NIL,") + IF( FisPrinter("LPT3"), "#3 ","NIL,") + IF( FisPrinter("LPT4"), "#4","NIL"))
+	// Print( nRow+16, ((nMaxCol/2)-2), "     Portas COM : " /*+ IF( FisPrinter("COM1"), "#1 ","NIL,") + IF( FisPrinter("COM2"), "#2 ","NIL,") + IF( FisPrinter("COM3"), "#3 ","NIL,") + IF( FisPrinter("COM4"), "#4","NIL")*/)
+
+	IF oAmbiente:Visual
+	  Print( nRow+22, 03, Padc( "Software Li‡enciado para", nMaxCol-7), AscanCor(clBrightGreen))
+	  Print( nRow+23, 03, Padc( XNOMEFIR, nMaxCol-7 ), AscanCor(clBrightRed))
+	Else
+	  Print( nRow+22, 03, Padc( "Software Li‡enciado para" , nMaxCol-2), AscanCor(clBrightGreen))
+	  Print( nRow+23, 03, Padc( XNOMEFIR, nMaxCol-2 ), AscanCor(clBrightRed))
+	EndIF	
+		
+	Print( ++nRow, (nMaxCol-30), "< Memoria >", AscanCor(clBrightCyan))
+	Print( ++nRow, (nMaxCol-30), "  MEM_CHAR       : " + hb_ntos(Memory(HB_MEM_CHAR       )/1024) + " KB")
+	Print( ++nRow, (nMaxCol-30), "  MEM_BLOCK      : " + hb_ntos(Memory(HB_MEM_BLOCK      )/1024) + " KB")
+	Print( ++nRow, (nMaxCol-30), "  MEM_RUN        : " + hb_ntos(Memory(HB_MEM_RUN        )/1024) + " KB")
+	++nRow
+	Print( ++nRow, (nMaxCol-30), "  MEM_VM         : " + hb_ntos(Memory(HB_MEM_VM         )/1024/1024) + " MB")
+	Print( ++nRow, (nMaxCol-30), "  MEM_EMS        : " + hb_ntos(Memory(HB_MEM_EMS        )/1024) + " KB")
+	Print( ++nRow, (nMaxCol-30), "  MEM_FM         : " + hb_ntos(Memory(HB_MEM_FM         )/1024) + " KB")
+	Print( ++nRow, (nMaxCol-30), "  MEM_FMSEGS     : " + hb_ntos(Memory(HB_MEM_FMSEGS     )/1024) + " KB")
+	Print( ++nRow, (nMaxCol-30), "  MEM_SWAP       : " + hb_ntos(Memory(HB_MEM_SWAP       )/1024) + " KB")
+	Print( ++nRow, (nMaxCol-30), "  MEM_CONV       : " + hb_ntos(Memory(HB_MEM_CONV       )/1024) + " KB")
+	Print( ++nRow, (nMaxCol-30), "  MEM_EMSUSED    : " + hb_ntos(Memory(HB_MEM_EMSUSED    )/1024) + " KB")
+	++nRow
+	Print( ++nRow, (nMaxCol-30), "  MEM_USED       : " + hb_ntos(Memory(HB_MEM_USED       )/1024) + " KB")
+	Print( ++nRow, (nMaxCol-30), "  MEM_USEDMAX    : " + hb_ntos(Memory(HB_MEM_USEDMAX    )/1024) + " KB")
+	Print( ++nRow, (nMaxCol-30), "  MEM_STACKITEMS : " + hb_ntos(Memory(HB_MEM_STACKITEMS )/1024) + " KB")
+	Print( ++nRow, (nMaxCol-30), "  MEM_STACK      : " + hb_ntos(Memory(HB_MEM_STACK      )/1024) + " KB")
+	Print( ++nRow, (nMaxCol-30), "  MEM_STACK_TOP  : " + hb_ntos(Memory(HB_MEM_STACK_TOP  )/1024) + " KB")
+	Print( ++nRow, (nMaxCol-30), "  MEM_BLOCKS     : " + hb_ntos(Memory(HB_MEM_BLOCKS     )/1024) + " KB")
+	Print( ++nRow, (nMaxCol-30), "  MEM_STATISTICS : " + hb_ntos(Memory(HB_MEM_STATISTICS )/1024) + " KB")
+	Print( ++nRow, (nMaxCol-30), "  MEM_CANLIMIT   : " + hb_ntos(Memory(HB_MEM_CANLIMIT   )/1024) + " KB")
+	CenturyOff()
+	IF lInkey = NIL
+		SetCursor(0)
+		WaitKey(0)
+		ResTela( cScreen )
+	EndIF
+	FChDir( cDiretorio )
+	Return
+endef
+
+Def StrGetIp()
+*--------------*
+	LOCAL cString 	:= ""
+	LOCAL aHost 	:= GetIp()
+	LOCAL nLen     := Len(aHost)
+	LOCAL c
+	
+	for each c IN aHost
+		cString += c
+		if nLen >= 2		
+			cString += ', '
+		endif
+	next
+	return cString
+endef
+
 
 Proc ErrorSys()
-****************
+*--------------*
 	Private ErrorSys := 9876543210
 	ErrorBlock( {|Erro| MacroErro(Erro)} )
 	return
@@ -7812,8 +7837,8 @@ Function MacroErro(e)
 	@ 1, 14 Say csystem             				Color "W+/B"
 	@ 1, 45 Say Str(nsubcode, 4)    				Color "W+/B"
 
-	@ 2, 14 Say Str(e:oscode(), 4)    			Color "W+/B"	
-	@ 2, 45 Say Str(e:gencode(), 4)    			Color "W+/B"	
+	@ 2, 14 Say Alltrim(Str(e:oscode(), 4)) 	Color "W+/B"	
+	@ 2, 45 Say AllTrim(Str(e:gencode(), 4)) 	Color "W+/B"	
 	
 	@ 3, 14 Say e:operation()       				Color "W+/B"
 	@ 3, 45 Say Upper(e:filename()) 				Color "W+/B"
@@ -8725,7 +8750,7 @@ def Configuracao( lMicrobras, lNaoMostrarConfig)
 	LOCAL cCurDir  := FCurdir()
 	LOCAL cPath    := FCurdir()
 	LOCAL cTemp 	:= StrTran( Time(),":")
-	LOCAL cDbf
+	LOCAL cDbf     := "SCI.DBF"
 	LOCAL cCfg
 	LOCAL cBase
 	LOCAL cDia
@@ -8771,50 +8796,19 @@ def Configuracao( lMicrobras, lNaoMostrarConfig)
 	PUBLIC SISTEM_VERSAO
 	PUBLIC XNOME_EXE
 
-	cBase := oAmbiente:xBase
-	CenturyOn()
-	
-	/*
-	if !(oAmbiente:LetoAtivo)
-		if !fchdir( oAmbiente:xBase )
-			oAmbiente:xBase += "\"
-		endif		
-		fchdir( oAmbiente:xBase )
-	endif
-	*/
-	
-	fchdir( oAmbiente:xBase )	
-	oAmbiente:xBase := cBase
-	
-	/*
-	if (oAmbiente:LetoAtivo)
-		Set Defa To (oAmbiente:xBase)
-	endif
-	*/
-	
-	Set Defa To (oAmbiente:xBase)
+	cBase := oAmbiente:xroot
+	CenturyOn()	
+	fchdir(cbase)		
+	Set Defa To (cBase)
 	
 	if !lNaoMostrarConfig
 		Qout("þ Localizando Arquivo SCI.DBF.")
 	endif
 
-	/*
-	if (oAmbiente:LetoAtivo)
-		cDbfLeto  := 'SCI.DBF'
-		cPath     := cCurDir 
-		cDbf      := cDbfLeto
-	else
-		cDbfLeto  := 'SCI.DBF'
-		cPath     := cCurDir 
-		cDbf      := cPath + '\SCI.DBF'	
-	endif	
-	*/	
-	
-	cDbf := 'SCI.DBF'
-	if !(ms_swap_file(cDbf))
+	if !file(cDbf)
 		SetColor("")
 		Cls
-		AlertaPy('ERRO #1: Verifique os parametros abaixo: ;-;;' + ;
+		AlertaPy('ERRO #0:' + StrTrim(ProcLine(0)) + ' Verifique os parametros abaixo: ;-;;' + ;
 					'     Tipo de Erro : ' + 'SCI.DBF nao foi localizado                               ' + ';' + ;
 					' Endereco IP:port : ' + cBase + ';-;;' + ;
 					'             Acao : ' + 'Verifique se o servidor LETO esta ativo ou modo LOCKED,ou' + ';' + ;
@@ -8823,7 +8817,6 @@ def Configuracao( lMicrobras, lNaoMostrarConfig)
 		Quit
 	endif	
 	
-	//cPath := oAmbiente:xBase
 	QQout("þ OK")
 	Set Defa To (cBase)
 	Qout("þ Abrindo Arquivo SCI.DBF em " + cPath)
@@ -8962,9 +8955,9 @@ def Configuracao( lMicrobras, lNaoMostrarConfig)
 			CopyCria()
 		EndIF
 	EndIF
-	IF !lNaoMostrarConfig
-		LogoTipo( aEnde_String )
-	EndIF
+	// IF !lNaoMostrarConfig
+		// LogoTipo( aEnde_String )
+	// EndIF
 	CenturyOff()
 	FChdir( oAmbiente:xBaseDados )
 	Set Defa To ( oAmbiente:xBaseDados )
@@ -9075,23 +9068,26 @@ endef
 
 *==================================================================================================*	
 
-def ms_swap_tmp(cFile)
-	LOCAL cOldFile := cFile
+def ms_swap_dir(cFile)
+	LOCAL cBase := alltrim(oAmbiente:xRoot)
 	
-	if right(TrimStr(oAmbiente:xBaseTmp),1) == "/" .OR. ;
-	   right(TrimStr(oAmbiente:xBaseTmp),1) == "\"
-		cBase := left(oAmbiente:xBaseTmp, len(oAmbiente:xBaseTmp)-1)
-	else
-		cBase := oAmbiente:xBaseTmp	
-	endif		
-	if (oAmbiente:Letoativo)
-		_SEP_ := '/'
-	else
-		_SEP_ := DEF_SEP
-	endif
-	cFile := cBase + _SEP_ + cFile
+	if right(cBase, 1) == "/" .OR. right(cBase, 1) == "\" 
+		cBase := left(cBase, len(cBase)-1)		
+	endif	
+	cBase += DEF_SEP					
+	return(cBase)	
+endef
 
-	return(cFile)
+def ms_swap_tmp()
+	LOCAL cBase := alltrim(oAmbiente:xRoot)
+	
+	if right(cBase, 1) == "/" .OR. right(cBase, 1) == "\" 
+		cBase := left(cBase, len(cBase)-1)		
+	endif	
+	cBase += DEF_SEP				
+	cBase += "TMP" 
+	cBase += DEF_SEP				
+	return(cBase)
 endef
 
 *==================================================================================================*	
@@ -9115,7 +9111,7 @@ def ms_swap_fopen(cFile, modo)
 	
 	if (oAmbiente:Letoativo)		
 		handle := leto_fopen(cLocalFile, Modo)
-	/*
+/*	
 		alert(cLocalFile + ';' +;
 				"handle: " + str(handle) + ';' +;
 				"ferror: " + str(leto_ferror()) + ';' +;
@@ -9127,7 +9123,7 @@ def ms_swap_fopen(cFile, modo)
 				"FOPEN : " + Procname(5) + '(' + strzero(procline(5),4) + ');' + ;	
 				"FOPEN : " + Procname(6) + '(' + strzero(procline(6),4) + ');' + ;	
 				"FOPEN : " + Procname(7) + '(' + strzero(procline(7),4) + ')')	
-		*/
+*/	
 		return handle
 	else
 		return Fopen(cFile, Modo)
@@ -9142,7 +9138,8 @@ def ms_swap_fcreate(cFile, modo)
 	
 	if (oAmbiente:Letoativo)		
 		handle := leto_fcreate(cLocalFile, modo)		
-		/*
+
+/*		
 		alert(cLocalFile + ';' +;
 			"handle: " + str(handle) + ';' +;
 			"ferror: " + str(leto_ferror()) + ';' +;
@@ -9154,7 +9151,7 @@ def ms_swap_fcreate(cFile, modo)
 			"FCREATE : " + Procname(5) + '(' + strzero(procline(5),4) + ');' + ;	
 			"FCREATE : " + Procname(6) + '(' + strzero(procline(6),4) + ');' + ;	
 			"FCREATE : " + Procname(7) + '(' + strzero(procline(7),4) + ')')	
-	*/
+*/	
 		return handle
 	else
 		return Fcreate(cLocalFile, modo)
@@ -9339,6 +9336,7 @@ def Acesso( lNaoMostrarConfig )
 	#IFDEF MICROBRAS
 		Configuracao( OK, lNaoMostrarConfig )
 		AcessoLeto()
+		LogoTipo()
 		Return nil
 	#ENDIF
 	#IFDEF AGROMATEC
@@ -9348,7 +9346,8 @@ def Acesso( lNaoMostrarConfig )
 	#ENDIF
 	oAmbiente:lComCodigoAcesso := OK
 	Configuracao(NIL, lNaoMostrarConfig )
-	AcessoLeto()
+	AcessoLeto()	
+	LogoTipo()
 	return nil
 endef
 	
@@ -9364,6 +9363,15 @@ def acessoLeto()
 		RddSetDefault(RDDNAME)
 	#endif	   	
 endef
+
+*==================================================================================================*	
+
+def CriarDiretorios()
+	MkDir( ms_swap_dir() + "SPOOLER") 	
+	MkDir( ms_swap_dir() + "TMP" )	
+	return nil
+endef
+
 *==================================================================================================*	
 
 def SetaIniLeto()
@@ -9380,7 +9388,8 @@ def SetaIniLeto()
 								" 3. Encerrar Execucao do Sistema";
 								}
 	
-	Qout("þ Iniciando Conexao com Servidor LETO.")
+	CriarDiretorios()
+	Qout("þ Iniciando Conexao com Servidor LETO.")	
 	cTela := SaveScreen()
 	if oAmbiente:argc	== 0	
 		cLetoIP             := oIni:ReadString('LETO', 'ip')
@@ -9393,9 +9402,9 @@ def SetaIniLeto()
 		oAmbiente:LetoAtivo := false		
 		
 		//RddSetDefault(RDDNAME)		
-		//if leto_Connect(cPath) != F_ERROR
+		//if leto_Connect(cPath,,,20000) != F_ERROR
 			oAmbiente:LetoAtivo := true
-			cString := oAmbiente:ShowVarLeto(nil, nil, false)
+			cString             := oAmbiente:ShowVarLeto(nil, nil, false)
 			ErrorBeep()			
 			nChoice := AlertaPy(;
 							"!AVISO! SERVIDOR TCP/IP LETO CONFIGURADO EM " + cPathLocal + "\SCI.INI FOI DETECTADO." + ;
@@ -9412,7 +9421,7 @@ def SetaIniLeto()
 			elseif nChoice == 2
 				RddSetDefault(RDDNAME)		
 				//LETO_DBDRIVER(RDDALTERNATIVO)   /* to choose your DBF driver independent of the server default */ 
-				LETO_TOGGLEZIP( 1 )             /* switch compressed network traffic */
+				LETO_TOGGLEZIP( 1 )               /* switch compressed network traffic */
 				oAmbiente:xBase    := cPath				
 				oAmbiente:LetoPath := cPath
 				return true
@@ -9422,23 +9431,41 @@ def SetaIniLeto()
 		return false		
 		
    else
-		cPath := argv(1)      	
-      if !"//" $ cPath 		
-			cPath := "//" + cPath 
-		endif		
-      if !":" $ cPath 
-			cPath := cPath + IiF( ":" $ cPath, "", ":" + TrimStr(nPort))			
-		endif	
-		cPath += iif( right(cPath,1) == "/", "", "/" )		
-		oAmbiente:ShowVarLeto(false, ";-;Aguarde... Tentando conexao com servidor Leto em:;-;;" + cPath)
-		RddSetDefault(RDDNAME)
+		cPath := argv(1)
+		if !":\" $ cPath 		
+			if !"//" $ cPath 		
+				cPath := "//" + cPath 
+			endif		
+			if !":" $ cPath 
+				cPath := cPath + iiF( ":" $ cPath, "", ":" + TrimStr(nPort))			
+			endif	
+			cPath += iif( right(cPath,1) == "/", "", "/" )		
+			oAmbiente:ShowVarLeto(false, ";-;Aguarde... Tentando conexao com servidor Leto em:;-;;" + cPath)
+			RddSetDefault(RDDNAME)
+		else
+			if !hb_vfDirExists(cPath )
+				AlertaPy("ERRO #2:" + StrTrim(ProcLine(0)) + " Verifique os parametros abaixo: ;-;;" + ;
+					"     Tipo de Erro : " + "Diretorio de trabalho inexistente passado como parametro" + ';' + ;
+					"        Parametro : " + trimStr(argv(1)) + ";-;;" + ;
+					"             Acao : " + "Crie o diretorio de trabalho ou altere o parametro passado" + ';' + ;		
+					"           Teclas : " + "ESC encerrar, ENTER continuar", 31, false, true, {" Iniciar modo local "})		
+		
+				if lastkey() == K_ESC
+					Terminate()
+				endif		
+				oAmbiente:xBase := oAmbiente:xRoot
+			endif			
+			oAmbiente:xBase := cPath
+			RddSetDefault(RDDALTERNATIVO)
+			return false		
+		endif
 	endif		
 	
-	oAmbiente:LetoAtivo := true	
-	oAmbiente:xBase     := cPath	
-	if leto_Connect(cPath) == F_ERROR
+	oAmbiente:LetoAtivo := true
+	oAmbiente:xBase     := cPath
+	if leto_Connect(cPath,,,20000) == F_ERROR
 	   restela(cTela)		
-		AlertaPy('ERRO #0: Verifique os parametros abaixo: ;-;;' + ;
+		AlertaPy('ERRO #1:' + StrTrim(ProcLine(0)) + ' Verifique os parametros abaixo: ;-;;' + ;
 					'     Tipo de Erro : ' + 'Servidor Leto nao localizado                             ' + ';' + ;
 					' Endereco IP:port : ' + cPath + ';-;;' + ;
 					'             Acao : ' + 'Verifique se o servidor LETO esta ativo ou modo LOCKED,ou' + ';' + ;
@@ -9462,6 +9489,26 @@ def SetaIniLeto()
 	Leto_disconnect()
 	
 endef
+
+*==================================================================================================*	
+
+def GetIp()
+*-----------*
+	LOCAL aHosts
+	LOCAL cEstacao := NETNAME(.F.)
+
+	HB_InetInit()
+	aHosts := HB_InetGetHosts( cEstacao )
+	IF aHosts == NIL
+		aHosts := HB_InetGetAlias( cEstacao )
+	END
+	IF EMPTY(aHosts)
+		aHosts := HB_InetGetAlias( cEstacao )
+	END
+	HB_InetCleanup()
+	return aHosts
+endef
+
 
 *==================================================================================================*	
 
@@ -9490,3 +9537,60 @@ def LoginLeto()
 endef	
 
 *==================================================================================================*	
+
+/*
+cServidor := Hwg_GetIni('Config','Servidor'      ,,cIniFile)
+
+//Fragmento de c¢digo para dar uma ideia.
+   BEGIN SEQUENCE WITH {| oErr | Break( oErr ) }
+      If lRddLeto
+          If Leto_File(cServidor+cDB)             
+             DbUseArea(.T.,"LETO",cServidor+cDB,Apel,.T.,.F.,'PTISO')
+          Else
+             hwg_Msgstop('LetoDb N„o Localizou o Arquivo: ' + cServidor + cDB)
+             lRet := .F.
+          EndIf
+      Else
+          DbUseArea(.T.,'DBFCDX',dDados+cDB,Apel,.T.,.F.,'PTISO')
+      EndIf
+		
+		
+		
+IF ( leto_Connect( "localhost",,,30000 ) ) < 0 //Default is 120.000 aka 2 minutes.
+	//ou
+	IF ( leto_Connect( "127.0.0.1",,,30000 ) ) < 0 //Default is 120.000 aka 2 minutes.
+	...		
+	
+	
+// Conexao ao servidor de dados LETODB
+IF !EMPTY(zLetoDB)
+   xLeto := LETO_CONNECT(zLetoDB) // efetuo a conex„o ao leto
+   IF xLeto == -1
+      MsgMenu('N„o conectado ao servidor: '+zLetoDB,{'OK'},,IM__ERRO,'ERRO',,,'32 ERR CAN',,,_branco_)
+      RELEASE WINDOW Principal
+   END
+   // Verifica se ja esta conectado no letodb
+   xiplocal := GetIp() // fun‡„o que retorna o ip local
+   xipcnx   := leto_MgGetUsers() // retorna matriz com informa‡”es das conex”es (1-sequencia / 2-ip / 3-host / 4-exe que gerou a conexao / 5 - timeout)
+   IF LEN(xipcnx) > 1 // se houver mais de 1 usuario
+      nCntCnx := 0
+      FOR nCnt = 1 TO LEN(xipcnx)
+         IF xipcnx[nCnt,2] == xiplocal .AND. UPPER(xipcnx[nCnt,4]) == 'SAGRIO.EXE' // se existir alguma conex„o com o iplocal e no meu sistema, incrementa
+            nCntCnx++
+         END
+      NEXT
+      IF nCntCnx > 1 // se tem mais de 1 sistema conectado
+         FOR nCnt = 1 TO LEN(xipcnx)
+            IF xipcnx[nCnt,2] == xiplocal .AND. UPPER(xipcnx[nCnt,4]) == 'SAGRIO.EXE' // mato a conex„o
+               leto_MgKill( xipcnx[nCnt,1] )
+            END
+         NEXT
+         MsgMenu('Conex„o anterior n„o finalizada corretamente !!!'+SALTO_LINHA+SALTO_LINHA+'Entre novamente no sistema...',{'OK'},,IM__ERRO,'ERRO',,,'32 ERR CAN',,,_branco_)
+         RELEASE WINDOW Principal
+      END
+   END
+END
+
+		
+	
+*/

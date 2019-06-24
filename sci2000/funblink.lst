@@ -1,0 +1,363 @@
+Publics by module
+
+APRINT  	size = 222
+	APRINT                          
+
+AREPLICA	size = 102
+	AREPLICATE                      
+
+ARRAPRIN	size = 418
+	ARRAPRINT                       
+
+ARRPRINT	size = 430
+	ARRPRINT                        
+
+ASCIITOE	size = 236
+	ASCIITOEBC                      
+
+BOX     	size = 278
+	BOX                             
+
+CENTER  	size = 190
+	CENTER                          
+
+COMMA   	size = 81
+	COMMA                           
+
+EBCTOASC	size = 369
+	EBCTOASCII                      
+
+FREE    	size = 19
+	_free                           
+
+FUNSTACK	size = 6001
+	FUNstack                        
+
+INTERRUP	size = 582
+	INTERRUPT                         REG_AH
+	REG_AL                            REG_AX
+	REG_BH                            REG_BL
+	REG_BP                            REG_BX
+	REG_CF                            REG_CH
+	REG_CL                            REG_CX
+	REG_DH                            REG_DI
+	REG_DL                            REG_DS
+	REG_DX                            REG_ES
+	REG_FLAGS                         REG_SI
+
+LASTCOL 	size = 16
+	LASTCOL                         
+
+LASTROW 	size = 16
+	LASTROW                         
+
+LJUST   	size = 99
+	LJUST                           
+
+LPRINT  	size = 173
+	LPRINT                            LPRINTLINE
+
+MAKESHAD	size = 62
+	MAKESHADOW                      
+
+MALLOC  	size = 16
+	_malloc                         
+
+MOUSETRA	size = 843
+	MOUSETRAP                         M_TRAPFEED
+	M_TRAPFREE                        M_TRAPGET
+	M_TRAPNEW                         M_TRAPREST
+	M_TRAPSAVE                        M_TRAPSET
+
+MOVESCRE	size = 194
+	MOVESCREEN                      
+
+M_AREGIO	size = 150
+	M_AREGION                       
+
+M_COL   	size = 16
+	M_COL                           
+
+M_CSROFF	size = 16
+	M_CSROFF                        
+
+M_CSRON 	size = 16
+	M_CSRON                         
+
+M_CSRPUT	size = 44
+	M_CSRPUT                        
+
+M_MOVEME	size = 16
+	M_MOVEMENT                      
+
+M_REGION	size = 70
+	M_REGION                        
+
+M_ROW   	size = 16
+	M_ROW                           
+
+M_WAIT  	size = 22
+	M_WAIT                          
+
+PAD     	size = 244
+	PAD                             
+
+PRINT   	size = 244
+	PRINT                           
+
+RESTVIDE	size = 206
+	RESTVIDEO                       
+
+RJUST   	size = 259
+	RJUST                           
+
+SAVEVIDE	size = 296
+	SAVEVIDEO                       
+
+SCROLL  	size = 166
+	_scroll                         
+
+STATICCL	size = 128
+	StaticCling                     
+
+STRCENTE	size = 277
+	STRCENTER                       
+
+STREXPAN	size = 256
+	STREXPAND                       
+
+STREXTRA	size = 192
+	STREXTRACT                      
+
+TABEXPAN	size = 278
+	TABEXPAND                       
+
+UNTRIM  	size = 244
+	UNTRIM                          
+
+VSCROLL 	size = 166
+	VSCROLL                         
+
+_AREPLIC	size = 219
+	__areplicate                    
+
+_ASCROLL	size = 489
+	__ascroll                       
+
+_BOX    	size = 1072
+	___putcharn                       ___puttitle
+	__abox                            __getboxchars
+	__gettitle                        __setboxchars
+	__settitle                      
+
+_BSAVESC	size = 328
+	__bsavescreen                   
+
+_CANCEL 	size = 6
+	__cancel                        
+
+_CHRUPPE	size = 20
+	__chrupper                      
+
+_CLOCK12	size = 537
+	__clock12                         __isclock12
+	__unclock12                       _clck_disp
+	_old_sw_timer                   
+
+_CLOCK24	size = 505
+	__clock24                         __isclock24
+	__unclock24                       _clock24_disp
+	_old_sw_timer2                  
+
+_CLS    	size = 146
+	__cls                           
+
+_COLORTY	size = 28
+	__colortype                     
+
+_COMMA  	size = 236
+	__comma                         
+
+_DYNAMO 	size = 143
+	__dynamalloc                    
+
+_EMS_ALL	size = 51
+	__ems_alloc                     
+
+_EMS_FRE	size = 52
+	__ems_free                      
+
+_EMS_GPF	size = 111
+	__ems_frame                     
+
+_FREE   	size = 34
+	__free                          
+
+_ISBUTTO	size = 32
+	_isbutton                       
+
+_ISMOUSE	size = 87
+	___ismouse                        ___mouse_bait
+	___mouse_flag                     __ismouse
+
+_KDRIVER	size = 108
+	___getchar                      
+
+_KEYSTAT	size = 1181
+	__blanktext                       __capstext
+	__instext                         __iskeystat
+	__keystat                         __numtext
+	__scrltext                        _displaystr
+	_kbs_disp                         _old_kb_timer
+
+_LASSIE 	size = 17
+	__lassie                        
+
+_LMUL   	size = 45
+	__longmul                       
+
+_MALIBU 	size = 78
+	__malibu                        
+
+_MAXCOL 	size = 16
+	_maxcol                         
+
+_MAXROW 	size = 16
+	_maxrow                         
+
+_MAXROWV	size = 47
+	__maxcolval                       __maxrowval
+
+_MONTYPE	size = 77
+	__montype                       
+
+_MOVESCR	size = 436
+	__movescreen                    
+
+_M_COL  	size = 39
+	__m_col                         
+
+_M_CSRON	size = 93
+	__m_csroff                        __m_csron
+	__m_iscursor                    
+
+_M_INBUT	size = 641
+	____isbutton                      ___isbutton
+	___mcol                           ___mrow
+	__button                          __isbutton
+	__isrelease                       __m_clicks
+	__m_inbutton                      __m_incol
+	__m_inrow                         __m_release
+	__m_wait                        
+
+_M_MOVEM	size = 116
+	__m_movement                    
+
+_M_REGIO	size = 86
+	__m_region                      
+
+_M_ROW  	size = 31
+	__m_row                         
+
+_M_TRAPF	size = 33
+	__M_TRAPFREE                    
+
+_ONKEY  	size = 109
+	___onkey                          __onkey
+
+_ONMALLO	size = 46
+	___mallocoff                      ___mallocptr
+	___mallocseg                      __getonmalloc
+	__onmalloc                      
+
+_SETEXIT	size = 293
+	___exitexit                       ___exitflag
+	__setexit                         _old_exit_timer
+
+_SETKEYT	size = 224
+	___setkeyto                       __setkeyto
+
+_TIMEOUT	size = 295
+	___timeout                        __timeout
+
+_TONE   	size = 90
+	__tone                          
+
+_VIDEOIN	size = 1032
+	___bcclip                         ___brclip
+	___clipflag                       ___cursor
+	___cursorsize                     ___defaultchar
+	___gmaxcol                        ___gmaxrow
+	___gwords                         ___highattribute
+	___isvideoinit                    ___mdiv
+	___mtype                          ___snow
+	___tcclip                         ___textattribute
+	___trclip                         ___unselattribute
+	___vcols                          ___vend
+	___videoinitflag                  ___vlen
+	___vmaxcol                        ___vmaxrow
+	___vmode                          ___voff
+	___vpage                          ___vpoints
+	___vptrs                          ___vrowlen
+	___vrows                          ___vseg
+	___vsize                          ___vtype
+	__setsnow                         __videoinit
+
+_VIDTYPE	size = 170
+	__vidtype                       
+
+__ASTRON	size = 433
+	___astroutnn                    
+
+__ASTROU	size = 312
+	___astrout                      
+
+__CALLMA	size = 55
+	___callmalloc                   
+
+__EMSEXI	size = 728
+	___ems_addexit                    ___ems_delexit
+	___ems_release                    ___emstable
+
+__GETKEY	size = 694
+	___altc                           ___counthigh
+	___countlow                       ___getkey
+	___inkey                          ___inuse
+	___kbextendflag                   ___keytable
+	___lastkey                        ___mkey
+	___nextkey                        ___onkeyflag
+	___onkeystatus                    ___procoff
+	___procseg                        ___readsvar
+	___scancode                       ___setkeyflag
+	___setkeysize                     ___setkeystatus
+	___setkeytable                    ___shiftstatus
+	___ticker                         ___tickshigh
+	___tickslow                       ___timeoff
+	___timeoutflag                    ___timeseg
+	___updated                        ___xscancode
+	_keytablesize                   
+
+__KEYMAN	size = 686
+	___GateKeeper                     ___kbdput
+	__iskey                           __kbdclear
+	__kbdlast                         __kbdput
+	__kbdstuff                        __keydecode
+	__keystuff                      
+
+__NULL  	size = 2
+	___null                         
+
+__STROUN	size = 246
+	___stroutnn                     
+
+__STROUT	size = 130
+	___strout                       
+
+__TIMERS	size = 94
+	___restoretimer                   ___savetimer
+
+___FILEV	size = 7
+	____semicolon                     ___copybuffsize
+
+___MEMVA	size = 2
+	____emx_size                    

@@ -1,0 +1,26 @@
+This program shows the usage of the replaceable database drivers
+(RDDs) with CA-Clipper 5.2. In order to build the executable file,
+just type:
+
+YourDrive:\YourDirectory>RMAKE BROWRDD
+
+Please note a couple things:
+
+a) The INIT PROCEDURE that requests all drivers should be a
+separate file.
+b) This program always recreate the databases and their indexes.
+If you do not want this behaviour, please compile BROWRDD.PRD 
+with /D and define the identifier OPTION_TO_CREATE_DATABASES.
+c) Most of this program is made up of generic routines you may want
+to look into.
+
+If you have any questions please send a PRIVATE CISMail to:
+
+Luiz Quintela (aka Q) - 71334,1450
+Product Manager
+CA-Clipper
+CA-C++
+CA-CommonView
+CA-Visual Objects for Clipper
+
+Happy Clipping!

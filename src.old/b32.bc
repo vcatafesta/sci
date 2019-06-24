@@ -1,0 +1,29 @@
+-I"C:\xHarbour-BCC.5.5.1\include;C:\Borland\bcc55\include;;C:\WATCOM\H;C:\WATCOM\H\NT;C:\WATCOM\H\NT\DIRECTX;C:\WATCOM\H\NT\DDK;C:\HARBOUR\INCLUDE;" + 
+-L"C:\xHarbour-BCC.5.5.1\lib;C:\Borland\bcc55\lib;C:\Borland\bcc55\lib\psdk;;;;;" + 
+-Gn -M -m  -Tpe -s + 
+c0w32.obj +     
+".\projeto.obj", +  
+".\Main.EXE", +    
+".\Main.map", +    
+lang.lib +      
+vm.lib +        
+rtl.lib +       
+rdd.lib +       
+macro.lib +     
+pp.lib +        
+dbfntx.lib +    
+dbffpt.lib +    
+common.lib +    
+gtwin.lib +  
+codepage.lib +  
+ct.lib +     
+tip.lib +     
+hsx.lib +     
+pcrepos.lib +     
+hbsix.lib +     
+cw32.lib +      
+import32.lib +  
+rasapi32.lib + 
+nddeapi.lib + 
+iphlpapi.lib + 
+, 

@@ -1,0 +1,83 @@
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+	bcc32 -c -Iinclude;c:\harbour\include -d   -tWM -D__WIN32__ -D__WIN_SERVICE__  -oobj\b32\letocl.obj source\client\letocl.c
+Borland C++ 5.5.1 for Win32 Copyright (c) 1993, 2000 Borland
+source\client\letocl.c:
+	bcc32 -c -Iinclude;c:\harbour\include -d   -tWM -D__WIN32__ -D__WIN_SERVICE__  -oobj\b32\leto1.obj source\client\leto1.c
+Borland C++ 5.5.1 for Win32 Copyright (c) 1993, 2000 Borland
+source\client\leto1.c:
+	bcc32 -c -Iinclude;c:\harbour\include -d   -tWM -D__WIN32__ -D__WIN_SERVICE__  -oobj\b32\letomgmn.obj source\client\letomgmn.c
+Borland C++ 5.5.1 for Win32 Copyright (c) 1993, 2000 Borland
+source\client\letomgmn.c:
+Warning W8060 source\client\letomgmn.c 742: Possibly incorrect assignment in function HB_FUN_LETO_SETSEEKBUFFER
+	bcc32 -c -Iinclude;c:\harbour\include -d   -tWM -D__WIN32__ -D__WIN_SERVICE__  -oobj\b32\hbip.obj source\common\hbip.c
+Borland C++ 5.5.1 for Win32 Copyright (c) 1993, 2000 Borland
+source\common\hbip.c:
+	bcc32 -c -Iinclude;c:\harbour\include -d   -tWM -D__WIN32__ -D__WIN_SERVICE__  -oobj\b32\common_c.obj source\common\common_c.c
+Borland C++ 5.5.1 for Win32 Copyright (c) 1993, 2000 Borland
+source\common\common_c.c:
+	bcc32 -c -Iinclude;c:\harbour\include -d   -tWM -D__WIN32__ -D__WIN_SERVICE__  -oobj\b32\blowfish.obj source\common\blowfish.c
+Borland C++ 5.5.1 for Win32 Copyright (c) 1993, 2000 Borland
+source\common\blowfish.c:
+	c:\harbour\bin\harbour.exe -iinclude;c:\harbour\include -n -q0 -w -es2 -gc0 -d__WIN_SERVICE__   source\client\rddsys.prg -oobj\b32\rddsys.c
+	bcc32 -c -Iinclude;c:\harbour\include -d   -tWM -D__WIN32__ -D__WIN_SERVICE__  -oobj\b32\rddsys.obj obj\b32\rddsys.c
+Borland C++ 5.5.1 for Win32 Copyright (c) 1993, 2000 Borland
+obj\b32\rddsys.c:
+	IF EXIST "lib\rddleto.lib" del "lib\rddleto.lib" > NUL
+	TLIB "lib\rddleto.lib" /0 @MAKE0000.@@@
+TLIB 4.5 Copyright (c) 1987, 1999 Inprise Corporation
++obj\b32\letocl.obj &
++obj\b32\leto1.obj &
++obj\b32\letomgmn.obj &
++obj\b32\hbip.obj &
++obj\b32\common_c.obj &
++obj\b32\blowfish.obj &
++obj\b32\rddsys.obj &
++
+	IF EXIST "lib\leto.lib" del "lib\leto.lib" > NUL
+	TLIB "lib\leto.lib" /0 @MAKE0001.@@@
+TLIB 4.5 Copyright (c) 1987, 1999 Inprise Corporation
++obj\b32\letocl.obj &
++obj\b32\hbip.obj &
++obj\b32\common_c.obj &
++obj\b32\blowfish.obj &
++
+	c:\harbour\bin\harbour.exe -iinclude;c:\harbour\include -n -q0 -w -es2 -gc0 -d__WIN_SERVICE__   source\server\server.prg -oobj\b32\server.c
+	bcc32 -c -Iinclude;c:\harbour\include -d   -tWM -D__WIN32__ -D__WIN_SERVICE__  -oobj\b32\server.obj obj\b32\server.c
+Borland C++ 5.5.1 for Win32 Copyright (c) 1993, 2000 Borland
+obj\b32\server.c:
+	c:\harbour\bin\harbour.exe -iinclude;c:\harbour\include -n -q0 -w -es2 -gc0 -d__WIN_SERVICE__   source\common\common.prg -oobj\b32\common.c
+	bcc32 -c -Iinclude;c:\harbour\include -d   -tWM -D__WIN32__ -D__WIN_SERVICE__  -oobj\b32\common.obj obj\b32\common.c
+Borland C++ 5.5.1 for Win32 Copyright (c) 1993, 2000 Borland
+obj\b32\common.c:
+	bcc32 -c -Iinclude;c:\harbour\include -d   -tWM -D__WIN32__ -D__WIN_SERVICE__  -oobj\b32\letofunc.obj source\server\letofunc.c
+Borland C++ 5.5.1 for Win32 Copyright (c) 1993, 2000 Borland
+source\server\letofunc.c:
+Warning W8012 source\server\letofunc.c 1354: Comparing signed and unsigned values in function leto_CheckClientVer
+	bcc32 -c -Iinclude;c:\harbour\include -d   -tWM -D__WIN32__ -D__WIN_SERVICE__  -oobj\b32\letolist.obj source\server\letolist.c
+Borland C++ 5.5.1 for Win32 Copyright (c) 1993, 2000 Borland
+source\server\letolist.c:
+	bcc32 -c -Iinclude;c:\harbour\include -d   -tWM -D__WIN32__ -D__WIN_SERVICE__  -oobj\b32\leto_2.obj source\server\leto_2.c
+Borland C++ 5.5.1 for Win32 Copyright (c) 1993, 2000 Borland
+source\server\leto_2.c:
+	bcc32 -c -Iinclude;c:\harbour\include -d   -tWM -D__WIN32__ -D__WIN_SERVICE__  -oobj\b32\letoacc.obj source\server\letoacc.c
+Borland C++ 5.5.1 for Win32 Copyright (c) 1993, 2000 Borland
+source\server\letoacc.c:
+	bcc32 -c -Iinclude;c:\harbour\include -d   -tWM -D__WIN32__ -D__WIN_SERVICE__  -oobj\b32\letovars.obj source\server\letovars.c
+Borland C++ 5.5.1 for Win32 Copyright (c) 1993, 2000 Borland
+source\server\letovars.c:
+	bcc32 -c -Iinclude;c:\harbour\include -d   -tWM -D__WIN32__ -D__WIN_SERVICE__  -oobj\b32\leto_win.obj source\server\leto_win.c
+Borland C++ 5.5.1 for Win32 Copyright (c) 1993, 2000 Borland
+source\server\leto_win.c:
+Warning W8004 source\server\leto_win.c 104: 'State' is assigned a value that is never used in function leto_ServiceControlHandler
+Warning W8004 source\server\leto_win.c 262: 'dwWaitTime' is assigned a value that is never used in function HB_FUN_LETO_SERVICEDELETE
+	bcc32 -c -Iinclude;c:\harbour\include -d   -tWM -D__WIN32__ -D__WIN_SERVICE__  -oobj\b32\errint.obj source\server\errint.c
+Borland C++ 5.5.1 for Win32 Copyright (c) 1993, 2000 Borland
+source\server\errint.c:
+	c:\harbour\bin\harbour.exe -iinclude;c:\harbour\include -n -q0 -w -es2 -gc0 -d__WIN_SERVICE__   source\server\errorsys.prg -oobj\b32\errorsys.c
+	bcc32 -c -Iinclude;c:\harbour\include -d   -tWM -D__WIN32__ -D__WIN_SERVICE__  -oobj\b32\errorsys.obj obj\b32\errorsys.c
+Borland C++ 5.5.1 for Win32 Copyright (c) 1993, 2000 Borland
+obj\b32\errorsys.c:
+	IF EXIST "bin\letodb.exe" del "bin\letodb.exe" > NUL
+	bcc32 @MAKE0002.@@@
+Borland C++ 5.5.1 for Win32 Copyright (c) 1993, 2000 Borland
+Turbo Incremental Link 5.00 Copyright (c) 1997, 2000 Borland

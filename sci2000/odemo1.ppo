@@ -1,0 +1,19 @@
+#line 1 "oclip.ch"
+#line 12 "ODEMO1.PRG"
+LOCAL o1 := Sample1():New("World")
+        o1:Hello()
+        RETURN
+
+FUNCTION Sample1; STATIC hClass := 0, oParent; LOCAL oNew; if hClass == 0; oParent := __DefineClass("Sample1",)
+  __AddVar("Who")
+  __AddMethod("New", "New")
+  __AddMethod("Hello", "Hello")
+hClass := __MakeClass(); end; oNew := __ClassIns(hClass); oNew[1] := oParent; RETURN oNew
+
+FUNCTION New(cWho)
+  QSELF():Who := cWho
+RETURN QSELF()
+
+FUNCTION Hello
+  QOut( "Hello",QSELF():Who )
+RETURN QSELF()

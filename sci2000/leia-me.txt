@@ -1,0 +1,24 @@
+As vari†veis abaixo definidas.
+
+Height = 4
+* determina quantas linhas dever∆o ser impressas no codigo de barras
+
+printer = "E"
+* determina qual o tipo de impressora a ser utilizada.
+"E" = Epson
+"L" = LaserJet II
+
+[]s,
+Este programa utiliza algumas funá‰es dispon°veis no Clipper Collections.
+site : www.come.to/clipper
+
+Se:
+
+.Alguem fizer qualquer modificaá∆o, favor me enviar uma c¢pia para estarmos
+sempre atualizados.
+
+.Alguem conseguir imprimir etiquetas em 3 colunas seguindo os registro do banco
+de dados favor me enviar uma c¢pia.
+
+Luciano Mancini
+lmancini@escelsa.com.br

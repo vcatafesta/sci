@@ -1,0 +1,18 @@
+[configuracao]
+campos=6
+imprimir12cpi=1
+imprimircondensado=0
+[cabecalho]
+titulo=CODIGO COD. FABRIC.    DESCRICAO DO PRODUTO                 ALIQUOTA  EMB    P.VENDA
+relatorio=LISTA DE PRECOS
+
+[campos]
+campo6=TRAN(VAREJO,"@E 999,999.99")
+campo5=EMB
+campo4=CLASSE
+campo3=PONTO(DESCRICAO,40)
+campo2=N_ORIGINAL
+campo1=CODIGO
+
+
+

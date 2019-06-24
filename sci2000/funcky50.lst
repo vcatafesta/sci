@@ -1,0 +1,256 @@
+Publics by module
+
+ACTIVE  	size = 169
+	ACTIVE                          
+
+AFILELOA	size = 142
+	AFILELOAD                       
+
+ARRAYTRI	size = 138
+	ARRAYTRIM                       
+
+COLORSET	size = 189
+	mcolorset                       
+
+CSRPUT  	size = 107
+	CSRPUT                          
+
+C_AFILEI	size = 657
+	AFILEINIT                       
+
+C_AFILER	size = 233
+	AFILEREAD                       
+
+C_AFILEW	size = 225
+	AFILEWRITE                      
+
+C_AMACPR	size = 191
+	AMACPRINT                       
+
+C_AMAXCH	size = 8938
+	AMAXCHOICE                      
+
+C_APRINT	size = 141
+	ARRAYPRINT                      
+
+C_ARESTO	size = 362
+	AFILEREST                       
+
+C_CCAST 	size = 184
+	CCAST                           
+
+C_CSR   	size = 170
+	CSROFF                            CSRON
+
+C_FERASE	size = 177
+	FERASEALL                       
+
+C_FGETFO	size = 580
+	FGETFORM                        
+
+C_INSERT	size = 155
+	INSERT                          
+
+C_MAKEDB	size = 1291
+	MAKEDBF                         
+
+C_MAXCHO	size = 9075
+	MAXCHOICE                       
+
+C_MAXDBF	size = 10891
+	MAXDBFVIEW                      
+
+C_MAXDIR	size = 682
+	MAXPOPDIR                       
+
+C_MAXDRI	size = 365
+	MAXPOPDRIV                      
+
+C_MAXFIL	size = 691
+	MAXPOPFILE                      
+
+C_MAXGEF	size = 3393
+	MAXGETFORM                      
+
+C_MAXMOV	size = 1378
+	_CONTROLPA                        _DONUT
+	_MAXMOV                         
+
+C_MAXSCO	size = 14025
+	MAXDBFSCOP                      
+
+C_MAXVIE	size = 10469
+	C_MAXVIE                          MAXVIEW
+
+C_MX_CHO	size = 110
+	MX_CHOICE                       
+
+C_MX_DBF	size = 144
+	MX_DBFVIEW                      
+
+C_MX_DIR	size = 110
+	MX_POPDIR                       
+
+C_MX_FIL	size = 110
+	MX_POPFILE                      
+
+C_MX_VIE	size = 110
+	MX_VIEW                         
+
+C_M_APRO	size = 1523
+	M_APROMPT                       
+
+C_M_CHOI	size = 157
+	M_CHOICE                        
+
+C_M_DBFV	size = 160
+	M_DBFVIEW                       
+
+C_M_DISP	size = 928
+	M_DISPLAY                       
+
+C_M_MESS	size = 363
+	M_MESSAGE                       
+
+C_M_POPD	size = 157
+	M_POPDIR                        
+
+C_M_POPF	size = 157
+	M_POPFILE                       
+
+C_M_POSI	size = 124
+	M_POSITION                      
+
+C_M_PROM	size = 1807
+	M_PROMPT                        
+
+C_M_QUER	size = 2208
+	M_QUERY                         
+
+C_M_VIEW	size = 157
+	M_VIEW                          
+
+C_PUTKEY	size = 121
+	PUTKEY                          
+
+C_READH 	size = 309
+	READH                           
+
+C_READS 	size = 309
+	READS                           
+
+C_SDFWRI	size = 309
+	FWRITESDF                       
+
+C_SETSNO	size = 129
+	SETSNOW                         
+
+C_SWAP  	size = 89
+	SWAP                            
+
+C_WORDWR	size = 307
+	FWRITEWORD                      
+
+C_WPWRIT	size = 320
+	FWRITEWP                        
+
+C_WRITEF	size = 439
+	FWRITEFORM                      
+
+C_WSWRIT	size = 371
+	FWRITEWS                        
+
+DATETYPE	size = 365
+	DATETYPE                        
+
+DECIMALS	size = 169
+	DECIMALS                        
+
+DEFAULT 	size = 92
+	DEFAULT                         
+
+DELIMITE	size = 92
+	DELIMITERS                      
+
+EXECUTE 	size = 267
+	EXECUTE                           _XVAL
+
+FKEY    	size = 455
+	FKEY                            
+
+F_LUPDAT	size = 96
+	F_LUPDATE                       
+
+GETVAR  	size = 159
+	GETVAR                          
+
+INITMVAR	size = 290
+	INITMVARS                       
+
+ISBUTTON	size = 260
+	ISBUTTON                        
+
+ISINDEX 	size = 91
+	ISINDEX                         
+
+ISKEYSET	size = 97
+	ISKEYSET                        
+
+MARGIN  	size = 92
+	MARGIN                          
+
+M_INBUTT	size = 260
+	M_INBUTTON                      
+
+M_RELEAS	size = 261
+	M_RELEASE                       
+
+NLEN    	size = 166
+	NLEN                            
+
+NSTUFF  	size = 121
+	NSTUFF                          
+
+NUMGETS 	size = 87
+	NUMGETS                         
+
+ONDO    	size = 504
+	ONDO                            
+
+PATH    	size = 92
+	PATH                            
+
+RELMVARS	size = 248
+	RELMVARS                        
+
+REPLMVAR	size = 230
+	REPLMVARS                       
+
+RESTGETS	size = 93
+	RESTGETS                        
+
+SAVEGETS	size = 101
+	SAVEGETS                        
+
+SCANCODE	size = 111
+	SCANCODE                        
+
+STATUS  	size = 273
+	STATUS                          
+
+STRSTUFF	size = 254
+	STRSTUFF                        
+
+WAITKEY 	size = 273
+	WAITKEY                         
+
+XSCANCOD	size = 111
+	XSCANCODE                       
+
+__MDATA 	size = 574
+	M_DATA                            M_DATAREST
+	M_DATASAVE                        M_FRAME
+	M_TITLE                         
+
+__MLIST 	size = 259
+	MOUSEPICK                         _MOUSE_

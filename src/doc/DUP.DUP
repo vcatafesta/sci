@@ -1,0 +1,40 @@
+[configuracao]                      ; Configuracao da Impressora
+ImprimirCondensado=0                ; 0=Nao      1=Sim
+Imprimir12Cpi=1                     ; 0=Nao      1=Sim
+ImprimirNegrito=1                   ; 0=Nao      1=Sim
+EspacamentoVertical=0               ; 0=1/6"     1=1/8"
+TamanhoPagina=36                    ; Comprimento Vertical do Formulario.
+
+[empresa]                           ; Configuracao da Empresa
+RazaoSocial=-1,-1                   ; Linha,Coluna da Razao Social
+Endereco=-1,-1                      ; Linha,Coluna do Endereco
+Cgc=-1,-1                           ; Linha,Coluna do CGC
+InscricaoEstadual=-1,-1             ; Linha,Coluna da Inscricao
+
+[cabecalho]                         ; Configuracao da Duplicata
+DataDeEmissao=04,71                 ; Linha,Coluna da Data de Emissao
+ValorDaFatura=08,04                 ; Linha,Coluna do Valor da Fatura
+NumeroDaFatura=08,24                ; Linha,Coluna do Numero da Fatura
+ValorDaDuplicata=08,36              ; Linha,Coluna do Valor da Duplicata
+NumeroDaDuplicata=08,56             ; Linha,Coluna do Numero da Duplicata
+Vencimento=08,68                    ; Linha,Coluna da Vencimento da Duplicata
+JurosPorDiaAtraso=11,31             ; Linha,Coluna do Juros Por Dia Atraso
+CodigoDoVendedor=12,64              ; Linha,Coluna do Codigo do Vendedor
+NomeDoSacado=14,27                  ; Linha,Coluna do Nome do Sacado
+CodigoDoSacado=14,89                ; Linha,Coluna do Codigo do Sacado
+EnderecoDoSacao=15,27               ; Linha,Coluna do Endereco do Sacado
+BairroDoSacado=15,79                ; Linha,Coluna do Bairro do Sacado
+CidadeDoSacado=16,27                ; Linha,Coluna da Cidade do Sacado
+CepDoSacado=16,69                   ; Linha,Coluna da Cidade do Sacado
+EstadoDoSacado=16,89                ; Linha,Coluna do Cep do Sacado
+PracaDePagamento=17,27              ; Linha,Coluna do Estado do Sacado
+CepPracadePagamento=17,69           ; Linha,Coluna da Praca de Pagamento
+EstadoPracaDePagamento=17,89        ; LInha,Coluna do Cep da Praca de Pgto
+Cgc_CpfDoSacado=18,27               ; LInha,Coluna do Estado da Praca de Pgto
+Insc_RgDoSacado=18,69               ; Linha,Coluna do CGC/CPF do Sacado
+ValorPorExtenso=20,29               ; Linha,Coluna da Inscricao/Rg do Sacado
+TamanhoValorPorExtenso=66,1         ; Linha,Coluna do Valor Por Extenso
+Observacoes=-1,-1                   ; Linha,Coluna de banco
+
+              Obs. Para nao imprimir uma opcao digite a Linha, Coluna
+                   com valores negativos. Ex.: Especie=-1,-1

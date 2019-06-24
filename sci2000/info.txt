@@ -1,0 +1,12 @@
+Visual Lib 2.0 Shareware - 09/02/98
+Biblioteca para design de interface em Clipper 5.2
+Suporte a Mouse, Botoes e Molduras 3D, Janelas de Dialogo,
+Menus Pull-Down, Caracteres Redefinidos.
+A biblioteca grafica para Clipper mais facil e rapida do mercado.
+PC 286/386/486/586/Pentium - Placa VGA obrigatoria
+DOS/WINDOWS/WINDOWS 95 - CLIPPER 5.2
+Analyze Tecnologia em Sistemas Ltda
+Fone/Fax: (019) 541-6760 / (019) 541-0160
+E-mail: analyze@analyze.com.br
+Web Site: http://www.analyze.com.br
+Visual Lib 2.0 Versao Full - R$ 89,00

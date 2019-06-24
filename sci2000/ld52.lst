@@ -1,0 +1,9 @@
+Publics by module
+
+LD      	size = 3335
+	LDGENERATE                        LDVERSION
+
+LDBAR   	size = 2383
+	LD25INT                           LD39
+	LDEAN                             LDEAN13
+	LDEAN8                            LDUPC12

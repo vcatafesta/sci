@@ -1,0 +1,78 @@
+[configuracao]                                      ; Configuracao da Impressora
+ImprimirCondensado=0                                ; 0=Nao      1=Sim
+Imprimir12Cpi=1                                     ; 0=Nao      1=Sim
+ImprimirNegrito=0                                   ; 0=Nao      1=Sim
+EspacamentoVertical=1                               ; 0=1/6"     1=1/8"
+
+[cabecalho]                                         ; Configuracao do Cabecalho da Nota
+Saida=5,68                                          ; Ln,Col da Saida
+NaturezaDeOperacao=12,3                             ; Ln,Col da Natureza de Operacao
+Cfop=12,26                                          ; Ln,Col do CFOP
+InscricaoEstadualDeSubstituicaoTributaria=-1,-1     ; Ln,Col da Inscricao do Substituto Tributario
+
+[destinatario_remetente]                            ; Configuracao do DestinaLinha/Remetente
+NomeRazaoSocial=17,3                                ; Ln,Col do Nome/Razao Social
+Cgc_Cpf=17,63                                       ; Ln,Col do CGGC/CPF
+DataDeEmissao=17,88                                 ; Ln,Col da Data De Emissao da Nota
+Endereco=20,3                                       ; Ln,Col do Endereco
+BairroDistrito=20,51                                ; Ln,Col do Bairro
+Cep=20,73                                           ; Ln,Col do Cep
+DataSaidaEntrada=20,88                              ; Ln,Col da Data de Saida/Entrada
+Municipio=23,3                                      ; Ln,Col do Municipio
+FoneFax=-1,-1                                       ; Ln,Col do Telefone/Fax
+Uf=23,57                                            ; Ln,Col do Estado
+InscricaoEstadual=23,65                             ; Ln,Col da Inscricao Estadual
+HoraSaida=-1,-1                                     ; Ln,Col da Hora de Saida
+
+[dados_do_produto]                                  ; Configuracao dos Dados do Produto
+QuantidadeDeLinhas=31,1                             ; Quantidade de Linhas dos Produtos
+CodigoOriginal=-1,-1                                ; Ln,Col do Codigo Original
+CodigoProduto=29,03                                 ; Ln,Col do Codigo do Produto
+DescricaoDosProdutos=29,12                          ; Ln,Col da Descricao do Produto
+ClassificacaoFiscal=29,54                           ; Ln,Col da Classificacao Fiscal
+SituacaoTributaria=29,58                            ; Ln,Col da Situacao Tributaria
+Unidade=29,61                                       ; Ln,Col das Instrucoes
+Quantidade=29,64                                    ; Ln,Col da Unidade
+ValorUnitario=29,69                                 ; Ln,Col do Valor Unitario
+ValorTotal=29,82                                    ; Ln,Col do Valor Total
+AliquotaIcms=29,99                                  ; Ln,Col da Aliquota do Icms
+
+[calculo_do_imposto]                                ; Configuracao do Calculo do Imposto
+BaseDeCalculoDoIcms=63,03                           ; Ln,Col da Base de Calculo do Icms
+ValorDoIcms=63,21                                   ; Ln,Col do Valor do Icms
+BaseDeCalculoSubs=-1,-1                             ; Ln,Col do Valor do Icms
+ValorIcmsSubs=-1,-1                                 ; Ln,Col do Valor do Icms
+ValorTotalDosProdutos=63,79                         ; Ln,Col do Valor Total dos Produtos
+ValorTotalDaNota=66,79                              ; Ln,Col do Valor Total da Nota
+
+[transportador_volumes_transportados]               ; Configuracao do Transportador
+NomeRazaoSocial=70,03                               ; Ln,Col do Nome do Transportador
+FretePorConta=70,10                                 ; Ln,Col do Frete por Conta
+PlacaDoVeiculo=70,20                                ; Ln,Col da Placa do Veiculo
+Uf=70,30                                            ; Ln,Col do Estado do Transportador
+Cgc_Cpf=70,40                                       ; Ln,Col do Cgc/CPf do Transportador
+Endereco=73,10                                      ; Ln,Col do Endereco do Transportador
+Municipio=73,20                                     ; Ln,Col do Municipio
+UfCida=73,30                                        ; Ln,Col do Estado
+InscricaoEstadual=73,40                             ; Ln,Col da Inscricao Estadual
+Quantidade=76,10                                    ; Ln,Col da Quantidade
+Especie=76,20                                       ; Ln,Col da Especie
+Marca=76,30                                         ; Ln,Col da Marca
+Numero=76,40                                        ; Ln,Col do Numero
+PesoBruto=76,50                                     ; Ln,Col do Peso Bruto
+PesoLiquido=76,60                                   ; Ln,Col do Peso Liquido
+
+[dados_adicionais]                                  ; Configuracao do Dados Adicionais
+InformacoesComplementares=-1,-1                     ; Ln,Col da Informacao Complementar
+NumeroNotaFiscalCabecalho=-1,-1                     ; Ln,Col do Numero da Nota Fiscal
+NumeroNotaFiscalRodape=-1,-1                        ; Ln,Col do Numero da Nota Fiscal
+InscricaoMunicipal=-1,-1                            ;
+ValorDoIss=-1,-1                                    ;
+ValorTotalDosServicos=-1,-1                         ;
+
+[observacoes]                                       ; observacoes
+Linha1=-1,-1                                        ; Linha1
+Linha2=-1,-1                                        ; Linha2
+Linha3=-1,-1                                        ; Linha3
+; Obs. Para nao imprimir uma opcao digite a Linha, Coluna
+;      com valores negativos. Ex.: Especie=-1,-1

@@ -1,11 +1,21 @@
 #ifndef _DEFINE_CH_
 #define _DEFINE_CH_
 /***************************************************************************************************/
+#define _SLASH_   hb_ps()
+/***************************************************************************************************/
+#define CUPS_MENU    1
+#define CUPS_MODELO  2
+#define CUPS_ACTION  3
+#define CUPS_STATUS  4
+#define CUPS_PRINTER 5
+/***************************************************************************************************/
 #define FINALLY 				 	endsequence
 #Define fi         				endif
 #Define fed
 #define endef
 #define enddef
+#define endmethod
+#define endmethod
 /***************************************************************************************************/
 #ifdef __PLATFORM__WINDOWS
 	#define DEF_SEP "\"

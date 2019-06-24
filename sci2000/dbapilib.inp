@@ -1,0 +1,8 @@
++ dbaddfld.obj &
++ dbfclose.obj &
++ dbfcreat.obj &
++ dbfopen.obj &
++ dbread.obj &
++ dbwrite.obj &
++ fpmemo.obj
+

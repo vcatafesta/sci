@@ -1,0 +1,355 @@
+#line 12 "c:\sci\include\rddName.ch"
+    EXTERNAL leto
+    EXTERNAL DBFNTX
+   EXTERNAL DBFCDX
+
+
+    EXTERNAL DBFFPT
+    EXTERNAL SIXCDX
+    EXTERNAL DBFNSX
+    EXTERNAL HB_MEMIO
+#line 67 "dbedit.prg"
+FUNCTION dbEdit( nTop, nLeft, nBottom, nRight,  acColumns, xUserFunc,  xColumnSayPictures, xColumnHeaders,  xHeadingSeparators, xColumnSeparators,  xFootingSeparators, xColumnFootings )
+
+   LOCAL nOldCUrsor, nKey, nKeyStd, lContinue, nPos, nAliasPos, nColCount
+   LOCAL lDoIdleCall, lAppend, lFlag
+   LOCAL cHeading, cBlock
+   LOCAL bBlock
+   LOCAL oBrowse
+   LOCAL oColumn
+   LOCAL aCol
+
+   if ! Used()
+      return .F.
+   elseif Eof()
+      dbGoBottom()
+   endif
+
+   if ! HB_ISNUMERIC( nTop ) .OR. nTop < 0
+      nTop := 0
+   endif
+   if ! HB_ISNUMERIC( nLeft ) .OR. nLeft < 0
+      nLeft := 0
+   endif
+   if ! HB_ISNUMERIC( nBottom ) .OR. nBottom > MaxRow() .OR. nBottom < nTop
+      nBottom := MaxRow()
+   endif
+   if ! HB_ISNUMERIC( nRight ) .OR. nRight > MaxCol() .OR. nRight < nLeft
+      nRight := MaxCol()
+   endif
+
+   oBrowse := TBrowseDB( nTop, nLeft, nBottom, nRight )
+   oBrowse:headSep   := iif( HB_ISSTRING( xHeadingSeparators ), xHeadingSeparators, hb_UTF8ToStrBox( "═╤═" ) )
+   oBrowse:colSep    := iif( HB_ISSTRING( xColumnSeparators ), xColumnSeparators, hb_UTF8ToStrBox( " │ " ) )
+   oBrowse:footSep   := hb_default( @xFootingSeparators, "" )
+   oBrowse:skipBlock := {| nRecs | Skipped( nRecs, lAppend ) }
+   oBrowse:autoLite  := .F.
+
+   if HB_ISARRAY( acColumns )
+      nColCount := 0
+      FOR EACH aCol IN acColumns
+         if HB_ISSTRING( aCol ) .AND. ! Empty( aCol )
+            nColCount++
+         else
+            EXIT
+         endif
+      NEXT
+   else
+      nColCount := FCount()
+   endif
+
+   if nColCount == 0
+      return .F.
+   endif
+
+
+
+   FOR nPos := 1 TO nColCount
+
+      if HB_ISARRAY( acColumns )
+         cBlock := acColumns[ nPos ]
+         if ( nAliasPos := At( "->", cBlock ) ) > 0
+
+            cHeading := Left( cBlock, nAliasPos - 1 ) + "->;" +  SubStr( cBlock, nAliasPos + 2 )
+         else
+            cHeading := cBlock
+         endif
+      else
+         cBlock := FieldName( nPos )
+         cHeading := cBlock
+      endif
+
+
+
+
+
+
+
+
+
+
+      bBlock := iif( Type( cBlock ) == "M", {|| "  <Memo>  " }, hb_macroBlock( cBlock ) )
+
+      DO CASE
+      CASE HB_ISARRAY( xColumnHeaders ) .AND. Len( xColumnHeaders ) >= nPos .AND. HB_ISSTRING( xColumnHeaders[ nPos ] )
+         cHeading := xColumnHeaders[ nPos ]
+      CASE HB_ISSTRING( xColumnHeaders )
+         cHeading := xColumnHeaders
+      ENDCASE
+
+      oColumn := TBColumnNew( cHeading, bBlock )
+
+      DO CASE
+      CASE HB_ISARRAY( xColumnSayPictures ) .AND. nPos <= Len( xColumnSayPictures ) .AND. HB_ISSTRING( xColumnSayPictures[ nPos ] ) .AND. ! Empty( xColumnSayPictures[ nPos ] )
+         oColumn:picture := xColumnSayPictures[ nPos ]
+      CASE HB_ISSTRING( xColumnSayPictures ) .AND. ! Empty( xColumnSayPictures )
+         oColumn:picture := xColumnSayPictures
+      ENDCASE
+
+      DO CASE
+      CASE HB_ISARRAY( xColumnFootings ) .AND. nPos <= Len( xColumnFootings ) .AND. HB_ISSTRING( xColumnFootings[ nPos ] )
+         oColumn:footing := xColumnFootings[ nPos ]
+      CASE HB_ISSTRING( xColumnFootings )
+         oColumn:footing := xColumnFootings
+      ENDCASE
+
+      if HB_ISARRAY( xHeadingSeparators ) .AND. nPos <= Len( xHeadingSeparators ) .AND. HB_ISSTRING( xHeadingSeparators[ nPos ] )
+         oColumn:headSep := xHeadingSeparators[ nPos ]
+      endif
+
+      if HB_ISARRAY( xColumnSeparators ) .AND. nPos <= Len( xColumnSeparators ) .AND. HB_ISSTRING( xColumnSeparators[ nPos ] )
+         oColumn:colSep := xColumnSeparators[ nPos ]
+      endif
+
+      if HB_ISARRAY( xFootingSeparators ) .AND. nPos <= Len( xFootingSeparators ) .AND. HB_ISSTRING( xFootingSeparators[ nPos ] )
+         oColumn:footSep := xFootingSeparators[ nPos ]
+      endif
+
+      oBrowse:addColumn( oColumn )
+   NEXT
+
+   nOldCUrsor := SetCursor( 0 )
+
+
+
+   lAppend := .F.
+   lFlag := .T.
+   lDoIdleCall := .T.
+   lContinue := .T.
+
+   while lContinue
+
+      while ( .T. )
+         nKeyStd := hb_keyStd( Inkey(, hb_bitOr( Set( 39 ), 2048 ) ) )
+         if oBrowse:stabilize()
+            EXIT
+         endif
+
+         if nKeyStd <> 0 .AND. nKeyStd <> 1001
+            EXIT
+         endif
+
+
+
+
+
+      ENDDO
+
+      if nKeyStd == 0
+         if lDoIdleCall
+            lContinue := CallUser( oBrowse, xUserFunc, 0, @lAppend, @lFlag )
+            oBrowse:forceStable()
+         endif
+         if lContinue .AND. lFlag
+            oBrowse:hiLite()
+
+            while ( nKeyStd := hb_keyStd( nKey := Inkey( 0, hb_bitOr( Set( 39 ), 2048 ) ) ) ) == 1001
+            ENDDO
+
+
+
+            oBrowse:deHilite()
+
+            if ( bBlock := SetKey( nKey ) ) <> NIL .OR.  ( bBlock := SetKey( nKeyStd ) ) <> NIL
+               Eval( bBlock, ProcName( 1 ), ProcLine( 1 ), "" )
+               LOOP
+            endif
+         else
+            lFlag := .T.
+         endif
+      endif
+
+      lDoIdleCall := .T.
+
+      if nKeyStd <> 0
+
+         if lAppend
+            SWITCH nKeyStd
+            CASE 24
+            CASE 3
+            CASE 30
+               oBrowse:hitBottom := .T.
+               LOOP
+            CASE 5
+            CASE 18
+            CASE 31
+               oBrowse:hitTop := .T.
+               LOOP
+            ENDSWITCH
+         endif
+
+         SWITCH nKeyStd
+
+         CASE 1002
+         CASE 1006
+            TBMouse( oBrowse, MRow(), MCol() )
+            EXIT
+
+         CASE 24          ; oBrowse:down()     ; EXIT
+         CASE 5            ; oBrowse:up()       ; EXIT
+         CASE 3          ; oBrowse:pageDown() ; EXIT
+         CASE 18          ; oBrowse:pageUp()   ; EXIT
+         CASE 31     ; oBrowse:goTop()    ; EXIT
+         CASE 30     ; oBrowse:goBottom() ; EXIT
+         CASE 4         ; oBrowse:right()    ; EXIT
+         CASE 19          ; oBrowse:left()     ; EXIT
+         CASE 1          ; oBrowse:home()     ; EXIT
+         CASE 6           ; oBrowse:end()      ; EXIT
+         CASE 26     ; oBrowse:panLeft()  ; EXIT
+         CASE 2    ; oBrowse:panRight() ; EXIT
+         CASE 29     ; oBrowse:panHome()  ; EXIT
+         CASE 23      ; oBrowse:panEnd()   ; EXIT
+         OTHERWISE
+            lContinue := CallUser( oBrowse, xUserFunc, nKeyStd, @lAppend, @lFlag )
+            lDoIdleCall := .F.
+         ENDSWITCH
+      endif
+   ENDDO
+
+   SetCursor( nOldCUrsor )
+
+   return .T.
+
+
+
+
+
+STATIC FUNCTION CallUser( oBrowse, xUserFunc, nKeyStd, lAppend, lFlag )
+
+   LOCAL nPrevRecNo
+
+   LOCAL nAction
+
+
+
+
+   LOCAL nMode :=  iif( nKeyStd <> 0,                4,  iif( ! lAppend .AND. IsDbEmpty(), 3,  iif( oBrowse:hitBottom,           2,  iif( oBrowse:hitTop,              1, 0 ) ) ) )
+
+   oBrowse:forceStable()
+
+   nPrevRecNo := RecNo()
+
+
+
+
+
+
+
+   nAction :=  iif( HB_ISEVALITEM( xUserFunc ), Eval( xUserFunc, nMode, oBrowse:colPos ),  iif( HB_ISSTRING( xUserFunc ) .AND. ! Empty( xUserFunc ), &xUserFunc( nMode, oBrowse:colPos ),  iif( nKeyStd == 13 .OR. nKeyStd == 27, 0, 1 ) ) )
+
+   if ! lAppend .AND. Eof() .AND. ! IsDbEmpty()
+      dbSkip( -1 )
+   endif
+
+
+
+
+   nAction := if( nAction = Nil, 1, nAction )
+   if nAction == 3
+
+      if ( lAppend := !( lAppend .AND. Eof() ) )
+         dbGoBottom()
+         oBrowse:down()
+      else
+         oBrowse:refreshAll():forceStable()
+      endif
+      lFlag := .F.
+      return .T.
+   endif
+
+
+   if nAction == 2 .OR. nPrevRecNo <> RecNo()
+
+      if nAction <> 0
+
+         lAppend := .F.
+
+
+         if ( Set( 11 ) .AND. Deleted() ) .OR.  ( ! Empty( dbFilter() ) .AND. ! Eval( hb_macroBlock( dbFilter() ) ) )
+            dbSkip()
+         endif
+         if Eof()
+            dbGoBottom()
+         endif
+
+         nPrevRecNo := RecNo()
+         oBrowse:refreshAll():forceStable()
+         while nPrevRecNo <> RecNo()
+            oBrowse:Up():forceStable()
+         ENDDO
+
+         lFlag := .F.
+
+      endif
+   else
+      oBrowse:refreshCurrent()
+   endif
+
+   return nAction <> 0
+
+
+
+
+STATIC FUNCTION IsDbEmpty()
+
+   return LastRec() == 0 .OR.  ( Bof() .AND. ( Eof() .OR. RecNo() == LastRec() + 1 ) )
+
+
+STATIC FUNCTION Skipped( nRecs, lAppend )
+
+   LOCAL nSkipped := 0
+
+   if LastRec() <> 0
+      DO CASE
+      CASE nRecs == 0
+         if Eof() .AND. ! lAppend
+            dbSkip( -1 )
+            nSkipped := -1
+         else
+            dbSkip( 0 )
+         endif
+      CASE nRecs > 0 .AND. RecNo() <> LastRec() + 1
+         while nSkipped < nRecs
+            dbSkip()
+            if Eof()
+               if lAppend
+                  nSkipped++
+               else
+                  dbSkip( -1 )
+               endif
+               EXIT
+            endif
+            nSkipped++
+         ENDDO
+      CASE nRecs < 0
+         while nSkipped > nRecs
+            dbSkip( -1 )
+            if Bof()
+               EXIT
+            endif
+            nSkipped--
+         ENDDO
+      ENDCASE
+   endif
+
+   return nSkipped

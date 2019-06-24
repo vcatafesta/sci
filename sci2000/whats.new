@@ -1,0 +1,25 @@
+What's new in release 3.05
+===========================================================================
+
+1.  All patches from the previous release have been incorporated.
+
+2.  The FTTEXT module is now compatible with protected mode and is once
+    again included in the Toolkit.  This is the module with the text file
+    processing functions like FT_FUse(), FT_FAppend(), and so on.
+
+3.  FT_FlopTst() has been rewritten in Clipper and is thus compatible
+    with protected mode, so it too is once again included.
+
+4.  FT_OnTick() and FT_OnIdle() contain bug fixes for problems that
+    could have or did cause eval stack exhaustion.
+
+5.  FT_Descend() is included as a replacement for Clipper's buggy
+    Descend() function.
+
+6.  All C code was compiled with Microsoft C 8.00c instead of 5.10.  This
+    necessitated some minor changes to certain C functions to eliminate
+    compiler warnings.  In addition, the use of version 8.00c allows for
+    the use of in-line assembly language in C functions.
+
+7.  FT_IAmIdle() has been fixed; previously it would return .F. in call
+    cases instead of returning .T. when the call succeeded.

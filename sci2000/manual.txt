@@ -1,0 +1,2364 @@
+======================================================
+Funá‰es em ordem alfabÇtica - Visual Lib 2.0 Shareware
+======================================================
+
+AddBarItem()    - Adiciona um item (prompt) a um Menu de Barra               
+
+AddBarItem() --> NIL
+============
+
+Sintaxe   : AddBarItem( < mBar >,
+                        < cTxt >,
+                        [ cMsg ],
+                        [ < mDwn | bBlk > ],
+                        [ lEnb ],
+                        [ nLin ],
+                        [ nCol ] )
+
+Argumentos: < mBar > array "Menu de Barra", criado atravÇs da funá∆o
+            NewBarMenu() no formato:  mBar := NewBarMenu()
+
+            < cTxt > express∆o caractere correspondente ao item do menu.
+            Utilize o caracter "&" antes da letra que servir† como tecla
+            de acesso r†pido. Exemplo: "&Relat¢rios"
+
+            [ cMsg ] express∆o caractere correspondente Ö mensagem que
+            ser† exibida na parte inferior da tela quando o foco estiver
+            sobre o item. Caso n∆o seja informado, nenhuma mensagem ser†
+            exibida. Exemplo: "Impress∆o de relat¢rios"
+
+            [ < mDwn | bBlk > ] array "Menu Down" ou bloco de c¢digo a
+            ser processado quando o item for selecionado. O "Menu Down" Ç
+            criado por NewDownMenu(), no formato: mDwn := NewDownMenu().
+
+            [ lEnb ] express∆o l¢gica. Verdadeiro (.T.) indica que o item
+            estar† dispon°vel (Enabled), e Falso (.F.) indica que o item
+            n∆o estar† dispon°vel (Disabled). O valor padr∆o Ç (.T.).
+            O estado de um item de menu pode ser consultado/alterado pela
+            funá∆o SetBarItem(), a qualquer tempo.
+
+            [ nLin ] linha de localizaá∆o do menu, v†lida somente para o
+            primeiro item. Valor padr∆o: linha 1.
+
+            [ nCol ] coluna inicial do menu, v†lida somente no primeiro
+            item. Valor padr∆o: coluna 1.
+
+Retorno   : AddBarItem() sempre retorna NIL.
+
+Descriá∆o : AddBarItem() Ç a funá∆o respons†vel pela adiá∆o dos itens
+            (prompts) a um Menu de Barra. Os itens ser∆o dispostos na
+            mesma ordem em que foram adicionados. Na grande maioria dos
+            casos, apenas os quatro primeiros argumentos s∆o informados,
+            j† que os demais assumem os valores padr∆o mais utilizados.
+
+Exemplo   : Criaá∆o de um menu horizontal com duas opá‰es, atribuindo um
+            bloco de c¢digo Ö primeira e um "Menu Down" Ö segunda.
+
+=========================================================================
+
+// Cria os Menus, atribuindo-os Ös vari†veis
+mBar := NewBarMenu()
+mDwn := NewDownMenu()
+
+// Adiciona os itens (prompts) ao Menu de Barra
+AddBarItem( mBar, "Opá∆o &1", "Primeira opá∆o", { || op1() } ) //codeblk
+AddBarItem( mBar, "Opá∆o &2", "Segunda opá∆o", mDwn ) //"Menu Down"
+
+// Adiciona os itens (prompts) ao "Menu Down"
+AddDownItem( mDwn, "Teste &1" ) //itens apenas para teste, sem mensagem
+AddDownItem( mDwn, "Teste &2" ) //e sem funá∆o ou sub-menu associados
+
+// Executa o Menu de Barra
+BarMenu( mBar )
+
+=========================================================================
+
+Veja tambÇm: NewBarMenu()
+             SetBarItem()
+             BarMenu()
+             NewDownMenu()
+             AddDownItem()
+             AddDownSep()
+             SetDownItem()
+             ChkDownItem()
+
+=========================================================================
+
+AddDownItem()   - Adiciona um item (prompt) a um "Menu Down"                 
+
+AddDownItem() --> NIL
+============
+
+Sintaxe   : AddDownItem( < mDwn >,
+                         < cTxt >,
+                         [ cMsg ],
+                         [ < mSub | bBlk > ],
+                         [ nTam ],
+                         [ lEnb ] )
+
+Argumentos: < mDwn > array "Menu Down", criado atravÇs da funá∆o
+            NewDownMenu() no formato:  mDwn := NewDownMenu()
+
+            < cTxt > express∆o caractere correspondente ao item do menu.
+            Utilize o caracter "&" antes da letra que servir† como tecla
+            de acesso r†pido. Exemplo: "&Salvar"
+
+            [ cMsg ] express∆o caractere correspondente Ö mensagem que
+            ser† exibida na parte inferior da tela quando o foco estiver
+            sobre o item. Caso nao seja informado, nenhuma mensagem ser†
+            exibida. Exemplo: "Salva o arquivo atual"
+
+            [ < mSub | bBlk > ] array "Menu Down" ou bloco de c¢digo a
+            ser processado. O "Menu Down" < mSub > tambÇm  Ç criado pela
+            funá∆o NewDownMenu(). Uma seta Ç inclu°da ao lado direito do
+            item indicando a existància de um Sub-Menu, automaticamente.
+            Se o argumento for um bloco de c¢digo, este ser† avaliado
+            quando o item do menu for selecionado.
+
+            [ nTam ] largura do item em caracteres. Este argumento foi
+            inclu°do pois as funá‰es de menu calculam automaticamente a
+            largura, mas nos casos em que todos os itens s∆o pequenos a
+            janela do menu pode ficar comprida e fina, causando um efeito
+            visual desagrad†vel. Para estes casos, bastaria informar o
+            tamanho (exemplo: 20) no primeiro item adicionado e os demais
+            ser∆o atribu°dos automaticamente. 
+
+            [ lEnb ] express∆o l¢gica. Verdadeiro (.T.) indica que o item
+            estar† dispon°vel (Enabled), e Falso (.F.) indica que o item
+            n∆o estar† dispon°vel (Disabled). O valor padr∆o Ç (.T.).
+            O estado de um item de menu pode ser consultado/alterado pela
+            funá∆o SetDownItem(), a qualquer tempo.
+
+Retorno   : AddDownItem() sempre retorna NIL.
+
+Descriá∆o : AddDownItem() Ç a funá∆o respons†vel pela adiá∆o dos itens
+            (prompts) a um "Menu Down". Os itens ser∆o dispostos na
+            mesma ordem em que foram adicionados. Na grande maioria dos
+            casos, apenas os quatro primeiros argumentos s∆o informados,
+            j† que os demais assumem os valores padr∆o mais utilizados.
+
+Exemplo   : Criaá∆o de um menu horizontal com dois itens (prompts). A
+            cada item Ç associado um menu vertical com tràs opá‰es.
+
+=========================================================================
+
+// Cria os "Menus de Barra" e os "Menus Down"
+mBar := NewBarMenu()
+mArq := NewDownMenu() //menu Arquivos
+mRel := NewDownMenu() //menu Relat¢rios
+
+// Adiciona os itens ao Menu de Barra
+AddBarItem( mBar, "&Arquivos"  , "Manutená∆o de arquivos" , mArq )
+AddBarItem( mBar, "&Relat¢rios", "Impress∆o de Relat¢rios", mRel )
+
+// Adiciona os itens ao "Menu Down" mArq
+AddDownItem( mArq, "&Abrir" , "Abre o arquivo" )
+AddDownItem( mArq, "&Fechar", "Fecha o arquivo" ) 
+AddDownItem( mArq, "&Sair"  , "Sai do programa" )
+
+// Adiciona os itens ao "Menu Down" mRel
+AddDownItem( mRel, "&Imprimir"    , "Imprime o relat¢rio" )
+AddDownItem( mRel, "&Visualizar"  , "Visualiza o relat¢rio" )
+AddDownItem( mRel, "&N∆o Imprimir", "N∆o imprime o relat¢rio" )
+
+// BarMenu() executa o Pull-Down automaticamente
+BarMenu( mBar )
+
+=========================================================================
+
+Veja tambÇm: NewDownMenu()
+             AddDownSep()
+             SetDownItem()
+             ChkDownItem()
+             NewBarMenu()
+             AddBarItem()
+             SetBarItem()
+             BarMenu()
+
+=========================================================================
+
+AddDownSep()    - Adiciona uma linha de separaá∆o em um "Menu Down"          
+
+AddDownSep() --> NIL
+============
+
+Sintaxe   : AddDownSep( < mDwn > )
+
+Argumentos: < mDwn > "Menu Down" ao qual se deseja adicionar a linha de
+            separaá∆o de itens.
+
+Retorno   : AddDownSep() sempre retorna NIL.
+
+Descriá∆o : AddDownSep() adiciona um separador a um "Menu Down". Linhas
+            de separaá∆o s∆o normalmente utilizados para agrupar itens
+            relacionados dentro de um mesmo menu vertical. O separador
+            Ç tratado da mesma forma que um item normal, e seu n£mero Ç a
+            ordem em que foi adicionado. Portanto, ao utilizar as funá‰es
+            que requerem como argumento o n£mero do item de um menu, n∆o
+            exclua os separadores da contagem.
+
+            Exemplo: Para desabilitar o £ltimo item de um menu vertical
+            que contenha tràs opá‰es e um separador ap¢s a segunda opá∆o,
+            utilize a funá∆o:  SetDownItem( mDwn, 04, .F. ), onde:
+
+            mDwn = "Menu Down";
+             04  = n£mero de ordem do item (o separador est† no item 3)
+            .F.  = valor l¢gico que desabilita o item
+
+Exemplo   : Criaá∆o de um menu horizontal com dois itens (prompts). A
+            cada item Ç associado um menu vertical com tràs opá‰es.
+            Ao menu "mArq", adicionaremos um separador entre "&Fechar" e
+            "&Sair". Ao menu "mRel", adicionaremos um separador entre
+            "&Visualizar" e "&Imprimir".
+
+=========================================================================
+
+// Cria os Menus
+mBar := NewBarMenu()
+mArq := NewDownMenu() // menu Arquivos
+mRel := NewDownMenu() // menu Relat¢rios
+
+// Adiciona os itens ao "Menu de Barra
+AddBarItem( mBar, "&Arquivos"  , "Manutená∆o de arquivos" , mArq )
+AddBarItem( mBar, "&Relat¢rios", "Impress∆o de Relat¢rios", mRel )
+
+// Adiciona os itens a mArq
+AddDownItem( mArq, "&Abrir" , "Abre o arquivo" )
+AddDownItem( mArq, "&Fechar", "Fecha o arquivo" ) 
+AddDownSep ( mArq ) // ===> Atená∆o, o separador conta como item "3"
+AddDownItem( mArq, "&Sair"  , "Sai do programa" ) // Este Ç o item "4"
+
+// Adiciona os itens a mRel
+AddDownItem( mRel, "&Visualizar"  , "Visualiza o relat¢rio" )
+AddDownSep ( mRel ) // ===> Atená∆o, este Ç o item "2"
+AddDownItem( mRel, "&Imprimir"    , "Imprime o relat¢rio" ) // Item "3"
+AddDownItem( mRel, "&N∆o Imprimir", "N∆o imprime o relat¢rio" ) // e "4"
+
+// BarMenu() executa o Pull-Down automaticamente
+BarMenu( mBar )
+
+=========================================================================
+
+Veja tambÇm: NewDownMenu()
+             AddDownItem()
+             SetDownItem()
+             ChkDownItem()
+             NewBarMenu()
+             AddBarItem()
+             SetBarItem()
+             BarMenu()
+
+=========================================================================
+
+BarMenu()       - Executa um Menu de Barra                                   
+
+BarMenu() --> NIL
+=========
+
+Sintaxe   : BarMenu( < mBar >, [ nLin ], [ nBar ] )
+
+Argumentos: < mBar > array "Menu de Barra", criado atravÇs da funá∆o
+            NewBarMenu() e que contenha itens de menu, adicionados pela
+            funá∆o AddBarItem().
+
+            [ nLin ] linha em que o menu ser† exibido. O padr∆o Ç 1.
+
+            [ nBar ] n£mero do item que receber† o foco inicial. O valor
+            padr∆o Ç 1.
+
+Retorno   : NIL
+
+Descriá∆o : BarMenu() Ç a funá∆o de interface respons†vel pela execuá∆o
+            de um Menu de Barra, e deve ser chamada ap¢s a definiá∆o da
+            estrutura de menus da aplicaá∆o. 
+
+            Na grande maioria dos casos, apenas o primeiro argumento Ç
+            informado na chamada de BarMenu().
+
+Exemplo   : Criaá∆o de um menu horizontal com dois itens (prompts). A
+            cada item Ç associado um menu vertical com duas opá‰es.
+
+=========================================================================
+
+//Cria os Menus
+mBar := NewBarMenu()
+mArq := NewDownMenu() // menu Arquivos
+mRel := NewDownMenu() // menu Relat¢rios
+
+//Adiciona os itens ao menu mBar
+AddBarItem( mBar, "&Arquivos"  , "Manutená∆o de arquivos" , mArq )
+AddBarItem( mBar, "&Relat¢rios", "Impress∆o de Relat¢rios", mRel )
+
+//Adiciona os itens ao menu mArq
+AddDownItem( mArq, "&Abrir" , "Abre o arquivo" )
+AddDownItem( mArq, "&Fechar", "Fecha o arquivo" ) 
+
+//Adiciona os itens ao menu mRel
+AddDownItem( mRel, "&Imprimir"    , "Imprime o relat¢rio" )
+AddDownItem( mRel, "&N∆o Imprimir", "N∆o imprime o relat¢rio" )
+
+//BarMenu() executa o Pull-Down automaticamente
+BarMenu( mBar )
+
+=========================================================================
+
+Veja tambÇm: NewBarMenu()
+             AddBarItem()
+             SetBarItem()
+             NewDownMenu()
+             AddDownItem()
+             AddDownSep()
+             SetDownItem()
+             ChkDownItem()
+
+=========================================================================
+
+ChkDownItem()   - Marca/Desmarca um item de um "Menu Down"                   
+
+ChkDownItem() --> lEstado
+=============
+
+Sintaxe   : ChkDownItem( < mDwn >, < nItm >, [ lChk ] )
+
+Argumentos: < mDwn > "Menu Down" que contÇm o item desejado.
+
+            < nItm > n£mero do item dentro do "Menu Down". Corresponde Ö
+            ordem em que o item foi adicionado no menu. Para o primeiro
+            item, nItm = 1, para o quinto item, nItm = 5. Ressaltamos que
+            separadores adicionados pela funá∆o AddDownSep() contam como
+            itens normais de um menu.
+
+            [ lChk ] express∆o l¢gica correspondente ao item marcado ou
+            desmarcado. Verdadeiro (.T.) marca o item (caracter Check)
+            e Falso (.F.) desmarca. Para verificar o estado do item sem
+            alterar a situaá∆o atual, omita este argumento. 
+
+Retorno   : (.T.) item marcado ou (.F.) item desmarcado.
+
+Descriá∆o : ChkDownItem() Ç uma funá∆o Get/Set para consultar ou alterar
+            a situaá∆o de um item em um "Menu Down". Seu funcionamento Ç
+            an†logo Ös funá‰es do Clipper SETCOLOR(), SETCURSOR(), etc.
+
+            A informaá∆o do terceiro argumento [ lChk ] altera a situaá∆o
+            do item e retorna a situaá∆o anterior. A omiss∆o do argumento
+            apenas retornar† a situaá∆o atual do item.
+
+Exemplo   : Pode-se utilizar essa caracter°stica para ligar/desligar uma
+            determinada opá∆o em um aplicativo, ou ainda como interface
+            para concess∆o ou n∆o de acessos a um determinado usu†rio.
+            
+            Abaixo, o c¢digo poss°vel para marcar/desmarcar um item no 
+            menu quando o usu†rio teclar "Enter" sobre ele, supondo que
+            esse item seja o quinto em um menu "mDwn". Observe que todo
+            o trabalho Ç feito pelo bloco de c¢digo informado na adiá∆o
+            do item, invertendo o valor retornado por ChkDownItem().
+
+=========================================================================
+
+// Adiciona o quinto item a "mDwn", passando um bloco de c¢digo para
+// Ligar/Desligar o "Check" automaticamente quando o item for selecionado
+
+AddDownItem( mDwn, "&Opá∆o", "Liga/Desliga Opá∆o",;
+             { || ChkDownItem( mDwn, 05, !ChkDownItem( mDown, 05 ) ) } )
+
+            O c¢digo para verificar a situaá∆o do item em um determidado
+            ponto de um programa est† ilustrado abaixo:
+
+// Verifica se o item est† Ligado ou Desligado
+
+IF ChkDownItem( mDwn, 05 )      // Se o item 5 estiver "Ligado"
+   < comandos >                 // Executa os comandos do programador
+ELSE                            // Se o item estiver "Desligado"
+   MsgBox1( "Opá∆o desligada" ) // Alerta o usu†rio
+ENDIF
+
+=========================================================================
+
+Veja tambÇm: NewDownMenu()
+             AddDownItem()
+             AddDownSep()             
+             SetDownItem()
+             NewBarMenu()
+             AddBarItem()
+             SetBarItem()
+             BarMenu()
+
+=========================================================================
+
+Deskbox()       - Desenha uma caixa 3D no Desktop                            
+
+Deskbox() --> NIL
+=========
+
+Sintaxe   : Deskbox( < nTop >, < nLft >,
+                     < nBot >, < nRig >,
+                     [ nRlv ] )
+
+Argumentos: < nTop >, < nLft >, < nBot > e < nRig > s∆o, respectivamente,
+            as coordenadas da linha e coluna superiores, e linha e coluna
+            inferiores para o desenho da caixa.
+
+            [ nRlv ] tipo de relevo: 1 = Baixo e 2 = Alto relevo. Caso
+            n∆o seja informado, o padr∆o Ç 1 (baixo relevo).
+
+Retorno   : Deskbox() sempre retorna NIL.
+
+Descriá∆o : Deskbox() desenha uma caixa nas coordenadas especificadas, em
+            Baixo ou Alto Relevo (efeito 3D). Espec°fico para o Desktop
+            padr∆o (cinza).
+              
+Exemplo   : Desenho de um t°tulo para o Desktop, utilizando Deskbox().
+
+=========================================================================
+
+Deskbox( 02, 01, 04, 78, 2 ) // Desenha caixa em alto relevo
+@ 03, 02 SAY PADC( "Controle de Estoque", 76 ) COLOR "R/W" //T°tulo verm.
+
+=========================================================================
+
+Veja tambÇm: Desktop()
+             Frame()
+=========================================================================
+
+Desktop()       - Desenha tela de abertura (Desktop) para um programa        
+
+Desktop() --> NIL
+=========
+
+Sintaxe   : Desktop()
+
+Argumentos: Desktop() n∆o possui argumentos.
+
+Retorno   : Desktop() sempre retorna NIL.
+
+Descriá∆o : Desktop() Ç a funá∆o de interface respons†vel pelo desenho da
+            tela inicial de um programa e pela redefiniá∆o dos caracteres
+            utilizados na VISUAL LIB. Adicionalmente, tambÇm inicializa o
+            mouse, caso este se encontre instalado.
+
+            O Desktop (†rea de trabalho) tem as caracter°sticas comuns Ös
+            janelas dos ambientes gr†ficos:
+
+            Linha 00 - Barra de t°tulo da aplicaá∆o;
+            Linha 01 - Barra de menu Pull-Down;
+            Linha 23 - Barra de mensagens
+            Linha 24 - Barra de teclas de funá∆o
+
+            O espaáo compreendido entre as linhas 02 e 22 (21 linhas) Ç a
+            †rea dispon°vel para o programador.
+
+Exemplo   : Programa utilizando o Desktop padr∆o.
+
+=========================================================================
+
+// Na definiá∆o da tela do aplicativo
+Desktop()
+
+=========================================================================
+
+Veja tambÇm: DeskBox()
+             Frame()
+=========================================================================
+
+DrawFn()        - Desenha nome de funá∆o na linha inferior da tela           
+
+DrawFn() --> NIL
+========
+
+Sintaxe   : DrawFn( < nFun >, < cNom > )
+
+Argumentos: < nFun > n£mero correspondente Ö tecla de funá∆o. Exemplo:
+            DrawFn( 1, "Ajuda" ) desenhar† a tecla "F1" e "Ajuda" na
+            posiá∆o apropriada da linha 24.
+
+            < cNom > nome da funá∆o que ser† exibida. Para que todas as
+            dez teclas de funá∆o sejam visualizadas, cNom pode ter atÇ
+            sete caracteres.
+
+Retorno   : DrawFn() sempre retorna NIL.
+
+Descriá∆o : DrawFn() Ç uma funá∆o de interface que tem como finalidade
+            apenas auxiliar o programador na exibiá∆o das funá‰es que
+            est∆o associadas Ös teclas F1, F2,... atÇ F10. Normalmente,
+            utiliza-se SET KEY ou SETKEY() do Clipper para esse fim.
+
+            DrawFn() n∆o faz essas associaá‰es. Apenas mostra na linha 24
+            a tecla (redefinida) e o nome da funá∆o que foram passados
+            como argumentos, na posiá∆o apropriada.
+
+            Para possibilitar a execuá∆o de suas rotinas associadas via
+            SET KEY ou SETKEY() tambÇm atravÇs do mouse, utilize a funá∆o
+            SetKeyMouse() da Visual Lib.
+
+Exemplo   : Em um determinado programa de contas a pagar, a tecla F9 foi
+            associada Ö uma funá∆o Clock() do usu†rio. Note que o uso de
+            SetKeyMouse() possibilita o acionamento do rel¢gio atravÇs de
+            um "Click" na †rea onde a funá∆o est† desenhada.
+
+=========================================================================
+
+// Na definiá∆o da tela do aplicativo
+Desktop()
+
+// Associa a tecla F9 Ö funá∆o Clock() e mostra para o usu†rio
+
+SETKEY( K_F9, { || Clock() } )          // funá∆o do Clipper
+SetKeyMouse( K_F9, { 24, 24, 64, 71 } ) // executa com o mouse
+DrawFn( 9, "Rel¢gio" )                  // desenha na linha 24, coluna 64
+
+=========================================================================
+
+Veja tambÇm: Desktop()
+             SetKeyMouse()
+=========================================================================
+
+Frame()         - Desenha moldura nas coordenadas especificadas              
+
+Frame() --> NIL
+=======
+
+Sintaxe   : Frame( < nTop >, < nLft >, < nBot >, < nRig >,
+                   [ cTit ],
+                   [ nPos ],
+                   [ nEst ],
+                   [ cCfr ],
+                   [ cCtt ] )
+
+Argumentos: < nTop >, < nLft >, < nBot > e < nRig > s∆o, respectivamente,
+            as coordenadas da linha e coluna superiores, e linha e coluna
+            inferiores para o desenho do frame (moldura).
+
+            [ cTit ] t°tulo opcional a ser exibido.
+
+            [ nPos ] n£mero correspondente ao alinhamento do t°tulo no
+            frame. Se n∆o informado, o padr∆o Ç FT_LEFT (1). Utilize as
+            constantes definidas no arquivo header VISUAL2.CH:
+
+            CONSTANTE   VALOR   SIGNIFICADO
+            -------------------------------
+            FT_LEFT       1     T°tulo alinhado Ö esquerda
+            FT_CNTR       2     T°tulo centralizado
+            FT_RIGH       3     T°tulo alinhado Ö direita
+
+            [ nEst ] n£mero correspondente ao estilo do frame. Caso n∆o
+            seja informado, o padr∆o assumido Ç FE_DOWN (1). O arquivo
+            header VISUAL2.CH define as seguintes constantes:
+
+            CONSTANTE   VALOR   SIGNIFICADO
+            -------------------------------
+            FE_DOWN       1     Frame em baixo relevo
+            FE_UP         2     Frame em alto relevo
+            FE_NORMAL     3     Frame normal (sem relevo)
+
+            [ cCfr ] cor do frame, apenas para o estilo FE_NORMAL.
+            A cor padr∆o Ç "N/W".
+
+            [ cCtt ] cor do t°tulo, para todos os estilos. A cor padr∆o
+            Ç "N/W".
+
+Retorno   : Frame() sempre retorna NIL.
+
+Descriá∆o : Frame() Ç uma funá∆o de interface que desenha uma moldura nas
+            coordenadas, t°tulo (alinhamento), estilo e cor desejados.
+            Bastante utilizada no desenho das telas de ediá∆o, permite um
+            efeito de relevo extremamente agrad†vel e profissional.
+
+Exemplo   : Em determinado aplicativo, h† uma rotina para consultar os
+            dados cadastrais de um cliente selecionado. Frame() Ç usada
+            para agrupar as informaá‰es b†sicas do cliente separadamente
+            dos demais dados cadastrais.
+
+=========================================================================
+
+// Desenha os dois frames. Por padr∆o, os t°tulos ser∆o alinhados Ö
+// esquerda e o estilo ser† baixo relevo
+Frame( 03, 01, 07, 78, "Cliente" )
+Frame( 08, 01, 19, 78, "Dados Cadastrais" )
+
+LinButton1( LB_SHOW )   // Desenha o bot∆o "OK"
+
+WHILE .T.   // Rotina de consulta
+
+   // O GET C¢digo est† "dentro" do primeiro frame
+   @ 04, 03 SAY "C¢digo:" GET mcod PICTURE "999999" valid PesqCli()
+   READ     // Selecionou o cliente para consulta
+
+   IF LASTKEY() == K_ESC   // Se o usu†rio cancelou a ediá∆o
+      EXIT                 // Abandona o Loop
+   ENDIF
+
+   // O nome e o telefone tambÇm est∆o "dentro" do primeiro frame
+   @ 05, 03 SAY "Nome..: " + mnom PICTURE "@!X"
+   @ 06, 03 SAY "Fone..: " + mfon PICTURE "@!X" 
+
+   // Os demais dados est∆o no segundo frame (a partir da linha 09)
+   @ 09, 03 SAY "End...: " + mend PICTURE "@!X"
+   @ 10, 03 SAY "Bairro: " + mbar PICTURE "@!X"
+   .
+   < visualiza os demais dados do cliente >
+   .
+
+   LinButton1() // Aguarda o usu†rio pressionar "Enter" ou "Esc"
+
+END             // Retorna para a pr¢xima consulta
+
+=========================================================================
+
+Veja tambÇm: DeskBox()
+             DeskTop()
+=========================================================================
+
+LinButton1()    - Exibe/Processa um bot∆o na linha especificada              
+
+LinButton1() --> nBot∆o
+============
+
+Sintaxe   : LinButton1( [ lAct ],
+                        [ nCor ],
+                        [ nLin ],
+                        [ cBt1 ], [ cMs1 ] )
+
+Argumentos: [ nAct ] express∆o l¢gica, determina a aá∆o de LinButton1().
+            Caso n∆o seja informado, o padr∆o Ç LB_PROC (.T.). Abaixo, as
+            constantes definidas no arquivo header VISUAL2.CH:
+
+            CONSTANTE   VALOR   SIGNIFICADO
+            -------------------------------
+            LB_PROC      .T.    Processa os bot‰es (default)
+            LB_SHOW      .F.    Apenas desenha os bot‰es
+
+            [ nCor ] n£mero que indica a cor de fundo (Desktop) para o
+            bot∆o. Caso n∆o seja informado, o padr∆o Ç NB_GRAY (1). As
+            constantes definidas em VISUAL2.CH s∆o:
+
+            CONSTANTE   VALOR   SIGNIFICADO
+            -------------------------------
+            NB_GRAY       1     Desktop Cinza
+            NB_WHITE      2     Desktop Branco
+            NB_USER       3     Cores definidas pelo programador
+
+            [ nLin ] linha onde o bot∆o ser† exibido. Caso n∆o seja
+            informada, o padr∆o assumido Ç a linha 21.
+
+            [ cBt1 ] e [ cMs1 ] correspondem, respectivamente, ao texto
+            do bot∆o e Ö mensagem que ser† exibida quando a funá∆o for
+            executada. Utilize o caracter "&" antes da letra que servir†
+            como tecla de atalho. Se n∆o for informado, o padr∆o de cBt1
+            ser† "&OK" e cMs1 ser† NIL (sem mensagem).
+
+Retorno   : n£mero 1 (£nico bot∆o dispon°vel).
+
+Descriá∆o : LinButton1() Ç uma funá∆o de interface criada para agilizar a
+            programaá∆o. Automaticamente ela cria um array "Button",
+            adiciona o bot∆o, desenha e/ou processa o array retornando
+            n£mero do bot∆o selecionado pelo usu†rio. As opá‰es padr∆o
+            permitem que numa chamada simples da funá∆o, como exemplo,
+            "LinButton1()" sem a informaá∆o de nenhum argumento, seja
+            exibido na linha 21 em fundo cinza o bot∆o "OK".
+
+Exemplo   : Em determinado aplicativo, h† uma rotina para consultar os
+            dados cadastrais de um cliente selecionado. Um bot∆o "OK"
+            Ç inclu°do no final da tela de consulta.
+
+=========================================================================
+
+// Desenha o bot∆o. Se a linha abaixo for omitida, o bot∆o de "OK"
+// apenas ser† visto ap¢s a seleá∆o do cliente (ap¢s o READ).
+LinButton1( LB_SHOW )
+
+WHILE .T.   // Rotina de consulta
+
+   // PesqCli() Ç a funá∆o para a pesquisa de clientes no DBF
+   @ 05, 05 SAY "C¢digo:" GET mcod PICTURE "999999" valid PesqCli()
+   READ
+
+   // Usu†rio selecionou o cliente para consulta
+   @ 06, 05 SAY "Nome..: " + mnom PICTURE "@!X"
+   .
+   < visualiza os demais dados do cliente >
+   .
+
+   IF LASTKEY() == K_ESC   // se o READ foi cancelado, sai da pesquisa
+      EXIT
+   ENDIF
+
+   LinButton1() // Aguarda o usu†rio pressionar "Enter" ou "Esc"
+
+END             // Retorna a proxima consulta
+
+=========================================================================
+
+Veja tambÇm: LinButton2()
+             LinButton3()
+             LinButton4()
+=========================================================================
+
+LinButton2()    - Exibe/Processa dois bot‰es na linha especificada           
+
+LinButton2() --> nBot∆o
+============
+
+Sintaxe   : LinButton2( [ lAct ],
+                        [ nCor ],
+                        [ nLin ],
+                        [ nFoc ],
+                        [ nEsc ],
+                        [ cBt1 ], [ cMs1 ],
+                        [ cBt2 ], [ cMs2 ] )
+
+Argumentos: [ nAct ] express∆o l¢gica, determina a aá∆o de LinButton2().
+            Caso n∆o seja informado, o padr∆o Ç LB_PROC (.T.). Abaixo, as
+            constantes definidas no arquivo header VISUAL2.CH:
+
+            CONSTANTE   VALOR   SIGNIFICADO
+            -------------------------------
+            LB_PROC      .T.    Processa os bot‰es (default)
+            LB_SHOW      .F.    Apenas desenha os bot‰es
+
+            [ nCor ] n£mero que indica a cor de fundo (Desktop) para os
+            bot‰es. Caso n∆o seja informado, o padr∆o Ç 1 (NB_GRAY). As
+            constantes definidas em VISUAL2.CH s∆o:
+
+            CONSTANTE   VALOR   SIGNIFICADO
+            -------------------------------
+            NB_GRAY       1     Desktop Cinza
+            NB_WHITE      2     Desktop Branco
+            NB_USER       3     Cores definidas pelo programador
+
+            [ nLin ] linha onde os bot‰es ser∆o exibidos. Caso n∆o seja
+            informada, o padr∆o assumido Ç a linha 21.
+
+            [ nFoc ] bot∆o que receber† o foco inicial. Se n∆o informado,
+            o valor assumido Ç 1 (foco no primeiro bot∆o).
+
+            [ nEsc ] bot∆o ao qual ser† associado a tecla "Esc". Se n∆o
+            informado, o valor assumido Ç 2 (segundo bot∆o).
+
+            [ cBt1 ] e [ cMs1 ] correspondem, respectivamente, ao texto
+            do primeiro bot∆o e Ö mensagem que ser† exibida quando o foco
+            estiver sobre ele. Utilize o caracter "&" antes da letra que
+            servir† como tecla de atalho. Se n∆o for informado, o padr∆o
+            de cBt1 ser† "&OK" e cMs1 ser† NIL (sem mensagem).
+
+            [ cBt2 ] e [ cMs2 ] correspondem, respectivamente, ao texto
+            do segundo bot∆o e Ö mensagem que ser† exibida quando o foco
+            estiver sobre ele. Utilize o caracter "&" antes da letra que
+            servir† como tecla de atalho. Se n∆o for informado, o padr∆o
+            de cBt2 ser† "&Cancelar" e cMs2 ser† NIL (sem mensagem).
+
+Retorno   : n£mero do bot∆o selecionado pelo usu†rio.
+
+Descriá∆o : LinButton2() Ç uma funá∆o de interface criada para agilizar a
+            programaá∆o. Automaticamente ela cria um array "Button",
+            adiciona os bot‰es, desenha e/ou processa o array retornando
+            n£mero do bot∆o selecionado pelo usu†rio. As opá‰es padr∆o
+            permitem que numa chamada simples da funá∆o, como exemplo,
+            "LinButton2()" sem a informaá∆o de nenhum argumento, sejam
+            exibidos na linha 21 da tela em fundo cinza, os bot‰es "&OK"
+            e "&Cancelar".
+
+Exemplo   : Em determinado aplicativo, a rotina de manutená∆o de clientes
+            pede a confirmaá∆o do usu†rio antes de excluir o registro. O
+            c¢digo proposto seria o demonstrado abaixo.
+
+=========================================================================
+
+// Apenas desenha os bot‰es. Caso essa linha seja omitida, os bot‰es
+// s¢ aparecer∆o depois que o usu†rio selecionar o cliente (ap¢s o READ).
+LinButton2( LB_SHOW, , , 2, , "&Excluir" )
+
+WHILE .T.   // Rotina de exclus∆o de clientes
+
+   // PesqCli() Ç a funá∆o para a pesquisa de clientes no DBF
+   @ 05, 05 SAY "C¢digo:" GET mcod PICTURE "999999" valid PesqCli()
+   READ     // Selecionou o cliente para exclus∆o
+
+   @ 06, 05 SAY "Nome..: " +  mnom PICTURE "@!X"
+   .
+   < visualiza os demais dados do cliente para confirmaá∆o >
+   .
+
+   // Os argumentos omitidos assumem o padr∆o. O "2" informado abaixo
+   // coloca o foco inicial no segundo bot∆o ("Cancelar"). O primeiro
+   // bot∆o foi redefinido de "&OK" para "&Excluir" na funá∆o abaixo.
+
+   opcao := LinButton2( , , , 2, , "&Excluir" ) // Aguarda seleá∆o
+
+   IF opcao == 1          // Usu†rio selecionou o bot∆o "Excluir"
+      DeleCli()           // Funá∆o que exclui o cliente
+   ELSE                   // Usu†rio selecionou o bot∆o "Cancelar"
+      EXIT                // Abandona o Loop
+   ENDIF
+
+END
+
+=========================================================================
+
+Veja tambÇm: LinButton1()
+             LinButton3()
+             LinButton4()
+=========================================================================
+
+LinButton3()    - Exibe/Processa tràs bot‰es na linha especificada           
+
+LinButton3() --> nBot∆o
+============
+
+Sintaxe   : LinButton3( [ lAct ],
+                        [ nCor ],
+                        [ nLin ],
+                        [ nFoc ],
+                        [ nEsc ],
+                        [ cBt1 ], [ cMs1 ],
+                        [ cBt2 ], [ cMs2 ],
+                        [ cBt3 ], [ cMs3 ] )
+
+Argumentos: [ nAct ] express∆o l¢gica, determina a aá∆o de LinButton3().
+            Caso n∆o seja informado, o padr∆o Ç LB_PROC (.T.). Abaixo, as
+            constantes definidas no arquivo header VISUAL2.CH:
+
+            CONSTANTE   VALOR   SIGNIFICADO
+            -------------------------------
+            LB_PROC      .T.    Processa os bot‰es (default)
+            LB_SHOW      .F.    Apenas desenha os bot‰es
+
+            [ nCor ] n£mero que indica a cor de fundo (Desktop) para os
+            bot‰es. Caso n∆o seja informado, o padr∆o Ç NB_GRAY (1). As
+            constantes definidas em VISUAL2.CH s∆o:
+
+            CONSTANTE   VALOR   SIGNIFICADO
+            -------------------------------
+            NB_GRAY       1     Desktop Cinza
+            NB_WHITE      2     Desktop Branco
+            NB_USER       3     Cores definidas pelo programador
+
+            [ nLin ] linha onde os bot‰es ser∆o exibidos. Caso n∆o seja
+            informada, o padr∆o assumido Ç a linha 21.
+
+            [ nFoc ] bot∆o que receber† o foco inicial. Se n∆o informado,
+            o valor assumido Ç 1 (foco no primeiro bot∆o).
+
+            [ nEsc ] bot∆o ao qual ser† associado a tecla "Esc". Se n∆o
+            informado, o valor assumido Ç 3 (£ltimo bot∆o).
+
+            [ cBt1 ] e [ cMs1 ] correspondem, respectivamente, ao texto
+            do primeiro bot∆o e Ö mensagem que ser† exibida quando o foco
+            estiver sobre ele. Utilize o caracter "&" antes da letra que
+            servir† como tecla de atalho. Se n∆o for informado, o padr∆o
+            de cBt1 ser† "&OK" e cMs1 ser† NIL (sem mensagem).
+
+            [ cBt2 ] e [ cMs2 ] correspondem, respectivamente, ao texto
+            do segundo bot∆o e Ö mensagem que ser† exibida quando o foco
+            estiver sobre ele. Utilize o caracter "&" antes da letra que
+            servir† como tecla de atalho. Se n∆o for informado, o padr∆o
+            de cBt2 ser† "&Alterar" e cMs2 ser† NIL (sem mensagem).
+
+            [ cBt3 ] e [ cMs3 ] correspondem, respectivamente, ao texto
+            do terceiro bot∆o e Ö mensagem que ser† exibida quando o foco
+            estiver sobre ele. Utilize o caracter "&" antes da letra que
+            servir† como tecla de atalho. Se n∆o for informado, o padr∆o
+            de cBt3 ser† "&Cancelar" e cMs3 ser† NIL (sem mensagem).
+
+Retorno   : n£mero do bot∆o selecionado pelo usu†rio.
+
+Descriá∆o : LinButton3() Ç uma funá∆o de interface criada para agilizar a
+            programaá∆o. Automaticamente ela cria o array "Button",
+            adiciona os bot‰es, desenha e/ou processa o array, retornando
+            n£mero do bot∆o selecionado pelo usu†rio. As opá‰es padr∆o
+            permitem que numa chamada simples da funá∆o, como exemplo,
+            "LinButton3()" sem a informaá∆o de nenhum argumento, sejam
+            exibidos na linha 21 da tela em fundo cinza, os bot‰es "&OK",
+            "&Alterar" e "&Cancelar", que seriam prov†veis opá‰es para
+            uma tela de entrada/alteraá∆o de dados.
+
+Exemplo   : Em determinado aplicativo, a rotina de manutená∆o de clientes
+            poderia ter o seguinte c¢digo:
+
+=========================================================================
+
+// A omiss∆o da linha abaixo desenhar† os bot‰es apenas no fim da ediá∆o
+LinButton3( LB_SHOW )
+
+WHILE .T.   // Loop principal - manutená∆o de clientes
+
+   // Funá∆o de validaá∆o PesqCli() - pesquisa o cliente no DBF
+   @ 05, 05 SAY "C¢digo:" GET mcod PICTURE "999999" VALID PesqCli()
+   READ     // Selecionou o cliente
+
+   @ 06, 05 SAY "Nome..:" GET mnom PICTURE "@!X" VALID !EMPTY( mnom )
+   .
+   < ediá∆o dos outros dados do cliente >
+   .
+   READ     // Terminou a ediá∆o
+
+   opcao := LinButton3()  // Aguarda seleá∆o do usu†rio
+
+   IF opcao == 1          // Usu†rio selecionou o bot∆o "OK"
+      AtuaCli()           // Funá∆o que atualiza cliente
+   ELSEIF opcao == 2      // Usu†rio selecionou o bot∆o "Alterar"
+      LOOP                // Retorna ao in°cio
+   ELSE                   // Por £ltimo, a seleá∆o foi "Cancelar"
+      EXIT                // Abandona o Loop de manutená∆o
+   ENDIF
+
+END
+
+=========================================================================
+
+Veja tambÇm: LinButton1()
+             LinButton2()
+             LinButton4()
+=========================================================================
+
+LinButton4()    - Exibe/Processa quatro bot‰es na linha especificada         
+
+LinButton4() --> nBot∆o
+============
+
+Sintaxe   : LinButton4( [ lAct ],
+                        [ nCor ],
+                        [ nLin ],
+                        [ nFoc ],
+                        [ nEsc ],
+                        [ cBt1 ], [ cMs1 ],
+                        [ cBt2 ], [ cMs2 ],
+                        [ cBt3 ], [ cMs3 ],
+                        [ cBt4 ], [ cMs4 ] )
+
+Argumentos: [ nAct ] express∆o l¢gica, determina a aá∆o de LinButton4().
+            Caso n∆o seja informado, o padr∆o Ç LB_PROC (.T.). Abaixo, as
+            constantes definidas no arquivo header VISUAL2.CH:
+
+            CONSTANTE   VALOR   SIGNIFICADO
+            -------------------------------
+            LB_PROC      .T.    Processa os bot‰es (default)
+            LB_SHOW      .F.    Apenas desenha os bot‰es
+
+            [ nCor ] n£mero que indica a cor de fundo (Desktop) para os
+            bot‰es. Caso n∆o seja informado, o padr∆o Ç NB_GRAY (1). As
+            constantes definidas em VISUAL2.CH s∆o:
+
+            CONSTANTE   VALOR   SIGNIFICADO
+            -------------------------------
+            NB_GRAY       1     Desktop Cinza
+            NB_WHITE      2     Desktop Branco
+            NB_USER       3     Cores definidas pelo programador
+
+            [ nLin ] linha onde os bot‰es ser∆o exibidos. Caso n∆o seja
+            informada, o padr∆o assumido Ç a linha 21.
+
+            [ nFoc ] bot∆o que receber† o foco inicial. Se n∆o informado,
+            o valor assumido Ç 1 (foco no primeiro bot∆o).
+
+            [ nEsc ] bot∆o ao qual ser† associado a tecla "Esc". Se n∆o
+            informado, o valor assumido Ç 4 (£ltimo bot∆o).
+
+            [ cBt1 ] e [ cMs1 ] correspondem, respectivamente, ao texto
+            do primeiro bot∆o e Ö mensagem que ser† exibida quando o foco
+            estiver sobre ele. Utilize o caracter "&" antes da letra que
+            servir† como tecla de atalho. Se n∆o for informado, o padr∆o
+            de cBt1 ser† "&OK" e cMs1 ser† NIL (sem mensagem).
+
+            [ cBt2 ] e [ cMs2 ] correspondem, respectivamente, ao texto
+            do segundo bot∆o e Ö mensagem que ser† exibida quando o foco
+            estiver sobre ele. Utilize o caracter "&" antes da letra que
+            servir† como tecla de atalho. Se n∆o for informado, o padr∆o
+            de cBt2 ser† "&Alterar" e cMs2 ser† NIL (sem mensagem).
+
+            [ cBt3 ] e [ cMs3 ] correspondem, respectivamente, ao texto
+            do terceiro bot∆o e Ö mensagem que ser† exibida quando o foco
+            estiver sobre ele. Utilize o caracter "&" antes da letra que
+            servir† como tecla de atalho. Se n∆o for informado, o padr∆o
+            de cBt3 ser† "&Excluir" e cMs3 ser† NIL (sem mensagem).
+
+            [ cBt4 ] e [ cMs4 ] correspondem, respectivamente, ao texto
+            do quarto bot∆o e Ö mensagem que ser† exibida quando o foco
+            estiver sobre ele. Utilize o caracter "&" antes da letra que
+            servir† como tecla de atalho. Se n∆o for informado, o padr∆o
+            de cBt4 ser† "&Cancelar" e cMs4 ser† NIL (sem mensagem).
+
+Retorno   : n£mero do bot∆o selecionado pelo usu†rio.
+
+Descriá∆o : LinButton4() Ç uma funá∆o de interface criada para agilizar a
+            programaá∆o. Automaticamente ela cria um array "Button",
+            adiciona os bot‰es, desenha e/ou processa o array retornando
+            n£mero do bot∆o selecionado pelo usu†rio. As opá‰es padr∆o
+            permitem que numa chamada simples da funá∆o, como exemplo,
+            "LinButton4()" sem a informaá∆o de nenhum argumento, sejam
+            exibidos na linha 21 da tela em fundo cinza, os bot‰es "&OK",
+            "&Alterar", "&Excluir" e "&Cancelar", que seriam as opá‰es
+            prov†veis para uma tela de entrada/alteraá∆o de dados.
+
+Exemplo   : Em determinado aplicativo, a rotina de manutená∆o de clientes
+            poderia ter o seguinte c¢digo:
+
+=========================================================================
+
+// Se a linha abaixo for omitida os bot‰es ser∆o exibidos apenas no
+// final da ediá∆o.
+LinButton4( LB_SHOW )
+
+WHILE .T.   // Loop principal - manutená∆o de clientes
+
+   // Funá∆o de validaá∆o PesqCli() - pesquisa o cliente no DBF
+   @ 05, 05 SAY "C¢digo:" GET mcod PICTURE "999999" VALID PesqCli()
+   READ     // Selecionou o cliente
+
+   @ 06, 05 SAY "Nome..:" GET mnom PICTURE "@!X" VALID !EMPTY( mnom )
+   .
+   < ediá∆o dos outros dados do cliente >
+   .
+   READ     // Terminou a ediá∆o
+
+   opcao := LinButton4()  // Aguarda seleá∆o do usu†rio
+
+   IF opcao == 1          // Usu†rio selecionou o bot∆o "OK"
+      AtuaCli()           // Funá∆o que atualiza cliente
+   ELSEIF opcao == 2      // Usu†rio selecionou o bot∆o "Alterar"
+      LOOP                // Retorna ao in°cio
+   ELSEIF opcao == 3      // Usu†rio selecionou o bot∆o "Excluir"
+      DeleCli()           // Funá∆o que exclui cliente
+   ELSE                   // Por £ltimo, a seleá∆o foi "Cancelar"
+      EXIT                // Abandona o Loop de manutená∆o
+   ENDIF
+
+END
+
+=========================================================================
+
+Veja tambÇm: LinButton1()
+             LinButton2()
+             LinButton3()
+=========================================================================
+
+MsgBox()        - Desenha uma janela de mensagem                             
+
+MsgBox() --> aAmbiente
+========
+
+Sintaxe   : MsgBox( [ cMsg | aMsg ],
+                    [ cTit ],
+                    [ nLin ] )
+
+Argumentos: [ cMsg | aMsg ] corresponde Ö mensagem exibida no interior da
+            janela. Informe uma express∆o caractere simples para mensagem
+            de apenas uma linha, ou um array de express‰es caractere para
+            janelas com mais de uma linha de mensagem.
+
+            [ cTit ] t°tulo da janela. O padr∆o Ç "Aguarde".
+
+            [ nLin ] linha inicial, correspondente Ö barra de t°tulo da
+            janela. Se n∆o informada, a janela ser† centralizada na tela.
+
+Retorno   : MsgBox() retorna um array de ambiente, no formato da funá∆o
+            SavEnv(), para posterior restauraá∆o pela funá∆o RstEnv().
+
+Descriá∆o : MsgBox() desenha uma janela de mensagem centralizada na tela
+            ou a partir da linha especificada. Na maioria das vezes, a
+            funá∆o Ç chamada passando-se apenas a mensagem. No exemplo
+            MsgBox( "Totalizando registros..." ) uma janela com t°tulo
+            "Aguarde" e mensagem "Totalizando registros..." apareceria
+            centralizada na tela, com borda azul clara e Desktop branco.
+
+            Como normalmente o programador salva a regi∆o da tela, a cor,
+            e muitas vezes o cursor, MsgBox() retorna essas informaá‰es
+            em um array, sendo que o ambiente anterior Ö funá∆o pode ser
+            restaurado facilmente pela funá∆o RstEnv(), economizando todo
+            o c¢digo de SAVESCREEN(), RESTSCREEN(), SETCOLOR(), etc.
+              
+Exemplo   : O processamento de determinada opá∆o de um programa demora
+            alguns instantes. Assim, inclu°mos uma janela de aviso.
+
+=========================================================================
+
+// Opá∆o de processamento. Janela de "Aguarde"
+aWin := MsgBox( "Processando registros..." )
+.
+< comandos do processamento >
+.
+RstEnv( aWin )// Restaura a tela ocupada por MsgBox(), ao fim da rotina
+
+=========================================================================
+
+Veja tambÇm: MsgBox1()
+             MsgBox2()
+             MsgBox3()
+
+             MsgBox3d()
+             MsgBox3d1()
+             MsgBox3d2()
+             MsgBox3d3()
+=========================================================================
+
+MsgBox1()       - Desenha uma janela de mensagem com um bot∆o                
+
+MsgBox1() --> nBot∆o
+=========
+
+Sintaxe   : MsgBox1( [ cMsg | aMsg ],
+                     [ cTit ],
+                     [ nLin ],
+                     [ cBt1 ] )
+
+Argumentos: [ cMsg | aMsg ] corresponde Ö mensagem exibida no interior da
+            janela. Informe uma express∆o caractere simples para mensagem
+            de apenas uma linha, ou um array de express‰es caractere para
+            janelas com mais de uma linha de mensagem.
+
+            [ cTit ] t°tulo da janela. O padr∆o Ç "Atená∆o!"
+
+            [ nLin ] linha inicial, correspondente Ö barra de t°tulo da
+            janela. Se n∆o informada, a janela ser† centralizada na tela.
+
+            [ cBt1 ] corresponde ao bot∆o exibido na janela. Utilize o
+            caracter "&" antes da letra que servir† como tecla de atalho
+            para o bot∆o. Se omitido o padr∆o Ç: "&OK".
+
+Retorno   : n£mero 1, j† que h† apenas um bot∆o na janela.
+
+Descriá∆o : MsgBox1() desenha uma janela de mensagem centralizada na
+            tela ou a partir da linha especificada, com apenas um bot∆o.
+            Na maioria das vezes, a funá∆o Ç chamada passando-se somente
+            a mensagem. Exemplo: MsgBox1( "Registro recuperado." )
+            MsgBox1() restaura a †rea da tela ocupada automaticamente.
+              
+Exemplo   : A opá∆o "Backup" de um sistema Ç demorada. Assim, solicitamos
+            que o usu†rio confirme a operaá∆o. Para qualquer opá∆o que o
+            usu†rio faáa ("Sim" ou "N∆o"), uma janela de mensagem com um
+            bot∆o "OK" e texto correspondente ser† exibida.
+
+=========================================================================
+
+FUNCTION Backup
+
+// A janela de mensagem ter† os bot‰es padr∆o "Sim" e "N∆o"
+LOCAL nOpc := MsgBox2( "Confirma execuá∆o do Backup ?" )
+
+IF nOpc == 1     // Usu†rio escolheu o bot∆o "Sim"
+   < comandos do backup >
+   MsgBox1( "Backup realizado com sucesso." ) // Aviso com um bot∆o "OK"
+ELSE             // Usu†rio escolheu o bot∆o "N∆o"
+   MsgBox1( "Backup n∆o realizado." ) // Aviso com um bot∆o "OK"
+ENDIF
+
+RETURN NIL
+
+=========================================================================
+
+Veja tambÇm: MsgBox()
+             MsgBox2()
+             MsgBox3()
+
+             MsgBox3d()
+             MsgBox3d1()
+             MsgBox3d2()
+             MsgBox3d3()
+=========================================================================
+
+MsgBox2()       - Desenha janela de mensagem com dois bot‰es de opá∆o        
+
+MsgBox2() --> nBot∆o
+=========
+
+Sintaxe   : MsgBox2( [ cMsg | aMsg ],
+                     [ cTit ],
+                     [ nLin ],
+                     [ cBt1 ], [ cBt2 ],
+                     [ nFoc ],
+                     [ nEsc ] )
+
+Argumentos: [ cMsg | aMsg ] corresponde Ö mensagem exibida no interior da
+            janela. Informe uma express∆o caractere simples para mensagem
+            de apenas uma linha, ou um array de express‰es caractere para
+            janelas com mais de uma linha de mensagem.
+
+            [ cTit ] t°tulo da janela. O padr∆o Ç "Atená∆o!"
+
+            [ nLin ] linha inicial, correspondente Ö barra de t°tulo da
+            janela. Se n∆o informada, a janela ser† centralizada na tela.
+
+            [ cBt1 ], [ cBt2 ] correspondem aos dois bot‰es de opá∆o para
+            o usu†rio. Utilize o caracter "&" antes da letra que ser†
+            utilizada como tecla de atalho para o bot∆o. Se n∆o forem
+            informados, o padr∆o Ç: "&Sim" e "&N∆o".
+
+            [ nFoc ] n£mero do bot∆o que receber† o foco inicial. Se n∆o
+            for informado, o padr∆o Ç 1 (primeiro bot∆o).
+
+            [ nEsc ] n£mero do bot∆o que ser† associado Ö tecla "Esc". O
+            padr∆o Ç 2 (segundo bot∆o). Para que nenhum dos dois bot‰es
+            sejam associados ao "Esc", informe 0 (zero).
+
+Retorno   : n£mero do bot∆o selecionado pelo usu†rio.
+
+Descriá∆o : MsgBox2() desenha uma janela de mensagem centralizada na
+            tela ou a partir da linha especificada, com dois bot‰es de
+            opá∆o. Na maioria das vezes, a funá∆o Ç chamada passando-se
+            apenas a mensagem, e o n£mero retornado Ç armazenado em uma
+            vari†vel. Exemplo: opc := MsgBox2( "Salvar arquivo ?" )
+            MsgBox2() restaura a †rea da tela ocupada automaticamente.
+              
+Exemplo   : A opá∆o "Backup" de um sistema Ç demorada. Assim, solicitamos
+            que o usu†rio confirme a operaá∆o.
+
+=========================================================================
+
+FUNCTION Backup
+
+// A janela de mensagem ter† os bot‰es padr∆o "Sim" e "N∆o"
+LOCAL nOpc := MsgBox2( "Confirma execuá∆o do Backup ?" )
+
+IF nOpc == 1     // Usu†rio escolheu o bot∆o "Sim"
+   < comandos do backup >
+ELSE             // Usu†rio escolheu o bot∆o "N∆o"
+   MsgBox1( "Backup n∆o realizado." ) // Aviso com um bot∆o "OK"
+ENDIF
+
+RETURN NIL
+
+=========================================================================
+
+Veja tambÇm: MsgBox()
+             MsgBox1()
+             MsgBox3()
+
+             MsgBox3d()
+             MsgBox3d1()
+             MsgBox3d2()
+             MsgBox3d3()
+=========================================================================
+
+MsgBox3()       - Desenha janela de mensagem com tràs bot‰es de opá∆o        
+
+MsgBox3() --> nBot∆o
+=========
+
+Sintaxe   : MsgBox3( [ cMsg | aMsg ],
+                     [ cTit ],
+                     [ nLin ],
+                     [ cBt1 ], [ cBt2 ], [ cBt3 ],
+                     [ nFoc ],
+                     [ nEsc ] )
+
+Argumentos: [ cMsg | aMsg ] corresponde Ö mensagem exibida no interior da
+            janela. Informe uma express∆o caractere simples para mensagem
+            de apenas uma linha, ou um array de express‰es caractere para
+            janelas com mais de uma linha de mensagem.
+
+            [ cTit ] t°tulo da janela. O padr∆o Ç "Atená∆o!"
+
+            [ nLin ] linha inicial, correspondente Ö barra de t°tulo da
+            janela. Se n∆o informada, a janela ser† centralizada na tela.
+
+            [ cBt1 ], [ cBt2 ], [ cBt3 ] correspondem aos tràs bot‰es de
+            opá∆o para o usu†rio. Utilize o caracter "&" antes da letra
+            que ser† utilizada como tecla de atalho para o bot∆o. Se n∆o
+            forem informados, o padr∆o Ç: "&Sim", "&N∆o" e "&Cancelar".
+
+            [ nFoc ] n£mero do bot∆o que receber† o foco inicial. Se n∆o
+            for informado, o padr∆o Ç 1 (primeiro bot∆o).
+
+            [ nEsc ] n£mero do bot∆o que ser† associado Ö tecla "Esc". O
+            padr∆o Ç 3 (terceiro bot∆o). Para que nenhum dos tràs bot‰es
+            sejam associados ao "Esc", informe 0 (zero).
+
+Retorno   : n£mero do bot∆o selecionado pelo usu†rio.
+
+Descriá∆o : MsgBox3() desenha uma janela de mensagem centralizada na
+            tela ou a partir da linha especificada, com tràs bot‰es de
+            opá∆o. Na maioria das vezes, a funá∆o Ç chamada passando-se
+            apenas a mensagem, e o n£mero retornado Ç armazenado em uma
+            vari†vel. Exemplo: opc := MsgBox3( "Salvar arquivo ?" )
+            MsgBox3() restaura a †rea da tela ocupada automaticamente.
+              
+Exemplo   : A opá∆o "Backup" de um sistema possui duas fases. Na primeira
+            (backup interno) os arquivos s∆o copiados em outro diret¢rio.
+            Na segunda (backup externo) os arquivos s∆o copiados para os
+            disquetes. O programa pede a confirmaá∆o do usu†rio antes de
+            efetuar as c¢pias, j† que trata-se de um processo demorado.
+
+=========================================================================
+
+// Faz backup Interno e Externo com confirmaá∆o do usu†rio
+FUNCTION Backup
+
+// A janela de mensagem ter† os bot‰es padr∆o "Sim", "N∆o" e "Cancelar"
+LOCAL nOpc := MsgBox3( "Efetuar Backup Interno ?", "Backup" )
+
+// Opá‰es para o backup interno
+IF nOpc == 1     // Usu†rio escolheu o bot∆o "Sim"
+   < comandos do backup interno >
+ELSEIF nOpc == 2 // Usu†rio escolheu o bot∆o "N∆o"
+   MsgBox1( "Backup Interno n∆o realizado." ) // Aviso com bot∆o "OK"
+ELSEIF nOpc == 3 // Usu†rio escolheu o bot∆o "Cancelar"
+   RETURN NIL    // Retorna, pois "Cancelar" significa n∆o fazer backup
+ENDIF
+
+// Opá‰es para o backup externo, com dois bot‰es: "Sim" e "N∆o"
+nOpc := MsgBox2( "Efetuar Backup Externo ?", "Backup" )
+
+IF nOpc == 1  // Usu†rio escolheu o bot∆o "Sim"
+   < comandos do backup externo >
+ENDIF         // Se escolheu "N∆o", Ç n∆o mesmo...
+
+RETURN NIL
+
+=========================================================================
+
+Veja tambÇm: MsgBox()
+             MsgBox1()
+             MsgBox2()
+
+             MsgBox3d()
+             MsgBox3d1()
+             MsgBox3d2()
+             MsgBox3d3()
+=========================================================================
+
+MsgBox3d()      - Desenha janela de mensagem 3D                              
+
+MsgBox3d() --> aAmbiente
+==========
+
+Sintaxe   : MsgBox3d( [ cMsg | aMsg ],
+                      [ cTit ],
+                      [ nLin ] )
+
+Argumentos: [ cMsg | aMsg ] corresponde Ö mensagem exibida no interior da
+            janela. Informe uma express∆o caractere simples para mensagem
+            de apenas uma linha, ou um array de express‰es caractere para
+            janelas com mais de uma linha de mensagem.
+
+            [ cTit ] t°tulo da janela. O padr∆o Ç "Aguarde".
+
+            [ nLin ] linha inicial, correspondente Ö barra de t°tulo da
+            janela. Se n∆o informada, a janela ser† centralizada na tela.
+
+Retorno   : MsgBox3d() retorna um array de ambiente, no formato da funá∆o
+            SavEnv(), para posterior restauraá∆o pela funá∆o RstEnv().
+
+Descriá∆o : MsgBox3d() desenha uma janela de mensagem 3D centralizada na
+            tela ou a partir da linha especificada. Na maioria das vezes,
+            a funá∆o Ç chamada passando-se apenas a mensagem. No exemplo
+            MsgBox( "Totalizando registros..." ) uma janela com t°tulo
+            "Aguarde" e mensagem "Totalizando registros..." apareceria
+            centralizada na tela, com efeito de alto relevo.
+
+            Como normalmente o programador salva a regi∆o da tela, a cor,
+            e muitas vezes o cursor, MsgBox3d() retorna essas informaá‰es
+            em um array, sendo que o ambiente anterior Ö funá∆o pode ser
+            restaurado facilmente pela funá∆o RstEnv(), economizando todo
+            o c¢digo de SAVESCREEN(), RESTSCREEN(), SETCOLOR(), etc.
+              
+Exemplo   : O processamento de determinada opá∆o de um programa demora
+            alguns instantes. Assim, inclu°mos uma janela de aviso 3D.
+
+=========================================================================
+
+// Opá∆o de processamento. Janela de "Aguarde"
+aWin := MsgBox3d( "Processando registros..." )
+.
+< comandos do processamento >
+.
+RstEnv( aWin )// Restaura a tela ocupada por MsgBox(), ao fim da rotina
+
+=========================================================================
+
+Veja tambÇm: MsgBox3d1()
+             MsgBox3d2()
+             MsgBox3d3()
+
+             MsgBox()
+             MsgBox1()
+             MsgBox2()
+             MsgBox3()
+=========================================================================
+
+MsgBox3d1()     - Desenha janela de mensagem 3D com um bot∆o                 
+
+MsgBox3d1() --> nBot∆o
+===========
+
+Sintaxe   : MsgBox3d1( [ cMsg | aMsg ],
+                       [ cTit ],
+                       [ nLin ],
+                       [ cBt1 ] )
+
+Argumentos: [ cMsg | aMsg ] corresponde Ö mensagem exibida no interior da
+            janela. Informe uma express∆o caractere simples para mensagem
+            de apenas uma linha, ou um array de express‰es caractere para
+            janelas com mais de uma linha de mensagem.
+
+            [ cTit ] t°tulo da janela. O padr∆o Ç "Atená∆o!"
+
+            [ nLin ] linha inicial, correspondente Ö barra de t°tulo da
+            janela. Se n∆o informada, a janela ser† centralizada na tela.
+
+            [ cBt1 ] corresponde ao bot∆o exibido na janela. Utilize o
+            caracter "&" antes da letra que servir† como tecla de atalho
+            para o bot∆o. Se omitido o padr∆o Ç: "&OK".
+
+Retorno   : n£mero 1, j† que h† apenas um bot∆o na janela.
+
+Descriá∆o : MsgBox3d1() desenha uma janela de mensagem 3D centralizada na
+            tela ou a partir da linha especificada, com apenas um bot∆o.
+            Na maioria das vezes, a funá∆o Ç chamada passando-se somente
+            a mensagem. Exemplo: MsgBox3d1( "Registro recuperado." )
+            MsgBox3d1() restaura a †rea da tela ocupada automaticamente.
+              
+Exemplo   : A opá∆o "Backup" de um sistema Ç demorada. Assim, solicitamos
+            que o usu†rio confirme a operaá∆o. Para qualquer opá∆o que o
+            usu†rio faáa ("Sim" ou "N∆o"), uma janela de mensagem com um
+            bot∆o "OK" e texto correspondente ser† exibida.
+
+=========================================================================
+
+FUNCTION Backup
+
+// A janela de mensagem ter† os bot‰es padr∆o "Sim" e "N∆o"
+LOCAL nOpc := MsgBox3d2( "Confirma execuá∆o do Backup ?" )
+
+IF nOpc == 1     // Usu†rio escolheu o bot∆o "Sim"
+   < comandos do backup >
+   MsgBox3d1( "Backup realizado com sucesso." ) // Aviso com bot∆o "OK"
+ELSE             // Usu†rio escolheu o bot∆o "N∆o"
+   MsgBox3d1( "Backup n∆o realizado." ) // Aviso com um bot∆o "OK"
+ENDIF
+
+RETURN NIL
+
+=========================================================================
+
+Veja tambÇm: MsgBox3d()
+             MsgBox3d2()
+             MsgBox3d3()
+
+             MsgBox()
+             MsgBox1()
+             MsgBox2()
+             MsgBox3()
+=========================================================================
+
+MsgBox3d2()     - Desenha janela de mensagem 3D com dois bot∆es de opá∆o     
+
+MsgBox3d2() --> nBot∆o
+===========
+
+Sintaxe   : MsgBox3d2( [ cMsg | aMsg ],
+                       [ cTit ],
+                       [ nLin ],
+                       [ cBt1 ], [ cBt2 ],
+                       [ nFoc ],
+                       [ nEsc ] )
+
+Argumentos: [ cMsg | aMsg ] corresponde Ö mensagem exibida no interior da
+            janela. Informe uma express∆o caractere simples para mensagem
+            de apenas uma linha, ou um array de express‰es caractere para
+            janelas com mais de uma linha de mensagem.
+
+            [ cTit ] t°tulo da janela. O padr∆o Ç "Atená∆o!"
+
+            [ nLin ] linha inicial, correspondente Ö barra de t°tulo da
+            janela. Se n∆o informada, a janela ser† centralizada na tela.
+
+            [ cBt1 ], [ cBt2 ] correspondem aos dois bot‰es de opá∆o para
+            o usu†rio. Utilize o caracter "&" antes da letra que servir†
+            como tecla de atalho para o bot∆o. Se n∆o forem informados, o
+            padr∆o Ç: "&Sim" e "&N∆o".
+
+            [ nFoc ] n£mero do bot∆o que receber† o foco inicial. Se n∆o
+            for informado, o padr∆o Ç 1 (primeiro bot∆o).
+
+            [ nEsc ] n£mero do bot∆o que ser† associado Ö tecla "Esc". O
+            padr∆o Ç 2 (segundo bot∆o). Para que nenhum dos dois bot‰es
+            sejam associados ao "Esc", informe 0 (zero).
+
+Retorno   : n£mero do bot∆o selecionado pelo usu†rio.
+
+Descriá∆o : MsgBox3d2() desenha uma janela de mensagem 3D centralizada na
+            tela ou a partir da linha especificada, com dois bot‰es de
+            opá∆o. Na maioria das vezes, a funá∆o Ç chamada passando-se
+            apenas a mensagem, e o n£mero retornado Ç armazenado em uma
+            vari†vel. Exemplo: opc := MsgBox3d2( "Salvar arquivo ?" )
+            MsgBox3d2() restaura a †rea da tela ocupada automaticamente.
+              
+Exemplo   : A opá∆o "Backup" de um sistema Ç demorada. Assim, solicitamos
+            que o usu†rio confirme a operaá∆o.
+
+=========================================================================
+
+FUNCTION Backup
+
+// A janela de mensagem ter† os bot‰es padr∆o "Sim" e "N∆o"
+LOCAL nOpc := MsgBox3d2( "Confirma execuá∆o do Backup ?" )
+
+IF nOpc == 1     // Usu†rio escolheu o bot∆o "Sim"
+   < comandos do backup >
+ELSE             // Usu†rio escolheu o bot∆o "N∆o"
+   MsgBox3d1( "Backup n∆o realizado." ) // Aviso com um bot∆o "OK"
+ENDIF
+
+RETURN NIL
+
+=========================================================================
+
+Veja tambÇm: MsgBox3d()
+             MsgBox3d1()
+             MsgBox3d3()
+
+             MsgBox()
+             MsgBox1()
+             MsgBox2()
+             MsgBox3()
+=========================================================================
+
+MsgBox3d3()     - Desenha janela de mensagem 3D com tràs bot‰es de opá∆o     
+
+MsgBox3d3() --> nBot∆o
+===========
+
+Sintaxe   : MsgBox3d3( [ cMsg | aMsg ],
+                       [ cTit ],
+                       [ nLin ],
+                       [ cBt1 ], [ cBt2 ], [ cBt3 ],
+                       [ nFoc ],
+                       [ nEsc ] )
+
+Argumentos: [ cMsg | aMsg ] corresponde Ö mensagem exibida no interior da
+            janela. Informe uma express∆o caractere simples para mensagem
+            de apenas uma linha, ou um array de express‰es caractere para
+            janelas com mais de uma linha de mensagem.
+
+            [ cTit ] t°tulo da janela. O padr∆o Ç "Atená∆o!"
+
+            [ nLin ] linha inicial, correspondente Ö barra de t°tulo da
+            janela. Se n∆o informada, a janela ser† centralizada na tela.
+
+            [ cBt1 ], [ cBt2 ], [ cBt3 ] correspondem aos tràs bot‰es de
+            opá∆o para o usu†rio. Utilize o caracter "&" antes da letra
+            que ser† utilizada como tecla de atalho para o bot∆o. Se n∆o
+            forem informados, o padr∆o Ç: "&Sim", "&N∆o" e "&Cancelar".
+
+            [ nFoc ] n£mero do bot∆o que receber† o foco inicial. Se n∆o
+            for informado, o padr∆o Ç 1 (primeiro bot∆o).
+
+            [ nEsc ] n£mero do bot∆o que ser† associado Ö tecla "Esc". O
+            padr∆o Ç 3 (terceiro bot∆o). Para que nenhum dos tràs bot‰es
+            sejam associados ao "Esc", informe 0 (zero).
+
+Retorno   : n£mero do bot∆o selecionado pelo usu†rio.
+
+Descriá∆o : MsgBox3d3() desenha uma janela de mensagem 3D centralizada na
+            tela ou a partir da linha especificada, com tràs bot‰es de
+            opá∆o. Na maioria das vezes, a funá∆o Ç chamada passando-se
+            apenas a mensagem, e o n£mero retornado Ç armazenado em uma
+            vari†vel. Exemplo: opc := MsgBox3d3( "Salvar arquivo ?" )
+            MsgBox3d3() restaura a †rea da tela ocupada automaticamente.
+              
+Exemplo   : A opá∆o "Backup" de um sistema possui duas fases. Na primeira
+            (backup interno) os arquivos s∆o copiados em outro diret¢rio.
+            Na segunda (backup externo) os arquivos s∆o copiados para os
+            disquetes. O programa pede a confirmaá∆o do usu†rio antes de
+            efetuar as c¢pias, j† que trata-se de um processo demorado.
+
+=========================================================================
+
+// Faz backup Interno e Externo com confirmaá∆o do usu†rio
+FUNCTION Backup
+
+// A janela de mensagem ter† os bot‰es padr∆o "Sim", "N∆o" e "Cancelar"
+LOCAL nOpc := MsgBox3d3( "Efetuar Backup Interno ?", "Backup" )
+
+// Opá‰es para o backup interno
+IF nOpc == 1     // Usu†rio escolheu o bot∆o "Sim"
+   < comandos do backup interno >
+ELSEIF nOpc == 2 // Usu†rio escolheu o bot∆o "N∆o"
+   MsgBox3d1( "Backup Interno n∆o realizado." ) // Aviso com bot∆o "OK"
+ELSEIF nOpc == 3 // Usu†rio escolheu o bot∆o "Cancelar"
+   RETURN NIL    // Retorna, pois "Cancelar" significa n∆o fazer backup
+ENDIF
+
+// Opá‰es para o backup externo, com dois bot‰es: "Sim" e "N∆o"
+nOpc := MsgBox3d2( "Efetuar Backup Externo ?", "Backup" )
+
+IF nOpc == 1  // Usu†rio escolheu o bot∆o "Sim"
+   < comandos do backup externo >
+ENDIF         // Se escolheu "N∆o", Ç n∆o mesmo...
+
+RETURN NIL
+
+=========================================================================
+
+Veja tambÇm: MsgBox3d()
+             MsgBox3d1()
+             MsgBox3d2()
+
+             MsgBox()
+             MsgBox1()
+             MsgBox2()
+             MsgBox3()
+=========================================================================
+
+NewBarMenu()    - Cria um novo "Menu de Barra"                               
+
+NewBarMenu() --> array "Menu de Barra"
+============
+
+Sintaxe   : NewBarMenu()
+
+Argumentos: NewBarMenu() n∆o possui argumentos.
+
+Retorno   : array "Menu de Barra"
+
+Descriá∆o : NewBarMenu() retorna um "Menu de Barra" para a criaá∆o de
+            menus horizontais, atravÇs da adiá∆o de itens (prompts).
+            Obrigatoriamente, NewBarMenu() deve ser utilizada no formato:
+
+            variavel := NewBarMenu()
+
+            Essa filosofia permite ao programador a criaá∆o de m£ltiplos
+            menus independentes na aplicaá∆o, simulando, por exemplo, o
+            conceito de "MDI" (Multiple Documents Interface).
+
+Exemplo   : Criaá∆o de um menu horizontal com 3 opá‰es, que executa as
+            funá‰es do usu†rio "Inclui()", "Altera()" e "Exclui()"
+            quando os itens s∆o selecionados.
+
+=========================================================================
+
+// Cria um "Menu de Barra", atribuindo-o a vari†vel "mBar"
+mBar := NewBarMenu()
+
+// Adiciona os itens (prompts)
+AddBarItem( mBar, "&Inclus∆o" , "Rotina de Inclus∆o" , { || Inlcui() } )
+AddBarItem( mBar, "&Alteraá∆o", "Rotina de Alteraá∆o", { || Altera() } )
+AddBarItem( mBar, "&Exclus∆o" , "Rotina de Exclus∆o" , { || Exclui() } )
+
+// Executa o Menu
+BarMenu( mBar )
+
+=========================================================================
+
+Veja tambÇm:  AddBarItem()
+              SetBarItem()
+              BarMenu()
+              NewDownMenu()
+              AddDownItem()
+              AddDownSep()              
+              SetDownItem()
+              ChkDownItem()
+
+=========================================================================
+
+NewDownMenu()   - Cria um novo "Menu Down"                                   
+
+NewDownMenu() --> array "Menu Down"
+============
+
+Sintaxe   : NewDownMenu()
+
+Argumentos: NewDownMenu() n∆o possui argumentos.
+
+Retorno   : array "MenuDown"
+
+Descriá∆o : NewDownMenu() retorna um array "Menu Down" para a criaá∆o de
+            menus verticais, atravÇs da adiá∆o de itens (prompts). Deve
+            ser utilizada no seguinte formato:
+
+            variavel := NewDownMenu()
+
+Exemplo   : Criaá∆o de um menu horizontal com dois itens (prompts). A
+            cada item Ç associado um menu vertical com duas opá‰es.
+
+=========================================================================
+
+//Cria os Menus de Barra e os "Menus Down", associados Ös vari†veis
+mBar := NewBarMenu()
+mArq := NewDownMenu() // menu Arquivos
+mRel := NewDownMenu() // menu Relat¢rios
+
+//Adiciona os itens ao Menu de Barra
+AddBarItem( mBar, "&Arquivos"  , "Manutená∆o de arquivos" , mArq )
+AddBarItem( mBar, "&Relat¢rios", "Impress∆o de Relat¢rios", mRel )
+
+//Adiciona os itens ao "Menu Down" mArq
+AddDownItem( mArq, "&Abrir" , "Abre o arquivo" )
+AddDownItem( mArq, "&Fechar", "Fecha o arquivo" ) 
+
+//Adiciona os itens ao "Menu Down" mRel
+AddDownItem( mRel, "&Imprimir"    , "Imprime o relat¢rio" )
+AddDownItem( mRel, "&N∆o Imprimir", "N∆o imprime o relat¢rio" )
+
+//BarMenu() executa o Pull-Down automaticamente
+BarMenu( mBar )
+
+=========================================================================
+
+Veja tambÇm: AddDownItem()
+             AddDownSep()
+             SetDownItem()
+             ChkDownItem()
+             NewBarMenu()
+             AddBarItem()
+             SetBarItem()
+             BarMenu()
+
+=========================================================================
+
+RstEnv()        - Restaura o ambiente (tela, cores, cursor)                  
+
+RstEnv() --> NIL
+========
+
+Sintaxe   : RstEnv( < aEnv > )
+
+Argumentos: < aEnv > Ç o array retornado pela funá∆o SavEnv(), contendo
+            as informaá‰es do ambiente a ser restaurado. Outras funá‰es
+            de interface tambÇm retornam um array de ambiente, como por
+            exemplo: Win(), MsgBox(), MsgBox3d().
+
+Retorno   : RstEnv() sempre retorna NIL.
+
+Descriá∆o : RstEnv() Ç uma funá∆o de interface que facilita o trabalho do
+            programador nas operaá‰es de tela, restaurando o ambiente que
+            foi salvo pelas funá‰es SavEnv(), Win(), MsgBox(),
+            MsgBox3d(). RstEnv() substitui com vantagens quatro funá‰es:
+            SAVESCREEN(), SETCOLOR(), SETCURSOR() e SETPOS(). Assim, com
+            uma chamada Ö RstEnv() vocà estar† restaurando a tela, cores
+            e o estado do cursor, informando apenas o array de ambiente
+            retornado por uma das funá‰es acima, com economia de tempo e
+            evitando erros. Quantas vezes vocà usou SAVESCREEN() e errou
+            as coordenadas ao restaurar a tela com RESTSCREEN(), obtendo
+            efeitos indesej†veis no v°deo ?
+
+Exemplo   : No in°cio de uma rotina de entrada de dados, SavEnv() salva
+            o ambiente anterior. Ao fim da rotina, RstEnv() restaura.
+
+=========================================================================
+
+FUNCTION EditaCli()  // Ediá∆o dos dados cadastrais dos clientes
+
+LOCAL aEnv := SavEnv( 02, 00, 22, 79 )  // Salva o ambiente do Desktop
+
+< demais comandos >
+
+RstEnv( aEnv )  // Restaura o ambiente do Desktop
+RETURN NIL
+
+=========================================================================
+
+Veja tambÇm: SavEnv()
+             Win()
+             MsgBox()
+             MsgBox3d()
+=========================================================================
+
+SavEnv()        - Salva o ambiente (tela, cores e cursor)                    
+
+SavEnv() --> aAmbiente
+========
+
+Sintaxe   : SavEnv( < nTop >, < nLft >, < nBot >, < nRig > )
+
+Argumentos: < nTop >, < nLft >, < nBot > e < nRig > s∆o as coordenadas da
+            tela que determinam a regi∆o que ser† salva. Respectivamente,
+            representam a linha inicial, coluna inicial, linha final e
+            coluna final.
+
+Retorno   : SavEnv() retorna um array contendo as informaá‰es da regi∆o
+            de tela salva, as cores e o estado do cursor. Este array ser†
+            utilizado posteriormente por RstEnv() para restaurar a tela,
+            cor e cursor, automaticamente.
+
+Descriá∆o : SavEnv() Ç uma funá∆o de interface que facilita o trabalho do
+            programador nas operaá‰es de tela. SavEnv() substitui quatro
+            funá‰es do Clipper ao mesmo tempo: SAVESCREEN(), SETCOLOR(),
+            SETCURSOR() e SETPOS(). Assim, com uma chamada Ö SavEnv()
+            vocà est† salvando a tela, as cores o estado e a posiá∆o do
+            cursor. Para restaurar essas informaá‰es, chame RstEnv() e
+            passe como argumento o array retornado por SavEnv(). Assim h†
+            economia de tempo na codificaá∆o e uma menor margem de erro.
+
+            Quantas vezes vocà usou SAVESCREEN() e errou as coordenadas
+            ao restaurar a tela com RESTSCREEN(), obtendo aqueles efeitos
+            indesej†veis no v°deo ?
+              
+Exemplo   : No in°cio de uma rotina de entrada de dados, SavEnv() salva
+            o ambiente anterior. Ao fim da rotina, RstEnv() restaura.
+
+=========================================================================
+
+FUNCTION EditaCli()  // Ediá∆o dos dados cadastrais dos clientes
+
+LOCAL aEnv := SavEnv( 02, 00, 22, 79 )  // Salva o ambiente do Desktop
+
+< demais comandos >
+
+RstEnv( aEnv )  // Restaura o ambiente do Desktop
+RETURN NIL
+
+=========================================================================
+
+Veja tambÇm: RstEnv()
+             MsgBox()
+             MsgBox3d()
+             Win()
+=========================================================================
+
+SetBarItem()    - Habilita/Desabilita um item de um Menu de Barra            
+
+SetBarItem() --> lEstado
+============
+
+Sintaxe   : SetBarItem( < mBar >, < nItm >, [ lEnb ] )
+
+Argumentos: < mBar > "Menu de Barra" que contÇm o item desejado.
+
+            < nItm > n£mero do item no "Menu de Barra". Corresponde Ö
+            ordem em que o item foi adicionado no menu. Para o primeiro
+            item, nItm = 1, para o quinto item, nItm = 5, etc.
+
+            [ lEnb ] express∆o l¢gica correspondente ao item habilitado
+            ou desabilitado. Verdadeiro (.T.) habilita o item (Enabled)
+            e Falso (.F.) desabilita (Disabled). Para verificar o estado
+            do item sem alterar a situaá∆o atual, omita este argumento. 
+
+Retorno   : (.T.) item habilitado ou (.F.) item desabilitado.
+
+Descriá∆o : SetBarItem() Ç uma funá∆o Get/Set para consultar ou alterar
+            a situaá∆o de um item no "Menu de Barra". Seu funcionamento
+            Ç an†logo as funá‰es do Clipper SETCOLOR(), SETCURSOR(), etc.
+
+            A informaá∆o do terceiro argumento [ lEnb ] altera a situaá∆o
+            do item e retorna a situaá∆o anterior. A omiss∆o do argumento
+            apenas retornar† a situaá∆o atual do item.
+
+Exemplo   : Para uma determinada aplicaá∆o, o terceiro item de um menu de
+            barra Ç "Processamento". Tal item somente estar† dispon°vel
+            para um usu†rio n°vel 1. H† uma funá∆o chamada NivelUsu()
+            que retorna o n°vel do usu†rio "logado". Ap¢s a definiá∆o da
+            estrutura do menu e a identificaá∆o do usu†rio, um fragmento
+            de c¢digo poss°vel seria:
+
+=========================================================================
+
+< criaá∆o/definiá∆o da estrutura de menus da aplicaá∆o >
+
+< solicitaá∆o de chave/senha do usu†rio >
+
+if NivelUsu() != 1              //n°vel do usu†rio diferente de 1
+   SetBarItem( mBar, 03, .F. )  //desabilita item 3 do menu "mBar"
+endif
+
+BarMenu( mBar ) // Executa "mBar"
+
+=========================================================================
+
+Veja tambÇm: NewBarMenu()
+             AddBarItem()
+             BarMenu()
+             NewDownMenu()
+             AddDownItem()
+             AddDownSep()
+             SetDownItem()
+             ChkDownItem()
+
+=========================================================================
+
+SetDownItem()   - Habilita/Desabilita o item de um "Menu Down"               
+
+SetDownItem() --> lEstado
+=============
+
+Sintaxe   : SetDownItem( < mDwn >, < nItm >, [ lEnb ] )
+
+Argumentos: < mDwn > "Menu Down" que contÇm o item desejado.
+
+            < nItm > n£mero do item no "Menu Down". Corresponde Ö ordem
+            em que o item foi adicionado no menu. Para o primeiro item,
+            nItm = 1, para o quinto item, nItm = 5, etc.
+
+            [ lEnb ] express∆o l¢gica correspondente ao item habilitado
+            ou desabilitado. Verdadeiro (.T.) habilita o item (Enabled)
+            e Falso (.F.) desabilita (Disabled). Para verificar o estado
+            do item sem alterar a situaá∆o atual, omita este argumento. 
+
+Retorno   : (.T.) item habilitado ou (.F.) item desabilitado.
+
+Descriá∆o : SetDownItem() Ç uma funá∆o Get/Set para consultar ou alterar
+            a situaá∆o de um item no array "MenuDown". Seu funcionamento
+            Ç an†logo as funá‰es do Clipper SETCOLOR(), SETCURSOR(), etc.
+
+            A informaá∆o do terceiro argumento [ lEnb ] altera a situaá∆o
+            do item e retorna a situaá∆o anterior. A omiss∆o do argumento
+            apenas retornar† a situaá∆o atual do item.
+
+Exemplo   : Para uma determinada aplicaá∆o, o sÇtimo item de um menu
+            vertical Ç "Processamento", que somente estar† dispon°vel
+            para um usu†rio n°vel 1. H† uma funá∆o chamada NivelUsu()
+            que retorna o n°vel do usu†rio "logado". Ap¢s a definiá∆o da
+            estrutura do menu e a identificaá∆o do usu†rio, um fragmento
+            de c¢digo poss°vel seria:
+
+=========================================================================
+
+< criaá∆o/definiá∆o da estrutura de menus da aplicaá∆o >
+
+< solicitaá∆o de chave/senha do usu†rio >
+
+if NivelUsu() != 1              //n°vel do usu†rio diferente de 1
+   SetDownItem( mDwn, 07, .F. ) //desabilita item 7 do menu "mDwn"
+endif
+
+=========================================================================
+
+Veja tambÇm: NewDownMenu()
+             AddDownItem()
+             AddDownSep()
+             ChkDownItem()
+             NewBarMenu()
+             AddBarItem()
+             SetBarItem()
+             BarMenu()
+
+=========================================================================
+
+SetKeyMouse()   - Associa uma tecla de funá∆o a uma regi∆o da tela           
+
+SetKeyMouse() --> aPos
+=============
+
+Sintaxe   : SetKeyMouse( < nKey >, [ aPos ] )
+
+Argumentos: < nKey > tecla de funá∆o que se deseja associar Ö regi∆o da
+            tela informada em [ aPos ]. Normalmente usamos as constantes
+            definidas em INKEY.CH, como por exemplo: K_F1
+
+            [ aPos ] array contendo quatro elementos, que correspondem Ös
+            linhas inicial e final, e colunas inicial e final da regi∆o
+            da tela. Apesar de parecer fora do padr∆o, essa disposiá∆o de
+            argumentos (primeiro as linhas e depois as colunas) tem como
+            objetivo facilitar a informaá∆o para o programador, j† que em
+            boa parte das vezes a linha ser† a mesma, e s¢ a coluna deve
+            variar.
+
+Retorno   : array "aPos", de 4 elementos, contendo a definiá∆o anterior
+            da regi∆o da tela associada Ö tecla de funá∆o.
+
+Descriá∆o : SetKeyMouse() permite que teclas de funá∆o definidas atravÇs
+            de SET KEY ou SETKEY() do Clipper sejam associadas Ö regi‰es
+            da tela, e dessa forma executadas tambÇm atravÇs do mouse.
+            Trata-se de uma funá∆o GET/SET, com funcionamento an†logo Ös
+            funá‰es SETCURSOR(), SETCOLOR(), etc. Se informado apenas o
+            primeiro argumento, SetKeyMouse() retorna o array de posiá‰es
+            definidas para aquela tecla. Informados os dois argumentos,
+            as posiá‰es para aquela tecla s∆o redefinidas e o array de
+            retorno contÇm as posiá‰es anteriores.
+
+            Lembramos que a fim de evitar chamadas recursivas e indevidas
+            da mesma funá∆o, o programador deve utilizar SetKeyMouse() em
+            conjunto com SETKEY(), tanto na ativaá∆o como na desativaá∆o.
+
+Exemplo   : Em um determinado programa de contas a pagar, a tecla F9 foi
+            associada Ö uma funá∆o de calend†rio. Note que o uso de
+            SetKeyMouse() possibilita o acionamento do rel¢gio atravÇs de
+            um "Click" na †rea onde a funá∆o est† desenhada.
+
+=========================================================================
+
+// Na definiá∆o da tela do aplicativo
+Desktop()
+
+// Associa a tecla F9 Ö funá∆o e mostra para o usu†rio
+
+SETKEY( K_F9, { || Calend() } )          // funá∆o do Clipper
+SetKeyMouse( K_F9, { 24, 24, 64, 71 } ) // executa com o mouse
+DrawFn( 9, "Calend" )                  // desenha na linha 24, coluna 64
+
+=========================================================================
+
+Veja tambÇm: Desktop()
+=========================================================================
+
+VLExit()        - Termina um programa e restaura o set de caracteres do BIOS 
+
+VLExit() --> NIL
+========
+
+Sintaxe   : VLExit( < cPrc >, < nLin >, < cVar >, [ lCnf ] )
+
+Argumentos: < cPrc >, < nLin > e < cVar > correspondem Ö Procedure, Linha
+            do programa e Vari†vel de origem. Estes tràs argumentos s∆o
+            passados automaticamente pelo Clipper quando VLExit() estiver
+            associada Ö uma tecla de funá∆o (exemplo: F10), atravÇs do
+            comando SET KEY. VLExit() ignora estes parÉmetros, portanto,
+            em uma chamada direta (independente de SET KEY) Ç totalmente
+            dispens†vel a informaá∆o desses argumentos.
+
+            [ lCnf ] express∆o l¢gica, correspondente Ö confirmaá∆o ou 
+            n∆o antes de terminar o programa. Se informado (.T.), uma
+            janela pedir† a confirmaá∆o do usu†rio. Informando (.F.), o
+            programa ser† terminado sem confirmaá∆o. O padr∆o Ç (.T.).
+
+Retorno   : VLExit() sempre retorna NIL.
+
+Descriá∆o : VLExit() Ç a funá∆o que deve ser utilizada no encerramento
+            de um programa para restaurar o set de caracteres padr∆o do
+            BIOS. TambÇm torna poss°vel que o usu†rio termine o programa
+            a qualquer tempo. Em programas onde o encadeamento de menus e
+            opá‰es Ç extenso, para encerrar o aplicativo a partir de
+            determinado ponto o usu†rio seria obrigado a teclar "Esc" por
+            diversas vezes, atÇ chegar ao menu principal e terminar o
+            programa. VLExit() tem como objetivo economizar o tempo do
+            usu†rio.
+
+            Obs: Ao terminar seu aplicativo sem utilizar VLExit(), inclua
+                 a funá∆o "SETMODE( 25, 80 )" do Clipper para restaurar
+                 o conjunto de caracteres do BIOS.
+
+Exemplo 1 : Funá∆o VLExit() associada Ö tecla F10 atravÇs de SET KEY.
+
+=========================================================================
+
+SET KEY K_F10 TO VLExit   // Associa F10 Ö funá∆o VLExit()
+
+
+Exemplo 2 : VLExit() no "Loop" principal de um aplicativo, onde o menu de
+            de barra definido Ç "mBar".
+
+LOCAL op := 1 // Opá∆o do menu de barra que receber† o foco inicial
+
+mBar := NewBarMenu() // Definiu o menu de barra principal como "mBar"
+.
+< criaá∆o/definiá∆o dos menus utilizando as funá‰es da VISUAL LIB >
+.
+
+WHILE .T.
+   op := BarMenu( mBar, , op ) // Segundo param. omitido, assume linha 1
+   VLExit() // Ser† acionada quando BarMenu() terminar. Se o usu†rio n∆o
+END         // confirmar a sa°da, o loop devolve o controle Ö BarMenu()
+
+RETURN NIL
+
+=========================================================================
+
+VLKeyboard()    - Armazena uma string no buffer de teclado                   
+
+VLKeyboard() --> NIL
+============
+
+Sintaxe   : VLKeyboard( < cStr > )
+
+Argumentos: < cStr > Ç a string de caracteres que se deseja armazenar no
+            buffer de teclado.
+
+Retorno   : NIL.
+
+Descriá∆o : VLKeyboard() armazena < cStr > no buffer de teclado, atravÇs
+            do comando KEYBOARD do Clipper. Seu £nico objetivo Ç permitir
+            a utilizaá∆o em blocos de c¢digo, onde n∆o podemos utilizar
+            comandos.
+
+Exemplo   : VLKeyboard() num bloco de c¢digo, atribuindo um valor Ö uma
+            vari†vel e simulando um ENTER:
+
+=========================================================================
+
+LOCAL nOpc
+LOCAL bBlk := { || nOpc := 2, VLKeyboard( CHR( K_ENTER ) ) }
+
+=========================================================================
+
+VLMouseOff()    - Desativa o cursor do mouse                                 
+
+VLMouseOff() --> NIL
+============
+
+Sintaxe   : VLMouseOff()
+
+Argumentos: VLMouseOff() n∆o possui argumentos.
+
+Retorno   : NIL.
+
+Descriá∆o : Desativa o cursor do mouse, ap¢s o uso de VLMouseOn().
+            Visual Lib 2.0 possui um conjunto de extens‰es de funá‰es de
+            tela que desativam o cursor do mouse antes da escrita e logo
+            ap¢s o ativam novamente. Assim, s¢ haver† necessidade de
+            efetuar manualmente essa operaá∆o caso o programador utilize
+            alguma funá∆o de baixo n°vel de v°deo, e obtenha resultados
+            inesperados com o cursor do mouse.
+
+Exemplo   : Ativaá∆o e desativaá∆o do cursor:
+
+=========================================================================
+
+VLMouseOn()
+? "Cursor ativado. Pressione qualquer tecla..."
+INKEY( 0 )
+
+VLMouseOff()
+? "Cursor desativado."
+INKEY( 0 )
+
+=========================================================================
+
+Veja tambÇm: Desktop()
+             VLMouseOn()
+             WaitState()
+             SetKeyMouse()
+=========================================================================
+
+VLMouseOn()     - Ativa o cursor do mouse                                    
+
+VLMouseOn() --> NIL
+===========
+
+Sintaxe   : VLMouseOn()
+
+Argumentos: VLMouseOn() n∆o possui argumentos.
+
+Retorno   : NIL.
+
+Descriá∆o : Ativa o cursor do mouse. A funá∆o Desktop() ativa o cursor
+            automaticamente, portanto n∆o Ç necess†rio utilizar VLMouseOn(),
+            salvo numa ocasi∆o espec°fica (TBrowse, por exemplo).
+
+Exemplo   : Ativaá∆o do cursor:
+
+=========================================================================
+
+VLMouseOn()
+? "Cursor ativado."
+INKEY( 0 )
+
+=========================================================================
+
+Veja tambÇm: Desktop()
+             VLMouseOff()
+             WaitState()
+             SetKeyMouse()
+=========================================================================
+
+WaitState()     - Estado de espera por uma tecla ou mouse                    
+
+WaitState() --> aWait
+===========
+
+Sintaxe   : WaitState()
+
+Argumentos: n∆o possui argumentos.
+
+Retorno   : array "aWait" com 3 elementos contendo as informaá‰es sobre
+            a ocorrància detectada por WaitState(). A verificaá∆o desses
+            elementos Ç facilitada pelo arquivo header VISUAL2.CH:
+
+            CONSTANTE   VALOR   DESCRIÄ«O
+            -----------------------------
+             :wsType    [ 1 ]   Tipo de ocorrància (veja tabela abaixo)
+             :wsKey     [ 2 ]   C¢digo INKEY da tecla pressionada
+             :wsRow     [ 2 ]   Linha do cursor do mouse
+             :wsCol     [ 3 ]   Coluna do cursor do mouse 
+
+            Constantes para ":wsType" em VISUAL2.CH:
+
+            CONSTANTE      VALOR      DESCRIÄ«O
+            -----------------------------------
+            WAIT_NONE        0        Uso interno, nenhuma ocorrància
+            WAIT_KEYPRESS    1        Tecla pressionada
+            WAIT_MOUSEDOWN   2        Bot∆o do mouse pressionado
+            WAIT_MOUSEUP     3        Bot∆o do mouse liberado
+            WAIT_MOUSEMOVE   4        Movimento com bot∆o pressionado
+
+Descriá∆o : WaitState() Ç a funá∆o utilizada internamente para detectar
+            ocorràncias do teclado e do mouse, em substituiá∆o Ö funá∆o
+            INKEY() do Clipper.
+
+            WaitState() tambÇm Ç utilizada no comando VLREAD, que permite
+            automaticamente o uso do mouse no sistema GET do Clipper.
+
+            Assim, sugerimos a utilizaá∆o de WaitState() em suas funá‰es
+            que utilizam INKEY(), caso contr†rio durante a execuá∆o dessa
+            funá∆o n∆o ser∆o detectados os "clicks" do mouse.
+
+Exemplo   : Em determinado ponto do programa, Ç exibida uma janela de
+            mensagem para o usu†rio, atÇ que seja pressionada uma tecla
+            ou um bot∆o do mouse seja pressionado.
+
+=========================================================================
+
+// Desenhamos a janela e a mensagem
+LOCAL aWait
+LOCAL aWin := Win( 10, 10, 13, 69, "Informaá∆o Inv†lida!" )
+@ 12, 14 say PADC( "Consulte o manual para maiores detalhes.", 54 )
+
+// Esperamos o usu†rio
+aWait := WaitState()
+
+DO CASE
+   CASE aWait:wsType == WAIT_KEYPRESS       // tecla pressionada
+
+      // aWait:wsKey contÇm o c¢digo da tecla
+
+   CASE aWait:wsType == WAIT_MOUSEDOWN      // bot∆o mouse pressionado
+
+      // aWait:wsRow contÇm a linha  do cursor do mouse
+      // aWait:wsCol contÇm a coluna do cursor do mouse
+
+   CASE aWait:wsType == WAIT_MOUSEUP        // bot∆o do mouse liberado
+
+      // aWait:wsRow contÇm a linha  do cursor do mouse
+      // aWait:wsCol contÇm a coluna do cursor do mouse
+
+   CASE aWait:wsType == WAIT_MOUSEMOVE // movimento com bot∆o pressionado
+
+      // aWait:wsRow contÇm a linha  do cursor do mouse
+      // aWait:wsCol contÇm a coluna do cursor do mouse
+
+ENDCASE
+
+=========================================================================
+
+Veja tambÇm: VLREAD
+             SetKeyMouse()
+
+=========================================================================
+
+Win()           - Desenha uma janela nas coordenadas especificadas           
+
+Win() --> aAmbiente
+=====
+
+Sintaxe   : Win( < nTop >, < nLft >, < nBot >, < nRig >,
+                 [ cTit ],
+                 [ cBtt ], [ cDsk ],
+                 [ lSom ] )
+
+Argumentos: < nTop >, < nLft >, < nBot > e < nRig > s∆o, respectivamente,
+            as coordenadas da linha e coluna superiores, e linha e coluna
+            inferiores para o desenho da janela.
+
+            [ cTit ] Ç o t°tulo da janela.
+
+            [ cCwt ] e [ cCwd ] s∆o as cores utilizadas para o desenho da
+            janela, cujos nomes correspondem a:
+
+            cCwt = cor do t°tulo  ( wt = Win T°tulo )
+            cCwd = cor do desktop ( wd = Win Desktop )
+
+            Para definir as cores de sua janela corretamente:
+ 
+            1 ) Defina a cor de borda da janela, que ser† a mesma usada
+                para a barra de t°tulo. Exemplo: AZUL ESCURO
+
+            2 ) Defina a cor interna da janela. Exemplo: BRANCO
+
+            3 ) As constantes definidas no arquivo header VISUAL2.CH que
+                seriam utilizadas para o exemplo acima:
+
+                cCwt = WT_AZUL1BRANCO, onde "WT_" = Win T°tulo
+                cCwd = WD_AZUL1BRANCO, onde "WD_" = Win Desktop
+
+                Observe que apenas o prefixo muda, de "WT_" para "WD_".
+
+            Abaixo, algumas das constantes definidas.
+
+            CONSTANTES      COR    DESCRIÄ«O
+            --------------------------------
+            WT_AZUL1BRANCO "W+/B"  Barra azul escuro e T°tulo branco
+            WD_AZUL1BRANCO "B*/W"  Borda azul escuro e Desktop branco
+
+            WT_AZUL2BRANCO "W+*/B" Barra azul claro e T°tulo branco
+            WD_AZUL2BRANCO "B+*/W" Borda azul claro e Desktop branco
+
+            WT_VERM1BRANCO "W+/R"  Barra verm. escuro e T°tulo branco
+            WD_VERM1BRANCO "R*/W"  Borda verm. escuro e Desktop branco
+
+            WT_VERM2BRANCO "W+*/R" Barra verm. claro e T°tulo branco
+            WD_VERM2BRANCO "R+*/W" Borda verm. claro e Desktop branco
+
+            WT_AZUL1CINZA  "W+/B"  Barra azul escuro e T°tulo branco
+            WD_AZUL1CINZA  "B/W"   Borda azul escuro e Desktop cinza
+
+            WT_VERM1CINZA  "W+/R"  Barra verm. escuro e T°tulo branco
+            WD_VERM1CINZA  "R/W"   Borda verm. escuro e Desktop cinza
+            
+            Caso n∆o sejam informados, o padr∆o assumido Ç:
+
+            cCwt = WT_AZUL1BRANCO ( "W+/B" )
+            cCwd = WD_AZUL1BRANCO ( "B*/W" )
+
+            [ lSom ] express∆o l¢gica, corresponde ao desenho ou n∆o do
+            efeito de sombra real para a janela. Caso n∆o seja informado,
+            o padr∆o Ç .T., com sombra.
+
+Retorno   : Win() retorna um array de ambiente, no formato da funá∆o
+            SavEnv(), para posterior restauraá∆o pela funá∆o RstEnv().
+
+Descriá∆o : Win() desenha uma janela nas coordenadas especificadas, com
+            barra de t°tulo e sombra. Essa funá∆o Ç usada internamente
+            em MsgBox() e variaá‰es, entre outras. Como normalmente o
+            programador salva a regi∆o da tela, a cor, e muitas vezes o
+            cursor, Win() retorna todas essas informaá‰es em um array,
+            sendo que o ambiente anterior Ö chamada de Win() pode ser
+            restaurado facilmente pela funá∆o RstEnv(), economizando todo
+            o c¢digo de SAVESCREEN(), RESTSCREEN(), SETCOLOR(), etc.
+              
+Exemplo   : Desenho de uma janela com borda verde e interior branco, para
+            a informaá∆o da data inicial e final antes da impress∆o de um
+            determinado relat¢rio de clientes.
+
+=========================================================================
+
+// Vari†veis que ser∆o editadas
+inicio := fim := CTOD( "" )
+
+// Desenha janela. Win() retorna o ambiente (aWin)
+aWin := Win( 10, 20, 15, 59, "Informe o per°odo:",
+             WT_VERDEBRANCO, WD_VERDEBRANCO )
+
+// Solicita os dados
+@ 12, 25 SAY "Data inicial:" GET inicio VALID !EMPTY( inicio )
+@ 14, 25 SAY "Data final..:" GET fim    VALID !EMPTY( fim )
+READ
+
+// Restaura a tela ocupada por Win(), e chama a funá∆o para o relat¢rio
+RstEnv( aWin )
+RelaCli( inicio, fim )
+
+=========================================================================
+
+Veja tambÇm: MsgBox()
+             MsgBox1()
+             MsgBox2()
+             MsgBox3()
+             MsgBox3d()
+             MsgBox3d1()
+             MsgBox3d2()
+             MsgBox3d3()
+             SavEnv()
+             RstEnv()
+
+=========================================================================
+
+VLREAD          - Implementa o mouse no sistema GET do Clipper
+
+Descriá∆o : O comando VLREAD foi criado para implementar o uso do mouse no
+            sistema GET padr∆o do Clipper, eliminando a necessidade de qualquer
+            codificaá∆o por parte do usu†rio da Visual Lib 2.0. Substitua o
+            comando READ padr∆o por VLREAD e seus GET's j† estar∆o respondendo
+            aos "cliques" do mouse, respeitadas todas as validaá‰es.
+            
+            Obs: ê necess†rio incluir em todos os arquivos fonte (*.PRG) o
+                 header da Visual Lib: #include "visual2.ch"
+
+Exemplo   : Entrada de dados b†sica:
+
+=========================================================================
+
+@ 12, 25 SAY "Data inicial:" GET inicio VALID !EMPTY( inicio )
+@ 14, 25 SAY "Data final..:" GET fim    VALID !EMPTY( fim )
+VLREAD
+
+=========================================================================
+
+* Fim do manual da Visual Lib 2.0 - Vers∆o Shareware *

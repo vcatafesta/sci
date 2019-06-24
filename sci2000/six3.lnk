@@ -1,0 +1,112 @@
+#ีอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออธ
+#ณ Source file: SIX3.LNK  (for use with Clipper 5.2 ONLY)                  ณÛ
+#ณ Description: SIx 3 library overlay link script for Blinker 1.5          ณÛ
+#ณ              and above.                                                 ณÛ
+#ณ Notice     : Copyright 1992-1995 - SuccessWare 90, Inc.                 ณÛ
+#ณ                                                                         ณÛ
+#ณ To use this link script from the command line:                          ณÛ
+#ณ                                                                         ณÛ
+#ณ   > BLINKER FI myapp @six3.lnk                                          ณÛ
+#ณ                                                                         ณÛ
+#ณ To use this link script from within your existing link script:          ณÛ
+#ณ                                                                         ณÛ
+#ณ   #-----------------------------------#                                 ณÛ
+#ณ   FILE myapp                                                            ณÛ
+#ณ                                                                         ณÛ
+#ณ   @six3.lnk                                                             ณÛ
+#ณ                                                                         ณÛ
+#ณ   BEGINAREA                                                             ณÛ
+#ณ     ALLOCATE extend.lib                                                 ณÛ
+#ณ   ENDAREA                                                               ณÛ
+#ณ                                                                         ณÛ
+#ณ   LIB clipper                                                           ณÛ
+#ณ   #-----------------------------------#                                 ณÛ
+#ณ                                                                         ณÛ
+#รฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤดÛ
+#ณ                                                                         ณÛ
+#ณ  IMPORTANT!!!!                                                          ณÛ
+#ณ                                                                         ณÛ
+#ณ  The SIXNSX flavor of the SIx Driver REQUIRES a 7k (7068 byte) stack,   ณÛ
+#ณ  which is burned into the SIX3.LIB file already.  If you specify your   ณÛ
+#ณ  own STACK or PROCEDURE DEPTH setting in your link script file, you     ณÛ
+#ณ  MUST insure that it is not less than 7k.  For example:                 ณÛ
+#ณ                                                                         ณÛ
+#ณ      STACK 7068                                                         ณÛ
+#ณ                                                                         ณÛ
+#ณ  -or-                                                                   ณÛ
+#ณ                                                                         ณÛ
+#ณ      BLINKER PROCEDURE DEPTH 70                                         ณÛ
+#ณ                                                                         ณÛ
+#ณ  If your application is linked with too low of a stack size, you may    ณÛ
+#ณ  get 1010 Read Errors while running your program.                       ณÛ
+#ณ                                                                         ณÛ
+#ณ  The SIXCDX and SIXNTX flavors do not require as high of a stack size,  ณÛ
+#ณ  but will also report 1010 Read Errors and/or other odd behavior if an  ณÛ
+#ณ  insufficient stack setting is set.                                     ณÛ
+#ณ                                                                         ณÛ
+#ิอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออพÛ
+#  ÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛ
+
+
+BEGINAREA
+
+  # อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
+  # Uncomment the next line ONLY if you do NOT want Mach SIx to be linked in.
+  # SEARCH NOMACH6.LIB
+
+  # อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
+  # Uncomment the next line ONLY if you do NOT want MEMO support linked in.
+  # FILE NOMEMO.OBJ
+
+  # Overlay the SIx 3.0 RDD
+  ALLOCATE SIX3.LIB
+
+ENDAREA
+
+# อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
+# Low-level code for VariField support.  This MODULE should be uncommented
+# if you are using VariFields, but can be commented out (overlayed) if not.
+# MODULE vfcore
+
+# อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
+# Low-level code for DBF.  These should always be in the root.
+MODULE swdbf1
+
+# อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
+# Low-level code for MEMO.  Place this in the root for extra speed, but only
+# if you have enough free memory.
+# MODULE swmemo1
+
+# อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
+# Low-level code for CDX.  These should always be in the root.
+# ฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤ
+MODULE cdxcore
+
+# อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
+# Mid-level code.  Place these in the root for extra speed, but only if you
+# have enough free memory.
+# ฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤ
+# MODULE cdxcreat
+# MODULE cdxdirec
+# MODULE cdxfreel
+
+# อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
+# Low-level code for NSX.  These should always be in the root.
+MODULE nsxcore
+MODULE nsxasm1
+
+# อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
+# Mid-level code.  Place these in the root for extra speed, but only if you
+# have enough free memory.
+# ฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤ
+# MODULE nsxcreat
+# MODULE nsxdirec
+# MODULE nsxfreel
+
+# อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
+# Low-level code for NTX.  This should be in the root for speed.
+MODULE ntx1
+
+# อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
+# Low-level code for ALL Drivers.  These should always be in the root.
+MODULE swutil3

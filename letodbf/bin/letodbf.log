@@ -1,0 +1,121 @@
+05.17.2018 10:34:30 DEBUG thread3() ending ..
+05.17.2018 10:34:31       Server at port 2812 have shutdown.
+05.17.2018 10:34:31       O servico LetoDB foi deletado
+05.17.2018 10:34:32       Erro ao excluir o servico LetoDB. Erro: 1060
+05.17.2018 10:52:58       Servico LetoDB foi instalado com sucesso
+05.17.2018 10:52:58       UDF file: c:\sci\letodbf\bin\letoudf.hrb have been loaded.
+05.17.2018 10:52:58 INFO: LetoDBf Server 3.00, will run at port :2812 ( internal also used :2813 )
+05.17.2018 10:52:58 INFO: DataPath=\sys\sci, ShareTables=1, NoSaveWA=0, max database=999
+05.17.2018 10:52:58 INFO: LoginPassword=0, CacheRecords=1000, LockExtended=0
+05.17.2018 10:52:58 DEBUG second socket: 332 for errors established
+05.17.2018 10:52:58 DEBUG thread3() with pipe handle: 296 started .. 
+05.20.2018 09:26:26 DEBUG thread3() ending ..
+05.20.2018 09:26:26       Server at port 2812 have shutdown.
+05.20.2018 09:29:01       UDF file: c:\sci\letodbf\bin\letoudf.hrb have been loaded.
+05.20.2018 09:29:01 INFO: LetoDBf Server 3.00, will run at port :2812 ( internal also used :2813 )
+05.20.2018 09:29:01 INFO: DataPath=\sys\sci, ShareTables=1, NoSaveWA=0, max database=999
+05.20.2018 09:29:01 INFO: LoginPassword=0, CacheRecords=1000, LockExtended=0
+05.20.2018 09:29:01 DEBUG second socket: 336 for errors established
+05.20.2018 09:29:01 DEBUG thread3() with pipe handle: 344 started .. 
+05.20.2018 15:59:39 DEBUG thread3() ending ..
+05.20.2018 15:59:39       Server at port 2812 have shutdown.
+05.20.2018 16:02:22       UDF file: c:\sci\letodbf\bin\letoudf.hrb have been loaded.
+05.20.2018 16:02:22 INFO: LetoDBf Server 3.00, will run at port :2812 ( internal also used :2813 )
+05.20.2018 16:02:22 INFO: DataPath=\sys\sci, ShareTables=1, NoSaveWA=0, max database=999
+05.20.2018 16:02:22 INFO: LoginPassword=0, CacheRecords=1000, LockExtended=0
+05.20.2018 16:02:22 DEBUG second socket: 320 for errors established
+05.20.2018 16:02:22 DEBUG thread3() with pipe handle: 328 started .. 
+05.20.2018 19:36:51 DEBUG thread3() ending ..
+05.20.2018 19:36:52       Server at port 2812 have shutdown.
+05.20.2018 19:40:42       UDF file: c:\sci\letodbf\bin\letoudf.hrb have been loaded.
+05.20.2018 19:40:42 INFO: LetoDBf Server 3.00, will run at port :2812 ( internal also used :2813 )
+05.20.2018 19:40:42 INFO: DataPath=\sys\sci, ShareTables=1, NoSaveWA=0, max database=999
+05.20.2018 19:40:42 INFO: LoginPassword=0, CacheRecords=1000, LockExtended=0
+05.20.2018 19:40:42 DEBUG second socket: 316 for errors established
+05.20.2018 19:40:42 DEBUG thread3() with pipe handle: 324 started .. 
+05.24.2018 01:37:24       UDF file: c:\sci\letodbf\bin\letoudf.hrb have been loaded.
+05.24.2018 01:37:25 INFO: LetoDBf Server 3.00, will run at port :2812 ( internal also used :2813 )
+05.24.2018 01:37:25 INFO: DataPath=\sys\sci, ShareTables=1, NoSaveWA=0, max database=999
+05.24.2018 01:37:25 INFO: LoginPassword=0, CacheRecords=1000, LockExtended=0
+05.24.2018 01:37:25 DEBUG second socket: 344 for errors established
+05.24.2018 01:37:25 DEBUG thread3() with pipe handle: 352 started .. 
+05.26.2018 02:29:17       UDF file: c:\sci\letodbf\bin\letoudf.hrb have been loaded.
+05.26.2018 02:29:18 INFO: LetoDBf Server 3.00, will run at port :2812 ( internal also used :2813 )
+05.26.2018 02:29:18 INFO: DataPath=\sys\sci, ShareTables=1, NoSaveWA=0, max database=999
+05.26.2018 02:29:18 INFO: LoginPassword=0, CacheRecords=1000, LockExtended=0
+05.26.2018 02:29:18 DEBUG second socket: 320 for errors established
+05.26.2018 02:29:18 DEBUG thread3() with pipe handle: 328 started .. 
+05.26.2018 03:16:01       UDF file: c:\sci\letodbf\bin\letoudf.hrb have been loaded.
+05.26.2018 03:16:01 INFO: LetoDBf Server 3.00, will run at port :2812 ( internal also used :2813 )
+05.26.2018 03:16:01 INFO: DataPath=\sys\sci, ShareTables=1, NoSaveWA=0, max database=999
+05.26.2018 03:16:01 INFO: LoginPassword=0, CacheRecords=1000, LockExtended=0
+05.26.2018 03:16:01 DEBUG second socket: 324 for errors established
+05.26.2018 03:16:01 DEBUG thread3() with pipe handle: 332 started .. 
+05.26.2018 03:34:18       UDF file: c:\sci\letodbf\bin\letoudf.hrb have been loaded.
+05.26.2018 03:34:18 INFO: LetoDBf Server 3.00, will run at port :2812 ( internal also used :2813 )
+05.26.2018 03:34:18 INFO: DataPath=\sys\sci, ShareTables=1, NoSaveWA=0, max database=999
+05.26.2018 03:34:18 INFO: LoginPassword=0, CacheRecords=1000, LockExtended=0
+05.26.2018 03:34:18 DEBUG second socket: 312 for errors established
+05.26.2018 03:34:18 DEBUG thread3() with pipe handle: 320 started .. 
+05.26.2018 03:51:41       UDF file: c:\sci\letodbf\bin\letoudf.hrb have been loaded.
+05.26.2018 03:51:41 INFO: LetoDBf Server 3.00, will run at port :2812 ( internal also used :2813 )
+05.26.2018 03:51:41 INFO: DataPath=\sys\sci, ShareTables=1, NoSaveWA=0, max database=999
+05.26.2018 03:51:41 INFO: LoginPassword=0, CacheRecords=1000, LockExtended=0
+05.26.2018 03:51:41 DEBUG second socket: 312 for errors established
+05.26.2018 03:51:41 DEBUG thread3() with pipe handle: 320 started .. 
+05.26.2018 12:59:48       UDF file: c:\sci\letodbf\bin\letoudf.hrb have been loaded.
+05.26.2018 12:59:48 INFO: LetoDBf Server 3.00, will run at port :2812 ( internal also used :2813 )
+05.26.2018 12:59:48 INFO: DataPath=\sys\sci, ShareTables=1, NoSaveWA=0, max database=999
+05.26.2018 12:59:48 INFO: LoginPassword=0, CacheRecords=1000, LockExtended=0
+05.26.2018 12:59:48 DEBUG second socket: 320 for errors established
+05.26.2018 12:59:48 DEBUG thread3() with pipe handle: 328 started .. 
+05.26.2018 16:54:51 DEBUG thread3() ending ..
+05.26.2018 16:54:52       Server at port 2812 have shutdown.
+05.26.2018 22:56:51       UDF file: c:\sci\letodbf\bin\letoudf.hrb have been loaded.
+05.26.2018 22:56:52 INFO: LetoDBf Server 3.00, will run at port :2812 ( internal also used :2813 )
+05.26.2018 22:56:52 INFO: DataPath=\sys\sci, ShareTables=1, NoSaveWA=0, max database=999
+05.26.2018 22:56:52 INFO: LoginPassword=0, CacheRecords=1000, LockExtended=0
+05.26.2018 22:56:52 DEBUG second socket: 316 for errors established
+05.26.2018 22:56:52 DEBUG thread3() with pipe handle: 324 started .. 
+05.26.2018 22:59:58 DEBUG thread3() ending ..
+05.26.2018 22:59:58       Server at port 2812 have shutdown.
+05.27.2018 00:26:46       UDF file: c:\sci\letodbf\bin\letoudf.hrb have been loaded.
+05.27.2018 00:26:46 INFO: LetoDBf Server 3.00, will run at port :2812 ( internal also used :2813 )
+05.27.2018 00:26:46 INFO: DataPath=\sys\sci, ShareTables=1, NoSaveWA=0, max database=999
+05.27.2018 00:26:46 INFO: LoginPassword=0, CacheRecords=1000, LockExtended=0
+05.27.2018 00:26:46 DEBUG second socket: 312 for errors established
+05.27.2018 00:26:46 DEBUG thread3() with pipe handle: 320 started .. 
+05.27.2018 00:43:40 DEBUG thread3() ending ..
+05.27.2018 00:43:41       Server at port 2812 have shutdown.
+05.27.2018 00:48:13       UDF file: c:\sci\letodbf\bin\letoudf.hrb have been loaded.
+05.27.2018 00:48:13 INFO: LetoDBf Server 3.00, will run at port :2812 ( internal also used :2813 )
+05.27.2018 00:48:13 INFO: DataPath=\sys\sci, ShareTables=1, NoSaveWA=0, max database=999
+05.27.2018 00:48:13 INFO: LoginPassword=0, CacheRecords=1000, LockExtended=0
+05.27.2018 00:48:13 DEBUG second socket: 316 for errors established
+05.27.2018 00:48:13 DEBUG thread3() with pipe handle: 324 started .. 
+05.27.2018 00:55:27 DEBUG thread3() ending ..
+05.27.2018 00:55:27       Server at port 2812 have shutdown.
+05.27.2018 00:58:15       UDF file: c:\sci\letodbf\bin\letoudf.hrb have been loaded.
+05.27.2018 00:58:15 INFO: LetoDBf Server 3.00, will run at port :2812 ( internal also used :2813 )
+05.27.2018 00:58:15 INFO: DataPath=\sys\sci, ShareTables=1, NoSaveWA=0, max database=999
+05.27.2018 00:58:15 INFO: LoginPassword=0, CacheRecords=1000, LockExtended=0
+05.27.2018 00:58:17 DEBUG second socket: 304 for errors established
+05.27.2018 00:58:17 DEBUG thread3() with pipe handle: 332 started .. 
+05.27.2018 01:03:19 DEBUG thread3() ending ..
+05.27.2018 01:03:19       Server at port 2812 have shutdown.
+07.02.2018 01:54:37       UDF file: c:\sci\letodbf\bin\letoudf.hrb have been loaded.
+07.02.2018 01:54:37 INFO: LetoDBf Server 3.00, will run at port :2812 ( internal also used :2813 )
+07.02.2018 01:54:37 INFO: DataPath=\sys\sci, ShareTables=1, NoSaveWA=0, max database=999
+07.02.2018 01:54:37 INFO: LoginPassword=0, CacheRecords=1000, LockExtended=0
+07.02.2018 01:54:37 DEBUG second socket: 312 for errors established
+07.02.2018 01:54:37 DEBUG thread3() with pipe handle: 320 started .. 
+07.02.2018 02:58:14 DEBUG thread3() ending ..
+07.02.2018 02:58:17       Server at port 2812 have shutdown.
+07.02.2018 04:42:41       UDF file: c:\sci\letodbf\bin\letoudf.hrb have been loaded.
+07.02.2018 04:42:41 INFO: LetoDBf Server 3.00, will run at port :2812 ( internal also used :2813 )
+07.02.2018 04:42:41 INFO: DataPath=\sys\sci, ShareTables=1, NoSaveWA=0, max database=999
+07.02.2018 04:42:41 INFO: LoginPassword=0, CacheRecords=1000, LockExtended=0
+07.02.2018 04:42:41 DEBUG second socket: 324 for errors established
+07.02.2018 04:42:41 DEBUG thread3() with pipe handle: 332 started .. 
+07.02.2018 11:05:37 DEBUG thread3() ending ..
+07.02.2018 11:05:38       Server at port 2812 have shutdown.

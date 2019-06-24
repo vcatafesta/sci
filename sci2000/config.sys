@@ -1,0 +1,9 @@
+DEVICEHIGH=C:\WINDOWS\HIMEM.SYS /TESTMEM:OFF
+DEVICEHIGH=C:\WINDOWS\EMM386.EXE RAM
+rem DEVICEHIGH=C:\WINDOWS\EMM386.DR RAM
+FILES=90
+BUFFERS=16,0
+DOS=HIGH,UMB                                                                  
+SWITCHES=/F                                                                   
+COUNTRY=003,,C:\WINDOWS\COMMAND\COUNTRY.SYS
+STACKS=0,0

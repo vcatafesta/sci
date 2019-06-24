@@ -349,8 +349,8 @@ endef
 def SaidaParaEmail()
 	LOCAL cScreen	:= SaveScreen()
 	LOCAL GetList	:= {}
-	LOCAL xArquivo := ""
-	LOCAL xTemp    := FTempName('T*.TXT')
+	LOCAL cDir     := oAmbiente:xRoot + "\" + oAmbiente:xBaseTmp
+	LOCAL xArquivo := FTempName('T*.TXT', cDir)
 	LOCAL cTo		:= Space(40)
 	LOCAL cFrom 	:= oIni:ReadString('sistema', 'email', Space(40))
 	LOCAL cSubject := 'Enviando Email : ' + xTemp + Space(10)
@@ -358,8 +358,7 @@ def SaidaParaEmail()
 	LOCAL xString
 	LOCAL i
 
-	oMenu:Limpa()
-	xArquivo := oAmbiente:xBaseDados + "\" + xTemp + Space(10)
+	oMenu:Limpa()		
 	MaBox( 15, 00, 21, 79 )
 	@ 16, 01 Say "Para    : " Get cTo      Pict "@!" Valid if(Empty(cTo),      ( ErrorBeep(), Alerta("Ooops!: Vai enviar para quem ?"), false ), true )
 	@ 17, 01 Say "De      : " Get cFrom    Pict "@!" Valid if(Empty(cFrom),    ( ErrorBeep(), Alerta("Ooops!: Nao vai dizer o email de quem enviou ?"), false ), true )
@@ -380,7 +379,7 @@ def SaidaParaEmail()
 	oAmbiente:Spooler  := OK
 	oAmbiente:cArquivo := xArquivo
 	xArquivo           := AllTrim( xArquivo )
-	Set Print To ( xArquivo )
+	Set Print To (xArquivo)
 	Mensagem('Aguarde, Enviando Email.')
 	/*
 	xString := 'mail.bat'
@@ -408,11 +407,12 @@ endef
 
 def SaidaParaArquivo()
 	LOCAL cScreen	:= SaveScreen()
+	LOCAL cDir     := oAmbiente:xBaseTmp
 	LOCAL GetList	:= {}
 	LOCAL xArquivo := ""
 	
 	oMenu:Limpa()
-	xArquivo := FTempName(".TXT") + Space(10)	
+	xArquivo := FTempName(".TXT", cDir) + Space(20)	
 	MaBox( 15, 00, 17, 79 )
 	@ 16, 01 Say "Visualizar no Arquivo: " Get xArquivo Pict "@!"
 	Read
@@ -425,16 +425,10 @@ def SaidaParaArquivo()
 		endif	
 	endif
 	
-	xArquivo           := AllTrim( xArquivo )
+	xArquivo           := AllTrim(xArquivo)
 	oAmbiente:Spooler  := OK
-	oAmbiente:cArquivo := xArquivo			
-	
-	altd()
-	if (oAmbiente:Letoativo)
-		Leto_Set( 24, (xArquivo), .F. )
-	else	
-		Set Print To (xArquivo)
-	endif	
+	oAmbiente:cArquivo := xArquivo
+	Set Print To (xArquivo)	
 	ResTela( cScreen )
 	return true
 endef
@@ -445,11 +439,10 @@ def SaidaParaSpooler()
 	LOCAL cScreen	:= SaveScreen()
 	LOCAL GetList	:= {}
 	LOCAL xArquivo := ""
-	LOCAL cDir     := oAmbiente:xBase + "\SPOOLER\" 
+	LOCAL cDir     := oAmbiente:xBaseTmp
 
 	oMenu:Limpa()
-	//xArquivo := oAmbiente:xBase + "\SPOOLER\" + FTempName("#*.PRN") + Space(10)
-	xArquivo := FTempName(".PRN", cDir) + Space(10)
+	xArquivo := FTempName(".PRN", cDir) + Space(20)
 	MaBox( 15, 00, 17, 79 )
 	@ 16, 01 Say "Visualizar no Arquivo: " Get xArquivo Pict "@!"
 	Read
@@ -462,7 +455,7 @@ def SaidaParaSpooler()
 	oAmbiente:Spooler  := OK
 	oAmbiente:cArquivo := xArquivo
 	xArquivo := AllTrim( xArquivo )
-	Set Print To ( xArquivo )
+	Set Print To (xArquivo)	
 	return(ResTela( cScreen ))
 endef
 
@@ -771,8 +764,8 @@ endef
 *==================================================================================================*
 	
 def AbreSpooler()
-**********************
-	Iif( oAmbiente:Spooler, Set( _SET_PRINTFILE, oAmbiente:cArquivo, false ), Set( _SET_PRINTFILE, "" ))
+*----------------*
+	iif( oAmbiente:Spooler, Set( _SET_PRINTFILE, oAmbiente:cArquivo, false ), Set( _SET_PRINTFILE, "" ))
 	return NULL
 endef
 
@@ -821,20 +814,79 @@ endif
 oAmbiente:Spooler  := FALSO
 return Nil
 
-Proc GravaDisco()
-*****************
-LOCAL cScreen := SaveScreen()
+/*
+def viewArquivo(cArquivo)
+*------------------------*
+	LOCAL Form3
 
-oMenu:Limpa()
-Mensagem("Aguarde, Gravando em Disco." )
-DbCommitAll()
-ResTela( cScreen )
-return
+	#include <hmg.ch>	
+	DEFINE WINDOW Form3;
+		 At 0,0              ;
+		 Width 450        ;
+		 Height 500       ;
+		 Title "Contatos Cadastrados com Letra " + cLetra;		 
+		 ICON "AGENDA";
+		 CHILD ;
+		 NOSYSMENU;
+		 NOSIZE       ;       
+		 BACKCOLOR WHITE
+
+		 @ 20,-1 EDITBOX Edit_1 ;
+			  WIDTH 460 ;
+			  HEIGHT 510 ;
+			  VALUE cArquivo ;
+			  TOOLTIP "Contatos Cadastrados com Letra "+cLetra ;
+			  MAXLENGTH 255               
+
+		 @ 01,01 BUTTON Bt_Zoom_Mais  ;
+			  CAPTION '&Zoom(+)'             ;
+			  WIDTH 120 HEIGHT 17    ;
+			  ACTION ZoomLabel(1);
+			  FONT "MS Sans Serif" SIZE 09 FLAT
+
+		 @ 01,125 BUTTON Bt_Zoom_menos  ;
+			  CAPTION '&Zoom(-)'             ;
+			  WIDTH 120 HEIGHT 17    ;
+			  ACTION ZoomLabel(2);
+			  FONT "Calibri" SIZE 09 FLAT
+
+		 @ 01,321 BUTTON Sair_1  ;
+			  CAPTION '&Sair'             ;
+			  WIDTH 120 HEIGHT 17    ;
+			  ACTION Form3.Release;
+			  FONT "Calibri" SIZE 09 FLAT
+
+	END WINDOW
+	MODIFY CONTROL Edit_1 OF Form3 FONTSIZE nFont 
+	Center Window Form3
+	Activate Window Form3
+	Return Nil
+
+Function ZoomLabel(nmm)         
+	If nmm == 1
+		nFont++
+	Else
+		nFont--
+	Endif
+	MODIFY CONTROL Edit_1 OF Form3 FONTSIZE nFont
+	Return Nil	
+*/	
+	
+Proc GravaDisco()
+*---------------*
+	LOCAL cScreen := SaveScreen()
+
+	oMenu:Limpa()
+	Mensagem("Aguarde, Gravando em Disco." )
+	DbCommitAll()
+	ResTela( cScreen )
+	return
 
 def Area( cArea)
 *********************
-DbSelectArea( cArea )
-return NIl
+	DbSelectArea( cArea )
+	return NIl
+endef	
 
 Proc Altc( cTexto )
 *******************
@@ -1670,7 +1722,7 @@ SetColor(_corant )
 return( true )
 
 def MS_DbUser( Modo, Ponteiro , Var)
-****************************************
+*-----------------------------------*
 LOCAL GetList		:= {}
 LOCAL cScreen		:= SaveScreen()
 LOCAL Key			:= LastKey()
@@ -2306,14 +2358,15 @@ def Mensagem( String, Color, nLine, nCol, centralizar )
 	LOCAL Col2
 	LOCAL nOk := false
 	
-	String := SISTEM_NA1 + ";-;" + String
 	__DefaultNIL(@centralizar, false)    
 	__DefaultNIL(@color, oAmbiente:CorMsg)    
 	Do case
 		case nLine == nil .and. nLinhas = 0	
+			String := SISTEM_NA1 + ";-;" + String
 			AlertaPy(string, Color, centralizar, nOK)
 			return(cScreen)
 		case nLine == nil .and. nLinhas > 0
+			String := SISTEM_NA1 + ";-;" + String
 			AlertaPy(string, Color, centralizar, nOK)		
 			return( cScreen )
 		case nLine != nil .and. nLinhas > 0			
@@ -2374,6 +2427,10 @@ def AlertaPy(string, cor, centralizar, lOK, aPrompt)
 	__DefaultNIL(@centralizar, false)    
 	__DefaultNIL(@lOk, true) 
 	
+	// if left(string, len(SISTEM_NA1)) != SISTEM_NA1	
+	   // string := SISTEM_NA1 + ";-;" + String
+	// endif
+	
 	if aPrompt == nil .or. len(aPrompt) == 0
 		aPrompt := {" Ok "}
 	endif
@@ -2429,12 +2486,13 @@ def AlertaPy(string, cor, centralizar, lOK, aPrompt)
 		  else	  
 				aprint(row + 1, ncol, cString, cor)
 		  endif		
-        row++
+        row := row + 1
 	 next	  
 	 if lOk
 		if nLenaPrompt = 1
 			aprint(row + 2, center, aPrompt[1], roloc(cor))
 			inkey(0)
+			restela(cScreen) 	 
 			return(cScreen) 	 
 		else			
 			//nSetColor(cor)
@@ -6140,45 +6198,39 @@ endef
 def FTempRandomName( xCoringa, cDir )
 *+-----------------------------------+*
 	LOCAL cFile  := ""	
+	LOCAL cExt 
 	LOCAL nNumber 
 	LOCAL cNumber 
 	LOCAL snRandom := Seconds() / Exp(1) 
    LOCAL nLimit   := 65535 
-	DEFAU xCoringa TO 'T*.TMP'	
-   
+	
+	hb_default(@xCoringa, "T*.TMP")
+	cExt     := "." + GetFileExtension(xCoringa)
 	snRandom := Log( snRandom + Sqrt(2) ) * Exp(3) 
    snRandom := Val( Str(snRandom - Int(snRandom), 17, 15 ) ) 	
 	nNumber  := HB_RandomInt(snRandom, 999999)	
 	cNumber  := StrZero(nNumber,7)	
-	cFile    := 'T' + cNumber + '.TMP'	
+	cFile    := 'T' + cNumber + cExt
 	return cFile
 endef		
 	
 def FTempName( xCoringa, cDir )
 *-----------------------------*
-	LOCAL cFile  := ""
-	LOCAL nConta := 0
-	LOCAL cTela  := Mensagem("Aguarde, Criando Arquivo Temporario.")
-	DEFAU xCoringa TO 'T*.TMP'
-//	DEFAU cDir     TO oAmbiente:xBaseDados
-	DEFAU cDir     TO oAmbiente:xBaseTmp
-		 
-	//Aeval( Directory( xCoringa), { | aFile | ms_swap_ferase( aFile[F_NAME])})
-	if (oAmbiente:Letoativo)
-		cFile := oAmbiente:xBaseTmp + FTempRandomName(xCoringa, cDir)		
-		While !leto_file( cFile ) .AND. nConta <= 100
-			cFile := oAmbiente:xBaseTmp + FTempRandomName(xCoringa, cDir)					
-			nConta++
-		EndDo
-	else
-		cFile  = Ms_TempName( xCoringa, cDir )
-		While !ms_swap_file( cFile ) .AND. nConta <= 100
-			cFile := Ms_TempName( xCoringa, cDir )
-			nConta++
-		EndDo	
-	endif	
+	LOCAL cTempFile := ""
+	LOCAL nConta    := 0
+	LOCAL cTela     := Mensagem("Aguarde, Criando Arquivo Temporario.")
+	
+	cDir := ms_swap_tmp()	
+	hb_default(@xCoringa, "T*.TMP")			
+	//Aeval( Directory( cDir + xCoringa), { | aFile | ms_swap_ferase( aFile[F_NAME])})	
+
+	cTempFile := cDir + FTempRandomName()
+	While !file(cTempFile) .AND. nConta <= 100
+		cTempFile := cDir + FTempRandomName()
+		nConta++
+	EndDo	
 	restela(cTela)
-	return( cFile )
+	return( cTempFile )
 endef
 	
 def HB_TempName()

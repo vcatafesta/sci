@@ -1,0 +1,17 @@
+[configuracao]
+Vertical=1
+Comprimir=0
+Carreira=01
+Espacos=001
+Linhas=01
+Margem=000
+Tamanho=035
+Campos=05
+[campos]
+campo005="CGC" + ":" + CGC
+campo004=CEP + "/" + CIDA + "-" + ESTA
+campo003=ENDE + "/" + BAIR
+campo002=NOME
+campo001=CODIGO
+
+

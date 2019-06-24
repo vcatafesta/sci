@@ -1,0 +1,41 @@
+#line 1 "classic.ch"
+#line 1 "Addon.ch"
+#line 1 "Common.ch"
+#line 22 "Addon.ch"
+
+memvar getlist
+#line 256 "classic.ch"
+#line 3 "O.PRG"
+Function Main()
+
+TForm1 := TClasse()
+QOut( TForm1:cNome )
+QOut( TForm1:cEnde )
+Return
+
+Function TClass
+Static _oJVObject := {}
+Local FIRSTOBJECT := Empty( _oJVObject )
+Local Self := NIL
+Local _oJVInherit := {}
+Local _oJVHandle := _oJVClass( "TClass", _oJVObject, {} )
+
+_oJVHandle[9] := NIL
+_oJVAddVar( _oJVHandle, { "cNome" },,,, .F. )
+_oJVAddVar( _oJVHandle, { "cEnde" },,,, .F. )
+_oJVHandle[9] := NIL
+_oJVAddMethod( _oJVHandle, "Init", {|| Init() }, .F., .T. ) ;
+Return( ( IIf( Self == NIL, Self := _oJVAddClass( _oJVObject := _oJVHandle, _oJVInherit ), NIL )), iif( ProcName( 1 ) == "", self[ 1 ][ 5 ]:New(), Self ))
+
+;#line 1 "CLASSIC2.CH"
+#line 18 "O.PRG"
+
+Static Func Init( Self )
+Local _oJVParms := iif( Self == NIL, _oJVParms({|self| Init(self) } ),)
+
+self[ 1 ][ 5 ]:cNome := "Vilmar"
+self[ 1 ][ 5 ]:cEnde := "Rua"
+Return( Self )
+
+Function TClasse()
+   Return( TClass():New())

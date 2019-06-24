@@ -1,0 +1,93 @@
+/* Tell me where Clipper lives. */
+
+ClpHome=D:\Clipper\Master
+
+/* Ane the home of the library. */
+
+OSLHome=..\
+
+/* Paths used in the build. */
+
+PrgPath=$(OSLHome)\Source
+IncPath=$(OSLHome)\Include
+ErrPath=$(OSLHome)\Source
+ObjPath=$(OSLHome)\Obj
+RspPath=$(OSLHome)\Obj
+LibPath=$(OSLHome)\Lib
+LstPath=$(OSLHome)\Lib
+ApiPath=$(ClpHome)\Include;$(OSLHome)\CPMI
+
+/* Set the MakePaths */
+
+MakePath[.Prg] = $(PrgPath)
+MakePath[.C]   = $(PrgPath)
+MakePath[.Asm] = $(PrgPath)
+MakePath[.Obj] = $(ObjPath)
+MakePath[.Rsp] = $(RspPath)
+MakePath[.Lib] = $(LibPath)
+MakePath[.Exe] = $(BinPath)
+MakePath[.Ch]  = $(IncPath)
+MakePath[.H]   = $(IncPath)
+
+/* Programs to call. */
+
+CLIP = Clipper
+CC   = cl
+LIB  = Lib
+
+/* Compiler flags. */
+
+LIBCFLAGS = /c /Oealtc /FPa /Zln /AL /Gs /J /W3 /WX /Gt1 /I$(ApiPath)
+CLPFLAGS  = /l /p /m /n /w /es2
+
+/* List and error files. */
+
+ERRFILE = OSLib.Err
+RSPFILE = OSLib.Rsp
+LSTFILE = OSLib.Lst
+
+/* Set up the error log. */
+
+#!Echo OSLib.Lib Build Error Report>$(ErrPath)\$(ERRFILE)
+#!Echo ============================>>$(ErrPath)\$(ERRFILE)
+#!Echo.>>$(ErrPath)\$(ERRFILE)
+
+/* Init the library response file. */
+
+#!Echo $(LibPath)\OSLib.Lib>$(RspPath)\$(RSPFILE)
+
+/* Build rules for C -> Obj. */
+
+.C.Obj:
+        $(CC) $(LIBCFLAGS) /Fo$(ObjPath)\$*.Obj $*.C>>$(ErrPath)\$(ERRFILE)
+        Echo -+$@ &>>$(RspPath)\$(RSPFILE)
+
+/* Build rules for ASM -> Obj. */
+.Asm.Obj:
+        masm /Ml $<,$(ObjPath)\$*.OBJ;
+        Echo -+$@ &>>$(RspPath)\$(RSPFILE)
+
+/* Build rules for Rsp --> Lib. */
+
+.Rsp.Lib:
+        Echo ,$(LstPath)\$(LSTFILE);>>$(RspPath)\$(RSPFILE)
+        $(LIB) @$<>>$(ErrPath)\$(ERRFILE)
+
+/* C source files. */
+
+AutYield.obj : AutYield.c
+DosVer.obj   : DosVer.c
+IsMSWin.obj  : IsMSWin.c
+IsOS2.obj    : IsOS2.c
+IsOS2Win.obj : IsOS2Win.c
+FullScrn.Obj : FullScrn.c
+Win95.Obj    : Win95.c
+IsNT.Obj     : IsNT.c
+WinClip.Obj  : WinClip.c
+
+/* ASM source files. */
+Yield.obj    : Yield.asm
+
+/* Library file details. */
+
+OSLib.Lib : $(RSPFILE)

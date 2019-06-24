@@ -11,12 +11,12 @@ CLASS TReceposi
 beginclass
 	VAR cWho
 	VAR cNome
-	VAR aHistRecibo				 INIT {}
-	VAR aUserRecibo			 	 INIT {}
-	VAR aReciboImpresso		 	 INIT {}
-	VAR aAtivo						 INIT {}
-	VAR aAtivoSwap					 INIT {}
-   VAR aRecno						 INIT {}		
+	VAR aHistRecibo				INIT {}
+	VAR aUserRecibo			 	INIT {}
+	VAR aReciboImpresso		 	INIT {}
+	VAR aAtivo					INIT {}
+	VAR aAtivoSwap				INIT {}
+	VAR aRecno					INIT {}		
 	VAR aTodos                  INIT {}		
 	VAR aCodi                   INIT {}
 	VAR alMulta                 INIT {}

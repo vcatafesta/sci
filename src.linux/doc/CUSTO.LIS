@@ -1,0 +1,16 @@
+[configuracao]
+campos=6
+imprimir12cpi=1
+imprimircondensado=0
+
+[cabecalho]
+titulo=CODIGO COD. FABRIC.    DESCRICAO DO PRODUTO                     UN     QUANT    P.CUSTO
+relatorio=LISTA DE PRECOS - CUSTO
+
+[campos]
+campo6=TRAN(PCUSTO,"@E 999,999.99")
+campo5=TRAN(QUANT,  "999999.99")
+campo4=UN
+campo3=PONTO(DESCRICAO,40)
+campo2=N_ORIGINAL
+campo1=CODIGO

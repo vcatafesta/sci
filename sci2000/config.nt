@@ -1,0 +1,5 @@
+@ECHO OFF
+NTCMDPROMPT
+devicehigh=%SystemRoot%\system32\himem.sys
+dos=high, umb
+files=100

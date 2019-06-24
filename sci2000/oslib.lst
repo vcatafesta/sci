@@ -1,0 +1,38 @@
+OL_95APPTI........WIN95             OL_95VMTIT........WIN95
+OL_AUTOYIE........AUTYIELD          OL_ISMSWIN........ISMSWIN
+OL_ISNT...........ISNT              OL_ISOS2..........ISOS2
+OL_ISOS2WI........ISOS2WIN          OL_OSVERMA........DOSVER
+OL_OSVERMI........DOSVER            OL_WINCBCO........WINCLIP
+OL_WINCBPA........WINCLIP           OL_WINFULL........FULLSCRN
+OL_YIELD..........YIELD             _ol_yield.........YIELD
+
+
+DOSVER            Offset: 00000010H  Code and data size: 38H
+  OL_OSVERMA        OL_OSVERMI      
+
+ISMSWIN           Offset: 00000140H  Code and data size: 32H
+  OL_ISMSWIN      
+
+ISOS2             Offset: 00000260H  Code and data size: 26H
+  OL_ISOS2        
+
+ISOS2WIN          Offset: 00000370H  Code and data size: 2aH
+  OL_ISOS2WI      
+
+FULLSCRN          Offset: 00000490H  Code and data size: 14H
+  OL_WINFULL      
+
+AUTYIELD          Offset: 00000590H  Code and data size: b0H
+  OL_AUTOYIE      
+
+WINCLIP           Offset: 00000830H  Code and data size: 2acH
+  OL_WINCBCO        OL_WINCBPA      
+
+WIN95             Offset: 00000d90H  Code and data size: 240H
+  OL_95APPTI        OL_95VMTIT      
+
+ISNT              Offset: 00001200H  Code and data size: 28H
+  OL_ISNT         
+
+YIELD             Offset: 00001300H  Code and data size: 9fH
+  OL_YIELD          _ol_yield       

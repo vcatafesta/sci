@@ -1,0 +1,37 @@
+[configuracao]
+campos=29
+tamanhopagina=12
+espacamentovertical=1
+imprimirnegrito=0
+imprimir12cpi=0
+imprimircondensado=1
+[campos]
+campo029=10; 78; Tran( Recemov->Vlr, '@E 999,999.99')
+campo028=10; 65; Recemov->Vcto
+campo027=10; 47; Recemov->JuroDia
+campo026=10; 20; Tran( Recemov->Vlr, '@E 999,999.99')
+campo025=10; 01; Recemov->Vcto
+campo024=09; 50; Tran( Recemov->Vlr, '@E 999,999.99')
+campo023=09; 01; Tran( Recemov->Vlr, '@E 999,999.99')
+campo022=08; 50; Recemov->Docnr
+campo021=08; 01; Recemov->Docnr
+campo020=07; 79; Recemov->Vcto
+campo019=07; 50; Tran( Recemov->VlrFatu, '@E 999,999.99')
+campo018=07; 25; Recemov->Vcto
+campo017=07; 01; Tran( Recemov->VlrFatu, '@E 999,999.99')
+campo016=06; 79; Recemov->Emis
+campo015=06; 50; Recemov->Fatura
+campo014=06; 25; Recemov->Emis
+campo013=06; 01; Recemov->Fatura
+campo012=05; 79; Receber->Cida
+campo011=05; 50; Receber->Cep
+campo010=05; 25; Receber->Cida
+campo009=05; 01; Receber->Cep
+campo008=04; 50; Receber->Bair
+campo007=04; 01; Receber->Bair
+campo006=03; 50; Receber->Ende
+campo005=03; 01; Receber->Ende
+campo004=02; 50; Receber->Nome
+campo003=02; 01; Receber->Nome
+campo002=01; 50; Receber->Codi
+campo001=01; 01; Receber->Codi

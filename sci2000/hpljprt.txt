@@ -1,0 +1,50 @@
+Sending Escape Codes to the Hewlett Packard LaserJet
+by James H. Chuang
+
+Laser printers deliver high-quality printed output and have become more
+affordable recently. Hewlett Packard LaserJett printers are presently the
+most popular laser printers for use with PC/MS-DOS computers.
+
+dBASE III PLUS does not use printer drivers. It assumes only that the
+printer is capable of feeding paper continuously and can eject a page in
+response to a form-feed character. To use other features of the printer
+from within dBASE III PLUS, you need to send control codes to the printer.
+For many dBASE III PLUS users, this is the first trip to the dot prompt. If
+that isn't enough, the LaserJet's control codes are quite lengthy and
+cryptic compared with other printers. 
+
+Fortunately, there are many ways to get help with printer control codes.
+Chapter 12, "Printing," in Programming with dBASE III PLUS shows the
+techniques used to send printer control codes from the dot prompt. More
+information is available in the January 1988 TechNotes article, "Printing
+with Special Effects," by Naoma Stow. A program by Kent Irwin in the May
+1987 TechNotes demonstrates the use of .MEM files to create "printer
+drivers" for dBASE III PLUS, much like those in Framework II, MultiMate
+Advantage II, and RapidFile. Finally, in the December 1986 TechNotes, Ken
+Getz, Larry Abare, and Karen Robinson provided a solution using assembly
+language and dBASE III PLUS to maintain and access a table of commonly used
+printer control strings.
+
+LaserJet users now have an additional helper in the form of Laserprt.PRG.
+Laserprt is a simple program that's written specifically for Hewlett
+Packard LaserJet printers. With it, you can set the page orientation to
+portrait or landscape, select the standard font (Courier) or condensed
+(Line Printer), set the top, left, and right margins, and the text length.
+These are the control codes LaserJet users most often need to use with
+dBASE III PLUS. If you have font cartridges or download fonts to the
+LaserJet, you can modify Laserprt to take advantage of them.
+
+Laserprt should be entered into a program file by typing
+
+MODIFY COMMAND Laserprt
+
+at the dot prompt. 
+
+When you're through entering the program, save it by pressing Ctrl-W.
+Whenever you need to change the LaserJet's settings, just go to the dot
+prompt and enter
+
+DO Laserprt
+
+
+

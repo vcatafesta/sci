@@ -1,0 +1,25 @@
+gcc -Wall -D__WIN_SERVICE__ -c -Iinclude -Ic:\harbour/include -o obj\w32/letocl.o source\client/letocl.c
+gcc -Wall -D__WIN_SERVICE__ -c -Iinclude -Ic:\harbour/include -o obj\w32/leto1.o source\client/leto1.c
+gcc -Wall -D__WIN_SERVICE__ -c -Iinclude -Ic:\harbour/include -o obj\w32/letomgmn.o source\client/letomgmn.c
+gcc -Wall -D__WIN_SERVICE__ -c -Iinclude -Ic:\harbour/include -o obj\w32/hbip.o source\common/hbip.c
+gcc -Wall -D__WIN_SERVICE__ -c -Iinclude -Ic:\harbour/include -o obj\w32/common_c.o source\common/common_c.c
+gcc -Wall -D__WIN_SERVICE__ -c -Iinclude -Ic:\harbour/include -o obj\w32/blowfish.o source\common/blowfish.c
+c:\harbour/bin/harbour.exe source\client/rddsys.prg -i -n -q0 -w -es2 -gc0 -d__WIN_SERVICE__  -Ic:\harbour/include -iinclude -oobj\w32/rddsys.c source\client/rddsys.prg
+gcc -Wall -D__WIN_SERVICE__ -c -Iinclude -Ic:\harbour/include -o obj\w32/rddsys.o obj\w32/rddsys.c
+ar rc lib/librddleto.a obj\w32/letocl.o obj\w32/leto1.o obj\w32/letomgmn.o obj\w32/hbip.o obj\w32/common_c.o obj\w32/blowfish.o obj\w32/rddsys.o
+ar rc lib/libleto.a obj\w32/letocl.o obj\w32/hbip.o obj\w32/common_c.o obj\w32/blowfish.o
+c:\harbour/bin/harbour.exe source\server/server.prg -i -n -q0 -w -es2 -gc0 -d__WIN_SERVICE__  -Ic:\harbour/include -iinclude -oobj\w32/server.c source\server/server.prg
+gcc -Wall -D__WIN_SERVICE__ -c -Iinclude -Ic:\harbour/include -o obj\w32/server.o obj\w32/server.c
+c:\harbour/bin/harbour.exe source\common/common.prg -i -n -q0 -w -es2 -gc0 -d__WIN_SERVICE__  -Ic:\harbour/include -iinclude -oobj\w32/common.c source\common/common.prg
+gcc -Wall -D__WIN_SERVICE__ -c -Iinclude -Ic:\harbour/include -o obj\w32/common.o obj\w32/common.c
+gcc -Wall -D__WIN_SERVICE__ -c -Iinclude -Ic:\harbour/include -o obj\w32/leto_2.o source\server/leto_2.c
+gcc -Wall -D__WIN_SERVICE__ -c -Iinclude -Ic:\harbour/include -o obj\w32/letofunc.o source\server/letofunc.c
+gcc -Wall -D__WIN_SERVICE__ -c -Iinclude -Ic:\harbour/include -o obj\w32/letolist.o source\server/letolist.c
+gcc -Wall -D__WIN_SERVICE__ -c -Iinclude -Ic:\harbour/include -o obj\w32/letoacc.o source\server/letoacc.c
+gcc -Wall -D__WIN_SERVICE__ -c -Iinclude -Ic:\harbour/include -o obj\w32/letovars.o source\server/letovars.c
+gcc -Wall -D__WIN_SERVICE__ -c -Iinclude -Ic:\harbour/include -o obj\w32/leto_win.o source\server/leto_win.c
+gcc -Wall -D__WIN_SERVICE__ -c -Iinclude -Ic:\harbour/include -o obj\w32/errint.o source\server/errint.c
+c:\harbour/bin/harbour.exe source\server/errorsys.prg -i -n -q0 -w -es2 -gc0 -d__WIN_SERVICE__  -Ic:\harbour/include -iinclude -oobj\w32/errorsys.c source\server/errorsys.prg
+gcc -Wall -D__WIN_SERVICE__ -c -Iinclude -Ic:\harbour/include -o obj\w32/errorsys.o obj\w32/errorsys.c
+gcc -Wall -mwindows -obin/letodb.exe obj\w32/server.o obj\w32/common.o obj\w32/hbip.o obj\w32/common_c.o obj\w32/blowfish.o obj\w32/leto_2.o obj\w32/letofunc.o obj\w32/letolist.o obj\w32/letoacc.o obj\w32/letovars.o obj\w32/leto_win.o obj\w32/errint.o obj\w32/errorsys.o -Lc:\harbour/lib/win/mingw -Wl,--start-group -lhbvmmt -lhbrtl -lgtgui -lhblang -lhbrdd -lhbmacro -lhbpp -lrddntx -lrddcdx -lrddfpt -lhbsix -lhbcommon -lhbcpage -luser32 -lgdi32 -lwinspool -lcomctl32 -luuid -lkernel32 -lws2_32 -liphlpapi -Wl,--end-group
+rm obj\w32/server.c obj\w32/rddsys.c obj\w32/errorsys.c obj\w32/common.c

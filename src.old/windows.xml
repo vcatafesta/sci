@@ -1,0 +1,26 @@
+<NotepadPlus>
+    <Session activeView="0">
+        <mainView activeIndex="5">
+            <File firstVisibleLine="424" xOffset="0" scrollWidth="2401" startPos="11904" endPos="11904" selMode="0" lang="C++" encoding="860" filename="C:\sci\c.prg" backupFilePath="" originalFileLastModifTimestamp="1470207653" />
+            <File firstVisibleLine="2473" xOffset="0" scrollWidth="2401" startPos="78004" endPos="78004" selMode="0" lang="C++" encoding="860" filename="C:\sci\sci.prg" backupFilePath="" originalFileLastModifTimestamp="1470205906" />
+            <File firstVisibleLine="2" xOffset="0" scrollWidth="2401" startPos="813" endPos="813" selMode="0" lang="C#" encoding="860" filename="C:\sci\tmenu.prg" backupFilePath="" originalFileLastModifTimestamp="1470205317" />
+            <File firstVisibleLine="5219" xOffset="0" scrollWidth="2401" startPos="162200" endPos="162200" selMode="0" lang="C#" encoding="860" filename="C:\sci\suporte.prg" backupFilePath="" originalFileLastModifTimestamp="1469911251" />
+            <File firstVisibleLine="5763" xOffset="0" scrollWidth="2401" startPos="172214" endPos="172214" selMode="0" lang="C#" encoding="860" filename="C:\sci\apoio.prg" backupFilePath="" originalFileLastModifTimestamp="1470270613" />
+            <File firstVisibleLine="931" xOffset="0" scrollWidth="2401" startPos="29208" endPos="29218" selMode="0" lang="C#" encoding="860" filename="C:\sci\funcoes.prg" backupFilePath="" originalFileLastModifTimestamp="1470270564" />
+            <File firstVisibleLine="213" xOffset="0" scrollWidth="1984" startPos="8623" endPos="8650" selMode="0" lang="C++" encoding="-1" filename="C:\hb.src\contrib\hbnf\clrsel.prg" backupFilePath="" originalFileLastModifTimestamp="1469947216" />
+            <File firstVisibleLine="13" xOffset="0" scrollWidth="2401" startPos="2719" endPos="2719" selMode="0" lang="C++" encoding="860" filename="C:\sci\translate.ch" backupFilePath="" originalFileLastModifTimestamp="1470270754">
+                <Mark line="4" />
+            </File>
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="2401" startPos="6780" endPos="6780" selMode="0" lang="C++" encoding="860" filename="C:\sci\tambient.prg" backupFilePath="" originalFileLastModifTimestamp="1470268011" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="2401" startPos="55" endPos="55" selMode="0" lang="C#" encoding="-1" filename="C:\sci\teste.prg" backupFilePath="" originalFileLastModifTimestamp="1470268969" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="2401" startPos="52" endPos="450" selMode="0" lang="C#" encoding="-1" filename="C:\sci\class.prg" backupFilePath="" originalFileLastModifTimestamp="1470198031" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1" startPos="13071" endPos="13071" selMode="0" lang="C++" encoding="860" filename="C:\sci\recelan.prg" backupFilePath="" originalFileLastModifTimestamp="1470097317" />
+            <File firstVisibleLine="62" xOffset="0" scrollWidth="1984" startPos="1366" endPos="1366" selMode="0" lang="C#" encoding="860" filename="C:\sci\treceposi.prg" backupFilePath="" originalFileLastModifTimestamp="1469860576" />
+            <File firstVisibleLine="145" xOffset="0" scrollWidth="854" startPos="172" endPos="172" selMode="0" lang="C#" encoding="860" filename="C:\sci\CFG.PRG" backupFilePath="" originalFileLastModifTimestamp="1470097046" />
+            <File firstVisibleLine="366" xOffset="0" scrollWidth="2401" startPos="18784" endPos="18791" selMode="0" lang="C#" encoding="-1" filename="C:\harbouri\include\hbclass.ch" backupFilePath="" originalFileLastModifTimestamp="1470201680" />
+            <File firstVisibleLine="33" xOffset="0" scrollWidth="2401" startPos="1129" endPos="1129" selMode="0" lang="C#" encoding="-1" filename="C:\sci\sci.hbp" backupFilePath="" originalFileLastModifTimestamp="1470200634" />
+            <File firstVisibleLine="1493" xOffset="0" scrollWidth="2401" startPos="82573" endPos="82573" selMode="0" lang="C#" encoding="860" filename="C:\sci\nfe.prg" backupFilePath="" originalFileLastModifTimestamp="1470270831" />
+        </mainView>
+        <subView activeIndex="0" />
+    </Session>
+</NotepadPlus>

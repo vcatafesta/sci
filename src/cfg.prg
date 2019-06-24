@@ -1,7 +1,7 @@
 #include <sci.ch>
 
 #Define  XEXE            "SCI.EXE"
-#Define  XSISTEM_VERSAO  "- Vers„o r16042018_8.6.00_x32_64"
+#Define  XSISTEM_VERSAO  "- Vers„o r09082018_8.6.00_x32_64"
 #Define  XSISTEM_1       "Macrosoft SCI for Windows"
 #Define  XSISTEM_2       "Macrosoft SCI - CONTROLE ESTOQUE"
 #Define  XSISTEM_3       "Macrosoft SCI - CONTAS RECEBER"

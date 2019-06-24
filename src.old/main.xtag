@@ -1,0 +1,21 @@
+<!--
+################################################
+# xDevStudio Project - xdev@kssoftware.com.br  #
+# Created @ 26/07/2016 20:53:16                #
+#                                              #
+### Standard xDev TagList - Layout v1.5 ########
+-->
+<taglist>
+   <tag filename="C:\Harbour\prg\projeto.prg" name="AntComposto" args="<Valor>, <JuroMes>, <Vcto>, <Hoje> " scope="PUBLIC" type="ptFunction" line="165">
+   <tag filename="C:\Harbour\prg\projeto.prg" name="Jurodia" args="<nVlr>, <nJuro>, <nPeriodo> " scope="PUBLIC" type="ptFunction" line="201">
+   <tag filename="C:\Harbour\prg\projeto.prg" name="aJuroSimples" args="<nPrincipal>, <nTaxa>, <nTempo>, <nPeriodo> " scope="PUBLIC" type="ptFunction" line="216">
+   <tag filename="C:\Harbour\prg\projeto.prg" name="Main" args=" " scope="PUBLIC" type="ptFunction" line="9">
+   <tag filename="C:\Harbour\prg\projeto.prg" name="Teste_menu" args=" " scope="PUBLIC" type="ptProcedure" line="40">
+   <tag filename="C:\Harbour\prg\projeto.prg" name="Calc" args=" " scope="PUBLIC" type="ptProcedure" line="92">
+   <tag filename="C:\Harbour\prg\projeto.prg" name="CalculaCm" args="<nValor>, <dVcto> " scope="PUBLIC" type="ptFunction" line="369">
+   <tag filename="C:\Harbour\prg\projeto.prg" name="BrowseMain" args=" " scope="PUBLIC" type="ptProcedure" line="382">
+   <tag filename="C:\Harbour\prg\projeto.prg" name="DefProc" args="<oBrowse>, <nKey> " scope="PUBLIC" type="ptFunction" line="512">
+   <tag filename="C:\Harbour\prg\projeto.prg" name="Ambiente" args=" " scope="PUBLIC" type="ptProcedure" line="272">
+   <tag filename="C:\Harbour\prg\projeto.prg" name="aJuroComposto" args="<nPrincipal>, <nTaxa>, <nTempo>, <nPeriodo> " scope="PUBLIC" type="ptFunction" line="290">
+   <tag filename="C:\Harbour\prg\projeto.prg" name="TxEfetiva" args="<nValor>, <nJuroMes>, <dVcto>, <dAtual>, <nTipo> " scope="PUBLIC" type="ptFunction" line="329">
+</taglist>

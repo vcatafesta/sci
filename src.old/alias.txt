@@ -1,0 +1,5 @@
+ls=ls --color=auto $*
+dir=ls --color=auto $*
+l=ls --color=auto $*
+manage=@python C:\test\Django\eventex\manage.py $*
+c=@.\rmake sci $*

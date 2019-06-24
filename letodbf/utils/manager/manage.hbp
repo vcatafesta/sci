@@ -1,0 +1,22 @@
+# adapt path to base directory of HwGUI
+-env:HWGUI_DIR=D:\hwgui
+
+-o../../bin/manage
+-n
+-w
+-q0
+-es2
+
+-gui
+-mt
+-strip
+
+-i${HWGUI_DIR}/include
+-L${HWGUI_DIR}/lib
+-lhbxml
+-lhwgui
+-lprocmisc
+../../letodb.hbc
+
+manage.prg
+{win}-manifest=${HWGUI_DIR}/image/WindowsXP.Manifest

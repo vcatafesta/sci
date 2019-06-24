@@ -1,0 +1,100 @@
+* Visual Lib 2.0 - Vers∆o Shareware - 09/02/98 *
+------------------------------------------------
+
+Vers∆o shareware funcional da biblioteca gr†fica para Clipper mais f†cil
+e r†pida do mercado! Suporte a mouse, bot‰es e molduras 3D, janelas de
+di†logo e menus pull-down. Simplicidade no uso e facilidade para adaptaá∆o
+de programas j† desenvolvidos. Faáa o teste e comprove!
+
+1) Roteiro para uso da Visual Lib 2.0 - Shareware:
+
+   - Copie o arquivo VL2_SW.LIB para C:\CLIPPER5\LIB (ou equivalente);
+   - Copie o arquivo VISUAL2.CH para C:\CLIPPER5\INCLUDE (ou equivalente).
+
+2) Compilaá∆o/Linkediá∆o:
+
+   - CLIPPER DEMO;
+   - RTLINK FI DEMO LIB VL2_SW.
+
+3) Desenvolvimento:
+
+   - Tome como base o programa DEMO.PRG;
+   - Inclua em todos os arquivos fonte o header: #include "visual2.ch";
+   - Crie a †rvore de menus de seu aplicativo;
+   - Crie o LOOP principal para a funá∆o BarMenu();
+   - Utilize sempre VLExit() para finalizar o aplicativo.
+
+4) Menus Pull-Down - Instruá‰es:
+
+   O sistema de menus da Visual Lib evoluiu internamente, com tÇcnicas de
+   OOP (programaá∆o orientada a objeto) para suportar o uso do mouse nos
+   diversos n°veis de aninhamento. ê poss°vel clicar em qualquer item que
+   esteja dispon°vel, e ainda arrastar o mouse entre opá‰es do menu.
+
+   Algumas caracter°sticas do sistema de menu:
+
+   - Execuá∆o autom†tica, incluindo setas de sub-menus e posicionamento;
+   - Possibilidade de habilitar/desabilitar itens;
+   - Possibilidade de marcar/desmarcar itens com o caracter "˚";
+   - Possibilidade de adicionar linhas de separaá∆o entre itens.
+
+   Veja como Ç r†pido e profissional:
+
+   Roteiro para a criaá∆o de um menu Pull-Down
+   -------------------------------------------
+
+   A) Criar o menu de barra, utilizando a funá∆o NewBarMenu(). Exemplo:
+
+      mBar := NewBarMenu()
+
+   B) Criar os menus verticais que estar∆o vinculados Ö cada opá∆o do menu
+      de barra, utilizando a funá∆o NewDownMenu(). Exemplo:
+
+      mArq := NewDownMenu()  // Opá∆o "Arquivos" do menu de barra
+      mEdt := NewDownMenu()  // Opá∆o "Editar" do menu de barra
+      mArqAbr := NewDownMenu() // Sub-Menu de "Arquivos -> Abrir"
+      ... demais itens ...
+
+   C) Adicionar os itens ao menu de barra utilizando AddBarItem() e passando
+      os menus verticais como argumento. Exemplo:
+
+      AddBarItem( mBar, "&Arquivos", "", mArq )
+      AddBarItem( mBar, "&Editar"  , "", mEdt )
+
+   D) Adicionar os itens aos menus verticais utilizando AddDownItem(). Passe
+      blocos de c¢digo chamando suas funá‰es, ou um sub-menu quando for o
+      caso. Exemplo:
+
+      AddDownItem( mArq, "&Novo", "Novo arquivo", { || NovoArq() } )
+      AddDownItem( mArq, "&Abrir", "Abre arquivo", mArqAbr )
+
+   E) Adicionar os itens aos sub-menus, conforme item 4. Exemplo:
+
+      AddDownItem( mArqAbr, "TXT", "Abre arquivo TXT", { || AbreTxt() } )
+      AddDownItem( mArqAbr, "DBF", "Abre arquivo DBF", { || AbreDbf() } )
+
+   F) Ap¢s conclu°da a definiá∆o de toda a †rvore do menu, utilize BarMenu()
+      passando como argumento apenas o nome do menu de barra (raiz):
+
+      BarMenu( mBar )
+
+   G) O menu Pull-Down ser† executado automaticamente. BarMenu( mBar ) ir†
+      retornar quando o usu†rio teclar "Esc" no primeiro n°vel (barra).
+
+   H) Veja o arquivo DEMO.PRG para maiores detalhes.
+
+5) Restriá‰es da vers∆o Shareware:
+
+   - Espec°fica para Clipper 5.2;
+   - Espec°fica para RTLINK (pode funcionar com BLINKER);
+
+6) Recursos da vers∆o Full:
+
+   - Bibliotecas para Clipper 5.01, 5.2 e 5.3;
+   - Uso com RTLINK, BLINKER E EXOSPACE;
+   - Uso em janelas de DOS no Windows 3.X e Windows 95;
+   - Personalizaá∆o de cores;
+   - Personalizaá∆o de bot‰es;
+   - Funá‰es de suporte.
+
+* FINAL DE LEIAME.TXT *

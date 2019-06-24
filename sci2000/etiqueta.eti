@@ -1,0 +1,16 @@
+[configuracao]
+Campos=05
+Tamanho=35
+Margem=00
+Linhas=01
+Espacos=01
+Carreira=01
+Comprimir=0
+Vertical=1
+
+[campos]
+CODI
+NOME
+ENDE
+BAIR
+CEP

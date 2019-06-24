@@ -1,0 +1,45 @@
+#line 12 "c:\sci\include\rddName.ch"
+    EXTERNAL leto
+    EXTERNAL DBFNTX
+   EXTERNAL DBFCDX
+
+
+    EXTERNAL DBFFPT
+    EXTERNAL SIXCDX
+    EXTERNAL DBFNSX
+    EXTERNAL HB_MEMIO
+#line 3 "tmenu.prg"
+_HB_CLASS TMenu ; function TMenu ( ... ) ; STATIC s_oClass ; LOCAL nScope, oClass, oInstance ; IF s_oClass == NIL .AND. __clsLockDef( @s_oClass ) ; BEGIN SEQUENCE ; nScope := 1 ; ( ( nScope ) ) ; oClass := iif( .F.,, HBClass():new( "TMenu", iif( .T., { @TAmbiente() }, { @HBObject() } ), @TMenu() ) ) ;
+    nScope := 1 ; ( ( nScope ) )
+        _HB_MEMBER New(); oClass:AddMethod( "New", @TMenu_New(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+
+    public Menu1
+
+oClass:Create() ; ; ALWAYS ; __clsUnlockDef( @s_oClass, oClass ) ; end ; oInstance := oClass:Instance() ; IF __objHasMsg( oInstance, "InitClass" ) ; oInstance:InitClass( ... ) ; END ; RETURN oInstance ; END ; RETURN s_oClass:Instance() AS CLASS TMenu ;
+
+static FUNCTION TMenu_New( oOwner ) ; local Self AS CLASS TMenu := QSelf() AS CLASS TMenu
+
+   ::New( oOwner )
+
+
+         ::setvar()
+       ::StatusSup      := "MicroBras"
+       ::StatusInf      := ""
+         ::Panos          := ::SetPano()
+         ::Menu           := ::xMenu()
+       ::Disp           := ::xDisp()
+       ::Alterando      := .F.
+       ::Ativo          := 1
+       ::nPos           := 1
+       ::NomeFirma      := "MICROBRAS COM DE PROD DE INFORMATICA LTDA"
+       ::CodiFirma      := "0001"
+       ::StSupArray     := { ::StatusSup }
+       ::StInfArray     := { ::StatusInf }
+       ::MenuArray      := { ::Menu }
+       ::DispArray      := { ::Disp }
+
+
+return(self)
+
+Function TMenuNew()
+    return( TMenu():New())

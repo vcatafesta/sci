@@ -1,0 +1,30 @@
+Publics by module
+
+_chdir  	size = 34
+	__chdir                         
+
+_dirdir 	size = 79
+	___dirdir                       
+
+_ferror 	size = 390
+	____linelen                       ____newline
+	____xkey                          ____xkeyval
+	___bytesread                      ___ferror
+	___ferroraction                   ___ferrorclass
+	___ferrorlocus                    ___ferroroff
+	___ferrorseg                      ___linelen
+	___newline                        ___sharemode
+	___xkey                           ___xkeyval
+	__faction                         __fclass
+	__ferror                          __flocus
+	__getonferror                     __onferror
+	__set_ferror                      __set_xferror
+
+_mkdir  	size = 24
+	__mkdir                         
+
+chdir   	size = 32
+	FCHDIR                          
+
+mkdir   	size = 32
+	fmkdir                          

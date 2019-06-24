@@ -1,0 +1,16 @@
+hbmk2: Plataforma detectada: win
+hbmk2: Compilador C detectado automaticamente: mingw
+hbmk2: Usando Harbour: c:\oohg\hb32\bin c:\oohg\hb32\include
+       c:\oohg\hb32\lib\win\mingw c:\oohg\hb32\bin c:\oohg\hb32\contrib
+       c:\oohg\hb32\addons
+hbmk2: Usando compilador C: c:\oohg\hb32\comp\mingw\bin\gcc.exe
+hbmk2: Processando: c:\oohg\oohg.hbc
+Processando arquivo oohg.hbc
+Processando oohg.hbc:prgflags
+Processando oohg.hbc:inc=yes
+hbmk2: Harbour: Compilando m¢dulos...
+Harbour 3.2.0dev (r1503120841)
+Copyright (c) 1999-2015, http://harbour-project.org/
+letotray.prg(52) Error F0029  Can't open #include file 'windows.ch'
+hbmk2: Erro: Executando o compilador Harbour (interno): 1
+(c:\oohg\hb32\bin\harbour.exe) -n2 letotray.prg -p -b -DHBMK_HAS_OOHG=1 -q -o.hbmk\win\mingw\ -ic:\oohg\hb32\include -ic:\oohg\include -iC:\letodb\utils

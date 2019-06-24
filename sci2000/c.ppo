@@ -1,0 +1,2 @@
+DevPos( 10, 10 ) ; DevOut( "nome :" ) ; SetPos( Row(), Col()+1 ) ; AAdd( GetList, _GET_( cnome, "cnome", "@S", {||.T.}, ):display() )
+ReadModal(GetList) ; GetList := {}

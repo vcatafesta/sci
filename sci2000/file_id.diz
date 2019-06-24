@@ -1,0 +1,8 @@
+The object file contained herein fixes a
+problem when a Clipper program uses certain
+CA-TOOLS III functions and is run on fast
+Intel, Cyrix, and AMD CPUs. These processors
+run timing loops so fast that the Clipper
+program immediately terminates with an error
+message, usually "R6003 divide-by-zero" or
+"unexpected interrupt."

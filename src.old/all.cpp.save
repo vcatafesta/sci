@@ -1,0 +1,1254 @@
+#include "short.h"
+using namespace std;
+
+#define MS_uint         unsigned int
+#define MS_uchar        unsigned char
+#define MS_cchar        const char
+#define MS_int          int
+#define true            1
+#define false           0
+#define MS_uint         unsigned int
+#define MS_uchar        unsigned char
+#define MS_cchar        const char
+#define MS_ucchar       unsigned const char
+
+enum dias {Dom=1, Seg, Ter, Qua, Qui, Sex, Sab};
+
+void    tela(int icor, char *string);
+void    escreve( char *str);
+int     len(char *str);
+void    converte(void);
+void    testefor(void);
+int     strtoint(char *cchar);
+int     exchar(void);
+int     strlenx(void);
+long    *alocamem();
+bool    liberamem();
+int     nil();
+int     testemem(void);
+void    ClearScreen(void);
+void    romcksum();
+void    setpos(int row, int col);
+void    clear(char cchar, int BackColor);
+char    left(char *str, int pos);
+int     asc( char *str);
+char    *chr( int n);
+char    *replicate(char *str, int vezes);
+short   trocastr(char *dest, char* orig);
+void    gotoxy( int column, int line );
+void    devpos( int row, int col );
+string  space(int tam);
+void    box( int x1, int x2, int y1, int y2);
+int     ms_maxrow(void);
+int     ms_maxcol(void);
+void    aprint(int row, int col, char *str, int icor=0, int ilen=0);
+char    *inttostr(int val);
+void    cls( CHAR str, int icor);
+char *padc(char *exp, int nLenght, char cFillChar=32);
+
+struct TMenu {
+   int cormenu;
+   int corfundo;
+   int corcabec;
+   int panofundo;
+   int imaxcol;
+   int imaxrow;
+
+   void create() {
+      corcabec    = 31;
+      cormenu     = 23;
+      corfundo    = 252;
+      panofundo   = re176;
+      imaxcol     = ms_maxcol();
+      imaxrow     = ms_maxrow();
+
+      this->limpa();
+      this->statussup();
+      this->statusinf();
+   }
+
+   void statussup() {
+      aprint(00, 00, padc("E", imaxcol), corcabec);
+   }
+
+   void statusinf() {
+      aprint(imaxrow-1, 00, padc("BARRA DE STATUS", 79), corcabec);
+   }
+
+   void setcor(int icor) {
+      cormenu = icor;
+   }
+   int getcor() {
+      return(cormenu);
+   }
+
+   void limpa() {
+      tela(corfundo, panofundo);
+   }
+};
+static HANDLE hConsole   = GetStdHandle(STD_OUTPUT_HANDLE);
+static COORD coordScreen = {0, 0};
+static CONSOLE_SCREEN_BUFFER_INFO csbi;
+static CHAR_INFO chiFill;
+static DWORD cCharsWritten;
+static DWORD dwConSize;
+static DWORD dwMaxRow;
+static DWORD dwMaxCol;
+static TMenu omenu;
+
+int main2(void)
+{
+   //testemem();
+   ClearScreen();
+   //system("pause");
+   tela(10, "ABC");
+   cout << ms_maxrow() << endl;
+   cout << ms_maxcol() << endl;
+   cout << replicate("¦¦", ms_maxcol()+1) << endl;
+   MessageBox( NULL, "Teste de mensagem", "Atenção", MB_OK | MB_ICONINFORMATION | MB_SYSTEMMODAL );
+   return(0);
+}
+
+int testemem(void)
+{
+   bool lreturn;
+   lreturn = liberamem();
+   printf("Retorno: %s", lreturn ? "true" : "false");
+   return 0;
+}
+
+long *alocamem()
+{
+   long *ptr;
+   ptr = (long *) calloc( 100, sizeof(ptr));
+   printf("\nAlloc v1.00, r17082016, exemplo de uso da funcao Alloc()\n");
+   printf("Copyright 2016, Vilmar Catafesta\n\n");
+
+   if(!ptr) {
+      printf("Erro na alocacao");
+      exit(1);
+   }
+   printf("(ptr = %x) = Sucesso na alocacao de memoria.\n", ptr);
+   return(ptr);
+
+}
+
+bool liberamem()
+{
+   long *ptr;
+   ptr = alocamem();
+   free(ptr);
+   if(ptr != (long*) NULL) {
+      printf("(ptr = %x) = Erro na liberacao, free() nao funfou. Tentando novamente.\n", ptr);
+      ptr = (long*)nil();
+      if(ptr != (long*) NULL) {
+         printf("(ptr = %x) = Erro na liberacao", ptr);
+         exit(1);
+      }
+   }
+   printf("(ptr = %x) = Sucesso na liberacao de memoria.\n", ptr);
+   return(!ptr);
+}
+
+int nil()
+{
+   return(NULL);
+}
+
+
+// returns true if x and y are equal, false otherwise
+bool isEqual(int x, int y)
+{
+   return (x == y); // operator== returns true if x equals y, and false otherwise
+}
+
+int _bool()
+{
+   std::cout << "Enter an integer: ";
+   int x;
+   std::cin >> x;
+
+   std::cout << "Enter another integer: ";
+   int y;
+   std::cin >> y;
+
+   bool equal = isEqual(x, y);
+   printf("Retorno: %s\n", equal ? "true" : "false");
+
+   if (equal)
+      std::cout << x << " and " << y << " are equal" << std::endl;
+   else
+      std::cout << x << " and " << y << " are not equal" << std::endl;
+   return 0;
+}
+
+int ch()
+{
+   char ch(65);
+   std::cout << ch;
+   return 0;
+}
+
+//******************************************************************
+
+void tela(int icor, char *string)
+{
+   char *buffer = "";
+   int size     = 0;
+   int n        = 0;
+   int y        = 0;
+   int x        = (int)strlen(string);0;
+   int iTop     = 0;
+   int iLeft    = 0;
+   int iBottom  = ms_maxrow();
+   int iRight   = ms_maxcol();
+
+   size         = (int)(((iBottom-iTop)) * ((iRight-iLeft)));
+   buffer       = spacechar(size);
+
+   while( *buffer != '\0')
+   {
+      for (y=0; y<x; y++){
+         *buffer = string[y];
+         ++buffer;
+      }
+
+   *buffer ='\0';
+
+   //printf("%s", buffer);
+   cout << buffer << flush;
+   cout << replicate("-", iRight);
+   cout << "size:      :" <<size <<endl;
+   cout << "len(buffer):" <<len(buffer) <<endl;
+   cout << iBottom <<endl;
+   cout << iRight <<endl;
+
+   free (buffer);
+}
+
+/*
+ *******************************************************************************
+ */
+
+void escreve( char *str)
+{
+   int nlen = len(str);
+   int x;
+
+   for(x=0; x<nlen; x++) {
+      cout << " " << str[x] << endl;
+      cout << " " << (int)str[x] << endl;
+      //cout << putchar((int)str[x]) << " ";
+   }
+   cout <<endl<< str;
+}
+
+/*
+ *******************************************************************************
+ */
+
+int strlenx()
+{
+   char szInput[256];
+   printf("Enter a senten‡a: ");
+   gets(szInput);
+   printf("The senten‡a entrada tem %u caracteres tamanho.\n",(unsigned)strlen(szInput));
+   return 0;
+}
+
+int exchar()
+{
+   unsigned char* bla = (unsigned char*)"blabla";
+   int s = (int)strlen((char*)bla);
+   const char *ch;
+   ch = "i¨«";
+
+   cout<<"sizeof=ch=" << sizeof(ch)<<endl;
+   cout<<"strlen=ch=" << strlen((char*)ch)<<endl;
+
+   char *uch;
+   uch = (char*)ch;
+
+   cout<<"sizeof=uch=" << sizeof(uch)<<endl;
+   cout<<"strlen=uch=" << strlen((char*)uch)<<endl;
+
+   cout<<"12=ch="  << ch  << "=" << (char*) ch  <<endl;;
+   cout<<"13="     << (size_t) ch  <<endl;
+   cout<<"14=uch=" << uch << "=" << (char*) uch <<endl;;
+   cout<<"15="     << (size_t) uch <<endl;
+
+   cout<<"16="     << atol(uch) <<endl;
+   cout<<"16="     << s <<endl;
+
+
+   //printf("Char: %d bytes\n", sizeof(char));
+   //printf("Int: %d bytes\n", sizeof(int));
+   //printf("Float: %d bytes\n", sizeof(float));
+   //printf("Double: %d bytes\n", sizeof(double));
+
+   return 0;
+}
+
+int strtoint(char *cchar)
+{
+   return( atol(cchar));
+
+}
+
+void testefor()
+{
+   int size = 10;
+   int n;
+   int x = 3;
+   int y;
+
+   for (n=0; n<size;)
+      for (y=0; y<x; y++,n++)
+         cout << " n= " << n << " y= " << y <<endl;
+
+}
+
+//*********************************************************************
+
+int len( char *str)
+{
+   return((int)strlen(str));
+}
+
+//*********************************************************************
+void setpos(int row, int col)
+{
+   HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+   COORD cord;
+   cord.Y = row;
+   cord.X = col;
+   SetConsoleCursorPosition(hConsole, cord);
+}
+
+int colors()
+{
+   HANDLE hOut;
+
+   hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+
+   SetConsoleTextAttribute(hOut,
+                           BACKGROUND_RED|FOREGROUND_INTENSITY);
+   cout << "Red     " << flush;
+
+
+   SetConsoleTextAttribute(hOut,
+                           BACKGROUND_RED |
+                           BACKGROUND_INTENSITY);
+   cout << "Red     " << endl;
+
+   SetConsoleTextAttribute(hOut,
+                           BACKGROUND_GREEN);
+   cout << "Green   " << flush;
+   SetConsoleTextAttribute(hOut,
+                           BACKGROUND_GREEN |
+                           BACKGROUND_INTENSITY);
+   cout << "Green   " << endl;
+
+   SetConsoleTextAttribute(hOut,
+                           BACKGROUND_BLUE);
+   cout << "Blue    " << flush;
+   SetConsoleTextAttribute(hOut,
+                           BACKGROUND_BLUE |
+                           BACKGROUND_INTENSITY);
+   cout << "Blue    " << endl;
+
+   SetConsoleTextAttribute(hOut,
+                           BACKGROUND_RED |
+                           BACKGROUND_GREEN);
+   cout << "Yellow  " << flush;
+   SetConsoleTextAttribute(hOut,
+                           BACKGROUND_RED |
+                           BACKGROUND_GREEN |
+                           BACKGROUND_INTENSITY);
+   cout << "Yellow  " << endl;
+
+   SetConsoleTextAttribute(hOut,
+                           BACKGROUND_GREEN |
+                           BACKGROUND_BLUE);
+   cout << "Cyan    " << flush;
+   SetConsoleTextAttribute(hOut,
+                           BACKGROUND_GREEN |
+                           BACKGROUND_BLUE |
+                           BACKGROUND_INTENSITY);
+   cout << "Cyan    " << endl;
+
+   SetConsoleTextAttribute(hOut,
+                           BACKGROUND_BLUE |
+                           BACKGROUND_RED);
+   cout << "Magenta " << flush;
+   SetConsoleTextAttribute(hOut,
+                           BACKGROUND_BLUE |
+                           BACKGROUND_RED |
+                           BACKGROUND_INTENSITY);
+   cout << "Magenta " << endl;
+
+   SetConsoleTextAttribute(hOut,
+                           BACKGROUND_RED |
+                           BACKGROUND_GREEN |
+                           BACKGROUND_BLUE);
+   cout << "White   " << flush;
+   SetConsoleTextAttribute(hOut,
+                           BACKGROUND_RED |
+                           BACKGROUND_GREEN |
+                           BACKGROUND_BLUE |
+                           BACKGROUND_INTENSITY);
+   cout << "White   " << endl;
+
+   return 0;
+}
+
+
+void converte()
+{
+
+   char *string = "ABC";
+   char c = 176;
+   int i  = (int)(c);
+   int nlen = len(string);
+   int x;
+
+
+   std::cout << nlen << std::endl;
+   std::cout << c << std::endl;
+   std::cout << i << std::endl;
+   for(x=0; x<nlen; x++) {
+      cout << (int)string[x];
+      putchar((int)string);
+   }
+   cout <<endl<< string;
+}
+
+int ex02( void )
+{
+   HANDLE hStdout;
+   CONSOLE_SCREEN_BUFFER_INFO csbiInfo;
+   SMALL_RECT srctScrollRect, srctClipRect;
+   CHAR_INFO chiFill;
+   COORD coordDest;
+   int i;
+
+   printf("\nPrinting 20 lines for reference. ");
+   printf("Notice that line 6 is discarded during scrolling.\n");
+   for(i=0; i<=20; i++)
+      printf("%d\n", i);
+
+   hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+
+   if (hStdout == INVALID_HANDLE_VALUE) {
+      printf("GetStdHandle failed with %d\n", GetLastError());
+      return 1;
+   }
+
+   // Get the screen buffer size.
+
+   if (!GetConsoleScreenBufferInfo(hStdout, &csbiInfo)) {
+      printf("GetConsoleScreenBufferInfo failed %d\n", GetLastError());
+      return 1;
+   }
+
+   // The scrolling rectangle is the bottom 15 rows of the
+   // screen buffer.
+
+   srctScrollRect.Top = csbiInfo.dwSize.Y - 16;
+   srctScrollRect.Bottom = csbiInfo.dwSize.Y - 1;
+   srctScrollRect.Left = 0;
+   srctScrollRect.Right = csbiInfo.dwSize.X - 1;
+
+   // The destination for the scroll rectangle is one row up.
+
+   coordDest.X = 0;
+   coordDest.Y = csbiInfo.dwSize.Y - 17;
+
+   // The clipping rectangle is the same as the scrolling rectangle.
+   // The destination row is left unchanged.
+
+   srctClipRect = srctScrollRect;
+
+   // Fill the bottom row with green blanks.
+
+   chiFill.Attributes = BACKGROUND_GREEN | BACKGROUND_INTENSITY;
+   chiFill.Char.AsciiChar = (char)176;
+
+   // Scroll up one line.
+
+   if(!ScrollConsoleScreenBuffer(
+            hStdout,         // screen buffer handle
+            &srctScrollRect, // scrolling rectangle
+            &srctClipRect,   // clipping rectangle
+            coordDest,       // top left destination cell
+            &chiFill)) {     // fill character and color
+      printf("ScrollConsoleScreenBuffer failed %d\n", GetLastError());
+      return 1;
+   }
+   return 0;
+}
+
+HANDLE hStdout;
+
+int ScrollByAbsoluteCoord(int iRows)
+{
+   CONSOLE_SCREEN_BUFFER_INFO csbiInfo;
+   SMALL_RECT srctWindow;
+
+   // Get the current screen buffer size and window position.
+
+   if (! GetConsoleScreenBufferInfo(hStdout, &csbiInfo)) {
+      printf("GetConsoleScreenBufferInfo (%d)\n", GetLastError());
+      return 0;
+   }
+
+   // Set srctWindow to the current window size and location.
+
+   srctWindow = csbiInfo.srWindow;
+
+   // Check whether the window is too close to the screen buffer top
+
+   if ( srctWindow.Top >= iRows ) {
+      srctWindow.Top -= (SHORT)iRows;     // move top up
+      srctWindow.Bottom -= (SHORT)iRows;  // move bottom up
+
+      if (! SetConsoleWindowInfo(
+               hStdout,          // screen buffer handle
+               TRUE,             // absolute coordinates
+               &srctWindow)) {   // specifies new location
+         printf("SetConsoleWindowInfo (%d)\n", GetLastError());
+         return 0;
+      }
+      return iRows;
+   } else {
+      printf("\nCannot scroll; the window is too close to the top.\n");
+      return 0;
+   }
+}
+
+int ScrollByRelativeCoord(int iRows)
+{
+   CONSOLE_SCREEN_BUFFER_INFO csbiInfo;
+   SMALL_RECT srctWindow;
+
+   // Get the current screen buffer window position.
+
+   if (! GetConsoleScreenBufferInfo(hStdout, &csbiInfo)) {
+      printf("GetConsoleScreenBufferInfo (%d)\n", GetLastError());
+      return 0;
+   }
+
+   // Check whether the window is too close to the screen buffer top
+
+   if (csbiInfo.srWindow.Top >= iRows) {
+      srctWindow.Top =- (SHORT)iRows;     // move top up
+      srctWindow.Bottom =- (SHORT)iRows;  // move bottom up
+      srctWindow.Left = 0;         // no change
+      srctWindow.Right = 0;        // no change
+
+      if (! SetConsoleWindowInfo(
+               hStdout,          // screen buffer handle
+               FALSE,            // relative coordinates
+               &srctWindow)) {   // specifies new location
+         printf("SetConsoleWindowInfo (%d)\n", GetLastError());
+         return 0;
+      }
+      return iRows;
+   } else {
+      printf("\nCannot scroll; the window is too close to the top.\n");
+      return 0;
+   }
+}
+
+int ex04(void)
+{
+   HANDLE hStdout, hNewScreenBuffer;
+   SMALL_RECT srctReadRect;
+   SMALL_RECT srctWriteRect;
+   CHAR_INFO chiBuffer[160]; // [2][80];
+   COORD coordBufSize;
+   COORD coordBufCoord;
+   BOOL fSuccess;
+
+   // Get a handle to the STDOUT screen buffer to copy from and
+   // create a new screen buffer to copy to.
+
+   hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+   hNewScreenBuffer = CreateConsoleScreenBuffer(
+                         GENERIC_READ |           // read/write access
+                         GENERIC_WRITE,
+                         FILE_SHARE_READ |
+                         FILE_SHARE_WRITE,        // shared
+                         NULL,                    // default security attributes
+                         CONSOLE_TEXTMODE_BUFFER, // must be TEXTMODE
+                         NULL);                   // reserved; must be NULL
+   if (hStdout == INVALID_HANDLE_VALUE ||
+         hNewScreenBuffer == INVALID_HANDLE_VALUE) {
+      printf("CreateConsoleScreenBuffer failed - (%d)\n", GetLastError());
+      return 1;
+   }
+
+   // Make the new screen buffer the active screen buffer.
+
+   if (! SetConsoleActiveScreenBuffer(hNewScreenBuffer) ) {
+      printf("SetConsoleActiveScreenBuffer failed - (%d)\n", GetLastError());
+      return 1;
+   }
+
+   // Set the source rectangle.
+
+   srctReadRect.Top = 0;    // top left: row 0, col 0
+   srctReadRect.Left = 0;
+   srctReadRect.Bottom = 1; // bot. right: row 1, col 79
+   srctReadRect.Right = 79;
+
+   // The temporary buffer size is 2 rows x 80 columns.
+
+   coordBufSize.Y = 2;
+   coordBufSize.X = 80;
+
+   // The top left destination cell of the temporary buffer is
+   // row 0, col 0.
+
+   coordBufCoord.X = 0;
+   coordBufCoord.Y = 0;
+
+   // Copy the block from the screen buffer to the temp. buffer.
+
+   fSuccess = ReadConsoleOutput(
+                 hStdout,        // screen buffer to read from
+                 chiBuffer,      // buffer to copy into
+                 coordBufSize,   // col-row size of chiBuffer
+                 coordBufCoord,  // top left dest. cell in chiBuffer
+                 &srctReadRect); // screen buffer source rectangle
+   if (! fSuccess) {
+      printf("ReadConsoleOutput failed - (%d)\n", GetLastError());
+      return 1;
+   }
+
+   // Set the destination rectangle.
+
+   srctWriteRect.Top = 10;    // top lt: row 10, col 0
+   srctWriteRect.Left = 0;
+   srctWriteRect.Bottom = 11; // bot. rt: row 11, col 79
+   srctWriteRect.Right = 79;
+
+   // Copy from the temporary buffer to the new screen buffer.
+
+   fSuccess = WriteConsoleOutput(
+                 hNewScreenBuffer, // screen buffer to write to
+                 chiBuffer,        // buffer to copy from
+                 coordBufSize,     // col-row size of chiBuffer
+                 coordBufCoord,    // top left src cell in chiBuffer
+                 &srctWriteRect);  // dest. screen buffer rectangle
+   if (! fSuccess) {
+      printf("WriteConsoleOutput failed - (%d)\n", GetLastError());
+      return 1;
+   }
+   Sleep(1000);
+
+   // Restore the original active screen buffer.
+
+   if (! SetConsoleActiveScreenBuffer(hStdout)) {
+      printf("SetConsoleActiveScreenBuffer failed - (%d)\n", GetLastError());
+      return 1;
+   }
+
+   return 0;
+}
+
+int ex05(void)
+{
+   HANDLE hStdout, hNewScreenBuffer;
+   SMALL_RECT srctReadRect;
+   SMALL_RECT srctWriteRect;
+   CHAR_INFO chiBuffer[160]; // [2][80];
+   COORD coordBufSize;
+   COORD coordBufCoord;
+   BOOL fSuccess;
+
+   // Get a handle to the STDOUT screen buffer to copy from and
+   // create a new screen buffer to copy to.
+
+   hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+   hNewScreenBuffer = CreateConsoleScreenBuffer(
+                         GENERIC_READ |           // read/write access
+                         GENERIC_WRITE,
+                         FILE_SHARE_READ |
+                         FILE_SHARE_WRITE,        // shared
+                         NULL,                    // default security attributes
+                         CONSOLE_TEXTMODE_BUFFER, // must be TEXTMODE
+                         NULL);                   // reserved; must be NULL
+   if (hStdout == INVALID_HANDLE_VALUE ||
+         hNewScreenBuffer == INVALID_HANDLE_VALUE) {
+      printf("CreateConsoleScreenBuffer failed - (%d)\n", GetLastError());
+      return 1;
+   }
+
+   // Make the new screen buffer the active screen buffer.
+
+   if (! SetConsoleActiveScreenBuffer(hNewScreenBuffer) ) {
+      printf("SetConsoleActiveScreenBuffer failed - (%d)\n", GetLastError());
+      return 1;
+   }
+
+   // Set the source rectangle.
+
+   srctReadRect.Top = 0;    // top left: row 0, col 0
+   srctReadRect.Left = 0;
+   srctReadRect.Bottom = 1; // bot. right: row 1, col 79
+   srctReadRect.Right = 79;
+
+   // The temporary buffer size is 2 rows x 80 columns.
+
+   coordBufSize.Y = 2;
+   coordBufSize.X = 80;
+
+   // The top left destination cell of the temporary buffer is
+   // row 0, col 0.
+
+   coordBufCoord.X = 0;
+   coordBufCoord.Y = 0;
+
+   // Copy the block from the screen buffer to the temp. buffer.
+
+   fSuccess = ReadConsoleOutput(
+                 hStdout,        // screen buffer to read from
+                 chiBuffer,      // buffer to copy into
+                 coordBufSize,   // col-row size of chiBuffer
+                 coordBufCoord,  // top left dest. cell in chiBuffer
+                 &srctReadRect); // screen buffer source rectangle
+   if (! fSuccess) {
+      printf("ReadConsoleOutput failed - (%d)\n", GetLastError());
+      return 1;
+   }
+
+   // Set the destination rectangle.
+
+   srctWriteRect.Top = 10;    // top lt: row 10, col 0
+   srctWriteRect.Left = 0;
+   srctWriteRect.Bottom = 11; // bot. rt: row 11, col 79
+   srctWriteRect.Right = 79;
+
+   // Copy from the temporary buffer to the new screen buffer.
+
+   fSuccess = WriteConsoleOutput(
+                 hNewScreenBuffer, // screen buffer to write to
+                 chiBuffer,        // buffer to copy from
+                 coordBufSize,     // col-row size of chiBuffer
+                 coordBufCoord,    // top left src cell in chiBuffer
+                 &srctWriteRect);  // dest. screen buffer rectangle
+   if (! fSuccess) {
+      printf("WriteConsoleOutput failed - (%d)\n", GetLastError());
+      return 1;
+   }
+   Sleep(5000);
+
+   // Restore the original active screen buffer.
+
+   if (! SetConsoleActiveScreenBuffer(hStdout)) {
+      printf("SetConsoleActiveScreenBuffer failed - (%d)\n", GetLastError());
+      return 1;
+   }
+
+   return 0;
+}
+
+BOOL CtrlHandler( DWORD fdwCtrlType )
+{
+   switch( fdwCtrlType ) {
+   // Handle the CTRL-C signal.
+   case CTRL_C_EVENT:
+      printf( "Ctrl-C event\n\n" );
+      Beep( 750, 300 );
+      return( TRUE );
+
+   // CTRL-CLOSE: confirm that the user wants to exit.
+   case CTRL_CLOSE_EVENT:
+      Beep( 600, 200 );
+      printf( "Ctrl-Close event\n\n" );
+      return( TRUE );
+
+   // Pass other signals to the next handler.
+   case CTRL_BREAK_EVENT:
+      Beep( 900, 200 );
+      printf( "Ctrl-Break event\n\n" );
+      return FALSE;
+
+   case CTRL_LOGOFF_EVENT:
+      Beep( 1000, 200 );
+      printf( "Ctrl-Logoff event\n\n" );
+      return FALSE;
+
+   case CTRL_SHUTDOWN_EVENT:
+      Beep( 750, 500 );
+      printf( "Ctrl-Shutdown event\n\n" );
+      return FALSE;
+
+   default:
+      return FALSE;
+   }
+}
+
+int ex06( void )
+{
+   if( SetConsoleCtrlHandler( (PHANDLER_ROUTINE) CtrlHandler, TRUE ) ) {
+      printf( "\nThe Control Handler is installed.\n" );
+      printf( "\n -- Now try pressing Ctrl+C or Ctrl+Break, or" );
+      printf( "\n    try logging off or closing the console...\n" );
+      printf( "\n(...waiting in a loop for events...)\n\n" );
+
+      while( 1 ) { }
+   } else {
+      printf( "\nERROR: Could not set control handler");
+      return 1;
+   }
+   return 0;
+}
+
+
+
+int _malloc_()
+{
+   struct xx {
+      int numl;
+      char chl;
+   };
+
+   struct xx *ptr;
+   int j;
+   printf("\nMalloc v1.00, r17082016, exemplo de uso da funcao malloc()\n");
+   printf("Copyright 2016, Vilmar Catafesta\n\n");
+
+   printf("sizeof(struct xx) = %d\n", sizeof(struct xx));
+   for(j=0; j<4; j++) {
+      ptr = (struct xx *) malloc(sizeof(struct xx));
+      printf("ptr = %x\n", ptr);
+   }
+   return 0;
+}
+
+//********************************************************************************
+
+int _short()
+{
+   //ms_int x;
+   //ms_int *ptr = &x;
+
+   char *xNome = "VILMAR";
+   char *xSobrenome = "MACROSOFT SISTEMAS";
+   string cnome = "VILMAR";
+   string sobrenome = "CATAFESTA";
+   string y = "???";
+   char ch;
+
+   ClearScreen();
+   cout << "Tecle algo para iniciar. X para sair" << flush;
+   while ((ch = _getch()) != 'X') {
+      clear(ch, ch);
+   }
+
+   if (trocastr(xNome, xSobrenome))
+      cout << "TROCA EFETUADA COM SUCESSO.";
+
+   //cls(178);
+   //clear(99);
+   //box(10,10,30,50);
+
+   //tela("???");
+   setpos(00, 00);
+   cout << replicate(" ", 80);
+   setpos(00, 00);
+   cout << xNome;
+
+   setpos(10, 10);
+   cout << "Nome.....: " << replicate("?", 20);
+   //box(10,10,30,50);
+
+
+   _getch();
+
+   /*
+    devpos(1,0); cout << replicate("??VILMAR&EVILI??", 80);
+    for(*ptr=0;*ptr<max_int;*ptr++)
+       {
+        devpos(10,00);cout << replicate("=", 80);
+
+        devpos(11,10);cout << "sizeof(x)   :"  << sizeof(x)    << bytes;
+        devpos(12,10);cout << "sizeof(&x)  :"  << sizeof(&x)   << bytes;
+        devpos(13,10);cout << "sizeof(*ptr):"  << sizeof(*ptr) << bytes;
+        devpos(14,10);cout << "sizeof(ptr) :"  << sizeof(ptr)  << bytes;
+        devpos(15,10);cout << "ptr         :"  << ptr  ;
+        devpos(16,10);cout << "*ptr        :"  << *ptr ;
+        devpos(17,10);cout << "x           :"  << x    ;
+        devpos(18,10);cout << "&x          :"  << &x   ;
+        devpos(19,00);cout << replicate("=", 80);
+       }
+
+    */
+
+   /*
+       SINT success;
+       char buff[] = "VILMAR";
+
+       printf("sizeof(x): %d\n", sizeof(x));
+       if( success = trocastr( buff)){
+           printf("nome: %s\n", buff);
+           printf("retorno success: %d\n", success);
+           printf("sizeof(sucesso): %d\n", sizeof(success));
+       }
+
+       for(int i=1; i<=(int) strlen(buff);i++)
+       printf("left: %c %d\n", left(buff,i), chr(left(buff,i)));
+       cout << "replicate: " << replicate(chr(176),10) << endl;
+    */
+
+   /*
+       for(int x=32; x<91;x++){
+          char *ch = chr(x);
+          y += ch;
+          cout << cnome + ' ' + sobrenome;
+                    cout << " chr: " << ch;
+                    cout << " asc: " << asc(ch);
+                    cout << " replicate: " << replicate(ch,20) <<endl;
+               }
+               cout << cnome.size()         << endl;
+               cout << cnome.max_size()     << endl;
+               cout << sobrenome.size()     << endl;;
+               cout << sobrenome.max_size() << endl;
+               cout << y.c_str()            <<endl;
+               cout << y.size()             <<endl;
+               if(y.c_str())
+                   cout << 1;
+               else
+                   cout << 0;
+
+       //cout << cx <<endl;
+       //getch();
+
+    */
+   return 0;
+}
+
+short trocastr(char *dest, char* orig)
+//========================================
+{
+   short success;
+   char *temp;
+   temp = strcpy(dest, orig);
+   if (temp)
+      success = 1;
+   else
+      success = 0;
+
+   return success;
+
+   //int i;
+   //for(i=0 ; i < strlen(orig) ; i++)
+   //    dest[i] = orig[i];
+   //dest[i]='\0';
+
+   //return 1;
+}
+
+char left(char *str, int pos)
+/*===========================
+
+   Esta funcao faz...  Ela retorna um
+   success flag. */
+
+{
+   int ch;
+   ch = str[--pos];
+   if (ch) {
+      return (ch);
+   } else {
+      return ( NULL);
+   }
+
+}
+
+int asc(char *str)
+/*==================
+
+   Esta funcao faz...  Ela retorna um
+   success flag. */
+
+{
+   /*
+   int ch = str[0];
+   cout << "funcao asc():" << str << endl;
+   cout << "funcao asc():" << ch << endl;
+    */
+   return (*str);
+}
+
+char *chr(int n)
+//==============
+{
+   char *ch = "";
+   sprintf(ch, "%c", (char) n);
+   sprintf(ch, "%c", n);
+   return (ch);
+}
+
+char *replicate(char *str, int vezes)
+//===================================
+
+{
+   int x;
+   int y;
+   int lenstr = (int) strlen(str);
+   int tam    = lenstr * vezes;
+   //char *ptr = (char*) malloc(tam);
+   char *ptr = (char*) calloc(tam, sizeof(ptr));
+
+   for (x = 0; x < tam;)
+      for (y = 0; y < lenstr; y++, x++) {
+         ptr[x] = str[y];
+      }
+   return( ptr );
+}
+
+void gotoxy(int column, int line)
+{
+   COORD coord;
+   coord.X = column;
+   coord.Y = line;
+   SetConsoleCursorPosition(
+      GetStdHandle(STD_OUTPUT_HANDLE),
+      coord
+   );
+}
+
+int wherex()
+{
+   CONSOLE_SCREEN_BUFFER_INFO csbi;
+   COORD result;
+   if (!GetConsoleScreenBufferInfo(
+            GetStdHandle(STD_OUTPUT_HANDLE),
+            &csbi
+         ))
+      return -1;
+   return result.X;
+}
+
+int wherey()
+{
+   CONSOLE_SCREEN_BUFFER_INFO csbi;
+   COORD result;
+   if (!GetConsoleScreenBufferInfo(
+            GetStdHandle(STD_OUTPUT_HANDLE),
+            &csbi
+         ))
+      return -1;
+   return result.Y;
+}
+
+void devpos(int row, int col)
+{
+   gotoxy(col, row);
+}
+
+string space(int tam)
+{
+   string x;
+   x.assign(tam, ' ');
+   return (x);
+}
+
+void box(int x1, int x2, int y1, int y2)
+{
+   char c1 = 'Ú';
+   char c2 = 191;
+   char c3 = 192;
+   char c4 = 217;
+   char c5 = 196;
+   char c6 = 179;
+   int i;
+
+   devpos(x1, x2);
+   putch(c1);
+   for (i = x2; i < y2; i++)
+      putch(c5);
+   putch(c2);
+   for (i = x1 + 1; i < y1; i++) {
+      puts("\n");
+      devpos(i, x2);
+      putch(c6);
+      devpos(i, y2 + 1);
+      putch(c6);
+   }
+   devpos(y1, x2);
+   putch(c3);
+   for (i = x2; i < y2; i++)
+      putch(c5);
+   putch(c4);
+}
+
+//********************************************************************************
+
+void romcksum()
+#define ROWMAX 25
+#define COLMAX 80
+
+{
+   int far *farptr;
+   int row;
+   int col;
+   char ch;
+
+   cout << "Digite um caractere:";
+   farptr = (int far *) 0xB8000000;
+   while ((ch = getche()) != 'X')
+      for (row = 0; row < ROWMAX; row++)
+         for (col = 0; col < COLMAX; col++)
+            *(farptr + row * COLMAX + col) = ch | 0x0700;
+
+}
+
+//********************************************************************************
+
+void cls( CHAR str, int icor )
+{
+
+   if (!GetConsoleScreenBufferInfo(hConsole, &csbi)) {
+      return;
+   }
+
+   dwConSize = csbi.dwSize.X * csbi.dwSize.Y;
+   if (!FillConsoleOutputCharacter(hConsole,    // Handle to console screen buffer
+                                   (TCHAR) str, // ' ',     // Character to write to the buffer
+                                   dwConSize,   // Number of cells to write
+                                   coordScreen, // Coordinates of first cell
+                                   &cCharsWritten)) { // Receive number of characters written
+      return;
+   }
+
+   if (!GetConsoleScreenBufferInfo(hConsole, &csbi)) {
+      return;
+   }
+
+   if (!FillConsoleOutputAttribute(hConsole,       // Handle to console screen buffer
+                                   icor,           // Character attributes to use
+                                   dwConSize,      // Number of cells to set attribute
+                                   coordScreen,    // Coordinates of first cell
+                                   &cCharsWritten)) { // Receive number of characters written
+      return;
+   }
+   SetConsoleCursorPosition(hConsole, coordScreen);
+}
+
+//********************************************************************************
+
+void clear(char cchar, int BackColor)
+{
+   // home for the cursor
+   hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+   // Get the number of character cells in the current buffer
+   if (!GetConsoleScreenBufferInfo(hConsole, &csbi))
+      return;
+
+   dwConSize = csbi.dwSize.X * csbi.dwSize.Y;
+   chiFill.Attributes = BackColor;
+   chiFill.Char.AsciiChar = cchar;
+
+   // Fill the entire screen with blanks
+   if (!FillConsoleOutputCharacter(hConsole, chiFill.Char.AsciiChar, dwConSize, coordScreen, &cCharsWritten))
+      return;
+
+   // Set the buffer's attributes accordingly.
+   if (!FillConsoleOutputAttribute(hConsole, chiFill.Attributes, dwConSize, coordScreen, &cCharsWritten))
+      return;
+
+   // SetConsoleTextAttribute(hConsole, BackColor);
+
+   if (!GetConsoleScreenBufferInfo(hConsole, &csbi))
+      return;
+
+   SetConsoleCursorPosition(hConsole, coordScreen);
+}
+//==============================================================================
+void ClearScreen(void)
+{
+   DWORD dummy;
+   COORD Home = {0, 0};
+   FillConsoleOutputCharacter(hConsole, ' ',
+                              csbi.dwSize.X * csbi.dwSize.Y,
+                              Home, &dummy);
+}
+//==============================================================================
+void troca_string(string &palavra)
+{
+   cout<<"Insira uma nova palavra:";
+   getline(cin, palavra);
+}
+//==============================================================================
+int troca(void)
+{
+   string palavra;
+   cout << "Insira uma palavra:" ;
+   getline( cin, palavra );
+   troca_string( palavra );
+   cout << "a nova palavra ‚ : " << palavra << endl;
+   return 0;
+}
+//==============================================================================
+int ms_maxrow(void)
+{
+   GetConsoleScreenBufferInfo(hConsole, &csbi);
+   return(csbi.dwMaximumWindowSize.Y);
+}
+//==============================================================================
+int ms_maxcol(void)
+{
+   GetConsoleScreenBufferInfo(hConsole, &csbi);
+   return(csbi.dwMaximumWindowSize.X);
+}
+//==============================================================================
+void aprint(int row,
+            int col,
+            char *str,
+            int cor,
+            int ilen)
+{
+   if( ilen == 0)
+      ilen = len(str);
+   if( cor == 0)
+      cor = omenu.corfundo;
+   SetConsoleTextAttribute(hConsole, cor);
+   setpos(row, col);
+   cout << str << flush;
+}
+//==============================================================================
+char *inttostr(int val)
+{
+   char *temp;
+
+   temp = "";
+   return(itoa(val, temp, 10));
+}
+//==============================================================================
+char *padc(char *exp, int nLenght, char cFillChar)
+{
+   char *buffer = (char*)malloc(nLenght);
+   int nlen  = len(exp);
+   int nmeio = (nLenght-nlen)/2;
+   if(cFillChar == NULL)
+      cFillChar = 32;
+
+   for(int x=0; x<nmeio; x++)
+      buffer[x] = cFillChar;
+
+   int y = 0;
+   for(int x=nmeio; x<nmeio+nlen; x++, y++)
+      buffer[x] = exp[y];
+
+   for(int x=nmeio+nlen; x<nLenght; x++)
+      buffer[x] = cFillChar;
+
+   return( buffer);
+}
+
+//********************************************************************************

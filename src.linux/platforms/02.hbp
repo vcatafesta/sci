@@ -1,0 +1,16 @@
+# 
+# $Id: 
+# 
+ 
+# HbIDE <Project>
+# HbIDE    <Version:2.0>
+# HbIDE       <GENERAL>
+# HbIDE          cProjPath        = C:/qtcontribs/bin/platforms/02.hbp
+# HbIDE          cProjName        = 02
+# HbIDE          cProjType        = Executable
+# HbIDE          cOutName         = 02
+# HbIDE          cGT              = gtWIN
+# HbIDE       </GENERAL>
+# HbIDE    </Version:2.0>
+# HbIDE </Project>
+

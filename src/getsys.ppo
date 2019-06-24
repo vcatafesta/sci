@@ -1,0 +1,960 @@
+#line 12 "c:\sci\include\rddName.ch"
+    EXTERNAL leto
+    EXTERNAL DBFNTX
+   EXTERNAL DBFCDX
+
+
+    EXTERNAL DBFFPT
+    EXTERNAL SIXCDX
+    EXTERNAL DBFNSX
+    EXTERNAL HB_MEMIO
+#line 33 "getsys.prg"
+STATIC sbFormat
+STATIC slUpdated    := .F.
+STATIC slKillRead
+STATIC slBumpTop
+STATIC slBumpBot
+STATIC snLastExitState
+STATIC snLastPos
+STATIC soActiveGet
+STATIC scReadProcName
+STATIC snReadProcLine
+
+
+
+
+
+
+
+
+
+
+
+
+FUNCTION ReadModal( GetList, nPos )
+
+    LOCAL oGet
+    LOCAL aSavGetSysVars
+    LOCAL nTam := Len( GetList )
+    LOCAL x
+
+    if ( VALTYPE( sbFormat ) == "B" )
+        EVAL( sbFormat )
+    endif
+
+    if ( EMPTY( GetList ) )
+
+
+        SETPOS( MAXROW() - 1, 0 )
+        return (.F.)
+
+    endif
+
+
+    aSavGetSysVars := ClearGetSysVars()
+
+
+    scReadProcName := PROCNAME( 1 )
+    snReadProcLine := PROCLINE( 1 )
+
+
+    if !( VALTYPE( nPos ) == "N" .AND. nPos > 0 )
+        nPos := Settle( Getlist, 0 )
+    endif
+
+
+    if oAmbiente:Get_Ativo
+        For x := 1 To nTam
+            PostActiveGet( oGet := GetList[ x ] )
+            oGet:Display()
+        Next
+    endif
+    WHILE !( nPos == 0 )
+
+
+
+
+
+
+
+        PostActiveGet( oGet := GetList[ nPos ] )
+
+
+        if oGet:Picture <> nil
+            if oGet:cType <> "N" .AND. oGet:cType <> "L" .AND. oGet:cType <> "D"
+                if At("@S", oGet:picture) > 0
+                    oGet:lHideInput := .T.
+                    oGet:cStyle     := "þ"
+
+                endif
+            endif
+        endif
+        if ( VALTYPE( oGet:reader ) == "B" )
+            EVAL(oGet:reader,oGet)
+        else
+            GetReader(oGet)
+        endif
+
+
+
+
+
+
+
+
+        nPos := Settle( GetList, nPos )
+
+    ENDDO
+
+
+
+    RestoreGetSysVars( aSavGetSysVars )
+
+
+    SETPOS( MAXROW() - 1, 0 )
+    return ( slUpdated )
+
+
+Proc GetReader( oGet )
+
+    LOCAL nTimeSaver := 60
+    LOCAL nKey          := 0
+
+    if ( GetPreValidate( oGet ) )
+        oGet:setFocus()
+        SetCursor( iif( Upper( "on" ) == "ON", 1, 0 ) )
+        WHILE ( oGet:exitState == 0 )
+           if ( oGet:typeOut )
+                oGet:exitState := 5
+            endif
+            WHILE ( oGet:exitState == 0 )
+                WHILE (( nKey := INKEY( nTimeSaver )) = 0 )
+                    SetCursor( iif( Upper( "on" ) == "ON", 1, 0 ) )
+                    protela()
+
+                ENDDO
+                GetApplyKey(oGet,nKey)
+            ENDDO
+            if (!GetPostValidate(oGet))
+              oGet:exitState := 0
+            endif
+        ENDDO
+    endif
+    oGet:killFocus()
+    return
+
+PROCEDURE GetApplyKey( oGet, nKey )
+
+
+
+
+
+
+
+    LOCAL VAR_CNF_AC := "'a 'e‚'i¡'o¢'u£'A†'E'I‹'OŸ'U–'c‡'C€" +  "`a…`eŠ`i`o•`u—`A‘`E’`I˜`O©`U`c‡`C€"  +  "^aƒ^eˆ^o“^A^E‰^OŒ^c‡^C€"                 +  "~a„~n¤~o”~AŽ~N¥~O™~c‡~C€"                 +  '"u"Uš'                               +  "_a¦_A¦_o§_O§"                                 +  " ‡{ €"
+    LOCAL cKey
+    LOCAL Cod_Acento
+    LOCAL bKeyBlock
+
+    if !( ( bKeyBlock := setkey( nKey ) ) == NIL )
+        GetDoSetKey( bKeyBlock, oGet )
+        return
+    endif
+
+    DO CASE
+    CASE ( nKey == 5 )
+        oGet:exitState := 1
+
+    CASE ( nKey == 271 )
+        oGet:exitState := 1
+
+    CASE ( nKey == 24 )
+        oGet:exitState := 2
+
+    CASE ( nKey == 9 )
+        oGet:exitState := 5
+
+    CASE ( nKey == 13 )
+        oGet:exitState := 5
+
+    CASE ( nKey == 27 )
+        if ( SET( 28 ) )
+            oGet:undo()
+            oGet:exitState := 7
+        endif
+
+    CASE ( nKey == -33 )
+        if ( SET( 28 ) )
+            oGet:undo()
+            oGet:exitState := 7
+        endif
+
+    CASE ( nKey == 18 )
+        oGet:exitState := 6
+
+    CASE ( nKey == 3 )
+        oGet:exitState := 6
+
+    CASE ( nKey == 29 )
+        oGet:exitState := 3
+
+    CASE ( nKey == 30 )
+        oGet:exitState := 4
+
+    CASE ( nKey == 31 )
+        oGet:exitState := 3
+
+
+
+    CASE ( nKey == 23 )
+        oGet:exitState := 4
+
+
+
+
+
+
+    CASE ( nKey == 22 )
+        LETO_SET( 29, !SET( 29 ) )
+        ShowScoreboard()
+
+    CASE ( nKey == 21 )
+        oGet:undo()
+
+    CASE ( nKey == 1 )
+        oGet:home()
+
+    CASE ( nKey == 6 )
+        oGet:end()
+
+    CASE ( nKey == 4 )
+        oGet:right()
+
+    CASE ( nKey == 19 )
+        oGet:left()
+
+    CASE ( nKey == 2 )
+        oGet:wordRight()
+
+    CASE ( nKey == 26 )
+        oGet:wordLeft()
+
+    CASE ( nKey == 8 )
+        oGet:backSpace()
+
+    CASE ( nKey == 7 )
+        oGet:delete()
+
+    CASE ( nKey == 20 )
+        oGet:delWordRight()
+
+    CASE ( nKey == 25 )
+        oGet:delEnd()
+
+    CASE ( nKey == 403 )
+        oGet:delEnd()
+
+    CASE ( nKey == 127 )
+        oGet:delWordLeft()
+
+    OTHERWISE
+
+        if ( nKey >= 32 .AND. nKey <= 255 )
+            cKey          := CHR( nKey )
+            Cod_Acento := Chr( nKey )
+
+
+
+
+            if oGet:Picture <> NIL
+                if oGet:cType <> "N" .AND. oGet:cType <> "L" .AND. oGet:cType <> "D"
+                    if At("@L", oGet:picture) > 0
+                        cKey      := Lower( cKey )
+                    endif
+                    if At("@U", oGet:picture) > 0
+                        cKey      := Upper( cKey )
+                    endif
+                endif
+            endif
+
+            if ( oGet:type == "N" .AND. ( cKey == "." .OR. cKey == "," ) )
+                oGet:toDecPos()
+            else
+
+
+
+
+
+
+
+                if nKey = 39    .OR.     nKey = 94 .OR.     nKey = 34    .OR.     nKey = 91 .OR.     nKey = 123 .OR.     nKey = 96    .OR.     nKey = 126     .OR.     nKey = 95
+                    if COD_ACENTO $ "[{"
+                        COD_ACENTO += " "
+                    else
+                        COD_ACENTO += chr( abs( inkey( 0 ) ) )
+                    endif
+                    COD_ACENTO = at( COD_ACENTO, VAR_CNF_AC )
+                    if COD_ACENTO <> 0
+                        cKey := SubStr( VAR_CNF_AC, COD_ACENTO + 2, 1 )
+                    else
+                        if (SET( 26 ))
+                            QQOut( CHR(7) )
+                        endif
+                    endif
+                endif
+                if (SET( 29))
+                    oGet:insert( cKey )
+                else
+                    oGet:overstrike( cKey )
+                endif
+
+                if ( oGet:typeOut )
+                    if ( SET( 26 ) )
+                        QQOut( CHR(7) )
+                    endif
+                    if ( !SET( 27 ) )
+                        oGet:exitState := 5
+                    endif
+                endif
+            endif
+        endif
+
+        EventState()
+
+    ENDCASE
+    return
+
+
+
+FUNCTION GetPreValidate( oGet )
+
+    LOCAL lSavUpdated
+    LOCAL lWhen := .T.
+
+    if !( oGet:preBlock == NIL )
+        lSavUpdated := slUpdated
+        lWhen       := EVAL( oGet:preBlock, oGet )
+        oGet:display()
+        ShowScoreBoard()
+        slUpdated := lSavUpdated
+    endif
+
+    if ( slKillRead )
+        lWhen          := .F.
+        oGet:exitState := 7
+    elseif ( !lWhen )
+        oGet:exitState := 8
+
+    else
+        oGet:exitState := 0
+    END
+    return ( lWhen )
+
+PROCEDURE GetDoSetKey( keyBlock, oGet )
+    LOCAL lSavUpdated
+
+
+    if ( oGet:changed )
+        oGet:assign()
+        slUpdated := .T.
+    endif
+    lSavUpdated := slUpdated
+    EVAL( keyBlock, scReadProcName, snReadProcLine, ReadVar() )
+    ShowScoreboard()
+    oGet:updateBuffer()
+    slUpdated := lSavUpdated
+
+    if ( slKillRead )
+        oGet:exitState := 7
+    endif
+    return
+
+STATIC FUNCTION Settle( GetList, nPos )
+    LOCAL nExitState
+
+    if ( nPos == 0 )
+        nExitState := 2
+    else
+        nExitState := GetList[ nPos ]:exitState
+    endif
+
+    if ( nExitState == 7 .OR. nExitState == 6 )
+        return ( 0 )
+    endif
+
+    if !( nExitState == 8 )
+
+        snLastPos := nPos
+        slBumpTop := .F.
+        slBumpBot := .F.
+    else
+
+        nExitState := snLastExitState
+    endif
+
+
+
+
+    DO CASE
+    CASE ( nExitState == 1 )
+        nPos--
+
+    CASE ( nExitState == 2 )
+        nPos++
+
+    CASE ( nExitState == 3 )
+        nPos          := 1
+        slBumpTop  := .T.
+        nExitState := 2
+
+    CASE ( nExitState == 4 )
+        nPos          := LEN( GetList )
+        slBumpBot  := .T.
+        nExitState := 1
+
+    CASE ( nExitState == 5 )
+        nPos++
+
+    ENDCASE
+
+
+
+
+    if ( nPos == 0 )
+        if ( !ReadExit() .AND. !slBumpBot )
+            slBumpTop  := .T.
+            nPos           := snLastPos
+            nExitState := 2
+        endif
+
+    elseif ( nPos == len( GetList ) + 1 )
+        if ( !ReadExit() .AND. !( nExitState == 5 ) .AND. !slBumpTop )
+            slBumpBot    := .T.
+            nPos         := snLastPos
+            nExitState := 1
+        else
+            nPos := 0
+        endif
+    endif
+
+
+    snLastExitState := nExitState
+
+    if !( nPos == 0 )
+        GetList[ nPos ]:exitState := nExitState
+    endif
+    return ( nPos )
+
+STATIC PROCEDURE PostActiveGet( oGet )
+    GetActive( oGet )
+    ReadVar( GetReadVar( oGet ) )
+    ShowScoreBoard()
+    return
+
+STATIC FUNCTION ClearGetSysVars()
+    LOCAL aSavSysVars[ 9 ]
+
+
+    aSavSysVars[ 1 ]      := slKillRead
+    aSavSysVars[ 2 ]       := slBumpTop
+    aSavSysVars[ 3 ]       := slBumpBot
+    aSavSysVars[ 4 ]      := snLastExitState
+    aSavSysVars[ 5 ]       := snLastPos
+    aSavSysVars[ 6 ]      := GetActive( NIL )
+    aSavSysVars[ 7 ]       := ReadVar( "" )
+    aSavSysVars[ 8 ] := scReadProcName
+    aSavSysVars[ 9 ] := snReadProcLine
+
+
+    slKillRead         := .F.
+    slBumpTop         := .F.
+    slBumpBot         := .F.
+    snLastExitState := 0
+    snLastPos         := 0
+    scReadProcName  := ""
+    snReadProcLine  := 0
+    slUpdated         := .F.
+    return ( aSavSysVars )
+
+STATIC PROCEDURE RestoreGetSysVars( aSavSysVars )
+    slKillRead         := aSavSysVars[ 1 ]
+    slBumpTop         := aSavSysVars[ 2 ]
+    slBumpBot         := aSavSysVars[ 3 ]
+    snLastExitState := aSavSysVars[ 4 ]
+    snLastPos         := aSavSysVars[ 5 ]
+
+    GetActive( aSavSysVars[ 6 ] )
+    ReadVar( aSavSysVars[ 7 ] )
+
+    scReadProcName  := aSavSysVars[ 8 ]
+    snReadProcLine  := aSavSysVars[ 9 ]
+    return
+
+STATIC FUNCTION GetReadVar( oGet )
+
+    LOCAL cName := UPPER( oGet:name )
+    LOCAL i
+
+    if !( oGet:subscript == NIL )
+        FOR i := 1 TO LEN( oGet:subscript )
+            if    valtype(oGet:subscript[i]) = "C"
+                cName += "[" + LTRIM( oGet:subscript[i]) + "]"
+            elseif valtype(oGet:subscript[i]) = "N"
+                cName += "[" + LTRIM( STR( oGet:subscript[i] ) ) + "]"
+            endif
+        NEXT
+    END
+    return ( cName )
+
+PROCEDURE __SetFormat( b )
+    sbFormat := if( VALTYPE( b ) == "B", b, NIL )
+    return
+
+PROCEDURE __KillRead()
+    slKillRead := .T.
+    return
+
+FUNCTION GetActive( g )
+    LOCAL oldActive := soActiveGet
+
+    if ( PCOUNT() > 0 )
+        soActiveGet := g
+    endif
+    return ( oldActive )
+
+FUNCTION Updated()
+    return slUpdated
+
+FUNCTION ReadExit( lNew )
+    return ( LETO_SET( 30, lNew ) )
+
+FUNCTION ReadInsert( lNew )
+    return ( LETO_SET( 29, lNew ) )
+
+STATIC PROCEDURE ShowScoreboard()
+    LOCAL nRow
+    LOCAL nCol
+
+    if ( SET( 32 ) )
+        nRow := ROW()
+        nCol := COL()
+
+        SETPOS( 0, 60 )
+
+        DISPOUT( if( SET( 29 ), NationMsg(7),    NationMsg(8)) )
+        SETPOS( nRow, nCol )
+    endif
+    return
+
+STATIC PROCEDURE DateMsg()
+    LOCAL nRow
+    LOCAL nCol
+
+    if ( SET( 32 ) )
+        nRow := ROW()
+        nCol := COL()
+
+        SETPOS( 0, 60 )
+        DISPOUT( NationMsg(9) )
+        SETPOS( nRow, nCol )
+
+        WHILE ( NEXTKEY() == 0 )
+        END
+
+        SETPOS( 0, 60 )
+        DISPOUT( SPACE( LEN( NationMsg(9) ) ) )
+        SETPOS( nRow, nCol )
+    endif
+    return
+
+FUNCTION RangeCheck( oGet, junk, lo, hi )
+    LOCAL cMsg, nRow, nCol
+    LOCAL xValue
+
+    if ( !oGet:changed )
+        return ( .T. )
+    endif
+
+    xValue := oGet:varGet()
+
+    if ( xValue >= lo .AND. xValue <= hi )
+        return ( .T. )
+    endif
+
+    if ( SET(32) )
+
+
+        cMsg := NationMsg(10) + LTRIM( TRANSFORM( lo, "" ) ) +     NationMsg(11) + LTRIM( TRANSFORM( hi, "" ) )
+
+        if ( LEN( cMsg ) > MAXCOL() )
+            cMsg := SUBSTR( cMsg, 1, MAXCOL() )
+        endif
+
+        nRow := ROW()
+        nCol := COL()
+
+        SETPOS( 0, MIN( 60, MAXCOL() - LEN( cMsg ) ) )
+        DISPOUT( cMsg )
+        SETPOS( nRow, nCol )
+
+        WHILE ( NEXTKEY() == 0 )
+        END
+
+        SETPOS( 0, MIN( 60, MAXCOL() - LEN( cMsg ) ) )
+        DISPOUT( SPACE( LEN( cMsg ) ) )
+        SETPOS( nRow, nCol )
+
+    endif
+    return ( .F. )
+
+FUNCTION ReadKill( lKill )
+    LOCAL lSavKill := slKillRead
+
+    if ( PCOUNT() > 0 )
+        slKillRead := lKill
+    endif
+    return ( lSavKill )
+
+FUNCTION ReadUpdated( lUpdated )
+    LOCAL lSavUpdated := slUpdated
+
+    if ( PCOUNT() > 0 )
+        slUpdated := lUpdated
+    endif
+    return ( lSavUpdated )
+
+FUNCTION ReadFormat( b )
+    LOCAL bSavFormat := sbFormat
+
+    if ( PCOUNT() > 0 )
+        sbFormat := b
+    endif
+    return ( bSavFormat )
+
+FUNCTION GetPsw( oGet )
+
+    LOCAL nTimeSaver := oIni:ReadInteger( "sistema", "screensaver", 60 )
+    LOCAL nRet          := 0
+    LOCAL cKey
+    LOCAL nKey
+    LOCAL cAuxVar
+    LOCAL cOriginal
+    LOCAL cScreen := savescreen()
+
+    if ( GetPreValidate( oGet ) )
+        oGet:setFocus()
+        oGet:exitState := 0
+        cAuxVar := cOriginal := oGet:original
+        WHILE ( oGet:exitState == 0 )
+            if ( oGet:typeOut )
+                oGet:exitState := 5
+            endif
+            while (oGet:exitState == 0)
+                while (( nKey := INKEY( nTimeSaver )) = 0 )
+
+                    Shuffle()
+                enddo
+                DO CASE
+                CASE ( nKey == 5 )
+                    cAuxVar := cOriginal
+                    oGet:undo()
+                    oGet:exitState := 1
+
+                CASE ( nKey == 271 )
+                    oGet:exitState := 1
+
+                CASE ( nKey == 24 )
+                    oGet:exitState := 2
+
+                CASE ( nKey == 9 )
+                    oGet:exitState := 5
+
+                CASE ( nKey == 13 )
+                    oGet:exitState := 5
+
+                CASE ( nKey == 27 )
+                    if ( SET( 28 ) )
+                        cAuxVar := cOriginal
+                        oGet:undo()
+                        oGet:exitState := 7
+                    endif
+
+                CASE ( nKey == -33 )
+                    if ( SET( 28 ) )
+                        cAuxVar := cOriginal
+                        oGet:undo()
+                        oGet:exitState := 7
+                    endif
+
+                CASE ( nKey == 18 )
+                    oGet:exitState := 6
+
+                CASE ( nKey == 3 )
+                    oGet:exitState := 6
+
+                CASE ( nKey == 29 )
+                    oGet:exitState := 3
+
+                CASE ( nKey == 30 )
+                    oGet:exitState := 4
+
+                CASE ( nKey == 31 )
+                    oGet:exitState := 3
+
+
+
+
+                CASE ( nKey == 23 )
+                    oGet:exitState := 4
+
+
+
+
+
+
+
+
+
+                CASE ( nKey == 22 )
+                    LETO_SET( 29, !SET( 29 ) )
+                    ShowScoreboard()
+
+                CASE ( nKey == 21 )
+                    oGet:undo()
+
+                CASE ( nKey == 1 )
+                    oGet:home()
+
+                CASE ( nKey == 6 )
+                    oGet:end()
+
+                CASE ( nKey == 4 )
+                    oGet:right()
+
+                CASE ( nKey == 19 )
+                    oGet:left()
+
+                CASE ( nKey == 2 )
+                    oGet:wordRight()
+
+                CASE ( nKey == 26 )
+                    oGet:wordLeft()
+
+                CASE ( nKey == 8 )
+                    cAuxVar := STUFF(cAuxVar, oGet:pos - 1, 1, " ")
+                    oGet:backSpace()
+
+                CASE ( nKey == 7 )
+                    oGet:delete()
+
+                CASE ( nKey == 20 )
+                    oGet:delWordRight()
+
+                CASE ( nKey == 25 )
+                    oGet:delEnd()
+
+                CASE ( nKey == 403 )
+                    oGet:delEnd()
+
+                CASE ( nKey == 127 )
+                    oGet:delWordLeft()
+
+                OTHERWISE
+                    if (nKey >= 32) .AND. (nKey <= 127)
+                        cKey := CHR(nKey)
+                        cAuxVar := STUFF(cAuxVar, oGet:pos, 1, cKey)
+                        oGet:insert("þ")
+                        if (oGet:typeOut)
+                            oGet:exitState := 5
+                        endif
+                    endif
+                    EventState()
+                ENDCASE
+            EndDO
+            cBuffer     := oGet:Buffer
+            if (!GetPostValidate(oGet, cAuxVar))
+                oGet:exitState := 0
+            endif
+
+
+
+        EndDO
+    endif
+    oGet:killFocus()
+    restscreen(,,,,cScreen)
+    return(cAuxVar)
+
+FUNCTION GetPostValidate(oGet, cAuxVar)
+
+    LOCAL lSavUpdated
+    LOCAL lValid := .T.
+
+    if ( oGet:exitState == 7 )
+        return ( lValid )
+    endif
+
+   if ( oGet:exitState == 1 )
+        return ( lValid )
+    endif
+
+    if oGet:Buffer = "00/00/00"
+        oGet:assign()
+        oGet:updateBuffer()
+        return( lValid )
+    endif
+
+    if ( oGet:badDate() )
+        oGet:home()
+      AlertaPy("ERRO: Data invalida.", oAmbiente:CorAlerta)
+        oGet:Undo()
+        return( !lValid )
+    endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    if ( oGet:changed )
+        oGet:assign()
+        slUpdated := .T.
+    endif
+
+   oGet:reset()
+
+
+   cBuffer := oGet:Buffer
+    if !( oGet:postBlock == NIL )
+
+        lSavUpdated := slUpdated
+
+
+        SETPOS( oGet:row, oGet:col + LEN( oGet:buffer ) )
+
+
+
+
+
+
+
+
+
+        lValid := EVAL( oGet:postBlock, oGet )
+
+
+        SETPOS( oGet:row, oGet:col )
+
+        ShowScoreBoard()
+
+
+
+        oGet:cType := ValType(cBuffer)
+        oGet:updateBuffer()
+        slUpdated  := lSavUpdated
+
+        if ( slKillRead )
+            oGet:exitState := 7
+            lValid := .T.
+
+        endif
+    endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    return ( lValid )
+
+_HB_CLASS Tget ; function Tget ( ... ) ; STATIC s_oClass ; LOCAL nScope, oClass, oInstance ; IF s_oClass == NIL .AND. __clsLockDef( @s_oClass ) ; BEGIN SEQUENCE ; nScope := 1 ; ( ( nScope ) ) ; oClass := iif( .F.,, HBClass():new( "Tget", iif( .T., { @GET() }, { @HBObject() } ), @Tget() ) ) ;
+    nScope := 1 ; ( ( nScope ) )
+        _HB_MEMBER { cType } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"cType"}, .F. )
+
+oClass:Create() ; ; ALWAYS ; __clsUnlockDef( @s_oClass, oClass ) ; end ; oInstance := oClass:Instance() ; IF __objHasMsg( oInstance, "InitClass" ) ; oInstance:InitClass( ... ) ; END ; RETURN oInstance ; END ; RETURN s_oClass:Instance() AS CLASS Tget ;
+
+
+function EventState()
+#line 921 "getsys.prg"
+    hb_gtInfo( 60, { | nKey |
+            LOCAL nBits, lIsKeyCtrl
+            SWITCH nKey
+            CASE 1015
+                oGet:exitState := 2
+                return 24
+            CASE 1014
+                oGet:exitState := 1
+                return 5
+            CASE 1004
+                return 27
+            CASE 1007
+                return 27
+            CASE 22
+                nBits      := hb_GtInfo( 10 )
+                lIsKeyCtrl := ( nBits == hb_BitOr( nBits, 0x000002 ) )
+                if lIsKeyCtrl
+                    hb_GtInfo( 16 )
+                    return 0
+                endif
+            CASE 402
+                if !oAmbiente:lReceber
+                    nBits      := hb_GtInfo( 10 )
+                    lIsKeyCtrl := ( nBits == hb_BitOr( nBits, 0x000002 ) )
+                    if lIsKeyCtrl
+                        hb_GtInfo( 16 )
+                        return 0
+                    endif
+                endif
+            CASE 24
+                nBits      := hb_gtInfo( 10 )
+            lIsKeyCtrl := ( nBits == hb_BitOr( nBits, 0x000002))
+            if lIsKeyCtrl
+                    if GetActive() <> NIL
+                        hb_gtInfo( 15, Transform( GetActive():VarGet(), "" ) )
+                  GetActive():DelEnd()
+                  return 0
+               endif
+            endif
+            CASE 3
+                nBits      := hb_gtInfo( 10 )
+                lIsKeyCtrl := ( nBits == hb_BitOr( nBits, 0x000002 ) )
+                if lIsKeyCtrl
+
+                    oMenu:ContaReg( "COPIADO PARA AREA DE TRANSFERENCIA.  ")
+                    if GetActive() <> NIL
+                        hb_gtInfo( 15, Transform( GetActive():VarGet(), "" ) )
+                        return 0
+                    endif
+                endif
+
+            ENDSWITCH
+            return nKey
+        })
+
+FUNCTION MouseWheelDown()
+   __Keyboard( Chr( 24 ) )
+   return NIL
+
+FUNCTION MouseWheelUp()
+   __Keyboard( Chr( 5 ) )
+   return NIL

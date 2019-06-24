@@ -1,0 +1,3332 @@
+Publics by module
+
+AALLTRIM	size = 356
+	AALLTRIM                        
+
+AAMAXSTL	size = 53
+	AAMAXSTRLE                      
+
+AAMINSTL	size = 52
+	AAMINSTRLE                      
+
+AAT     	size = 230
+	AAT                             
+
+AATI    	size = 230
+	AATI                            
+
+AAVERAGE	size = 324
+	AAVERAGE                        
+
+ABOX    	size = 220
+	BOX                             
+
+ACAPFIRS	size = 356
+	ACAPFIRST                       
+
+ACAPITAL	size = 356
+	ACAPITALIZ                      
+
+ACHAR   	size = 43
+	ACHAR                           
+
+ACHARTES	size = 170
+	ACHARTEST                       
+
+ACHRSWAP	size = 469
+	ACHRSWAP                        
+
+ACHRTRIM	size = 456
+	ACHRTRIM                        
+
+ADECRYPT	size = 429
+	ADECRYPT                        
+
+AENCRYPT	size = 429
+	AENCRYPT                        
+
+AENUMERA	size = 318
+	AENUMERATE                      
+
+AFILEWRI	size = 270
+	AFILEWRITE                      
+
+AFIND   	size = 232
+	AFIND                           
+
+ALEADCHA	size = 396
+	ALEADCHAR                       
+
+ALEFT   	size = 314
+	ALEFT                           
+
+ALEN    	size = 244
+	ALEN                            
+
+ALIGNTOK	size = 300
+	ALIGNTOKEN                      
+
+ALJUST  	size = 356
+	ALJUST                          
+
+ALLDRIVE	size = 34
+	ALLDRIVES                       
+
+ALLTRIML	size = 65
+	ALLTRIMLEN                      
+
+ALOWER  	size = 356
+	ALOWER                          
+
+ALTRIM  	size = 356
+	ALTRIM                          
+
+AMAX    	size = 108
+	AMAX                            
+
+AMAXN   	size = 22
+	AMAXN                           
+
+AMAXSTR 	size = 78
+	AMAXSTR                         
+
+AMAXSTRL	size = 43
+	AMAXSTRLEN                      
+
+AMAXSTRN	size = 20
+	AMAXSTRN                        
+
+AMIN    	size = 106
+	AMIN                            
+
+AMINN   	size = 22
+	AMINN                           
+
+AMINSTR 	size = 77
+	AMINSTR                         
+
+AMINSTRL	size = 42
+	AMINSTRLEN                      
+
+AMINSTRN	size = 19
+	AMINSTRN                        
+
+AND     	size = 35
+	AND                             
+
+ANUMERAT	size = 254
+	ANUMERATE                       
+
+APRINT  	size = 248
+	APRINT                          
+
+APRINTLE	size = 30
+	APRINTLEN                       
+
+APRINTN 	size = 77
+	APRINTN                         
+
+AREPLICA	size = 90
+	AREPLICATE                      
+
+AREVERSE	size = 356
+	AREVERSE                        
+
+ARG     	size = 55
+	ARG                             
+
+ARGC    	size = 14
+	ARGC                            
+
+ARGP    	size = 48
+	ARGP                            
+
+ARGV    	size = 47
+	ARGV                            
+
+ARIGHT  	size = 314
+	ARIGHT                          
+
+ARJUST  	size = 356
+	ARJUST                          
+
+ARRAPRIN	size = 371
+	ARRAPRINT                       
+
+ARRAYPRI	size = 262
+	ARRAYPRINT                      
+
+ARRPRINT	size = 371
+	ARRPRINT                        
+
+ASCIITOE	size = 140
+	ASCIITOEBC                      
+
+ASCPOS  	size = 88
+	ASCPOS                          
+
+ASSIGNCO	size = 14
+	ASSIGNCOUN                      
+
+ASSIGNED	size = 50
+	ASSIGNED                        
+
+ASTRCENT	size = 314
+	ASTRCENTER                      
+
+ASTREXPA	size = 440
+	ASTREXPAND                      
+
+ASTRLEN 	size = 203
+	ASTRLEN                         
+
+ASTRTRAN	size = 599
+	ASTRTRAN                        
+
+ASTRTRNI	size = 598
+	ASTRTRANI                       
+
+ASUBSTR 	size = 396
+	ASUBSTR                         
+
+AT      	size = 47
+	AT                              
+
+ATABEXPA	size = 471
+	ATABEXPAND                      
+
+ATDIFF  	size = 47
+	ATDIFF                          
+
+ATDOW   	size = 80
+	ATDOW                           
+
+ATEST   	size = 229
+	ATEST                           
+
+ATESTD  	size = 218
+	ATESTD                          
+
+ATESTL  	size = 210
+	ATESTL                          
+
+ATESTN  	size = 300
+	ATESTN                          
+
+ATI     	size = 47
+	ATI                             
+
+ATLAST  	size = 47
+	ATLAST                          
+
+ATLASTI 	size = 47
+	ATLASTI                         
+
+ATNEXT  	size = 59
+	ATNEXT                          
+
+ATNEXTI 	size = 59
+	ATNEXTI                         
+
+ATOATTR 	size = 30
+	ATOATTR                         
+
+ATOI    	size = 30
+	ATOI                            
+
+ATOL    	size = 32
+	ATOL                            
+
+ATOTAL  	size = 288
+	ATOTAL                          
+
+ATOU    	size = 34
+	ATOU                            
+
+ATOUL   	size = 34
+	ATOUL                           
+
+ATRAILCH	size = 396
+	ATRAILCHAR                      
+
+ATRIM   	size = 356
+	ATRIM                           
+
+ATTOKEN 	size = 59
+	ATTOKEN                         
+
+ATTRCOL 	size = 66
+	ATTRHIGH                          ATTRLOW
+
+ATTRTOA 	size = 45
+	ATTRTOA                         
+
+AUNTRIM 	size = 314
+	AUNTRIM                         
+
+AUPPER  	size = 356
+	AUPPER                          
+
+AUTOREST	size = 28
+	AUTORESTOR                      
+
+AWILDAT 	size = 257
+	AWILDAT                         
+
+BEEP    	size = 20
+	BEEP                            
+
+BIN2I   	size = 47
+	BIN2I                           
+
+BIN2L   	size = 78
+	BIN2L                           
+
+BIN2NUM 	size = 30
+	BIN2NUM                         
+
+BIN2W   	size = 53
+	BIN2W                           
+
+BITSTRIP	size = 144
+	BITSTRIP                        
+
+BLANKTEX	size = 22
+	BLANKTEXT                       
+
+BLINKBIT	size = 47
+	BLINKBIT                        
+
+BMCOL   	size = 93
+	BMPCOL                          
+
+BMCOLOR 	size = 93
+	BMPCOLOR                        
+
+BMCOLS  	size = 68
+	BMPWIDTH                        
+
+BMCREATE	size = 328
+	BMPCREATE                       
+
+BMDISPLA	size = 51
+	BMPDISPLAY                      
+
+BMFREE  	size = 58
+	BMPFREE                         
+
+BMLOAD  	size = 59
+	BMPLOAD                         
+
+BMMOVE  	size = 77
+	BMPMOVE                         
+
+BMMOVETO	size = 77
+	BMPMOVETO                       
+
+BMPSIZE 	size = 59
+	BMPSIZE                         
+
+BMRESTOR	size = 245
+	BMPRESTORE                      
+
+BMROW   	size = 93
+	BMPROW                          
+
+BMROWS  	size = 59
+	BMPHEIGHT                       
+
+BMSAVE  	size = 122
+	BMPSAVE                         
+
+BMTABLE 	size = 93
+	BMPTABLE                        
+
+BMVM    	size = 335
+	__freeBitMap                      __loadBitMap
+	__releaseBitMap                 
+
+BMWREAD 	size = 85
+	BMPREAD                         
+
+BOOTDRIV	size = 14
+	BOOTDRIVE                       
+
+BORDER  	size = 20
+	BORDER                          
+
+BOXCHARS	size = 71
+	BOXCHARS                        
+
+BUFFERS 	size = 14
+	BUFFERS                         
+
+BUTTON  	size = 14
+	BUTTON                          
+
+BYTE2BIN	size = 45
+	BYTE2BIN                        
+
+CAPFIRST	size = 144
+	CAPFIRST                        
+
+CAPITALI	size = 144
+	CAPITALIZE                      
+
+CAPSLOCK	size = 47
+	CAPSLOCK                        
+
+CAPSTEXT	size = 78
+	CAPSTEXT                        
+
+CAPTOKEN	size = 243
+	CAPTOKEN                        
+
+CENTER  	size = 161
+	CENTER                          
+
+CENTURY 	size = 47
+	CENTURY                         
+
+CHDIR   	size = 30
+	CHDIR                           
+
+CHECKDAT	size = 30
+	CHECKDATE                       
+
+CHECKSUM	size = 32
+	CHECKSUM                        
+
+CHECKTIM	size = 30
+	CHECKTIME                       
+
+CHRANY  	size = 43
+	CHRANY                          
+
+CHRCOLLA	size = 30
+	CHRCOLLATE                      
+
+CHRCOUNI	size = 47
+	CHRCOUNTI                       
+
+CHRCOUNT	size = 47
+	CHRCOUNT                        
+
+CHRFIRST	size = 43
+	CHRFIRST                        
+
+CHRFOUND	size = 43
+	CHRFOUND                        
+
+CHRKEEP 	size = 152
+	CHRKEEP                         
+
+CHRLOWER	size = 30
+	CHRLOWER                        
+
+CHRSORT 	size = 191
+	CHRSORT                         
+
+CHRSWAP 	size = 210
+	CHRSWAP                         
+
+CHRTOTAL	size = 47
+	CHRTOTAL                        
+
+CHRTOTLI	size = 47
+	CHRTOTALI                       
+
+CHRTRIM 	size = 168
+	CHRTRIM                         
+
+CHRTRIML	size = 58
+	CHRTRIMLEN                      
+
+CHRUNIQU	size = 48
+	CHRUNIQUE                       
+
+CHRUPPER	size = 30
+	CHRUPPER                        
+
+CLOCK12 	size = 93
+	CLOCK12                         
+
+CLOCK12I	size = 78
+	CLOCK12INF                      
+
+CLOCK24 	size = 93
+	CLOCK24                         
+
+CLOCK24I	size = 78
+	CLOCK24INF                      
+
+CLS     	size = 98
+	CLS                             
+
+CLUSTERS	size = 52
+	CLUSTERS                        
+
+CLUSTSIZ	size = 52
+	CLUSTSIZE                       
+
+COLDBOOT	size = 6
+	COLDBOOT                        
+
+COLLATE 	size = 144
+	COLLATE                         
+
+COLORTYP	size = 14
+	COLORTYPE                       
+
+COLOURTY	size = 14
+	COLOURTYPE                      
+
+COMCHECK	size = 47
+	COMCHECK                        
+
+COMCOUNT	size = 14
+	COMCOUNT                        
+
+COMIN   	size = 78
+	COMIN                           
+
+COMINIT 	size = 98
+	COMINIT                         
+
+COMMA   	size = 88
+	COMMA                           
+
+COMMAND 	size = 35
+	COMMAND                         
+
+COMOFF  	size = 39
+	COMOFF                          
+
+COMON   	size = 39
+	COMON                           
+
+COMOUT  	size = 66
+	COMOUT                          
+
+COMOUTBY	size = 61
+	COMOUTBYTE                      
+
+COMPRESS	size = 56
+	COMPRESS                        
+
+COMRESET	size = 6
+	COMRESET                        
+
+COMSET  	size = 33
+	COMSET                          
+
+COMSWAP 	size = 6
+	COMSWAP                         
+
+CPUTYPE 	size = 16
+	CPUTYPE                         
+
+CRASH   	size = 6
+	CRASH                           
+
+CRC16   	size = 151
+	CRC16                           
+
+CRC32   	size = 158
+	CRC32                           
+
+CSRBOT  	size = 14
+	CSRBOT                          
+
+CSRCOL  	size = 14
+	CSRCOL                          
+
+CSRROW  	size = 14
+	CSRROW                          
+
+CSRSET  	size = 33
+	CSRSET                          
+
+CSRTOP  	size = 14
+	CSRTOP                          
+
+CSRTYPE 	size = 20
+	CSRTYPE                         
+
+CSTDOT  	size = 22
+	_CLSTDOUT                       
+
+CSTDOTLI	size = 22
+	_CLSTDOUTL                      
+
+CURDIR  	size = 68
+	CURDIR                          
+
+CURDRIVE	size = 37
+	CURDRIVE                        
+
+DATEF   	size = 35
+	DATEF                           
+
+DCOMPRES	size = 56
+	DCOMPRESS                       
+
+DEC2HEX 	size = 45
+	DEC2HEX                         
+
+DECRYPT 	size = 188
+	DECRYPT                         
+
+DELAY   	size = 20
+	DELAY                           
+
+DELENV  	size = 30
+	DELENV                          
+
+DELETETO	size = 172
+	DELETETOKE                      
+
+DELVOLUM	size = 50
+	DELVOLUME                       
+
+DERROR  	size = 14
+	DERROR                          
+
+DIRSIZE 	size = 44
+	DIRSIZE                         
+
+DISK    	size = 28
+	DISK                            
+
+DISK2FIL	size = 42
+	DISK2FILE                       
+
+DISKINFO	size = 94
+	DISKINFO                        
+
+DISKNUMB	size = 88
+	DISKNUMBER                      
+
+DISKSIZE	size = 52
+	DISKSIZE                        
+
+DISKSPAC	size = 137
+	DISKSPACE                       
+
+DISKSTAT	size = 48
+	DISKSTATUS                      
+
+DISKTOSC	size = 178
+	DISKTOSCR                       
+
+DISKTYPE	size = 28
+	DISKTYPE                        
+
+DOSCOLLA	size = 30
+	DOSCOLLATE                      
+
+DOSDOW  	size = 14
+	DOSDOW                          
+
+DOSDRIVE	size = 30
+	DOSDRIVE                        
+
+DOSGETDA	size = 78
+	DOSGETDATE                      
+
+DOSGETTI	size = 78
+	DOSGETTIME                      
+
+DOSLOWER	size = 30
+	DOSLOWER                        
+
+DOSMAJOR	size = 14
+	DOSMAJOR                        
+
+DOSMEM  	size = 14
+	DOSMEM                          
+
+DOSMINOR	size = 14
+	DOSMINOR                        
+
+DOSSETDA	size = 53
+	DOSSETDATE                      
+
+DOSSETTI	size = 53
+	DOSSETTIME                      
+
+DOSUPPER	size = 30
+	DOSUPPER                        
+
+DOSVERS 	size = 58
+	DOSVERS                         
+
+DRIVES  	size = 14
+	DRIVES                          
+
+DRIVESTR	size = 34
+	DRIVESTR                        
+
+DRIVETYP	size = 47
+	DRIVETYPE                       
+
+DTOI    	size = 91
+	DTOI                            
+
+DTOJ    	size = 101
+	DTOJ                            
+
+DTOW    	size = 57
+	DTOW                            
+
+EBCTOASC	size = 140
+	EBCTOASCII                      
+
+EGAMEM  	size = 14
+	EGAMEM                          
+
+EMS_COUN	size = 14
+	EMS_COUNT                       
+
+EMS_ERRO	size = 14
+	EMS_ERROR                       
+
+EMS_FRAM	size = 30
+	EMS_FRAME                       
+
+EMS_PAGE	size = 28
+	EMS_PAGES                       
+
+EMS_STAT	size = 14
+	EMS_STATUS                      
+
+EMS_VERS	size = 14
+	EMS_VERSIO                      
+
+ENCRYPT 	size = 188
+	ENCRYPT                         
+
+ENHANCED	size = 51
+	ENHANCED                        
+
+ENV     	size = 46
+	ENV                             
+
+ENVC    	size = 14
+	ENVC                            
+
+ENVLEN  	size = 14
+	ENVLEN                          
+
+ENVSIZE 	size = 14
+	ENVSIZE                         
+
+ETACTIVE	size = 93
+	ETACTIVECO                      
+
+ETBACKSP	size = 59
+	ETBACKSPAC                      
+
+ETBCOLOR	size = 93
+	ETBLOCKCOL                      
+
+ETBEGINM	size = 51
+	ETBEGINMAR                      
+
+ETBLKEND	size = 63
+	ETBLOCKEND                      
+
+ETBLKSIZ	size = 63
+	ETBLOCKSIZ                      
+
+ETBLKSTA	size = 63
+	ETBLOCKSTA                      
+
+ETBUFFSI	size = 63
+	ETBUFFSIZE                      
+
+ETCLEAR 	size = 51
+	ETCLEAR                         
+
+ETCLEARP	size = 121
+	ETCLEARPAD                      
+
+ETCOLOR 	size = 93
+	ETCOLOR                         
+
+ETCOPYBL	size = 371
+	ETCOPYBLOC                      
+
+ETCREATE	size = 366
+	ETCREATE                        
+
+ETCSRCOL	size = 59
+	ETCSRCOL                        
+
+ETCSREND	size = 62
+	ETCSREND                        
+
+ETCSRHOM	size = 62
+	ETCSRHOME                       
+
+ETCSRIND	size = 96
+	ETCSRINDEX                      
+
+ETCSRLEF	size = 96
+	ETCSRLEFT                       
+
+ETCSRRIG	size = 96
+	ETCSRRIGHT                      
+
+ETDELBLO	size = 62
+	ETDELETEBL                      
+
+ETDELEND	size = 63
+	ETDELETEEN                      
+
+ETDELETE	size = 59
+	ETDELETE                        
+
+ETDELETT	size = 76
+	ETDELETETE                      
+
+ETDELTOK	size = 96
+	ETDELETETO                      
+
+ETDELWOR	size = 62
+	ETDELETEWO                      
+
+ETDISPLA	size = 51
+	ETDISPLAY                       
+
+ETENDMAR	size = 51
+	ETENDMARK                       
+
+ETFREE  	size = 58
+	ETFREE                          
+
+ETGETBLO	size = 189
+	ETGETBLOCK                      
+
+ETGETBOO	size = 73
+	ETGETBOOKM                      
+
+ETGETCHA	size = 63
+	ETGETCHAR                       
+
+ETGETPIC	size = 192
+	ETGETPICTU                      
+
+ETGETTEX	size = 191
+	ETGETTEXT                       
+
+ETGETTOK	size = 223
+	ETGETTOKEN                      
+
+ETGOBOOK	size = 73
+	ETGOBOOKMA                      
+
+ETINSBLO	size = 240
+	ETINSERTBL                      
+
+ETINSERT	size = 79
+	ETINSERT                        
+
+ETINSTEX	size = 74
+	ETINSERTTE                      
+
+ETISTOKE	size = 96
+	ETISTOKEN                       
+
+ETMARKLI	size = 59
+	ETMARKLINE                      
+
+ETMARKTO	size = 96
+	ETMARKTOKE                      
+
+ETMAXBUF	size = 63
+	ETMAXBUFFS                      
+
+ETMOVE  	size = 77
+	ETMOVE                          
+
+ETMOVETO	size = 77
+	ETMOVETO                        
+
+ETOVERWR	size = 73
+	ETOVERWRIT                      
+
+ETPADSIZ	size = 63
+	ETPADSIZE                       
+
+ETPICTSI	size = 70
+	ETPICTURES                      
+
+ETRESTOR	size = 304
+	ETRESTORE                       
+
+ETRESTPA	size = 285
+	ETRESTOREP                      
+
+ETRETRIE	size = 171
+	ETRETRIEVE                      
+
+ETSAVE  	size = 112
+	ETSAVE                          
+
+ETSAVEPA	size = 83
+	ETSAVEPAD                       
+
+ETSCOL  	size = 59
+	ETCOL                           
+
+ETSCRCOL	size = 59
+	ETSCRCOL                        
+
+ETSCRROW	size = 59
+	ETSCRROW                        
+
+ETSETBOO	size = 73
+	ETSETBOOKM                      
+
+ETSETFOC	size = 93
+	ETSETFOCUS                      
+
+ETSIZE  	size = 63
+	ETSIZE                          
+
+ETSROW  	size = 59
+	ETROW                           
+
+ETSTORE 	size = 90
+	ETSTORE                         
+
+ETUNMARK	size = 51
+	ETUNMARK                        
+
+ETVM    	size = 783
+	__etlock                          __etunlock
+	__freeTextEdit                    __loadTextEdit
+	__releaseTextEdit               
+
+ETWIDTH 	size = 59
+	ETWIDTH                         
+
+ETWORDLE	size = 62
+	ETWORDLEFT                      
+
+ETWORDRI	size = 62
+	ETWORDRIGH                      
+
+EXITKEYS	size = 80
+	EXITKEYS                        
+
+EXPMEM  	size = 14
+	EXPMEM                          
+
+EXTMEM  	size = 14
+	EXTMEM                          
+
+FACCESS 	size = 67
+	FACCESS                         
+
+FACTION 	size = 14
+	FACTION                         
+
+FADVANCE	size = 30
+	FADVANCE                        
+
+FASTFORM	size = 28
+	FASTFORMAT                      
+
+FBOF    	size = 28
+	FBOF                            
+
+FBOL    	size = 30
+	FBOL                            
+
+FBOT    	size = 28
+	FBOT                            
+
+FCHANGED	size = 30
+	FCHANGED                        
+
+FCHDIR  	size = 64
+	FCHDIR                          
+
+FCLASS  	size = 14
+	FCLASS                          
+
+FCLOSE  	size = 28
+	FCLOSE                          
+
+FCOMMIT 	size = 28
+	FCOMMIT                         
+
+FCOMPRES	size = 248
+	FCOMPRESS                       
+
+FCOPY   	size = 45
+	FCOPY                           
+
+FCOPYBYT	size = 79
+	FCOPYBYTE                       
+
+FCREATE 	size = 147
+	FCREATE                         
+
+FCREATEF	size = 147
+	FCREATEF                        
+
+FDCOMPRE	size = 248
+	FDCOMPRESS                      
+
+FDECRYPT	size = 79
+	FDECRYPT                        
+
+FDUPE   	size = 28
+	FDUPE                           
+
+FENCRYPT	size = 79
+	FENCRYPT                        
+
+FEOF    	size = 28
+	FEOF                            
+
+FERASE  	size = 30
+	FERASE                          
+
+FERASEAL	size = 30
+	FERASEALL                       
+
+FERROR  	size = 14
+	FERROR                          
+
+FERRSTR 	size = 34
+	FERRORSTR                       
+
+FGETATTR	size = 30
+	FGETATTR                        
+
+FGETDATE	size = 48
+	FGETDATE                        
+
+FGETDATF	size = 48
+	FGETDATEF                       
+
+FGETDOSD	size = 103
+	FGETDOSDAT                      
+
+FGETDTIM	size = 103
+	FGETDOSTIM                      
+
+FGETJDAT	size = 32
+	FGETJDATE                       
+
+FGETTIME	size = 48
+	FGETTIME                        
+
+FHIDE   	size = 30
+	FHIDE                           
+
+FILE2DIS	size = 42
+	FILE2DISK                       
+
+FILEATTR	size = 28
+	FILEATTR                        
+
+FILECOUN	size = 61
+	FILECOUNT                       
+
+FILEDATE	size = 47
+	FILEDATE                        
+
+FILEDATF	size = 47
+	FILEDATEF                       
+
+FILEDOSD	size = 102
+	FILEDOSDAT                      
+
+FILEDRIV	size = 28
+	FILEDRIVE                       
+
+FILEDTIM	size = 102
+	FILEDOSTIM                      
+
+FILEFIND	size = 98
+	FILEFIND                        
+
+FILEJDAT	size = 30
+	FILEJDATE                       
+
+FILEMODE	size = 28
+	FILEMODE                        
+
+FILES   	size = 14
+	FILES                           
+
+FILESIZE	size = 32
+	FILESIZE                        
+
+FILETEST	size = 30
+	FILETEST                        
+
+FILETIME	size = 47
+	FILETIME                        
+
+FILLCHAR	size = 46
+	FILLCHAR                        
+
+FINDATTR	size = 14
+	FINDATTR                        
+
+FINDDATE	size = 35
+	FINDDATE                        
+
+FINDDATF	size = 35
+	FINDDATEF                       
+
+FINDDOSD	size = 90
+	FINDDOSDAT                      
+
+FINDDTIM	size = 90
+	FINDDOSTIM                      
+
+FINDFIRS	size = 80
+	FINDFIRST                       
+
+FINDJDAT	size = 16
+	FINDJDATE                       
+
+FINDNAME	size = 34
+	FINDNAME                        
+
+FINDNEXT	size = 34
+	FINDNEXT                        
+
+FINDREST	size = 37
+	FINDRESTOR                      
+
+FINDSAVE	size = 39
+	FINDSAVE                        
+
+FINDSIZE	size = 16
+	FINDSIZE                        
+
+FINDTIME	size = 35
+	FINDTIME                        
+
+FL3270  	size = 65
+	FL3270                          
+
+FL8X10  	size = 64
+	FL8X10                          
+
+FLAVANT2	size = 65
+	FLAVANTGRD                      
+
+FLAVANTG	size = 65
+	FLAVANTGAR                      
+
+FLBAUHAU	size = 65
+	FLBAUHAUS                       
+
+FLBODONI	size = 65
+	FLBODONI                        
+
+FLBROADW	size = 65
+	FLBROADWAY                      
+
+FLCALLIG	size = 65
+	FLCALLIGRA                      
+
+FLCOMPUT	size = 65
+	FLCOMPUTER                      
+
+FLCOURIE	size = 65
+	FLCOURIER                       
+
+FLCYRILL	size = 65
+	FLCYRILLIC                      
+
+FLDEFINE	size = 41
+	FLDEFINE                        
+
+FLDIGITA	size = 65
+	FLDIGITAL                       
+
+FLDINGBA	size = 65
+	FLDINGBATS                      
+
+FLEN    	size = 30
+	FLEN                            
+
+FLENG2  	size = 65
+	FLOLDENG                        
+
+FLGARAMO	size = 65
+	FLGARAMOND                      
+
+FLGREEK 	size = 65
+	FLGREEK                         
+
+FLHEBREW	size = 65
+	FLHEBREW                        
+
+FLINECOU	size = 30
+	FLINECOUNT                      
+
+FLINELEN	size = 47
+	FLINELEN                        
+
+FLITAL1 	size = 65
+	FLITALIC1                       
+
+FLITAL2 	size = 65
+	FLITALIC2                       
+
+FLLEGEND	size = 65
+	FLLEGEND                        
+
+FLOAD   	size = 66
+	FLOAD                           
+
+FLOADDIR	size = 651
+	FLOADDIR                        
+
+FLOADFIL	size = 283
+	FLOADFILE                       
+
+FLOADLIN	size = 257
+	FLOADLINE                       
+
+FLOCATE 	size = 118
+	FLOCATE                         
+
+FLOCUS  	size = 14
+	FLOCUS                          
+
+FLOLDENG	size = 65
+	FLOLDENGLI                      
+
+FLPARKAV	size = 65
+	FLPARKAVE                       
+
+FLPERCY 	size = 65
+	FLPERCY                         
+
+FLRESET 	size = 14
+	FLRESET                         
+
+FLROMANY	size = 65
+	FLROMANY                        
+
+FLSCRIP1	size = 65
+	FLSCRIPT1                       
+
+FLSCRIP2	size = 65
+	FLSCRIPT2                       
+
+FMAKE   	size = 91
+	FMAKE                           
+
+FMERGE  	size = 60
+	FMERGE                          
+
+FMT     	size = 111
+	__FMTEND                          __FMTHEAD
+	__FMTLOOP                         __FMTSET
+	__FMTTRAK                       
+
+FNEWLINE	size = 47
+	FNEWLINE                        
+
+FONTDEFI	size = 41
+	FONTDEFINE                      
+
+FONTDISS	size = 78
+	FONTDISSOL                      
+
+FONTGET 	size = 97
+	FONTGET                         
+
+FONTHEIG	size = 14
+	FONTHEIGHT                      
+
+FONTLOAD	size = 78
+	FONTLOAD                        
+
+FONTPUT 	size = 66
+	FONTPUT                         
+
+FONTRESE	size = 14
+	FONTRESET                       
+
+FONTRETR	size = 194
+	FONTRETRIE                      
+
+FONTSAVE	size = 203
+	FONTSAVE                        
+
+FONTSET 	size = 41
+	FONTSET                         
+
+FONTSIZE	size = 20
+	FONTSIZE                        
+
+FONTVALI	size = 28
+	FONTVALID                       
+
+FOPEN   	size = 148
+	FOPEN                           
+
+FPARSDR 	size = 48
+	FPARSEDR                        
+
+FPARSED 	size = 48
+	FPARSED                         
+
+FPARSEF 	size = 48
+	FPARSEF                         
+
+FPARSFN 	size = 48
+	FPARSEFN                        
+
+FPARSFX 	size = 48
+	FPARSEFX                        
+
+FPRINTBY	size = 99
+	FPRINTBYTE                      
+
+FPRINTFI	size = 64
+	FPRINTFILE                      
+
+FPRINTLI	size = 99
+	FPRINTLINE                      
+
+FPROTECT	size = 30
+	FPROTECT                        
+
+FRDSTERM	size = 47
+	FREADSTERM                      
+
+FRE     	size = 16
+	FRE                             
+
+FREAD   	size = 54
+	FREAD                           
+
+FREADBYT	size = 30
+	FREADBYTE                       
+
+FREADINT	size = 28
+	FREADINT                        
+
+FREADLIN	size = 173
+	FREADLINE                       
+
+FREADLON	size = 30
+	FREADLONG                       
+
+FREADS  	size = 159
+	FREADS                          
+
+FREADSTR	size = 139
+	FREADSTR                        
+
+FREDIREC	size = 41
+	FREDIRECT                       
+
+FREESCRE	size = 22
+	FREESCREEN                      
+
+FREMOTE 	size = 28
+	FREMOTE                         
+
+FRENAME 	size = 43
+	FRENAME                         
+
+FREPLICA	size = 175
+	FREPLICATE                      
+
+FRETRY  	size = 41
+	FRETRY                          
+
+FREWIND 	size = 78
+	FREWIND                         
+
+FSEARCH 	size = 48
+	FSEARCH                         
+
+FSEEK   	size = 75
+	FSEEK                           
+
+FSEEKLIN	size = 75
+	FSEEKLINE                       
+
+FSETATTR	size = 74
+	FSETATTR                        
+
+FSETDATE	size = 43
+	FSETDATE                        
+
+FSETDOSD	size = 66
+	FSETDOSDAT                      
+
+FSETDTIM	size = 66
+	FSETDOSTIM                      
+
+FSETJDAT	size = 43
+	FSETJDATE                       
+
+FSETTIME	size = 43
+	FSETTIME                        
+
+FSPLIT  	size = 124
+	FSPLIT                          
+
+FSTORELI	size = 203
+	FSTORELINE                      
+
+FSTRCOUN	size = 75
+	FSTRCOUNT                       
+
+FTELL   	size = 30
+	FTELL                           
+
+FTEMPNAM	size = 47
+	FTEMPNAME                       
+
+FTOP    	size = 28
+	FTOP                            
+
+FTRUNCAT	size = 28
+	FTRUNCATE                       
+
+FUNHIDE 	size = 30
+	FUNHIDE                         
+
+FUNIQUE 	size = 78
+	FUNIQUE                         
+
+FUNPROTE	size = 30
+	FUNPROTECT                      
+
+FWRITE  	size = 82
+	FWRITE                          
+
+FWRITEBY	size = 41
+	FWRITEBYTE                      
+
+FWRITEIN	size = 41
+	FWRITEINT                       
+
+FWRITELI	size = 42
+	FWRITELINE                      
+
+FWRITELO	size = 42
+	FWRITELONG                      
+
+FWRITES 	size = 42
+	FWRITES                         
+
+FWRITEST	size = 42
+	FWRITESTR                       
+
+F_CLUPDA	size = 46
+	F_CLUPDATE                      
+
+F_HEADER	size = 30
+	F_HEADER                        
+
+F_ISDBF 	size = 30
+	F_ISDBF                         
+
+F_NDXKEY	size = 48
+	F_NDXKEY                        
+
+F_RECSIZ	size = 33
+	F_RECSIZE                       
+
+GBLANKTE	size = 22
+	GBLANKTEXT                      
+
+GBOX    	size = 89
+	GBOX                            
+
+GCAPSTEX	size = 82
+	GCAPSTEXT                       
+
+GCLK12IN	size = 78
+	GCLOCK12IN                      
+
+GCLK24IN	size = 78
+	GCLOCK24IN                      
+
+GCLOCK12	size = 93
+	GCLOCK12                        
+
+GCLOCK24	size = 93
+	GCLOCK24                        
+
+GCLS    	size = 20
+	GCLS                            
+
+GELLIPSE	size = 89
+	GELLIPSE                        
+
+GETATTR 	size = 41
+	GETATTR                         
+
+GETATTRI	size = 30
+	GETATTRIB                       
+
+GETBOXCH	size = 33
+	GETBOXCHAR                      
+
+GETDATE 	size = 35
+	GETDATE                         
+
+GETDATEF	size = 35
+	GETDATEF                        
+
+GETDIR  	size = 67
+	GETDIR                          
+
+GETE    	size = 48
+	GETE                            
+
+GETENV  	size = 48
+	GETENV                          
+
+GETMACHI	size = 34
+	GETMACHINE                      
+
+GETMCB  	size = 32
+	GETMCB                          
+
+GETMODE 	size = 14
+	GETMODE                         
+
+GETPAGE 	size = 14
+	GETPAGE                         
+
+GETPALET	size = 138
+	GETPALETTE                      
+
+GETPIXEL	size = 41
+	GETPIXEL                        
+
+GETPSP  	size = 16
+	GETPSP                          
+
+GETSCREE	size = 28
+	GETSCREEN                       
+
+GETSHADO	size = 128
+	GETSHADOW                       
+
+GETTITLE	size = 131
+	GETTITLE                        
+
+GETVECTO	size = 30
+	GETVECTOR                       
+
+GETVOLUM	size = 66
+	GETVOLUME                       
+
+GEXITKEY	size = 80
+	GEXITKEYS                       
+
+GINSTEXT	size = 82
+	GINSTEXT                        
+
+GISCLK12	size = 14
+	GISCLOCK12                      
+
+GISCLK24	size = 14
+	GISCLOCK24                      
+
+GKEYSTAT	size = 51
+	GKEYSTAT                        
+
+GLASTCOL	size = 14
+	GLASTCOL                        
+
+GLASTROW	size = 14
+	GLASTROW                        
+
+GLINE   	size = 89
+	GLINE                           
+
+GMTCLKIN	size = 94
+	GMTCLOCKIN                      
+
+GMTCLOCK	size = 159
+	GMTCLOCK                        
+
+GMTDATE 	size = 30
+	GMTDATE                         
+
+GNUMTEXT	size = 82
+	GNUMTEXT                        
+
+GPRINT  	size = 230
+	GPRINT                          
+
+GPRINTXY	size = 118
+	GPRINTXY                        
+
+GPUT    	size = 77
+	GPUT                            
+
+GPUTXY  	size = 77
+	GPUTXY                          
+
+GRECT   	size = 89
+	GRECT                           
+
+GRID    	size = 113
+	GRID                            
+
+GSCRLTEX	size = 82
+	GSCRLTEXT                       
+
+GTXCLEAR	size = 6
+	GTXCLEAR                        
+
+GTXCREAT	size = 14
+	GTXCREATE                       
+
+GTXCSRCO	size = 47
+	GTXCSRCOLO                      
+
+GTXCSRPU	size = 33
+	GTXCSRPUT                       
+
+GTXDISPL	size = 6
+	GTXDISPLAY                      
+
+GTXFREE 	size = 6
+	GTXFREE                         
+
+GTXREPAI	size = 6
+	GTXREPAINT                      
+
+GUNCLK12	size = 6
+	GUNCLOCK12                      
+
+GUNCLK24	size = 6
+	GUNCLOCK24                      
+
+HANDLES 	size = 14
+	HANDLES                         
+
+HANDNAME	size = 45
+	HANDLENAME                      
+
+HEX2DEC 	size = 30
+	HEX2DEC                         
+
+I2BIN   	size = 41
+	I2BIN                           
+
+ICCOL   	size = 93
+	ICONCOL                         
+
+ICCOLOR 	size = 93
+	ICONCOLOR                       
+
+ICCOLS  	size = 68
+	ICONWIDTH                       
+
+ICCREATE	size = 304
+	ICONCREATE                      
+
+ICDISPLA	size = 51
+	ICONDISPLA                      
+
+ICFREE  	size = 58
+	ICONFREE                        
+
+ICLOAD  	size = 59
+	ICONLOAD                        
+
+ICMOVE  	size = 77
+	ICONMOVE                        
+
+ICMOVETO	size = 77
+	ICONMOVETO                      
+
+ICPSIZE 	size = 59
+	ICONSIZE                        
+
+ICRESTOR	size = 245
+	ICONRESTOR                      
+
+ICROW   	size = 93
+	ICONROW                         
+
+ICROWS  	size = 59
+	ICONHEIGHT                      
+
+ICSAVE  	size = 122
+	ICONSAVE                        
+
+ICTABLE 	size = 93
+	ICONTABLE                       
+
+ICWREAD 	size = 85
+	ICONREAD                        
+
+INITSCRE	size = 334
+	INITSCREEN                      
+
+INP     	size = 73
+	INP                             
+
+INSTEXT 	size = 78
+	INSTEXT                         
+
+INTERRUP	size = 72
+	INTERRUPT                       
+
+IROL    	size = 41
+	IROL                            
+
+IROR    	size = 41
+	IROR                            
+
+ISALPHA 	size = 66
+	ISALPHA                         
+
+ISANSI  	size = 14
+	ISANSI                          
+
+ISASCII 	size = 66
+	ISASCII                         
+
+ISASSIGN	size = 14
+	ISASSIGN                        
+
+ISASSIND	size = 30
+	ISASSIGNED                      
+
+ISCLOCK1	size = 14
+	ISCLOCK12                       
+
+ISCLOCK2	size = 14
+	ISCLOCK24                       
+
+ISCNTRL 	size = 66
+	ISCNTRL                         
+
+ISCOM   	size = 47
+	ISCOM                           
+
+ISDIGIT 	size = 66
+	ISDIGIT                         
+
+ISDIR   	size = 30
+	ISDIR                           
+
+ISDISK  	size = 30
+	ISDISK                          
+
+ISDOSDIS	size = 28
+	ISDOSDISK                       
+
+ISDRIVE 	size = 50
+	ISDRIVE                         
+
+ISEMS   	size = 14
+	ISEMS                           
+
+ISEXTEND	size = 14
+	ISEXTENDED                      
+
+ISFILE  	size = 61
+	ISFILE                          
+
+ISFIXED 	size = 50
+	ISFIXED                         
+
+ISFLOPPY	size = 50
+	ISFLOPPY                        
+
+ISGMTCLO	size = 14
+	ISGMTCLOCK                      
+
+ISHANDLE	size = 14
+	ISHANDLE                        
+
+ISLEAP  	size = 73
+	ISLEAP                          
+
+ISLOWER 	size = 66
+	ISLOWER                         
+
+ISLPT   	size = 47
+	ISLPT                           
+
+ISMCBFRE	size = 30
+	ISMCBFREE                       
+
+ISMEDIA 	size = 28
+	ISMEDIA                         
+
+ISMICRO 	size = 14
+	ISMICRO                         
+
+ISMOUSE 	size = 14
+	ISMOUSE                         
+
+ISMSCDEX	size = 14
+	ISMSCDEX                        
+
+ISNUM   	size = 66
+	ISNUM                           
+
+ISPRINT 	size = 66
+	ISPRINT                         
+
+ISPRINTE	size = 47
+	ISPRINTER                       
+
+ISPROGRA	size = 30
+	ISPROGRAM                       
+
+ISPUNCT 	size = 66
+	ISPUNCT                         
+
+ISQUEUE 	size = 14
+	ISQUEUE                         
+
+ISREDIRE	size = 14
+	ISREDIRECT                      
+
+ISRELEAS	size = 28
+	ISRELEASE                       
+
+ISREMOTE	size = 50
+	ISREMOTE                        
+
+ISSHARE 	size = 14
+	ISSHARE                         
+
+ISSPACE 	size = 66
+	ISSPACE                         
+
+ISSTATE 	size = 30
+	ISSTATE                         
+
+ISUPPER 	size = 66
+	ISUPPER                         
+
+ISXDIGIT	size = 66
+	ISXDIGIT                        
+
+ISZIP   	size = 43
+	ISZIP                           
+
+ITOA    	size = 45
+	ITOA                            
+
+ITOD    	size = 71
+	ITOD                            
+
+ITODATEF	size = 71
+	ITODATEF                        
+
+ITOH    	size = 45
+	ITOH                            
+
+ITOJ    	size = 79
+	ITOJ                            
+
+ITOSTR  	size = 146
+	ITOSTR                          
+
+JDATEF  	size = 48
+	JDATEF                          
+
+JDOW    	size = 30
+	JDOW                            
+
+JTOD    	size = 47
+	JTOD                            
+
+JTOI    	size = 91
+	JTOI                            
+
+JTOS    	size = 47
+	JTOS                            
+
+KBDPUT  	size = 20
+	KBDPUT                          
+
+KBDSTAT 	size = 28
+	KBDSTAT                         
+
+KBDSTUFF	size = 30
+	KBDSTUFF                        
+
+KEEP    	size = 33
+	KEEP                            
+
+KEY     	size = 47
+	KEY                             
+
+KEYSTAT 	size = 47
+	KEYSTAT                         
+
+L2BIN   	size = 44
+	L2BIN                           
+
+LASTCOL 	size = 14
+	LASTCOL                         
+
+LASTDAY 	size = 30
+	LASTDAY                         
+
+LASTDRIV	size = 45
+	LASTDRIVE                       
+
+LASTROW 	size = 14
+	LASTROW                         
+
+LEADCHAR	size = 157
+	LEADCHAR                        
+
+LINECOUN	size = 33
+	LINECOUNT                       
+
+LJUST   	size = 144
+	LJUST                           
+
+LPRINT  	size = 65
+	LPRINT                          
+
+LPRINTBY	size = 61
+	LPRINTBYTE                      
+
+LPRINTLI	size = 65
+	LPRINTLINE                      
+
+LPTCOUNT	size = 14
+	LPTCOUNT                        
+
+LPTRESET	size = 6
+	LPTRESET                        
+
+LPTSET  	size = 33
+	LPTSET                          
+
+LPTSWAP 	size = 6
+	LPTSWAP                         
+
+LSHL    	size = 44
+	LSHL                            
+
+LSHR    	size = 44
+	LSHR                            
+
+LTOA    	size = 46
+	LTOA                            
+
+LTOH    	size = 46
+	LTOH                            
+
+LTOSTR  	size = 147
+	LTOSTR                          
+
+LTRIMLEN	size = 34
+	LTRIMLEN                        
+
+MAKEPTR 	size = 133
+	MAKEPTR                         
+
+MAKESHAD	size = 57
+	MAKESHADOW                      
+
+MATCHTOK	size = 129
+	MATCHTOKEN                      
+
+MAXHANDL	size = 14
+	MAXHANDLES                      
+
+MAXSECTO	size = 14
+	MAXSECTOR                       
+
+MCBOWNER	size = 32
+	MCBOWNER                        
+
+MCBSIZE 	size = 32
+	MCBSIZE                         
+
+MEDIA   	size = 28
+	MEDIA                           
+
+MEDIATYP	size = 50
+	MEDIATYPE                       
+
+MEM2SCRE	size = 270
+	MEM2SCREEN                      
+
+MEM2STR 	size = 114
+	MEM2STR                         
+
+MEMCMPN 	size = 67
+	MEMCMPN                         
+
+MEMDECOD	size = 244
+	MEMDECODE                       
+
+MEMDECRY	size = 74
+	MEMDECRYPT                      
+
+MEMENCOD	size = 244
+	MEMENCODE                       
+
+MEMENCRY	size = 74
+	MEMENCRYPT                      
+
+MEMLOWER	size = 44
+	MEMLOWER                        
+
+MEMLPRIN	size = 106
+	MEMLPRINT                       
+
+MEMOAPRI	size = 198
+	MEMOAPRINT                      
+
+MEMOCOUN	size = 107
+	MEMOCOUNT                       
+
+MEMOEXPA	size = 282
+	MEMOEXPAND                      
+
+MEMOEXTR	size = 226
+	MEMOEXTRAC                      
+
+MEMOPRIN	size = 198
+	MEMOPRINT                       
+
+MEMOWRAP	size = 278
+	MEMOWRAP                        
+
+MEMPRNTN	size = 130
+	MEMPRINT                        
+
+MEMREVER	size = 182
+	MEMREVERSE                      
+
+MEMUPPER	size = 44
+	MEMUPPER                        
+
+MKDIR   	size = 30
+	MKDIR                           
+
+MLINELEN	size = 47
+	MEMOLINELE                      
+
+MONO    	size = 11
+	MONO                            
+
+MONTYPE 	size = 14
+	MONTYPE                         
+
+MOUSE   	size = 28
+	MOUSE                           
+
+MOUSEINI	size = 11
+	MOUSEINIT                       
+
+MOVESCRE	size = 190
+	MOVESCREEN                      
+
+MSCCLEAR	size = 14
+	MSWCLIPCLE                      
+
+MSCCLOSE	size = 14
+	MSWCLIPCLO                      
+
+MSCLWRIT	size = 34
+	MSWCLIPWRI                      
+
+MSCOPEN 	size = 14
+	MSWCLIPOPE                      
+
+MSCREAD 	size = 153
+	MSWCLIPREA                      
+
+MSCSIZE 	size = 18
+	MSWCLIPSIZ                      
+
+MSISCLIP	size = 14
+	MSWISCLIP                       
+
+MSWVERSI	size = 14
+	MSWVERSION                      
+
+MTABSIZE	size = 47
+	MEMOTABSIZ                      
+
+M_AREGIO	size = 129
+	M_AREGION                       
+
+M_BUTTON	size = 14
+	M_BUTTONS                       
+
+M_CLICKS	size = 28
+	M_CLICKS                        
+
+M_COL   	size = 14
+	M_COL                           
+
+M_CSROFF	size = 14
+	M_CSROFF                        
+
+M_CSRON 	size = 14
+	M_CSRON                         
+
+M_CSRPUT	size = 41
+	M_CSRPUT                        
+
+M_GETCHA	size = 37
+	M_GETCHARS                      
+
+M_GETPAG	size = 14
+	M_GETPAGE                       
+
+M_HMICKE	size = 14
+	M_HMICKEYS                      
+
+M_INCOL 	size = 14
+	M_INCOL                         
+
+M_INROW 	size = 14
+	M_INROW                         
+
+M_INSTAL	size = 28
+	M_INSTALL                       
+
+M_IRQ   	size = 14
+	M_IRQ                           
+
+M_ISCURS	size = 14
+	M_ISCURSOR                      
+
+M_LANGUA	size = 47
+	M_LANGUAGE                      
+
+M_MAXCOL	size = 41
+	M_MAXCOL                        
+
+M_MAXROW	size = 41
+	M_MAXROW                        
+
+M_MICKEY	size = 41
+	M_MICKEYS                       
+
+M_MOVEME	size = 14
+	M_MOVEMENT                      
+
+M_PEN   	size = 28
+	M_PEN                           
+
+M_REGION	size = 65
+	M_REGION                        
+
+M_RESET 	size = 14
+	M_RESET                         
+
+M_ROW   	size = 14
+	M_ROW                           
+
+M_SETCHA	size = 22
+	M_SETCHARS                      
+
+M_SETCUR	size = 119
+	M_SETCURSO                      
+
+M_SETPAG	size = 28
+	M_SETPAGE                       
+
+M_SPEED 	size = 28
+	M_SPEED                         
+
+M_SQUEAK	size = 6
+	M_SQUEAK                        
+
+M_TEXTCU	size = 45
+	M_TEXTCURS                      
+
+M_TYPE  	size = 14
+	M_TYPE                          
+
+M_VERSIO	size = 14
+	M_VERSION                       
+
+M_VMICKE	size = 14
+	M_VMICKEYS                      
+
+M_WAIT  	size = 20
+	M_WAIT                          
+
+NAP     	size = 20
+	NAP                             
+
+NDPTYPE 	size = 16
+	NDPTYPE                         
+
+NEXTHAND	size = 14
+	NEXTHANDLE                      
+
+NOISE   	size = 20
+	NOISE                           
+
+NPACTIVE	size = 109
+	NPACTIVECO                      
+
+NPBACKSP	size = 75
+	NPBACKSPAC                      
+
+NPBCOLOR	size = 122
+	NPBLOCKCOL                      
+
+NPBEGINM	size = 61
+	NPBEGINMAR                      
+
+NPBLCKSI	size = 93
+	NPBLOCKSIZ                      
+
+NPBLKCPY	size = 282
+	NPBLKCPY                          NPCPYBLK
+
+NPBLOCKE	size = 93
+	NPBLOCKEND                      
+
+NPBLOCKS	size = 93
+	NPBLOCKSTA                      
+
+NPBUFSIZ	size = 89
+	NPBUFFSIZE                      
+
+NPCENTER	size = 75
+	NPCENTER                        
+
+NPCLEAR 	size = 61
+	NPCLEAR                         
+
+NPCLEARP	size = 134
+	NPCLEARPAD                      
+
+NPCOL   	size = 75
+	NPCSRCOL                        
+
+NPCOLOR 	size = 109
+	NPCOLOR                         
+
+NPCOPYBL	size = 448
+	NPCOPYBLOC                      
+
+NPCREATE	size = 811
+	NPCREATE                        
+
+NPCSRBOT	size = 93
+	NPCSRBOTTO                      
+
+NPCSRDOW	size = 127
+	NPCSRDOWN                       
+
+NPCSREND	size = 93
+	NPCSREND                        
+
+NPCSRGOT	size = 119
+	NPCSRGOTO                       
+
+NPCSRHOM	size = 93
+	NPCSRHOME                       
+
+NPCSRIND	size = 126
+	NPCSRINDEX                      
+
+NPCSRLEF	size = 127
+	NPCSRLEFT                       
+
+NPCSRRIG	size = 127
+	NPCSRRIGHT                      
+
+NPCSRTOP	size = 93
+	NPCSRTOP                        
+
+NPCSRUP 	size = 127
+	NPCSRUP                         
+
+NPDELEN 	size = 92
+	NPDELETEEN                      
+
+NPDELETB	size = 93
+	NPDELETEBL                      
+
+NPDELETE	size = 75
+	NPDELETE                        
+
+NPDELETT	size = 107
+	NPDELETETE                      
+
+NPDELETW	size = 92
+	NPDELETEWO                      
+
+NPDELLIN	size = 92
+	NPDELETELI                      
+
+NPDELTOK	size = 129
+	NPDELETETO                      
+
+NPDFREE 	size = 119
+	NPFREE                          
+
+NPDISPLA	size = 61
+	NPDISPLAY                       
+
+NPDSTORE	size = 120
+	NPSTORE                         
+
+NPEND   	size = 93
+	NPEND                           
+
+NPENDMAR	size = 61
+	NPENDMARK                       
+
+NPEOFCHA	size = 109
+	NPEOFCHAR                       
+
+NPEOLCHA	size = 109
+	NPEOLCHAR                       
+
+NPGETBLO	size = 209
+	NPGETBLOCK                      
+
+NPGETBOO	size = 107
+	NPGETBOOKM                      
+
+NPGETCHA	size = 80
+	NPGETCHAR                       
+
+NPGETLIN	size = 195
+	NPGETLINE                       
+
+NPGETTEX	size = 224
+	NPGETTEXT                       
+
+NPGETTOK	size = 230
+	NPGETTOKEN                      
+
+NPGOBOOK	size = 89
+	NPGOBOOKMA                      
+
+NPGOTOLI	size = 89
+	NPGOTOLINE                      
+
+NPHOME  	size = 93
+	NPHOME                          
+
+NPINSERT	size = 89
+	NPINSERT                        
+
+NPINSRTB	size = 250
+	NPINSERTBL                      
+
+NPINSRTT	size = 90
+	NPINSERTTE                      
+
+NPISTOKE	size = 112
+	NPISTOKEN                       
+
+NPJUSTIF	size = 75
+	NPJUSTIFY                       
+
+NPLINECO	size = 93
+	NPLINECOUN                      
+
+NPLINELE	size = 126
+	NPLINELENG                      
+
+NPLJUSTI	size = 75
+	NPLEFTJUST                      
+
+NPMARKLI	size = 61
+	NPMARKLINE                      
+
+NPMARKTO	size = 112
+	NPMARKTOKE                      
+
+NPMAXBUF	size = 93
+	NPMAXBUFFS                      
+
+NPMAXLIN	size = 75
+	NPMAXLINES                      
+
+NPMOVE  	size = 87
+	NPMOVE                          
+
+NPMOVETO	size = 87
+	NPMOVETO                        
+
+NPOVERWR	size = 89
+	NPOVERWRIT                      
+
+NPPADSIZ	size = 93
+	NPPADSIZE                       
+
+NPPAGEDO	size = 93
+	NPPAGEDOWN                      
+
+NPPAGEUP	size = 93
+	NPPAGEUP                        
+
+NPPANCOU	size = 109
+	NPPANCOUNT                      
+
+NPREPAIN	size = 61
+	NPREPAINT                       
+
+NPRESTOR	size = 472
+	NPRESTORE                       
+
+NPRESTPA	size = 298
+	NPRESTOREP                      
+
+NPRETRIE	size = 245
+	NPRETRIEVE                      
+
+NPRJUSTI	size = 75
+	NPRIGHTJUS                      
+
+NPROW   	size = 75
+	NPCSRROW                        
+
+NPSAVE  	size = 160
+	NPSAVE                          
+
+NPSAVPAD	size = 93
+	NPSAVEPAD                       
+
+NPSCOL  	size = 75
+	NPCOL                           
+
+NPSCRCOL	size = 75
+	NPSCRCOL                        
+
+NPSCROLL	size = 89
+	NPSCROLL                        
+
+NPSCRROW	size = 75
+	NPSCRROW                        
+
+NPSETBOO	size = 89
+	NPSETBOOKM                      
+
+NPSETFOC	size = 109
+	NPSETFOCUS                      
+
+NPSHIFT 	size = 89
+	NPSHIFT                         
+
+NPSIZE  	size = 93
+	NPSIZE                          
+
+NPSROW  	size = 75
+	NPROW                           
+
+NPTABCHA	size = 109
+	NPTABCHAR                       
+
+NPTABSIZ	size = 109
+	NPTABSIZE                       
+
+NPUNMARK	size = 61
+	NPUNMARK                        
+
+NPVM    	size = 1018
+	__freeNotePad                     __loadNotePad
+	__nplock                          __npunlock
+	__releaseNotePad                
+
+NPWCSRMO	size = 119
+	NPWINCSRMO                      
+
+NPWINBOT	size = 109
+	NPWINBOTTO                      
+
+NPWINCCO	size = 75
+	NPWINCSRCO                      
+
+NPWINCOL	size = 75
+	NPWINCOL                        
+
+NPWINCRO	size = 75
+	NPWINCSRRO                      
+
+NPWINHEI	size = 75
+	NPHEIGHT                        
+
+NPWINLEF	size = 109
+	NPWINLEFT                       
+
+NPWINOL 	size = 109
+	NPWINLEFTO                      
+
+NPWINOT 	size = 109
+	NPWINTOPOR                      
+
+NPWINRES	size = 111
+	NPWINRESIZ                      
+
+NPWINRIG	size = 109
+	NPWINRIGHT                      
+
+NPWINROW	size = 75
+	NPWINROW                        
+
+NPWINTOP	size = 109
+	NPWINTOP                        
+
+NPWINWID	size = 75
+	NPWIDTH                         
+
+NPWORDLE	size = 93
+	NPWORDLEFT                      
+
+NPWORDRI	size = 93
+	NPWORDRIGH                      
+
+NUM2BIN 	size = 45
+	NUM2BIN                         
+
+NUM2DAY 	size = 47
+	NUM2DAY                         
+
+NUM2MON 	size = 47
+	NUM2MON                         
+
+NUM2MONT	size = 47
+	NUM2MONTH                       
+
+NUMFIXED	size = 14
+	NUMFIXED                        
+
+NUMFLOPP	size = 14
+	NUMFLOPPY                       
+
+NUMLOCK 	size = 47
+	NUMLOCK                         
+
+NUMTEXT 	size = 78
+	NUMTEXT                         
+
+NUMTOKEN	size = 64
+	NUMTOKEN                        
+
+NUPPER  	size = 28
+	NUPPER                          
+
+OBJTYPE 	size = 118
+	OBJTYPE                         
+
+OFF     	size = 72
+	OFF                             
+
+OR      	size = 35
+	OR                              
+
+OUTP    	size = 123
+	OUTP                            
+
+PALETTE 	size = 41
+	PALETTE                         
+
+PARENT  	size = 16
+	PARENT                          
+
+PARK    	size = 20
+	PARK                            
+
+PEEK    	size = 133
+	PEEK                            
+
+PEEKSTR 	size = 196
+	PEEKSTR                         
+
+PERROR  	size = 14
+	PERROR                          
+
+PHANTOM 	size = 14
+	PHANTOM                         
+
+POKE    	size = 196
+	POKE                            
+
+PRINT   	size = 244
+	PRINT                           
+
+PRINTN  	size = 77
+	PRINTN                          
+
+PRNRESET	size = 39
+	PRNRESET                        
+
+PRNSTATU	size = 47
+	PRNSTATUS                       
+
+PROGRAM 	size = 35
+	PROGRAM                         
+
+PRTSCR  	size = 6
+	PRTSCR                          
+
+PTR2HEX 	size = 79
+	PTR2HEX                         
+
+PUTENV  	size = 30
+	PUTENV                          
+
+PUTSCREE	size = 65
+	PUTSCREEN                       
+
+Q_CANCEL	size = 14
+	Q_CANCEL                        
+
+Q_DELETE	size = 30
+	Q_DELETE                        
+
+Q_FILE  	size = 69
+	Q_FILE                          
+
+Q_FILES 	size = 14
+	Q_FILES                         
+
+Q_HOLD  	size = 14
+	Q_HOLD                          
+
+Q_RESTAR	size = 14
+	Q_RESTART                       
+
+Q_STATUS	size = 14
+	Q_STATUS                        
+
+Q_SUBMIT	size = 30
+	Q_SUBMIT                        
+
+RAND    	size = 14
+	RAND                            
+
+RANDOM  	size = 14
+	RANDOM                          
+
+RATI    	size = 47
+	RATI                            
+
+READH   	size = 66
+	_READH                          
+
+READLINE	size = 155
+	READLINE                        
+
+READS   	size = 70
+	_READS                          
+
+READSCRE	size = 84
+	READSCREEN                      
+
+READSECT	size = 90
+	READSECTOR                      
+
+RELEASE 	size = 59
+	RELEASE                         
+
+REMOVEAB	size = 50
+	REMOVEABLE                      
+
+RENDIR  	size = 43
+	RENDIR                          
+
+REPPRNTN	size = 81
+	REPPRINT                        
+
+RESTCSR 	size = 22
+	RESTCSR                         
+
+RESTFORM	size = 42
+	RESTFORMAT                      
+
+RESTVIDE	size = 219
+	RESTVIDEO                       
+
+REVERSE 	size = 144
+	REVERSE                         
+
+RJUST   	size = 144
+	RJUST                           
+
+RMDIR   	size = 30
+	RMDIR                           
+
+ROL     	size = 42
+	ROL                             
+
+ROLOC   	size = 28
+	ROLOC                           
+
+ROMDATE 	size = 33
+	ROMDATE                         
+
+ROR     	size = 42
+	ROR                             
+
+SAVECSR 	size = 16
+	SAVECSR                         
+
+SAVEFORM	size = 42
+	SAVEFORMAT                      
+
+SAVEVIDE	size = 370
+	SAVEVIDEO                       
+
+SCANLINE	size = 44
+	SCANLINES                       
+
+SCREEN2M	size = 322
+	SCREEN2MEM                      
+
+SCRLOCK 	size = 47
+	SCRLOCK                         
+
+SCRLTEXT	size = 78
+	SCRLTEXT                        
+
+SCRTODIS	size = 178
+	SCRTODISK                       
+
+SCRWRAP 	size = 116
+	SCRWRAP                         
+
+SECTORS 	size = 52
+	SECTORS                         
+
+SECTORSI	size = 52
+	SECTORSIZE                      
+
+SEED    	size = 20
+	SEED                            
+
+SEG     	size = 72
+	SEG                             
+
+SELECTED	size = 14
+	SELECTED                        
+
+SERIAL  	size = 129
+	SERIAL                          
+
+SETATTR 	size = 141
+	SETATTR                         
+
+SETATTRI	size = 42
+	SETATTRIB                       
+
+SETBOXCH	size = 22
+	SETBOXCHAR                      
+
+SETBREAK	size = 47
+	SETBREAK                        
+
+SETCOLLA	size = 17
+	SETCOLLATE                      
+
+SETDATE 	size = 77
+	SETDATE                         
+
+SETDATEF	size = 22
+	SETDATEF                        
+
+SETDRIVE	size = 30
+	SETDRIVE                        
+
+SETHANDL	size = 28
+	SETHANDLES                      
+
+SETJDATE	size = 30
+	SETJDATE                        
+
+SETLOCAS	size = 17
+	SETLOWERCA                      
+
+SETLOGIC	size = 22
+	SETLOGICAL                      
+
+SETPAGE 	size = 20
+	SETPAGE                         
+
+SETPALET	size = 69
+	SETPALETTE                      
+
+SETPIXEL	size = 45
+	SETPIXEL                        
+
+SETSCREE	size = 409
+	SETSCREEN                       
+
+SETSECTO	size = 48
+	SETSECTOR                       
+
+SETSHADO	size = 28
+	SETSHADOW                       
+
+SETTIME 	size = 30
+	SETTIME                         
+
+SETTITLE	size = 46
+	SETTITLE                        
+
+SETUPCAS	size = 17
+	SETUPPERCA                      
+
+SETVERIF	size = 47
+	SETVERIFY                       
+
+SETVOLUM	size = 63
+	SETVOLUME                       
+
+SETWHEEL	size = 55
+	SETWHEEL                        
+
+SET_FERR	size = 20
+	SET_FERROR                      
+
+SHADCOL 	size = 66
+	SHADHIGH                          SHADLOW
+
+SHADOWTY	size = 46
+	SHADOWTYPE                      
+
+SHIFT   	size = 129
+	SHIFT                           
+
+SHL     	size = 37
+	SHL                             
+
+SHR     	size = 37
+	SHR                             
+
+SILENCE 	size = 6
+	SILENCE                         
+
+SOUND   	size = 91
+	SOUND                           
+
+SOUNDEX 	size = 124
+	SOUNDEX                         
+
+SOUNDEXL	size = 47
+	SOUNDEXLEN                      
+
+SPACETOK	size = 186
+	SPACETOKEN                      
+
+SRAND   	size = 20
+	SRAND                           
+
+STANDARD	size = 51
+	STANDARD                        
+
+STATE   	size = 47
+	STATE                           
+
+STATECOD	size = 47
+	STATECODE                       
+
+STDIN   	size = 47
+	STDIN                           
+
+STDINPUT	size = 60
+	STDINPUT                        
+
+STDINT  	size = 42
+	STDINT                          
+
+STDLONG 	size = 44
+	STDLONG                         
+
+STDOUTBY	size = 20
+	STDOUTBYTE                      
+
+STDOUTN 	size = 34
+	STDOUTN                         
+
+STICK   	size = 56
+	STICK                             STRIG
+
+STOJ    	size = 22
+	STOJ                            
+
+STR2MEM 	size = 151
+	STR2MEM                         
+
+STRASCII	size = 85
+	STRASCII                        
+
+STRATNEX	size = 59
+	STRATNEXT                       
+
+STRATNXI	size = 59
+	STRATNEXTI                      
+
+STRCENTE	size = 237
+	STRCENTER                       
+
+STRCMP  	size = 43
+	STRCMP                          
+
+STRCMPI 	size = 43
+	STRCMPI                         
+
+STRCOUNI	size = 46
+	STRCOUNTI                       
+
+STRCOUNT	size = 46
+	STRCOUNT                        
+
+STRDIFF 	size = 45
+	STRDIFF                         
+
+STREXPAN	size = 239
+	STREXPAND                       
+
+STREXTRA	size = 168
+	STREXTRACT                      
+
+STRIPATT	size = 139
+	STRIPATTRI                      
+
+STRJUSTI	size = 163
+	STRJUSTIFY                      
+
+STRLEN  	size = 34
+	STRLEN                          
+
+STRNCMP 	size = 55
+	STRNCMP                         
+
+STRNCMPI	size = 55
+	STRNCMPI                        
+
+STRRELEA	size = 62
+	FREESTR                         
+
+STRSUM  	size = 32
+	STRSUM                          
+
+STRSWAP 	size = 192
+	STRSWAP                         
+
+STRSWITC	size = 144
+	STRSWITCH                       
+
+STRTOKEN	size = 145
+	STRTOKEN                        
+
+STRTRANI	size = 325
+	STRTRANI                        
+
+STRWRAP 	size = 173
+	STRWRAP                         
+
+SWAPTOKE	size = 196
+	SWAPTOKEN                       
+
+SYSTYPE 	size = 14
+	SYSTYPE                         
+
+TABEXPAN	size = 246
+	TABEXPAND                       
+
+TABSTOP 	size = 41
+	TABSTOP                         
+
+TEST    	size = 41
+	TEST                            
+
+TIMEH   	size = 37
+	TIMEH                           
+
+TOKEN   	size = 168
+	TOKEN                           
+
+TOKENINF	size = 121
+	TOKENINFO                       
+
+TOKENJUS	size = 196
+	TOKENJUSTI                      
+
+TOKENLEN	size = 59
+	TOKENLEN                        
+
+TOKENLOW	size = 244
+	TOKENLOWER                      
+
+TOKENSIZ	size = 47
+	TOKENSIZE                       
+
+TOKENUPP	size = 244
+	TOKENUPPER                      
+
+TONE    	size = 33
+	TONE                            
+
+TRAILCHA	size = 157
+	TRAILCHAR                       
+
+TRIMLEN 	size = 34
+	TRIMLEN                         
+
+TRIMPUNC	size = 143
+	TRIMPUNCT                       
+
+TURBO   	size = 20
+	TURBO                           
+
+ULTOA   	size = 46
+	ULTOA                           
+
+ULTOSTR 	size = 147
+	ULTOSTR                         
+
+UNCLOCK1	size = 6
+	UNCLOCK12                       
+
+UNCLOCK2	size = 6
+	UNCLOCK24                       
+
+UNGMTCLO	size = 6
+	UNGMTCLOCK                      
+
+UNSELECT	size = 51
+	UNSELECTED                      
+
+UNTRIM  	size = 147
+	UNTRIM                          
+
+UTOA    	size = 45
+	UTOA                            
+
+UTOSTR  	size = 146
+	UTOSTR                          
+
+VALIDHAN	size = 28
+	VALIDHANDL                      
+
+VCOLOR  	size = 12
+	COLOR                           
+
+VCOLOUR 	size = 12
+	COLOUR                          
+
+VIDEOINI	size = 6
+	VIDEOINIT                       
+
+VIDEOMOD	size = 52
+	VIDEOMODE                       
+
+VIDRESET	size = 6
+	VIDRESET                        
+
+VIDTYPE 	size = 14
+	VIDTYPE                         
+
+VREPLICA	size = 90
+	VREPLICATE                      
+
+VSCROLL 	size = 157
+	VSCROLL                         
+
+VTADOPT 	size = 104
+	VTADOPT                         
+
+VTCHILD 	size = 32
+	VTCHILD                         
+
+VTCLEAR 	size = 32
+	VTCLEAR                         
+
+VTCLIPPI	size = 80
+	VTSETCLIPP                      
+
+VTCLS   	size = 57
+	VTCLS                           
+
+VTCREATE	size = 166
+	VTCREATE                        
+
+VTCSRADJ	size = 32
+	VTCSRADJUS                      
+
+VTCSRCOL	size = 30
+	VTCSRCOL                        
+
+VTCSRPUT	size = 56
+	VTCSRPUT                        
+
+VTCSRROW	size = 30
+	VTCSRROW                        
+
+VTDISPLA	size = 22
+	VTDISPLAY                       
+
+VTFREE  	size = 22
+	VTFREE                          
+
+VTINHERI	size = 81
+	VTINHERIT                       
+
+VTLEFTOR	size = 42
+	VTWINLEFTORG                    
+
+VTMOVE  	size = 56
+	VTMOVETO                        
+
+VTPARENT	size = 32
+	VTPARENT                        
+
+VTPRINT 	size = 81
+	VTPRINT                         
+
+VTPUTCHA	size = 44
+	VTPUTCHAR                       
+
+VTRELATE	size = 45
+	VTRELATE                        
+
+VTRESIZE	size = 80
+	VTWINRESIZE                     
+
+VTSCRCOL	size = 30
+	VTSCRCOL                        
+
+VTSCRROW	size = 30
+	VTSCRROW                        
+
+VTSIBLIN	size = 32
+	VTSIBLING                       
+
+VTSTANDA	size = 62
+	VTSTANDARD                      
+
+VTSTDBYT	size = 44
+	VTSTDOUTBY                      
+
+VTSTDLIN	size = 45
+	VTSTDOUTLI                      
+
+VTTOPORG	size = 42
+	VTWINTOPORG                     
+
+VTTRACKI	size = 62
+	VTTRACKING                      
+
+VTVIRTUA	size = 57
+	VTVIRTUAL                       
+
+WARBLE  	size = 20
+	WARBLE                          
+
+WARMBOOT	size = 6
+	WARMBOOT                        
+
+WHEEL   	size = 32
+	WHEEL                           
+
+WHEREIS 	size = 48
+	WHEREIS                         
+
+WILDAT  	size = 83
+	WILDAT                          
+
+WILDATNE	size = 95
+	WILDATNEXT                      
+
+WILDCARD	size = 79
+	WILDCARD                        
+
+WILDCOUN	size = 82
+	WILDCOUNT                       
+
+WILDEXTR	size = 205
+	WILDEXTRAC                      
+
+WILDLEN 	size = 123
+	WILDLEN                         
+
+WILDSWAP	size = 263
+	WILDSWAP                        
+
+WIPEFILE	size = 30
+	WIPEFILE                        
+
+WRAPCOUN	size = 45
+	WRAPCOUNT                       
+
+WRITESEC	size = 68
+	WRITESECTO                      
+
+XOR     	size = 35
+	XOR                             
+
+_ASIGNED	size = 28
+	_ASSIGNED                       
+
+_BACKGRO	size = 28
+	_BACKGROUN                      
+
+_CLCOMMA	size = 48
+	_COMMAND                        
+
+_CLCSRPU	size = 33
+	_CSRPUT                         
+
+_CLDELEN	size = 43
+	_DELENV                         
+
+_CLENV  	size = 60
+	_ENV                            
+
+_CLENVC 	size = 30
+	_ENVC                           
+
+_CLENVLE	size = 30
+	_ENVLEN                         
+
+_CLENVNA	size = 48
+	_ENVNAME                        
+
+_CLENVSI	size = 30
+	_ENVSIZE                        
+
+_CLGREAD	size = 70
+	_GREADS                         
+
+_CLINKEY	size = 47
+	_INKEY                          
+
+_CLINSER	size = 47
+	_INSERT                         
+
+_CLLASTK	size = 14
+	_LASTKEY                        
+
+_CLLOWER	size = 144
+	_LOWER                          
+
+_CLNEXTK	size = 14
+	_NEXTKEY                        
+
+_CLNSTUF	size = 40
+	__NSTUFF                        
+
+_CLPAREN	size = 32
+	_PARENT                         
+
+_CLPRNST	size = 47
+	_PRNSTATUS                      
+
+_CLPROGR	size = 48
+	_PROGRAM                        
+
+_CLPUTEN	size = 43
+	_PUTENV                         
+
+_CLSETKR	size = 42
+	_SETKEYRES                      
+
+_CLSETKS	size = 74
+	_SETKEYSAV                      
+
+_CLSETSE	size = 51
+	_SETSETKEY                      
+
+_CLUPPER	size = 144
+	_UPPER                          
+
+_CLWAITK	size = 51
+	_WAITKEY                        
+
+_FOREGRO	size = 28
+	_FOREGROUN                      
+
+_FSRCH  	size = 61
+	_FSEARCH                        
+
+_ISASIG 	size = 28
+	_ISASSIGNE                      
+
+_ISBUTTO	size = 28
+	_isbutton                       
+
+_MAXLOAD	size = 259
+	_MAXLOADLN                      
+
+_REASSIG	size = 41
+	_REASSIGN                       
+
+_REGS   	size = 383
+	REG_AH                            REG_AL
+	REG_AX                            REG_BH
+	REG_BL                            REG_BP
+	REG_BX                            REG_CF
+	REG_CH                            REG_CL
+	REG_CX                            REG_DH
+	REG_DI                            REG_DL
+	REG_DS                            REG_DX
+	REG_ES                            REG_FLAGS
+	REG_SI                            _regs_all
+
+_SCANCOD	size = 14
+	_SCANCODE                       
+
+_SCANVAR	size = 14
+	__SCANVAR                       
+
+_SETSNOW	size = 28
+	_SETSNOW                        
+
+_VTDISPL	size = 22
+	_VTDISPLAY                      
+
+_WHERS  	size = 60
+	_WHEREIS                        
+
+_XKEY   	size = 47
+	_XKEY                           
+
+_XKEYVAL	size = 47
+	_XKEYVAL                        
+
+_XSCANCO	size = 14
+	_XSCANCODE                      
+
+__AAMAXS	size = 295
+	___aamaxstr                     
+
+__AMAX  	size = 508
+	___amax                         
+
+__MAXSTR	size = 287
+	___maxstr                       
+
+__SETTAB	size = 220
+	___settable                     
+
+__VM1   	size = 14
+	__ISVM                          

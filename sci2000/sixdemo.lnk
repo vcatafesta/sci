@@ -1,0 +1,60 @@
+
+#ีอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออธ
+#ณ Source File: SIXDEMO.LNK  (for use with Clipper 5.2x ONLY)              ณÛ
+#ณ Purpose....: Blinker Script File for the SIx Driver v3.0 Demo           ณÛ
+#ณ Author.....: Team SuccessWare                                           ณÛ
+#ณ Notice.....: (c)1995 - SuccessWare 90, Inc.                             ณÛ
+#ณ NOTE.......: This file is used by SIXDEMO.RMK and MAKEDEMO.BAT          ณÛ
+#ิอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออพÛ
+#  ÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛ
+
+# Use a fixed overlay area instead of the free pool
+BLINKER OVERLAY FIXED
+
+# Allocate 60k to the overlay pool
+BLINKER OVERLAY OPSIZE 60
+
+# Perform a full link
+BLINKER INCREMENTAL OFF
+
+# Use expanded ram for overlay pool to save memory
+BLINKER OVERLAY PAGEFRAME ON
+
+# Use these commands only if using Blinker 2.0 and above
+BLINKER OVERLAY THRESHOLD 256
+BLINKER CACHE XMS 512, 25%
+BLINKER CACHE EMS 128, 50%
+
+OUTPUT sixdemo
+
+BEGINAREA
+  FILE sixtools, scope, ryodemo, scrllbar, inidemo, multikey, rollback
+  FILE memoconv, trigdemo, m6demo, ryofilt, hsfilt, otto
+  LIB extend
+ENDAREA
+
+# ----------------------------------------------------------------------- #
+# Clipper 5.2x Libraries (in the root)
+# ----------------------------------------------------------------------- #
+
+LIB clipper
+
+BEGINAREA
+  # C/ASM Modules from CLIPPER.LIB
+  MOD accept, acopy, adel, ains, appexit, appinit, atail, cmem, dbcmd0
+  MOD dbcmd1, dbcmd2, dbcmd3, dbcmd4, dbcmd5, dbcreate, dbgapi, dbgshado
+  MOD dbnubs, dbstruct, delimdyn, diskio, dlm0, dlm1, emmalloc, emmcount
+  MOD emmfree, emminst, emmpage, emmreall, emmstat, emmvers, errsys0
+  MOD exactcmp, getenv, gets0, gets1, gets2, gx, initexit, instd, joinlist
+  MOD lupdate, memory, mrelease, msave, oldbox, oldclear, outstd, philes
+  MOD rddord, rddsrv, run, saverest, scroll, sdf0, sdf1, sdfdyn, send, seq
+  MOD sortof, squawk, startsym, tb, version
+ENDAREA
+
+# ----------------------------------------------------------------------- #
+# Clipper 5.2 Terminal driver library
+# ----------------------------------------------------------------------- #
+
+LIB terminal
+
+

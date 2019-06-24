@@ -1,0 +1,337 @@
+--------------------------------------------------------------------------------
+Error on 26/02/17 03:30:00
+Computer Name: LG
+User Name: vcatafesta
+Logon Server: \LG
+Client Name: 
+User Domain: LG
+OS: Windows 8.1 6.3
+Harbour: Harbour 3.2.0dev (r1607181832)
+Compiler: Borland C++ 5.5.1 (32-bit)
+
+
+Error MGERROR/0  Only Panel windows can be defined inside a DEFINE WINDOW...END WINDOW structure. Program terminated.
+Called from MSGMINIGUIERROR(93)  
+Called from _DEFINEWINDOW(145)  
+Called from INITWINDOW(8632)  
+Called from _DEFINEWINDOW(256)  
+Called from INITWINDOW(8632)  
+Called from MAIN(91)  
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Error on 26/02/17 03:33:13
+Computer Name: LG
+User Name: vcatafesta
+Logon Server: \LG
+Client Name: 
+User Domain: LG
+OS: Windows 8.1 6.3
+Harbour: Harbour 3.2.0dev (r1607181832)
+Compiler: Borland C++ 5.5.1 (32-bit)
+
+
+Error BASE/1003  Vari vel n„o existe: QUIT
+Called from (b)INITMAIN(8636)  
+Called from _DOCONTROLEVENTPROCEDURE(1726)  
+Called from EVENTS(1557)  
+Called from DOMESSAGELOOP(0)  
+Called from _ACTIVATEWINDOW(1405)  
+Called from INITMAIN(8672)  
+Called from MAIN(91)  
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Error on 26/02/17 03:40:47
+Computer Name: LG
+User Name: vcatafesta
+Logon Server: \LG
+Client Name: 
+User Domain: LG
+OS: Windows 8.1 6.3
+Harbour: Harbour 3.2.0dev (r1607181832)
+Compiler: Borland C++ 5.5.1 (32-bit)
+
+
+Error MGERROR/0  ACTIVATE WINDOW: Main Window must be activated in the first ACTIVATE WINDOW command. Program terminated.
+Called from MSGMINIGUIERROR(93)  
+Called from _ACTIVATEWINDOW(1238)  
+Called from INTROMAIN(53)  
+Called from MAIN(88)  
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Error on 26/02/17 03:41:18
+Computer Name: LG
+User Name: vcatafesta
+Logon Server: \LG
+Client Name: 
+User Domain: LG
+OS: Windows 8.1 6.3
+Harbour: Harbour 3.2.0dev (r1607181832)
+Compiler: Borland C++ 5.5.1 (32-bit)
+
+
+Error MGERROR/0  ACTIVATE WINDOW: Main Window must be activated in the first ACTIVATE WINDOW command. Program terminated.
+Called from MSGMINIGUIERROR(93)  
+Called from _ACTIVATEWINDOW(1238)  
+Called from INTROMAIN(34)  
+Called from MAIN(88)  
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Error on 26/02/17 03:41:31
+Computer Name: LG
+User Name: vcatafesta
+Logon Server: \LG
+Client Name: 
+User Domain: LG
+OS: Windows 8.1 6.3
+Harbour: Harbour 3.2.0dev (r1607181832)
+Compiler: Borland C++ 5.5.1 (32-bit)
+
+
+Error MGERROR/0  ACTIVATE WINDOW: Main Window must be activated in the first ACTIVATE WINDOW command. Program terminated.
+Called from MSGMINIGUIERROR(93)  
+Called from _ACTIVATEWINDOW(1238)  
+Called from INTROMAIN(34)  
+Called from MAIN(88)  
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Error on 26/02/17 03:51:11
+Computer Name: LG
+User Name: vcatafesta
+Logon Server: \LG
+Client Name: 
+User Domain: LG
+OS: Windows 8.1 6.3
+Harbour: Harbour 3.2.0dev (r1607181832)
+Compiler: Borland C++ 5.5.1 (32-bit)
+
+
+Error MGERROR/0  Window: Trax_1 is not active. Program terminated.
+Called from MSGMINIGUIERROR(93)  
+Called from _RELEASEWINDOW(2207)  
+Called from DOMETHOD(4739)  
+Called from SPLASHDELAY(49)  
+Called from (b)INTROMAIN(23)  
+Called from _PROCESSINITPROCEDURE(1554)  
+Called from _ACTIVATEWINDOW(1315)  
+Called from INTROMAIN(34)  
+Called from MAIN(88)  
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Error on 26/02/17 03:51:40
+Computer Name: LG
+User Name: vcatafesta
+Logon Server: \LG
+Client Name: 
+User Domain: LG
+OS: Windows 8.1 6.3
+Harbour: Harbour 3.2.0dev (r1607181832)
+Compiler: Borland C++ 5.5.1 (32-bit)
+
+
+Error MGERROR/0  ACTIVATE WINDOW: Main Window must be activated in the first ACTIVATE WINDOW command. Program terminated.
+Called from MSGMINIGUIERROR(93)  
+Called from _ACTIVATEWINDOW(1238)  
+Called from INTROMAIN(34)  
+Called from MAIN(88)  
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Error on 26/02/17 03:54:38
+Computer Name: LG
+User Name: vcatafesta
+Logon Server: \LG
+Client Name: 
+User Domain: LG
+OS: Windows 8.1 6.3
+Harbour: Harbour 3.2.0dev (r1607181832)
+Compiler: Borland C++ 5.5.1 (32-bit)
+
+
+Error MGERROR/0  ACTIVATE WINDOW: Main Window must be activated in the first ACTIVATE WINDOW command. Program terminated.
+Called from MSGMINIGUIERROR(93)  
+Called from _ACTIVATEWINDOW(1238)  
+Called from INTROMAIN(34)  
+Called from MAIN(88)  
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Error on 26/02/17 03:54:53
+Computer Name: LG
+User Name: vcatafesta
+Logon Server: \LG
+Client Name: 
+User Domain: LG
+OS: Windows 8.1 6.3
+Harbour: Harbour 3.2.0dev (r1607181832)
+Compiler: Borland C++ 5.5.1 (32-bit)
+
+
+Error MGERROR/0  Window: Trax_1 is not active. Program terminated.
+Called from MSGMINIGUIERROR(93)  
+Called from _RELEASEWINDOW(2207)  
+Called from DOMETHOD(4739)  
+Called from SPLASHDELAY(49)  
+Called from (b)INTROMAIN(23)  
+Called from _PROCESSINITPROCEDURE(1554)  
+Called from _ACTIVATEWINDOW(1315)  
+Called from INTROMAIN(34)  
+Called from MAIN(88)  
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Error on 26/02/17 23:29:37
+Computer Name: LG
+User Name: vcatafesta
+Logon Server: \LG
+Client Name: 
+User Domain: LG
+OS: Windows 8.1 6.3
+Harbour: Harbour 3.2.0dev (r1607181832)
+Compiler: Borland C++ 5.5.1 (32-bit)
+
+
+Error BASE/42  Scope violation (protected): GET:CTYPE
+Called from GET:CTYPE(0)  
+Called from READMODAL(112)  
+Called from EMPRESA(1562)  
+Called from MAIN(126)  
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Error on 26/02/17 23:30:09
+Computer Name: LG
+User Name: vcatafesta
+Logon Server: \LG
+Client Name: 
+User Domain: LG
+OS: Windows 8.1 6.3
+Harbour: Harbour 3.2.0dev (r1607181832)
+Compiler: Borland C++ 5.5.1 (32-bit)
+
+
+Error BASE/42  Scope violation (protected): GET:CTYPE
+Called from GET:CTYPE(0)  
+Called from READMODAL(112)  
+Called from EMPRESA(1562)  
+Called from MAIN(126)  
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Error on 26/02/17 23:30:59
+Computer Name: LG
+User Name: vcatafesta
+Logon Server: \LG
+Client Name: 
+User Domain: LG
+OS: Windows 8.1 6.3
+Harbour: Harbour 3.2.0dev (r1607181832)
+Compiler: Borland C++ 5.5.1 (32-bit)
+
+
+Error BASE/42  Scope violation (protected): GET:CTYPE
+Called from GET:CTYPE(0)  
+Called from READMODAL(112)  
+Called from EMPRESA(1562)  
+Called from MAIN(126)  
+--------------------------------------------------------------------------------
+Application Internal Error - C:\sci\g.exe
+Terminated at: 2017-03-05 17:11:27
+Unrecoverable error 6005: Exception error:
+
+    Exception Code:C0000005 ACCESS_VIOLATION
+    Exception Address:00412711
+    EAX:00000000  EBX:00000000  ECX:0020C0CC  EDX:7FFDE000
+    ESI:00000000  EDI:004ED3C9  EBP:0013FDF0
+    CS:EIP:001B:00412711  SS:ESP:0023:0013FDD0
+    DS:0023  ES:0023  FS:003B  GS:0000
+    Flags:00010246
+    Exception Parameters: 00000000 0000158C
+    CS:EIP: 8B B3 8C 15 00 00 68 80 00 00 00 6A 01 E8 3D 1F
+    SS:ESP: 00000000 002080FC 00421F18 00000001 00000000 00000000 00000000 00000000 0013FF04 0041BE2D 00000001 00000000 00000001 0050DE98 00200060 01800001
+
+    C stack:
+    EIP:     EBP:       Frame: OldEBP, RetAddr, Params...
+    00412711 0013FDF0   0013FF04 0041BE2D 00000001 00000000 00000001 0050DE98 00200060 01800001 0013FE24 0043C3A5
+    0041BE2D 0013FF04   0013FF2C 00401194 004ED388 004ED254 00421F18 00000000 00000000 00000000 00000000 00010009
+    00401194 0013FF2C   0013FF40 0041B152 00000000 004ED1E4 7FFDF000
+    0041B152 0013FF40   0013FF4C 00450FBA 00000001
+    00450FBA 0013FF4C   0013FF78 004E9A8A 00000001 014821B8 01482A14 00401000 00401000 7FFDF000 7FFDF000 0013FFCC
+    004E9A8A 0013FF78   0013FF94 00000000 004ED1E4 76614198 7FFDF000 76614170 3A0D1114
+    00000000 0013FF94   0013FFDC 77042CB1 7FFDF000 F35E7733 00000000 00000000 7FFDF000 00000000 00000000 00000000
+
+
+Modules:
+00400000 00135000 C:\sci\g.exe
+76FF0000 0016A000 C:\Windows\SYSTEM32\ntdll.dll
+76610000 00100000 C:\Windows\system32\KERNEL32.DLL
+74B20000 000D9000 C:\Windows\system32\KERNELBASE.dll
+76E00000 00155000 C:\Windows\system32\USER32.DLL
+762F0000 00112000 C:\Windows\system32\GDI32.DLL
+6F070000 00089000 C:\Windows\WinSxS\x86_microsoft.windows.common-controls_6595b64144ccf1df_5.82.9600.17810_none_7c5b6194aa0716f1\COMCTL32.DLL
+76110000 0009B000 C:\Windows\system32\COMDLG32.DLL
+74C90000 012BB000 C:\Windows\system32\SHELL32.DLL
+76880000 00129000 C:\Windows\system32\OLE32.DLL
+70BC0000 00018000 C:\Windows\SYSTEM32\OLEPRO32.DLL
+76A00000 0007C000 C:\Windows\system32\ADVAPI32.dll
+761B0000 000C3000 C:\Windows\system32\msvcrt.dll
+76710000 00045000 C:\Windows\system32\SHLWAPI.dll
+76C50000 0017D000 C:\Windows\SYSTEM32\combase.dll
+76B20000 000D0000 C:\Windows\system32\RPCRT4.dll
+762A0000 00041000 C:\Windows\SYSTEM32\sechost.dll
+76A80000 00097000 C:\Windows\system32\OLEAUT32.dll
+748E0000 00023000 C:\Windows\system32\SspiCli.dll
+74C00000 0008B000 C:\Windows\system32\SHCORE.DLL
+76DD0000 00026000 C:\Windows\system32\IMM32.DLL
+76760000 00112000 C:\Windows\system32\MSCTF.dll
+
+Called from WVT_SETGUI(0)
+Called from MAIN(9) in g.prg
+------------------------------------------------------------------------
+Application Internal Error - C:\sci\g.exe
+Terminated at: 2017-03-05 17:11:28
+Unrecoverable error 6005: Exception error:
+
+    Exception Code:C0000005 ACCESS_VIOLATION
+    Exception Address:00412711
+    EAX:00000000  EBX:00000000  ECX:0020C0CC  EDX:7FFDE000
+    ESI:00000000  EDI:004ED3C9  EBP:0013FDF0
+    CS:EIP:001B:00412711  SS:ESP:0023:0013FDD0
+    DS:0023  ES:0023  FS:003B  GS:0000
+    Flags:00010246
+    Exception Parameters: 00000000 0000158C
+    CS:EIP: 8B B3 8C 15 00 00 68 80 00 00 00 6A 01 E8 3D 1F
+    SS:ESP: 00000000 002080FC 00421F18 00000001 00000000 00000000 00000000 00000000 0013FF04 0041BE2D 00000001 00000000 00000001 0050DE98 00200060 01800001
+
+    C stack:
+    EIP:     EBP:       Frame: OldEBP, RetAddr, Params...
+    00412711 0013FDF0   0013FF04 0041BE2D 00000001 00000000 00000001 0050DE98 00200060 01800001 0013FE24 0043C3A5
+    0041BE2D 0013FF04   0013FF2C 00401194 004ED388 004ED254 00421F18 00000000 00000000 00000000 00000000 00010009
+    00401194 0013FF2C   0013FF40 0041B152 00000000 004ED1E4 7FFDF000
+    0041B152 0013FF40   0013FF4C 00450FBA 00000001
+    00450FBA 0013FF4C   0013FF78 004E9A8A 00000001 014821B8 01482A14 00401000 00401000 7FFDF000 7FFDF000 0013FFCC
+    004E9A8A 0013FF78   0013FF94 00000000 004ED1E4 76614198 7FFDF000 76614170 3A0D1114
+    00000000 0013FF94   0013FFDC 77042CB1 7FFDF000 F35E7733 00000000 00000000 7FFDF000 C0000005 74BE21A0 00000000
+
+
+Modules:
+00400000 00135000 C:\sci\g.exe
+76FF0000 0016A000 C:\Windows\SYSTEM32\ntdll.dll
+76610000 00100000 C:\Windows\system32\KERNEL32.DLL
+74B20000 000D9000 C:\Windows\system32\KERNELBASE.dll
+76E00000 00155000 C:\Windows\system32\USER32.DLL
+762F0000 00112000 C:\Windows\system32\GDI32.DLL
+6F070000 00089000 C:\Windows\WinSxS\x86_microsoft.windows.common-controls_6595b64144ccf1df_5.82.9600.17810_none_7c5b6194aa0716f1\COMCTL32.DLL
+76110000 0009B000 C:\Windows\system32\COMDLG32.DLL
+74C90000 012BB000 C:\Windows\system32\SHELL32.DLL
+76880000 00129000 C:\Windows\system32\OLE32.DLL
+70BC0000 00018000 C:\Windows\SYSTEM32\OLEPRO32.DLL
+76A00000 0007C000 C:\Windows\system32\ADVAPI32.dll
+761B0000 000C3000 C:\Windows\system32\msvcrt.dll
+76710000 00045000 C:\Windows\system32\SHLWAPI.dll
+76C50000 0017D000 C:\Windows\SYSTEM32\combase.dll
+76B20000 000D0000 C:\Windows\system32\RPCRT4.dll
+762A0000 00041000 C:\Windows\SYSTEM32\sechost.dll
+76A80000 00097000 C:\Windows\system32\OLEAUT32.dll
+748E0000 00023000 C:\Windows\system32\SspiCli.dll
+74C00000 0008B000 C:\Windows\system32\SHCORE.DLL
+76DD0000 00026000 C:\Windows\system32\IMM32.DLL
+76760000 00112000 C:\Windows\system32\MSCTF.dll
+
+Called from WVT_SETGUI(0)
+Called from MAIN(9) in g.prg
+------------------------------------------------------------------------

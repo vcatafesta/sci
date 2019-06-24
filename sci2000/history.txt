@@ -1,0 +1,35 @@
+!Short: v1.05 - 27 April 1998
+o New version of OL_Yield(). The version that fixed things for WinNT4
+  appears to have broken things for OS/2 Warp. many thanks go to
+  Sz‚l Viktor for his code.
+!Short: v1.04 - 18 April 1998
+o Fixed OL_IsNT(), for some odd reason I'd got the logic the wrong way
+  round (Doh!).
+!Short: v1.03 - 17 April 1998
+o Fixed a bug in OL_AutoYield() that would probably have stopped it from
+  doing it's intended job under Windows NT when running in a protected mode
+  application (this is guesswork, I can't test as I don't have an NT box to
+  hand).
+
+o Changed the Win95 App and VM title functions to the get/set format. You can
+  now use those functions to query the current application/virtual machine
+  title as well as using them to set the titles.
+
+o Added two functions for placing text into and getting text out of the
+  Windows clipboard. AFAIK they will only work under Win3x and Win95, I
+  don't think they will do anything under WinNT (depends on NTs support for
+  the interrupt calls).
+!Short: v1.02 - 17 April 1998
+o Added OL_IsNT().
+
+o Added OL_95AppTitle().
+
+o Added OL_95VmTitle().
+
+o Bundled the CPMI library which is required by a couple of the above
+  functions.
+!Short: v1.01 - 15 April 1998
+o Updated the Yield function so that it should now work correctly with a
+  protected mode application running under WinNT 4.
+!Short: v1.00 - (Can't remember when)
+First release of OSLib.

@@ -1,0 +1,205 @@
+Publics by module
+
+NTXSORT 	size = 2628
+	ISALPHA                           ISDIGIT
+	ISLOWER                           ISUPPER
+	_NATSORTVE                        __ch_type
+	__dcmp                            __locase
+	__nLexId                          __nScanId
+	__nascii                          __natrddver
+	__ncopylc                         __ncopyuc
+	__ndbcs                           __nget
+	__nnexti                          __node_search
+	__nprevi                          __nput
+	__ntrimlen                        __s_order
+	__scann                           __scanw
+	__tcmp                            __upcase
+	__xcmp                          
+
+OFILEIO 	size = 16306
+	OFILEIO                         
+
+OINI    	size = 9077
+	OINI                            
+
+ROMCKSUM	size = 72
+	ROMCKSUM                        
+
+__fmerge	size = 217
+	___fmerge                       
+
+__itoa  	size = 179
+	___itoa                         
+
+__strvar	size = 2
+	____retstrlen                   
+
+__ttstri	size = 103
+	___ttstring                     
+
+_compres	size = 889
+	_$$add_code                       _$$compress
+	_$$flush                          _$$index
+	_$$init_table                     _$$lookup_code
+	_$$read_char                      _$$write_code
+	__compress                      
+
+_cputype	size = 253
+	__cputype                       
+
+_dcompre	size = 1089
+	_$add_code                        _$decompress
+	_$index                           _$init_tab
+	_$read_code                       _$write_char
+	__dcompress                     
+
+_fcompre	size = 196
+	__fcompress                     
+
+_fdcompr	size = 219
+	__fdcompress                    
+
+_fmake  	size = 232
+	__fmake                         
+
+_fparsdr	size = 131
+	__fparsedr                      
+
+_fparsed	size = 189
+	__fparsed                       
+
+_fparsef	size = 164
+	__$$findit                        __fparsef
+
+_fparsfn	size = 133
+	__$$$findit                       __fparsefn
+
+_fparsfx	size = 85
+	__fparsefx                      
+
+_fsplit 	size = 113
+	__fsplit                        
+
+_ftempna	size = 162
+	__ftempname                     
+
+_funique	size = 79
+	__funique                       
+
+_getperr	size = 29
+	___setperror                      __getperror
+
+_isprint	size = 120
+	__isprinter                     
+
+_lassie 	size = 17
+	__lassie                        
+
+_makesha	size = 1495
+	___shadowchar                     ___shadowcolor
+	___shadowflag                     ___shadowhigh
+	___shadowlow                      ___shadowtype
+	___writehorizontal                ___writevertical
+	__getshadow                       __makeshadow
+	__setshadow                       __shadhigh
+	__shadlow                         __shadowtype
+
+_malibu 	size = 78
+	__malibu                        
+
+_pdata  	size = 6
+	___onperror                       ___onperrorseg
+	___perror                       
+
+_restscr	size = 299
+	__restscreen                    
+
+_setpale	size = 97
+	__setpalette                    
+
+_strappe	size = 122
+	__strappend                     
+
+_utoa   	size = 7
+	__utoa                          
+
+colorset	size = 189
+	COLORSET                        
+
+cputype 	size = 16
+	mscpu                           
+
+curdir  	size = 69
+	fcurdir                         
+
+encrypt 	size = 103
+	MsDEcrypt                         MsEncrypt
+
+fadvance	size = 32
+	msadvance                       
+
+fcompres	size = 45
+	FCOMPRESS                       
+
+fdcompre	size = 45
+	FDCOMPRESS                      
+
+flocate 	size = 104
+	mslocate                        
+
+freadlin	size = 140
+	MsReadLine                      
+
+frename 	size = 46
+	MSRENAME                        
+
+ftempnam	size = 47
+	mstempname                      
+
+fwriteli	size = 46
+	MsWriteLin                      
+
+getsys  	size = 6565
+	GETACTIVE                         GETAPPLYKE
+	GETDOSETKE                        GETPOSTVAL
+	GETPREVALI                        GETREADER
+	RANGECHECK                        READEXIT
+	READFORMAT                        READINSERT
+	READKILL                          READMODAL
+	READUPDATE                        UPDATED
+	__KILLREAD                        __SETFORMA
+
+isprinte	size = 47
+	fisprinter                      
+
+m_instal	size = 28
+	M_INSTALL                       
+
+m_setcur	size = 119
+	M_SETCURSO                      
+
+rjust   	size = 259
+	RJUST                           
+
+rspcx13a	size = 2490
+	R_ISEGA                           R_ISVGA
+	R_PCX                             R_VGACARD
+	R_VMGET                           R_VMSET
+
+shadowty	size = 46
+	SHADOWTYPE                      
+
+strcente	size = 277
+	STRCENTER                       
+
+strextra	size = 192
+	STREXTRACT                      
+
+tabexpan	size = 278
+	TABEXPAND                       
+
+untrim  	size = 244
+	UNTRIM                          
+
+visual  	size = 4132
+	VISUAL                          

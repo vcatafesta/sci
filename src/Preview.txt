@@ -1,0 +1,28 @@
+*************************************************************************************
+* Example to conversion
+*
+* In Clipper
+* SET PRINTER TO LPT1
+* SET DEVICE TO PRINTER
+* @ 10, 10 SAY 'PRINTER THIS DEMO'
+* @ PROW(), PCOL()+1 SAY 'PROW AND PCOL+1 '
+* EJECT
+* SETPRC(0,0)
+* SET DEVICE TO SCREEN
+*
+*
+* In HwGUI    
+* SET PRINTER TO 'LPT1' OF oPrint 
+* //SET DEVICE TO PRINTER
+* @ 10, 10 PSAY 'PRINTER THIS DEMO' OF oPrint
+* @ hwg_wProw(oPrint), hwg_wPCol(oPrint)+1 PSAY 1 PROW AND PCOL+1 1 OF oPrint')
+* EJECT OF oPrint
+* hwg_wSetPrc(0,0,oPrint)
+* //SET DEVICE TO SCREEN                                                               
+* END PRINTER oPrint                                                                   
+*                                                                                    
+*************************************************************************************
+
+New Page 02
+
+New Page 03

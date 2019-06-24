@@ -1,0 +1,23 @@
+================================================================================
+Usuario   : ADMIN
+Data      : 08/05/18
+Horas     : 16:00:26
+SubSystem : BASE
+SubCode   : 1123
+Variavel  : AADD
+Arquivo   : 
+Area      : 
+Indice    : 
+Descricao : Argument error
+Explanacao: ERRO NAO DOCUMENTADO.
+Acao      : IMPRIMA ESTA TELA. E ENTRE EM CONTATO COM O
+Acao      : SUPORTE TECNICO ATRAVES DO TEL (69)451.2286 ou SUPORTE@MICROBRAS.COM.BR
+--------------------------------------------------------------------------------
+PILHA DE CARGA
+                Linha : 000000    Proc : LOCKERRHAN
+                Linha : 000000    Proc : (b)INITHANDL$
+                Linha : 000409    Proc : SETAPANO
+                Linha : 000401    Proc : (b)SETAPANO
+                Linha : 000000    Proc : obj:SETAPANO
+                Linha : 000400    Proc : MAIN
+================================================================================

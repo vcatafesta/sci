@@ -11135,15 +11135,15 @@ cCodi                 := oDevedor:xTodos[x,1]
 Do Case
 Case nMode = AC_IDLE // 0
 	cString := Space(0)	
-   cString += 'ESC RETORNA|'   
-   cString := 'F2-TXJURO|F3-EDITAR|F4-DUPLICA|F5-ATUALIZA|CTRL+F5=VLR ORIGINAL|F6-ORDEM|F7=VISFATURA|SPC-FATURA|' + cString
+	cString += 'ESC RETORNA|'   
+	cString := 'F2-TXJURO|F3-EDITAR|F4-DUPLICA|F5-ATUALIZA|CTRL+F5=VLR ORIGINAL|F6-ORDEM|F7=VISFATURA|SPC-FATURA|' + cString
 	StatusSup( cString, Cor(2))
 	Receber->(Order( RECEBER_CODI ))
 	nMaxCol := MaxCol()
 	cCodi   := oDevedor:xTodos[x,1]
 	nCol    := 1
 	if Receber->(DbSeek( cCodi ))
-	   Write( ++nCol, 02, Space(nMaxCol-2))
+	    Write( ++nCol, 02, Space(nMaxCol-2))
 		Write( ++nCol, 02, Space(nMaxCol-2))
 		Write( ++nCol, 02, Space(nMaxCol-2))
 		Write( ++nCol, 02, Space(nMaxCol-2))
@@ -11162,7 +11162,7 @@ Case nMode = AC_IDLE // 0
 		Write( ++nCol, nMaxCol-29, "Telefone #2 : " + Receber->Fax )
 		Write( ++nCol, nMaxCol-29, "Vlr Fatura  : " )		
 	else
-	   Write( ++nCol, 02, Space(nMaxCol-2))
+	    Write( ++nCol, 02, Space(nMaxCol-2))
 		Write( ++nCol, 02, Space(nMaxCol-2))
 		Write( ++nCol, 02, Space(nMaxCol-2))
 		Write( ++nCol, 02, "***** CLIENTE NAO LOCALIZADO ***** TALVEZ DELETADO?")

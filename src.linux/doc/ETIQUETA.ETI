@@ -1,0 +1,15 @@
+[configuracao]
+Vertical=1
+Comprimir=1
+Carreira=5
+Espacos=5
+Linhas=1
+Margem=1
+Tamanho=15
+campos=04
+
+[campos]
+campo004="R$" + "  - " + TRAN(VAREJO,"@E 99,999.99")
+campo003=LEFT(DESCRICAO,25)
+campo002=N_ORIGINAL
+campo001=CODIGO

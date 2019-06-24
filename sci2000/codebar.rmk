@@ -1,0 +1,139 @@
+.PRG.OBJ:
+        Clipper @$*
+
+// End of Inference Rules
+
+LISTA.OBJ       :       LISTA.PRG
+
+SCI.OBJ         :       SCI.PRG
+
+TRELATO.OBJ     :       TRELATO.PRG
+
+SUPORTE.OBJ     :       SUPORTE.PRG
+
+RETORNO.OBJ     :       RETORNO.PRG
+
+TBOX.OBJ        :       TBOX.PRG
+
+PPP.OBJ         :       PPP.PRG
+
+TAMBIENT.OBJ    :       TAMBIENT.PRG
+
+PROTEGE.OBJ     :       PROTEGE.PRG
+
+DIRETORI.OBJ    :       DIRETORI.PRG
+
+SCPLAN.OBJ      :       SCPLAN.PRG
+
+TINDICE.OBJ     :       TINDICE.PRG
+
+APOIO.OBJ       :       APOIO.PRG
+
+CFG.OBJ         :       CFG.PRG
+
+ORCALAN.OBJ     :       ORCALAN.PRG
+
+TMENU.OBJ       :       TMENU.PRG
+
+TPROTEGE.OBJ    :       TPROTEGE.PRG
+
+GETSYS.OBJ      :       GETSYS.PRG
+
+VENLAN.OBJ      :       VENLAN.PRG
+
+PAGALAN.OBJ     :       PAGALAN.PRG
+
+TVMENU.OBJ      :       TVMENU.PRG
+
+FUNCOES.OBJ     :       FUNCOES.PRG
+
+LISTA1.OBJ      :       LISTA1.PRG
+
+CHEQUE.OBJ      :       CHEQUE.PRG
+
+PAGAR.OBJ       :       PAGAR.PRG
+
+VEN.OBJ         :       VEN.PRG
+
+ORCA.OBJ        :       ORCA.PRG
+
+RECE.OBJ        :       RECE.PRG
+
+PONTO.OBJ       :       PONTO.PRG
+
+SCP.OBJ         :       SCP.PRG
+
+SCILAN.OBJ      :       SCILAN.PRG
+
+PONTOLAN.OBJ    :       PONTOLAN.PRG
+
+TINI.OBJ        :       TINI.PRG
+
+MENU.OBJ        :       MENU.PRG
+
+OP.OBJ          :       OP.PRG
+
+LISTA1LA.OBJ    :       LISTA1LA.PRG
+
+LX.OBJ          :       LX.PRG
+
+FISCAL.OBJ      :       FISCAL.PRG
+
+SAMPLE.OBJ      :       SAMPLE.PRG
+
+CHELAN.OBJ      :       CHELAN.PRG
+
+TBROWSE.OBJ     :       TBROWSE.PRG
+
+LISTALAN.OBJ    :       LISTALAN.PRG
+
+RECELAN.OBJ     :       RECELAN.PRG
+
+TEMP1.OBJ       :       TEMP1.PRG
+
+FONTE1.OBJ      :       FONTE1.PRG
+
+DINSTALL.OBJ    :       DINSTALL.PRG
+
+REGISTRA.OBJ    :       REGISTRA.PRG
+
+DATA.OBJ        :       DATA.PRG
+
+INSTALL.OBJ     :       INSTALL.PRG
+
+COMPDATA.OBJ    :       COMPDATA.PRG
+
+SEGURANC.OBJ    :       SEGURANC.PRG
+
+BARCOD.OBJ      :       BARCOD.PRG
+
+CODBARRA.OBJ    :       CODBARRA.PRG
+
+RELAT000.OBJ    :       RELAT000.PRG
+
+REL0002.OBJ     :       REL0002.PRG
+
+REL.OBJ         :       REL.PRG
+
+FCALCULA.OBJ    :       FCALCULA.PRG
+
+DEMO.OBJ        :       DEMO.PRG
+
+PR.OBJ          :       PR.PRG
+
+CODEBAR.OBJ     :       CODEBAR.PRG
+
+CODEBAR.EXE     :       LISTA.OBJ SCI.OBJ TRELATO.OBJ SUPORTE.OBJ \
+                        RETORNO.OBJ TBOX.OBJ PPP.OBJ TAMBIENT.OBJ PROTEGE.OBJ \
+                        DIRETORI.OBJ SCPLAN.OBJ TINDICE.OBJ APOIO.OBJ CFG.OBJ \
+                        ORCALAN.OBJ TMENU.OBJ TPROTEGE.OBJ GETSYS.OBJ VENLAN.OBJ \
+                        PAGALAN.OBJ TVMENU.OBJ FUNCOES.OBJ LISTA1.OBJ CHEQUE.OBJ \
+                        PAGAR.OBJ VEN.OBJ ORCA.OBJ RECE.OBJ PONTO.OBJ \
+                        SCP.OBJ SCILAN.OBJ PONTOLAN.OBJ TINI.OBJ MENU.OBJ \
+                        OP.OBJ LISTA1LA.OBJ LX.OBJ FISCAL.OBJ SAMPLE.OBJ \
+                        CHELAN.OBJ TBROWSE.OBJ LISTALAN.OBJ RECELAN.OBJ TEMP1.OBJ \
+                        FONTE1.OBJ DINSTALL.OBJ REGISTRA.OBJ DATA.OBJ INSTALL.OBJ \
+                        COMPDATA.OBJ SEGURANC.OBJ BARCOD.OBJ CODBARRA.OBJ RELAT000.OBJ \
+                        REL0002.OBJ REL.OBJ FCALCULA.OBJ DEMO.OBJ PR.OBJ \
+                        CODEBAR.OBJ 
+                        BLINKER @CODEBAR.LNK

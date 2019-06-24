@@ -1,0 +1,249 @@
+ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+บ                                o:Clip                                บ
+บ             An Object Oriented Extension to Clipper 5.01             บ
+บ                 (c) 1991 Peter M. Freese, CyberSoft                  บ
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+Version 1.01 - November 8, 1991
+
+User Documentation
+
+
+LEGAL NOTICE:
+
+o:Clip, an object oriented extension to Clipper, is FREEWARE.  It may be
+freely distributed and used by individuals and corporations without
+charge.  It may not, however, be sold or distributed for a price (other
+than user group diskette duplication and distribution fees.)  At all
+times, the copyright and title for o:Clip remain with CyberSoft, Box
+718, Milton, WA  98354.  It must be distributed as a whole, including
+this accompanying documentation.
+
+This software is provided on an as-is basis.  If you choose to use
+it, you do so at your own risk.  Neither the author nor CyberSoft offers
+any warranty or guarantee of any kind, nor do they (individually or
+together) accept any liability for any consequences of the use of this
+software.
+
+
+REQUIREMENTS:
+
+o:Clip requires Clipper 5.01.
+
+o:Clip is composed of two files:  OCLIP.LIB and OCLIP.CH
+
+OCLIP.LIB contains functions to create classes, add methods and variables
+to classes, and to access self.
+
+OCLIP.CH contains UDC's to allow class definitions.  The UDC's are
+extremely minimal, and make the function definition behind the
+definition of a class transparent.  The best way to get an idea of how
+they do this is to compile the examples with /p and examine the
+preprocessed output files.
+
+
+DESCRIPTION:
+
+o:Clip is an extension to Clipper 5.01 to allow user defined objects and
+classes.
+
+Clipper 5.01 is probably one of the most significant advances in X-Base
+programming since the invention of the .DBF file.  One of the least
+documented and most understood new features is that of objects.  Perhaps
+the reason for this is that unlike the rest of the language, Clipper
+classes and objects are inflexible - you can't change them, and you
+can't create your own.  Without these abilities, it is not truly an
+object-oriented programming (OOP) language, and yields none of the
+benefits of OOP such as polymorphism, reusability, or inheritance.
+
+o:Clip fills in this small but glaring hole in the OOP ability of
+Clipper 5.01 by providing the ability to create your own classes and
+objects.  You can work with these objects just as you can the ones
+provided by Nantucket, with the added benefit of inheritance.  Objects
+created with o:Clip return VALTYPE() of "O", and are recognized
+internally as objects to Clipper itself.
+
+
+AN EXAMPLE:
+
+Let's start with an example to see how to create our own class:
+
+        CLASS Test
+          VAR FirstName
+          VAR LastName
+          METHOD New=TestNew
+        ENDCLASS
+
+This class definition creates a 'Class Definition Function' for the
+class 'Test', with two instance variables, 'FirstName' and 'LastName',
+and one method, 'New'.  An object may be instantiated by calling the
+class definition function, 'Test()', which will return a new object of
+class 'Test'.
+
+Before explaining what 'TestNew' does, let me describe briefly how the
+Class Definition Function works.  After preprocessing, the class
+definition looks like this:
+
+        FUNCTION Test
+        STATIC hClass := 0
+          if hClass == 0
+            __DefineClass("Test",)
+            __AddVar("FirstName")
+            __AddVar("LastName")
+            __AddMethod("New", "TestNew")
+            hClass := __MakeClass()
+          end
+        RETURN __ClassIns(hClass)
+
+This first time the Class Definition Function is called, the class
+structure is created dynamically, and a handle to the class is stored in
+hClass.  Subsequent calls to the Class Definition Function will create
+the class from the handle.
+
+Each method is essentially a UDF that is assigned to the class.  The
+methods must be found in Clipper's symbol table, which means that they
+cannot be STATIC functions.  Since we might want several different
+classes each containing a method of the same name, o:Clip allows you
+to specify both a 'method name' and a 'method UDF'.  This appears in the
+class definition as:
+
+        METHOD <MethodName> [ = <MethodUDF> ]
+
+The method name is the name you will use to send messages to the object
+(or invoke the methods, if you prefer that paradigm).  The MethodUDF
+'TestNew' might look like:
+
+        FUNCTION TestNew(cFirst,cLast)
+          ::FirstName := cFirst
+          ::LastName := cLast
+        return Self
+
+For readability, I recommend prepending the class name to the method
+name to create the MethodUDF name.  Thus we could have WindowNew,
+GetNew, FrameNew, ScrollNew, all of which could be called by the method
+name 'New' for their respective classes.
+
+
+THE CONCEPT OF SELF:
+
+Objects need a way of referring to themselves explicitly, and there are
+two ways to accomplish that in o:Clip.
+
+The first is the Self function.  When the Self function is called in a
+MethodUDF (and only then), it returns the current object.  It is a good
+idea for MethodUDF's to return Self as well, since it allows method
+chaining, i.e, object:method1():method2():method3().
+
+The second way of referring to self is the use of '::'.  This is
+essentially a shorthand for 'Self:'.
+
+
+SYNTAX:
+
+Class definitions:
+
+        CLASS <ClassName> [FROM <ParentClass>]
+          VAR <Var1> [,<Var2>[,...<VarN>]]
+          METHOD {Method Definition1} [ , ...{Method DefinitionN} ]
+              where {MethodDefinition} is of the form:
+                  <MethodName> [ = <MethodUDF> ]
+        ENDCLASS
+
+The optional <ParentClass> allows a new class to 'inherit' all the
+attributes of <ParentClass>.  Methods may be overridden in the new class
+simply by redefining them with a METHOD definition.  To call an
+overridden method from a parent class, preceed it with a "Parent" or
+"Super" message.  For example, suppose you have overridden the parent's
+New method in a subclass, but wish to call the parent's New method in
+you function.  You would use:
+
+        ::Parent:New()
+
+VAR definitions may be placed on separate lines or combined as taste
+dictates.
+
+If the METHOD definition does not contain a <MethodUDF>, then the
+<MethodName> is used for both.  For example, 'METHOD Foo' is equivalent
+to 'METHOD Foo=Foo'.
+
+
+EXAMPLE PROGRAMS:
+
+ODEMO1.PRG and ODEMO2.PRG provide simple examples of class definitions,
+sending messages, and inheritance.
+
+
+BACKGROUND:
+
+The approach I have taken is a minimalistic one, for three reasons:
+
+The first is to reduce the code overhead - o:Clip adds slightly less
+than 3K to your application in housekeeping code.  The small amount of
+code is indicative of extremely fast performance.  o:Clip uses
+assembler, not Clipper p-code.
+
+The second reason is compatability.  o:Clip makes complete use of
+undocumented class and object creation functions added to Clipper in
+version 5.01.  The addition of these functions indicates a move by
+Nantucket to provide full OOP capabilities in the *very* near future.
+By using these functions instead of writing my own, I avoided not only
+duplicating code, but assured that I was following closely the path that
+Nantucket had laid out for themselves.
+
+The final reason is one of simplicity.  There are some object oriented
+languages (C++ for example) that take a 'full blown' approach to object
+oriented programming.  If a little knowledge is a dangerous thing, then
+C++ is deadly.  I prefer a simple 'purist' approach.  This makes
+o:Clip easy to learn rather than intimidating and consuming.  The
+number of keywords to learn is minimal, and the concepts are easy to
+grasp.
+
+
+PROBLEMS:
+
+There is a problem with the debugger when using 'mangled' method names
+(i.e., MethodUDF <> MethodName).  The debugger insists that the
+MethodName function does not exist.  I'm still working on getting this
+problem resolved, but I have a feeling the problem may be in one of the
+Clipper __Class functions....  This problem only manifests itself when
+single stepping through object instantiating in the debugger.  The only
+way to avoid it for now is:  a) don't single step over object
+instantiating code, or b) don't use the debugger.
+
+
+ACKNOWLEDGEMENTS:
+
+Thanks go to Anton Von Straaton for his advice and assistance,
+particularly in promoting a common syntax between o:Clip and Class(y).
+Class(y) is a commercial OOP extension for Clipper which offers more
+powerful OOP capabilities than presented here.  Class(y) is available
+from Integrated Development Corporation - (800) 333-3429.  There's the
+plug, Anton!
+
+Thanks also go to Art Fuller, for motivating me to finish this and
+getting it "out there", by lauding its virtues in the November DBA
+Opinions columns and the Antwerp DevCon.
+
+
+FEEDBACK:
+
+As mentioned previously, this product is FREEWARE.  I don't ask anything
+of you save perhaps a mention in your credits/acknowledgements.  If
+sending a cash donation would be the best way to express your gratitude,
+ease your conscience, or balance your karma, then it won't be refused,
+but it's certainly not necessary.
+
+o:Clip is a dynamic project.  It is by no means complete, and I will
+continue to support and modify it as time permits.
+
+If something doesn't work, let me know.  If you feel that I've left
+something out, let me know that too.  Although source code is provided,
+and you are free to modify it, I ask that you do *not* distribute
+modified source code.  If someone has something of value to donate to
+the project, I'll be quite happy to add it in, giving the contributor
+full credit.
+
+Peter M. Freese
+
+CIS:    72600,141
+

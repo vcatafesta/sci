@@ -190,7 +190,7 @@ METHOD ShowVar(lPause, cMsgAdicional, lMostrar)
 					"::xNomefir  # " + formatavar(self:xNomefir)	+ ';' + ;		
 					"::Drive     # " + formatavar(self:Drive)    + cMsgAdicional
 	if lMostrar
-		AlertaPy(cString, 31, false, lPause)
+		AlertaPy(::ShowVarString, 31, false, lPause)
 	endif	
 	return ::ShowVarString
 
@@ -868,7 +868,7 @@ method SetaCor( nTipo )
 	::CorAlerta         := aTipo[08]	
 	::CorMsg            := aTipo[09]	
 	::CorBorda          := aTipo[10]	
-	restela( cScreen )
+	//restela( cScreen )
 	return SeLF
 endef
 	

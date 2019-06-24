@@ -1,0 +1,13 @@
+[configuracao]
+campos=3
+imprimir12cpi=0
+imprimircondensado=0
+
+[cabecalho]
+titulo=CODIGO  DESCRICAO DO PRODUTO  
+relatorio=RELACAO LISTA DE PRODUTOS
+
+[campos]
+campo3=UN
+campo2=PONTO(DESCRICAO,40)
+campo1=CODIGO

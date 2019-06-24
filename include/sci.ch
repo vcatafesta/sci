@@ -10,8 +10,13 @@
 
 #ifndef _SCI_CH_
 	#define _SCI_CH_
-	#include "..\include\achoice.ch"
-	#include "..\include\inkey.ch"
+   #if defined( __PLATFORM__UNIX )
+      #define _SHELLENV_  "SHELL"      
+   #else
+      #define _SHELLENV_  "COMSPEC"      
+   #endif      
+	#include "achoice.ch"
+	#include "inkey.ch"
 	#include "command.ch"
 	#include "define.ch"
 	#include "dbinfo.ch"
@@ -43,10 +48,10 @@
 	#include "memoedit.ch"
 	#include "permissao.ch"
 	#include "picture.ch"   // Picture de Entrada de Dados SCI
-	#include "rddName.ch"
+	#include "rddname.ch"
 	#include "rddleto.ch"
-	#Include "set.ch"
-	#Include "setcurs.ch"
+	#include "set.ch"
+	#include "setcurs.ch"
 	#include "status.ch"    // Codigo de Erro da ECF Bematech	
-	//#include "pragma.ch"
+	//#include "pragma.ch"	
 #endif /* _SCI_CH_*/

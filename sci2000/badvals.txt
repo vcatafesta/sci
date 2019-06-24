@@ -1,0 +1,9 @@
+******************************************************************************
+                  ** BAD RECORD SEARCH FOR FILE: SCI.DBF **                   
+DATE: 07/28/16                                               TIME: 05:07:42
+NUMBER OF RECORDS: 1
+      RECORD SIZE: 833
+
+                  RECORD    FIELD       ASCII     POSITION                    
+                  1         CODI_VER    130       7         
+                  1         NOME_VER    132       7         

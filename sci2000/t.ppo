@@ -1,0 +1,41 @@
+#line 1 "oclip.ch"
+#line 3 "T.PRG"
+LOCAL o1 := TObjeto()
+        o1:Create()
+        o1:Hello()
+        RETURN
+
+FUNCTION TObj
+STATIC hClass := 0
+STATIC oParent
+LOCAL oNew
+if hClass == 0
+   oParent := __DefineClass("TObj",)
+   __AddVar("Who")
+   __AddVar("cNome")
+   __AddMethod("New", "New")
+   __AddMethod("Create", "Create")
+   __AddMethod("Hello", "Hello")
+   hClass := __MakeClass()
+end
+oNew := __ClassIns(hClass)
+oNew[1] := oParent
+RETURN oNew
+
+FUNCTION New(cWho)
+   QSELF():Who      := cWho
+   QSELF():cNome := "Vilmar"
+RETURN QSELF()
+
+FUNCTION Create(cWho)
+   QSELF():Who      := cWho
+   QSELF():cNome := "Vilmar"
+RETURN QSELF()
+
+FUNCTION Hello
+  QOut( "Hello",QSELF():Who )
+  QOut( "Hello",QSELF():cNome )
+RETURN QSELF()
+
+FUNCTION TObjeto()
+Return(TObj())

@@ -1,0 +1,597 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/C/sci/go/08-input.go",
+			"settings":
+			{
+				"buffer_size": 453,
+				"encoding": "UTF-8",
+				"line_ending": "Windows",
+				"name": "08-input.go"
+			}
+		},
+		{
+			"file": "/C/Program Files/Sublime Text Build 3157 x64/Data/Packages/User/harbour.sublime-build",
+			"settings":
+			{
+				"buffer_size": 128,
+				"line_ending": "Windows",
+				"name": "untitled.sublime-build"
+			}
+		},
+		{
+			"contents": "Function Main()\n\tLocal nNumber:=50\n\tLocal nNumber1:=27\n\n\t//qout(nNumber-nNumber1)\n\t//qout(nNumber1-nNumber)\n\tqout(ABS(nNumber-nNumber1))\n\tqout(ABS(nNumber1-nNumber))\n\tqout(ABS( -1 * 345))\n\tinkey(0)\n\treturn 0\n\t",
+			"file": "abs.prg",
+			"file_size": 220,
+			"file_write_time": 131659489268232096,
+			"settings":
+			{
+				"buffer_size": 209,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/sci/ruby/restaurante.rb",
+			"settings":
+			{
+				"buffer_size": 2420,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "Package Control Messages\n========================\n\nIcon Fonts\n----------\n\n  Deprecated Icon Fonts\n  =====================\n  \n  This is a reminder that as of v3.0.0 several icon fonts have been removed from\n  this package:\n  \n  - Elegant Theme Line Icons\n  - Foundation Icons 1.0\n  - Glyphicons Filetypes\n  - Glyphicons Halflings\n  - Glyphicons Pro\n  - Glyphicons Social\n  \n  If you need support for any of the removed icons, you can install the separate\n  \"Icon Fonts (Legacy)\" package.\n  \n  Details at the \"Icon Fonts (Legacy)\" repository on GitHub:\n  \n  https://github.com/idleberg/sublime-icon-fonts-legacy\n\n\nGolang Tools Integration\n------------------------\n\n  # Golang Tools Integration\n  \n  It's a fork version of [GoTools](https://github.com/ironcladlou/GoTools) by ironcladlou. I create this project because ironcladlou has decided to abandon GoTools project, and I want to use this plugin together with [Golang Build](https://github.com/golang/sublime-build) (by wbond) ([discuss-1](\n  https://github.com/ironcladlou/GoTools/issues/121); [discuss-2](https://github.com/ironcladlou/GoTools/issues/128)).\n  \n  ### Features inherited from GoTools:\n  - Auto-Completion: with gocode\n  - Auto-Format: with gofmt or goimports\n  - Go-to Definition: with guru\n  - Rename: with gorename\n  \n  ### Features removed(replaced) from GoTools:\n  - Go syntax highlight: replaced by sublime's native support\n  - Go build & test system: replaced by \"[Golang Build](https://github.com/golang/sublime-build)\" (search in package-control)\n  - GoTools Settings: replaced by \"[golangconfig](https://github.com/golang/sublime-config)\"\n  - godef support: only use guru for \"Go to definition\"\n  \n  ### Features added:\n  - Auto-Lint: with golint or govet\n  - Doc tips over selected text or cursor: with godoc\n  \n  ### Usage\n  - **Step 1**: Install golang and go tools by yourself: gocode, goimports, guru, gorename, golint, and make sure the `$GOPATH/bin` is added into `$PATH` (Or you can set them in Golang's global \"Settings - User\" later).\n  \n      ```bash\n      go get -u -v github.com/nsf/gocode\n      # OR mdempsky/gocode for better performance\n      go get -u -v github.com/mdempsky/gocode\n      \n      go get -u -v github.com/golang/lint/golint\n      go get -u -v golang.org/x/tools/cmd/guru\n      go get -u -v golang.org/x/tools/cmd/goimports\n      go get -u -v golang.org/x/tools/cmd/gorename\n      ```\n      \n  - **Step 2**: Search and install \"Golang Tools Integration\" from package control.\n  - **Step 3(optional)**: Configure the Settings for `golang` and your project following the `golang.sublime-settings` and `ExampleProject.sublime-project`. Typically, the full features of 'guru' need use the configuration of the project.\n  \n  ### Tips\n  - If you want to trigger auto-completion after \".\", you can add below into Settings - Syntax specific - User (a.k.a. User/Go.sublime-settings):\n  \n      ```json\n      {\n          \"auto_complete_triggers\": [{\"selector\": \"source.go - string - comment - constant.numeric\", \"characters\": \".\"}]\n      }\n      ```\n  \n  - If you want to ignore auto-completion when in comments, constant strings, and numbers, you can add below into Settings - Syntax specific - User (a.k.a. User/Go.sublime-settings):\n  \n      ```json\n      {\n          \"auto_complete_selector\": \"meta.tag - punctuation.definition.tag.begin, source - comment - string - constant.numeric\"\n      }\n      ```\n  \n  ------------------\n  \n  **Introduction below comes from GoTools project**\n  \n  # GoTools\n  \n  GoTools is a [Go programming language](http://www.golang.org) plugin for [Sublime Text 3](http://www.sublimetext.com) inspired by [vim-go](https://github.com/fatih/vim-go). Rather than attempting to reinvent various supporting IDE components, it provides integration with existing community-supported tools.\n  \n  ## Features\n  \n  * Jump to symbol/declaration using [guru](https://godoc.org/golang.org/x/tools/cmd/guru)\n  * Format and syntax check on save, including gutter marks (using [gofmt](https://golang.org/cmd/gofmt/))\n  * Autocompletion (using [gocode](https://github.com/nsf/gocode))\n  * Build and test integration\n  * Source analysis (using [guru](https://godoc.org/golang.org/x/tools/cmd/guru))\n  * Identifier renaming (using [gorename](https://godoc.org/golang.org/x/tools/cmd/gorename))\n  * Improved syntax support (borrowed from [GoSublime](https://github.com/DisposaBoy/GoSublime))\n  \n  ### Prerequisites\n  \n  GoTools will attempt to find all external Go tools (`guru`, `gofmt`, `gocode`, etc.) using `GOPATH` and `GOROOT` (not `PATH`). If you don't have these binaries, use `go get` to install them:\n  \n      go get -u -v github.com/nsf/gocode\n      go get -u -v golang.org/x/tools/cmd/goimports\n      go get -u -v golang.org/x/tools/cmd/guru\n      go get -u -v golang.org/x/tools/cmd/gorename\n  \n  GoTools is only tested with Go 1.4. Note that `gofmt` is now included with the Go distribution, and any `gofmt` installed to `GOPATH` is likely from an old Go version and should probably be removed.\n  \n  ### Installing\n  \n  The easiest way to install GoTools is to use [Package Control](https://packagecontrol.io). Simply install Package Control, and then install the \"GoTools\" package using `Package Control: Install Package` from the command palette.\n  \n  If you want to install GoTools manually, download [the latest release](https://github.com/ironcladlou/GoTools/releases) and extract it to `~/.config/sublime-text-3/Packages/GoTools` on Linux, or `~/Library/Application\\ Support/Sublime\\ Text\\ 3/Packages/GoTools` on OSX.\n  \n  ### Configuring GoTools\n  \n  Create a GoTools settings file through the Sublime Text preferences menu at `Package Settings -> GoTools -> Settings -> User`.\n  \n  [Default settings](GoTools.sublime-settings) are provided and can be accessed through the Sublime Text preferences menu at `Package Settings -> GoTools -> Settings - Default`. Each option is documented in the settings file itself.\n  \n  ### Configuring Your Project\n  \n  Create a `GoTools` settings key in a Sublime Text `.sublime-project` file (through the menu at `Project -> Edit Project`).\n  \n  A documented [example project file](ExampleProject.sublime-project) is provided.\n  \n  ## Using GoTools\n  \n  **NOTE:** Most GoTools commands are available via the Sublime Text command palette. Open the palette when viewing a Go source file and search for \"GoTools\" to see what's available.\n  \n  Many of the build commands are also available via the context menu.\n  \n  #### Format on Save\n  \n  GoTools will format Go source buffers each time they're saved. To disable automatic formatting, set `format_on_save` in your [GoTools settings](GoTools.sublime-settings).\n  \n  Here's an example key binding which formats a source file when `<ctrl>+<alt>+f` is pressed:\n  \n  ```json\n  {\"keys\": [\"ctrl+alt+f\"], \"command\": \"gotools_format\"}\n  ```\n  \n  By default [gofmt](https://golang.org/cmd/gofmt/) is used for formatting. To change the backend, set `format_backend` in your [GoTools settings](GoTools.sublime-settings). [goimports](https://godoc.org/golang.org/x/tools/cmd/goimports) is also available, as well as the option to first run goimports, then gofmt. This third option is useful when you want the automatic import resolution as well as the simplification (`-s`) feature from gofmt at the same time.\n  \n  #### Go to Definition\n  \n  GoTools provides a `gotools_goto_def` Sublime Text command which will jump to the symbol definition at the cursor.\n  \n  Here's an example key binding which will go to a definition when `<ctrl+g>` is pressed:\n  \n  ```json\n  {\"keys\": [\"ctrl+g\"], \"command\": \"gotools_goto_def\"}\n  ```\n  \n  Here's an example `sublime-mousemap` entry which will go to a definition using `<ctrl>+<left mouse>`:\n  \n  ```json\n  {\"button\": \"button1\", \"count\": 1, \"modifiers\": [\"ctrl\"], \"command\": \"gotools_goto_def\"}\n  ```\n  \n  #### Autocomplete\n  \n  GoTools integrates the Sublime Text autocompletion engine with [gocode](https://github.com/nsf/gocode).\n  \n  Here's an example key binding which autocompletes when `<ctrl>+<space>` is pressed:\n  \n  ```json\n  {\"keys\": [\"ctrl+space\"], \"command\": \"auto_complete\"}\n  ```\n  \n  When suggestions are available, a specially formatted suggestion list will appear, including type information for each suggestion.\n  \n  To disable autocompletion integration, set `autocomplete` in your [GoTools settings](GoTools.sublime-settings).\n  \n  #### Builds\n  \n  GoTools integrates the Sublime Text build system with `go build`.\n  \n  Activate the GoTools build system from the Sublime Text menu by selecting it from `Tools -> Build System`. If the build system is set to `Automatic`, GoTools will be automatically used for builds when editing Go source files.\n  \n  There are several ways to perform a build:\n  \n    * From the Sublime Text menu at `Tools -> Build`\n    * A key bound to the `build` command\n    * The command palette, as `Build: Build`\n  \n  A \"Clean Build\" command variant is also provided which recursively deletes all `GOPATH/pkg` directory contents prior to executing the build as usual.\n  \n  Build results are placed in the Sublime Text build output panel which can be toggled with a command such as:\n  \n  ```json\n  { \"keys\" : [\"ctrl+m\"], \"command\" : \"show_panel\" , \"args\" : {\"panel\": \"output.exec\", \"toggle\": true}},\n  ```\n  \n  Here's an example key binding which runs a build when `<ctrl>+b` is pressed:\n  \n  ```json\n  { \"keys\": [\"ctrl+b\"], \"command\": \"build\" },\n  ```\n  \n  Here's an example key binding which runs \"Clean Build\" when `<ctrl>+<alt>+b` is pressed:\n  \n  ```json\n  { \"keys\": [\"ctrl+alt+b\"], \"command\": \"build\", \"args\": {\"variant\": \"Clean Build\"}},\n  ```\n  \n  #### Tests\n  \n  GoTools integrates the Sublime Text build system with `go test`.\n  \n  GoTools attempts to \"do what you mean\" depending on context. For instance, when using \"Run Test at Cursor\" in a test file which requires an `integration` Go build tag, GoTools will notice this and automatically add `-tags integration` to the test execution.\n  \n  The following GoTools build variants are available:\n  \n  Variant                   | Description\n  --------------------------|-------------\n  Run Tests                 | Discovers test packages based on the `project_package` and `test_packages` settings relative to the project `gopath` and executes them.\n  Run Test at Cursor        | Runs a single test method at or surrounding the cursor.\n  Run Current Package Tests | Runs tests for the package containing the current file.\n  Run Tagged Tests          | Like \"Run Tests\" but for the packages specified in the `tagged_packages` setting.\n  Run Last Test             | Runs the last test variant that was executed.\n  \n  Test results are placed in the built-in Sublime Text build output panel which can be toggled with a command such as:\n  \n  ```json\n  { \"keys\" : [\"ctrl+m\"], \"command\" : \"show_panel\" , \"args\" : {\"panel\": \"output.exec\", \"toggle\": true}},\n  ```\n  \n  Here's an example key binding which runs the test at the cursor when `<ctrl>+<alt>+t` is pressed:\n  \n  ```json\n  { \"keys\": [\"ctrl+alt+t\"], \"command\": \"build\", \"args\": {\"variant\": \"Run Test at Cursor\"}},\n  ```\n  \n  Replace `variant` in the command with any variant name from the preceding table for other bindings.\n  \n  #### Oracle Analysis (experimental)\n  \n  GoTools integrates Sublime Text with [guru](https://godoc.org/golang.org/x/tools/cmd/guru). Oracle is invoked with the `gotools_guru` Sublime Text command.\n  \n  Here's an example which runs the guru \"implements\" command when `<ctrl+alt+i>` is pressed:\n  \n  ```json\n  { \"keys\" : [\"ctrl+alt+i\"], \"command\" : \"gotools_guru\" , \"args\" : {\"command\": \"implements\"}},\n  ```\n  \n  The following guru operations are supported as arguments to the `gotools_guru` command:\n  \n  Command      | Notes\n  -------------|------\n  callers      | Slow on large codebases.\n  callees      | Slow on large codebases.\n  callstack    | Slow on large codebases.\n  describe     |\n  freevars     | Requires a selection.\n  implements   |\n  peers        |\n  referrers    |\n  \n  Oracle results are placed in a Sublime Text output panel which can be toggled with a command such as:\n  \n  ```json\n  { \"keys\" : [\"ctrl+m\"], \"command\" : \"show_panel\" , \"args\" : {\"panel\": \"output.gotools_guru\", \"toggle\": true}},\n  ```\n  \n  #### Rename (experimental)\n  \n  GoTools provides a `gotools_rename` command supported by [gorename](https://godoc.org/golang.org/x/tools/cmd/gorename) which supports type-safe renaming of identifiers.\n  \n  When the `gotools_rename` command is executed, an input panel labeled `Go rename:` will appear. Rename results are placed in a Sublime Text output panel which can be toggled with a command such as:\n  \n  ```json\n  { \"keys\" : [\"ctrl+m\"], \"command\" : \"show_panel\" , \"args\" : {\"panel\": \"output.gotools_rename\", \"toggle\": true}},\n  ```\n  \n  **Important**: The `gorename` tool writes files in-place with no option for a dry-run. Changes might be destructive, and the tool is known to have bugs.\n  \n  \n  ### Gocode Caveats\n  \n  **Important**: Using gocode support will modify the `lib-path` setting in the gocode daemon. The change will affect all clients, including other Sublime Text sessions, Vim instances, etc. Don't use this setting if you're concerned about interoperability with other tools which integrate with gocode.\n  \n  Some projects make use of a dependency isolation tool such as [Godep](https://github.com/tools/godep), and many projects use some sort of custom build script. Additionally, gocode uses a client/server architecture, and at present relies on a global server-side setting to resolve Go package paths for suggestion computation. By default, gocode will only search `GOROOT` and `GOPATH/pkg` for packages, which may be insufficient if the project compiles source to multiple `GOPATH` entries (such as `Godeps/_workspace/pkg`).\n  \n  With such a project, to get the best suggestions from gocode, it's necessary to configure the gocode daemon prior to client suggestion requests to inform gocode about the locations of compiled packages for the project.\n  \n  GoTools will infer the correct gocode `lib-path` by constructing a path which incorporates all project `GOPATH` entries.\n  \n  ### GoSublime Caveats\n  \n  Installing GoTools alongside GoSublime isn't tested or supported, so YMMV.\n\n\nC++ Completions\n---------------\n\n  C++ Completions\n  ===============\n  \n  About\n  =====\n  \n    This Sublime Text (2 or 3) package gives method completion suggestions for C++.\n  \n  \n  How to Use\n  ==========\n  \n    Methods and other completions\n    \"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\n  \tJust type the words and the completion suggestions should show up. Press `ENTER` or `TAB` for completion.\n  \n    Including header files\n    \"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\n    \tType `i-`<header name> then Press `ENTER` or `TAB` for completion. e.g.\n  \n    \ti-vector to get:\n    \t  #include <vector>\n  \n  Note: For best result, you can disable (Qt Completions for C++) (if installed) so that only the normal C++ methods would show up in the completion lists.\n  \n  \n    Contributing\n    =============\n  \n      All contributions are welcome.\n      Just fork it on Github (https://github.com/tushortz/CPP-Completions) and create a pull request.\n  \n    License\n    ========\n  \n      © 2015 Taiwo Kareem | taiwo.kareem36@gmail.com.\n  \n      Read license.txt\n",
+			"settings":
+			{
+				"buffer_size": 15285,
+				"line_ending": "Windows",
+				"name": "Package Control Messages",
+				"read_only": true,
+				"scratch": true
+			}
+		},
+		{
+			"file": "/C/sci/cpp/Array/main.cpp",
+			"settings":
+			{
+				"buffer_size": 741,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/sci/cpp/all.cpp",
+			"settings":
+			{
+				"buffer_size": 32462,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "{\n    \"namespaces\": [\"std\"],\n    \"filename_extensions\": [\"cpp\", \"cc\", \"cxx\", \"c++\", \"hpp\", \"hxx\", \"h++\",\n                            \"inl\", \"ipp\", \"cp\", \"c\", \"h\"]\n}\n",
+			"file": "/C/Program Files/Sublime Text Build 3157 x64/Data/Packages/C++NamespaceTool/C++NamespaceTool.sublime-settings",
+			"file_size": -1,
+			"file_write_time": -1,
+			"settings":
+			{
+				"buffer_size": 165,
+				"line_ending": "Windows",
+				"read_only": true,
+				"scratch": true
+			}
+		}
+	],
+	"build_system": "Packages/C++/C++ Single File.sublime-build",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/C++11/C++11.sublime-build",
+					""
+				],
+				[
+					"Packages/C++11/C++11.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/C++/C++ Single File.sublime-build",
+				"Run"
+			]
+		],
+		[
+			[
+				[
+					"Packages/Golang Build/Go.sublime-build",
+					""
+				],
+				[
+					"Packages/Golang Build/Go.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/Golang Build/Go.sublime-build",
+					"Test"
+				],
+				[
+					"Packages/Golang Build/Go.sublime-build",
+					"Install"
+				],
+				[
+					"Packages/Golang Build/Go.sublime-build",
+					"Cross-Compile (Interactive)"
+				],
+				[
+					"Packages/Golang Build/Go.sublime-build",
+					"Clean"
+				],
+				[
+					"Packages/User/Go.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/Golang Build/Go.sublime-build",
+				"Run"
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "Run",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"Snippet: ",
+				"Snippet: Lorem ipsum"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: install",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: insall",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: instal",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: in",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/sci",
+		"/C/sci/cpp",
+		"/C/sci/cpp/Array"
+	],
+	"file_history":
+	[
+	],
+	"find":
+	{
+		"height": 0.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/C/sci/go/08-input.go",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 453,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								453,
+								453
+							]
+						],
+						"settings":
+						{
+							"auto_name": "08-input.go",
+							"syntax": "Packages/Go/Go.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/C/Program Files/Sublime Text Build 3157 x64/Data/Packages/User/harbour.sublime-build",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 128,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								127,
+								127
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "abs.prg",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 209,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								209,
+								209
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/C/sci/ruby/restaurante.rb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2420,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2396,
+								2396
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1926.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 15285,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								15285,
+								15285
+							]
+						],
+						"settings":
+						{
+							"auto_indent": false,
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_width": 2,
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3966.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/C/sci/cpp/Array/main.cpp",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 741,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								195,
+								195
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++11/C++11.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/C/sci/cpp/all.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 32462,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								35,
+								35
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++11/C++11.tmLanguage",
+							"tab_size": 3,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 390.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "/C/Program Files/Sublime Text Build 3157 x64/Data/Packages/C++NamespaceTool/C++NamespaceTool.sublime-settings",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 165,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								165,
+								165
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/zzz A File Icon zzz/aliases/JSON (Sublime).sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 44.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 440.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.golang_build":
+	{
+		"height": 253.0
+	},
+	"pinned_build_system": "Packages/User/harbour.sublime-build",
+	"project": "WS.sublime-project",
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"C:\\Program Files\\Sublime Text Build 3157 x64\\Data\\Packages\\C++NamespaceTool\\C++NamespaceTool.sublime-settings"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 372.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

@@ -1,0 +1,108 @@
+@FPagina N§ 001                                                                                                    15/02/17 - 17:13:20
+====================================================================================================================================
+                                             RELACAO DE CLIENTES COM CONTRATO CANCELADO                                             
+====================================================================================================================================
+CODI  NOME                                     ENDERECO                       TORRE      CIDADE                    UF       TELEFONE
+------------------------------------------------------------------------------------------------------------------------------------
+03639 ADEMILSON RODRIGUES LIMA              AV VITORIA, 1114               NOVAPIMENT    PIMENTA BUENO             RO (69)99903-0191
+03675 ANTONIO MARTINS ALVES JUNIOR          AV BELEM, 810                  NOVAPIMENT    PIMENTA BUENO             RO (69)99940-7870
+03719 DAIANE RODRIGUES ALVES (FUNC GEMA)    AV PORTO ALEGRE,               NOVAPIMENT    PIMENTA BUENO             RO (69)99931-0124
+03121 ELMO KARNOPP                          RUA MARANHAO, 1657             NOVAPIMENT    PIMENTA BUENO             RO (69)98115-4736
+03697 GABRIELA GOMES DA SILVA               AV COSTA LEITE, 1588 ESQUINA   NOVAPIMENT    PIMENTA BUENO             RO (69)98102-6103
+03649 GILSON PEREIRA DOS SANTOS             AV MACEIO, 1938                NOVAPIMENT    PIMENTA BUENO             RO (69)98482-7650
+03652 IRINEU PEREIRA GAMA                   RUA MARINHO PEREIRA GAMA, 710  NOVAPIMENT    PIMENTA BUENO             RO (69)99920-7605
+12756 JACIRA GONZAGA DA CUNHA               AV RECIFE, 1773                NOVAPIMENT    PIMENTA BUENO             RO (69)99983-3683
+03470 JEAN PEREIRA BRANDAO                  AV CURITIBA, 989               NOVAPIMENT    PIMENTA BUENO             RO (69)99965-4361
+03144 LEANDRO SANTOS DA CRUZ                AV VITORIA, 1347               NOVAPIMENT    PIMENTA BUENO             RO (69)98439-4163
+03664 LUZIA BRAS DOS SANTOS                 AV MACEIO, 1938                NOVAPIMENT    PIMENTA BUENO             RO (69)99987-0635
+03287 POLIANE DAS VIRGENS COELHO            AV JOAO PESSOA, 1098           NOVAPIMENT    PIMENTA BUENO             RO (69)93451-3207
+03565 WILLIAM SILVA TRASPADINI              AV PORTO ALEGRE, 1272          NOVAPIMENT    PIMENTA BUENO             RO (69)99901-4842
+03606 CICERA INACIO DA SILVA                AV FORTALEZA, 1331             NOVAPIMENT    PIMENTA BUENO             RO (69)98108-7399
+03771 GEAN CARLOS DOS SANTOS LEGORA         AV SALVADOR, 1934              NOVAPIMENT    PIMENTA BUENO             RO (69)99982-6215
+12750 JULIELY RENATA GARCIA DOS SANTOS      RUA RIO GRANDE DO NORTE, SN    NOVAPIMENT    PIMENTA BUENO             RO (69)98404-8441
+03671 ROBSON DE PAULA SANTOS                AV JOAO PESSOA, 1567           NOVAPIMENT    PIMENTA BUENO             RO (69)99603-6783
+03145 ADAO DOS SANTOS FROES                 AV VITORIA, 1337               NOVAPIMENT    PIMENTA BUENO             RO (69)99201-8935
+03552 ADILSON GOMES                         RUA AMAZONAS, 1262             NOVAPIMENT    PIMENTA BUENO             RO (69)99978-1898
+03174 ADINALDO MARQUES PEREIRA              AV SAO LUIS, 1835              NOVAPIMENT    PIMENTA BUENO             RO (69)93451-7460
+03385 ADRIANA CRISTINA RIBEIRO              RUA MARANHAO, 1263             NOVAPIMENT    PIMENTA BUENO             RO (69)99935-0817
+03619 ANA CAROLINE JOSE ANTONIO BALBINOT    AV AMAZONAS, 1273              NOVAPIMENT    PIMENTA BUENO             RO (69)99973-4188
+03617 ANNA CAROLINA JOSE ANTONIO BALBINOT   RUA AMAZONAS, 1273             NOVAPIMENT    PIMENTA BUENO             RO (69)93451-4757
+03529 CARINA ANTONIA BONIFACIO MACHADO      AV SALVADOR, 845               NOVAPIMENT    PIMENTA BUENO             RO (69)99911-7442
+03301 CARLOS KELLER                         AV SALVADOR, 1087              NOVAPIMENT    PIMENTA BUENO             RO (69)98471-7068
+03657 CLAUDINEI DE MENEZES AGUIAR           RUA MARANHAO, 1445             NOVAPIMENT    PIMENTA BUENO             RO (69)99971-9003
+03119 CLEIDE NOGUEIRA DE ARAUJO             AV RECIFE, 1328                NOVAPIMENT    PIMENTA BUENO             RO (69)99919-2194
+03318 DAIANE CRISTINA RODRIGUES             AV PORTO ALEGRE, 1668          NOVAPIMENT    PIMENTA BUENO             RO (69)93451-2198
+03528 DEBORA LOPES FERREIRA SALES ROCHA     RUA RIO GRANDE DO NORTE, 1140  NOVAPIMENT    PIMENTA BUENO             RO (69)99963-7753
+03653 EDILEUZA DOS SANTOS OLIVEIRA PAIXAO   AV VITORIA, 1006               NOVAPIMENT    PIMENTA BUENO             RO (69)99991-7573
+03496 EDIVALDO SOUZA TEIXEIRA               AV AMAZONAS, 1110              NOVAPIMENT    PIMENTA BUENO             RO (69)99916-2864
+03080 EDSON BRAZ DA SILVA                   AV RECIFE, 0850                NOVAPIMENT    PIMENTA BUENO             RO (69)99968-1035
+03226 ELIO SOARES DE CAMARGO                AV TEOTONIO M. WANDERLEY, 1447 NOVAPIMENT    PIMENTA BUENO             RO (69)99908-1267
+12779 ELISANGELA DOS SANTOS FARIA           AV VITORIA, 1348               NOVAPIMENT    PIMENTA BUENO             RO (69)98131-2263
+03107 FERNANDO FONTOURA                     RUA TIRADENTES, 119            NOVAPIMENT    PIMENTA BUENO             RO (69)98468-4307
+03588 GILDA ARAUJO VICENTE                  AV MACEIO, 1905                NOVAPIMENT    PIMENTA BUENO             RO (69)99947-3955
+03598 GILMAR SANTOS FERNANDES               AV RECIFE, 2021                NOVAPIMENT    PIMENTA BUENO             RO (69)99911-9975
+03289 HEBERTI MARTINS DO NASCIMENTO         AV MACEIO, 0561                NOVAPIMENT    PIMENTA BUENO             RO (69)93451-7287
+03182 INDIANARA PEDRO GONCALVES             AV FORTALEZA, 1274             NOVAPIMENT    PIMENTA BUENO             RO (69)99909-6964
+03419 IRENE CARDOSO DOS SANTOS              AV CURITIBA, 2123              NOVAPIMENT    PIMENTA BUENO             RO (69)99960-9504
+03344 IZELENE DAL CORTIVO                   AV FORTALEZA, 1515             NOVAPIMENT    PIMENTA BUENO             RO (69)99223-9283
+03556 JOAO BATISTA MOTA GARCIA              RUA BORBA GATO, 1073           NOVAPIMENT    PIMENTA BUENO             RO (69)99987-1320
+03290 JOSE MARCOS DA ROSA LIMA              AV VITORIA, 1337               NOVAPIMENT    PIMENTA BUENO             RO (69)99254-2327
+03690 JUCILENE LOURENCO DA SILVA            RUA BELEM, 917                 NOVAPIMENT    PIMENTA BUENO             RO (69)98459-9895
+03284 JURACY FAUSTINO DA SILVA              RUA JOAO PESSOA, 839           NOVAPIMENT    PIMENTA BUENO             RO (69)93451-2293
+03398 KALINE DE OLIVEIRA SANTOS MARTINS     AV RECIFE, 0850                NOVAPIMENT    PIMENTA BUENO             RO (69)99254-5772
+03251 KILDER ALVES DA SILVA                 RUA PARAIBA, 1491              NOVAPIMENT    PIMENTA BUENO             RO (69)93451-2236
+03478 LIDUINA GOMES DA SILVA                AV SALVADOR, 624               NOVAPIMENT    PIMENTA BUENO             RO               
+03353 LUCINEI DIAS MARTINS                  RUA PARAIBA, 1425              NOVAPIMENT    PIMENTA BUENO             RO (69)99914-7313
+03448 LUIZ RAMOS DA ROCHA                   AV VITORIA, 0855               NOVAPIMENT    PIMENTA BUENO             RO (69)99266-1460
+------------------------------------------------------------------------------------------------------------------------------------
+ ** SUB-TOTAL :   50
+------------------------------------------------------------------------------------------------------------------------------------Pagina N§ 002                                                                                                    15/02/17 - 17:13:20
+====================================================================================================================================
+                                             RELACAO DE CLIENTES COM CONTRATO CANCELADO                                             
+====================================================================================================================================
+CODI  NOME                                     ENDERECO                       TORRE      CIDADE                    UF       TELEFONE
+------------------------------------------------------------------------------------------------------------------------------------
+03387 MANOEL ERIVAN CORREIA DOS REIS        AV SAO LUIS, 1576              NOVAPIMENT    PIMENTA BUENO             RO (69)99909-3961
+03125 MARCIA APARECIDA GONCALVES BULGAN     AV FORTALEZA, 0848             NOVAPIMENT    PIMENTA BUENO             RO (69)98459-1555
+03560 MARIA JOSE BATISTA DANTAS             AV RIO GRANDE DO NORTE, 1674   NOVAPIMENT    PIMENTA BUENO             RO (69)99905-2051
+03245 MARINA PAULA DE OLIVEIRA              AV FORTALEZA, 1357             NOVAPIMENT    PIMENTA BUENO             RO (69)99987-6799
+03161 MARLENE LEITE DA ROCHA                AV RECIFE, 1799                NOVAPIMENT    PIMENTA BUENO             RO (69)93451-6574
+03583 MAYCON DAS VIRGENS CHAVES             AV MACEIO, 0683                NOVAPIMENT    PIMENTA BUENO             RO (69)99916-7889
+03225 MILCA PIO                             AV PORTO ALEGRE, 1420          NOVAPIMENT    PIMENTA BUENO             RO (69)99982-9703
+03292 MIQUEIAS TIAGO DA SILVA               RUA MARANHAO, 1554             NOVAPIMENT    PIMENTA BUENO             RO (69)99974-0581
+03648 NATIELE GONCALVES NEVES               AV SAO LUIZ, 1043              NOVAPIMENT    PIMENTA BUENO             RO (69)99934-9687
+03460 OSMAR PEREIRA GAMA                    ALAMEDA PEDRO C. LEITE, 2229   NOVAPIMENT    PIMENTA BUENO             RO (69)99991-2065
+03437 OZIEL NETO DE ALMEIDA                 RUA MARANHAO, 1427             NOVAPIMENT    PIMENTA BUENO             RO (69)99961-6525
+03641 PABLO JELERROM GAVINHO                AV JOAO PESSOA, 1584           NOVAPIMENT    PIMENTA BUENO             RO (69)99908-6551
+03293 RAIMUNDO SOARES                       AV MACEIO, 1257                NOVAPIMENT    PIMENTA BUENO             RO (69)93451-6001
+03471 ROSANE DA SILVA                       AV VITORIA, 1357               NOVAPIMENT    PIMENTA BUENO             RO (69)99997-5696
+03599 SAMUEL ALVES CARDOSO                  AV MACEIO, 1878                NOVAPIMENT    PIMENTA BUENO             RO (69)99906-6342
+03168 SANDRA REGINA RODRIGUES REICHEMBACH   RUA MARANHAO, 1493             NOVAPIMENT    PIMENTA BUENO             RO (69)93451-2628
+03567 SANDRA TEIXEIRA DOS SANTOS            AV MACEIO, 1904                NOVAPIMENT    PIMENTA BUENO             RO (69)99942-1605
+03581 THAIS PEREIRA DA SILVA                AV FORTALEZA, 0689             NOVAPIMENT    PIMENTA BUENO             RO (69)99973-0299
+03335 TIAGO APARECIDO BONIFACIO             AV CARLOS GOMES, 1313          NOVAPIMENT    PIMENTA BUENO             RO (69)99971-2115
+03533 ALEX MESSIAS CALIXTRO                 AV VITORIA, 1546               NOVAPIMENT    PIMENTA BUENO             RO (69)99982-9162
+03764 ANA LUCIA FEITOSA                     RUA AMAZONAS, 1262             NOVAPIMENT    PIMENTA BUENO             RO (69)99272-0883
+12780 BRUNO LENZI FILHO                     AV FLORIANOPOLIS, 1861         NOVAPIMENT    PIMENTA BUENO             RO (69)99918-4908
+12762 CICERO APARECIDO DE SOUZA             AV SAO LUIZ, 1303              NOVAPIMENT    PIMENTA BUENO             RO (69)98438-6576
+12753 CLAUDINEIA FERNANDES DA SILVA LIMA    AV BELEM, 836                  NOVAPIMENT    PIMENTA BUENO             RO (69)99962-3598
+03480 CLEITON ADAILTON DIAS PEREIRA         AV SALVADOR, 1490              NOVAPIMENT    PIMENTA BUENO             RO (69)99934-0157
+03763 CRISTIANO WILL LIRA                   AV FORTALEZA, 2622             NOVAPIMENT    PIMENTA BUENO             RO (69)99902-3308
+12755 FERNANDO GONZAGA MORAIS               AV SALVADOR, 1551              NOVAPIMENT    PIMENTA BUENO             RO (69)99600-7656
+03651 GABRIEL BORGES DO NASCIMENTO SILVA    AV FLORIANOPOLIS, 0804         NOVAPIMENT    PIMENTA BUENO             RO (69)99930-9931
+03791 GILUANIA SENA SANTOS MARQUES          AV FORTALEZA, 1843             NOVAPIMENT    PIMENTA BUENO             RO (69)99997-1612
+03761 HILDA RODRIGUES DE OLIVEIRA           AL PEDRO COSTA LEITE, 56       NOVAPIMENT    PIMENTA BUENO             RO (69)99925-6042
+03724 EFERSON RODRIGO VIEIRA DE SOUZA FREI  RUA PARA, 1489                 NOVAPIMENT    PIMENTA BUENO             RO (69)99990-4334
+03715 JOEL FERREIRA DA CUNHA                AV RECIFE, 1678                NOVAPIMENT    PIMENTA BUENO             RO (69)99994-5316
+03688 JOSUE ALVES CASTRO                    AV RECIFE, 1115                NOVAPIMENT    PIMENTA BUENO             RO (69)99906-8032
+03439 JULIO CESAR DA SILVA NICOLAU          RUA PORTO ALEGRE, 1678         NOVAPIMENT    PIMENTA BUENO             RO (69)99986-1434
+03703 MARCIANA CORDEIRO DA FONSECA          AV CURITIBA, 1407              NOVAPIMENT    PIMENTA BUENO             RO (69)99960-0736
+03586 MARILENE SILVA SOUZA                  AV FLORIANOPOLIS, 0545         NOVAPIMENT    PIMENTA BUENO             RO (6999)983-4470
+03668 VANDENILSON APARECIDO DA SILVA        AV SAO LUIS, 572               NOVAPIMENT    PIMENTA BUENO             RO (69)99603-9227
+03156 WILSON CHAVES MERCES                  AV CURITIBA, 1641              NOVAPIMENT    PIMENTA BUENO             RO (69)99991-3449
+03633 ALINE DOS SANTOS OLIVEIRA BORGES (MAE AV MACEIO, 1905                NOVAPIMENT    PIMENTA BUENO             RO (69)99995-9093
+03352 TELMA DO SOCORRO FARIAS BALIEIRO      ALAMEDA PEDRO C. LEITE, 1137   NOVAPIMENT    PIMENTA BUENO             RO (69)98424-4325
+03775 VANESSA GOMES DE OLIVEIRA             AV SAO LUIZ, 1636              NOVAPIMENT    PIMENTA BUENO             RO (69)99907-7950
+------------------------------------------------------------------------------------------------------------------------------------
+ ** TOTAL     :   91
+------------------------------------------------------------------------------------------------------------------------------------@F@F

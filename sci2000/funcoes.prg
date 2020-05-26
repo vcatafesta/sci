@@ -1,16 +1,16 @@
 /*
-  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
- İ³																								 ³
- İ³	Programa.....: FUNCOES.PRG 														 ³
- İ³	Aplicacaoo...: MODULO DE FUNCOES DE APOIO AO SCI							 ³
- İ³	Versao.......: 19.50 																 ³
- İ³	Programador..: Vilmar Catafesta													 ³
- İ³	Empresa......: Microbras Com de Prod de Informatica Ltda 				 ³
- İ³	Inicio.......: 12 de Novembro de 1991. 										 ³
- İ³	Ult.Atual....: 06 de Dezembro de 1998. 										 ³
- İ³	Compilacao...: Clipper 5.2d														 ³
- İ³	Linker.......: Blinker 3.20														 ³
- İ³	Bibliotecas..: Clipper/Funcoes/Mouse/Funcky15/Funcky50/Classe/Classic ³
+  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ?
+ İ³																								 ?
+ İ³	Programa.....: FUNCOES.PRG 														 ?
+ İ³	Aplicacaoo...: MODULO DE FUNCOES DE APOIO AO SCI							 ?
+ İ³	Versao.......: 19.50 																 ?
+ İ³	Programador..: Vilmar Catafesta													 ?
+ İ³	Empresa......: Microbras Com de Prod de Informatica Ltda 				 ?
+ İ³	Inicio.......: 12 de Novembro de 1991. 										 ?
+ İ³	Ult.Atual....: 06 de Dezembro de 1998. 										 ?
+ İ³	Compilacao...: Clipper 5.2d														 ?
+ İ³	Linker.......: Blinker 3.20														 ?
+ İ³	Bibliotecas..: Clipper/Funcoes/Mouse/Funcky15/Funcky50/Classe/Classic ?
  İÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
  ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 */
@@ -32,11 +32,11 @@
 #Define VAR_AGUDO   39								 && Indicador de agudo
 #Define VAR_CIRCUN  94								 && Indicador de circunflexo
 #Define VAR_TREMA   34								 && Indicador de trema
-#Define VAR_CEDMIN  91								 && Cedilha min£sculo opcional [
-#Define VAR_CEDMAI  123 							 && Cedilha mai£sculo opcional {
+#Define VAR_CEDMIN  91								 && Cedilha min?culo opcional [
+#Define VAR_CEDMAI  123 							 && Cedilha mai?culo opcional {
 #Define VAR_GRAVE   96								 && Indicador de grave
 #Define VAR_TIL	  126 							 && Indicador de til
-#Define VAR_HIFEN   95								 && Indicador de ¦ § sublinhado+a/o
+#Define VAR_HIFEN   95								 && Indicador de ??sublinhado+a/o
 #Define S_TOP		  0
 #Define S_BOTTOM	  1
 #translate P_Def( <var>, <val> ) => IF( <var> = NIL, <var> := <val>, <var> )
@@ -279,7 +279,7 @@ LOCAL aMensagem	 := Array(2,5)
 		aMensagem[1,5] := ""
 
 		aMensagem[2,1] := "[Verificacao de Copia Original]"
-		aMensagem[2,2] := "1 - O SCI esta sendo instalado pela 1¦ vez ?"
+		aMensagem[2,2] := "1 - O SCI esta sendo instalado pela 1?vez ?"
 		aMensagem[2,3] := "2 - Esta atualizando a versao do SCI ?"
 		aMensagem[2,4] := "3 - Esta instalando um novo terminal ?"
 		aMensagem[2,5] := "4 - Caso Afirmativo, solicite Codigo de Acesso."
@@ -464,7 +464,7 @@ FChdir( oAmbiente:xBaseDados )
 Set Defa To ( oAmbiente:xBaseDados )
 Return
 
-Function BoxConf( nRow, nCol, nRow1, nCol1 )
+Conf( nRow, nCol, nRow1, nCol1 )
 ********************************************
 LOCAL PBack
 LOCAL Exceto	 := .F.
@@ -472,12 +472,12 @@ LOCAL Ativo 	 :=  1
 LOCAL cCor		 := 112
 LOCAL nComp 	 := ( nCol1 - nCol )-1
 Box( nRow, nCol, nRow1, nCol1, M_Frame() + " ", 112, 1, 8 )
-Print( nRow, nCol, 'Ú', 127, 1 )
-Print( nRow, nCol+1, Repl('Ä',nComp), 127 )
+Print( nRow, nCol, '?, 127, 1 )
+Print( nRow, nCol+1, Repl('?,nComp), 127 )
 For x := nRow+1 To nRow1
-	Print( x, nCol, '³', 127, 1 )
+	Print( x, nCol, '?, 127, 1 )
 Next
-Print( nRow1, nCol, 'À',  127,1 )
+Print( nRow1, nCol, '?,  127,1 )
 SetColor("N/W,W+/R")
 Return
 
@@ -806,7 +806,7 @@ IF lexterno
 Else
 	IF lTemp
 		oMenu:Limpa()
-		M_Title( "ESC - Retorna ³Setas CIMA/BAIXO Move")
+		M_Title( "ESC - Retorna ?etas CIMA/BAIXO Move")
       M_View( 00, 00, MaxRow(), MaxCol(), cTemp, Cor())
 		ResTela( cScreen )
 	EndIF
@@ -850,12 +850,12 @@ oAmbiente:Acento := FALSO
 Function Act_Geral()
 ********************
 LOCAL COD_ACENTO := Chr( LastKey())
-LOCAL VAR_CNF_AC := ['a 'e‚'i¡'o¢'u£'A†'E'I‹'OŸ'U–'c‡'C€] + ; && Agudo
-						  [`a…`eŠ`i`o•`u—`A‘`E’`I˜`O©`U`c‡`C€] + ; && Grave
+LOCAL VAR_CNF_AC := ['a 'e‚'i?o?u?A†'E'I‹'OŸ'U–'c‡'C€] + ; && Agudo
+						  [`a…`eŠ`i`o•`u—`A‘`E’`I˜`O?U`c‡`C€] + ; && Grave
 						  [^aƒ^eˆ^o“^A^E‰^OŒ^c‡^C€]				  + ; && Circunflexo
-						  [~a„~n¤~o”~A~N¥~O™~c‡~C€]				  + ; && Til
+						  [~a„~n?o”~A~N?O™~c‡~C€]				  + ; && Til
 						  ["u"Uš]                               + ; && Trema
-						  [_a¦_A¦_o§_O§]								  + ; && H¡fen
+						  [_a?A?o?O?								  + ; && H?en
 						  [" ‡{ €]                                   && Cedilha
 
 IF COD_ACENTO $ "[{"
@@ -1210,7 +1210,7 @@ LOCAL procname
 
 @ 04,45 Clea To 19,70
 SetColor('BG+')
-StatusInf("x = *³ö = /³", "ESC-RETORNA")
+StatusInf("x = *³ö = /?, "ESC-RETORNA")
 MaBox( 04, 45, 06, 70 )
 MaBox( 19, 45, 21, 70 )
 Write( 20, 46, "Mem.")
@@ -1433,7 +1433,7 @@ Return Nil
 
 Function CabecRel( cNomefir, nTam, nPagina, cSistema, cRelatorio, cCabecalho )
 ********************************************************************
-Write(01 , 00, Padr( "Pagina N§ " + StrZero( nPagina, 3 ), ( nTam/2 ) ) + Padl( Time(), ( nTam/2 ) ) )
+Write(01 , 00, Padr( "Pagina N?" + StrZero( nPagina, 3 ), ( nTam/2 ) ) + Padl( Time(), ( nTam/2 ) ) )
 Write(02 , 00, Date() )
 Write(03 , 00, Padc( cNomefir, nTam ) )
 Write(04 , 00, Padc( cSistema, nTam ) )
@@ -1657,15 +1657,15 @@ Print( Col2, Lin1+2, SubStr( oAmbiente:Frame, 5, 1 ), Cor())
 IF aRotina != NIL
 	IF Alias() = "LISTA"
 		IF aRotinaAlteracao != NIL
-			Print( Col2, Lin1+3, "INSERT _Incluir³DELETE _Excluir³F2 _Cod Fabr³CTRL+ENTER _Alterar", Roloc( Cor()), Lin2 - (Lin1+1))
+			Print( Col2, Lin1+3, "INSERT _Incluir?ELETE _Excluir?2 _Cod Fabr?TRL+ENTER _Alterar", Roloc( Cor()), Lin2 - (Lin1+1))
 		Else
-			Print( Col2, Lin1+3, "INSERT _Incluir³DELETE _Excluir³F2 _Cod Fabr", Roloc( Cor()), Lin2 - (Lin1+1))
+			Print( Col2, Lin1+3, "INSERT _Incluir?ELETE _Excluir?2 _Cod Fabr", Roloc( Cor()), Lin2 - (Lin1+1))
 		EndIF
 	Else
 		IF aRotinaAlteracao != NIL
-			Print( Col2, Lin1+3, "INSERT _Incluir³DELETE _Excluir³F2 _Filtro³CTRL+ENTER _Alterar", Roloc( Cor()), Lin2 - (Lin1+1))
+			Print( Col2, Lin1+3, "INSERT _Incluir?ELETE _Excluir?2 _Filtro?TRL+ENTER _Alterar", Roloc( Cor()), Lin2 - (Lin1+1))
 		Else
-			Print( Col2, Lin1+3, "INSERT _Incluir³DELETE _Excluir³F2 _Filtro³", Roloc( Cor()), Lin2 - (Lin1+1))
+			Print( Col2, Lin1+3, "INSERT _Incluir?ELETE _Excluir?2 _Filtro?, Roloc( Cor()), Lin2 - (Lin1+1))
 		EndIF
 	EndIF
 EndIF
@@ -2874,7 +2874,7 @@ LOCAL aMensagem		:= Array(3,5)
 		aMensagem[1,5] := ""
 
 		aMensagem[2,1] := "[Verificacao de Copia Original]"
-		aMensagem[2,2] := "1 - O SCI esta sendo instalado pela 1¦ vez ?"
+		aMensagem[2,2] := "1 - O SCI esta sendo instalado pela 1?vez ?"
 		aMensagem[2,3] := "2 - Esta atualizando a versao do SCI ?"
 		aMensagem[2,4] := "3 - Esta instalando um novo terminal ?"
 		aMensagem[2,5] := "4 - Caso Positivo, solicite Codigo de Acesso."
@@ -3415,17 +3415,17 @@ Return NIL
 
 Function CTBA( Lin, Col )
 *************************
-DevPos( Lin,	 Col ) ; Devout(" ÚÄÄÄÄÄ¿    ÚÄÄÄÄÄ¿  ÚÄ¿")
-DevPos( Lin+01, Col ) ; Devout(" ßßßßßßÀ¿   ßßßßßßÀ¿ ßß³")
-DevPos( Lin+02, Col ) ; Devout("ßßßßßßßß³  ßßßßßßßß³ ßß³")
-DevPos( Lin+03, Col ) ; Devout("ßß³   ßßÙ  ßß³   ßßÙ ßß³")
-DevPos( Lin+04, Col ) ; Devout("ßßÀÄÄÄÄ¿   ßß³       ßß³")
-DevPos( Lin+05, Col ) ; Devout("ßßßßßßßÀ¿  ßß³       ßß³")
-DevPos( Lin+06, Col ) ; Devout(" ßßßßßßß³  ßß³       ßß³")
-DevPos( Lin+07, Col ) ; Devout("      ßß³  ßß³       ßß³")
-DevPos( Lin+08, Col ) ; Devout("ßßÄÄÄÄßß³  ßßÀÄÄÄßß³ ßß³")
-DevPos( Lin+09, Col ) ; Devout("ßßßßßßßßÙ  ßßßßßßßßÙ ßß³")
-DevPos( Lin+10, Col ) ; Devout(" ßßßßßßÙ    ßßßßßßÙ  ßßÙ")
+DevPos( Lin,	 Col ) ; Devout(" ÚÄÄÄÄÄ?   ÚÄÄÄÄÄ? ÚÄ?)
+DevPos( Lin+01, Col ) ; Devout(" ßßßßßßÀ¿   ßßßßßßÀ¿ ßß?)
+DevPos( Lin+02, Col ) ; Devout("ßßßßßßßß? ßßßßßßßß?ßß?)
+DevPos( Lin+03, Col ) ; Devout("ßß?  ßß? ßß?  ßß?ßß?)
+DevPos( Lin+04, Col ) ; Devout("ßßÀÄÄÄÄ¿   ßß?      ßß?)
+DevPos( Lin+05, Col ) ; Devout("ßßßßßßßÀ? ßß?      ßß?)
+DevPos( Lin+06, Col ) ; Devout(" ßßßßßßß³  ßß?      ßß?)
+DevPos( Lin+07, Col ) ; Devout("      ßß? ßß?      ßß?)
+DevPos( Lin+08, Col ) ; Devout("ßßÄÄÄÄßß? ßßÀÄÄÄßß?ßß?)
+DevPos( Lin+09, Col ) ; Devout("ßßßßßßßß? ßßßßßßßß?ßß?)
+DevPos( Lin+10, Col ) ; Devout(" ßßßßßß?   ßßßßßß? ßß?)
 If ( InKey(0.05) != 0 )
 	Return .T.
 EndIf
@@ -3628,12 +3628,12 @@ ELSE
 	ColorSet( @cCor, @PBack )
 	M_Frame( cFrame )
 	Box( nCima, nEsquerda, nBaixo, nDireita, M_Frame() + " ", aFundo[ nCor], 1, 8 )
-	Print( nCima, nEsquerda, 'Ú', aCima[ nCor ], 1 )
-	Print( nCima, nEsquerda+1, Repl('Ä',nComp), aCima[nCor] )
+	Print( nCima, nEsquerda, '?, aCima[ nCor ], 1 )
+	Print( nCima, nEsquerda+1, Repl('?,nComp), aCima[nCor] )
 	For x := nCima+1 To nBaixo
-		Print( x, nEsquerda, '³', aCima[nCor], 1 )
+		Print( x, nEsquerda, '?, aCima[nCor], 1 )
 	Next
-	Print( nBaixo, nEsquerda, 'À',  aCima[nCor],1 )
+	Print( nBaixo, nEsquerda, '?,  aCima[nCor],1 )
 	aPrint( nCima + 1, nPosTexto, Texto, aCima[nCor])
 	nRetVal := M_Prompt( Exceto, Ativo, aRow, aCol, aArray, aFundo[nCor] )
 	ResTela( TelaVelha )
@@ -3698,11 +3698,11 @@ EndIf
 ColorSet( @pfore, @pback )
 Box( nTopo, nEsq, nFundo, nDireita, oAmbiente:Frame + cPattern, Pfore )
 IF Cabecalho != Nil
-	aPrint( nTopo, nEsq+1, "Û", Roloc( pFore ), (nDireita-nEsq)-1)
+	aPrint( nTopo, nEsq+1, "?, Roloc( pFore ), (nDireita-nEsq)-1)
 	aPrint( nTopo, nEsq+1, Padc( Cabecalho, ( nDireita-nEsq)-1), Roloc( pFore ))
 EndIF
 IF Rodape != Nil
-	aPrint( nFundo, nEsq+1, "Û", Roloc( pFore ), (nDireita-nEsq)-1)
+	aPrint( nFundo, nEsq+1, "?, Roloc( pFore ), (nDireita-nEsq)-1)
 	aPrint( nFundo, nEsq+1, Padc( Rodape, ( nDireita-nEsq)-1), Roloc( pFore ))
 EndIF
 cSetColor( SetColor())
@@ -3752,7 +3752,7 @@ Function VISUALCLOCK
 	Local Local1, Local2
 	Local2:= 0
 	setcursor(0)
-	Local1:= win(10, 28, 13, 51, "Rel¢gio - " + DToC(Date()), ;
+	Local1:= win(10, 28, 13, 51, "Rel?io - " + DToC(Date()), ;
 		"W+*/B", "B+*/W")
 	Do While (Local2 == 0)
 		@ 12, 36 Say Time() Color "N*/W"
@@ -3888,33 +3888,33 @@ EndIf
 Local20:= At(alltrim(Local10), Local10) - 1
 Local21:= Local20 + Len(Arg1[1]) + 2
 If (Arg4)
-	Local12:= "Õ"
-	Local13:= IIF(Arg5, "Ò", "×")
-	Local14:= "·"
-	Local15:= "¶"
-	Local16:= "½"
-	Local17:= "Ğ"
-	Local18:= "Ó"
-	Local19:= "Ç"
+	Local12:= "?
+	Local13:= IIF(Arg5, "?, "?)
+	Local14:= "?
+	Local15:= "?
+	Local16:= "?
+	Local17:= "?
+	Local18:= "?
+	Local19:= "?
 Else
-	Local12:= "Ö"
-	Local13:= IIF(Arg5, "Ñ", "Ø")
-	Local14:= "¸"
-	Local15:= "µ"
-	Local16:= "¾"
-	Local17:= "Ï"
-	Local18:= "Ô"
-	Local19:= "Æ"
+	Local12:= "?
+	Local13:= IIF(Arg5, "?, "?)
+	Local14:= "?
+	Local15:= "?
+	Local16:= "?
+	Local17:= "?
+	Local18:= "?
+	Local19:= "?
 EndIf
 @ Arg1[6] - 1, Arg1[7] Say Local12 + Replicate(Local13, Arg1[9] - 2) + Local14 Color Local1
 @ Arg1[6], Arg1[7] Say Local19 Color Local1
-@ Arg1[6], Arg1[7] + 1 Say "¶" Color Local2
+@ Arg1[6], Arg1[7] + 1 Say "? Color Local2
 @ Arg1[6], Arg1[7] + 2 Say Local10 Color Local5
 @ Arg1[6], Arg1[7] + 2 + Local11 Say Arg1[8] Color Local9
 @ Arg1[6], Arg1[7] + Arg1[9] - 1 Say Local15 Color Local1
 @ Arg1[6] + 1, Arg1[7] Say Local18 + Replicate(Local17, Arg1[9] - 2) + Local16 Color Local1
-@ Arg1[6], Arg1[7] + Local20 Say "ò" Color Local8
-@ Arg1[6], Arg1[7] + Local21 Say "ó" Color Local8
+@ Arg1[6], Arg1[7] + Local20 Say "? Color Local8
+@ Arg1[6], Arg1[7] + Local21 Say "? Color Local8
 Return Nil
 
 ********************************
@@ -3958,7 +3958,7 @@ Function QEXIT(Arg1, Arg2, Arg3, Arg4)
 		Set Color To
 		Clear Screen
 		Quit
-	ElseIf (msgbox2("Confirma o encerramento ?", "Sa¡da", Nil, Nil, ;
+	ElseIf (msgbox2("Confirma o encerramento ?", "Sa?a", Nil, Nil, ;
 			Nil, Nil, 2) == 1)
 		Close Databases
 		setblink(.T.)
@@ -4087,7 +4087,7 @@ Local Local1
 Local1 := savenv(Arg1, Arg2, Arg3 + 1, Arg4 + 2)
 Arg5	 := IIF(ISNIL(Arg5), "N*/W", Arg5)
 Arg6	 := IIF(ISNIL(Arg6), .T., Arg6)
-@ Arg1, Arg2, Arg3, Arg4 Box "ÉĞËÇÊÌÈ¶ " Color Arg5
+@ Arg1, Arg2, Arg3, Arg4 Box " ĞËÇÊÌÈ?" Color Arg5
 If (Arg6)
 	Sombra( Arg1, Arg2, Arg3, Arg4)
 EndIf
@@ -4148,10 +4148,10 @@ Function MSGBOX3D1(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7)
 	Local3:= newbutton()
 	addbutton(Local3, Arg3 + 5 + Local1, 31, 18, Arg4, Nil, .T.)
 	Local2:= win(Arg3, 10, Arg3 + 8 + Local1, 69, Arg2, Arg5, Arg6)
-	@ Arg3 + 2, 11, Arg3 + 7 + Local1, 11 Box "ÇÇÇÇÇÇÇÇÇ" Color "W+/W"
-	@ Arg3 + 2, 68, Arg3 + 7 + Local1, 68 Box "¶¶¶¶¶¶¶¶¶" Color "N+/W"
-	@ Arg3 + 2, 12 Say Replicate("Ğ", 56) Color "W+/W"
-	@ Arg3 + 7 + Local1, 12 Say Replicate("Ì", 56) Color "N+/W"
+	@ Arg3 + 2, 11, Arg3 + 7 + Local1, 11 Box "ÇÇÇÇÇÇÇÇ? Color "W+/W"
+	@ Arg3 + 2, 68, Arg3 + 7 + Local1, 68 Box "¶¶¶¶¶¶¶¶? Color "N+/W"
+	@ Arg3 + 2, 12 Say Replicate("?, 56) Color "W+/W"
+	@ Arg3 + 7 + Local1, 12 Say Replicate("?, 56) Color "N+/W"
 	If (ISARRAY(Arg1))
 		For Local4:= 1 To Local1
 			@ Arg3 + 2 + Local4, 13 Say padc(Arg1[Local4], 54) Color Arg7
@@ -4186,10 +4186,10 @@ Function MSGBOX3D2(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8, ;
 	addbutton(Local3, Arg3 + 5 + Local1, 41, 18, Arg5, Nil, IIF(Arg7 ;
 		== 2, .T., .F.))
 	Local2:= win(Arg3, 10, Arg3 + 8 + Local1, 69, Arg2, Arg8, Arg9)
-	@ Arg3 + 2, 11, Arg3 + 7 + Local1, 11 Box "ÇÇÇÇÇÇÇÇÇ" Color "W+/W"
-	@ Arg3 + 2, 68, Arg3 + 7 + Local1, 68 Box "¶¶¶¶¶¶¶¶¶" Color "N+/W"
-	@ Arg3 + 2, 12 Say Replicate("Ğ", 56) Color "W+/W"
-	@ Arg3 + 7 + Local1, 12 Say Replicate("Ì", 56) Color "N+/W"
+	@ Arg3 + 2, 11, Arg3 + 7 + Local1, 11 Box "ÇÇÇÇÇÇÇÇ? Color "W+/W"
+	@ Arg3 + 2, 68, Arg3 + 7 + Local1, 68 Box "¶¶¶¶¶¶¶¶? Color "N+/W"
+	@ Arg3 + 2, 12 Say Replicate("?, 56) Color "W+/W"
+	@ Arg3 + 7 + Local1, 12 Say Replicate("?, 56) Color "N+/W"
 	If (ISARRAY(Arg1))
 		For Local4:= 1 To Local1
 			@ Arg3 + 2 + Local4, 13 Say padc(Arg1[Local4], 54) Color ;
@@ -4243,10 +4243,10 @@ Function MSGBOX3D3(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8, ;
 	addbutton(Local3, Arg3 + 5 + Local1, 49, 18, Arg6, Nil, IIF(Arg8 ;
 		== 3, .T., .F.))
 	Local2:= win(Arg3, 10, Arg3 + 8 + Local1, 69, Arg2, Arg9, Arg10)
-	@ Arg3 + 2, 11, Arg3 + 7 + Local1, 11 Box "ÇÇÇÇÇÇÇÇÇ" Color "W+/W"
-	@ Arg3 + 2, 68, Arg3 + 7 + Local1, 68 Box "¶¶¶¶¶¶¶¶¶" Color "N+/W"
-	@ Arg3 + 2, 12 Say Replicate("Ğ", 56) Color "W+/W"
-	@ Arg3 + 7 + Local1, 12 Say Replicate("Ì", 56) Color "N+/W"
+	@ Arg3 + 2, 11, Arg3 + 7 + Local1, 11 Box "ÇÇÇÇÇÇÇÇ? Color "W+/W"
+	@ Arg3 + 2, 68, Arg3 + 7 + Local1, 68 Box "¶¶¶¶¶¶¶¶? Color "N+/W"
+	@ Arg3 + 2, 12 Say Replicate("?, 56) Color "W+/W"
+	@ Arg3 + 7 + Local1, 12 Say Replicate("?, 56) Color "N+/W"
 	If (ISARRAY(Arg1))
 		For Local4:= 1 To Local1
 			@ Arg3 + 2 + Local4, 13 Say padc(Arg1[Local4], 54) Color ;
@@ -4425,10 +4425,10 @@ If (Arg5 == 2)
 	Local1 := "W+/W"
 	Local2 := "N+/W"
 EndIf
-@ Arg1, Arg2, Arg3, Arg2 Box "¶¶¶¶¶¶¶¶¶" Color Local1
-@ Arg1, Arg4, Arg3, Arg4 Box "ÇÇÇÇÇÇÇÇÇ" Color Local2
-@ Arg1, Arg2 Say Replicate("Ì", Arg4 - Arg2 + 1) Color Local1
-@ Arg3, Arg2 Say Replicate("Ğ", Arg4 - Arg2 + 1) Color Local2
+@ Arg1, Arg2, Arg3, Arg2 Box "¶¶¶¶¶¶¶¶? Color Local1
+@ Arg1, Arg4, Arg3, Arg4 Box "ÇÇÇÇÇÇÇÇ? Color Local2
+@ Arg1, Arg2 Say Replicate("?, Arg4 - Arg2 + 1) Color Local1
+@ Arg3, Arg2 Say Replicate("?, Arg4 - Arg2 + 1) Color Local2
 Return Nil
 
 *****************************************************
@@ -4444,10 +4444,10 @@ Arg4:= IIF(ISNIL(Arg4), "W+/N", Arg4)
 Arg5:= IIF(ISNIL(Arg5), "N/W", Arg5)
 Arg6:= IIF(ISNIL(Arg6), "N/W", Arg6)
 Local2 := win(Arg3, 16, Arg3 + 6 + Local1, (nTam-16), Arg2, Arg4, Arg5)
-@ Arg3 + 2, 17, Arg3 + 5 + Local1, 17 Box "ÇÇÇÇÇÇÇÇÇ" Color "W+/W"
-@ Arg3 + 2, (nTam-17), Arg3 + 5 + Local1, (nTam-17) Box "¶¶¶¶¶¶¶¶¶" Color "N+/W"
-@ Arg3 + 2, 18 Say Replicate("Ğ", (nTam-35)) Color "W+/W"
-@ Arg3 + 5 + Local1, 18 Say Replicate("Ì", (nTam-35)) Color "N+/W"
+@ Arg3 + 2, 17, Arg3 + 5 + Local1, 17 Box "ÇÇÇÇÇÇÇÇ? Color "W+/W"
+@ Arg3 + 2, (nTam-17), Arg3 + 5 + Local1, (nTam-17) Box "¶¶¶¶¶¶¶¶? Color "N+/W"
+@ Arg3 + 2, 18 Say Replicate("?, (nTam-35)) Color "W+/W"
+@ Arg3 + 5 + Local1, 18 Say Replicate("?, (nTam-35)) Color "N+/W"
 If (ISARRAY(Arg1))
 	For Local3:= 1 To Local1
 		@ Arg3 + 3 + Local3, 19 Say padc(Arg1[Local3], (nTam-37)) Color Arg6
@@ -4497,12 +4497,12 @@ ElseIf (Arg7 == 2)
 ElseIf (Arg7 == 3)
 	Local2 := dn:= Arg8
 EndIf
-@ Arg1 + 1, Arg2, Arg3 - 1, Arg2 Box Replicate("Ç", 9) Color Local2
-@ Arg1, Arg2 Say "Í" + Replicate("Ä", Local3) Color Local2
-@ Arg3, Arg2 Say "Î" Color Local2
-@ Arg1 + 1, Arg4, Arg3 - 1, Arg4 Box Replicate("¶", 9) Color dn
-@ Arg3, Arg2 + 1 Say Replicate("Ä", Local3) + "¼" Color dn
-@ Arg1, Arg4 Say "»" Color dn
+@ Arg1 + 1, Arg2, Arg3 - 1, Arg2 Box Replicate("?, 9) Color Local2
+@ Arg1, Arg2 Say "? + Replicate("?, Local3) Color Local2
+@ Arg3, Arg2 Say "? Color Local2
+@ Arg1 + 1, Arg4, Arg3 - 1, Arg4 Box Replicate("?, 9) Color dn
+@ Arg3, Arg2 + 1 Say Replicate("?, Local3) + "? Color dn
+@ Arg1, Arg4 Say "? Color dn
 If (Arg5 != Nil)
 	z:= Len(Arg5)
 	If (Arg6 == 1)
@@ -4992,8 +4992,8 @@ IF !oAmbiente:Visual
 		Write( nY, 25, XNOMEFIR, nY )
 	Next
 	MsBox( 17, 00, 22, MaxCol()-2, 9, FALSO )
-	WriteBox( 18, 10, "Esta ‚ uma licen‡a de uso individual e  intransfer¡vel" )
-	WriteBox( 19, 10, "para o usuario acima. C¢pia ilegais e n„o  autorizadas" )
+	WriteBox( 18, 10, "Esta ‚ uma licen‡a de uso individual e  intransfer?el" )
+	WriteBox( 19, 10, "para o usuario acima. C?ia ilegais e n„o  autorizadas" )
 	WriteBox( 20, 10, "‚ crime de PIRATARIA o qual ser„o processadas a m xima" )
 	WriteBox( 21, 10, "extˆns„o da LEI.")
 	SetColor("R")
@@ -5340,9 +5340,9 @@ Function ADDDOWNSEP(Arg1, Arg2)
 Function DRAWDOWNIT(Arg1, Arg2)
 
 	Local Local1, Local2, Local3, Local4, Local5, Local6
-	Local5:= IIF(Arg1[8], "û ", "  ")
+	Local5:= IIF(Arg1[8], "?", "  ")
 	Local6:= IIF(ISARRAY(Arg1[3]), Chr(16), " ")
-	Local3:= IIF(Arg1[9], Replicate("Ä", Arg1[10]), padr(Local5 + ;
+	Local3:= IIF(Arg1[9], Replicate("?, Arg1[10]), padr(Local5 + ;
 		textmenu(Arg1[1]), Arg1[10] - 1) + Local6)
 	Local4:= IIF(Arg1[9], 0, At("&", Arg1[1]) + 1)
 	If (Arg2 == 1)
@@ -5412,9 +5412,9 @@ Function Extenso( Numero, Dinheiro, Linhas, Largura )
 *****************************************************
 /*
 								 ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Valor a Imprimir por extenso
-                         ³  ÚÄÄÄÄÄÄÄÄÄÄÄÄ Tipo de Moeda (1-Real, 2 - Dolar)
-								 ³  ³ ÚÄÄÄÄÄÄÄÄÄÄ Qtde de Linhas para impressao
-		 LARG = 50	 &&	 ³  ³ ³	 ÄÄÄÄÄÄÄ Comprimento da Linha de impressao
+                         ? ÚÄÄÄÄÄÄÄÄÄÄÄ?Tipo de Moeda (1-Real, 2 - Dolar)
+								 ? ?ÚÄÄÄÄÄÄÄÄÄ?Qtde de Linhas para impressao
+		 LARG = 50	 &&	 ? ?? ÄÄÄÄÄÄ?Comprimento da Linha de impressao
 		 VALOR = EXTENSO( Vlr,2,3,LARG)
 		 @ 14,05 Say LEFT(VALOR,LARG)
 		 @ 15,05 Say SubStr(VALOR,LARG+1,LARG)
@@ -5680,7 +5680,7 @@ LOCAL aMenuArray := { " Calculadora "," Calendario "," Tabela Ascii " }
 Set Key -9 To
 			 WHILE OK
 				 oMenu:Limpa()
-				 StatusInf("ESCOLHA COM SETAS E TECLE ÄÄÄÄÙ","ESC-RETORNA")
+				 StatusInf("ESCOLHA COM SETAS E TECLE ÄÄÄÄ?,"ESC-RETORNA")
 		  M_Title( "OPCOES" )
 				 nChoice := FazMenu( 03, 60, aMenuArray, Cor())
 				 IF nChoice = 0
@@ -5808,7 +5808,7 @@ WHILE OK
 					" WEB BROWSER  ş ",;
                " SPOOLER      ş ",;
 					" CANCELAR     ş "}
-   MaBox( 05, 10, 18, 62,,"ENTER=IMPRIMIR³CTRL+ENTER=ESCOLHER³CTRL+PGDN=ONLINE")
+   MaBox( 05, 10, 18, 62,,"ENTER=IMPRIMIR?TRL+ENTER=ESCOLHER?TRL+PGDN=ONLINE")
    nChoice := aChoice( 06, 11, 17, 61, aMenu, alDisp, "_Instru80" )
 	aNewLpt := aLpt1
 	Do Case
@@ -6031,9 +6031,9 @@ LOCAL nChoice
 oMenu:Limpa()
 ErrorBeep()
 nChoice := Alert(" INSTRU€O PARA EMISSO DE ETIQUETAS      " + ;
-						";; û Coloque Formulario Etiqueta.        " + ;
-						"; û Acerte a Altura do Picote           " + ;
-						"; û Resete ou Ligue a Impressora        ", { "Imprimir", "Visualizar", "Cancelar"})
+						";; ?Coloque Formulario Etiqueta.        " + ;
+						"; ?Acerte a Altura do Picote           " + ;
+						"; ?Resete ou Ligue a Impressora        ", { "Imprimir", "Visualizar", "Cancelar"})
 ResTela( cScreen )
 IF nChoice = 1
 	oAmbiente:cArquivo := ""
@@ -6379,7 +6379,7 @@ Function R_OPNBAR( ARG1, ARG2, ARG3, ARG4, ARG5, ARG6 )
 Local LOCAL1, LOCAL2, LOCAL3, LOCAL4, LOCAL5, LOCAL6, LOCAL7, LOCAL8, LOCAL9, LOCAL10, LOCAL11
 LOCAL1 := {}
 LOCAL3 := Set(_SET_DEVICE, "SCREEN")
-LOCAL9 := "ª‘š˜–Œ‹šš›ß‰šŒ–‘ß™ß­ ½³–×ÖßÒßˆ–‹ßÇßŒšœ‘›ŒÑ"
+LOCAL9 := "?š˜–Œ‹šš›?šŒ–‘?™ß­ ??×ÖßÒ?–‹ßÇ?šœ‘›Œ?
 LOCAL10 := ""
 For LOCAL11 := 1 To Len(LOCAL9)
 	LOCAL10 := LOCAL10 + Chr(255 - Asc(SubStr(LOCAL9, LOCAL11, 1)))
@@ -6473,7 +6473,7 @@ If ( ValType(ARG1) = "A" )
 		LOCAL1 := SetColor(ARG1[ 5 ])
 		@ ARG1[ 2 ] + 1, ARG1[ 3 ] + 25 Say Transform(ARG2, "999%")
 		Set Color To (ARG1[ 6 ])
-		@ ARG1[ 2 ] + 2, ARG1[ 3 ] + 2 Say Replicate("Û", LOCAL3)
+		@ ARG1[ 2 ] + 2, ARG1[ 3 ] + 2 Say Replicate("?, LOCAL3)
 		ARG1[ 4 ] := LOCAL3
 		Set Color To (LOCAL1)
 		Set(_SET_DEVICE, LOCAL2)
@@ -6526,7 +6526,7 @@ IF cComplete = "99"
 EndIF
 @ 08, 11 Say "ş " + LTrim(Str(nReg)) + " de " + LTrim(Str(nUltimo )) + " Registros"
 @ 09, 11 Say "ş " + cComplete + "%"
-@ 10, 11 Say Replicate("Û", nPorcento/2 ) Color "W+/r"
+@ 10, 11 Say Replicate("?, nPorcento/2 ) Color "W+/r"
 Return .T.
 
 Function LookUp( cString, aArray )
@@ -6571,7 +6571,7 @@ SetColor("W*+/N")
 Write( Col_1, Lin_1, Chr(10))
 MacroNtx( Nome_Field, Nome_Ntx, cTag )
 SetColor("W+/R")
-Write( Col_1, Lin_1, Chr(251)) // û
+Write( Col_1, Lin_1, Chr(251)) // ?
 Return Nil
 
 Function MacroNtx( Nome_Field, Nome_Ntx, cTag )
@@ -7090,3 +7090,61 @@ Unselected(nUns)
 SetColor( ColorStr )
 return Nil
 
+Function NetUse( cBcoDados, lModo, nSegundos, cAlias )
+******************************************************
+LOCAL cScreen := SaveScreen()
+LOCAL nArea   := 0
+LOCAL Restart := OK
+LOCAL cStr1
+LOCAL cStr2
+LOCAL cStr3
+LOCAL cStr4
+LOCAL cStr5
+LOCAL cStr6
+LOCAL lForever
+LOCAL cTela
+LOCAL lAberto := FALSO
+P_DEF( lModo, OK )
+P_DEF( nSegundos, 2 )
+
+cBcoDados := StrTran( cBcoDados, '.DBF')
+cAlias	 := IIF( cAlias = NIL, cBcoDados, cAlias )
+lForever  := ( nSegundos = 0 )
+lAberto	 := (cBcoDados)->(Used())
+WHILE Restart
+	WHILE ( lForever .OR. nSegundos > 0 )
+		IF lModo
+			Use (cBcoDados) SHARED NEW Alias ( cAlias ) VIA RDDNAME
+		Else
+			Use (cBcoDados) EXCLUSIVE NEW Alias ( cAlias ) VIA RDDNAME
+		EndIF
+		IF !NetErr()
+			ResTela( cScreen )
+			Return( OK )
+		EndIF
+		cTela := Mensagem("Tentando acesso a " + Upper(Trim(cBcoDados)) + ".DBF...")
+		Inkey(.5)
+		nSegundos -= .5
+		ResTela( cTela )
+	EndDo
+	nOpcao := Conf("Acesso Negado a " + Upper(Trim( cBcoDados )) + " Novamente ? ")
+	IF nOpcao = OK
+		ResTart := OK
+	Else
+		ResTart := FALSO
+		DbCloseAll()
+		FChDir( oAmbiente:xBase )
+		SetColor("")
+		Cls
+		cStr1 := "#1 Se outra esta??o estiver usando o sistema, finalize-a. ;;"
+		cStr2 := "#2 Se outra esta??o estiver indexando, aguarde o t?rmino. ;;"
+		cStr3 := "#3 Se SHARE estiver instalado, aumente os par?metros de   ;"
+		cStr4 := "   travamento de arquivos. Ex.: SHARE /F:18810 /L:510.    ;;"
+		cStr5 := "#4 Em ambiente de rede NOVELL, verifique o arquivo NET.CFG;"
+		cStr6 := "   e se necess rio, acrescente a linha FILE HANDLES=127.  ;"
+		Alert( cStr1 + cStr2 + cStr3 + cStr4 + cStr5 + cStr6, "W+/B")
+		Break
+		//Quit
+	EndIF
+EndDo
+Return( FALSO )

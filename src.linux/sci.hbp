@@ -1,4 +1,4 @@
-﻿# compiladores - usar na linha de comando
+# compiladores - usar na linha de comando
 #-comp=msvc
 #-comp=bcc
 #-comp=mingw
@@ -44,7 +44,7 @@
 #-env:HWGUI_DIR=C:\hwgui-src
 -n2
 -b
--static
+#-static
 #-fullstatic
 #-w
 #-q0
@@ -65,7 +65,7 @@
 ######################################################################################
 # /github/letodbf
 ######################################################################################
-#{win}-env:LETO_DIR=..\letodb
+#{win}-env:LETO_DIR=\letodb
 #{win}-i${LETO_DIR}/include
 #{win}{bcc}letodb\letodb.hbc
 #{win}{mingw|mingw64}\letodb\letodb.hbc
@@ -162,57 +162,58 @@
 {linux}-i/usr/include
 {mingw|mingw64}-ldflag=-Wl,--allow-multiple-definition
 
-sci.prg
-{win}sciapiwin.c
-{linux}sciapilinux.c
-{win}api.prg
-dbfio.prg
+src/sci.prg
+#{win}sciapiwin.c
+#{win}api.prg
+#{linux}sciapilinux.c
+src/sciapilinux.c
 #sciext.prg
 #winapi.c 
-achoice.prg
-dbedit.prg
-apoio.prg
-chelan.prg
-diretori.prg
-funcoes.prg
-getsys.prg
-lista1la.prg
-listalan.prg
-orcalan.prg
-pagalan.prg
-pontolan.prg
-rddsys.prg
-recelan.prg
-scplan.prg
-sixtools.prg
-suporte.prg
-venlan.prg
-#errorsys.prg
+src/achoice.prg
+src/apoio.prg
+src/browsearraysrc.prg
+src/chelan.prg
+src/dbedit.prg
+src/dbfio.prg
+src/diretori.prg
+src/funcoes.prg
+src/getsys.prg
+src/lista1la.prg
+src/listalan.prg
+src/orcalan.prg
+src/pagalan.prg
+src/pontolan.prg
+src/rddsys.prg
+src/recelan.prg
+src/scplan.prg
+src/sixtools.prg
+src/suporte.prg
+src/venlan.prg
+src/errorsys.prg
 
-tambient.prg
-tbox.prg
-tbrowse.prg
-tget.prg
-tindice.prg
-tini.prg
-tmenu.prg
-textrato.prg
-tprotege.prg
-treceposi.prg
-trelato.prg
-tdbf.prg
-tstring.prg
-tprinter.prg
-tpdf.prg
-tfile.prg
-browsearraysrc.prg
+src/tambient.prg
+src/tbox.prg
+src/tbrowse.prg
+src/tget.prg
+src/tindice.prg
+src/tini.prg
+src/tmenu.prg
+src/textrato.prg
+src/tprotege.prg
+src/treceposi.prg
+src/trelato.prg
+src/tdbf.prg
+src/tstring.prg
+src/tprinter.prg
+src/tpdf.prg
+src/tfile.prg
 #tvmenu.prg
 #tgui.prg
 #printdc.c
 #romcksum.c
 
 #Bibliotecas
--lz
+#-lz
 -lpng
 -lhbblink
 -lhbct
@@ -226,7 +227,7 @@ browsearraysrc.prg
 -lhbmemio
 #letodbf novo
 #-lleto
--lrddleto
+{linux}-lrddleto
 
 hbhpdf.hbc
 hbblink.hbc 
@@ -239,7 +240,7 @@ hbgt.hbc
 hbnf.hbc 
 hbgzio.hbc 
 hbmemio.hbc
-letodb.hbc
+{linux}letodb.hbc
 {linux}hbcups.hbc
 
 #sci.hbc
@@ -248,5 +249,4 @@ hbmisc.hbc
 hbnetio.hbc
 rddsql.hbc
 hbmemio.hbc
-hbcups.hbc
 #hbsqlit3.hbc

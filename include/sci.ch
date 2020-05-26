@@ -49,7 +49,9 @@
 	#include "permissao.ch"
 	#include "picture.ch"   // Picture de Entrada de Dados SCI
 	#include "rddname.ch"
+#ifdef LETO
 	#include "rddleto.ch"
+#endif
 	#include "set.ch"
 	#include "setcurs.ch"
 	#include "status.ch"    // Codigo de Erro da ECF Bematech	

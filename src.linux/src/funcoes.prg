@@ -16,6 +16,7 @@
 */
 #include <sci.ch>
 
+
 STATIC static13
 STATIC static14
 STATIC static1 := "’Õ∏≥æÕ‘≥"

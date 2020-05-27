@@ -10083,12 +10083,3 @@ def HoraSaida( HR_ENTRADA, HR_SAIDA )
    endif
 endef   
 
-*----------------------------------------------------------------------------------------------------------------------*   
-
-#ifdef __PLATFORM__WINDOWS
-	function cupsPrintFile()
-		return nil
-
-	function cupsGetDests()
-		return nil
-#endif		

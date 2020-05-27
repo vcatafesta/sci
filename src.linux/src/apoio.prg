@@ -17,6 +17,13 @@
 #include "sci.ch"
 #include "hbgtinfo.ch"			
 
+#define WIN_PRINTERLIST_PRINTERNAME     1
+#define WIN_PRINTERLIST_PORT            2
+#define WIN_PRINTERLIST_TYPE            3
+#define WIN_PRINTERLIST_DRIVERNAME      4
+#define WIN_PRINTERLIST_SHARENAME       5
+#define WIN_PRINTERLIST_SERVERNAME      6                                                                                                                                       
+
 def VerDebitosEmAtraso()
 	LOCAL nNivel := SCI_VERIFICAR_DEBITOS_EM_ATRASO
 	if !Empty( aPermissao )
@@ -641,7 +648,8 @@ def CupsArrayPrinter()
    LOCAL nIndex   := 0
    LOCAL nPr      
    MEMVAR cStr
-   
+
+ 
    aMenu := {  " LPT1 þ " + aAction[ aStatus[1]] + " þ " + oAmbiente:aLpt1[1,2],;
 					" LPT2 þ " + aAction[ aStatus[2]] + " þ " + oAmbiente:aLpt2[1,2],;
 					" LPT3 þ " + aAction[ aStatus[3]] + " þ " + oAmbiente:aLpt3[1,2],;
@@ -655,19 +663,51 @@ def CupsArrayPrinter()
 					" SPOOLER      þ ",;
 					" CANCELAR     þ ";
             }   
-   
-	#ifdef LETO   
-   FOR EACH nPr IN aPrinter               
+				
+	//Browsearray(aPrinter)
+	nLen := Len( aPrinter )   
+	for nPr := 1 to nLen
+      nIndex++          
+      cStr := &( "oAmbiente:aLpd" + trimstr(nIndex))
+	   #ifdef __PLATFORM__WINDOWS
+	      Aadd( aMenu, " GDI" + TrimStr(nIndex) + "  þ " + padr(aPrinter[nIndex, WIN_PRINTERLIST_PORT],14) + " þ " + Left(cStr[1,2],17) + " em " + aPrinter[nIndex, WIN_PRINTERLIST_PRINTERNAME])
+		#else
+   	   Aadd( aMenu, " LPD" + TrimStr(nIndex) + "  þ REDE CUPS      þ " + Left(cStr[1,2],17) + " em " + aPrinter[nIndex, WIN_PRINTERLIST_PRINTERNAME])                   
+      #endif
+		Aadd( aModelo, aPrinter[nIndex, WIN_PRINTERLIST_PRINTERNAME])        
+   next
+   return {aMenu, aModelo, aAction, aStatus, aPrinter}
+
+/*	
+	FOR EACH nPr IN aPrinter               
       //? nPr:__enumIndex(), i
       //nWidth := Max( nWidth, Len( nPr ) )         
       nIndex++          
       cStr := &( "oAmbiente:aLpd" + trimstr(nIndex))
-      Aadd( aMenu, " LPD" + TrimStr(nPr:__enumIndex()) + "  þ REDE CUPS      þ " + Left(cStr[1,2],17) + " em " + nPr)                    
-      Aadd( aModelo, nPr)        
+	   #ifdef __PLATFORM__WINDOWS
+	      Aadd( aMenu, " WINPRINTER" + TrimStr(nPr:__enumIndex()) + "  þ " + padr(aPrinter[nIndex, 1],20) + " þ " + Left(cStr[1,2],17) + " em " + nPr)                    
+		#else	
+   	   Aadd( aMenu, " LPD" + TrimStr(nPr:__enumIndex()) + "  þ REDE CUPS      þ " + Left(cStr[1,2],17) + " em " + nPr)                    
+      #endif
+		Aadd( aModelo, nPr)        
    NEXT
-	#endif	
    return {aMenu, aModelo, aAction, aStatus, aPrinter}
+*/
+		
 endef   
+
+*==================================================================================================*			   
+
+#ifdef __PLATFORM__WINDOWS
+	
+	function cupsPrintFile(cPrinterName, cArquivo)
+		nBytesImpressos := 0
+		nBytesImpressos := win_PrintFileRaw(cPrinterName, cArquivo)
+		return nBytesImpressos
+		
+	function cupsGetDests()
+		return win_printerList(true) // xhb.hbc
+#endif		
 
 *==================================================================================================*			   
 
@@ -883,7 +923,12 @@ def Instru80( nQualPorta, cArquivo )
 		oMenu:Limpa()
       aPrinter := CupsArrayPrinter()
 		aMenu  	:= aPrinter[CUPS_MENU]
+#ifdef __PLATFORM__WINDOWS		
       aModelo 	:= aPrinter[CUPS_MODELO]
+#else
+		aModelo 	:= aPrinter[CUPS_MODELO]
+#endif		
+		
 		aAction	:= aPrinter[CUPS_ACTION]
       aStatus  := aPrinter[CUPS_STATUS]
 		aComPort := { "DISPONIVEL     ","INDISPONIVEL   " }
@@ -891,7 +936,7 @@ def Instru80( nQualPorta, cArquivo )
       nTamJan  := AmaxStrLen(aMenu) + 3
       nIndex   := Len(aMenu)
 
-		MaBox( 05, 10, 05 + nIndex + 1, nTamJan + 1, nil , "ENTER=IMPRIMIRºCTRL/ALT+ENTER=ESCOLHERºCTRL+PGDN=ONLINE")
+		MaBox( 05, 10, 05 + nIndex + 1, nTamJan + 1, nil, "<SAIDA DA IMPRESSAO>ºENTER=IMPRIMIRºCTRL/ALT+ENTER=ESCOLHERºCTRL+PGDN=ONLINE")
 		nChoice := aChoice( 06, 11, 04 + nIndex + 1, nTamJan, aMenu, alDisp, "_Instru80" )
 		if nChoice = 0 .OR. nChoice = 12
          if Conf("Pergunta: Cancelar Impressao ?")

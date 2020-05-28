@@ -18,7 +18,7 @@ CLASS TPrinter
 		  method    Eject		  		  
         method    ArrPrinter()
         method    CriaNewPrinter() 
-        method    EscolheImpressoraUsuario(cLpt1,cLpt2,cLpt3,cLpd1,cLpd2,cLpd3,cLpd4,cLpd5,cLpd6,cLpd7,cLpd8,cLpd9)
+        method    EscolheImpressoraUsuario()
         method    PrintOn()
         method    PrintOff()
         method    AbreSpooler()        
@@ -139,23 +139,38 @@ method CriaNewPrinter() class TPrinter
 	return true
 endmethod
 
-method EscolheImpressoraUsuario(cLpt1,cLpt2,cLpt3,cLpd1,cLpd2,cLpd3,cLpd4,cLpd5,cLpd6,cLpd7,cLpd8,cLpd9) class TPrinter
+
+method EscolheImpressoraUsuario()
    MEMVAR cStr
+	MEMVAR cLp
+	MEMVAR oLp
+	MEMVAR cLpt1
+	MEMVAR cLpt2
+	MEMVAR cLpt3
+	MEMVAR cLpd1
+	MEMVAR cLpd2
+	MEMVAR cLpd3
+	MEMVAR cLpd4
+	MEMVAR cLpd5
+	MEMVAR cLpd6
+	MEMVAR cLpd7
+	MEMVAR cLpd8
+	MEMVAR cLpd9
    LOCAL nIndex := 0
-   
-	hb_default(@cLpt1, "06")
-	hb_default(@cLpt2, "06")
-	hb_default(@cLpt3, "06")   
-   hb_default(@cLpd1, "06")
-   hb_default(@cLpd2, "06")
-   hb_default(@cLpd3, "06")
-   hb_default(@cLpd4, "06")
-   hb_default(@cLpd5, "06")
-   hb_default(@cLpd6, "06")
-   hb_default(@cLpd7, "06")
-   hb_default(@cLpd8, "06")
-   hb_default(@cLpd9, "06")
-	
+
+	cLpt1 := "06"
+	cLpt2 := "06"
+	cLpt3 := "06"
+	cLpd1 := "06"
+	cLpd2 := "06"
+	cLpd3 := "06"
+	cLpd4 := "06"
+	cLpd5 := "06"
+	cLpd6 := "06"
+	cLpd7 := "06"
+	cLpd8 := "06"
+	cLpd9 := "06"
+
 	if UsaArquivo("PRINTER")
 		Printer->(Order(PRINTER_CODI))
 		Printer->(DbGoTop())
@@ -163,11 +178,13 @@ method EscolheImpressoraUsuario(cLpt1,cLpt2,cLpt3,cLpd1,cLpd2,cLpd3,cLpd4,cLpd5,
 			::ArrPrinter()
 		endif
       
-      for nIndex := 1 to 3         
-         cStr := &("cLpt" + trimstr(nIndex))
-         &("oAmbiente:aLpt" + trimstr(nIndex)) := {}
+      for nIndex := 1 to 12
+			cLp  := iif( nIndex <= 3, "cLpt",           "cLpd")
+			oLp  := iif( nIndex <= 3, "oAmbiente:aLpt", "oAmbiente:aLpd")
+         cStr := iif( nIndex <= 3, &(cLp + trimstr(nIndex)), &(cLp + trimstr(nIndex-3)))
+         iif( nIndex <=3, &(oLp + trimstr(nIndex)) := {}, &(oLp + trimstr(nIndex-3)) := {})
          if Printer->(DbSeek( cStr ))
-            Aadd( &("oAmbiente:aLpt" + trimstr(nIndex)), {;
+            Aadd( &(oLp + trimstr(iif(nIndex<=3,nIndex,nIndex-3))), {;
                                                             Printer->Codi,;
                                                             Printer->Nome, ;
                                                             Printer->_Cpi10,; 
@@ -186,41 +203,15 @@ method EscolheImpressoraUsuario(cLpt1,cLpt2,cLpt3,cLpd1,cLpd2,cLpd3,cLpd4,cLpd5,
                                                             Printer->Reseta;
                                                          })
          else
-            Aadd( &("oAmbiente:aLpt" + trimstr(nIndex)), { NIL, NIL, NIL, NIL, NIL, NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL })
+            Aadd(&(oLp + trimstr(nIndex)), { NIL, NIL, NIL, NIL, NIL, NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL })
          endif                                                         
       next
-      
-      for nIndex := 1 to 9         
-         cStr := &("cLpd" + trimstr(nIndex))
-         &("oAmbiente:aLpd" + trimstr(nIndex)) := {}
-         if Printer->(DbSeek( cStr ))
-            Aadd( &("oAmbiente:aLpd" + trimstr(nIndex)), {;
-                                                            Printer->Codi,;
-                                                            Printer->Nome, ;
-                                                            Printer->_Cpi10,; 
-                                                            Printer->_Cpi12,; 
-                                                            Printer->Gd,; 
-                                                            Printer->Pq,; 
-                                                            Printer->Ng,; 
-                                                            Printer->Nr,; 
-                                                            Printer->Ca,; 
-                                                            Printer->c18,; 
-                                                            Printer->LigSub,; 
-                                                            Printer->DesSub,; 
-                                                            Printer->_SaltoOff,; 
-                                                            Printer->_Spaco1_8,;
-                                                            Printer->_Spaco1_6,; 
-                                                            Printer->Reseta;
-                                                         })
-         else
-            Aadd( &("oAmbiente:aLpd" + trimstr(nIndex)), { NIL, NIL, NIL, NIL, NIL, NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL,NIL })
-         endif                                                         
-      next      		
 		Printer->(DbCloseArea())
 		return true
 	endif
 	return false
 endmethod
+
 
 method PrintOff() class TPrinter
 	::PrintOn( true )

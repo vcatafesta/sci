@@ -923,12 +923,7 @@ def Instru80( nQualPorta, cArquivo )
 		oMenu:Limpa()
       aPrinter := CupsArrayPrinter()
 		aMenu  	:= aPrinter[CUPS_MENU]
-#ifdef __PLATFORM__WINDOWS		
       aModelo 	:= aPrinter[CUPS_MODELO]
-#else
-		aModelo 	:= aPrinter[CUPS_MODELO]
-#endif		
-		
 		aAction	:= aPrinter[CUPS_ACTION]
       aStatus  := aPrinter[CUPS_STATUS]
 		aComPort := { "DISPONIVEL     ","INDISPONIVEL   " }

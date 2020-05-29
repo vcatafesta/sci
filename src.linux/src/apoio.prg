@@ -668,8 +668,13 @@ def CupsArrayPrinter()
 				
 	//Browsearray(aPrinter)
 	nLen            := Len( aPrinter )
+#ifdef __PLATFORM__WINDOWS
 	nMaxPort        := aMaxStrLen(aPrinter[WIN_PRINTERLIST_PORT])   
 	nMaxPrinterName := aMaxStrLen(aPrinter[WIN_PRINTERLIST_PRINTERNAME])   
+#else
+	nMaxPort        := aMaxStrLen(aPrinter)
+	nMaxPrinterName := aMaxStrLen(aPrinter)
+#endif	
 	for nPr := 1 to nLen
       nIndex++          
       cStr := &( "oAmbiente:aLpd" + trimstr(nIndex))

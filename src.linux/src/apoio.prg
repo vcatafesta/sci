@@ -679,9 +679,9 @@ def CupsArrayPrinter()
       nIndex++          
       cStr := &( "oAmbiente:aLpd" + trimstr(nIndex))
 	   #ifdef __PLATFORM__WINDOWS
-	      Aadd( aMenu, " GDI" + TrimStr(nIndex) + " þ " + padr(aPrinter[nIndex, WIN_PRINTERLIST_PORT],nMaxPort) + " þ " + Left(cStr[1,2],17) + " em " + aPrinter[nIndex, WIN_PRINTERLIST_PRINTERNAME])
+	      Aadd( aMenu, " GDI" + TrimStr(nIndex)  + " þ " + padr(aPrinter[nIndex, WIN_PRINTERLIST_PORT],nMaxPort) + " þ " + Left(cStr[1,2],17) + " em " + aPrinter[nIndex, WIN_PRINTERLIST_PRINTERNAME])
 		#else
-   	   Aadd( aMenu, " LPD" + TrimStr(nIndex) + " þ REDE CUPS      þ " + Left(cStr[1,2],17) + " em " + aPrinter[nIndex, WIN_PRINTERLIST_PRINTERNAME])                   
+   	   Aadd( aMenu, " CUPS" + TrimStr(nIndex) + " þ " + Left(cStr[1,2],17) + " em " + aPrinter[nIndex, WIN_PRINTERLIST_PRINTERNAME])                   
       #endif
 		Aadd( aModelo, aPrinter[nIndex, WIN_PRINTERLIST_PRINTERNAME])        
    next

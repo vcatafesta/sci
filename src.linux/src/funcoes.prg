@@ -5922,10 +5922,10 @@ intWindowStyle
 10 Sets the show-state based on the state of the program that started the application.
 */
 
-#ifdef __XHARBOUR__
-   WshShell := CreateObject("WScript.Shell")
-#else
+#ifdef __PLATFORM__WINDOWS
    WshShell := win_oleCreateObject("WScript.Shell")
+#else
+   WshShell := CreateObject("WScript.Shell")
 #endif
 
 lRet     := WshShell:Run("%comspec% /c " + cComando, intWindowStyle, .F.)

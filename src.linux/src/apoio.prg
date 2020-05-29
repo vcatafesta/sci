@@ -646,16 +646,18 @@ def CupsArrayPrinter()
    LOCAL aComPort := { "DISPONIVEL     ","INDISPONIVEL   " }
    LOCAL aStatus  := RetPrinterStatus()
    LOCAL nIndex   := 0
-   LOCAL nPr      
+   LOCAL nPr  
+   LOCAL nLen
+	LOCAL nMaxPort
+	LOCAL nMaxPrinterName
    MEMVAR cStr
 
- 
    aMenu := {  " LPT1 þ " + aAction[ aStatus[1]] + " þ " + oAmbiente:aLpt1[1,2],;
 					" LPT2 þ " + aAction[ aStatus[2]] + " þ " + oAmbiente:aLpt2[1,2],;
 					" LPT3 þ " + aAction[ aStatus[3]] + " þ " + oAmbiente:aLpt3[1,2],;
-					" COM1 þ " + Iif( FIsPrinter("COM1"), aComPort[1], aComPort[2]) + " þ " + "PORTA SERIAL 1",;
-					" COM2 þ " + Iif( FIsPrinter("COM2"), aComPort[1], aComPort[2]) + " þ " + "PORTA SERIAL 2",;
-					" COM3 þ " + Iif( FIsPrinter("COM3"), aComPort[1], aComPort[2]) + " þ " + "PORTA SERIAL 3",;
+					" COM1 þ " + iif( FIsPrinter("COM1"), aComPort[1], aComPort[2]) + " þ " + "PORTA SERIAL 1",;
+					" COM2 þ " + iif( FIsPrinter("COM2"), aComPort[1], aComPort[2]) + " þ " + "PORTA SERIAL 2",;
+					" COM3 þ " + iif( FIsPrinter("COM3"), aComPort[1], aComPort[2]) + " þ " + "PORTA SERIAL 3",;
 					" USB  þ " + aAction[ aStatus[1]] + " þ IMPRESSORA USB",;
 					" VISUALIZAR   þ ",;
 					" ENVIAR EMAIL þ ",;
@@ -665,14 +667,16 @@ def CupsArrayPrinter()
             }   
 				
 	//Browsearray(aPrinter)
-	nLen := Len( aPrinter )   
+	nLen            := Len( aPrinter )
+	nMaxPort        := aMaxStrLen(aPrinter[WIN_PRINTERLIST_PORT])   
+	nMaxPrinterName := aMaxStrLen(aPrinter[WIN_PRINTERLIST_PRINTERNAME])   
 	for nPr := 1 to nLen
       nIndex++          
       cStr := &( "oAmbiente:aLpd" + trimstr(nIndex))
 	   #ifdef __PLATFORM__WINDOWS
-	      Aadd( aMenu, " GDI" + TrimStr(nIndex) + "  þ " + padr(aPrinter[nIndex, WIN_PRINTERLIST_PORT],14) + " þ " + Left(cStr[1,2],17) + " em " + aPrinter[nIndex, WIN_PRINTERLIST_PRINTERNAME])
+	      Aadd( aMenu, " GDI" + TrimStr(nIndex) + " þ " + padr(aPrinter[nIndex, WIN_PRINTERLIST_PORT],nMaxPort) + " þ " + Left(cStr[1,2],17) + " em " + aPrinter[nIndex, WIN_PRINTERLIST_PRINTERNAME])
 		#else
-   	   Aadd( aMenu, " LPD" + TrimStr(nIndex) + "  þ REDE CUPS      þ " + Left(cStr[1,2],17) + " em " + aPrinter[nIndex, WIN_PRINTERLIST_PRINTERNAME])                   
+   	   Aadd( aMenu, " LPD" + TrimStr(nIndex) + " þ REDE CUPS      þ " + Left(cStr[1,2],17) + " em " + aPrinter[nIndex, WIN_PRINTERLIST_PRINTERNAME])                   
       #endif
 		Aadd( aModelo, aPrinter[nIndex, WIN_PRINTERLIST_PRINTERNAME])        
    next
@@ -699,7 +703,8 @@ endef
 *==================================================================================================*			   
 
 #ifdef __PLATFORM__WINDOWS
-	
+	// https://github.com/Petewg/harbour-core/wiki/HBWIN	
+	// https://harbour.harbour-project.narkive.com/rORXlaW5/set-printer-to-cprinter-bug
 	function cupsPrintFile(cPrinterName, cArquivo)
 		nBytesImpressos := 0
 		nBytesImpressos := win_PrintFileRaw(cPrinterName, cArquivo)

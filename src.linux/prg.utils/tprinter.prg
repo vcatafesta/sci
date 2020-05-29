@@ -1,5 +1,12 @@
 #include <sci.ch>
 
+#define WIN_PRINTERLIST_PRINTERNAME     1
+#define WIN_PRINTERLIST_PORT            2
+#define WIN_PRINTERLIST_TYPE            3
+#define WIN_PRINTERLIST_DRIVERNAME      4
+#define WIN_PRINTERLIST_SHARENAME       5
+#define WIN_PRINTERLIST_SERVERNAME      6                                                                                                                                       
+
 CLASS TPrinter
     Export:		  
         DATA RowPrn	  INIT 0
@@ -381,8 +388,6 @@ method Instru80( nQualPorta, cArquivo ) class TPrinter
 		return( true )
 	endif
    
-   
-   
 	ErrorBeep()
 	while(true)
 		oMenu:Limpa()
@@ -560,7 +565,21 @@ method CupsArrayPrinter() class TPrinter
 					" SPOOLER      þ ",;
 					" CANCELAR     þ ";
             }   
-      
+
+	nLen := Len( aPrinter )   
+	for nPr := 1 to nLen
+      nIndex++          
+      cStr := &( "oAmbiente:aLpd" + trimstr(nIndex))
+	   #ifdef __PLATFORM__WINDOWS
+	      Aadd( aMenu, " GDI" + TrimStr(nIndex) + "  ¦ " + padr(aPrinter[nIndex, WIN_PRINTERLIST_PORT],14) + " ¦ " + Left(cStr[1,2],17) + " em " + aPrinter[nIndex, WIN_PRINTERLIST_PRINTERNAME])
+		#else
+   	   Aadd( aMenu, " LPD" + TrimStr(nIndex) + "  ¦ REDE CUPS      ¦ " + Left(cStr[1,2],17) + " em " + aPrinter[nIndex, WIN_PRINTERLIST_PRINTERNAME])                   
+      #endif
+		Aadd( aModelo, aPrinter[nIndex, WIN_PRINTERLIST_PRINTERNAME])        
+   next
+   return {aMenu, aModelo, aAction, aStatus, aPrinter}
+   
+	/*
    FOR EACH nPr IN aPrinter               
       //? nPr:__enumIndex(), i
       //nWidth := Max( nWidth, Len( nPr ) )         
@@ -570,6 +589,7 @@ method CupsArrayPrinter() class TPrinter
       Aadd( aModelo, nPr)        
    NEXT                       
    return {aMenu, aModelo, aAction, aStatus, aPrinter}
+	*/
 endef   
 
 method SaidaParaRedeCups()   

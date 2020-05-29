@@ -160,7 +160,8 @@
 {linux}-i../include
 {linux}-i/usr/include/harbour
 {linux}-i/usr/include
-{mingw|mingw64}-ldflag=-Wl,--allow-multiple-definition
+-ldflag=-Wl,--allow-multiple-definition
+#{mingw|mingw64}-ldflag=-Wl,--allow-multiple-definition
 
 src/sci.prg
 #{win}sciapiwin.c
@@ -227,7 +228,7 @@ src/tfile.prg
 -lhbmemio
 #letodbf novo
 #-lleto
-{linux}-lrddleto
+#{linux}-lrddleto
 
 hbhpdf.hbc
 hbblink.hbc 

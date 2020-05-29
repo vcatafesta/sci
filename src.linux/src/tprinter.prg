@@ -1,5 +1,12 @@
 #include <sci.ch>
 
+#define WIN_PRINTERLIST_PRINTERNAME     1
+#define WIN_PRINTERLIST_PORT            2
+#define WIN_PRINTERLIST_TYPE            3
+#define WIN_PRINTERLIST_DRIVERNAME      4
+#define WIN_PRINTERLIST_SHARENAME       5
+#define WIN_PRINTERLIST_SERVERNAME      6                                                                                                                                       
+
 CLASS TPrinter
     Export:		  
         DATA RowPrn	  INIT 0
@@ -528,40 +535,9 @@ endef
 *==================================================================================================*			
  
 method CupsArrayPrinter() class TPrinter
-   LOCAL aPrinter := cupsGetDests()
-   LOCAL aModelo  := {}
-   LOCAL aMenu    := {} 
-   LOCAL aAction	:= { "PRONTA         ","FORA DE LINHA  ","DESLIGADA      ","SEM PAPEL      ", "NAO CONECTADA  "}
-   LOCAL aComPort := { "DISPONIVEL     ","INDISPONIVEL   " }
-   LOCAL aStatus  := RetPrinterStatus()
-   LOCAL nIndex   := 0
-   LOCAL nPr      
-   MEMVAR cStr
-   
-   aMenu := {  " LPT1 þ " + aAction[ aStatus[1]] + " þ " + oAmbiente:aLpt1[1,2],;
-					" LPT2 þ " + aAction[ aStatus[2]] + " þ " + oAmbiente:aLpt2[1,2],;
-					" LPT3 þ " + aAction[ aStatus[3]] + " þ " + oAmbiente:aLpt3[1,2],;
-					" COM1 þ " + Iif( FIsPrinter("COM1"), aComPort[1], aComPort[2]) + " þ " + "PORTA SERIAL 1",;
-					" COM2 þ " + Iif( FIsPrinter("COM2"), aComPort[1], aComPort[2]) + " þ " + "PORTA SERIAL 2",;
-					" COM3 þ " + Iif( FIsPrinter("COM3"), aComPort[1], aComPort[2]) + " þ " + "PORTA SERIAL 3",;
-					" USB  þ " + aAction[ aStatus[1]] + " þ IMPRESSORA USB",;
-					" VISUALIZAR   þ ",;
-					" EMAIL        þ ",;
-					" WEB BROWSER  þ ",;
-					" SPOOLER      þ ",;
-					" CANCELAR     þ ";
-            }   
-      
-   FOR EACH nPr IN aPrinter               
-      //? nPr:__enumIndex(), i
-      //nWidth := Max( nWidth, Len( nPr ) )         
-      nIndex++          
-      cStr := &( "oAmbiente:aLpd" + trimstr(nIndex))
-      Aadd( aMenu, " LPD" + TrimStr(nPr:__enumIndex()) + "  þ REDE CUPS      þ " + Left(cStr[1,2],17) + " em " + nPr)                    
-      Aadd( aModelo, nPr)        
-   NEXT                       
-   return {aMenu, aModelo, aAction, aStatus, aPrinter}
-endef   
+	return CupsArrayPrinter()
+endef   	
+
 
 method SaidaParaRedeCups()   
 	LOCAL cDir     := oAmbiente:xBaseTxt	

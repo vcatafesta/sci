@@ -1,0 +1,38 @@
+-w0 
+-es2
+{win}-prgflag= -i..\include;
+{linux}-prgflag= -i../include;
+-cflag= -cpp -w0 
+{win}-prgflag= -ic:\sci\include
+{win}-i\sci\include
+{linux}-prgflag= -i../include
+{linux}-i../include
+{mingw|mingw64}-ldflag=-Wl,--allow-multiple-definition
+
+hbct.hbc
+hbmemio.hbc
+hbhpdf.hbc
+hbblink.hbc
+hbct.hbc
+hbxpp.hbc
+xhb.hbc
+hboslib.hbc
+hbgt.hbc
+{win}hbwin.hbc
+hbnf.hbc
+hbgzio.hbc
+hbmemio.hbc
+letodb.hbc
+{linux}hbcups.hbc
+
+-lncurses
+
+#sci.hbc
+hbmzip.hbc
+hbmisc.hbc
+hbnetio.hbc
+rddsql.hbc
+hbunix.hbc
+#gtwvg.hbc
+#hbsqlit3.hbc
+#hbicu.hbc

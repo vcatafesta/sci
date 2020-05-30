@@ -1,0 +1,15 @@
+[configuracao]
+Vertical=1
+Comprimir=0
+Carreira=01
+Espacos=001
+Linhas=01
+Margem=000
+Tamanho=040
+Campos=03
+[campos]
+campo003=CPF
+campo002=ENDE
+campo001=NOME
+
+

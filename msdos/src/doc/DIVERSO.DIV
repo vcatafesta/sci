@@ -1,0 +1,18 @@
+[configuracao]
+campos=8
+tamanhopagina=66
+espacamentovertical=1
+imprimirnegrito=0
+imprimir12cpi=0
+imprimircondensado=0
+[campos]
+campo008=08; 01; Receber->Esta
+campo007=07; 01; Receber->Cida
+campo006=06; 01; Receber->Ende
+campo005=05; 01; Receber->Nome
+campo004=04; 01; Tran( Recemov->Vlr, '@E 999,999.99')
+campo003=03; 01; Recemov->Vcto
+campo002=02; 01; Recemov->Emis
+campo001=01; 01; Recemov->Docnr
+
+

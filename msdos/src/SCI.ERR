@@ -1,0 +1,21 @@
+================================================================================
+Usuario   : ADMIN
+Data      : 08/05/18
+Horas     : 13:56:00
+SubSystem : DBFNSX
+SubCode   : 1004
+Variavel  : 
+Arquivo   : LISTA.DBF
+Area      : 
+Indice    : 
+Descricao : Erro de cria‡ão
+Explanacao: ERRO NAO DOCUMENTADO.
+Acao      : IMPRIMA ESTA TELA. E ENTRE EM CONTATO COM O
+Acao      : SUPORTE TECNICO ATRAVES DO TEL (69)3451.3085 ou SUPORTE@MACROSOFT.COM.BR
+--------------------------------------------------------------------------------
+PILHA DE CARGA
+                Linha : 000000    Proc : DBCREATE
+                Linha : 000245    Proc : CRIAARQUIVO
+                Linha : 000915    Proc : EMPRESA
+                Linha : 000107    Proc : MAIN
+================================================================================

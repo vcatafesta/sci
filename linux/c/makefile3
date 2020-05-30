@@ -1,0 +1,15 @@
+# My first makefile
+
+# Compiler
+CC=gcc
+
+all: append
+
+append: append.o 
+	$(CC) -o append append.o
+
+append.o: append.c
+	$(CC) -o append.o append.c -c -W -Wall -ansi -pedantic
+
+clean:
+	rm -rf *.o *~ append

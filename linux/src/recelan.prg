@@ -161,7 +161,6 @@ WHILE lOk
 		Case Op = 7.19
       Case Op = 7.20 ; SuporteIni()
       Case Op = 7.21 ; SuporteRecibo()
-
 		
       Case op = 8.01 ; RegiaoInclusao()
       Case op = 8.02 ; RegiaoConsulta()

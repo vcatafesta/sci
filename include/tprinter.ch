@@ -1,0 +1,21 @@
+#ifndef _TPRINTER_CH_
+#define _TPRINTER_CH_
+
+#define TPRINTER_CODI		1
+#define TPRINTER_NOME		2
+#define TPRINTER_CPI10		3
+#define TPRINTER_CPI12		4
+#define TPRINTER_GD 			5
+#define TPRINTER_PQ 			6
+#define TPRINTER_NG 			7
+#define TPRINTER_NR 			8
+#define TPRINTER_CA 			9
+#define TPRINTER_C18 		10
+#define TPRINTER_LIGSUB 	11
+#define TPRINTER_DESSUB 	12
+#define TPRINTER_SALTOOFF	13
+#define TPRINTER_SPACO1_8 	14
+#define TPRINTER_SPACO1_6 	15
+#define TPRINTER_RESETA		16
+ 
+#endif  /* _TPRINTER_CH_ */

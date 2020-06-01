@@ -1,19 +1,17 @@
 /*
-  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿
- Ý³                                                                         ï¿½
- Ý³   Programa.....: SCI.PRG                                                ï¿½
- Ý³   Aplicacao....: SCI - SISTEMA COMERCIAL INTEGRADO SCI                  ï¿½
- Ý³   Versao.......: 6.2.30                                                 ï¿½
- Ý³   Escrito por..: Vilmar Catafesta                                       ï¿½
- Ý³   Empresa......: Macrosoft Sistemas de Informatica Ltda.                ï¿½
- Ý³   Inicio.......: 12 de Novembro de 1991.                                ï¿½
- Ý³   Ult.Atual....: 25 de Julho de 2016.                                   ï¿½
- Ý³   Linguagem....: Clipper 5.2e/C/Assembler                               ï¿½
- Ý³   Linker.......: Blinker 6.00                                           ï¿½
- Ý³   Bibliotecas..: Clipper/Funcoes/Mouse/Funcky15/Funcky50/Classe/Classic ï¿½
- Ý³   Bibliotecas..: Oclip/Six3                                             ï¿½
- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ?
+ Ý³																								 ³
+ Ý³   Programa.....: SCI.PRG                                                ³
+ Ý³   Aplicacao....: SCI - SISTEMA COMERCIAL INTEGRADO SCI                  ³
+ Ý³   Versao.......: 10.0.00                                                ³
+ Ý³   Escrito por..: Vilmar Catafesta                                       ³
+ Ý³   Empresa......: Macrosoft Sistemas de Informatica Ltda.                ³
+ Ý³   Inicio.......: 12 de Novembro de 1991                                 ³
+ Ý³   Ult.Atual....: 30 de Maio de 2020                                     ³
+ Ý³   Linguagem....: Harbour 3.4                                            ³
+ Ý³   Linker.......: Gcc                                                    ³
+ ÝÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+ ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 */
 
 /*
@@ -1259,19 +1257,7 @@ def SenhaErrada(cLogin, cPassWord)
 	LOCAL cSenha1 := MSEncrypt(StrTran(Dtoc(Date()),'/'))
 	LOCAL Passe   := MSEncrypt(Alltrim(Upper(cPassword)))
 	LOCAL xAdmin  := AllTrim( Passe )
-	MEMVAR cLpt1
-	MEMVAR cLpt2
-	MEMVAR cLpt3
-	MEMVAR cLpd1
-	MEMVAR cLpd2
-	MEMVAR cLpd3
-	MEMVAR cLpd4
-	MEMVAR cLpd5
-	MEMVAR cLpd6
-	MEMVAR cLpd7
-	MEMVAR cLpd8
-	MEMVAR cLpd9
-   
+	
 	IF Alltrim( cLogin ) == "ADMIN" .AND. !Empty( Passe ) .AND. cSenha1 == xAdmin
 		oAmbiente:lGreenCard := OK
 		Passe                := cSenha
@@ -1308,52 +1294,8 @@ def SenhaErrada(cLogin, cPassWord)
 		Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelR)) = "S", OK, FALSO ))
 		Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelS)) = "S", OK, FALSO ))
 
-		cLpt1 := Usuario->Lpt1
-		cLpt2 := Usuario->Lpt2
-		cLpt3 := Usuario->Lpt3
-		cLpd1 := Usuario->Lpd1
-		cLpd2 := Usuario->Lpd2
-		cLpd3 := Usuario->Lpd3
-		cLpd4 := Usuario->Lpd4
-		cLpd5 := Usuario->Lpd5
-		cLpd6 := Usuario->Lpd6
-		cLpd7 := Usuario->Lpd7
-		cLpd8 := Usuario->Lpd8
-		cLpd9 := Usuario->Lpd9
-      
-				
-		if empty( cLpt1 ) .or. empty( cLpd1 )
-			if Usuario->(TravaReg())
-				Usuario->Lpt1 := "06"
-				Usuario->Lpt2 := "06"
-				Usuario->Lpt3 := "06"
-            Usuario->Lpd1 := "06"
-            Usuario->Lpd2 := "06"
-            Usuario->Lpd3 := "06"
-            Usuario->Lpd4 := "06"
-            Usuario->Lpd5 := "06"
-            Usuario->Lpd6 := "06"
-            Usuario->Lpd7 := "06"
-            Usuario->Lpd8 := "06"
-            Usuario->Lpd9 := "06"            
-				Usuario->(Libera())
-			endif
-			cLpt1 := "06"
-			cLpt2 := "06"
-			cLpt3 := "06"
-			cLpd1 := "06"
-			cLpd2 := "06"
-			cLpd3 := "06"
-			cLpd4 := "06"
-			cLpd5 := "06"
-			cLpd6 := "06"
-			cLpd7 := "06"
-			cLpd8 := "06"
-			cLpd9 := "06"
-		endif
-		
 		oAmbiente:xUsuario := AllTrim( cLogin )
-      oPrinter:EscolheImpressoraUsuario(cLpt1,cLpt2,cLpt3,cLpd1,cLpd2,cLpd3,cLpd4,cLpd5,cLpd6,cLpd7,cLpd8,cLpd9)
+      oPrinter:EscolheImpressoraUsuario()
 		//oAmbiente:ConfAmbiente( oAmbiente:xBase )		
 		SetaIni()
 		return true
@@ -1731,9 +1673,10 @@ LOCAL cFat		  := "S"
 LOCAL cDtRec	  := "S"
 LOCAL cAtra 	  := "S"
 LOCAL nChoice	  := 1
-LOCAL cLpt1 	  := "06"
-LOCAL cLpt2 	  := "06"
-LOCAL cLpt3 	  := "06"
+LOCAL cDefault   := "06"
+LOCAL cLpt1 	  := oEscolhe:ReadString("printer", "lpt01", cDefault)
+LOCAL cLpt2 	  := oEscolhe:ReadString("printer", "lpt02", cDefault)
+LOCAL cLpt3 	  := oEscolhe:ReadString("printer", "lpt03", cDefault)
 
 LOCAL cNome 	  := Space(10)
 LOCAL Passe
@@ -1788,9 +1731,6 @@ WHILE OK
 		cFat		 := MSDecrypt( NivelQ )
 		cDtRec	 := MSDecrypt( NivelR )
 		cAtra 	 := MSDecrypt( NivelS )
-		cLpt1 	 := Usuario->Lpt1
-		cLpt2 	 := Usuario->Lpt2
-		cLpt3 	 := Usuario->Lpt2
 
 	Case nChoice = 3
 		Area("USUARIO")
@@ -1913,11 +1853,11 @@ WHILE OK
 			Usuario->NivelQ := MSEncrypt( cFat 	 )  //  27
 			Usuario->NivelR := MSEncrypt( cDtRec	 )  //  28
 			Usuario->NivelS := MSEncrypt( cAtra	 )  //  29
-			Usuario->Lpt1	 := cLpt1
-			Usuario->Lpt2	 := cLpt2
-			Usuario->Lpt3	 := cLpt3
 			Usuario->(Libera())
-
+			oEscolhe:WriteString('printer', 'lpt01', cLpt1)
+			oEscolhe:WriteString('printer', 'lpt02', cLpt2)
+			oEscolhe:WriteString('printer', 'lpt03', cLpt3)
+			
 			aPermissao := {}
 			Aadd( aPermissao, IF( cEs	     = "S", OK, FALSO ))  //   1
 			Aadd( aPermissao, IF( cRe	     = "S", OK, FALSO ))  //   2
@@ -8414,7 +8354,8 @@ Aadd( aArquivos, { "regiao.dbf",;
 											  { "NOME",    "C", 40, 0 }}})
 
 Aadd( aArquivos, { "usuario.dbf",;
-											 {{ "NOME",    "C", 10, 0 },;
+											 {{ "ID",      "+", 10, 0 },;
+											  { "NOME",    "C", 10, 0 },;
 											  { "SENHA",   "C", 10, 0 },;
 											  { "NIVEL1",  "C", 01, 0 },;
 											  { "NIVEL2",  "C", 01, 0 },;
@@ -8445,24 +8386,7 @@ Aadd( aArquivos, { "usuario.dbf",;
 											  { "NIVELQ",  "C", 01, 0 },;
 											  { "NIVELR",  "C", 01, 0 },;
 											  { "NIVELS",  "C", 01, 0 },;
-											  { "LPT1",    "C", 02, 0 },;
-											  { "LPT2",    "C", 02, 0 },;
-											  { "LPT3",    "C", 02, 0 },;
-											  { "LPT4",    "C", 02, 0 },;
-											  { "LPD1",    "C", 02, 0 },;
-											  { "LPD2",    "C", 02, 0 },;
-											  { "LPD3",    "C", 02, 0 },;
-											  { "LPD4",    "C", 02, 0 },;
-											  { "LPD5",    "C", 02, 0 },;
-											  { "LPD6",    "C", 02, 0 },;
-											  { "LPD7",    "C", 02, 0 },;
-											  { "LPD8",    "C", 02, 0 },;
-											  { "LPD9",    "C", 02, 0 },;
-											  { "COM1",    "C", 02, 0 },;
-											  { "COM2",    "C", 02, 0 },;
-											  { "COM3",    "C", 02, 0 },;
-											  { "ATUALIZADO", "D", 08, 0 },;
-											  { "COM4",    "C", 02, 0 }}})
+											  { "ATUALIZADO", "D", 08, 0 }}})
 
 Aadd( aArquivos, { "cursos.dbf",;
 											 {{ "CURSO",   "C", 04, 0 } , ;

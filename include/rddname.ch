@@ -4,37 +4,37 @@
 REQUEST DBFNTX
 REQUEST DBFCDX
 //REQUEST DBFMDX  /* velho demais */
-//REQUEST DBPX    /* velho demais */
+//REQUEST DBPX    /* velho demais */	
 REQUEST DBFFPT
 REQUEST SIXCDX
 REQUEST DBFNSX
 REQUEST HB_MEMIO
-
-#DEFINE DBFNSX
-//#DEFINE FOXPRO
-//#DEFINE DBFNTX
-//#DEFINE DBFCDX
-//#DEFINE LETO
-//#DEFINE DBFMDX
-//#DEFINE DBPX
 #define RDDALTERNATIVO "DBFCDX"
 
+//#DEFINE FOXPRO
+#DEFINE DBFNSX
+//#DEFINE LETO
+//#DEFINE DBFNTX
+//#DEFINE DBFCDX
+//#DEFINE DBFMDX
+//#DEFINE DBPX
+
+
 #IFDEF FOXPRO
-  #include <sixnsx.ch>
+  #include "sixnsx.ch"
   #define MEMOEXT  ".smt"
   #define INDEXEXT ".cdx"
   #define RDDNAME  "SIXNSX"
   #Define CEXT     "cdx"
 #ENDIF
 #IFDEF LETO
-  REQUEST leto
   #include <hbsix.ch>
   #include <dbinfo.ch>
   #define FOXPRO
   #define MEMOEXT  ".smt"  
   #define INDEXEXT ".cdx"  
-  #define RDDNAME  "LETO"
-  #define REQNAME  "LETO"
+  #define RDDNAME  "DBFNSX"
+  #define REQNAME  "DBFNSX"
   #define CEXT     "cdx"    
 #ENDIF
 #IFDEF DBFNSX

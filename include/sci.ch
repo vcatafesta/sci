@@ -56,4 +56,5 @@
 	#include "setcurs.ch"
 	#include "status.ch"    // Codigo de Erro da ECF Bematech	
 	//#include "pragma.ch"	
+	#include "tprinter.ch"	
 #endif /* _SCI_CH_*/

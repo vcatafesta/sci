@@ -2,41 +2,28 @@
 
 class TAmbiente	
 	EXPORTED:
-		DATA aLpt1 		INIT {}
-		DATA aLpt2 		INIT {}
-		DATA aLpt3 		INIT {}
-		DATA aLpd0 		INIT {}
-      DATA aLpd1     INIT {} 
-      DATA aLpd2     INIT {} 
-      DATA aLpd3     INIT {} 
-      DATA aLpd4     INIT {} 
-      DATA aLpd5     INIT {} 
-      DATA aLpd6     INIT {} 
-      DATA aLpd7     INIT {} 
-      DATA aLpd8     INIT {} 
-     	DATA aLpd9     INIT {}
-      DATA CupsPrinter INIT ""
-      DATA lVisSpooler INIT FALSO
-      DATA Sendmail    INIT FALSO
-      
-		DATA nMenuH 	INIT 1
-		DATA nMenuV 	INIT 1
-		DATA LetoIP 	INIT '127.0.0.1'
-	   DATA LetoPort 	INIT '2812'
-		DATA LetoI 		INIT '//'
-		DATA LetoM 		INIT ':'
-		DATA LetoF 		INIT '/'
-		DATA LetoPath  INIT '//127.0.0.1:2812/'
-		DATA LetoAtivo INIT false
-		DATA ShowVarLetoString INIT ""
-		DATA ShowVarString 	  INIT ""
+		DATA aLpt 					INIT {}		
+      DATA CupsPrinter 			INIT ""
+      DATA lVisSpooler 			INIT FALSO
+      DATA Sendmail    			INIT FALSO
+		DATA nMenuH 				INIT 1
+		DATA nMenuV 				INIT 1
+		DATA LetoIP 				INIT '127.0.0.1'
+	   DATA LetoPort 				INIT '2812'
+		DATA LetoI 					INIT '//'
+		DATA LetoM 					INIT ':'
+		DATA LetoF 					INIT '/'
+		DATA LetoPath  			INIT '//127.0.0.1:2812/'
+		DATA LetoAtivo 			INIT false
+		DATA ShowVarLetoString 	INIT ""
+		DATA ShowVarString 	  	INIT ""
 		
 	PUBLIC:
 		VAR Ano2000
-		VAR Frame         INIT "’Õ∏≥æÕ‘≥"
+		VAR Frame         		INIT "’Õ∏≥æÕ‘≥"
 		VAR Visual
 		VAR CorMenu
-      VAR CorBarraMenu  INIT 15
+      VAR CorBarraMenu  		INIT 15
 		VAR CorLightBar
 		VAR CorHotKey
 		VAR CorHKLightBar
@@ -51,9 +38,9 @@ class TAmbiente
 		VAR CorMsg
 		VAR HoraCerta
 		VAR TarefaConcluida
-		VAR Clock 		   INIT Time()
-		VAR Fonte 		   INIT 2
-      VAR lSombra       INIT .T.
+		VAR Clock 		   		INIT Time()
+		VAR Fonte 		   		INIT 2
+      VAR lSombra       		INIT .T.
 		VAR Selecionado		
 		VAR Panos
 		VAR ModeMenu

@@ -892,11 +892,11 @@ def Instru80( nQualPorta, cArquivo )
       aStatus  := aPrinter[CUPS_STATUS]
 		aComPort := { "DISPONIVEL     ","INDISPONIVEL   " }
 		alDisp   := { OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, true }
-      nTamJan  := AmaxStrLen(aMenu) + 3
+      nTamJan  := AmaxStrLen(aMenu)
       nIndex   := Len(aMenu)
 
-		MaBox( 05, 10, 05 + nIndex + 1, nTamJan + 1, nil, "<SAIDA DA IMPRESSAO>ºENTER=IMPRIMIRºCTRL/ALT+ENTER=ESCOLHERºCTRL+PGDN=ONLINE")
-		nChoice := aChoice( 06, 11, 04 + nIndex + 1, nTamJan, @aMenu, alDisp, "_Instru80" )
+		MaBox( 05, 10, 05 + nIndex + 1, nTamJan + 14, nil, "<SAIDA DA IMPRESSAO>ºENTER=IMPRIMIRºCTRL/ALT+ENTER=ESCOLHERºCTRL+PGDN=ONLINE")
+		nChoice := aChoice( 06, 11, 04 + nIndex + 1, nTamJan+13, @aMenu, alDisp, "_Instru80" )
 		if nChoice = 0 .OR. nChoice = 12
          if Conf("Pergunta: Cancelar Impressao ?")
             lCancelou := OK

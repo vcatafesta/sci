@@ -650,13 +650,14 @@ def CupsArrayPrinter()
 					"  þ "  + padr(aPrinter[nPr, WIN_PRINTERLIST_PORT],nMaxPort) + ;
 					" þ "  + Left(aStr[nIndex,2],17) + ;
 					" em " + aPrinter[nPr, WIN_PRINTERLIST_PRINTERNAME])
+			Aadd( aModelo, aPrinter[nPr, WIN_PRINTERLIST_PRINTERNAME])        					
 		#else
    	   Aadd( aMenu, ;
 					" CUPS" + StrZero(nPr,2) + ;
 					" þ "   + Left(aStr[nIndex,2],17) + ;
-					" em "  + aPrinter[nPr, WIN_PRINTERLIST_PRINTERNAME])                   
+					" em "  + aPrinter[nPr])                   
+			Aadd( aModelo, aPrinter[nPr])        
       #endif
-		Aadd( aModelo, aPrinter[nPr, WIN_PRINTERLIST_PRINTERNAME])        
    next
    return {aMenu, aModelo, aAction, aStatus, aPrinter}
 endef   

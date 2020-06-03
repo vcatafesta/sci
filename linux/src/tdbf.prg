@@ -1,5 +1,6 @@
-#include "sci.ch"  
+#include "sci.ch"
 #translate pause() => pausetdbf()
+
 REQUEST HB_LANG_EN
 REQUEST HB_LANG_PT
 
@@ -196,6 +197,7 @@ def pausetdbf()
 	retur nil
 
 CLASS TDbf
+	EXPORTED:
    DATA Id    
 	DATA Field  INIT {=>}
 	DATA hField INIT {=>}
@@ -206,13 +208,11 @@ CLASS TDbf
 	
 	METHOD new(cDbf) CONSTRUCTOR
 	DESTRUCTOR Destroy() 
-   METHOD Open   
+   METHOD Open(cDbf)   
 	METHOD DbSkip(x) 
 	METHOD DbSeek(x) 
 	METHOD DbDelete(nrecno)
-	METHOD DbDelete(nrecno)
 	METHOD Destroy()
-	
 	METHOD GetDados()		
 	METHOD Append()
 	METHOD Libera()
@@ -226,6 +226,8 @@ CLASS TDbf
 	METHOD CommitNew()
 	METHOD RollBack(nLastRecnoCommit)
 	METHOD ProxReg(cCampo)
+	METHOD ReleaseAndNil
+	METHOD Release
 	
 	MESSAGE Create(cDbf) 	METHOD new(cDbf)
 	MESSAGE Init(cDbf) 	   METHOD new(cDbf)
@@ -235,16 +237,45 @@ CLASS TDbf
 	MESSAGE Recno()        	INLINE (::Alias)->(Recno())	
 	MESSAGE Order(nindice)	INLINE (::Alias)->(Order(nindice))	
 	MESSAGE Incluiu()			INLINE (::Alias)->(Incluiu())	
+	MESSAGE Eof()    			INLINE (::Alias)->(Eof())	
 	MESSAGE DbGoTop()    	INLINE (::Alias)->(DbGotop())	
 	MESSAGE DbGoBottom()   	INLINE (::Alias)->(DbGoBottom())	
 	MESSAGE TravaReg()   	INLINE (::Alias)->(TravaReg())	
 	MESSAGE DbGoto(nrecno) 	INLINE (::Alias)->(DbGoto(nrecno))	
+	MESSAGE Area(cDbf) 		INLINE DbSelectArea(cDbf)	
 	/*MESSAGE DbGoto(nrecno) 	INLINE Eval({|self, nrecno|
 														(self:Alias)->(DbGoTo(nrecno))
 														 self:GetDados()
 														 return self:Recno()
 													}, self, nrecno)*/
+	METHOD nRec( n )     	SETGET													
+	ERROR HANDLER OnError( xParam )
 ENDCLASS
+
+METHOD nRec( n ) CLASS Tdbf
+	IF n != Nil
+		dbGoTo( n )
+   ENDIF
+RETURN Recno()
+
+METHOD OnError( xParam ) CLASS TDbf
+Local cMsg := __GetMessage(), cFieldName, nPos
+Local xValue
+ 
+   IF Left( cMsg, 1 ) == '_'
+      cFieldName := Substr( cMsg,2 )
+   ELSE
+      cFieldName := cMsg
+   ENDIF
+   IF ( nPos := FieldPos( cFieldName ) ) == 0
+      Alert( cFieldName + " wrong field name!" )
+   ELSEIF cFieldName == cMsg
+      RETURN FieldGet( nPos )
+   ELSE
+      FieldPut( nPos, xParam )
+   ENDIF
+Return Nil
+
 
 METHOD TDbf:New(cDbf)
 	if cDbf = VOID
@@ -252,16 +283,39 @@ METHOD TDbf:New(cDbf)
 	endif		
 	::Dbf    := upper(cDbf) + '.DBF'
 	::Alias  := upper(cDbf)
-	::Open()
+	if !UsaArquivo((::Alias))
+		MensFecha()	
+	endif	
+	::Area(::alias)
+	::alias := Alias()	
 	::AddField()
 	::DbStruct()	
 	//::GetDados()
 	return self
+
+
+METHOD TDbf:Open(cDbf)
+	::Dbf    := upper(cDbf) + '.DBF'
+	::Alias  := upper(cDbf)
+	::Area(::alias)
+	//::alias := Alias()	
+	::AddField()
+	::DbStruct()		
+	return self
+
 	
 METHOD Destroy()
-	(::Alias)->(DbCloseArea())
+	//(::Alias)->(DbCloseArea())
    self := nil	
-	return nil
+	return self
+
+METHOD ReleaseAndNil()
+	self := nil	
+	return self
+
+METHOD Release()
+	self := nil	
+	return self
 	
 METHOD TDbf:Fcount()
 	return (::Alias)->(FCount())
@@ -273,7 +327,7 @@ METHOD TDbf:ProxReg(cCampo)
 	LOCAL cType 	
 	LOCAL cNewReg
 	
-	hb_default(@cCampo, "CODI")
+	hb_default(@cCampo, "ID")
 	::DbGoBottom()	
 	nPos   := (::Alias)->(FieldPos(cCampo))
 	nLen   := (::Alias)->(FieldLen(nPos))		
@@ -409,8 +463,8 @@ METHOD TDbf:RollBack(nLastRecnoCommit)
 	endif
 	return false
 
-METHOD TDbf:GetFieldBlank(cType, nLen)		
-	LOCAL hBranco := {"C" => Space(nLen), "N" => 0, "D" => cTod("//"), "L" => false }
+METHOD TDbf:GetFieldBlank(cType, nLen)
+	LOCAL hBranco := {"C" => Space(nLen), "N" => 0, "D" => cTod("//"), "L" => false, "+" => 0 }
 	LOCAL cGet    := hBranco[cType]
 	return cGet
 
@@ -446,16 +500,6 @@ METHOD TDbf:DbStruct()
 	*/
 	::hStru[::Alias] := (::Alias)->(DbStruct())
 	return len(::hStru)
-	
-METHOD TDbf:Open()		
-	cls
-	? ::Alias
-	inkey(0)
-	if !UsaArquivo((::Alias))
-		MensFecha()	
-	endif
-	::alias := Alias()
-	return self
 	
 METHOD TDbf:Travados()	
 	LOCAL nRecno

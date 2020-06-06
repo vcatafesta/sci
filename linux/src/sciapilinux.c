@@ -1,6 +1,5 @@
 #include <sciapilinux.h>
 
-
 #ifdef __GNUC__
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
 #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
@@ -8,7 +7,6 @@
 //#pragma GCC diagnostic ignored "-Wwrite-strings"
 //#warning "this header is deprecated"
 #endif
-
 
 // synonymn for MS_* 
 	HB_FUNC_TRANSLATE(TRIM,    	RTRIM)
@@ -20,17 +18,17 @@
 
 /*-----------------------------------------------------------------------------------------------*/	
 
-static size_t 
-strlen(
-   char s[]
-   )
+/*
+static size_t strlen( char s[] )
 {
 	int i = 0;
-	while(s[i] != '\0' ){ 
-		i++; 
+	while(s[i] != '\0' )
+	{
+		i++;
 	}
 	return i;
 }
+*/
 
 /*-----------------------------------------------------------------------------------------------*/	
 
@@ -55,36 +53,33 @@ void *malloc_s(size_t size) {
 
 //=================================================================
 
-char *
-spacechar(
-   size_t stTamBlock, 
-   char chInit = 0
-   ) 
+char *spacechar( size_t stTamBlock, char chInit )
 {
-    //TString pBuf = (char *)malloc(stTamBlock + 1);
-    char *pBuf = new char[stTamBlock];
+    TString pBuf = (char *)malloc(stTamBlock + 1);
+    //char *pBuf = new char[stTamBlock];
     if(pBuf != 0)
         memset(pBuf, chInit, stTamBlock);
-        
+
     pBuf[stTamBlock] = '\0';
     return pBuf;
 }
 
 //=================================================================
 
-char *space(int x, char ch = 0) {
+char *space(int x, char ch)
+{
     char *buff = (char *)malloc(x * sizeof(char *));
-    
+
     if(buff != 0)
         memset(buff, ch, x);
-        
+
     buff[x] = '\0';
     return buff;
 }
 
 //=================================================================
 
-void *spaceset(size_t size, char ch=0) {
+void *spaceset(size_t size, char ch ) {
     return(memset((char *)malloc_s(size * sizeof(char *)), ch, size));
 }
 
@@ -420,7 +415,7 @@ HB_FUNC(MS_CLEAR){
 
 /*-----------------------------------------------------------------------------------------------*/	
 
-static bool hb_ctGetWinCord(MS_INT *piTop, MS_INT *piLeft, MS_INT *piBottom, MS_INT *piRight )
+static HB_BOOL hb_ctGetWinCord(MS_INT *piTop, MS_INT *piLeft, MS_INT *piBottom, MS_INT *piRight )
 {
 	MS_INT	iMaxRow	= hb_gtMaxRow();
 	MS_INT 	iMaxCol 	= hb_gtMaxCol();
@@ -1649,7 +1644,7 @@ HB_FUNC( MS_SPACE )
             int size = hb_parclen( 1 );                  
             // char buffer[ 4096 ];
             // memset( buffer, '\0', 4096 );
-            char *buffer = spacechar(nlen);
+            char *buffer = spacechar(nlen,0);
             strcat( buffer, szString );
             strcat( buffer, space( nlen - size, 32 ) );
             hb_retc( buffer );

@@ -1,11 +1,11 @@
 #ifndef __SCIAPI_H__
 #define __SCIAPI_H__
 
-#include <iostream>
+//#include <iostream>
 //#include <windows.h>
 //#include <conio.h>
 #include <stdio.h>
-
+#include <ctype.h>
 #include "hbapi.h"
 #include "hbapifs.h"
 #include "hbapigt.h"
@@ -71,10 +71,10 @@ enum _color_ {c1 = 0x0003 };
 //enum Range   : LONG  { Max = 2147483648L, Min = 255L };
 //enum Days    : BYTE  {Domingo=1, Segunda, Terca, Quarta, Quinta, Sexta, Sabado};
 //enum _color_ : DWORD {c1 = 0x0003 };
-
 /*-----------------------------------------------------------------------------------------------*/	
- 
-#define fi 
+
+char *space(int x, char ch);
+#define fi
 #define true            1
 #define false           0
 #define OK	            1
@@ -109,7 +109,8 @@ typedef char 						*TString;
 /*-----------------------------------------------------------------------------------------------*/	
 
 static void _color( int iNewColor);
-static bool hb_ctGetWinCord( int * piTop, int * piLeft, int * piBottom, int * piRight);
+//static bool hb_ctGetWinCord( int * piTop, int * piLeft, int * piBottom, int * piRight);
+static HB_BOOL hb_ctGetWinCord( int * piTop, int * piLeft, int * piBottom, int * piRight);
 extern void   _xcolor_fundo(WORD BackColor);
 
 /*-----------------------------------------------------------------------------------------------*/	

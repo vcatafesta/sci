@@ -1477,7 +1477,9 @@ def ErrorBeep(lOK)
 ***********************
 DEFAU lOk TO FALSO
 
-//return Nil // aff, sem som
+if !(oAmbiente:Sound)
+	return NIL // aff, sem som
+endif
 if lOk   // Good Sound
    Tone(  500, 1 )
    //Tone( 4000, 1 )

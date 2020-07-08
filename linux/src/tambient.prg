@@ -126,7 +126,7 @@ class TAmbiente
 		VAR DispArray
       VAR lManterPosicaoMenuVertical   INIT OK
 		DATA hESCP  							INIT {=>}
-
+		DATA Sound								INIT OK
   
 	public:
 		ACCESS cor_menu         METHOD getcormenu()

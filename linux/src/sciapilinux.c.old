@@ -2980,48 +2980,6 @@ char * hb_verCompiler( void )
    return pszCompiler;
 }
 
-/* NOTE: The caller must free the returned buffer. [vszakats] */
-
-/* NOTE:
-   CA-Cl*pper 5.2e returns: "Clipper (R) 5.2e Intl. (x216)  (1995.02.07)"
-   CA-Cl*pper 5.3b returns: "Clipper (R) 5.3b Intl. (Rev. 338) (1997.04.25)"
- */
-
-char * hb_verHarbour( void )
-{
-   char * pszVersion;
-   char szDateRaw[ 11 ];
-   char szDate[ 17 ];
-
-   HB_TRACE( HB_TR_DEBUG, ( "hb_verHarbour()" ) );
-
-   hb_snprintf( szDateRaw, sizeof( szDateRaw ), "%d", hb_verCommitRev() );
-
-   szDate[ 0 ] = '2';
-   szDate[ 1 ] = '0';
-   szDate[ 2 ] = szDateRaw[ 0 ];
-   szDate[ 3 ] = szDateRaw[ 1 ];
-   szDate[ 4 ] = '-';
-   szDate[ 5 ] = szDateRaw[ 2 ];
-   szDate[ 6 ] = szDateRaw[ 3 ];
-   szDate[ 7 ] = '-';
-   szDate[ 8 ] = szDateRaw[ 4 ];
-   szDate[ 9 ] = szDateRaw[ 5 ];
-   szDate[ 10 ] = ' ';
-   szDate[ 11 ] = szDateRaw[ 6 ];
-   szDate[ 12 ] = szDateRaw[ 7 ];
-   szDate[ 13 ] = ':';
-   szDate[ 14 ] = szDateRaw[ 8 ];
-   szDate[ 15 ] = szDateRaw[ 9 ];
-   szDate[ 16 ] = '\0';
-
-   pszVersion = ( char * ) hb_xgrab( 80 );
-   hb_snprintf( pszVersion, 80, "Harbour %d.%d.%d%s (%s) (%s)",
-                HB_VER_MAJOR, HB_VER_MINOR, HB_VER_RELEASE, HB_VER_STATUS,
-                hb_verCommitIDShort(), szDate );
-
-   return pszVersion;
-}
 
 char * hb_verPCode( void )
 {

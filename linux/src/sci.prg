@@ -645,14 +645,14 @@ def SetaClasse()
 
 	LOCAL cSv  := SISTEM_VERSAO
 	LOCAL cSp  := Space(1)
-	LOCAL cSt1 := "F1-HELP�F5-PRECOS�F10-CALC�"
-	LOCAL cSt2 := "F1-HELP�F5-LISTA�F8-SPOOL�ESC-RETORNA�"
-	LOCAL cSt3 := "F1-HELP�F5-LISTA�F8-SPOOL�ESC-RETORNA�"
-	LOCAL cSt4 := "F1-HELP�F5-LISTA�F8-SPOOL�ESC-RETORNA�"
-	LOCAL cSt5 := "F1-HELP�F5-LISTA�F8-SPOOL�ESC-RETORNA�"
-	LOCAL cSt6 := "F1-HELP�F5-LISTA�F8-SPOOL�ESC-RETORNA�"
-	LOCAL cSt7 := "F1-HELP�F5-LISTA�F8-SPOOL�ESC-RETORNA�"
-	LOCAL cSt8 := "F1-HELP�F5-LISTA�F8-SPOOL�ESC-RETORNA�"
+	LOCAL cSt1 := "F1-HELP|F5-PRECOS|F10-CALC|"
+	LOCAL cSt2 := "F1-HELP|F5-LISTA|F8-SPOOL|ESC-RETORNA|"
+	LOCAL cSt3 := "F1-HELP|F5-LISTA|F8-SPOOL|ESC-RETORNA|"
+	LOCAL cSt4 := "F1-HELP|F5-LISTA|F8-SPOOL|ESC-RETORNA|"
+	LOCAL cSt5 := "F1-HELP|F5-LISTA|F8-SPOOL|ESC-RETORNA|"
+	LOCAL cSt6 := "F1-HELP|F5-LISTA|F8-SPOOL|ESC-RETORNA|"
+	LOCAL cSt7 := "F1-HELP|F5-LISTA|F8-SPOOL|ESC-RETORNA|"
+	LOCAL cSt8 := "F1-HELP|F5-LISTA|F8-SPOOL|ESC-RETORNA|"
 
 	oMenu:StSupArray               := { cSn1+cSp+cSv, cSn2+cSp+cSv,cSn3+cSp+cSv,cSn4+cSp+cSv,cSn5+cSp+cSv,cSn6+cSp+cSv, cSn7+cSp+cSv, cSn8+cSp+cSv }
 	oMenu:StInfArray               := { cSt1, cSt2, cSt3, cSt4, cSt5, cSt6, cSt7, cSt8,  }
@@ -731,6 +731,7 @@ def SetaIni()
 	oAmbiente:Get_Ativo           := oIni:ReadBool( oAmbiente:xUsuario,    'get_ativo',     oAmbiente:Get_Ativo )
 	oAmbiente:Mostrar_Desativados := oIni:ReadBool( "sistema",'Mostrar_Desativados', oAmbiente:Mostrar_Desativados )
 	oAmbiente:Mostrar_Recibo      := oIni:ReadBool( "sistema",'Mostrar_Recibo', oAmbiente:Mostrar_Recibo )
+	oAmbiente:Sound			      := oIni:ReadBool( "sistema",'sound', oAmbiente:Sound )
 	oAmbiente:Frame               := oMenu:Frame
 	oAmbiente:PanoFundo     		:= oMenu:PanoFundo
 	oAmbiente:CorMenu 	      	:= oMenu:CorMenu
@@ -4811,6 +4812,7 @@ LOCAL GetList		:= {}
 LOCAL cPath 		:= FCurdir()
 LOCAL cEmail
 LOCAL cSmtp
+LOCAL cSound
 LOCAL nScreenSaver
 LOCAL nRecibo
 LOCAL nAutenticar
@@ -4842,30 +4844,32 @@ WHILE OK
    nAutenticar     := oIni:ReadInteger('baixasrece', 'autenticar', 2 )
    nNenhum         := oIni:ReadInteger('baixasrece', 'nenhum', 3 )
    nTipoBusca      := oIni:ReadInteger('sistema', 'tipobusca', 1 )	
+	cSound          := IF( oIni:ReadBool('sistema','sound', true ), "S", "N")
 	cNrMarcaTicket  := IF( oIni:ReadBool('sistema','nrmarcaticket', FALSO ), "S", "N")
    cPvMarcaTicket  := IF( oIni:ReadBool('sistema','pvmarcaticket', FALSO ), "S", "N")
    cCampoDesconto  := IF( oIni:ReadBool('baixasrece','campodesconto', OK ), "S", "N")
    cTrocarVendedor := IF( oIni:ReadBool('sistema','trocarvendedor', OK ), "S", "N")
    cManterPosicaoMenuV := IF( oIni:ReadBool('sistema','manterposicaomenuvertical', OK ), "S", "N")
 
-   MaBox( 01, 01, 19, 79, "CONFIGURACAO - GERAL")
+   MaBox( 01, 01, 20, 79, "CONFIGURACAO - GERAL")
 	@ 02, 02 Say "Tempo Protetor Tela.: " Get nScreenSaver   Pict "9999"
-	@ 03, 02 Say "Email...............: " Get cEmail         Pict "@!"
-	@ 04, 02 Say "Servidor SMTP.......: " Get cSmtp          Pict "@!"
-   @ 05, 02 Say "Nome Empresa........: " Get cNomeEmpresa   Pict "@!"
-   @ 06, 02 Say "Nome Fantasia.......: " Get cFantasia      Pict "@!"
-   @ 07, 02 Say "Cnpj/CPF Empresa....: " Get cCgcEmpresa    Pict "@!"
-   @ 08, 02 Say "Nome Socio..........: " Get cNomeSocio     Pict "@!"
-   @ 09, 02 Say "CPF Socio...........: " Get cCpfSocio      Pict "999.999.999-99"
-   @ 10, 02 Say "Posicao Menu [Recibo] apos Recebimento.....:" Get nRecibo             Pict "9" Valid PickTam({'Primeiro','Segundo','Terceiro'}, {1,2,3}, @nRecibo)
-   @ 11, 02 Say "Posicao Menu [Autenticar] apos Recebimento.:" Get nAutenticar         Pict "9" Valid PickTam({'Primeiro','Segundo','Terceiro'}, {1,2,3}, @nAutenticar)
-   @ 12, 02 Say "Posicao Menu [Nenhum] apos Recebimento.....:" Get nNenhum             Pict "9" Valid PickTam({'Primeiro','Segundo','Terceiro'}, {1,2,3}, @nNenhum)
-   @ 13, 02 Say "Mostrar Campo Desconto ao receber titulo...:" Get cCampoDesconto      Pict "!" Valid PickSimNao( @cCampoDesconto )
-   @ 14, 02 Say "Tipo Menu de Procura Produto...............:" Get nTipoBusca          Pict "9" Valid PickTam({'Ordem Codigo','Ordem Fabricante'}, {1,2}, @nTipoBusca)
-   @ 15, 02 Say "Imprimir Marca Produto Ticket Venda........:" Get cNrMarcaTicket      Pict "!" Valid PickSimNao( @cNrMarcaTicket )
-   @ 16, 02 Say "Imprimir Marca Produto Ticket PreVenda.....:" Get cPvMarcaTicket      Pict "!" Valid PickSimNao( @cPvMarcaTicket )
-   @ 17, 02 Say "Permitir faturar comissao outro vendedor...:" Get cTrocarVendedor     Pict "!" Valid PickSimNao( @cTrocarVendedor )
-   @ 18, 02 Say "Manter posicao item menu vertical..........:" Get cManterPosicaoMenuV Pict "!" Valid PickSimNao( @cManterPosicaoMenuV )
+	@ 03, 02 Say "Beep alerta.........: " Get csound         Pict "!" Valid PickSimNao( @cSound )
+	@ 04, 02 Say "Email...............: " Get cEmail         Pict "@!"
+	@ 05, 02 Say "Servidor SMTP.......: " Get cSmtp          Pict "@!"
+   @ 06, 02 Say "Nome Empresa........: " Get cNomeEmpresa   Pict "@!"
+   @ 07, 02 Say "Nome Fantasia.......: " Get cFantasia      Pict "@!"
+   @ 08, 02 Say "Cnpj/CPF Empresa....: " Get cCgcEmpresa    Pict "@!"
+   @ 09, 02 Say "Nome Socio..........: " Get cNomeSocio     Pict "@!"
+   @ 10, 02 Say "CPF Socio...........: " Get cCpfSocio      Pict "999.999.999-99"
+   @ 11, 02 Say "Posicao Menu [Recibo] apos Recebimento.....:" Get nRecibo             Pict "9" Valid PickTam({'Primeiro','Segundo','Terceiro'}, {1,2,3}, @nRecibo)
+   @ 12, 02 Say "Posicao Menu [Autenticar] apos Recebimento.:" Get nAutenticar         Pict "9" Valid PickTam({'Primeiro','Segundo','Terceiro'}, {1,2,3}, @nAutenticar)
+   @ 13, 02 Say "Posicao Menu [Nenhum] apos Recebimento.....:" Get nNenhum             Pict "9" Valid PickTam({'Primeiro','Segundo','Terceiro'}, {1,2,3}, @nNenhum)
+   @ 14, 02 Say "Mostrar Campo Desconto ao receber titulo...:" Get cCampoDesconto      Pict "!" Valid PickSimNao( @cCampoDesconto )
+   @ 15, 02 Say "Tipo Menu de Procura Produto...............:" Get nTipoBusca          Pict "9" Valid PickTam({'Ordem Codigo','Ordem Fabricante'}, {1,2}, @nTipoBusca)
+   @ 16, 02 Say "Imprimir Marca Produto Ticket Venda........:" Get cNrMarcaTicket      Pict "!" Valid PickSimNao( @cNrMarcaTicket )
+   @ 17, 02 Say "Imprimir Marca Produto Ticket PreVenda.....:" Get cPvMarcaTicket      Pict "!" Valid PickSimNao( @cPvMarcaTicket )
+   @ 18, 02 Say "Permitir faturar comissao outro vendedor...:" Get cTrocarVendedor     Pict "!" Valid PickSimNao( @cTrocarVendedor )
+   @ 19, 02 Say "Manter posicao item menu vertical..........:" Get cManterPosicaoMenuV Pict "!" Valid PickSimNao( @cManterPosicaoMenuV )
    Read
 	IF LastKey() = ESC
 		Set Defa To ( cPath )		
@@ -4891,10 +4895,12 @@ WHILE OK
 		oIni:WriteBool('baixasrece','campodesconto', IF( cCampoDesconto = "S", OK, FALSO ))
       oIni:WriteBool('sistema','trocarvendedor', IF( cTrocarVendedor = "S", OK, FALSO ))
       oIni:WriteBool('sistema','manterposicaomenuvertical', IF( cManterPosicaoMenuV = "S", OK, FALSO ))
-      
-      oAmbiente:xFanta   := cFantasia
-      oAmbiente:xNomefir := cNomeEmpresa
-      oAmbiente:lManterPosicaoMenuVertical := oIni:ReadBool('sistema','manterposicaomenuvertical')         
+		oIni:WriteBool('sistema','sound', IF( cSound = "S", true, false ))
+         
+	   oAmbiente:xFanta   						 := cFantasia
+      oAmbiente:xNomefir 						 := cNomeEmpresa
+      oAmbiente:lManterPosicaoMenuVertical := oIni:ReadBool('sistema','manterposicaomenuvertical')
+		oAmbiente:Sound 							 := if( cSound = "S", true, false )
 	EndIF
 EndDo
 

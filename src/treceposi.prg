@@ -75,31 +75,31 @@ beginclass
 	VAR nTotal_Geral            INIT 0
 	VAR nQtdDoc_Geral           INIT 0	
 	
-	VAR nPrincipal	             INIT 0	
-	VAR nJurosPago	             INIT 0	
-	VAR nRecebido					 INIT 0	
-	VAR nAberto              	 INIT 0	
-	VAR nQtdDoc 					 INIT 0	
+	VAR nPrincipal	            INIT 0	
+	VAR nJurosPago	            INIT 0	
+	VAR nRecebido				INIT 0	
+	VAR nAberto              	INIT 0	
+	VAR nQtdDoc 				INIT 0	
 	VAR cStrSelecao             INIT ''
 	VAR cStrRecibo              INIT ''
 	VAR cStrVencido             INIT ''
 	VAR cStrVencer              INIT ''	
 	VAR cStrGeral               INIT ''		
-	VAR Color_pFore 	          INIT {}
+	VAR Color_pFore 	        INIT {}
 	VAR Color_pBack             INIT {}
 	VAR Color_pUns              INIT {}	
 	VAR CurElemento             INIT 1
  	VAR nChoice                 INIT NIL   
 	VAR nOrdem                  INIT NIL
  	VAR xParam                  INIT NIL
-	VAR cTop	       				 INIT ""
-	VAR cBottom	       			 INIT ""
-	VAR aBottom	   				 INIT {"","", ""}
+	VAR cTop	       			INIT ""
+	VAR cBottom	       			INIT ""
+	VAR aBottom	   				INIT {"","", ""}
 	
-	VAR nBoxRow	   				 INIT 8
-	VAR nBoxCol	   				 INIT 0
-	VAR nBoxRow1					 INIT ms_MaxRow()-1
-	VAR nBoxCol1					 INIT MaxCol()
+	VAR nBoxRow	   				INIT 8
+	VAR nBoxCol	   				INIT 0
+	VAR nBoxRow1				INIT ms_MaxRow()-1
+	VAR nBoxCol1				INIT MaxCol()
 	
 	VAR nPrtRow	   				 INIT MaxRow()
 	VAR nPrtCol	   				 INIT 0
@@ -483,7 +483,7 @@ METHOD ZerarRescisao
 	return self		
 	
 METHOD RedrawRecibo 
-	::cStrRecibo := " RECIBO EMITIDO ¯¯ {"
+	::cStrRecibo := " RECIBO EMITIDO Â¯Â¯ {"
 	::cStrRecibo += StrZero(::nQtdDoc_Recibo,5)
 	::cStrRecibo += "}" + Space(::nTab)
 	::cStrRecibo += Tran(::nPrincipal_Recibo, "@E 999,999.99") + Space(9)
@@ -494,9 +494,9 @@ METHOD RedrawRecibo
 	return(::cStrRecibo)	
 
 METHOD RedrawVencido 
-   ::cStrVencido := " ABERTO VENCIDO ¯¯ {"
+   ::cStrVencido := " ABERTO VENCIDO Â¯Â¯ {"
 	if ::nOrdem == 3
-	::cStrVencido := "   PAGO VENCIDO ¯¯ {"
+	::cStrVencido := "   PAGO VENCIDO Â¯Â¯ {"
 	endif
 	::cStrVencido += StrZero(::nQtdDoc_Vencido,5)
 	::cStrVencido += "}" + Space(::nTab)
@@ -508,9 +508,9 @@ METHOD RedrawVencido
 	return(::cStrVencido)	
 
 METHOD RedrawVencer 
-	::cStrVencer := " ABERTO VENCER  ¯¯ {"
+	::cStrVencer := " ABERTO VENCER  Â¯Â¯ {"
 	if ::nOrdem == 3
-	::cStrVencer := "   PAGO VENCER  ¯¯ {"
+	::cStrVencer := "   PAGO VENCER  Â¯Â¯ {"
 	
 	endif
 	::cStrVencer += StrZero(::nQtdDoc_Vencer,5)
@@ -524,7 +524,7 @@ METHOD RedrawVencer
 	return(::cStrVencer)
 
 METHOD RedrawGeral 
-	::cStrGeral := " TOTAL GERAL    ¯¯ {"
+	::cStrGeral := " TOTAL GERAL    Â¯Â¯ {"
 	::cStrGeral += StrZero(::nQtdDoc_Geral, 5)
 	::cStrGeral += "}" + Space(::nTab)
 	::cStrGeral += Tran(::nPrincipal_Geral, "@E 999,999.99") + Space(9)
@@ -535,7 +535,7 @@ METHOD RedrawGeral
 	return(::cStrGeral)	
 
 METHOD RedrawSelecao 	
-	::cStrSelecao := " TOTAL SELECAO  ¯¯ {"
+	::cStrSelecao := " TOTAL SELECAO  Â¯Â¯ {"
 	::cStrSelecao += StrZero(Len(::aDocnr_Selecao_Imprimir),5)
 	::cStrSelecao += "}" + Space(::nTab)
 	::cStrSelecao += Tran(::nPrincipalSelecao, 		"@E 999,999.99") + Space(9)
@@ -549,7 +549,7 @@ METHOD RedrawSelecao
 
 METHOD _SomaPago( nValorTotal, nValorPago )
 *********************************************
-	 ::cStrRecibo := " TOTAL GERAL ¯¯ "
+	 ::cStrRecibo := " TOTAL GERAL Â¯Â¯ "
 	 ::cStrRecibo += Space(27 + ::nTab)
 	 ::cStrRecibo += Tran(nValorTotal, "@E 999,999,999.99")
 	 ::cStrRecibo += Space(01)
@@ -1461,7 +1461,7 @@ METHOD AChoice( nTop, nLeft, nBottom, nRight, acItems, xSelect, xUserFunc, nPos,
 					endif
 					lFinished := .F.
                LOOP
-				
+               
 				CASE AC_REDRAW  /* QUESTION: Is this correct? */
                if nPos != 0						
 						//::DispPage( ::aTodos, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems, nItems )

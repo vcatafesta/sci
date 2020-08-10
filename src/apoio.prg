@@ -1,18 +1,18 @@
 /*
-  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
- Ý³																								 ³
- Ý³	Programa.....: APOIO.PRG															 ³
- Ý³	Aplicacaoo...: MODULO DE APOIO AO SCI											 ³
- Ý³	Versao.......: 19.50 																 ³
- Ý³	Programador..: Vilmar Catafesta													 ³
- Ý³	Empresa......: Microbras Com de Prod de Informatica Ltda 				 ³
- Ý³	Inicio.......: 12 de Novembro de 1991. 										 ³
- Ý³	Ult.Atual....: 15 de Maio de 2017.     										 ³
- Ý³	Compilacao...: Harbour 3.2/3.4   												 ³
- Ý³	Linker.......: GCC/BCC/MSVC                  								 ³
- Ý³	Bibliotecas..: Clipper/Funcoes/Mouse/Funcky15/Funcky50/Classe/Classic ³
- ÝÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
- ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+ â–Œâ”‚																								 â”‚
+ â–Œâ”‚	Programa.....: APOIO.PRG															 â”‚
+ â–Œâ”‚	Aplicacaoo...: MODULO DE APOIO AO SCI											 â”‚
+ â–Œâ”‚	Versao.......: 19.50 																 â”‚
+ â–Œâ”‚	Programador..: Vilmar Catafesta													 â”‚
+ â–Œâ”‚	Empresa......: Microbras Com de Prod de Informatica Ltda 				 â”‚
+ â–Œâ”‚	Inicio.......: 12 de Novembro de 1991. 										 â”‚
+ â–Œâ”‚	Ult.Atual....: 15 de Maio de 2017.     										 â”‚
+ â–Œâ”‚	Compilacao...: Harbour 3.2/3.4   												 â”‚
+ â–Œâ”‚	Linker.......: GCC/BCC/MSVC                  								 â”‚
+ â–Œâ”‚	Bibliotecas..: Clipper/Funcoes/Mouse/Funcky15/Funcky50/Classe/Classic â”‚
+ â–Œâ””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+ â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€
 */
 #include "sci.ch"
 #include "hbgtinfo.ch"			
@@ -153,17 +153,17 @@ WHILE OK
 		@ Row(),   40 Say "Estoque Maximo......:" Get nQmax     Pict "999999.99"
 		@ Row()+1, 02 Say "Porc.Vendedor.......:" Get nPorc     Pict "99.99"
 		@ Row()	, 40 Say "Tamanho.............:" Get cTam      Pict "@!"
-		@ Row()+1, 02 Say "Produto ‚ servi‡o...:" Get cServico  Pict "!" Valid PickSimNao( @cServico )
+		@ Row()+1, 02 Say "Produto Ã© serviÃ§o...:" Get cServico  Pict "!" Valid PickSimNao( @cServico )
 		@ Row(),   40 Say "Desconto Maximo.....:" Get nDescMax  Pict "99.99"
-		@ Row()+1, 02 Say "Pre‡o de Compra.....:" Get nPCompra  Pict "99999999.99"
+		@ Row()+1, 02 Say "PreÃ§o de Compra.....:" Get nPCompra  Pict "99999999.99"
 
 		@ Row()+1, 02 Say "Margem Custo........:" Get nMarCus   Pict "999.99" Valid CalculaVenda( nPCompra, nMarCus, @nPcusto )
-		@ Row(),   40 Say "Pre‡o de Custo......:" Get nPcusto   Pict "99999999.99"
+		@ Row(),   40 Say "PreÃ§o de Custo......:" Get nPcusto   Pict "99999999.99"
 		@ Row()+1, 02 Say "Margem Varejo.......:" Get nMarVar   Pict "999.99" Valid CalculaVenda( nPcusto, nMarVar, @nVarejo )
-		@ Row(),   40 Say "Pre‡o Varejo........:" Get nVarejo   Pict "99999999.99"
+		@ Row(),   40 Say "PreÃ§o Varejo........:" Get nVarejo   Pict "99999999.99"
 		@ Row()+1, 02 Say "Margem Atacado......:" Get nMarAta   Pict "999.99" Valid CalculaVenda( nPcusto, nMarAta, @nAtacado )
-		@ Row(),   40 Say "Pre‡o Atacado.......:" Get nAtacado  Pict "99999999.99"
-      @ Row()+1, 02 Say "Situa‡ao Tributaria.:" Get cSituacao Pict "9"  Valid PickSituacao( @cSituacao )
+		@ Row(),   40 Say "PreÃ§o Atacado.......:" Get nAtacado  Pict "99999999.99"
+      @ Row()+1, 02 Say "SituaÃ§ao Tributaria.:" Get cSituacao Pict "9"  Valid PickSituacao( @cSituacao )
 		@ Row(),   40 Say "Classificao Fiscal..:" Get cClasse   Pict "99" Valid PickClasse( @cClasse ) .AND. CadReducao( cClasse, @nAm, @nRo, @nMt, @nAc, @nRr, cDesc)
 		@ Row()+1, 02 Say "Icms Substituicao...:" Get nTx_Icms  Pict "999"
 		@ Row(),   40 Say "Reducao Base Calculo:" Get nReducao  Pict "999"
@@ -339,9 +339,9 @@ if Receber->(!DbSeek( Var ))
 	Receber->(Order( RECEBER_NOME ))
 	Receber->(DbGoTop())
 	if nMaxCol > 80
-		Receber->(Escolhe( 03, 00, MaxRow()-2,"Codi + 'Ý' + Nome + 'Ý' + Fone + 'Ý' + Fax + 'Ý' + Left( Fanta, 15 ) + 'Ý' + Ende", "CODI NOME DO CLIENTE                           TELEFONE #1    TELEFONE #2    POP             ENDERECO", aRotina, nil, aRotinaAlteracao ))
+		Receber->(Escolhe( 03, 00, MaxRow()-2,"Codi + 'â–Œ' + Nome + 'â–Œ' + Fone + 'â–Œ' + Fax + 'â–Œ' + Left( Fanta, 15 ) + 'â–Œ' + Ende", "CODI NOME DO CLIENTE                           TELEFONE #1    TELEFONE #2    POP             ENDERECO", aRotina, nil, aRotinaAlteracao ))
 	else
-		Receber->(Escolhe( 03, 00, MaxRow()-2,"Codi + 'Ý' + Nome + 'Ý' + Fone + 'Ý' + Left( Fanta, 15 )", "CODI NOME DO CLIENTE                          TELEFONE       POP     ", aRotina, nil, aRotinaAlteracao ))
+		Receber->(Escolhe( 03, 00, MaxRow()-2,"Codi + 'â–Œ' + Nome + 'â–Œ' + Fone + 'â–Œ' + Left( Fanta, 15 )", "CODI NOME DO CLIENTE                          TELEFONE       POP     ", aRotina, nil, aRotinaAlteracao ))
 	endif
 endif
 if nRow != Nil
@@ -609,7 +609,7 @@ Area( "VendeDor")
 Vendedor->(Order( IF( Len( Var ) < 40, VENDEDOR_CODIVEN, VENDEDOR_NOME )))
 if Vendedor->(!DbSeek( Var ))
 	Vendedor->(Order( VENDEDOR_NOME ))
-	Vendedor->(Escolhe( 03, 01, MaxRow()-2, "CodiVen + 'Ý' + Nome + 'Ý' + Fone", "CODI NOME DO VENDEDOR" + Space(25)+ "TELEFONE", aRotinaInc, NIL, aRotinaAlt ))
+	Vendedor->(Escolhe( 03, 01, MaxRow()-2, "CodiVen + 'â–Œ' + Nome + 'â–Œ' + Fone", "CODI NOME DO VENDEDOR" + Space(25)+ "TELEFONE", aRotinaInc, NIL, aRotinaAlt ))
 	Var := IF( Len( Var ) > 4, Vendedor->Nome, Vendedor->CodiVen )
 endif
 cCodi := Vendedor->CodiVen
@@ -628,7 +628,7 @@ LOCAL aRotinaInc := {{||FuncInclusao()}}
 LOCAL aRotinaAlt := {{||FuncInclusao(OK)}}
 
 if Vendedor->(!DbSeek( cCpf ))
-   Vendedor->(Escolhe( 03, 01, MaxRow()-2, "CodiVen + 'Ý' + Nome + 'Ý' + Fone", "CODI NOME DO VENDEDOR" + Space(25)+ "TELEFONE", aRotinaInc, NIL, aRotinaAlt ))
+   Vendedor->(Escolhe( 03, 01, MaxRow()-2, "CodiVen + 'â–Œ' + Nome + 'â–Œ' + Fone", "CODI NOME DO VENDEDOR" + Space(25)+ "TELEFONE", aRotinaInc, NIL, aRotinaAlt ))
 	IF( Len( cCpf ) > 14, cCpf := Vendedor->Nome, cCpf := Vendedor->Cpf )
 endif
 Return( OK )
@@ -790,7 +790,7 @@ For nT := 1 To xLen
 	Aadd( aRegistro, xTodos[nT,5])
 	Aadd( aTodos,	  xTodos[nT,1] + " " + Dtoc(xTodos[nT,2]) + " " + Dtoc(xTodos[nT,3]) + " " + Tran(xTodos[nT,4],"@E 999,999,999.99") + " " + xTodos[nT,6])
 Next
-MaBox( 01, 01, 14, 78, "DOCTO  N§  EMISSAO   VENCTO          VALOR OBSERVACAO" + Space(23))
+MaBox( 01, 01, 14, 78, "DOCTO  NÂº  EMISSAO   VENCTO          VALOR OBSERVACAO" + Space(23))
 nChoice := aChoice( 02, 02, 13, 77, aTodos )
 ResTela( cScreen )
 if nChoice = 0
@@ -889,7 +889,7 @@ if ( Recemov->(Order( RECEMOV_DOCNR )), Recemov->(!DbSeek( Var )))
 		Recemov->(Order( RECEMOV_DOCNR ))
 		Set Rela To Recemov->Codi Into Receber
 		Recemov->(DbGoTop())
-		Recemov->(Escolhe( 03, 01, MaxRow()-2, "Docnr + 'Ý' + Receber->Nome", "DOCTO N§  NOME DO CLIENTE" ))
+		Recemov->(Escolhe( 03, 01, MaxRow()-2, "Docnr + 'â–Œ' + Receber->Nome", "DOCTO NÂº  NOME DO CLIENTE" ))
 	else
 		AreaAnt( Arq_Ant, Ind_Ant )
 		Return( FALSO )
@@ -936,7 +936,7 @@ Order( IF( Len( cCodi ) < 40, CHEQUE_CODI, CHEQUE_TITULAR ))
 if !( DbSeek( cCodi ) )
 	Order( CHEQUE_TITULAR )
 	DbGoTop()
-	Escolhe( 03, 01, MaxRow()-2, "Codi + 'Ý' + Titular","CODI TITULAR DA CONTA", aRotina  )
+	Escolhe( 03, 01, MaxRow()-2, "Codi + 'â–Œ' + Titular","CODI TITULAR DA CONTA", aRotina  )
 	cCodi  := IF( Len( cCodi ) = 4, Codi,	  Titular )
 	if cCodi1 != Nil
 		cCodi1 := IF( Len( cCodi1 ) = 4, Codi, 	Titular )
@@ -1064,7 +1064,7 @@ WHILE OK
 		MaBox( 02, 05 , nRow+18 , 79, "PAGAMENTOS" )
 		@ nRow+01, nCol	 SAY "Fornecedor..: " + Pagar->Codi + " " + Pagar->Nome
 		@ nRow+02, nCol	 SAY "Tipo........: " + cTipo
-		@ nRow+02, nCol+35 SAY "Docto N§....: " + cDocnr
+		@ nRow+02, nCol+35 SAY "Docto NÂº....: " + cDocnr
 		@ nRow+03, nCol	 SAY "Emissao.....: " + Dtoc( Emis )
 		@ nRow+03, nCol+35 SAY "Vencto......: " + Dtoc( Vcto )
 		@ nRow+04, nCol	 SAY "Juros Mes...: " + Tran( nJuro , "@E 9,999,999,999.99" )
@@ -1357,7 +1357,7 @@ if ( Pagamov->(Order( PAGAMOV_DOCNR )), Pagamov->(!DbSeek( cDocnr )))
 		Set Rela To Pagamov->Codi Into Pagar
 	endif
 	Pagamov->(DbGoTop())
-	Pagamov->(Escolhe( 03, 00, 22, "Docnr + 'Ý' + Dtoc( Emis ) + 'Ý' + Dtoc( Vcto ) + 'Ý' + Tran( Vlr, '@E 999,999.99') + 'Ý' + Left( Pagar->Nome, 37 )", "DOCTO N§  EMISSAO  VCTO         VALOR  NOME DO FORNECEDOR"))
+	Pagamov->(Escolhe( 03, 00, 22, "Docnr + 'â–Œ' + Dtoc( Emis ) + 'â–Œ' + Dtoc( Vcto ) + 'â–Œ' + Tran( Vlr, '@E 999,999.99') + 'â–Œ' + Left( Pagar->Nome, 37 )", "DOCTO NÂº  EMISSAO  VCTO         VALOR  NOME DO FORNECEDOR"))
 	cDocnr := Pagamov->Docnr
 endif
 AreaAnt( Arq_Ant, Ind_Ant )
@@ -1408,7 +1408,7 @@ if nTam = 0
 	ResTela( cScreen )
 	Return( FALSO )
 endif
-MaBox( 00, 10, 14, 53, "DOCTO  N§  EMISSAO   VENCTO          VALOR")
+MaBox( 00, 10, 14, 53, "DOCTO  NÂº  EMISSAO   VENCTO          VALOR")
 nChoice := aChoice( 01, 11, 13, 52, aTodos )
 ResTela( cScreen )
 if nChoice = 0
@@ -1555,7 +1555,7 @@ if ( Entradas->(Order( ENTRADAS_FATURA )), Entradas->(!DbSeek( cDocnr )))
 		Area("EntNota")
 		Set Rela To EntNota->Codi Into Pagar
 		EntNota->(Order( ENTNOTA_NUMERO ))
-		Escolhe( 03, 01, 22, "Numero + 'Ý' + Pagar->Nome", "FATURA  NOME DO FORNECEDOR")
+		Escolhe( 03, 01, 22, "Numero + 'â–Œ' + Pagar->Nome", "FATURA  NOME DO FORNECEDOR")
 		EntNota->(DbClearRel())
 		cDocnr := EntNota->Numero
 	endif
@@ -1614,7 +1614,7 @@ if ( Saidas->(Order( SAIDAS_FATURA )), Saidas->(!DbSeek( cDocnr )))
 		Area("Nota")
 		Set Rela To Nota->Codi Into Receber
 		Nota->(Order( NOTA_NUMERO ))
-		Escolhe( 03, 01, 22, "Numero + 'Ý' + Receber->Nome+ 'Ý' + Situacao + 'Ý' + Caixa", "FATURA  NOME DO CLIENTE                         SITUACAO USER")
+		Escolhe( 03, 01, 22, "Numero + 'â–Œ' + Receber->Nome+ 'â–Œ' + Situacao + 'â–Œ' + Caixa", "FATURA  NOME DO CLIENTE                         SITUACAO USER")
 		Nota->(DbClearRel())
 		cDocnr := Nota->Numero
 	endif
@@ -1705,7 +1705,7 @@ WHILE Nota->Codi = cCodi .OR. LastKey() = ESC
 	Nota->(DbSkip(1))
 	if nConta >= 65535 // Tamanho Max. Array
 		ErrorBeep()
-		Alerta('Erro: M ximo 65535 registros por cliente. Use individual.')
+		Alerta('Erro: MÃ¡ximo 65535 registros por cliente. Use individual.')
 		Exit
 	endif
 EndDo
@@ -1717,7 +1717,7 @@ if nTam = 0
 	ResTela( cScreen )
 	Return( FALSO )
 endif
-MaBox( 00, 10, 14, 70,"FATURA N§  EMISSAO          VALOR SITUACAO ALTER/EXCLU USER")
+MaBox( 00, 10, 14, 70,"FATURA NÂº  EMISSAO          VALOR SITUACAO ALTER/EXCLU USER")
 nChoice := aChoice( 01, 11, 13, 69, aTodos )
 ResTela( cScreen )
 if nChoice = 0
@@ -1788,7 +1788,7 @@ if nTam = 0
 	ResTela( cScreen )
 	Return( FALSO )
 endif
-MaBox( 00, 10, 14, 44,"FATURA N§  EMISSAO          VALOR")
+MaBox( 00, 10, 14, 44,"FATURA NÂº  EMISSAO          VALOR")
 nChoice := aChoice( 01, 11, 13, 43, aTodos )
 ResTela( cScreen )
 if nChoice = 0
@@ -1881,7 +1881,7 @@ if (Lastrec() = 0 )
 endif
 if !DbSeek( cRegiao)
 	Regiao->(Order( REGIAO_NOME ))
-	Escolhe( 03, 01, 22,"Regiao + 'Ý' + Nome", "COD NOME DA REGIAO", aRotina )
+	Escolhe( 03, 01, 22,"Regiao + 'â–Œ' + Nome", "COD NOME DA REGIAO", aRotina )
 	cRegiao := Regiao->Regiao
 endif
 if nRow != NIL
@@ -2203,7 +2203,7 @@ LOCAL Ind_Ant := IndexOrd()
 Area("SubGrupo")
 SubGrupo->(Order( SUBGRUPO_CODSGRUPO ))
 if SubGrupo->(!DbSeek( cSubGrupo ))
-	SubGrupo->(Escolhe( 03, 01, 22, "CodsGrupo + 'Ý' + DessGrupo", "COD DESCRICAO DO SUBGRUPO", aRotina ))
+	SubGrupo->(Escolhe( 03, 01, 22, "CodsGrupo + 'â–Œ' + DessGrupo", "COD DESCRICAO DO SUBGRUPO", aRotina ))
 	cSubGrupo := SubGrupo->CodsGrupo
 endif
 if nRow != NIL
@@ -2222,7 +2222,7 @@ Area("Grupo")
 Grupo->(Order( GRUPO_CODGRUPO ))
 if Grupo->( !DbSeek( cGrupo ))
 	Grupo->(Order( GRUPO_DESGRUPO ))
-	Grupo->(Escolhe( 03, 01, 22, "CodGrupo + 'Ý' + DesGrupo", "COD DESCRICAO DO GRUPO", aRotina ))
+	Grupo->(Escolhe( 03, 01, 22, "CodGrupo + 'â–Œ' + DesGrupo", "COD DESCRICAO DO GRUPO", aRotina ))
 	cGrupo := Grupo->CodGrupo
 endif
 if nRow != NIL
@@ -2315,8 +2315,8 @@ WHILE OK
 	cGrupo	  := Left( SubGrupo->CodsGrupo, 3 )
 	cGrupo	  := IF( Empty( cGrupo ), "001", cGrupo )
 	cCodigo	  := cGrupo + "." + StrZero( Val( Right( SubGrupo->CodSgrupo,2))+1, 2)
-	@ 06, 02 Say "SubGrupo..¯ " Get cCodigo    Pict "999.99" Valid Sgrupo( cCodigo )
-	@ 07, 02 Say "Descricao.¯ " Get cDescricao Pict "@!"
+	@ 06, 02 Say "SubGrupo..Â» " Get cCodigo    Pict "999.99" Valid Sgrupo( cCodigo )
+	@ 07, 02 Say "Descricao.Â» " Get cDescricao Pict "@!"
 	Read
 	if LastKey() = ESC
 		Exit
@@ -2474,10 +2474,10 @@ WHILE OK
 		@ Row()+1, 03 Say "Sigla.......:" Get cSigla Pict  "@!" Valid !Empty(cSigla) .OR. LastKey() = UP
 		@ Row()+1, 03 Say "Fantasia....:" Get cFanta Pict  "@!"
 		@ Row()+1, 03 Say "CGC/MF......:" Get cCgc   Pict  "99.999.999/9999-99"
-		@ Row()+1, 03 Say "Inscri‡ao...:" Get cInsc  Pict  "@!"
+		@ Row()+1, 03 Say "InscriÃ§ao...:" Get cInsc  Pict  "@!"
 		@ Row()+1, 03 Say "CPF.........:" Get cCpf   Pict  "999.999.999-99" Valid TestaCpf( cCpf )
 		@ Row()+1, 03 Say "Rg..........:" Get cRg    Pict  "@!"
-		@ Row()+1, 03 Say "Endere‡o....:" Get cEnde  Pict  "@!"
+		@ Row()+1, 03 Say "EndereÃ§o....:" Get cEnde  Pict  "@!"
 		@ Row()+1, 03 Say "CEP.........:" Get cCep   Pict  "99999-999" Valid CepErrado( @cCep, @cCida, @cEsta, @cBair )
 		@ Row()+1, 03 Say "Cidade......:" Get cCida  Pict  "@!"
 		@ Row()+1, 03 Say "Bairro......:" Get cBair  Pict  "@!"
@@ -2598,7 +2598,7 @@ Area("Grupo")
 Grupo->(Order( GRUPO_CODGRUPO ))
 if Grupo->(!DbSeek( cGrupo ))
 	Grupo->(Order( GRUPO_DESGRUPO ))
-	Grupo->(Escolhe( 03, 01, 22, "CodGrupo + 'Ý' + DesGrupo", "GRUPO DESCRICAO DO GRUPO", oInclusao, NIL, oAlteracao, NIL, NIL, NIL ))
+	Grupo->(Escolhe( 03, 01, 22, "CodGrupo + 'â–Œ' + DesGrupo", "GRUPO DESCRICAO DO GRUPO", oInclusao, NIL, oAlteracao, NIL, NIL, NIL ))
 	cGrupo := Grupo->CodGrupo
 endif
 Write( nCol, nLinha, Grupo->DesGrupo )
@@ -2620,7 +2620,7 @@ Area("SubGrupo")
 SubGrupo->(Order( SUBGRUPO_CODSGRUPO ))
 if SubGrupo->(!DbSeek( cSub ))
 	SubGrupo->(DbSeek( cGrupo ))
-	SubGrupo->(Escolhe( 03, 01, 22, "CodsGrupo + 'Ý' + DessGrupo", "SUBGRUPO   DESCRICAO DO SUBGRUPO", oInclusao, NIL, oAlteracao, NIL, NIL, OK ))
+	SubGrupo->(Escolhe( 03, 01, 22, "CodsGrupo + 'â–Œ' + DessGrupo", "SUBGRUPO   DESCRICAO DO SUBGRUPO", oInclusao, NIL, oAlteracao, NIL, NIL, OK ))
 	cSub := SubGrupo->CodsGrupo
 endif
 if Left( cSub, 3 ) != cGrupo
@@ -2711,8 +2711,8 @@ WHILE OK
 	@ Row()	, 03 Say "Codigo......:" Get cCodi  Pict  "9999" Valid RepresCerto( @cCodi )
 	@ Row()+1, 03 Say "R. Social...:" Get cNome  Pict  "@!" Valid !Empty(cNome) .OR. LastKey() = UP
 	@ Row()+1, 03 Say "CGC/MF......:" Get cCgc   Pict  "99.999.999/9999-99" Valid TestaCgc( cCgc )
-	@ Row()+1, 03 Say "Inscri‡ao...:" Get cInsc  Pict  "@!"
-	@ Row()+1, 03 Say "Endere‡o....:" Get cEnde  Pict  "@!"
+	@ Row()+1, 03 Say "InscriÃ§ao...:" Get cInsc  Pict  "@!"
+	@ Row()+1, 03 Say "EndereÃ§o....:" Get cEnde  Pict  "@!"
 	@ Row()+1, 03 Say "CEP.........:" Get cCep   Pict  "99999-999" Valid CepErrado( @cCep, @cCida, @cEsta, @cBair )
 	@ Row()+1, 03 Say "Cidade......:" Get cCida  Pict  "@!"
 	@ Row()+1, 03 Say "Bairro......:" Get cBair  Pict  "@!"
@@ -2763,7 +2763,7 @@ Area( "Repres" )
 Repres->(Order( REPRES_CODI ))
 if Repres->(!( DbSeek( Var )))
 	Repres->( Order( REPRES_NOME ))
-	Repres->( Escolhe( 03, 01, 22, "Repres + 'Ý' + Nome + 'Ý' + Fone", "CODI NOME REPRESENTANTE                       TELEFONE", aRotina ))
+	Repres->( Escolhe( 03, 01, 22, "Repres + 'â–Œ' + Nome + 'â–Œ' + Fone", "CODI NOME REPRESENTANTE                       TELEFONE", aRotina ))
 	Var := IF( Len( Var ) = 4, Repres->Repres, Repres->Nome )
 endif
 if nRow != Nil
@@ -2820,7 +2820,7 @@ Area( "Pagar" )
 Pagar->(Order( PAGAR_CODI ))
 if Pagar->(DbSeek( cCodi ))
 	ErrorBeep()
-	Alerta("Erro: Fornecedor Ja Registrado ou Incluido por outra Esta‡ao.." )
+	Alerta("Erro: Fornecedor Ja Registrado ou Incluido por outra EstaÃ§ao.." )
 	Pagar->(DbGoBoTTom())
 	cCodi := StrZero( Val( Pagar->Codi)+1, 4 )
 	AreaAnt( Arq_Ant, Ind_Ant )
@@ -2877,7 +2877,7 @@ Area("Lista")
 Lista->(Order( LISTA_CODIGO ))
 if Lista->(!DbSeek( cCodiIni ))
 	Lista->(Order( LISTA_DESCRICAO ))
-	Lista->(Escolhe( 03, 00, 22,"Codigo + 'Ý' + Descricao + 'Ý' + Tran( Quant, '999999.99') + 'Ý' + Tran( Varejo, '@E 99,999,999.99') + 'Ý' + Sigla","CODIG DESCRICAO DO PRODUTO                       ESTOQUE         PRECO MARCA", aRotina ))
+	Lista->(Escolhe( 03, 00, 22,"Codigo + 'â–Œ' + Descricao + 'â–Œ' + Tran( Quant, '999999.99') + 'â–Œ' + Tran( Varejo, '@E 99,999,999.99') + 'â–Œ' + Sigla","CODIG DESCRICAO DO PRODUTO                       ESTOQUE         PRECO MARCA", aRotina ))
 	cCodiIni := IF( Len( cCodiIni ) > 6, Lista->Descricao, Lista->Codigo )
 endif
 if nRow != NIL .AND. nCol != NIL
@@ -2909,9 +2909,9 @@ Area("Taxas")
 Taxas->(Order( TAXAS_DFIM ))
 WHILE OK
 	dData++
-	MaBox( 05, 11, 08, 51, "INCLUSAO DA COTA€AO DOLAR - ESC Retorna" )
-	@ 06, 	  12 Say "Data                   ¯" Get dData    Pict "##/##/##" Valid DolarCerto( dData )
-	@ Row()+1, 12 Say "Cota‡ao Dolar R$       ¯" Get nCotacao Pict "99999999.99" Valid nCotacao > 0
+	MaBox( 05, 11, 08, 51, "INCLUSAO DA COTAÃ‡AO DOLAR - ESC Retorna" )
+	@ 06, 	  12 Say "Data                   Â»" Get dData    Pict "##/##/##" Valid DolarCerto( dData )
+	@ Row()+1, 12 Say "CotaÃ§ao Dolar R$       Â»" Get nCotacao Pict "99999999.99" Valid nCotacao > 0
 	Read
 	if LastKey() = ESC
 		ResTela( cScreen )
@@ -2962,8 +2962,8 @@ WHILE OK
    @ 06, 06 Say "Codigo..........:"    Get cForma       Pict "99"  Valid FormaCerta( cForma )
    @ 07, 06 Say "Condicoes.......:"    Get cCondicoes   Pict "@!"  Valid IF( Empty( cCondicoes ), ( ErrorBeep(), Alerta("Erro: Entrada Invalida."), FALSO ), OK )
 	@ 08, 06 Say "Desdobramento...:"    Get cDesdobrar   Pict "!"   Valid PickSimNao( @cDesdobrar )
-	@ 08, 35 Say "N§ Parcelas........:" Get nParcelas    Pict "99"  When cDesdobrar == "S"
-	@ 09, 06 Say "1§ Parcela Vista:"    Get cVista       Pict "!"   Valid PickSimNao( @cVista ) When cDesdobrar = 'S'
+	@ 08, 35 Say "NÂº Parcelas........:" Get nParcelas    Pict "99"  When cDesdobrar == "S"
+	@ 09, 06 Say "1Âº Parcela Vista:"    Get cVista       Pict "!"   Valid PickSimNao( @cVista ) When cDesdobrar = 'S'
    @ 09, 35 Say "Dias Entre Parcelas:" Get nDias        Pict "999" When cDesdobrar == "S"
 	@ 10, 06 Say "Descricao.......:"    Get cDescricao   Pict "@!"
 	@ 11, 06 Say "Comissao........:"    Get nComissao    Pict "99.99"
@@ -2999,9 +2999,9 @@ Function DolarCerto( dData )
 if Taxas->(DbSeek( dData ))
 	ErrorBeep()
 	if Taxas->Cotacao = 0
-		Alerta("Erro: Cota‡ao registrada com valor 0...")
+		Alerta("Erro: CotaÃ§ao registrada com valor 0...")
 	Else
-		Alerta("Erro: Cota‡ao desta Data ja registrada...")
+		Alerta("Erro: CotaÃ§ao desta Data ja registrada...")
 	endif
 	Return( FALSO )
 endif
@@ -3131,9 +3131,9 @@ if Receber->(!DbSeek( cCodi ))
 	Receber->(Order( RECEBER_NOME ))
 	Receber->(DbGoTop())
 	if nMaxCol > 80
-		Receber->(Escolhe( 03, 00, MaxRow()-2,"Codi + 'Ý' + Nome + 'Ý' + Fone + 'Ý' + Fax + 'Ý' + Left( Fanta, 15 ) + 'Ý' + Ende", "CODI NOME DO CLIENTE                           TELEFONE #1    TELEFONE #2    POP             ENDERECO", aRotinaInc, nil, aRotinaAlt ))
+		Receber->(Escolhe( 03, 00, MaxRow()-2,"Codi + 'â–Œ' + Nome + 'â–Œ' + Fone + 'â–Œ' + Fax + 'â–Œ' + Left( Fanta, 15 ) + 'â–Œ' + Ende", "CODI NOME DO CLIENTE                           TELEFONE #1    TELEFONE #2    POP             ENDERECO", aRotinaInc, nil, aRotinaAlt ))
 	else
-		Receber->(Escolhe( 03, 00, MaxRow()-2,"Codi + 'Ý' + Nome + 'Ý' + Fone + 'Ý' + Left( Fanta, 15 )", "CODI NOME DO CLIENTE                          TELEFONE       POP     ", aRotinaInc, nil, aRotinaAlt ))
+		Receber->(Escolhe( 03, 00, MaxRow()-2,"Codi + 'â–Œ' + Nome + 'â–Œ' + Fone + 'â–Œ' + Left( Fanta, 15 )", "CODI NOME DO CLIENTE                          TELEFONE       POP     ", aRotinaInc, nil, aRotinaAlt ))
 	endif
 endif
 cCliRecno := Receber->(Recno())
@@ -3210,7 +3210,7 @@ WHILE OK
 		@ 11,03 Say  "Banco.......:" GET cBanco    Pict "@!"
 		@ 12,03 Say  "Telefone....:" GET cFone     Pict PIC_FONE
 		@ 13,03 Say  "Agencia.....:" GET cAg       Pict "@K!"
-		@ 14,03 Say  "Conta N§....:" GET cConta    Pict "@!"
+		@ 14,03 Say  "Conta NÂº....:" GET cConta    Pict "@!"
 		@ 15,03 Say  "Observ......:" GET cObs      Pict "@!"
 		@ 16,03 Say  "Cob Externa.:" GET cExterna  Pict "!" Valid cExterna  $ "SN"
 		@ 17,03 Say  "Poupanca....:" GET cPoupanca Pict "!" Valid cPoupanca $ "SN"
@@ -3258,7 +3258,7 @@ LOCAL Arq_Ant := Alias()
 LOCAL Ind_Ant := IndexOrd()
 if ( Empty( Var ) )
 	ErrorBeep()
-	Alerta( "Erro: C¢digo Conta Invalida ..." )
+	Alerta( "Erro: CÃ³digo Conta Invalida ..." )
 	Return( FALSO )
 
 endif
@@ -3267,7 +3267,7 @@ Cheque->(Order( CHEQUE_CODI ))
 DbGoTop()
 if (DbSeek( Var ) )
 	ErrorBeep()
-	Alerta("Erro: Conta J  Registrada ou Incluida por outra Estacao..." )
+	Alerta("Erro: Conta JÃ¡ Registrada ou Incluida por outra Estacao..." )
 	Var := StrZero( Val( Var )+1,4)
 	AreaAnt( Arq_Ant, Ind_Ant )
 	Return( FALSO )
@@ -3428,7 +3428,7 @@ PRIVA aVetor2 := {"CODIGO","DESCRICAO DO PRODUTO", "ESTOQUE", IF( lVarejo = 2, "
 Area("Lista")
 Lista->(Order( LISTA_DESCRICAO ))
 Lista->(DbGoTop())
-MaBox( 00, 00, 15, MaxCol()-1, "F2 PROCURA Ý  F6 TROCAR ORDEM Ý A-Z PROCURA")
+MaBox( 00, 00, 15, MaxCol()-1, "F2 PROCURA â–Œ  F6 TROCAR ORDEM â–Œ A-Z PROCURA")
 Seta1(15)
 DbEdit( 01, 01, 14, MaxCol()-2, aVetor1, "OrcaFunc", OK,  aVetor2 )
 AreaAnt( Arq_Ant, Ind_Ant )
@@ -3623,7 +3623,7 @@ if nTam = 0
 	AreaAnt( Arq_Ant, Ind_Ant )
 	Return( FALSO )
 endif
-MaBox( 00, 10, 14, 20,"FATURA N§")
+MaBox( 00, 10, 14, 20,"FATURA NÂº")
 nChoice := aChoice( 01, 11, 13, 19, aFatura )
 ResTela( cScreen )
 if nChoice = 0
@@ -3764,7 +3764,7 @@ While Eval( oBloco ) .AND. Recemov->(!Eof()) .AND. Rep_Ok()
 		Write( nRow+01, 00, GD + Padc(AllTrim(oAmbiente:xFanta), 40) + CA )
 		Write( nRow+02, 00, Padc( XENDEFIR + " - " + XCCIDA + " - " + XCESTA, 80 ))
 		Write( nRow+03, 00, Repl("-",80))
-		Write( nRow+04, 00, "N§ " + NG + cDocnr + NR )
+		Write( nRow+04, 00, "NÂº " + NG + cDocnr + NR )
 		Write( nRow+04, 40, GD + "RECIBO" + CA )
 		Write( nRow+04, 65, "R$ " + NG + cValor + NR)
 		Write( nRow+06, 00, "Recebemos de    : " + NG + Receber->Nome + NR )
@@ -3778,7 +3778,7 @@ While Eval( oBloco ) .AND. Recemov->(!Eof()) .AND. Rep_Ok()
 		Write( nRow+16, 00, NG + cHist + NR )
 		Write( nRow+18, 00, "Para maior clareza firmo(amos) o presente")
 		Write( nRow+19, 35, NG + DataExt( Date()) + NR )
-		Write( nRow+23, 00, "1§ VIA - CLIENTE" )
+		Write( nRow+23, 00, "1Âº VIA - CLIENTE" )
 		Write( nRow+23, 40, Repl("-",40))
 		Write( nRow+24, 00, Repl("=",80))
 		__Eject()
@@ -3848,7 +3848,7 @@ def LogRecibo( aLog )
 	
 	if nErro < 0
 		FWriteLine( nHandle, Repl("=", 186))
-		FWriteLine( nHandle, "TIPO   CODI  NOME CLIENTE                             DOCTO N§  VENCTO   HORA     DATA_OS  USUARIO    CAIX       VALOR RECIBO HISTORICO")
+		FWriteLine( nHandle, "TIPO   CODI  NOME CLIENTE                             DOCTO NÂº  VENCTO   HORA     DATA_OS  USUARIO    CAIX       VALOR RECIBO HISTORICO")
 		FWriteLine( nHandle, Repl("-", 186))
 	endif
 	
@@ -4102,7 +4102,7 @@ oMenu:Limpa()
 WHILE OK
 	cDocnr := Space(09)
 	MaBox( 10, 05, 16, 79 )
-	@ 11, 06 Say "Documento N§.: " Get cDocnr Pict "@!" Valid DocErrado( @cDocnr )
+	@ 11, 06 Say "Documento NÂº.: " Get cDocnr Pict "@!" Valid DocErrado( @cDocnr )
 	@ 12, 06 Say "Cliente......: "
 	@ 13, 06 Say "Emissao......: "
 	@ 14, 06 Say "Vcto.........: "
@@ -4159,7 +4159,7 @@ if nTam > 0
 	@ 08, 11 Say "Codigo Cedente....:" Get cCedente  Pict "@!"
 	@ 09, 11 Say "Carteira..........:" Get cCarteira Pict "@!"
 	@ 10, 11 Say "Var...............:" Get cVar      Pict "@!"
-	@ 11, 11 Say "N§ Bordero........:" Get cBordero  Pict "@!"
+	@ 11, 11 Say "NÂº Bordero........:" Get cBordero  Pict "@!"
 	@ 12, 11 Say "Prefixo...........:" Get cPrefix   Pict "@!"
 	@ 13, 11 Say "Especie...........:" Get cEspecie  Pict "@!"
 	@ 14, 11 Say "Instrucoes Codif..:" Get cInstru   Pict "@!"
@@ -4278,7 +4278,7 @@ if (Lastrec() = 0 )
 endif
 if Cep->(!DbSeek( cCep ))
 	Cep->(Order( CEP_CIDA ))
-	Cep->(Escolhe( 03, 01, 22, "Cep + 'Ý' + Cida + 'Ý' + Esta + 'Ý' + Bair ", "CEP        CIDADE                      UF BAIRRO", aRotina,, aRotinaAlteracao ))
+	Cep->(Escolhe( 03, 01, 22, "Cep + 'â–Œ' + Cida + 'â–Œ' + Esta + 'â–Œ' + Bair ", "CEP        CIDADE                      UF BAIRRO", aRotina,, aRotinaAlteracao ))
 endif
 cCep	:= Cep->Cep
 cCida := Cep->Cida
@@ -4455,7 +4455,7 @@ Return
 		SetColor("GR+/N")
 		@ 01, 00 TO 24-1, MaxCol()
 		SetColor("W/W")
-		StatusSup("³F1=HELP³CTRL+P=IMPRIMIR³ESC=SAIR³F2=GRAVA E SAI³F3=LIG ACENTO³F4=DES ACENTO", Cor(2))
+		StatusSup("â”‚F1=HELPâ”‚CTRL+P=IMPRIMIRâ”‚ESC=SAIRâ”‚F2=GRAVA E SAIâ”‚F3=LIG ACENTOâ”‚F4=DES ACENTO", Cor(2))
 		StatusInf( RTrim( Arquivo),"")
 		SetColor("B/W")
 		SetCursor(1)
@@ -4530,7 +4530,7 @@ Return
    if at( "WINDOWS", cOs ) != 0 .or. at( "DOS", cOs ) != 0 .or. at( "OS/2", cOs ) != 0
       !(cShell)
    else
-      ? "Sinto muito, este programa ‚ para Windows, DOS, e OS/2 somente"
+      ? "Sinto muito, este programa Ã© para Windows, DOS, e OS/2 somente"
    endif
 	return nil
 	
@@ -4948,7 +4948,7 @@ WHILE OK
 		cAno	  := Right( Dtoc( Date()),1)
 		Vlr_Dup := Extenso( Recemov->Vlr, nMoeda, nLinhas, Larg )
 		Write( Col,   000, PQ + Repl("=", nLargura))
-		Write( Col+1, 000, PQ + "N§ " + Recemov->Docnr)
+		Write( Col+1, 000, PQ + "NÂº " + Recemov->Docnr)
 		Write( Col+1, 113, PQ + "VENCIMENTO: " + Dtoc(Recemov->Vcto) )
 		Write( Col+2, 112, PQ + "VALOR R$  : " + AllTrim( Tran( Recemov->Vlr, "@E 9,999,999,999.99")))
 		Write( Col+3, 000, "No " + PQ + DataExtenso( Recemov->Vcto ) + "." + C18 )
@@ -5663,7 +5663,7 @@ aMenu[nNenhum] 	 := 'Nenhum'
 WHILE OK
 	cDocnr := Space(09)
 	MaBox( 10, 10, 12, 40 )
-	@ 11, 11 Say "Documento N§....: " Get cDocnr Pict "@!" Valid DocErrado( @cDocnr )
+	@ 11, 11 Say "Documento NÂº....: " Get cDocnr Pict "@!" Valid DocErrado( @cDocnr )
 	Read
 	if LastKey() = ESC
 		AreaAnt( Arq_Ant, Ind_Ant )
@@ -5708,8 +5708,8 @@ WHILE OK
 		MaBox( 04, 04 , nRow+18 , 78, "RECEBIMENTOS" )
 		@ nRow+00, nCol	 SAY "Cliente.....: " + Receber->Codi + " " + Receber->Nome
 		@ nRow+01, nCol	 SAY "Tipo........: " + cTipo
-		@ nRow+01, nCol+35 SAY "Docto N§....: " + cDocnr
-		@ nRow+02, nCol	 SAY "Nosso N§....: " + cNossoNr
+		@ nRow+01, nCol+35 SAY "Docto NÂº....: " + cDocnr
+		@ nRow+02, nCol	 SAY "Nosso NÂº....: " + cNossoNr
 		@ nRow+02, nCol+35 SAY "Bordero.....: " + cBordero
 		@ nRow+03, nCol	 SAY "Emissao.....: " + Dtoc( Emis )
 		@ nRow+03, nCol+35 SAY "Vencto......: " + Dtoc( Vcto )
@@ -5867,7 +5867,7 @@ WHILE OK
 							Chemov->Emis	:= dData
 							Chemov->Data	:= dData
 							Chemov->Baixa	:= Date()
-							Chemov->Hist	:= "REC JUROS TITULO N§ " + cDocnr
+							Chemov->Hist	:= "REC JUROS TITULO NÂº " + cDocnr
 							Chemov->Saldo	:= nChSaldo
 							Chemov->Tipo	:= cTipo
 							Chemov->Caixa	:= IF( cCaixa = Nil, Space(4), cCaixa )
@@ -6421,7 +6421,7 @@ WHILE OK
 				MaBox( 10, 00, 17, MaxCol(), xTitulo + cTitulo )
 			endif // oAmbiente:cTipoRecibo
 			
-			@ 11, 01 Say "Documento N§....:" Get cDocnr     Pict "@!"           Valid DocErrado( @cDocnr, @nVlr, @nVlrRecibo, NIL, @cHist, Row(), Col()+1)
+			@ 11, 01 Say "Documento NÂº....:" Get cDocnr     Pict "@!"           Valid DocErrado( @cDocnr, @nVlr, @nVlrRecibo, NIL, @cHist, Row(), Col()+1)
 			@ 12, 01 Say "Valor...........:" Get nVlr       Pict "999999999.99" Valid lPodeReciboZerado(@nVlr, nVlrComJuros, lSelecao) .AND. lPrtExtenso(nVlr, NIL , NIL , Row(), Col()+1, 45, xVlrRecibo)			
 			@ 13, 01 Say "Valor Recibo....:" Get nVlrRecibo Pict "999999999.99" Valid lPrtExtenso(nVlr, @nVlrRecibo, lSelecao, Row(), Col()+1, 45, xVlrRecibo)
 			@ 14, 01 Say "Referente.......:" Get cHist      Pict "@!"				
@@ -6644,7 +6644,7 @@ WHILE OK
 			nForCol := 0						
 		   for nY := 1 to nLenSelecao
 				xVlr := AllTrim( Tran( xVlrRecibo[nY],'@E 999,999,999,999.99'))
-				Write( nRow+05, nForCol, PQ + "N§ " + xDocnr[nY] + Space(1) + 'R$ ' + xVlr + NR + _CPI10 )				
+				Write( nRow+05, nForCol, PQ + "NÂº " + xDocnr[nY] + Space(1) + 'R$ ' + xVlr + NR + _CPI10 )				
 				if nY < nLenSelecao
 				   nForCol += 30 
 				   if nForCol >= 132
@@ -6654,7 +6654,7 @@ WHILE OK
 				endif
 			next				
 		else
-			Write( nRow+05, 00, Padr("N§ " + NG + cDocnr + NR + " VCTO " + NG + cVcto + NR, nTamForm))
+			Write( nRow+05, 00, Padr("NÂº " + NG + cDocnr + NR + " VCTO " + NG + cVcto + NR, nTamForm))
 			Write( nRow+05, 00, Padl("R$ " + NG + cVlr + NR, nTamForm))
 		endif	
 		nRow++
@@ -6684,7 +6684,7 @@ WHILE OK
 		endif		
 		Write( nRow+18, 00, Padl( NG + DataExt( dDataImpressao ) + NR, nTamForm))
 		Write( nRow+21, nTamForm / 2 , Repl("-", nTamform/2))
-		Write( nRow+22, 00, "1§ VIA - CLIENTE" )
+		Write( nRow+22, 00, "1Âº VIA - CLIENTE" )
 		Write( nRow+22, nTamForm / 2 , oAmbiente:xUsuario )
 		Write( nRow+23, 00, Repl("=", nTamForm))
 		Write( nRow+24, 00, Padc("ESTE RECIBO NAO QUITA EVENTUAIS DEBITOS/MENSALIDADES ANTERIORES", nTamForm))
@@ -6864,7 +6864,7 @@ if !lAdmin
 endif
 if nVlrRecibo != NIL .AND. lSelecao != NIL .AND. lSelecao == OK
    if nVlrRecibo == 0
-		if alerta("Deseja lan‡ar movimento a receber em substituicao a selecao?;  uma ¢tima oportunidade! - (Lancamento semi automatico)", aYesNo ) == 1
+		if alerta("Deseja lanÃ§ar movimento a receber em substituicao a selecao?; Ã‰ uma Ã³tima oportunidade! - (Lancamento semi automatico)", aYesNo ) == 1
 			ReceNormal( OK, cCaixa, {Recemov->Codi, nVlr} )
 			AreaAnt( Arq_Ant, Ind_Ant )
 		endif  
@@ -8417,7 +8417,7 @@ WHILE OK
 			dCalculo := Date()		
 			cFatu    := Space(7)
 			MaBox( 14, 45, 16, 67 )
-			@ 15, 46 Say "Fatura N§.:" Get cFatu Pict "@!" Valid VisualAchaFatura( @cFatu )
+			@ 15, 46 Say "Fatura NÂº.:" Get cFatu Pict "@!" Valid VisualAchaFatura( @cFatu )
 			Read
 			if LastKey() = ESC
 				Recemov->(DbClearRel())
@@ -8947,7 +8947,7 @@ WHILE OK
 			return
 		endif		
 	
-		oRecePosi:cTop := " DOCTO N§  EMIS   VENCTO ATRA   ORIGINAL  PRINCIPAL DESC/PAG    JUROS  PG/MULTA     ABERTO       SOMA OBSERVACAO"		
+		oRecePosi:cTop := " DOCTO NÂº  EMIS   VENCTO ATRA   ORIGINAL  PRINCIPAL DESC/PAG    JUROS  PG/MULTA     ABERTO       SOMA OBSERVACAO"		
 		MaBox( 00, 00, 06, nMaxCol )		
 		oRecePosi:cTop 	+= Space( MaxCol() - Len(oRecePosi:cTop))
 		oRecePosi:cBottom := Space(13) + "PRINCIPAL             JUROS  PG/MULTA     ABERTO       SOMA"		
@@ -9097,7 +9097,7 @@ Case nMode = AC_IDLE // 0
 							Write( 05, 01, "{" + Left(cObs,(nMaxCol-4)) + "}", pUns)
 						Else
 							cObs := Right(oReceposi:xTodos[nCurElemento,1],02)
-							Write( 05, 01, "{" + cObs + "¦ PARCELA DE SERVICOS DE INTERNET.}", pUns)
+							Write( 05, 01, "{" + cObs + "Âª PARCELA DE SERVICOS DE INTERNET.}", pUns)
 						endif
 					endif
 				endif
@@ -9949,7 +9949,7 @@ function HelpReceposi
 					'        DEL : EXCLUIR REGISTRO                  ' + ';' + ;				
 					'    TECLA + : SELECIONAR REGISTRO               ' + ';' + ;								
 					'    TECLA - : DE-SELECIONAR REGISTRO            ' + ';' + ;
-					'    TECLA * : LANCAR JUROS NŽO PAGOS PARCELA    ' + ';' + ;					
+					'    TECLA * : LANCAR JUROS NÃƒO PAGOS PARCELA    ' + ';' + ;					
 					'BARRA SPACO : FILTRAR FATURA                    ' + ';' + ;				
 					linhahorizontal + ';' + ;								
 					' CTRL+ENTER : ALTERAR REGISTRO                  ' + ';' + ;				

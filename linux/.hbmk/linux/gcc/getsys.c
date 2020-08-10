@@ -1,6 +1,6 @@
 /*
- * Harbour 3.4.0dev (89e77d480f) (2020-05-26 19:10)
- * GNU C++ 10.1 (64-bit)
+ * Harbour 3.4.0dev (150897e78b) (2020-05-30 04:04)
+ * GNU C 10.1 (64-bit)
  * PCode version: 0.3
  * Generated C source from "src/getsys.prg"
  */

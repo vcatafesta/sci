@@ -5,6 +5,8 @@
 #-comp=watcom
 #-comp=poc
 
+{linux}-workdir=/tmp  
+
 #-b
 -beep
 #-trace

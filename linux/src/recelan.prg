@@ -1,18 +1,18 @@
 /*
-  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ?
- İ³																								 ?
- İ³	Programa.....: RECELAN.PRG 														 ?
- İ³	Aplicacaoo...: SISTEMA DE CONTAS A RECEBER									 ?
- İ³   Versao.......: 3.3.00                                                 ?
- İ³	Programador..: Vilmar Catafesta													 ?
- İ³	Empresa......: Microbras Com de Prod de Informatica Ltda 				 ?
- İ³	Inicio.......: 12 de Novembro de 1991. 										 ?
- İ³	Ult.Atual....: 03 de Agosto de 2003.											 ?
- İ³	Compilacao...: Clipper 5.02														 ?
- İ³	Linker.......: Blinker 5.10														 ?
- İ³	Bibliotecas..: Clipper/Funcoes/Mouse/Funcky15/Funcky50/Classe/Classic ?
- İÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
- ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€?
+ â–Œâ”‚																								 ?
+ â–Œâ”‚	Programa.....: RECELAN.PRG 														 ?
+ â–Œâ”‚	Aplicacaoo...: SISTEMA DE CONTAS A RECEBER									 ?
+ â–Œâ”‚   Versao.......: 3.3.00                                                 ?
+ â–Œâ”‚	Programador..: Vilmar Catafesta													 ?
+ â–Œâ”‚	Empresa......: Microbras Com de Prod de Informatica Ltda 				 ?
+ â–Œâ”‚	Inicio.......: 12 de Novembro de 1991. 										 ?
+ â–Œâ”‚	Ult.Atual....: 03 de Agosto de 2003.											 ?
+ â–Œâ”‚	Compilacao...: Clipper 5.02														 ?
+ â–Œâ”‚	Linker.......: Blinker 5.10														 ?
+ â–Œâ”‚	Bibliotecas..: Clipper/Funcoes/Mouse/Funcky15/Funcky50/Classe/Classic ?
+ â–Œâ””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+ â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€
 */
 #include <sci.ch>
 
@@ -69,8 +69,7 @@ WHILE lOk
       Case op = 2.11 ; FoneTroca()
 		Case op = 3.01 ; AlteraReceber()
 		Case op = 3.02 ; AlteraRecebido()
-      Case op = 3.03 ; MenuTxJuros(op)
-      Case op = 3.04 ; MenuTxJuros(op)
+      Case op = 3.03 ; MenuTxJuros()
 		Case op = 3.05 ; AltRegTitRec()
 		Case op = 3.06 ; AltRegTitPag()
 		Case op = 3.07 ; ReajTitulos()
@@ -237,8 +236,8 @@ AADD( AtPrompt, {"C^lientes",     {"Inclusao",;
 
 AADD( AtPrompt, {"A^lteracao",      {"Titulos a Receber",;
 											 "Titulos Recebidos",;
-											 "Taxa de Juro Geral",;
-											 "Taxa de Juro Individual",;
+											 "Taxa de Juros",;
+											 "",;
 											 "Regiao de Titulos a Receber",;
 											 "Regiao de Titulos Recebidos",;
 											 "Reajuste de Titulos",;
@@ -633,7 +632,7 @@ WHILE OK
 		Write( Row()+1, 01, "Cidade.....:                                 Estado......:")
 		Write( Row()+1, 01, "Pca Pagto..:           Cfop:      Icms:      Regiao......:")
 		Write( Row()+1, 01, "Endereco...:                                 Bairro......:")
-		Write( Row()+1, 01, "Rg n§......:                                 Cpf.........:")
+		Write( Row()+1, 01, "Rg nÂº......:                                 Cpf.........:")
 		Write( Row()+1, 01, "I. Est.....:                                 Cgc/Mf......:")
 		Write( Row()+1, 01, "Telefone...:                                 Fax.........:")
 		Write( Row()+1, 01, "------------------------------------------------------------------------------")
@@ -711,7 +710,7 @@ WHILE OK
 		@ Row(),   45 Say "Bairro.....:"     Get cBairAval   Pict "@!"
 		@ Row()+1, 01 Say "Telefone...:"     Get cFoneAval   Pict PIC_FONE
 		@ Row(),   45 Say "Fax........:"     Get cFaxAval    Pict PIC_FONE
-		@ Row()+1, 01 Say "Rg n§......:"     Get cRgAval     Pict "@!"
+		@ Row()+1, 01 Say "Rg nÂº......:"     Get cRgAval     Pict "@!"
 		@ Row(),   45 Say "Cpf........:"     Get cCpfAval    Pict "999.999.999-99"	Valid TestaCpf( cCpfAval )
 		@ Row()+1, 01 Say "Limite Credito.:" Get nLimite     Pict "99999999.99"
 		@ Row(),   45 Say "Bancos.....:"     Get cBanco      Pict "@!S20"
@@ -747,7 +746,7 @@ WHILE OK
 		@ Row()+1, 01 Say "Modelo.........:" Get cModelo     Pict "@!"
 		@ Row(),   50 Say "Valor..........:" Get nValor      Pict "999999999.99"
 		@ Row()+1, 01 Say "Local Venda....:" Get cLocal      Pict "@!"
-		@ Row(),   50 Say "N§ Prestacoes..:" Get nPrazo      Pict "999"
+		@ Row(),   50 Say "NÂº Prestacoes..:" Get nPrazo      Pict "999"
 		@ Row()+1, 01 Say "Data Vcto Pres.:" Get nDataVcto   Pict "99"
 		@ Row(),   50 Say "Prazo Exten....." Get nPrazoExt   Pict "99"
 #endif
@@ -1649,7 +1648,7 @@ WHILE OK
 	Recemov->(DbGoTop())
 	MaBox( 16 , 10 , 18 , 30 )
 	Doc := Space( 9 )
-	@ 17 , 11 SAY "Doc.No..¯"GET doc PICT "@K!" Valid DocErrado( @doc )
+	@ 17 , 11 SAY "Doc.No..Â»"GET doc PICT "@K!" Valid DocErrado( @doc )
 	Read
 	if LastKey() = ESC
 		DbClearRel()
@@ -1659,16 +1658,16 @@ WHILE OK
 	endif
 	oMenu:Limpa()
 	MaBox(  06 , 10, 17 , 76, "EXCLUSAO DE MOVIMENTO" )
-	Write( 07 , 11, "Codigo...¯ " + Codi + "  " + Receber->Nome )
-	Write( 08 , 11, "Tipo.....¯ " + Tipo)
-	Write( 09 , 11, "Doc.N?..¯ " + Docnr)
-	Write( 10 , 11, "Nosso N?¯ " + Nossonr)
-	Write( 11 , 11, "Bordero..¯ " + Bordero)
-	Write( 12 , 11, "Emissao..¯ " + Dtoc( Emis ))
-	Write( 13 , 11, "Vencto...¯ " + Dtoc( Vcto ))
-	Write( 14 , 11, "Portador.¯ " + Port)
-	Write( 15 , 11, "Valor....¯ " + Tran( Vlr,  "@E 9,999,999,999.99"))
-	Write( 16 , 11, "Jr Mes...¯ " + Tran( Juro, "999.99"))
+	Write( 07 , 11, "Codigo...Â» " + Codi + "  " + Receber->Nome )
+	Write( 08 , 11, "Tipo.....Â» " + Tipo)
+	Write( 09 , 11, "Doc.N?..Â» " + Docnr)
+	Write( 10 , 11, "Nosso N?Â» " + Nossonr)
+	Write( 11 , 11, "Bordero..Â» " + Bordero)
+	Write( 12 , 11, "Emissao..Â» " + Dtoc( Emis ))
+	Write( 13 , 11, "Vencto...Â» " + Dtoc( Vcto ))
+	Write( 14 , 11, "Portador.Â» " + Port)
+	Write( 15 , 11, "Valor....Â» " + Tran( Vlr,  "@E 9,999,999,999.99"))
+	Write( 16 , 11, "Jr Mes...Â» " + Tran( Juro, "999.99"))
 	ErrorBeep()
 	if Conf( "Confirma Exclusao deste Movimento ?" )
 		if Recemov->(TravaReg())
@@ -1724,7 +1723,7 @@ WHILE OK
 	Recemov->(Order( RECEMOV_DOCNR ))
    if !lParam
 	   MaBox( 16 , 10 , 18 , 30 )
-	   @ 17 , 11 Say	"Doc.No..¯" Get cDocNr Pict "@K!" Valid DocErrado( @cDocNr )
+	   @ 17 , 11 Say	"Doc.No..Â»" Get cDocNr Pict "@K!" Valid DocErrado( @cDocNr )
 	   Read
 	   if LastKey() = ESC
 	   	AreaAnt( Arq_Ant, Ind_Ant )
@@ -2056,7 +2055,7 @@ WHILE OK
             cObs += space(80-len(cObs))         
          endif         
       endif            
-      hb_default(@cObs, "(escreva at‚ 80 letras - CTRL + Y apaga linha)" + space(80-46))
+      hb_default(@cObs, "(escreva atÃ© 80 letras - CTRL + Y apaga linha)" + space(80-46))
       
 		MaBox( 08 , 10 , 22 , MaxCol()-13 )
 		Write( 09 , 11, "Codigo........: " + cCodi )
@@ -2491,7 +2490,7 @@ FIELD Cida
 FIELD JuroDia
 
 MaBox( 14 , 10 , 16 , 53 )
-@ 15 , 11 Say	"Arquivo Carta de Cobran‡a.:" Get Arquivo Pict "@!"
+@ 15 , 11 Say	"Arquivo Carta de CobranÃ§a.:" Get Arquivo Pict "@!"
 Read
 if LastKey() = ESC
 	ResTela( cScreen )
@@ -3616,21 +3615,21 @@ WHILE OK
 		Write( 04, 01, "Cidade.........:                                Estado......:")
 		Write( 05, 01, "Natural........:                                Nascimento..:")
 		Write( 06, 01, "Identidade n?.:                                CPF.........:")
-		Write( 07, 01, "ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ")
+		Write( 07, 01, "â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€")
 		Write( 08, 01, "Esposo(a)......:                                           Dependentes..:")
 		Write( 09, 01, "Pai............:")
 		Write( 10, 01, "Mae............:")
 		Write( 11, 01, "Endereco.......:                                 Fone.:")
-		Write( 12, 01, "ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ")
+		Write( 12, 01, "â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€")
 		Write( 13, 01, "Profissao......:                                 Cargo.:")
 		Write( 14, 01, "Trabalho Atual.:                                 Fone..:")
 		Write( 15, 01, "Tempo Servico..:                        Renda Mensal...:")
-		Write( 16, 01, "ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ")
+		Write( 16, 01, "â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€")
 		Write( 17, 01, "Referencia.....:                                                  Spc...:")
 		Write( 18, 01, "Referencia.....:")
 		Write( 19, 01, "Bens Imoveis...:")
 		Write( 20, 01, "Veiculos.......:")
-		Write( 21, 01, "ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ")
+		Write( 21, 01, "â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€")
 		Write( 22, 01, "Pessoa Conhec..:")
 		Write( 23, 01, "Endereco.......:")
 
@@ -3978,8 +3977,8 @@ WHILE OK
 		dIni		 := Date()-30
 		dFim		 := Date()
 		MaBox( 12, 20, 15, 45 )
-		@ 13, 21 Say "Emissao Ini ¯" Get dIni Pict "##/##/##"
-		@ 14, 21 Say "Emissao Fim ¯" Get dFim Pict "##/##/##"
+		@ 13, 21 Say "Emissao Ini Â»" Get dIni Pict "##/##/##"
+		@ 14, 21 Say "Emissao Fim Â»" Get dFim Pict "##/##/##"
 		Read
 		if LastKey() = ESC
 			ResTela( cScreen )
@@ -5898,7 +5897,7 @@ WHILE !Eof() .AND. Rel_Ok() .AND. !Eof()
 	Write( Prow()+1, 00, Cep + "/" + Cida )
 	Write( Prow(),   48, Esta )
 	Write( Prow()+1, 00, "CIC")
-	Write( Prow(),   48, "Carteira de Identidade N§")
+	Write( Prow(),   48, "Carteira de Identidade NÂº")
 	Write( Prow()+1, 00, Cpf )
 	Write( Prow(),   48, Rg )
 	Write( Prow()+1, 00, "CGC/MF")
@@ -6010,14 +6009,14 @@ WHILE !Eof() .AND. Rel_Ok() .AND. !Eof()
 	Write( Col++, 48, "CGC/MF...: "       + Cgc )
 	Write( Col,   00, "Telefone.......: " + Fone )
 	Write( Col++, 48, "Fax......: "       + Fax )
-	Write( Col++, 00, "ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ")
+	Write( Col++, 00, "â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€")
 	Write( Col,   00, "Esposo(a)......: " + Esposa )
 	Write( Col++, 58, "Dependentes..: "   + StrZero( Depe, 2))
 	Write( Col++, 00, "Pai............: " + Pai )
 	Write( Col++, 00, "Mae............: " + Mae )
 	Write( Col,   00, "Endereco.......: " + Ende1 )
 	Write( Col++, 48, "Fone.: "           + Fone )
-	Write( Col++, 00, "ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ")
+	Write( Col++, 00, "â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€")
 	Write( Col,   00, "Profissao......: " + Profissao )
 	Write( Col++, 48, "Cargo.: "          + Cargo )
 	Write( Col,   00, "Trabalho Atual.: " + Trabalho  )
@@ -6026,13 +6025,13 @@ WHILE !Eof() .AND. Rel_Ok() .AND. !Eof()
 	Write( Col++, 48, "Renda Mensal...: " + Tran( Media , "@E 99,999,999.99" ))
 	Write( Col,   00, "Autoriza Compra: " + if( Autorizaca, "SIM", "NAO"))
 	Write( Col++, 48, "Assinou Autoriz: " + if( AssAutoriz, "SIM", "NAO"))
-	Write( Col++, 00, "ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ")
+	Write( Col++, 00, "â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€")
 	Write( Col,   00, "Referencia.....: " + RefBco )
 	Write( Col++, 65, "Spc...: " + if( Spc, "SIM", "NAO" ))
 	Write( Col++, 00, "Referencia.....: " + RefCom)
 	Write( Col++, 00, "Bens Imoveis...: " + Imovel )
 	Write( Col++, 00, "Veiculos.......: " + Veiculo )
-	Write( Col++, 00, "ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ")
+	Write( Col++, 00, "â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€")
 	Write( Col++, 00, "Avalista.......: " + Conhecida )
 	Write( Col++, 00, "Endereco.......: " + Ende3 )
 	Write( Col,   00, "Cidade.........: " + CidaAval )
@@ -6043,7 +6042,7 @@ WHILE !Eof() .AND. Rel_Ok() .AND. !Eof()
 	Write( Col++, 48, "Fax......: " + FaxAval )
 	Write( Col,   00, "Rg n?.........: " + RgAval )
 	Write( Col++, 48, "Cpf......: " + CpfAval )
-	Write( Col++, 00, "ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ")
+	Write( Col++, 00, "â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€")
 	Write( Col++, 00, "Observacoes....: " + Obs )
 	Write( Col++, 00, "                 " + Obs1  )
 	Write( Col++, 00, "                 " + Obs2  )
@@ -9056,8 +9055,8 @@ WHILE OK
 		dBaixaIni := Date()-30
 		dBaixaFim := Date()
 		MaBox( 15 , 20 , 18, 75 )
-		@ 16, 21 Say  "Data Baixa Inicial..¯" Get dBaixaIni Pict "##/##/##"
-		@ 17, 21 Say  "Data Baixa Final....¯" Get dBaixaFim Pict "##/##/##"
+		@ 16, 21 Say  "Data Baixa Inicial..Â»" Get dBaixaIni Pict "##/##/##"
+		@ 17, 21 Say  "Data Baixa Final....Â»" Get dBaixaFim Pict "##/##/##"
 		Read
 		if LastKey() = ESC
 			ResTela( cScreen )
@@ -9421,7 +9420,7 @@ endif
 Do Case
 Case oCol:Heading = "CLIENTE"
    ErrorBeep()
-	Alerta("Opa! Alteracao n„o permitida. Altere o cadastro do cliente..")
+	Alerta("Opa! Alteracao nÃ£o permitida. Altere o cadastro do cliente..")
 	return( FALSO )
 
 Case oCol:Heading = "CODIGO"
@@ -9926,10 +9925,11 @@ Proc MenuTxJuros( nChoice )
 ***************************
 LOCAL GetList  := {}
 LOCAL cScreen  := SaveScreen()
-LOCAL aMenu1   := {'Geral','Individual'}
+LOCAL aMenu1   := {'Geral','Individual', 'Somente ativos'}
 LOCAL aMenu2   := {'Juros Simples','Juros Composto','Juros Capitalizado','Juros Sobre Juro'}
 LOCAL nChoice1 := 0
 LOCAL nChoice2 := 0
+LOCAL nMenu
 
 WHILE OK
 	oMenu:Limpa()
@@ -9943,7 +9943,9 @@ WHILE OK
          if nChoice1 = 1
             nChoice = 3.03
          elseif nChoice1 = 2
-            nChoice = 3.04
+         	nChoice = 3.04
+			elseif nChoice1 = 3
+            nChoice = 3.05
          endif
       endif
    endif
@@ -9970,6 +9972,13 @@ WHILE OK
 
       Case nChoice = 3.04 .AND. nChoice2 >= 2   // Composto Individual
          AltJrInd(2, oAmbiente:aSciArray[1,SCI_JUROMESCOMPOSTO])
+
+      Case nChoice = 3.05 .AND. nChoice2 = 1    // Simples Individual
+         AltJrGeral(1, oAmbiente:aSciArray[1,SCI_JUROMESSIMPLES], (nMenu := nChoice))
+
+      Case nChoice = 3.05 .AND. nChoice2 >= 2   // Composto Individual
+         AltJrGeral(2, oAmbiente:aSciArray[1,SCI_JUROMESCOMPOSTO], (nMenu := nChoice))
+
      EndCase
    EndDo
    if LastKey() = ESC
@@ -10084,42 +10093,103 @@ if lResult
 endif
 return lResult
 
-function CalcCmJuros( nChoice, nJuro, nVlr, dVcto, dData)
-*********************************************************
-LOCAL nDias      := 0
-LOCAL nValorCm   := 0
-LOCAL nCm        := 0
+Proc AltJrGeral(nChoice, nJuro, nMenu)
+**************************************
+LOCAL GetList    := {}
+LOCAL aJuro      := {}
+LOCAL cScreen    := SaveScreen()
 LOCAL nJuroDia   := 0
 LOCAL nJuroTotal := 0
-LOCAL aJuro      := {}
+LOCAL nValorCm   := 0
+LOCAL nCm        := 0
+LOCAL nVcto      := 0
+LOCAL dData      := Date()
+LOCAL nDias      := 0
+LOCAL cCodi
 
-__DefaultNIL(@nChoice, 1)
-__DefaultNIL(@nJuro, oAmbiente:aSciArray[1,SCI_JUROMESCOMPOSTO])
-__DefaultNIL(@nVlr, 0)
-__DefaultNIL(@dVcto, Date())
-__DefaultNIL(@dData, Date())
+MaBox( 12, 05, 15, 54 )
+@ 13, 06 Say "Entre com a Taxa de Juros...:" Get nJuro Pict "999.99"
+@ 14, 06 Say "Atualizar ate Data..........:" Get dData Pict "##/##/##"
+Read
+if LastKey() = ESC
+	ResTela( cScreen )
+	return
+endif
 
-aJuro              := {}
-nDias              := (dData-dVcto)
-nValorCm           := CalculaCm(nVlr, dVcto, dData)
-nCm                := (nValorCm - nVlr)
-if nChoice = 1
-   nJuroDia        := JuroDia( nValorCm, nJuro, XJURODIARIO)
-   nJuroTotal      := (nJuroDia * nDias)
-   nJuroTotal      += nCm
-   nJuroDia        := (nJuroTotal / nDias)
-else
-   aJuro           := aAntComposto( nValorCm, nJuro, nDias, XJURODIARIO)
-   nJuroDia        := aJuro[6]
-   nJuroTotal      := aJuro[5]
-   nJuroTotal      += nCm
-   nJuroDia        := (nJuroTotal / nDias)
-endif               
-return({nJuro, nJurodia, nJuroTotal})
+Receber->(Order(RECEBER_CODI))
+Recemov->(Order(RECEMOV_CODI))
+if Conf("Pergunta: Confirma atualizacao geral da taxa de juro ?")
+   oMenu:Limpa()
+   Mensagem("Aguarde. Atualizando.")
+	Receber->(DbGotop())
+	WHILE Receber->(!Eof()) .AND. LastKey() != ESC
+		if nMenu = 3.05 // Somente ativos
+			Receber->(Order(RECEBER_CODI))
+			if !Receber->Suporte
+				Receber->(DbSkip(1))
+				Loop
+			endif
+			if Receber->Cancelada
+				Receber->(DbSkip(1))
+				Loop
+			endif			
+		endif		
+
+		cCodi := Receber->Codi
+		if Recemov->(DbSeek(cCodi))
+	      WHILE Recemov->Codi = cCodi .AND. LastKey() != ESC
+         	Mensagem(" Aguarde. Atualizando Taxas de Juros # " + Recemov->(Barra()))
+	         if nJuro <> 0
+   	         dVcto              := Recemov->Vcto
+     	       	nVlr               := Recemov->Vlr
+     	       	nDias              := (dData-dVcto)
+     	       	nValorCm           := CalculaCm(nVlr, dVcto, dData)
+     	       	nCm                := (nValorCm - nVlr)
+            	if nChoice = 1
+               	nJuroDia        := JuroDia( nValorCm, nJuro, XJURODIARIO)
+               	nJuroTotal      := (nJuroDia * nDias)
+               	nJuroTotal      += nCm
+               	nJuroDia        := (nJuroTotal / nDias)
+            	else
+               	aJuro           := aAntComposto( nValorCm, nJuro, nDias, XJURODIARIO)
+               	nJuroDia        := aJuro[6]
+               	nJuroTotal      := aJuro[5]
+               	nJuroTotal      += nCm
+               	nJuroDia        := (nJuroTotal / nDias)
+            	endif
+					if Recemov->(TravaReg())
+            		Recemov->Juro      := nJuro
+            		Recemov->JuroDia   := nJuroDia
+            		Recemov->JuroTotal := nJuroTotal
+						Recemov->(Libera())
+					endif
+         	else
+					if Recemov->(TravaReg())
+            		Recemov->Juro      := 0
+            		Recemov->JuroDia   := 0
+            		Recemov->JuroTotal := 0
+						Recemov->(Libera())
+					endif						
+         	endif
+				Recemov->(DbSkip(1))
+         	if LastKey() = ESC
+            	if Conf("Pergunta: Cancelar?")
+               	Exit
+            	endif
+         	endif
+			EndDo
+		endif
+		Receber->(DbSkip(1))
+	enddo
+	ResTela( cScreen )
+	ErrorBeep()
+	Alerta("Informa: Taxas Atualizadas.")
+endif
+
 *:---------------------------------------------------------------------------------------------------------------------------------
 
-Proc AltJrGeral(nChoice, nJuro)
-*******************************
+Proc AltJrGeralOLD(nChoice, nJuro, nMenu)
+**************************************
 LOCAL GetList    := {}
 LOCAL aJuro      := {}
 LOCAL cScreen    := SaveScreen()
@@ -10138,6 +10208,10 @@ Read
 if LastKey() = ESC
 	ResTela( cScreen )
 	return
+endif
+
+if nMenu = 3.05 // Somente ativos
+	Receber->(Order(RECEBER_CODI))
 endif
 if Conf("Pergunta: Confirma atualizacao geral da taxa de juro ?")
    oMenu:Limpa()
@@ -10186,6 +10260,41 @@ if Conf("Pergunta: Confirma atualizacao geral da taxa de juro ?")
 		Alerta("Informa: Taxas Atualizadas.")
 	endif
 endif
+
+*:---------------------------------------------------------------------------------------------------------------------------------
+
+function CalcCmJuros( nChoice, nJuro, nVlr, dVcto, dData)
+*********************************************************
+LOCAL nDias      := 0
+LOCAL nValorCm   := 0
+LOCAL nCm        := 0
+LOCAL nJuroDia   := 0
+LOCAL nJuroTotal := 0
+LOCAL aJuro      := {}
+
+__DefaultNIL(@nChoice, 1)
+__DefaultNIL(@nJuro, oAmbiente:aSciArray[1,SCI_JUROMESCOMPOSTO])
+__DefaultNIL(@nVlr, 0)
+__DefaultNIL(@dVcto, Date())
+__DefaultNIL(@dData, Date())
+
+aJuro              := {}
+nDias              := (dData-dVcto)
+nValorCm           := CalculaCm(nVlr, dVcto, dData)
+nCm                := (nValorCm - nVlr)
+if nChoice = 1
+   nJuroDia        := JuroDia( nValorCm, nJuro, XJURODIARIO)
+   nJuroTotal      := (nJuroDia * nDias)
+   nJuroTotal      += nCm
+   nJuroDia        := (nJuroTotal / nDias)
+else
+   aJuro           := aAntComposto( nValorCm, nJuro, nDias, XJURODIARIO)
+   nJuroDia        := aJuro[6]
+   nJuroTotal      := aJuro[5]
+   nJuroTotal      += nCm
+   nJuroDia        := (nJuroTotal / nDias)
+endif               
+return({nJuro, nJurodia, nJuroTotal})
 
 *:---------------------------------------------------------------------------------------------------------------------------------
 
@@ -10528,7 +10637,7 @@ def GrafBidoAnual(nOp)
 
    SetColor("")
    Cls
-   Grafico( aMes, true,"EVOLUCAO MENSAL DE TITULOS RECEBIDO - &cUltimo. AT &cAno.", cValor, AllTrim(oAmbiente:xNomefir), nBase )
+   Grafico( aMes, true,"EVOLUCAO MENSAL DE TITULOS RECEBIDO - &cUltimo. ATÃ‰ &cAno.", cValor, AllTrim(oAmbiente:xNomefir), nBase )
    Inkey(0)
    oAmbiente:cTipoRecibo := NIL
    return(ResTela(cScreen))
@@ -10735,7 +10844,7 @@ def PreDoRecibo( oBrowse )
 	do case 
 	case oCol:Heading == "CLIENTE"
 		ErrorBeep()
-		MsgOk( oCol:Heading + ";;Opa! Alteracao n„o permitida!;Altere o cadastro do cliente.")		
+		MsgOk( oCol:Heading + ";;Opa! Alteracao nÃ£o permitida!;Altere o cadastro do cliente.")		
 		return( FALSO )
 	case oCol:Heading == "DATA"
 		if !lUsuarioAdmin
@@ -11041,12 +11150,12 @@ While Eval( oBloco ) .AND. !Eof() .AND. Rel_Ok()
 	if Col >= 54 .OR. UltCodi != Field->Codi
 		Qout(Repl( SEP, Tam ))
 		if lTribunal
-			Qout("TOTAIS          ¯¯ {" + StrZero(o:nRegTribunal, 5) + "}", Space(7), Tran(o:nVlrPrincipalTribunal, "@E 99,999.99"), Space(17), Tran( o:nVlrCorrigidoTotal, "@E 9,999,999.99"),;
+			Qout("TOTAIS          Â»Â» {" + StrZero(o:nRegTribunal, 5) + "}", Space(7), Tran(o:nVlrPrincipalTribunal, "@E 99,999.99"), Space(17), Tran( o:nVlrCorrigidoTotal, "@E 9,999,999.99"),;
 					Space(4), Tran( o:nSoJurosTotal, "@E 9,999,999.99"), Tran( o:nVlrCorrigidoMaisnSoJuros, "@E 9,999,999.99"), Tran( o:nMultaTotal, "@E 9,999,999.99"), Tran( o:nTotalGeral, "@E 9,999,999.99")) 
 		else	
-			Qout(NG + "RECIBO EMITIDO  ¯¯ {" + StrZero(o:nRegRecibo,  5) + "}", space(46), Tran( o:nVlrPrincipalRecibo,  "@E 9,999,999.99" ), space(14), Tran( o:nTotalRecibo, "@E 9,999,999.99" ) + NR)
-			Qout(NG + "VENCIDO ABERTO  ¯¯ {" + StrZero(o:nRegVencido, 5) + "}", Space(46), Tran( o:nVlrPrincipalVencido, "@E 9,999,999.99" ), space(14), Tran( 0,              "@E 9,999,999.99" ), Tran( o:nTotalVencido, "@E 9,999,999.99" ) + NR)
-			Qout(NG + " VENCER ABERTO  ¯¯ {" + StrZero(o:nRegVencer,  5) + "}", Space(46), Tran( o:nVlrPrincipalVencer,  "@E 9,999,999.99" ), space(14), Tran( 0,              "@E 9,999,999.99" ), Tran( o:nTotalVencer,  "@E 9,999,999.99" ) + NR)						
+			Qout(NG + "RECIBO EMITIDO  Â»Â» {" + StrZero(o:nRegRecibo,  5) + "}", space(46), Tran( o:nVlrPrincipalRecibo,  "@E 9,999,999.99" ), space(14), Tran( o:nTotalRecibo, "@E 9,999,999.99" ) + NR)
+			Qout(NG + "VENCIDO ABERTO  Â»Â» {" + StrZero(o:nRegVencido, 5) + "}", Space(46), Tran( o:nVlrPrincipalVencido, "@E 9,999,999.99" ), space(14), Tran( 0,              "@E 9,999,999.99" ), Tran( o:nTotalVencido, "@E 9,999,999.99" ) + NR)
+			Qout(NG + " VENCER ABERTO  Â»Â» {" + StrZero(o:nRegVencer,  5) + "}", Space(46), Tran( o:nVlrPrincipalVencer,  "@E 9,999,999.99" ), space(14), Tran( 0,              "@E 9,999,999.99" ), Tran( o:nTotalVencer,  "@E 9,999,999.99" ) + NR)						
 			Qout()
 			Qout("EXTRATO PARA SIMPLES CONFERENCIA. NAO VALE COMO RECIBO.")
 			Qout("NOS RESERVAMOS DE COBRAR VALORES QUE NAO ESTEJAM LANCADOS E EXPRESSOS NOS TERMOS E CONDICOES DO CONTRATO.")

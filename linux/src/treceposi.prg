@@ -483,7 +483,7 @@ METHOD ZerarRescisao
 	return self		
 	
 METHOD RedrawRecibo 
-	::cStrRecibo := " RECIBO EMITIDO ¯¯ {"
+	::cStrRecibo := " RECIBO EMITIDO Â¯Â¯ {"
 	::cStrRecibo += StrZero(::nQtdDoc_Recibo,5)
 	::cStrRecibo += "}" + Space(::nTab)
 	::cStrRecibo += Tran(::nPrincipal_Recibo, "@E 999,999.99") + Space(9)
@@ -494,9 +494,9 @@ METHOD RedrawRecibo
 	return(::cStrRecibo)	
 
 METHOD RedrawVencido 
-   ::cStrVencido := " ABERTO VENCIDO ¯¯ {"
+   ::cStrVencido := " ABERTO VENCIDO Â¯Â¯ {"
 	if ::nOrdem == 3
-	::cStrVencido := "   PAGO VENCIDO ¯¯ {"
+	::cStrVencido := "   PAGO VENCIDO Â¯Â¯ {"
 	endif
 	::cStrVencido += StrZero(::nQtdDoc_Vencido,5)
 	::cStrVencido += "}" + Space(::nTab)
@@ -508,9 +508,9 @@ METHOD RedrawVencido
 	return(::cStrVencido)	
 
 METHOD RedrawVencer 
-	::cStrVencer := " ABERTO VENCER  ¯¯ {"
+	::cStrVencer := " ABERTO VENCER  Â¯Â¯ {"
 	if ::nOrdem == 3
-	::cStrVencer := "   PAGO VENCER  ¯¯ {"
+	::cStrVencer := "   PAGO VENCER  Â¯Â¯ {"
 	
 	endif
 	::cStrVencer += StrZero(::nQtdDoc_Vencer,5)
@@ -524,7 +524,7 @@ METHOD RedrawVencer
 	return(::cStrVencer)
 
 METHOD RedrawGeral 
-	::cStrGeral := " TOTAL GERAL    ¯¯ {"
+	::cStrGeral := " TOTAL GERAL    Â¯Â¯ {"
 	::cStrGeral += StrZero(::nQtdDoc_Geral, 5)
 	::cStrGeral += "}" + Space(::nTab)
 	::cStrGeral += Tran(::nPrincipal_Geral, "@E 999,999.99") + Space(9)
@@ -535,7 +535,7 @@ METHOD RedrawGeral
 	return(::cStrGeral)	
 
 METHOD RedrawSelecao 	
-	::cStrSelecao := " TOTAL SELECAO  ¯¯ {"
+	::cStrSelecao := " TOTAL SELECAO  Â¯Â¯ {"
 	::cStrSelecao += StrZero(Len(::aDocnr_Selecao_Imprimir),5)
 	::cStrSelecao += "}" + Space(::nTab)
 	::cStrSelecao += Tran(::nPrincipalSelecao, 		"@E 999,999.99") + Space(9)
@@ -549,7 +549,7 @@ METHOD RedrawSelecao
 
 METHOD _SomaPago( nValorTotal, nValorPago )
 *********************************************
-	 ::cStrRecibo := " TOTAL GERAL ¯¯ "
+	 ::cStrRecibo := " TOTAL GERAL Â¯Â¯ "
 	 ::cStrRecibo += Space(27 + ::nTab)
 	 ::cStrRecibo += Tran(nValorTotal, "@E 999,999,999.99")
 	 ::cStrRecibo += Space(01)

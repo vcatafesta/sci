@@ -1,17 +1,17 @@
 /*
-  ��������������������������������������������������������������������������?
- ݳ																								 �
- ݳ   Programa.....: SCI.PRG                                                �
- ݳ   Aplicacao....: SCI - SISTEMA COMERCIAL INTEGRADO SCI                  �
- ݳ   Versao.......: 10.0.00                                                �
- ݳ   Escrito por..: Vilmar Catafesta                                       �
- ݳ   Empresa......: Macrosoft Sistemas de Informatica Ltda.                �
- ݳ   Inicio.......: 12 de Novembro de 1991                                 �
- ݳ   Ult.Atual....: 30 de Maio de 2020                                     �
- ݳ   Linguagem....: Harbour 3.4                                            �
- ݳ   Linker.......: Gcc                                                    �
- ����������������������������������������������������������������������������
- ��������������������������������������������������������������������������
+  ┌─────────────────────────────────────────────────────────────────────────?
+ ▌│																								 │
+ ▌│   Programa.....: SCI.PRG                                                │
+ ▌│   Aplicacao....: SCI - SISTEMA COMERCIAL INTEGRADO SCI                  │
+ ▌│   Versao.......: 10.0.00                                                │
+ ▌│   Escrito por..: Vilmar Catafesta                                       │
+ ▌│   Empresa......: Macrosoft Sistemas de Informatica Ltda.                │
+ ▌│   Inicio.......: 12 de Novembro de 1991                                 │
+ ▌│   Ult.Atual....: 30 de Maio de 2020                                     │
+ ▌│   Linguagem....: Harbour 3.4                                            │
+ ▌│   Linker.......: Gcc                                                    │
+ ▌└─────────────────────────────────────────────────────────────────────────┘
+ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 */
 
 /*
@@ -568,7 +568,7 @@ init def Main(...)
 				CriaNewNota()
 			Case oPc = 8.03
 				 ErrorBeep()
-				 if Conf("Pergunta: Continuar com a opera�ao ?")
+				 if Conf("Pergunta: Continuar com a opera∩┐╜ao ?")
 					 oPrinter:CriaNewPrinter()
 					 FechaTudo()
 					 if AbreArquivo('PRINTER')
@@ -582,7 +582,7 @@ init def Main(...)
 				 endif
 			Case oPc = 8.04
 				 ErrorBeep()
-				 IF Conf("Pergunta: Continuar com a opera�ao ?")
+				 IF Conf("Pergunta: Continuar com a opera∩┐╜ao ?")
 					 CriaNewEnt()
 					 FechaTudo()
 					 IF AbreArquivo('ENTNOTA')
@@ -596,7 +596,7 @@ init def Main(...)
 				 EndIF
 			Case oPc = 8.05
 				 ErrorBeep()
-				 IF Conf("Pergunta: Continuar com a opera�ao ?")
+				 IF Conf("Pergunta: Continuar com a opera∩┐╜ao ?")
 					 Fechatudo()
 					 IF AbreArquivo('PREVENDA')
 						 oIndice:ProgressoNtx := true
@@ -778,17 +778,17 @@ MsWriteLine( Handle, "@ECHO OFF")
 MsWriteLine( Handle, "CLS")
 MsWriteLine( Handle, Left( oAmbiente:xBase, 2 ))
 MsWriteLine( Handle, "CD " + oAmbiente:xBase )
-MsWriteLine( Handle, "ECHO �����������������������������������������������������������������������������͸")
-MsWriteLine( Handle, "ECHO � ����  ����Macrosoft           �Av Castelo Branco, 693 - Pioneiros           �")
-MsWriteLine( Handle, "ECHO � �� ���� ��   Informatica      �Fone (69)3451-3085                           �")
-MsWriteLine( Handle, "ECHO � ��  ��  ��      Ltda          �76976-000/Pimenta Bueno - Rondonia           �")
-MsWriteLine( Handle, "ECHO �����������������������������������������������������������������������������;")
+MsWriteLine( Handle, "ECHO ∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜═╕")
+MsWriteLine( Handle, "ECHO ∩┐╜ ∩┐╜∩┐╜∩┐╜∩┐╜  ∩┐╜∩┐╜∩┐╜∩┐╜Macrosoft           ∩┐╜Av Castelo Branco, 693 - Pioneiros           ∩┐╜")
+MsWriteLine( Handle, "ECHO ∩┐╜ ∩┐╜∩┐╜ ∩┐╜∩┐╜∩┐╜∩┐╜ ∩┐╜∩┐╜   Informatica      ∩┐╜Fone (69)3451-3085                           ∩┐╜")
+MsWriteLine( Handle, "ECHO ∩┐╜ ∩┐╜∩┐╜  ∩┐╜∩┐╜  ∩┐╜∩┐╜      Ltda          ∩┐╜76976-000/Pimenta Bueno - Rondonia           ∩┐╜")
+MsWriteLine( Handle, "ECHO ∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜═╛")
 MsWriteLine( Handle, "ECHO ")
-MsWriteLine( Handle, "ECHO �����������������������������������������������������������������������������͸")
-MsWriteLine( Handle, "ECHO � Insira o disco de backup no drive A: e tecle ENTER para iniciar             �")
-MsWriteLine( Handle, "ECHO �                                                                             �")
-MsWriteLine( Handle, "ECHO � CUIDADO!! Os dados do drive A: serao todos apagados.                        �")
-MsWriteLine( Handle, "ECHO �������������������������������������������������������������������������������")
+MsWriteLine( Handle, "ECHO ∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜═╕")
+MsWriteLine( Handle, "ECHO ∩┐╜ Insira o disco de backup no drive A: e tecle ENTER para iniciar             ∩┐╜")
+MsWriteLine( Handle, "ECHO ∩┐╜                                                                             ∩┐╜")
+MsWriteLine( Handle, "ECHO ∩┐╜ CUIDADO!! Os dados do drive A: serao todos apagados.                        ∩┐╜")
+MsWriteLine( Handle, "ECHO ∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜")
 MsWriteLine( Handle, "PAUSE >NUL")
 MsWriteLine( Handle, "COMPRIME -EX -RP -SMSIL -&F A:\SCI *.DBF + *.CFG + *.DOC + *.TXT + *.BAT + *.ETI + *.NFF + *.COB + *.DUP")
 FClose( Handle )
@@ -1150,7 +1150,7 @@ def CriaBcoDadosEmpresa()
 		//	Quit
 		//EndIF
 		MaBox( 10, 10, 13, 42, "EMPRESA" )
-		Write( 12, 11, "CODIGO ��������" )
+		Write( 12, 11, "CODIGO ∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" )
 		oIndice:DbfNtx("empresa")
 		oIndice:AddNtx("Codi","empresa", "empresa" )
 		oIndice:CriaNtx()
@@ -2024,7 +2024,7 @@ ErrorBeep()
 IF lNenhum
 	cString := "Nenhum Modulo {...}"
 EndIF
-Alert("Erro: Usuario Com Acesso Restrito ao:;������������������������������������;" + cString )
+Alert("Erro: Usuario Com Acesso Restrito ao:;∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜;" + cString )
 Return( NIL )
 
 Proc Carta( lFecharTudo )
@@ -2494,7 +2494,7 @@ EndDo
 Function Linha1( Tam, Pagina )
 ********************************
 LOCAL nDiv := Tam / 2
-Return( Padr( "Pagina N� " + StrZero(++Pagina,5), nDiv ) + Padl(Time(), nDiv ))
+Return( Padr( "Pagina N∩┐╜ " + StrZero(++Pagina,5), nDiv ) + Padl(Time(), nDiv ))
 
 Function Linha2()
 *****************
@@ -2598,7 +2598,7 @@ WHILE OK
 	ResTela( cTela )
 	IF Len( aArray ) != 0
 		MaBox( 09, 00, 24, 79 )
-		Aadd( aArray, Repl("�",80))
+		Aadd( aArray, Repl("∩┐╜",80))
 		Aadd( aArray, Rjust("VALOR TOTAL " + Tran( nTotal, "@E 999,999,999.99"), 78))
 		Aadd( aArray, Rjust("  COM JUROS " + Tran( nTotalJuros, "@E 999,999,999.99"), 78))
 		Print( 09, 01, "DATA     FATURA   CODIGO DESCRICAO DO PRODUTO                 QUANT   UNITARIO", Roloc( Cor()))
@@ -3444,7 +3444,7 @@ endef
 def lCancelou()
 *+-------------+*
 	if LastKey() = K_ESC
-		if alerta("INFO: Tarefa n�o concluida. Banco de Dados poder� ficar inconsitente.;; Deseja cancelar mesmo assim?", {" Sim ", " Nao "}) == 1
+		if alerta("INFO: Tarefa n∩┐╜o concluida. Banco de Dados poder∩┐╜ ficar inconsitente.;; Deseja cancelar mesmo assim?", {" Sim ", " Nao "}) == 1
 			FechaTudo()
 			return false
 		endif
@@ -3595,7 +3595,7 @@ WHILE OK
 	oRelato:NomeFirma := AllTrim(oAmbiente:xFanta)
 	oRelato:Sistema	:= SISTEM_NA3
 	oRelato:Titulo 	:= cTitulo
-	oRelato:Cabecalho := "TIPO    CODI NOME CLIENTE                     DOCTO N�     VCTO    PAGTO     HORA  RECEBIDO CAIXA HISTORICO"
+	oRelato:Cabecalho := "TIPO    CODI NOME CLIENTE                     DOCTO N∩┐╜     VCTO    PAGTO     HORA  RECEBIDO CAIXA HISTORICO"
 	
 	if !lVideo
 		IF !Instru80()
@@ -3607,13 +3607,13 @@ WHILE OK
 		EndIF
 		cTela := Mensagem("Aguarde, Imprimindo Relatorio de Recibos.")
 		oRelato:PrintOn(Chr(ESC) + "C" + Chr(33) + PQ )
-		//oRelato:Cabecalho := "TIPO    CODI NOME CLIENTE                     DOCTO N�     VCTO    PAGTO     HORA  RECEBIDO CAIXA HISTORICO"
+		//oRelato:Cabecalho := "TIPO    CODI NOME CLIENTE                     DOCTO N∩┐╜     VCTO    PAGTO     HORA  RECEBIDO CAIXA HISTORICO"
 		oRelato:Inicio()         
 	else
 		cTela := Mensagem("Aguarde, Imprimindo Relatorio de Recibos.")
 		aadd( aTodos, Padc(oRelato:Titulo, oRelato:Tamanho))
 		aadd( aTodos, Repl( oRelato:Separador, oRelato:Tamanho ))
-		aadd( aTodos, "TIPO    CODI NOME CLIENTE                     DOCTO N�     VCTO    PAGTO     HORA  RECEBIDO CAIXA HISTORICO")			
+		aadd( aTodos, "TIPO    CODI NOME CLIENTE                     DOCTO N∩┐╜     VCTO    PAGTO     HORA  RECEBIDO CAIXA HISTORICO")			
 		aadd( aTodos, Repl( oRelato:Separador, oRelato:Tamanho ))
 	endif		
 	WHILE Recibo->(!Eof()) //.AND. Rel_Ok()      
@@ -3864,7 +3864,7 @@ def UltRetorno( xCliente )
             ErrorBeep()
             MaBox( 00, 00, 09, MaxCol())
             Write( 01, 01, "Ja foi fornecido Codigo para " + Dtoc( Retorno->Limite ) + ". Verifique com o cliente as opcoes.")
-            Write( 03, 01, "1 - O SCI esta sendo instalado pela 1� vez?")
+            Write( 03, 01, "1 - O SCI esta sendo instalado pela 1∩┐╜ vez?")
             Write( 04, 01, "2 - Esta atualizando a versao do SCI?")
             Write( 05, 01, "3 - Esta instalando um novo terminal?")
             Write( 06, 01, "4 - A data do Sistema Operacional esta correta?")
@@ -4513,8 +4513,8 @@ def ConfFaturamento()
       cCabecIni      += Space( 40 - Len( Trim( cCabecIni )))
       cFantaCodeBar  := oIni:ReadString('sistema', 'fantacodebar', FANTACODEBAR + Space(10-Len(FANTACODEBAR)))
       oMenu:MaBox( 01, 01, 21, 78, "CONFIGURACAO - SAIDAS")
-      @ 02, 	  02 Say "N� Fatura Automatica.: " Get cAutoFatura    Pict "!"     Valid PickSimNao( @cAutoFatura )
-      @ Row(),   41 Say "N� Docto Automatico..: " Get cAutoDocumento Pict "!"     Valid PickSimNao( @cAutoDocumento )
+      @ 02, 	  02 Say "N∩┐╜ Fatura Automatica.: " Get cAutoFatura    Pict "!"     Valid PickSimNao( @cAutoFatura )
+      @ Row(),   41 Say "N∩┐╜ Docto Automatico..: " Get cAutoDocumento Pict "!"     Valid PickSimNao( @cAutoDocumento )
       @ Row()+1, 02 Say "Data Emis Automatica.: " Get cAutoEmissao   Pict "!"     Valid PickSimNao( @cAutoEmissao )
       @ Row(),   41 Say "Desconto Automatico..: " Get cAutoDesconto  Pict "!"     Valid PickSimNao( @cAutoDesconto )
       @ Row()+1, 02 Say "Liquido Automatico...: " Get cAutoLiquido   Pict "!"     Valid PickSimNao( @cAutoLiquido )
@@ -4523,7 +4523,7 @@ def ConfFaturamento()
       @ Row(),   41 Say "Qtde Items Nff.......: " Get nItemNff       Pict "999"   Valid if( nItemNff <=0, ( ErrorBeep(), Alerta("Erro: Entrada invalida. Valor de 1 a 999"), FALSO ), OK )
       @ Row()+1, 02 Say "Tipo Venda Preferen..: " Get cTipoVenda     Pict "!"     Valid PickTipoVenda( @cTipoVenda )
       @ Row(),   41 Say "Preco Ticket Venda...: " Get cPrecoTicket   Pict "!"     Valid PickSimNao( @cPrecoTicket )
-      @ Row()+1, 02 Say "N� Serie Produto.....: " Get cSerieProduto  Pict "!"     Valid PickSimNao( @cSerieProduto )
+      @ Row()+1, 02 Say "N∩┐╜ Serie Produto.....: " Get cSerieProduto  Pict "!"     Valid PickSimNao( @cSerieProduto )
       @ Row(),   41 Say "Permitir Duplicidade.: " Get cDuplicidade   Pict "!"     Valid PickSimNao( @cDuplicidade )
       @ Row()+1, 02 Say "Percentual ISS.......: " Get nIss           Pict "99.99"
       @ Row(),   41 Say "Inscricao Municipal..: " Get cInscMun       Pict "@!"
@@ -4536,10 +4536,10 @@ def ConfFaturamento()
       @ Row()+1, 02 Say "Mens 2 Posicao Fat...: " Get cMens2         Pict "@!"
       @ Row()+1, 02 Say "Mens 3 Posicao Fat...: " Get cMens3         Pict "@!"
       @ Row()+1, 02 Say "Mens 4 Posicao Fat...: " Get cMens4         Pict "@!"
-      @ Row()+1, 02 Say "Mens 1� Lin Ticket...: " Get cCabecIni      Pict "@!"
-      @ Row()+1, 02 Say "Mens 2� Lin Ticket...: " Get cRamo          Pict "@!"
-      @ Row()+1, 02 Say "Mens 1� Lin Ticket PV: " Get cPvCabec       Pict "@!"
-      @ Row()+1, 02 Say "Mens 2� Lin Ticket PV: " Get cPvRamo        Pict "@!"
+      @ Row()+1, 02 Say "Mens 1∩┐╜ Lin Ticket...: " Get cCabecIni      Pict "@!"
+      @ Row()+1, 02 Say "Mens 2∩┐╜ Lin Ticket...: " Get cRamo          Pict "@!"
+      @ Row()+1, 02 Say "Mens 1∩┐╜ Lin Ticket PV: " Get cPvCabec       Pict "@!"
+      @ Row()+1, 02 Say "Mens 2∩┐╜ Lin Ticket PV: " Get cPvRamo        Pict "@!"
       @ Row()+1, 02 Say "Fantasia Codigo Barra: " Get cFantaCodeBar  Pict "@!"
       Read
       IF LastKey() = ESC
@@ -4777,8 +4777,8 @@ LOCAL cMinimoIndice := Space(1)
 
 Set Defa To ( oAmbiente:xBase )
 cObs1 		  := oIni:ReadString('notafiscal','obs1', 'ESTE DOCUMENTO NAO GERA DIREITO A CREDITO FISCAL  ')
-cObs2 		  := oIni:ReadString('notafiscal','obs2', 'CONTRIBUINTE ENQUADRADO NO SIMPLES. LEI FEDERAL N�')
-cObs3 		  := oIni:ReadString('notafiscal','obs3', '9317/96 E DECRETO ESTADUAL N� 8570/98.            ')
+cObs2 		  := oIni:ReadString('notafiscal','obs2', 'CONTRIBUINTE ENQUADRADO NO SIMPLES. LEI FEDERAL N∩┐╜')
+cObs3 		  := oIni:ReadString('notafiscal','obs3', '9317/96 E DECRETO ESTADUAL N∩┐╜ 8570/98.            ')
 cIsento		  := IF( oIni:ReadBool('notafiscal','isento', FALSO ), "S", "N")
 cMinimoIndice := IF( oIni:ReadBool('notafiscal','minimoindice', FALSO ), "S", "N")
 WHILE OK
@@ -5088,7 +5088,7 @@ WHILE OK
 	@ 06, 02 Say "Emitir Nome Cliente...: " Get cNomeEcf   Pict "!"  Valid PickSimNao( @cNomeEcf )
 	@ 06, 40 Say "Auto Emitir Cupom.....: " Get cAutoEcf   Pict "!"  Valid PickSimNao( @cAutoEcf )
 	@ 07, 02 Say "Imprimir CF em Linhas.: " Get nSigLinha  Pict "9"  Valid PickTam({'1 Linha', '2 Linhas'}, {1,2}, @nSigLinha )
-//   Write( 08, 02, Repl("�",77))
+//   Write( 08, 02, Repl("∩┐╜",77))
    oMenu:MaBox( 08, 01, 18, 78, 'CONFIGURACAO ADICIONAL PARA: ' + aEcf[2])
    @ 09, 02 Say "Aliquota Posicao 01...: " Get cPos1Icms  Pict "99.99" when nModelo == 2
    @ 09, 40 Say "Icms/Iss..............: " Get cIcmsIss1  Pict "9" Valid PickTam({'Icms', 'Iss'}, {'1','2'}, @cIcmsIss1 ) when nModelo = 2
@@ -5181,7 +5181,7 @@ LOCAL xCodigo	:= 0
 LOCAL nCol		:= LastRow()
 LOCAL nTam		:= MaxCol()
 LOCAL nPos		:= 0
-LOCAL cString1 := "�ENTER=CONSULTA�ESC=SAIR"
+LOCAL cString1 := "∩┐╜ENTER=CONSULTA∩┐╜ESC=SAIR"
 
 SetKey( F5, NIL )
 oMenu:Limpa()
@@ -5191,7 +5191,7 @@ WHILE OK
 	MaBox( 02, 01, 10, 78 )
 	MaBox( 12, 01, 22, 78 )
 	nPos := ( nTam - Len( cString1 ))
-	aPrint( nCol, 00, "�CLIQUE COM O SCANNER OU DIGITE O CODIGO DO PRODUTO", oMenu:CorCabec, MaxCol() )
+	aPrint( nCol, 00, "∩┐╜CLIQUE COM O SCANNER OU DIGITE O CODIGO DO PRODUTO", oMenu:CorCabec, MaxCol() )
 	aPrint( nCol, nPos, cString1, oMenu:CorCabec )
 	Set Conf On
 	@ 04, 10 Say "Codigo...: " Get xCodigo Pict "9999999999999" Valid TermProduto( @xCodigo )
@@ -5248,56 +5248,56 @@ Return( .T. )
 
 Function Num( nRow, nValor )
 ****************************
-LOCAL aNum := {{" ��� " ,;
-					 "�  ��" ,;
-					 "� � �" ,;
-					 "��  �" ,;
-					 " ��� "},;
-					{"  ��" ,;
-					 " � �" ,;
-					 "�  �" ,;
-					 "   �" ,;
-					 "����"},;
-					{"�����" ,;
-					 "    �" ,;
-					 "�����" ,;
-					 "�    " ,;
-					 "�����"},;
-					{"�����" ,;
-					 "    �" ,;
-					 " ����" ,;
-					 "    �" ,;
-					 "�����"},;
-					{"�   �" ,;
-					 "�   �" ,;
-					 "�����" ,;
-					 "    �" ,;
-					 "    �"},;
-					{"�����" ,;
-					 "�    " ,;
-					 "�����" ,;
-					 "    �" ,;
-					 "�����"},;
-					{"�����" ,;
-					 "�    " ,;
-					 "�����" ,;
-					 "�   �" ,;
-					 "�����"},;
-					{"�����" ,;
-					 "   ��" ,;
-					 "  �� " ,;
-					 " ��  " ,;
-					 "��   "},;
-					{"�����" ,;
-					 "�   �" ,;
-					 "�����" ,;
-					 "�   �" ,;
-					 "�����"},;
-					{"�����" ,;
-					 "�   �" ,;
-					 "�����" ,;
-					 "    �" ,;
-					 "�����"},;
+LOCAL aNum := {{" ∩┐╜∩┐╜∩┐╜ " ,;
+					 "∩┐╜  ∩┐╜∩┐╜" ,;
+					 "∩┐╜ ∩┐╜ ∩┐╜" ,;
+					 "∩┐╜∩┐╜  ∩┐╜" ,;
+					 " ∩┐╜∩┐╜∩┐╜ "},;
+					{"  ∩┐╜∩┐╜" ,;
+					 " ∩┐╜ ∩┐╜" ,;
+					 "∩┐╜  ∩┐╜" ,;
+					 "   ∩┐╜" ,;
+					 "∩┐╜∩┐╜∩┐╜∩┐╜"},;
+					{"∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "    ∩┐╜" ,;
+					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "∩┐╜    " ,;
+					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜"},;
+					{"∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "    ∩┐╜" ,;
+					 " ∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "    ∩┐╜" ,;
+					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜"},;
+					{"∩┐╜   ∩┐╜" ,;
+					 "∩┐╜   ∩┐╜" ,;
+					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "    ∩┐╜" ,;
+					 "    ∩┐╜"},;
+					{"∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "∩┐╜    " ,;
+					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "    ∩┐╜" ,;
+					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜"},;
+					{"∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "∩┐╜    " ,;
+					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "∩┐╜   ∩┐╜" ,;
+					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜"},;
+					{"∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "   ∩┐╜∩┐╜" ,;
+					 "  ∩┐╜∩┐╜ " ,;
+					 " ∩┐╜∩┐╜  " ,;
+					 "∩┐╜∩┐╜   "},;
+					{"∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "∩┐╜   ∩┐╜" ,;
+					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "∩┐╜   ∩┐╜" ,;
+					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜"},;
+					{"∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "∩┐╜   ∩┐╜" ,;
+					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "    ∩┐╜" ,;
+					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜"},;
 					{"   " ,;
 					 "   " ,;
 					 "   " ,;
@@ -5444,7 +5444,7 @@ WHILE OK
    Otherwise
       IF nIniEcf != nChoice
          ErrorBeep()
-         Alerta('Erro: ECF configurada na base de dados �: ' + aEcf[nIniEcf])
+         Alerta('Erro: ECF configurada na base de dados ∩┐╜: ' + aEcf[nIniEcf])
          Loop
       EndIF
       Ecf(nChoice, aEcf)
@@ -6363,7 +6363,7 @@ WHILE OK
 			cTime := oIni:ReadString('indices', aArquivos[nX,1], Space(08), 4 )
 			cFim	:= oIni:ReadString('indices', aArquivos[nX,1], Space(08), 5 )
 			Aadd( aDisponivel, IF( lOk == '1', OK, FALSO ))
-			Aadd( aMenu, aArquivos[nX,1] + Space(14-Len(AllTrim(aArquivos[nX,1]))) + '�' + AllTrim( cUser ) + Space(10-Len(AllTrim(cUser))) + '�' + cData + '�' + cTime  + '�' + cFim )
+			Aadd( aMenu, aArquivos[nX,1] + Space(14-Len(AllTrim(aArquivos[nX,1]))) + '∩┐╜' + AllTrim( cUser ) + Space(10-Len(AllTrim(cUser))) + '∩┐╜' + cData + '∩┐╜' + cTime  + '∩┐╜' + cFim )
 			Aadd( aTemp, aArquivos[nX,1])
 		Next
 		oMenu:Limpa()
@@ -6388,7 +6388,7 @@ WHILE OK
 		oIni:WriteString('indices', aArquivos[nChoice,1], cBuffer )
 		Aadd( aEscolhido, AllTrim(StrTran( aTemp[nChoice],'.DBF')))
 		nQuant++
-		aMenu[nChoice] 		 += " � "
+		aMenu[nChoice] 		 += " ∩┐╜ "
 		aDisponivel[nChoice]  := FALSO
 		nPosicao 				 := nChoice + 1
 	EndDo
@@ -7232,12 +7232,12 @@ FClose( nHandle )
 	SetColor("")
 	
 	MsBox( nMaxRow-8, 00, nMaxRow-3, MaxCol()-2, 9, FALSO )
-	WriteBox( nMaxRow-7, 10, "Esta � uma licen�a de uso individual e  intransfer�vel" )
-	WriteBox( nMaxRow-6, 10, "para o usuario acima. C�pia ilegais e n�o  autorizadas" )
-	WriteBox( nMaxRow-5, 10, "� crime de PIRATARIA o qual ser�o processadas a m�xima" )
-	WriteBox( nMaxRow-4, 10, "ext�ns�o da LEI.")
+	WriteBox( nMaxRow-7, 10, "Esta ∩┐╜ uma licen∩┐╜a de uso individual e  intransfer∩┐╜vel" )
+	WriteBox( nMaxRow-6, 10, "para o usuario acima. C∩┐╜pia ilegais e n∩┐╜o  autorizadas" )
+	WriteBox( nMaxRow-5, 10, "∩┐╜ crime de PIRATARIA o qual ser∩┐╜o processadas a m∩┐╜xima" )
+	WriteBox( nMaxRow-4, 10, "ext∩┐╜ns∩┐╜o da LEI.")
 	SetColor("R")
-	Write( nMaxRow-2,00, "TECLE ALGO PARA INICIAR��������������������������������������������������������")
+	Write( nMaxRow-2,00, "TECLE ALGO PARA INICIAR∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜")
 	Inkey(2)	
 	ScrollEsq()
 Return
@@ -7348,10 +7348,10 @@ def Info(nRow, lInkey)
    #endif
    
 	IF oAmbiente:Visual
-	  Print( nRow+22, 03, Padc( "Software Li�enciado para", nMaxCol-7), AscanCor(clBrightGreen))
+	  Print( nRow+22, 03, Padc( "Software Li∩┐╜enciado para", nMaxCol-7), AscanCor(clBrightGreen))
 	  Print( nRow+23, 03, Padc( XNOMEFIR, nMaxCol-7 ), AscanCor(clBrightRed))
 	Else
-	  Print( nRow+22, 03, Padc( "Software Li�enciado para" , nMaxCol-2), AscanCor(clBrightGreen))
+	  Print( nRow+22, 03, Padc( "Software Li∩┐╜enciado para" , nMaxCol-2), AscanCor(clBrightGreen))
 	  Print( nRow+23, 03, Padc( XNOMEFIR, nMaxCol-2 ), AscanCor(clBrightRed))
 	EndIF	
 		
@@ -7710,9 +7710,9 @@ Function MacroErro(e)
 	@ 4, 1  Say "Area      : "
 	@ 4, 35 Say "Indice  : "
 
-	@ 5, 1 Say "Descri�ao : "
-	@ 6, 1 Say "Explana�ao: "
-	@ 7, 1 Say "A�ao      : "
+	@ 5, 1 Say "Descri∩┐╜ao : "
+	@ 6, 1 Say "Explana∩┐╜ao: "
+	@ 7, 1 Say "A∩┐╜ao      : "
 	
 	@ 1, 14 Say csystem             				Color "W+/B"
 	@ 1, 45 Say Str(nsubcode, 4)    				Color "W+/B"
@@ -8679,7 +8679,7 @@ def Configuracao( lMicrobras, lNaoMostrarConfig)
 	Set Defa To (cBase)
 	
 	if !lNaoMostrarConfig
-		Qout("� Localizando Arquivo SCI.DBF.")
+		Qout("∩┐╜ Localizando Arquivo SCI.DBF.")
 	endif
 
 	if !file(cDbf)
@@ -8694,17 +8694,17 @@ def Configuracao( lMicrobras, lNaoMostrarConfig)
 		Quit
 	endif	
 	
-	QQout("� OK")
+	QQout("∩┐╜ OK")
 	Set Defa To (cBase)
-	//Qout("� Abrindo Arquivo SCI.DBF em " + cPath)
-	Qout("� Abrindo Arquivo SCI.DBF em " + cBase)
+	//Qout("∩┐╜ Abrindo Arquivo SCI.DBF em " + cPath)
+	Qout("∩┐╜ Abrindo Arquivo SCI.DBF em " + cBase)
 	
 	if !NetUse(cDbf, true )
 		Quit
 	endif
 	
-	QQout("� OK")
-	Qout("� Lendo Arquivo SCI.DBF em " + cBase)
+	QQout("∩┐╜ OK")
+	Qout("∩┐╜ Lendo Arquivo SCI.DBF em " + cBase)
 	For x := 1 To Sci->(FCount())
 		IF Sci->(FieldName( x )) != "TIME"
 			IF Sci->(Empty( FieldGet( x )))
@@ -8734,11 +8734,11 @@ def Configuracao( lMicrobras, lNaoMostrarConfig)
 		Alert( "Erro #0: Favor instalar arquivo SCI.DBF original.")
 		Quit
 	EndIF
-	QQout("� OK")
+	QQout("∩┐╜ OK")
 
 	** SCI.CFG *******************************************************
 	IF !lNaoMostrarConfig
-		Qout("� Localizando Arquivo SCI.CFG.")
+		Qout("∩┐╜ Localizando Arquivo SCI.CFG.")
 	EndIF
 
 	cPath := cCurDir
@@ -8761,8 +8761,8 @@ def Configuracao( lMicrobras, lNaoMostrarConfig)
 		EndIF
 		cPath := oAmbiente:xBase
 	EndIF
-	QQout("� OK")
-	Qout("� Abrindo Arquivo SCI.CFG em " + cPath)
+	QQout("∩┐╜ OK")
+	Qout("∩┐╜ Abrindo Arquivo SCI.CFG em " + cPath)
 	Handle := FOpen(cCfg)
 	IF ( Ferror() != 0 )
 		FClose( Handle )
@@ -8771,8 +8771,8 @@ def Configuracao( lMicrobras, lNaoMostrarConfig)
 		Alert( "Erro #3: Erro de Abertura do Arquivo SCI.CFG.")
 		Quit
 	EndIF
-	Qout("� Lendo Arquivo SCI.CFG em " + cPath)
-	QQout("� OK")
+	Qout("∩┐╜ Lendo Arquivo SCI.CFG em " + cPath)
+	QQout("∩┐╜ OK")
 
 	nErro := FLocate( Handle, "[ENDERECO_STRING]")
 	IF nErro < 0
@@ -8810,7 +8810,7 @@ def Configuracao( lMicrobras, lNaoMostrarConfig)
 	FClose( Handle )	
 	//VerExe()
 	IF !lNaoMostrarConfig
-		Qout("� Verificando Aplicativo.")
+		Qout("∩┐╜ Verificando Aplicativo.")
 	EndIF
 	*:*******************************************************************************
 	oAmbiente:xDataCodigo 	:= MsDecrypt( oAmbiente:XLIMITE )
@@ -9331,7 +9331,7 @@ def SetaIniLeto()
                         }
 	
 	CriarDiretorios()
-	Qout("� Iniciando Conexao com Servidor LETO.")	
+	Qout("∩┐╜ Iniciando Conexao com Servidor LETO.")	
 	cTela := SaveScreen()
 	if oAmbiente:argc    	== 0	
 		cLetoIP             := oIni:ReadString('LETO', 'ip', cHost)
@@ -9372,13 +9372,13 @@ def SetaIniLeto()
 			nChoice := AlertaPy(;
                      cSistema + ;
                      + ';-;-' + ;
-                     + ';'   + "Conectado a Esta��o   : " + AllTrim(Left(NetName(),20)) + ;
-							+ ';'   + "IP da Esta��o Remota  : " + StrGetIp() + ;
+                     + ';'   + "Conectado a Esta∩┐╜∩┐╜o   : " + AllTrim(Left(NetName(),20)) + ;
+							+ ';'   + "IP da Esta∩┐╜∩┐╜o Remota  : " + StrGetIp() + ;
 							+ ';'   + "Diretorio de trabalho : " + oAmbiente:xRoot + ;
 							+ ";-;AVISO: SERVIDOR TCP/IP LETO CONFIGURADO EM: " + ;
                      + ";Arquivo: " + cPathLocal + "/sci.ini" + ;							                     
 							+ ';-;' + cString + ;
-							+ ';-;' + "ESCOLHA UMA DAS OP��ES ABAIXO;-;", aCor, aCentralizar, lOk := true, aPrompt;
+							+ ';-;' + "ESCOLHA UMA DAS OP∩┐╜∩┐╜ES ABAIXO;-;", aCor, aCentralizar, lOk := true, aPrompt;
 							)
 			if     nchoice == 0 .OR. nChoice == 3
 				Terminate()
@@ -9835,15 +9835,15 @@ LOCAL aMensagem		:= Array(3,5)
 		aMensagem[1,5] := ""
 
 		aMensagem[2,1] := "[Verificacao de Copia Original]"
-		aMensagem[2,2] := "1 - O SCI esta sendo instalado pela 1� vez ?"
+		aMensagem[2,2] := "1 - O SCI esta sendo instalado pela 1∩┐╜ vez ?"
 		aMensagem[2,3] := "2 - Esta atualizando a versao do SCI ?"
 		aMensagem[2,4] := "3 - Esta instalando um novo terminal ?"
 		aMensagem[2,5] := "4 - Caso Positivo, solicite Codigo de Acesso."
 
 		aMensagem[3,1] := "[Renovacao de Codigo de Acesso]"
-		aMensagem[3,2] := "1 - Informe ao nosso suporte tecnico que est� sendo"
+		aMensagem[3,2] := "1 - Informe ao nosso suporte tecnico que est∩┐╜ sendo"
 		aMensagem[3,3] := "    um pedido antecipado de codigo de acesso, e que"
-		aMensagem[3,4] := "    o mesmo � de seu conhecimento.                 "
+		aMensagem[3,4] := "    o mesmo ∩┐╜ de seu conhecimento.                 "
 		aMensagem[3,5] := ""
 
 if ProcName != NIL
@@ -9912,7 +9912,7 @@ WHILE OK
 	cCrc := Right(StrZero( nCrc, 10),3)
 	if cCrc != Right( cSenha, 3 )
 		ErrorBeep()
-		Alert("Erro : O Codigo de Acesso inv�lido. Solicite Novamente.")
+		Alert("Erro : O Codigo de Acesso inv∩┐╜lido. Solicite Novamente.")
 		Loop
 	endif
 	Set Date To USA // mm/dd/yy

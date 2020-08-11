@@ -1,0 +1,1918 @@
+#line 27 "tget.prg"
+_HB_CLASS Get ; function Get ( ... ) ; STATIC s_oClass ; LOCAL nScope, oClass, oInstance ; IF s_oClass == NIL .AND. __clsLockDef( @s_oClass ) ; BEGIN SEQUENCE ; nScope := 1 ; ( ( nScope ) ) ; oClass := iif( .F.,, HBClass():new( "Get", iif( .F., { }, { @HBObject() } ), @Get() ) ) ;
+
+   nScope := 2; ( ( nScope ) )
+
+
+   _HB_MEMBER { bBlock } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"bBlock"}, .F. )
+   _HB_MEMBER { xSubScript } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"xSubScript"}, .F. )
+   _HB_MEMBER { cPicture } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"cPicture"}, .F. )
+   _HB_MEMBER { bPostBlock } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"bPostBlock"}, .F. )
+   _HB_MEMBER { bPreBlock } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"bPreBlock"}, .F. )
+   _HB_MEMBER { xCargo } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"xCargo"}, .F. )
+   _HB_MEMBER { cName } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"cName"}, .F. )
+   _HB_MEMBER { cInternal1 } ; oClass:AddMultiData(,, 4 + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"cInternal1"}, .F. )
+   _HB_MEMBER { xExitState } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"xExitState"}, .F. )
+   _HB_MEMBER { bReader } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"bReader"}, .F. )
+
+   _HB_MEMBER { oControl } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"oControl"}, .F. )
+   _HB_MEMBER { cCaption } ; oClass:AddMultiData(, "", nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"cCaption"}, .F. )
+   _HB_MEMBER { nCapCol } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nCapCol"}, .F. )
+   _HB_MEMBER { nCapRow } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nCapRow"}, .F. )
+   _HB_MEMBER { cMessage } ; oClass:AddMultiData(, "", nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"cMessage"}, .F. )
+   _HB_MEMBER { nDispLen } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nDispLen"}, .F. )
+
+
+   _HB_MEMBER { cBuffer } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"cBuffer"}, .F. )
+   _HB_MEMBER { xVarGet } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"xVarGet"}, .F. )
+
+
+   nScope := 1 ; ( ( nScope ) )
+   _HB_MEMBER { cType } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"cType"}, .F. )
+    _HB_MEMBER { lHideInput } ; oClass:AddMultiData(, .F., nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"lHideInput"}, .F. )
+   _HB_MEMBER { cStyle } ; oClass:AddMultiData(, "*", nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"cStyle"}, .F. )
+   _HB_MEMBER { decPos } ; oClass:AddMultiData(, 0, nScope + iif( .T., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"decPos"}, .F. )
+   _HB_MEMBER { hasFocus } ; oClass:AddMultiData(, .F., nScope + iif( .T., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"hasFocus"}, .F. )
+   _HB_MEMBER { original } ; oClass:AddMultiData(,, nScope + iif( .T., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"original"}, .F. )
+   _HB_MEMBER { rejected } ; oClass:AddMultiData(, .F., nScope + iif( .T., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"rejected"}, .F. )
+   _HB_MEMBER { typeOut } ; oClass:AddMultiData(, .F., nScope + iif( .T., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"typeOut"}, .F. )
+
+   _HB_MEMBER New( nRow, nCol, bVarBlock, cVarName, cPicture, cColorSpec); oClass:AddMethod( "New", @Get_New(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+
+   _HB_MEMBER assign(); oClass:AddMethod( "assign", @Get_assign(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER badDate(); oClass:AddMethod( "badDate", @Get_badDate(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER block( bBlock); _HB_MEMBER _block( bBlock); oClass:AddMethod( "block", @Get_block(), nScope + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) ) ; oClass:AddMethod( "_block", @Get_block(), nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER buffer(); oClass:AddMethod( "buffer", @Get_getBuffer(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER _buffer(); oClass:AddMethod( "_buffer", @Get_setBuffer(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+
+   _HB_MEMBER changed(); oClass:AddMethod( "changed", @Get_getChanged(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER _changed(); oClass:AddMethod( "_changed", @Get_setChanged(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+
+   _HB_MEMBER clear(); oClass:AddMethod( "clear", @Get_getClear(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER _clear(); oClass:AddMethod( "_clear", @Get_setClear(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER col(); oClass:AddMethod( "col", @Get_getCol(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER _col(); oClass:AddMethod( "_col", @Get_setCol(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER colorDisp( cColorSpec); oClass:AddMethod( "colorDisp", @Get_colorDisp(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER colorSpec(); oClass:AddMethod( "colorSpec", @Get_getColorSpec(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER _colorSpec(); oClass:AddMethod( "_colorSpec", @Get_setColorSpec(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER display(); oClass:AddMethod( "display", @Get_display(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+
+   _HB_MEMBER hitTest( nMRow, nMCol); oClass:AddMethod( "hitTest", @Get_hitTest(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER control( oControl); _HB_MEMBER _control( oControl); oClass:AddMethod( "control", @Get_control(), nScope + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) ) ; oClass:AddMethod( "_control", @Get_control(), nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER message( cMessage); _HB_MEMBER _message( cMessage); oClass:AddMethod( "message", @Get_message(), nScope + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) ) ; oClass:AddMethod( "_message", @Get_message(), nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER caption( cCaption); _HB_MEMBER _caption( cCaption); oClass:AddMethod( "caption", @Get_caption(), nScope + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) ) ; oClass:AddMethod( "_caption", @Get_caption(), nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER capRow( nCapRow); _HB_MEMBER _capRow( nCapRow); oClass:AddMethod( "capRow", @Get_capRow(), nScope + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) ) ; oClass:AddMethod( "_capRow", @Get_capRow(), nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER capCol( nCapCol); _HB_MEMBER _capCol( nCapCol); oClass:AddMethod( "capCol", @Get_capCol(), nScope + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) ) ; oClass:AddMethod( "_capCol", @Get_capCol(), nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+
+   _HB_MEMBER killFocus(); oClass:AddMethod( "killFocus", @Get_killFocus(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER minus(); oClass:AddMethod( "minus", @Get_getMinus(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER _minus(); oClass:AddMethod( "_minus", @Get_setMinus(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER name( cName); _HB_MEMBER _name( cName); oClass:AddMethod( "name", @Get_name(), nScope + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) ) ; oClass:AddMethod( "_name", @Get_name(), nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER picture( cPicture); _HB_MEMBER _picture( cPicture); oClass:AddMethod( "picture", @Get_picture(), nScope + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) ) ; oClass:AddMethod( "_picture", @Get_picture(), nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER pos(); oClass:AddMethod( "pos", @Get_getPos(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER _pos(); oClass:AddMethod( "_pos", @Get_setPos(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+
+   _HB_MEMBER reform(); oClass:AddMethod( "reform", @Get_reform(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+
+   _HB_MEMBER reset(); oClass:AddMethod( "reset", @Get_reset(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER row(); oClass:AddMethod( "row", @Get_getRow(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER _row(); oClass:AddMethod( "_row", @Get_setRow(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER setFocus(); oClass:AddMethod( "setFocus", @Get_setFocus(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER type(); oClass:AddMethod( "type", @Get_type(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER undo(); oClass:AddMethod( "undo", @Get_undo(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER unTransform(); oClass:AddMethod( "unTransform", @Get_unTransform(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER updateBuffer(); oClass:AddMethod( "updateBuffer", @Get_updateBuffer(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER varGet(); oClass:AddMethod( "varGet", @Get_varGet(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER varPut( xValue); oClass:AddMethod( "varPut", @Get_varPut(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+
+   _HB_MEMBER end(); oClass:AddMethod( "end", @Get_end(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER home(); oClass:AddMethod( "home", @Get_home(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER left(); oClass:AddMethod( "left", @Get_left(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER right(); oClass:AddMethod( "right", @Get_right(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER toDecPos(); oClass:AddMethod( "toDecPos", @Get_toDecPos(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER wordLeft(); oClass:AddMethod( "wordLeft", @Get_wordLeft(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER wordRight(); oClass:AddMethod( "wordRight", @Get_wordRight(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+
+   _HB_MEMBER backSpace(); oClass:AddMethod( "backSpace", @Get_backSpace(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER delete(); oClass:AddMethod( "delete", @Get_delete(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER delEnd(); oClass:AddMethod( "delEnd", @Get_delEnd(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER delLeft(); oClass:AddMethod( "delLeft", @Get_delLeft(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER delRight(); oClass:AddMethod( "delRight", @Get_delRight(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER delWordLeft(); oClass:AddMethod( "delWordLeft", @Get_delWordLeft(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER delWordRight(); oClass:AddMethod( "delWordRight", @Get_delWordRight(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+
+   _HB_MEMBER insert( cChar); oClass:AddMethod( "insert", @Get_insert(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER overStrike( cChar); oClass:AddMethod( "overStrike", @Get_overStrike(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+
+   _HB_MEMBER subScript( xValue); _HB_MEMBER _subScript( xValue); oClass:AddMethod( "subScript", @Get_subScript(), nScope + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) ) ; oClass:AddMethod( "_subScript", @Get_subScript(), nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER postBlock( xValue); _HB_MEMBER _postBlock( xValue); oClass:AddMethod( "postBlock", @Get_postBlock(), nScope + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) ) ; oClass:AddMethod( "_postBlock", @Get_postBlock(), nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER preBlock( xValue); _HB_MEMBER _preBlock( xValue); oClass:AddMethod( "preBlock", @Get_preBlock(), nScope + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) ) ; oClass:AddMethod( "_preBlock", @Get_preBlock(), nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER cargo( xValue); _HB_MEMBER _cargo( xValue); oClass:AddMethod( "cargo", @Get_cargo(), nScope + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) ) ; oClass:AddMethod( "_cargo", @Get_cargo(), nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER exitState( xValue); _HB_MEMBER _exitState( xValue); oClass:AddMethod( "exitState", @Get_exitState(), nScope + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) ) ; oClass:AddMethod( "_exitState", @Get_exitState(), nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER reader( xValue); _HB_MEMBER _reader( xValue); oClass:AddMethod( "reader", @Get_reader(), nScope + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) ) ; oClass:AddMethod( "_reader", @Get_reader(), nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+
+   nScope := 2; ( ( nScope ) )
+
+
+
+
+   _HB_MEMBER { cColorSpec } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"cColorSpec"}, .F. )
+   _HB_MEMBER { nPos } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nPos"}, .F. )
+   _HB_MEMBER { lChanged } ; oClass:AddMultiData(, .F., nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"lChanged"}, .F. )
+   _HB_MEMBER { lClear } ; oClass:AddMultiData(, .F., nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"lClear"}, .F. )
+   _HB_MEMBER { nRow } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nRow"}, .F. )
+   _HB_MEMBER { nCol } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nCol"}, .F. )
+   _HB_MEMBER { lRejected } ; oClass:AddMultiData(, .F., nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"lRejected"}, .F. )
+
+
+   _HB_MEMBER { nMaxLen } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nMaxLen"}, .F. )
+   _HB_MEMBER { lEdit } ; oClass:AddMultiData(, .F., nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"lEdit"}, .F. )
+   _HB_MEMBER { nDispPos } ; oClass:AddMultiData(, 1, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nDispPos"}, .F. )
+   _HB_MEMBER { nOldPos } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nOldPos"}, .F. )
+   _HB_MEMBER { nMaxEdit } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nMaxEdit"}, .F. )
+   _HB_MEMBER { lMinus } ; oClass:AddMultiData(, .F., nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"lMinus"}, .F. )
+   _HB_MEMBER { lMinus2 } ; oClass:AddMultiData(, .F., nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"lMinus2"}, .F. )
+   _HB_MEMBER { lMinusPrinted } ; oClass:AddMultiData(, .F., nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"lMinusPrinted"}, .F. )
+   _HB_MEMBER { lSuppDisplay } ; oClass:AddMultiData(, .F., nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"lSuppDisplay"}, .F. )
+
+   _HB_MEMBER { nPicLen } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nPicLen"}, .F. )
+   _HB_MEMBER { cPicMask } ; oClass:AddMultiData(, "", nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"cPicMask"}, .F. )
+   _HB_MEMBER { cPicFunc } ; oClass:AddMultiData(, "", nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"cPicFunc"}, .F. )
+   _HB_MEMBER { lPicComplex } ; oClass:AddMultiData(, .F., nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"lPicComplex"}, .F. )
+   _HB_MEMBER { lPicBlankZero } ; oClass:AddMultiData(, .F., nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"lPicBlankZero"}, .F. )
+
+   _HB_MEMBER leftLow(); oClass:AddMethod( "leftLow", @Get_leftLow(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER rightLow(); oClass:AddMethod( "rightLow", @Get_rightLow(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER backSpaceLow(); oClass:AddMethod( "backSpaceLow", @Get_backSpaceLow(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER deleteLow(); oClass:AddMethod( "deleteLow", @Get_deleteLow(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+
+   _HB_MEMBER DeleteAll(); oClass:AddMethod( "DeleteAll", @Get_DeleteAll(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER IsEditable( nPos); oClass:AddMethod( "IsEditable", @Get_IsEditable(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER Input( cChar); oClass:AddMethod( "Input", @Get_Input(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER PutMask( xValue, lEdit); oClass:AddMethod( "PutMask", @Get_PutMask(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER FirstEditable(); oClass:AddMethod( "FirstEditable", @Get_FirstEditable(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+   _HB_MEMBER LastEditable(); oClass:AddMethod( "LastEditable", @Get_LastEditable(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+
+oClass:Create() ; ; ALWAYS ; __clsUnlockDef( @s_oClass, oClass ) ; end ; oInstance := oClass:Instance() ; IF __objHasMsg( oInstance, "InitClass" ) ; oInstance:InitClass( ... ) ; END ; RETURN oInstance ; END ; RETURN s_oClass:Instance() AS CLASS Get ;
+
+static FUNCTION Get_assign( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   LOCAL xValue
+
+   if ::hasFocus
+      xValue := ::unTransform()
+      if ::cType == "C"
+         xValue += SubStr( ::original, Len( xValue ) + 1 )
+      endif
+      ::varPut( xValue )
+   endif
+
+   return Self
+
+static FUNCTION Get_updateBuffer( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if ::hasFocus
+      ::cBuffer := ::PutMask( ::varGet() )
+      ::xVarGet := ::original
+      ::display()
+   else
+      ::varGet()
+   endif
+
+   return Self
+
+static FUNCTION Get_display( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   LOCAL nOldCursor := SetCursor( 0 )
+   LOCAL cBuffer
+   LOCAL nDispPos
+   LOCAL nRowPos
+   LOCAL nColPos
+
+
+   LOCAL nPos
+   LOCAL cCaption
+
+
+   if ::hasFocus
+      cBuffer   := ::cBuffer
+   else
+      ::cType   := ValType( ::xVarGet := ::varGet() )
+      ::picture := ::cPicture
+      cBuffer   := ::PutMask( ::xVarGet )
+   endif
+
+   ::nMaxLen := Len( cBuffer )
+   ::nDispLen := iif( ::nPicLen == NIL, ::nMaxLen, ::nPicLen )
+
+
+
+   if ::cType == "N" .AND. ::hasFocus .AND. ! ::lMinusPrinted .AND.  ::decPos <> 0 .AND. ::lMinus2 .AND.  ::nPos > ::decPos .AND. Val( Left( cBuffer, ::decPos - 1 ) ) == 0
+
+
+
+      cBuffer := Stuff( cBuffer, ::decPos - 1, 2, "-." )
+   endif
+
+   if ::nDispLen <> ::nMaxLen .AND. ::nPos <> 0
+      if ::nDispLen > 8
+         nDispPos := Max( 1, Min( ::nPos - ::nDispLen + 4       , ::nMaxLen - ::nDispLen + 1 ) )
+      else
+         nDispPos := Max( 1, Min( ::nPos - Int( ::nDispLen / 2 ), ::nMaxLen - ::nDispLen + 1 ) )
+      endif
+   else
+      nDispPos := 1
+   endif
+
+
+
+
+
+   if ! Empty( ::cCaption )
+
+      cCaption := ::cCaption
+      if ( nPos := At( "&", cCaption ) ) > 0
+         if nPos == Len( cCaption )
+            nPos := 0
+         else
+            cCaption := Stuff( cCaption, nPos, 1, "" )
+         endif
+      endif
+
+      hb_DispOutAt( ::nCapRow, ::nCapCol, cCaption, hb_ColorIndex( ::cColorSpec, 2 ) )
+      if nPos > 0
+         hb_DispOutAt( ::nCapRow, ::nCapCol + nPos - 1, SubStr( cCaption, nPos, 1 ), hb_ColorIndex( ::cColorSpec, 3 ) )
+      endif
+
+
+
+
+
+
+
+
+
+
+   endif
+
+
+
+
+
+   if ! ::lSuppDisplay .OR. nDispPos <> ::nOldPos
+
+
+
+      hb_DispOutAt( ::nRow, ::nCol,  iif( ::lHideInput, PadR( Replicate( Left( ::cStyle, 1 ), Len( RTrim( cBuffer ) ) ), ::nDispLen ), SubStr( cBuffer, nDispPos, ::nDispLen ) ),  hb_ColorIndex( ::cColorSpec, iif( ::hasFocus, 1, 0 ) ) )
+
+      nRowPos := ::nRow
+      nColPos := ::nCol + Min( ::nDispLen, Len( cBuffer ) )
+
+      if Set( 33 ) .AND. ! ::hasFocus
+
+         hb_DispOutAt( nRowPos, ::nCol - 1, SubStr( Set( 34 ), 1, 1 ), hb_ColorIndex( ::cColorSpec, 0 ) )
+         hb_DispOutAt( nRowPos, nColPos   , SubStr( Set( 34 ), 2, 1 ), hb_ColorIndex( ::cColorSpec, 0 ) )
+
+
+
+
+
+         ++nColPos
+      endif
+   endif
+
+   if ::nPos <> 0
+      SetPos( ::nRow, ::nCol + ::nPos - nDispPos )
+   elseif nRowPos <> NIL
+      SetPos( nRowPos, nColPos )
+   endif
+
+   ::nOldPos := nDispPos
+   ::lSuppDisplay := .F.
+
+   SetCursor( nOldCursor )
+
+   return Self
+
+
+
+static FUNCTION Get_colorDisp( cColorSpec ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   ::colorSpec := cColorSpec
+   ::display()
+
+   return Self
+
+static FUNCTION Get_end( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   LOCAL nLastCharPos
+   LOCAL nPos
+   LOCAL nFor
+
+   if ::hasFocus
+      nLastCharPos := Len( RTrim( ::cBuffer ) ) + 1
+
+      if nLastCharPos > 2 .AND. ! ::IsEditable( nLastCharPos - 1 )
+         FOR nFor := nLastCharPos - 2 TO ::FirstEditable() STEP -1
+            if ::IsEditable( nFor )
+               if Empty( SubStr( ::cBuffer, nFor, 1 ) )
+                  nLastCharPos := nFor
+               else
+                  EXIT
+               endif
+            endif
+         NEXT
+      endif
+      nLastCharPos := Min( nLastCharPos, ::nMaxEdit )
+      if ::nPos < nLastCharPos .OR. ::nPos == ::LastEditable()
+         nPos := nLastCharPos
+      else
+         nPos := ::nMaxEdit
+      endif
+      FOR nFor := nPos TO ::FirstEditable() STEP -1
+         if ::IsEditable( nFor )
+            ::pos := nFor
+            EXIT
+         endif
+      NEXT
+      ::lClear := .F.
+      ::typeOut := ( ::nPos == 0 )
+      ::lSuppDisplay := .T.
+      ::display()
+   endif
+
+   return Self
+
+static FUNCTION Get_home( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if ::hasFocus
+      ::pos := ::FirstEditable()
+      ::lClear := .F.
+      ::typeOut := ( ::nPos == 0 )
+      ::lSuppDisplay := .T.
+      ::display()
+   endif
+
+   return Self
+
+static FUNCTION Get_reset( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if ::hasFocus
+      ::cBuffer  := ::PutMask( ::varGet(), .F. )
+      ::xVarGet  := ::original
+      ::cType    := ValType( ::xVarGet )
+      ::pos      := ::FirstEditable()
+      ::lClear   := ( "K" $ ::cPicFunc .OR. ::cType == "N" )
+      ::lEdit    := .F.
+      ::lMinus   := .F.
+      ::rejected := .F.
+      ::typeOut  := !( ::type $ "CNDTL" ) .OR. ( ::nPos == 0 )
+      ::display()
+   endif
+
+   return Self
+
+static FUNCTION Get_undo( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if ::hasFocus
+      if ::original <> NIL
+         ::varPut( ::original )
+      endif
+      ::reset()
+      ::lChanged := .F.
+   endif
+
+   return Self
+
+static FUNCTION Get_setFocus( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   LOCAL xVarGet
+
+   if ! ::hasFocus
+
+      xVarGet := ::xVarGet := ::varGet()
+
+      ::hasFocus := .T.
+      ::rejected := .F.
+
+      ::original := xVarGet
+      ::cType    := ValType( xVarGet )
+      ::picture  := ::cPicture
+      ::cBuffer  := ::PutMask( xVarGet, .F. )
+
+      ::lChanged := .F.
+      ::lClear   := ( "K" $ ::cPicFunc .OR. ::cType == "N" )
+      ::lEdit    := .F.
+      ::pos      := 1
+
+      ::lMinusPrinted := .F.
+      ::lMinus        := .F.
+
+      if ::cType == "N"
+         ::decPos := At( iif( "E" $ ::cPicFunc, ",", "." ), ::cBuffer )
+         if ::decPos == 0
+            ::decPos := Len( ::cBuffer ) + 1
+         endif
+         ::lMinus2 := ( ::xVarGet < 0 )
+      else
+         ::decPos := 0
+      endif
+
+      ::display()
+   endif
+
+   return Self
+
+static FUNCTION Get_killFocus( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   LOCAL lHadFocus := ::hasFocus
+
+   ::hasFocus := .F.
+   ::nPos     := 0
+   ::lClear   := .F.
+   ::lMinus   := .F.
+   ::lChanged := .F.
+   ::decPos   := 0
+   ::typeOut  := .F.
+
+   if lHadFocus
+      ::display()
+   endif
+
+   ::xVarGet  := NIL
+   ::original := NIL
+   ::cBuffer  := NIL
+
+   return Self
+
+static FUNCTION Get_varPut( xValue ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   LOCAL aSubs
+   LOCAL nLen
+   LOCAL i
+   LOCAL aValue
+
+   if HB_ISEVALITEM( ::bBlock ) .AND. ValType( xValue ) $ "CNDTLU"
+      aSubs := ::xSubScript
+      if HB_ISARRAY( aSubs ) .AND. ! Empty( aSubs )
+         nLen := Len( aSubs )
+         aValue := Eval( ::bBlock )
+         FOR i := 1 TO nLen - 1
+
+            if HB_ISNUMERIC( aSubs[ i ] ) .OR.  ( HB_ISHASH( aValue ) .AND. ValType( aSubs[ i ] ) $ "CDT" )
+               aValue := aValue[ aSubs[ i ] ]
+            else
+               EXIT
+            endif
+         NEXT
+
+         if HB_ISNUMERIC( aSubs[ i ] ) .OR.  ( HB_ISHASH( aValue ) .AND. ValType( aSubs[ i ] ) $ "CDT" )
+            aValue[ aSubs[ i ] ] := xValue
+         endif
+      else
+         Eval( ::bBlock, xValue )
+      endif
+   else
+      xValue := NIL
+   endif
+
+   return xValue
+
+static FUNCTION Get_varGet( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   LOCAL aSubs
+   LOCAL nLen
+   LOCAL i
+   LOCAL xValue
+
+   if HB_ISEVALITEM( ::bBlock )
+      aSubs := ::xSubScript
+      if HB_ISARRAY( aSubs ) .AND. ! Empty( aSubs )
+         nLen := Len( aSubs )
+         xValue := Eval( ::bBlock )
+         FOR i := 1 TO nLen
+
+            if HB_ISNUMERIC( aSubs[ i ] ) .OR.  ( HB_ISHASH( xValue ) .AND. ValType( aSubs[ i ] ) $ "CDT" )
+               xValue := xValue[ aSubs[ i ] ]
+            else
+               EXIT
+            endif
+         NEXT
+      else
+         xValue := Eval( ::bBlock )
+      endif
+   else
+      xValue := ::xVarGet
+   endif
+
+   return xValue
+
+
+
+
+static FUNCTION Get_overStrike( cChar ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if ::hasFocus .AND. HB_ISSTRING( cChar )
+
+      if ::cType == "N" .AND. ! ::lEdit .AND. ::lClear
+         ::pos := ::FirstEditable()
+      endif
+
+      if ::pos <= ::nMaxEdit
+
+         cChar := ::Input( Left( cChar, 1 ) )
+
+         if cChar == ""
+            ::rejected := .T.
+         else
+            ::rejected := .F.
+
+            if ::lClear .AND. ::nPos == ::FirstEditable()
+               ::DeleteAll()
+               ::lClear := .F.
+            endif
+
+            ::lEdit := .T.
+
+            if ::nPos == 0
+               ::pos := 1
+            endif
+
+            while ! ::IsEditable( ::nPos ) .AND. ::nPos <= ::nMaxEdit .AND. ! ::typeOut
+               ::pos++
+            ENDDO
+
+            if ::nPos > ::nMaxEdit
+               ::pos := ::FirstEditable()
+            endif
+            ::cBuffer := Stuff( ::cBuffer, ::nPos, 1, cChar )
+
+            ::lChanged := .T.
+
+            ::rightLow()
+         endif
+      endif
+
+      ::display()
+   endif
+
+   return Self
+
+
+
+
+static FUNCTION Get_insert( cChar ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   LOCAL nFor
+   LOCAL nMaxEdit
+
+   if ::hasFocus .AND. HB_ISSTRING( cChar )
+
+      nMaxEdit := ::nMaxEdit
+
+      if ::cType == "N" .AND. ! ::lEdit .AND. ::lClear
+         ::pos := ::FirstEditable()
+      endif
+
+      if ::nPos <= ::nMaxEdit
+
+         cChar := ::Input( Left( cChar, 1 ) )
+
+         if cChar == ""
+            ::rejected := .T.
+         else
+            ::rejected := .F.
+
+            if ::lClear .AND. ::nPos == ::FirstEditable()
+               ::DeleteAll()
+               ::lClear := .F.
+            endif
+
+            ::lEdit := .T.
+
+            if ::nPos == 0
+               ::pos := 1
+            endif
+
+            while ! ::IsEditable( ::nPos ) .AND. ::nPos <= ::nMaxEdit .AND. ! ::typeOut
+               ::pos++
+            ENDDO
+
+            if ::nPos > ::nMaxEdit
+               ::pos := ::FirstEditable()
+            endif
+
+            if ::lPicComplex
+
+               FOR nFor := ::nPos TO nMaxEdit
+                  if ! ::IsEditable( nFor )
+                     EXIT
+                  endif
+               NEXT
+               nMaxEdit := nFor
+
+               ::cBuffer := Left( Stuff( Left( ::cBuffer, nMaxEdit - 2 ), ::nPos, 0, cChar ) +  SubStr( ::cBuffer, nMaxEdit ), ::nMaxLen )
+            else
+               ::cBuffer := Left( Stuff( ::cBuffer, ::nPos, 0, cChar ), ::nMaxEdit )
+            endif
+
+            ::lChanged := .T.
+
+            ::rightLow()
+         endif
+      endif
+
+      ::display()
+   endif
+
+   return Self
+
+static FUNCTION Get_right( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+
+   if ::hasFocus .AND.  ::rightLow()
+
+      ::lSuppDisplay := .T.
+      ::display()
+   endif
+
+   return Self
+
+static FUNCTION Get_left( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+
+   if ::hasFocus .AND.  ::leftLow()
+
+      ::lSuppDisplay := .T.
+      ::display()
+   endif
+
+   return Self
+
+static FUNCTION Get_wordLeft( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   LOCAL nPos
+
+   if ::hasFocus
+
+      ::lClear := .F.
+
+      if ::nPos == ::FirstEditable()
+         ::typeOut := .T.
+      else
+         ::typeOut := .F.
+
+         nPos := iif( SubStr( ::cBuffer, ::nPos, 1 ) == " ", ::nPos, ::nPos - 1 )
+
+         while nPos > 1 .AND. SubStr( ::cBuffer, nPos, 1 ) == " "
+            nPos--
+         ENDDO
+         while nPos > 1 .AND. !( SubStr( ::cBuffer, nPos, 1 ) == " " )
+            nPos--
+         ENDDO
+
+         ::pos := iif( nPos > 1, nPos + 1, 1 )
+
+         ::lSuppDisplay := .T.
+         ::display()
+      endif
+   endif
+
+   return Self
+
+static FUNCTION Get_wordRight( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   LOCAL nPos
+
+   if ::hasFocus
+
+      ::lClear := .F.
+
+      if ::nPos == ::nMaxEdit
+         ::typeOut := .T.
+      else
+         ::typeOut := .F.
+
+         nPos := ::nPos
+
+         while nPos < ::nMaxEdit .AND. !( SubStr( ::cBuffer, nPos, 1 ) == " " )
+            nPos++
+         ENDDO
+         while nPos < ::nMaxEdit .AND. SubStr( ::cBuffer, nPos, 1 ) == " "
+            nPos++
+         ENDDO
+
+         ::pos := nPos
+
+         ::lSuppDisplay := .T.
+         ::display()
+      endif
+   endif
+
+   return Self
+
+static FUNCTION Get_toDecPos( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if ::hasFocus
+
+      if ::lClear
+         ::delEnd()
+      endif
+
+      ::cBuffer := ::PutMask( ::unTransform(), .F. )
+      ::pos := ::decPos
+      ::lChanged := .T.
+
+      if ::type == "N" .AND. ::lMinus .AND. ::unTransform() == 0
+         ::backSpace()
+         ::overStrike( "-" )
+      endif
+
+      ::display()
+   endif
+
+   return Self
+
+static FUNCTION Get_backSpace( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+
+   if ::hasFocus .AND.  ::backSpaceLow()
+
+      ::display()
+   endif
+
+   return Self
+
+static FUNCTION Get_delete( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if ::hasFocus
+      ::deleteLow()
+      ::display()
+   endif
+
+   return Self
+
+static FUNCTION Get_delEnd( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   LOCAL nPos
+
+   if ::hasFocus
+
+      nPos := ::nPos
+      ::pos := ::nMaxEdit
+
+      ::deleteLow()
+      while ::nPos > nPos
+         ::backSpaceLow()
+      ENDDO
+
+      ::display()
+   endif
+
+   return Self
+
+static FUNCTION Get_delLeft( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   ::leftLow()
+   ::deleteLow()
+   ::right()
+
+   return Self
+
+static FUNCTION Get_delRight( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   ::rightLow()
+   ::deleteLow()
+   ::left()
+
+   return Self
+
+
+
+
+static FUNCTION Get_delWordLeft( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if ::hasFocus
+
+      if !( SubStr( ::cBuffer, ::nPos, 1 ) == " " )
+         if SubStr( ::cBuffer, ::nPos - 1, 1 ) == " "
+            ::backSpaceLow()
+         else
+            ::wordRight()
+            ::left()
+         endif
+      endif
+
+      if SubStr( ::cBuffer, ::nPos, 1 ) == " "
+         ::deleteLow()
+      endif
+
+      while ::nPos > 1 .AND. !( SubStr( ::cBuffer, ::nPos - 1, 1 ) == " " )
+         ::backSpaceLow()
+      ENDDO
+
+      ::display()
+   endif
+
+   return Self
+
+static FUNCTION Get_delWordRight( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if ::hasFocus
+
+      ::lClear := .F.
+
+      if ::nPos == ::nMaxEdit
+         ::typeOut := .T.
+      else
+         ::typeOut := .F.
+
+         while ::nPos <= ::nMaxEdit .AND. !( SubStr( ::cBuffer, ::nPos, 1 ) == " " )
+            ::deleteLow()
+         ENDDO
+
+         if ::nPos <= ::nMaxEdit
+            ::deleteLow()
+         endif
+
+         ::display()
+      endif
+   endif
+
+   return Self
+
+
+
+
+
+
+
+
+static FUNCTION Get_getColorSpec( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+   return ::cColorSpec
+
+static FUNCTION Get_setColorSpec( cColorSpec ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   LOCAL nClrUns
+   LOCAL nClrOth
+
+   if HB_ISSTRING( cColorSpec )
+
+
+
+
+
+      ::cColorSpec := hb_NToColor( nClrUns := Max( hb_ColorToN( hb_ColorIndex( cColorSpec, 0 ) ), 0 ) ) +  "," + hb_NToColor( iif( ( nClrOth := hb_ColorToN( hb_ColorIndex( cColorSpec, 1 ) ) ) <> -1, nClrOth, nClrUns ) ) +  "," + hb_NToColor( iif( ( nClrOth := hb_ColorToN( hb_ColorIndex( cColorSpec, 2  ) ) ) <> -1, nClrOth, nClrUns ) ) +  "," + hb_NToColor( iif( ( nClrOth := hb_ColorToN( hb_ColorIndex( cColorSpec, 3    ) ) ) <> -1, nClrOth, nClrUns ) )
+
+
+
+
+
+
+   elseif ValType( cColorSpec ) $ "UNDTBA"
+
+      return NIL
+
+
+
+
+   else
+      if Set( 31 )
+
+
+
+
+         ::cColorSpec :=  hb_ColorIndex( SetColor(), 4 ) + "," +  hb_ColorIndex( SetColor(), 1 ) + "," +  hb_ColorIndex( SetColor(), 0 ) + "," +  hb_ColorIndex( SetColor(), 3 )
+      else
+
+
+
+
+         ::cColorSpec :=  hb_ColorIndex( SetColor(), 0 ) + "," +  hb_ColorIndex( SetColor(), 0 ) + "," +  hb_ColorIndex( SetColor(), 0 ) + "," +  hb_ColorIndex( SetColor(), 0 )
+      endif
+
+   endif
+
+   return cColorSpec
+
+static FUNCTION Get_getPos( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+   return ::nPos
+
+static FUNCTION Get_setPos( nPos ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   LOCAL tmp
+
+   if HB_ISNUMERIC( nPos )
+
+      nPos := Int( nPos )
+
+      if ::hasFocus
+
+         DO CASE
+         CASE nPos > ::nMaxLen
+
+            ::nPos := iif( ::nMaxLen == 0, 1, ::nMaxLen )
+            ::typeOut := .T.
+
+         CASE nPos > 0
+
+
+
+
+            FOR tmp := nPos TO ::nMaxLen
+               if ::IsEditable( tmp )
+                  ::nPos := tmp
+                  return nPos
+               endif
+            NEXT
+            FOR tmp := nPos - 1 TO 1 STEP -1
+               if ::IsEditable( tmp )
+                  ::nPos := tmp
+                  return nPos
+               endif
+            NEXT
+
+            ::nPos := ::nMaxLen + 1
+            ::typeOut := .T.
+
+         ENDCASE
+      endif
+
+      return nPos
+   endif
+
+   return 0
+
+
+
+
+
+
+
+
+
+static FUNCTION Get_picture( cPicture ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   LOCAL nAt
+   LOCAL nFor
+   LOCAL cNum
+   LOCAL cChar
+
+   if PCount() > 0
+
+      if cPicture <> NIL
+
+         ::cPicture      := cPicture
+         ::nPicLen       := NIL
+         ::cPicFunc      := ""
+         ::cPicMask      := ""
+         ::lPicBlankZero := .F.
+
+         if HB_ISSTRING( cPicture )
+
+            cNum := ""
+
+
+                if Left( cPicture, 1 ) = "@"
+
+               if ( nAt := At( " ", cPicture ) ) == 0
+                  ::cPicFunc := hb_asciiUpper( cPicture )
+                  ::cPicMask := ""
+               else
+                  ::cPicFunc := hb_asciiUpper( Left( cPicture, nAt - 1 ) )
+                  ::cPicMask := SubStr( cPicture, nAt + 1 )
+               endif
+
+               if "D" $ ::cPicFunc
+
+                  ::cPicMask := Set( 4 )
+                  FOR EACH cChar IN "yYmMdD"
+                     ::cPicMask := StrTran( ::cPicMask, cChar, "9" )
+                  NEXT
+
+               elseif "T" $ ::cPicFunc
+
+                  ::cPicMask := Set( 116 )
+                  FOR EACH cChar IN "yYmMdDhHsSfF"
+                     ::cPicMask := StrTran( ::cPicMask, cChar, "9" )
+                  NEXT
+
+               endif
+
+               if ( nAt := At( "S", ::cPicFunc ) ) > 0
+                  FOR nFor := nAt + 1 TO Len( ::cPicFunc )
+                     if IsDigit( SubStr( ::cPicFunc, nFor, 1 ) )
+                        cNum += SubStr( ::cPicFunc, nFor, 1 )
+                     else
+                        EXIT
+                     endif
+                  NEXT
+                  if Val( cNum ) > 0
+                     ::nPicLen := Val( cNum )
+                  endif
+                  ::cPicFunc := Left( ::cPicFunc, nAt - 1 ) + SubStr( ::cPicFunc, nFor )
+               endif
+
+               if "Z" $ ::cPicFunc
+                  ::lPicBlankZero := .T.
+                  ::cPicFunc := StrTran( ::cPicFunc, "Z" )
+               endif
+
+               if ::cPicFunc == "@"
+                  ::cPicFunc := ""
+               elseif "R" $ ::cPicFunc .AND. "E" $ ::cPicFunc
+                  ::cPicFunc := StrTran( ::cPicFunc, "R" )
+               endif
+            else
+               ::cPicMask := cPicture
+            endif
+
+            if ::cType == "D" .OR. ::cType == "T"
+               ::cPicMask := LTrim( ::cPicMask )
+            endif
+         endif
+      endif
+
+
+
+      if ::cType <> NIL .AND. ( Empty( ::cPicMask ) .OR. ::cPicture == NIL .OR. ::cType == "D" )
+
+         SWITCH ::cType
+         CASE "D"
+
+            ::cPicMask := Set( 4 )
+            FOR EACH cChar IN "yYmMdD"
+               ::cPicMask := StrTran( ::cPicMask, cChar, "9" )
+            NEXT
+            EXIT
+
+         CASE "T"
+
+            ::cPicMask := Set( 4 ) + " " + Set( 116 )
+            FOR EACH cChar IN "yYmMdDhHsSfF"
+               ::cPicMask := StrTran( ::cPicMask, cChar, "9" )
+            NEXT
+            EXIT
+
+         CASE "N"
+
+            if ::xVarGet <> NIL
+               cNum := Str( ::xVarGet )
+               if ( nAt := At( ".", cNum ) ) > 0
+                  ::cPicMask := Replicate( "9", nAt - 1 ) + "."
+                  ::cPicMask += Replicate( "9", Len( cNum ) - Len( ::cPicMask ) )
+               else
+                  ::cPicMask := Replicate( "9", Len( cNum ) )
+               endif
+            endif
+            EXIT
+
+         CASE "C"
+
+            if ::xVarGet <> NIL
+               if ::cPicFunc == "@9"
+                  ::cPicMask := Replicate( "9", Len( ::xVarGet ) )
+                  ::cPicFunc := ""
+               endif
+            endif
+            EXIT
+
+         ENDSWITCH
+
+      endif
+
+
+
+      ::lPicComplex := .F.
+      if ! Empty( ::cPicMask )
+         FOR EACH cChar IN hb_asciiUpper( ::cPicMask )
+            if !( cChar $ "!ANX9#" )
+               ::lPicComplex := .T.
+               EXIT
+            endif
+         NEXT
+      endif
+   endif
+
+   return ::cPicture
+
+static FUNCTION Get_PutMask( xValue, lEdit ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   LOCAL cChar
+   LOCAL cBuffer
+   LOCAL cPicFunc := ::cPicFunc
+   LOCAL cPicMask := ::cPicMask
+   LOCAL nFor
+
+   hb_default( @lEdit, ::hasFocus )
+
+   if !( ValType( xValue ) $ "CNDTL" )
+      xValue := ""
+   endif
+
+   if ::hasFocus
+      cPicFunc := StrTran( cPicfunc, "B" )
+      if cPicFunc == "@"
+         cPicFunc := ""
+      endif
+   endif
+   if lEdit .AND. ::lEdit
+
+      if "*" $ cPicMask .OR.  "$" $ cPicMask
+         cPicMask := hb_StrReplace( cPicMask, "*$", "99" )
+      endif
+   endif
+
+
+
+
+
+   cBuffer := Transform( xValue,  iif( Empty( cPicFunc ),  iif( ::lPicBlankZero .AND. ! ::hasFocus, "@Z ", "" ),  cPicFunc + iif( ::lPicBlankZero .AND. ! ::hasFocus, "Z"  , "" ) + " " ) +  cPicMask )
+
+   if ::cType == "N"
+      if ( "(" $ cPicFunc .OR. ")" $ cPicFunc ) .AND. xValue >= 0
+         cBuffer += " "
+      endif
+
+
+
+      if ( ( "C" $ cPicFunc .AND. xValue <  0 ) .OR.  ( "X" $ cPicFunc .AND. xValue >= 0 ) ) .AND.  !( "X" $ cPicFunc .AND. "C" $ cPicFunc )
+         cBuffer += "   "
+      endif
+
+      ::lMinusPrinted := ( xValue < 0 )
+   endif
+
+   ::nMaxLen  := Len( cBuffer )
+   ::nMaxEdit := ::nMaxLen
+
+   if lEdit .AND. ::cType == "N" .AND. ! Empty( cPicMask )
+      FOR nFor := 1 TO ::nMaxLen
+         cChar := SubStr( cPicMask, nFor, 1 )
+         if cChar $ ",." .AND. SubStr( cBuffer, nFor, 1 ) $ ",."
+            if "E" $ cPicFunc
+               cChar := iif( cChar == ",", ".", "," )
+            endif
+            cBuffer := Stuff( cBuffer, nFor, 1, cChar )
+         endif
+      NEXT
+      if ::lEdit .AND. Empty( xValue )
+         cBuffer := StrTran( cBuffer, "0", " " )
+      endif
+   endif
+
+   if ::cType == "N"
+      if "(" $ ::cPicFunc .OR. ")" $ ::cPicFunc
+         ::nMaxEdit--
+      endif
+      if "C" $ ::cPicFunc .OR. "X" $ ::cPicFunc
+         ::nMaxEdit -= 3
+      endif
+   endif
+
+   if ( ::cType == "D" .OR. ::cType == "T" ) .AND. ::badDate
+      cBuffer := ::cBuffer
+   endif
+
+   ::nMaxLen := Len( cBuffer )
+
+   return cBuffer
+
+static FUNCTION Get_unTransform( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   LOCAL cBuffer
+   LOCAL xValue
+   LOCAL nFor
+   LOCAL lMinus
+   LOCAL lHasDec
+
+   if ::hasFocus
+
+      cBuffer := ::cBuffer
+
+      if HB_ISSTRING( cBuffer ) .AND. ::cType <> NIL
+
+         SWITCH ::cType
+         CASE "C"
+
+            if "R" $ ::cPicFunc
+               xValue := ""
+               FOR nFor := 1 TO Len( ::cPicMask )
+                  if hb_asciiUpper( SubStr( ::cPicMask, nFor, 1 ) ) $ "ANX9#!LY"
+                     xValue += SubStr( cBuffer, nFor, 1 )
+                  endif
+               NEXT
+            else
+               xValue := cBuffer
+            endif
+            EXIT
+
+         CASE "N"
+
+            lMinus := .F.
+            if "X" $ ::cPicFunc .AND. Right( cBuffer, 2 ) == "DB"
+               lMinus := .T.
+            endif
+            if ! lMinus
+               FOR nFor := 1 TO ::nMaxLen
+                  if ::IsEditable( nFor ) .AND. IsDigit( SubStr( cBuffer, nFor, 1 ) )
+                     EXIT
+                  endif
+                  if SubStr( cBuffer, nFor, 1 ) $ "-(" .AND. !( SubStr( cBuffer, nFor, 1 ) == SubStr( ::cPicMask, nFor, 1 ) )
+                     lMinus := .T.
+                     EXIT
+                  endif
+               NEXT
+            endif
+            cBuffer := Space( ::FirstEditable() - 1 ) + SubStr( cBuffer, ::FirstEditable(), ::LastEditable() - ::FirstEditable() + 1 )
+
+
+            if ::decPos <= ::FirstEditable() - 1
+               cBuffer := Left( cBuffer, ::decPos - 1 ) + "." + SubStr( cBuffer, ::decPos + 1 )
+            endif
+
+
+            if "D" $ ::cPicFunc .OR.  "T" $ ::cPicFunc
+               FOR nFor := ::FirstEditable() TO ::LastEditable()
+                  if ! ::IsEditable( nFor )
+                     cBuffer := Left( cBuffer, nFor - 1 ) + Chr( 1 ) + SubStr( cBuffer, nFor + 1 )
+                  endif
+               NEXT
+            else
+               if "E" $ ::cPicFunc
+
+
+                  cBuffer := Left( cBuffer, ::FirstEditable() - 1 ) +  hb_StrReplace( SubStr( cBuffer, ::FirstEditable(), ::LastEditable() - ::FirstEditable() + 1 ), ".,", " ." ) +  SubStr( cBuffer, ::LastEditable() + 1 )
+               else
+
+
+                  cBuffer := Left( cBuffer, ::FirstEditable() - 1 ) +  StrTran( SubStr( cBuffer, ::FirstEditable(), ::LastEditable() - ::FirstEditable() + 1 ), ",", " " ) +  SubStr( cBuffer, ::LastEditable() + 1 )
+               endif
+
+               lHasDec := .F.
+               FOR nFor := ::FirstEditable() TO ::LastEditable()
+                  if ::IsEditable( nFor )
+                     if lHasDec .AND. SubStr( cBuffer, nFor, 1 ) == " "
+                        cBuffer := Left( cBuffer, nFor - 1 ) + "0" + SubStr( cBuffer, nFor + 1 )
+                     endif
+                  else
+                     if SubStr( cBuffer, nFor, 1 ) == "."
+                        lHasDec := .T.
+                     else
+                        cBuffer := Left( cBuffer, nFor - 1 ) + Chr( 1 ) + SubStr( cBuffer, nFor + 1 )
+                     endif
+                  endif
+               NEXT
+            endif
+
+            cBuffer := StrTran( cBuffer, Chr( 1 ) )
+
+
+
+            cBuffer := hb_StrReplace( cBuffer,  "$*-()",  "     " )
+
+            cBuffer := PadL( StrTran( cBuffer, " " ), Len( cBuffer ) )
+
+            if lMinus
+               FOR nFor := 1 TO Len( cBuffer )
+                  if IsDigit( SubStr( cBuffer, nFor, 1 ) ) .OR. SubStr( cBuffer, nFor, 1 ) == "."
+                     EXIT
+                  endif
+               NEXT
+               nFor--
+               if nFor > 0
+                  cBuffer := Left( cBuffer, nFor - 1 ) + "-" + SubStr( cBuffer, nFor + 1 )
+               else
+                  cBuffer := "-" + cBuffer
+               endif
+            endif
+
+
+                xValue := Val( cBuffer )
+
+            EXIT
+
+         CASE "L"
+
+            cBuffer := Upper( cBuffer )
+
+
+            xValue := "T" $ cBuffer .OR.  "Y" $ cBuffer .OR.  hb_langMessage( 115 + 1 ) $ cBuffer
+            EXIT
+
+         CASE "D"
+
+            if "E" $ ::cPicFunc
+               cBuffer := SubStr( cBuffer, 4, 3 ) + SubStr( cBuffer, 1, 3 ) + SubStr( cBuffer, 7 )
+            endif
+            xValue := CToD( cBuffer )
+            EXIT
+
+         CASE "T"
+
+            xValue := hb_CToT( cBuffer )
+            EXIT
+
+         ENDSWITCH
+
+      else
+         ::lClear  := .F.
+         ::decPos  := 0
+         ::nPos    := 0
+         ::typeOut := .F.
+      endif
+   endif
+
+   return xValue
+
+static FUNCTION Get_type( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+   return ::cType := ValType( iif( ::hasFocus, ::xVarGet, ::varGet() ) )
+
+
+
+
+
+
+
+
+
+
+static FUNCTION Get_block( bBlock ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if PCount() == 0 .OR. bBlock == NIL
+      return ::bBlock
+   endif
+
+   ::bBlock   := bBlock
+   ::xVarGet  := ::original
+   ::cType    := ValType( ::xVarGet )
+
+   return bBlock
+
+static FUNCTION Get_FirstEditable( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   LOCAL nFor
+
+   if ::nMaxLen <> NIL
+
+      if ::IsEditable( 1 )
+         return 1
+      endif
+
+      FOR nFor := 2 TO ::nMaxLen
+         if ::IsEditable( nFor )
+            return nFor
+         endif
+      NEXT
+   endif
+
+   return 0
+
+static FUNCTION Get_LastEditable( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   LOCAL nFor
+
+   if ::nMaxLen <> NIL
+
+      FOR nFor := ::nMaxLen TO 1 STEP -1
+         if ::IsEditable( nFor )
+            return nFor
+         endif
+      NEXT
+   endif
+
+   return 0
+
+static FUNCTION Get_badDate( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   LOCAL xValue
+
+   if ::hasFocus
+      SWITCH ::type
+      CASE "D"
+
+         return ( xValue := ::unTransform() ) == hb_SToD() .AND.  !( ::cBuffer == Transform( xValue, ::cPicture ) )
+      CASE "T"
+
+         return ( xValue := ::unTransform() ) == hb_SToT() .AND.  !( ::cBuffer == Transform( xValue, ::cPicture ) )
+      ENDSWITCH
+   endif
+
+   return .F.
+
+
+
+static FUNCTION Get_reform( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if ::hasFocus
+      ::cBuffer := ::PutMask( ::unTransform(), .F. )
+      ::nDispLen := iif( ::nPicLen == NIL, ::nMaxLen, ::nPicLen )
+   endif
+
+   return Self
+
+
+
+
+
+static FUNCTION Get_hitTest( nMRow, nMCol ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if HB_ISOBJECT( ::oControl )
+      return ::oControl:hitTest( nMRow, nMCol )
+   else
+      DO CASE
+
+
+      CASE nMRow == ::nRow .AND.  nMCol >= ::nCol .AND.  nMCol < ::nCol + iif( ::nDispLen == NIL, 0, ::nDispLen )
+         return -2049
+
+
+      CASE nMRow == ::nCapRow .AND.  nMCol >= ::nCapCol .AND.  nMCol < ::nCapCol + Len( ::cCaption )
+         return -1025
+      ENDCASE
+   endif
+
+   return 0
+
+static FUNCTION Get_control( oControl ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if PCount() == 1 .AND. ( oControl == NIL .OR. HB_ISOBJECT( oControl ) )
+      ::oControl := oControl
+   endif
+
+   return ::oControl
+
+static FUNCTION Get_caption( cCaption ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if HB_ISSTRING( cCaption )
+      ::cCaption := cCaption
+   endif
+
+   return ::cCaption
+
+static FUNCTION Get_capRow( nCapRow ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if HB_ISNUMERIC( nCapRow )
+      ::nCapRow := Int( nCapRow )
+   endif
+
+   return ::nCapRow
+
+static FUNCTION Get_capCol( nCapCol ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if HB_ISNUMERIC( nCapCol )
+      ::nCapCol := Int( nCapCol )
+   endif
+
+   return ::nCapCol
+
+static FUNCTION Get_message( cMessage ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if HB_ISSTRING( cMessage )
+      ::cMessage := cMessage
+   endif
+
+   return ::cMessage
+
+
+
+
+
+static FUNCTION Get_rightLow( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   LOCAL nPos
+
+   ::typeOut := .F.
+   ::lClear  := .F.
+
+   if ::nPos == ::nMaxEdit
+      ::typeOut := .T.
+      return .F.
+   endif
+
+   nPos := ::nPos + 1
+
+   while ! ::IsEditable( nPos ) .AND. nPos <= ::nMaxEdit
+      nPos++
+   ENDDO
+
+   if nPos <= ::nMaxEdit
+      ::pos := nPos
+   else
+      ::typeOut := .T.
+   endif
+
+   return .T.
+
+static FUNCTION Get_leftLow( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   LOCAL nPos
+
+   ::typeOut := .F.
+   ::lClear  := .F.
+
+   if ::nPos == ::FirstEditable()
+      ::typeOut := .T.
+      return .F.
+   endif
+
+   nPos := ::nPos - 1
+
+   while ! ::IsEditable( nPos ) .AND. nPos > 0
+      nPos--
+   ENDDO
+
+   if nPos > 0
+      ::pos := nPos
+   else
+      ::typeOut := .T.
+   endif
+
+   return .T.
+
+static FUNCTION Get_backSpaceLow( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   LOCAL nMinus
+   LOCAL nPos := ::nPos
+
+   if nPos > 1 .AND. nPos == ::FirstEditable() .AND. ::lMinus2
+
+
+
+
+      if ( nMinus := At( "(", Left( ::cBuffer, nPos - 1 ) ) ) > 0 .AND.  !( SubStr( ::cPicMask, nMinus, 1 ) == "(" )
+
+         ::cBuffer := Stuff( ::cBuffer, nMinus, 1, " " )
+
+         ::lEdit := .T.
+         ::lChanged := .T.
+
+         return .T.
+      endif
+   endif
+
+   ::left()
+
+   if ::nPos < nPos
+      ::deleteLow()
+      return .T.
+   endif
+
+   return .F.
+
+static FUNCTION Get_deleteLow( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   LOCAL nMaxLen := ::nMaxLen
+   LOCAL n
+
+   ::lClear := .F.
+   ::lEdit := .T.
+
+   if ::lPicComplex
+
+      FOR n := ::nPos TO nMaxLen
+         if ! ::IsEditable( n )
+            EXIT
+         endif
+      NEXT
+      nMaxLen := n - 1
+   endif
+
+   if ::cType == "N" .AND. SubStr( ::cBuffer, ::nPos, 1 ) $ "(-"
+      ::lMinus2 := .F.
+   endif
+
+
+   ::cBuffer := PadR( Stuff( Stuff( ::cBuffer, ::nPos, 1, "" ), nMaxLen, 0, " " ),  ::nMaxLen )
+
+   ::lChanged := .T.
+
+   return NIL
+
+static FUNCTION Get_DeleteAll( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   LOCAL xValue
+
+   if ::hasFocus
+
+      ::lEdit := .T.
+
+      SWITCH ::cType
+      CASE "C"
+         xValue := Space( ::nMaxlen )
+         EXIT
+      CASE "N"
+         xValue := 0
+         ::lMinus2 := .F.
+         EXIT
+      CASE "D"
+         xValue := hb_SToD()
+         EXIT
+      CASE "T"
+         xValue := hb_SToT()
+         EXIT
+      CASE "L"
+         xValue := .F.
+         EXIT
+      ENDSWITCH
+
+      ::cBuffer := ::PutMask( xValue )
+      ::pos     := ::FirstEditable()
+   endif
+
+   return Self
+
+static FUNCTION Get_IsEditable( nPos ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   LOCAL cChar
+
+   if Empty( ::cPicMask )
+      return .T.
+   endif
+
+
+
+
+
+   if nPos > Len( ::cPicMask ) .AND. nPos <= ::nMaxLen
+      return .T.
+   endif
+
+   if ::cType <> NIL
+      cChar := SubStr( ::cPicMask, nPos, 1 )
+      SWITCH ::cType
+      CASE "C" ; return hb_asciiUpper( cChar ) $ "!ANX9#LY"
+      CASE "N" ; return cChar $ "9#$*"
+      CASE "D"
+      CASE "T" ; return cChar == "9"
+      CASE "L" ; return hb_asciiUpper( cChar ) $ "LY#"
+      ENDSWITCH
+   endif
+
+   return .F.
+
+static FUNCTION Get_Input( cChar ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   LOCAL cPic
+
+   if ::cType <> NIL
+
+      SWITCH ::cType
+      CASE "N"
+
+         DO CASE
+         CASE cChar == "-"
+            ::lMinus2 := .T.
+            ::lMinus := .T.
+
+         CASE cChar $ ".,"
+            ::toDecPos()
+            return ""
+
+         CASE !( cChar $ "0123456789+" )
+            return ""
+         ENDCASE
+         EXIT
+
+      CASE "D"
+
+         if !( cChar $ "0123456789" )
+            return ""
+         endif
+         EXIT
+
+      CASE "T"
+
+         if !( cChar $ "0123456789" )
+            return ""
+         endif
+         EXIT
+
+      CASE "L"
+
+         if !( Upper( cChar ) $ "YNTF" )
+            return ""
+         endif
+         EXIT
+
+      ENDSWITCH
+   endif
+
+   if ! Empty( ::cPicFunc )
+      cChar := Left( Transform( cChar, ::cPicFunc ), 1 )
+   endif
+
+   if ! Empty( ::cPicMask )
+      cPic  := hb_asciiUpper( SubStr( ::cPicMask, ::nPos, 1 ) )
+
+
+
+
+
+      DO CASE
+      CASE cPic == "A"
+         if ! IsAlpha( cChar )
+            cChar := ""
+         endif
+
+      CASE cPic == "N"
+         if ! IsAlpha( cChar ) .AND. ! IsDigit( cChar )
+            cChar := ""
+         endif
+
+      CASE cPic == "9"
+         if ! IsDigit( cChar ) .AND. ! cChar $ "-+"
+            cChar := ""
+         endif
+         if !( ::cType == "N" ) .AND. cChar $ "-+"
+            cChar := ""
+         endif
+
+
+      CASE cPic == "L" .OR. ( cPic == "#" .AND. ::cType == "L" )
+
+
+         if !( Upper( cChar ) $ "YNTF" +  hb_langMessage( 115 + 1 ) +  hb_langMessage( 115 + 2 ) )
+            cChar := ""
+         endif
+
+      CASE cPic == "#"
+         if ! IsDigit( cChar ) .AND. !( cChar == " " ) .AND. !( cChar $ ".+-" )
+            cChar := ""
+         endif
+
+      CASE cPic == "Y"
+         cChar := Upper( cChar )
+         if !( cChar $ "YN" )
+            cChar := ""
+         endif
+
+      CASE ( cPic == "$" .OR. cPic == "*" ) .AND. ::cType == "N"
+         if ! IsDigit( cChar ) .AND. !( cChar == "-" )
+            cChar := ""
+         endif
+      OTHERWISE
+         cChar := Transform( cChar, cPic )
+      ENDCASE
+   endif
+
+   return cChar
+
+
+
+static FUNCTION Get_getBuffer( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+   return ::cBuffer
+
+static FUNCTION Get_setBuffer( cBuffer ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+   return iif( ::hasFocus, ::cBuffer := cBuffer, cBuffer )
+
+
+
+static FUNCTION Get_getChanged( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+   return ::lChanged
+
+static FUNCTION Get_setChanged( lChanged ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if HB_ISLOGICAL( lChanged )
+      return iif( ::hasFocus, ::lChanged := lChanged, lChanged )
+   endif
+
+   return .F.
+
+static FUNCTION Get_getClear( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+   return ::lClear
+
+static FUNCTION Get_setClear( lClear ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if HB_ISLOGICAL( lClear )
+      return iif( ::hasFocus, ::lClear := lClear, lClear )
+   endif
+
+   return .F.
+
+static FUNCTION Get_getMinus( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+   return ::lMinus
+
+static FUNCTION Get_setMinus( lMinus ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if HB_ISLOGICAL( lMinus )
+      return iif( ::hasFocus, ::lMinus := lMinus, lMinus )
+   endif
+
+   return .F.
+
+
+
+
+static FUNCTION Get_getRow( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+   return ::nRow
+
+static FUNCTION Get_setRow( nRow ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+   return ::nRow := iif( HB_ISNUMERIC( nRow ), Int( nRow ), 0 )
+
+
+
+
+static FUNCTION Get_getCol( ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+   return ::nCol
+
+static FUNCTION Get_setCol( nCol ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+   return ::nCol := iif( HB_ISNUMERIC( nCol ), Int( nCol ), 0 )
+
+static FUNCTION Get_name( cName ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if PCount() > 0 .AND. cName <> NIL
+      ::cName := cName
+   endif
+
+   return ::cName
+
+static FUNCTION Get_subScript( xValue ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if xValue <> NIL
+      ::xSubScript := xValue
+   endif
+
+   return ::xSubScript
+
+static FUNCTION Get_postBlock( xValue ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if xValue <> NIL
+      ::bPostBlock := xValue
+   endif
+
+   return ::bPostBlock
+
+static FUNCTION Get_preBlock( xValue ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if xValue <> NIL
+      ::bPreBlock := xValue
+   endif
+
+   return ::bPreBlock
+
+static FUNCTION Get_cargo( xValue ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if xValue <> NIL
+      ::xCargo := xValue
+   endif
+
+   return ::xCargo
+
+static FUNCTION Get_exitState( xValue ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if xValue <> NIL
+      ::xExitState := xValue
+   endif
+
+   return ::xExitState
+
+static FUNCTION Get_reader( xValue ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if xValue <> NIL
+      ::bReader := xValue
+   endif
+
+   return ::bReader
+
+
+
+static FUNCTION Get_New( nRow, nCol, bVarBlock, cVarName, cPicture, cColorSpec ) ; local Self AS CLASS Get := QSelf() AS CLASS Get
+
+   if nRow == NIL
+      nRow := Row()
+   endif
+   if nCol == NIL
+      nCol := Col() + iif( Set( 33 ), 1, 0 )
+   endif
+   __defaultNIL( @cVarName, "" )
+   if bVarBlock == NIL
+      bVarBlock := iif( HB_ISSTRING( cVarName ), MemVarBlock( cVarName ), NIL )
+   endif
+   if cColorSpec == NIL
+      cColorSpec := SetColor()
+
+
+
+
+
+
+      cColorSpec :=  hb_ColorIndex( cColorSpec, iif( Set( 31 ), 4, 0 ) ) + "," +  hb_ColorIndex( cColorSpec, iif( Set( 31 ), 1, 0 ) ) + "," +  hb_ColorIndex( cColorSpec, 0 ) + "," +  iif( IsDefColor(), iif( Set( 31 ), "W+/N", "W/N" ),  hb_ColorIndex( cColorSpec, iif( Set( 31 ), 3, 0 ) ) )
+
+
+
+
+
+   endif
+
+   ::nRow      := nRow
+   ::nCol      := nCol
+   ::bBlock    := bVarBlock
+   ::cName     := cVarName
+   ::picture   := cPicture
+   ::colorSpec := cColorSpec
+
+   return Self
+
+FUNCTION GetNew( nRow, nCol, bVarBlock, cVarName, cPicture, cColor )
+   return Get():New( nRow, nCol, bVarBlock, cVarName, cPicture, cColor )

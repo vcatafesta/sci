@@ -1,6 +1,5 @@
-#include "sci.ch"
+#include "sci.ch"  
 #translate pause() => pausetdbf()
-
 REQUEST HB_LANG_EN
 REQUEST HB_LANG_PT
 
@@ -197,7 +196,6 @@ def pausetdbf()
 	retur nil
 
 CLASS TDbf
-	EXPORTED:
    DATA Id    
 	DATA Field  INIT {=>}
 	DATA hField INIT {=>}
@@ -208,11 +206,13 @@ CLASS TDbf
 	
 	METHOD new(cDbf) CONSTRUCTOR
 	DESTRUCTOR Destroy() 
-   METHOD Open(cDbf)   
+   METHOD Open   
 	METHOD DbSkip(x) 
 	METHOD DbSeek(x) 
 	METHOD DbDelete(nrecno)
+	METHOD DbDelete(nrecno)
 	METHOD Destroy()
+	
 	METHOD GetDados()		
 	METHOD Append()
 	METHOD Libera()
@@ -226,8 +226,6 @@ CLASS TDbf
 	METHOD CommitNew()
 	METHOD RollBack(nLastRecnoCommit)
 	METHOD ProxReg(cCampo)
-	METHOD ReleaseAndNil
-	METHOD Release
 	
 	MESSAGE Create(cDbf) 	METHOD new(cDbf)
 	MESSAGE Init(cDbf) 	   METHOD new(cDbf)
@@ -237,45 +235,16 @@ CLASS TDbf
 	MESSAGE Recno()        	INLINE (::Alias)->(Recno())	
 	MESSAGE Order(nindice)	INLINE (::Alias)->(Order(nindice))	
 	MESSAGE Incluiu()			INLINE (::Alias)->(Incluiu())	
-	MESSAGE Eof()    			INLINE (::Alias)->(Eof())	
 	MESSAGE DbGoTop()    	INLINE (::Alias)->(DbGotop())	
 	MESSAGE DbGoBottom()   	INLINE (::Alias)->(DbGoBottom())	
 	MESSAGE TravaReg()   	INLINE (::Alias)->(TravaReg())	
 	MESSAGE DbGoto(nrecno) 	INLINE (::Alias)->(DbGoto(nrecno))	
-	MESSAGE Area(cDbf) 		INLINE DbSelectArea(cDbf)	
 	/*MESSAGE DbGoto(nrecno) 	INLINE Eval({|self, nrecno|
 														(self:Alias)->(DbGoTo(nrecno))
 														 self:GetDados()
 														 return self:Recno()
 													}, self, nrecno)*/
-	METHOD nRec( n )     	SETGET													
-	ERROR HANDLER OnError( xParam )
 ENDCLASS
-
-METHOD nRec( n ) CLASS Tdbf
-	IF n != Nil
-		dbGoTo( n )
-   ENDIF
-RETURN Recno()
-
-METHOD OnError( xParam ) CLASS TDbf
-Local cMsg := __GetMessage(), cFieldName, nPos
-Local xValue
- 
-   IF Left( cMsg, 1 ) == '_'
-      cFieldName := Substr( cMsg,2 )
-   ELSE
-      cFieldName := cMsg
-   ENDIF
-   IF ( nPos := FieldPos( cFieldName ) ) == 0
-      Alert( cFieldName + " wrong field name!" )
-   ELSEIF cFieldName == cMsg
-      RETURN FieldGet( nPos )
-   ELSE
-      FieldPut( nPos, xParam )
-   ENDIF
-Return Nil
-
 
 METHOD TDbf:New(cDbf)
 	if cDbf = VOID
@@ -283,51 +252,28 @@ METHOD TDbf:New(cDbf)
 	endif		
 	::Dbf    := upper(cDbf) + '.DBF'
 	::Alias  := upper(cDbf)
-	if !UsaArquivo((::Alias))
-		MensFecha()	
-	endif	
-	::Area(::alias)
-	::alias := Alias()	
+	::Open()
 	::AddField()
 	::DbStruct()	
 	//::GetDados()
 	return self
-
-
-METHOD TDbf:Open(cDbf)
-	::Dbf    := upper(cDbf) + '.DBF'
-	::Alias  := upper(cDbf)
-	::Area(::alias)
-	//::alias := Alias()	
-	::AddField()
-	::DbStruct()		
-	return self
-
 	
 METHOD Destroy()
-	//(::Alias)->(DbCloseArea())
+	(::Alias)->(DbCloseArea())
    self := nil	
-	return self
-
-METHOD ReleaseAndNil()
-	self := nil	
-	return self
-
-METHOD Release()
-	self := nil	
-	return self
+	return nil
 	
-METHOD TDbf:Fcount()
+METHOD function TDbf:Fcount()
 	return (::Alias)->(FCount())
 	
-METHOD TDbf:ProxReg(cCampo)
+METHOD function TDbf:ProxReg(cCampo)
 	LOCAL nRecno := ::Recno()		
 	LOCAL nPos   
 	LOCAL nLen   
 	LOCAL cType 	
 	LOCAL cNewReg
 	
-	hb_default(@cCampo, "ID")
+	hb_default(@cCampo, "CODI")
 	::DbGoBottom()	
 	nPos   := (::Alias)->(FieldPos(cCampo))
 	nLen   := (::Alias)->(FieldLen(nPos))		
@@ -342,7 +288,7 @@ METHOD TDbf:ProxReg(cCampo)
 	::DbGoto(nRecno)
 	return(cNewReg)
 
-METHOD TDbf:addField()
+METHOD function TDbf:addField()
    LOCAL aCampos := {}
    LOCAL aGets   := {}
 	LOCAL fLen := ::FCount()
@@ -389,7 +335,7 @@ METHOD TDbf:addField()
 	::hField := ::Field
 	return len(::Field)
 
-METHOD TDbf:GetDados()
+METHOD function TDbf:GetDados()
 	LOCAL x
 	LOCAL xLen := ::FCount()
 	LOCAL cCampo
@@ -409,7 +355,7 @@ METHOD TDbf:GetDados()
 	next	
 	return len(::Field)
 	
-METHOD TDbf:Commit()
+METHOD function TDbf:Commit()
 	LOCAL x
 	LOCAL xLen := ::FCount()
 	LOCAL cCampo
@@ -432,7 +378,7 @@ METHOD TDbf:Commit()
 	endif	
 	return false
 	
-METHOD TDbf:CommitNew()
+METHOD function TDbf:CommitNew()
 	LOCAL x
 	LOCAL xLen := ::FCount()
 	LOCAL cCampo
@@ -456,19 +402,19 @@ METHOD TDbf:CommitNew()
 	endif	
 	return false	
 	
-METHOD TDbf:RollBack(nLastRecnoCommit)
+METHOD function TDbf:RollBack(nLastRecnoCommit)
 	hb_default(@nLastRecnoCommit, ::nLastRecnoCommit)
 	if nLastRecnoCommit != nil
       return( ::DbDelete(nLastRecnoCommit))
 	endif
 	return false
 
-METHOD TDbf:GetFieldBlank(cType, nLen)
-	LOCAL hBranco := {"C" => Space(nLen), "N" => 0, "D" => cTod("//"), "L" => false, "+" => 0 }
+METHOD function TDbf:GetFieldBlank(cType, nLen)		
+	LOCAL hBranco := {"C" => Space(nLen), "N" => 0, "D" => cTod("//"), "L" => false }
 	LOCAL cGet    := hBranco[cType]
 	return cGet
 
-METHOD TDbf:FieldBlank()
+METHOD function TDbf:FieldBlank()
 	LOCAL x
 	LOCAL xLen := ::FCount()
 	LOCAL cCampo
@@ -489,7 +435,7 @@ METHOD TDbf:FieldBlank()
 	::hField := ::Field
 	return len(::Field)	
 	
-METHOD TDbf:DbStruct()	
+METHOD function TDbf:DbStruct()	
 	::hStru := {=>}			
 	/*
 	? (::Alias)->(DbStruct())[1][1] // CODI
@@ -501,6 +447,16 @@ METHOD TDbf:DbStruct()
 	::hStru[::Alias] := (::Alias)->(DbStruct())
 	return len(::hStru)
 	
+METHOD TDbf:Open()		
+	cls
+	? ::Alias
+	inkey(0)
+	if !UsaArquivo((::Alias))
+		MensFecha()	
+	endif
+	::alias := Alias()
+	return self
+	
 METHOD TDbf:Travados()	
 	LOCAL nRecno
 	LOCAL aRecno := (::Alias)->(dbRLockList())
@@ -510,7 +466,7 @@ METHOD TDbf:Travados()
 	next
 	return aRecno
 
-METHOD TDbf:DbDelete(nrecno)
+METHOD def TDbf:DbDelete(nrecno)
    hb_default(@nrecno, ::Recno())
    ::DbGoto(nrecno) 	
 	if (::Alias)->(TravaReg())
@@ -521,10 +477,10 @@ METHOD TDbf:DbDelete(nrecno)
    endif
 	return false
 	
-METHOD TDbf:Append()
+METHOD function TDbf:Append()
 	return((::Alias)->(Incluiu()))
 	
-METHOD TDbf:Libera()
+METHOD function TDbf:Libera()
 	(::Alias)->(Libera())
 	return self	
 	
@@ -533,7 +489,7 @@ METHOD TDbf:DbSkip(x)
 	::GetDados()
 	return self
 	
-METHOD TDbf:DbSeek(x)
+METHOD function TDbf:DbSeek(x)
 	LOCAL lresult := (::Alias)->(DbSeek(x))
 	if lresult
 		::GetDados()
@@ -571,7 +527,7 @@ method _1() class foo
 	aHash := {=>}
 	aHash['Nome'] := 'Jose Manoel'
 	aHash['Hoje'] := DATE()
-	aHash[Date()] := "Esta chave ï¿½ uma data"
+	aHash[Date()] := "Esta chave é uma data"
 	aHash[12]     := .T.
 
 	// Para exibir os valores, use:

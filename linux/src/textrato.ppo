@@ -1,0 +1,149 @@
+#line 12 "c:\sci\include\rddName.ch"
+    EXTERNAL leto
+    EXTERNAL DBFNTX
+   EXTERNAL DBFCDX
+
+
+    EXTERNAL DBFFPT
+    EXTERNAL SIXCDX
+    EXTERNAL DBFNSX
+    EXTERNAL HB_MEMIO
+#line 3 "textrato.prg"
+_HB_CLASS TExtratoImp ; function TExtratoImp ( ... ) ; STATIC s_oClass ; LOCAL nScope, oClass, oInstance ; IF s_oClass == NIL .AND. __clsLockDef( @s_oClass ) ; BEGIN SEQUENCE ; nScope := 1 ; ( ( nScope ) ) ; oClass := iif( .F.,, HBClass():new( "TExtratoImp", iif( .F., { }, { @HBObject() } ), @TExtratoImp() ) ) ;
+    _HB_MEMBER { nRegTribunal } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nRegTribunal"}, .F. )
+    _HB_MEMBER { nRegRecibo } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nRegRecibo"}, .F. )
+    _HB_MEMBER { nRegVencido } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nRegVencido"}, .F. )
+    _HB_MEMBER { nRegVencer } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nRegVencer"}, .F. )
+    _HB_MEMBER { nVlrPrincipalTribunal } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nVlrPrincipalTribunal"}, .F. )
+    _HB_MEMBER { nVlrPrincipalRecibo } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nVlrPrincipalRecibo"}, .F. )
+    _HB_MEMBER { nVlrPrincipalVencido } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nVlrPrincipalVencido"}, .F. )
+    _HB_MEMBER { nVlrPrincipalVencer } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nVlrPrincipalVencer"}, .F. )
+    _HB_MEMBER { nTotalRecibo } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nTotalRecibo"}, .F. )
+    _HB_MEMBER { nTotalVencido } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nTotalVencido"}, .F. )
+    _HB_MEMBER { nTotalVencer } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nTotalVencer"}, .F. )
+    _HB_MEMBER { nVlrCorrigido } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nVlrCorrigido"}, .F. )
+    _HB_MEMBER { nVlrCorrigidoTotal } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nVlrCorrigidoTotal"}, .F. )
+    _HB_MEMBER { nSoJuros } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nSoJuros"}, .F. )
+    _HB_MEMBER { nSoJurosTotal } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nSoJurosTotal"}, .F. )
+    _HB_MEMBER { nVlrCorrigidoMaisnSoJuros } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nVlrCorrigidoMaisnSoJuros"}, .F. )
+    _HB_MEMBER { nMultaTotal } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nMultaTotal"}, .F. )
+    _HB_MEMBER { nTotalGeral } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nTotalGeral"}, .F. )
+    _HB_MEMBER { nAtraso } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nAtraso"}, .F. )
+    _HB_MEMBER { nCarencia } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nCarencia"}, .F. )
+    _HB_MEMBER { nDesconto } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nDesconto"}, .F. )
+    _HB_MEMBER { nJuros } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nJuros"}, .F. )
+    _HB_MEMBER { nSoma } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nSoma"}, .F. )
+    _HB_MEMBER { nMulta } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nMulta"}, .F. )
+    _HB_MEMBER { nValorCm } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nValorCm"}, .F. )
+    _HB_MEMBER { nCm } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nCm"}, .F. )
+    _HB_MEMBER { nDias } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nDias"}, .F. )
+    _HB_MEMBER { nJuro } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nJuro"}, .F. )
+    _HB_MEMBER { aJuro } ; oClass:AddMultiData(, {}, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"aJuro"}, .F. )
+    _HB_MEMBER { nJuroDia } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nJuroDia"}, .F. )
+    _HB_MEMBER { nJuroTotal } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nJuroTotal"}, .F. )
+    _HB_MEMBER { nVlr } ; oClass:AddMultiData(, 0, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"nVlr"}, .F. )
+    _HB_MEMBER { dVcto } ; oClass:AddMultiData(, Date(), nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"dVcto"}, .F. )
+    _HB_MEMBER { dCalculo } ; oClass:AddMultiData(, Date(), nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"dCalculo"}, .F. )
+    _HB_MEMBER New(); oClass:AddInline( "New", {|Self | ( ( Self ) ), Self }, nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+    _HB_MEMBER Zerar(); oClass:AddMethod( "Zerar", @TExtratoImp_Zerar(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+    _HB_MEMBER CalculaPorraToda(); oClass:AddMethod( "CalculaPorraToda", @TExtratoImp_CalculaPorraToda(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+    _HB_MEMBER ContaTribunal(); oClass:AddMethod( "ContaTribunal", @TExtratoImp_ContaTribunal(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+    _HB_MEMBER ContaRecibo(); oClass:AddMethod( "ContaRecibo", @TExtratoImp_ContaRecibo(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+    _HB_MEMBER ContaVencido(); oClass:AddMethod( "ContaVencido", @TExtratoImp_ContaVencido(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+    _HB_MEMBER ContaVencer(); oClass:AddMethod( "ContaVencer", @TExtratoImp_ContaVencer(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+oClass:Create() ; ; ALWAYS ; __clsUnlockDef( @s_oClass, oClass ) ; end ; oInstance := oClass:Instance() ; IF __objHasMsg( oInstance, "InitClass" ) ; oInstance:InitClass( ... ) ; END ; RETURN oInstance ; END ; RETURN s_oClass:Instance() AS CLASS TExtratoImp ;
+
+static FUNCTION TExtratoImp_Zerar( ) ; local Self AS CLASS TExtratoImp := QSelf() AS CLASS TExtratoImp
+
+    ::nRegTribunal              := 0
+    ::nRegRecibo                := 0
+    ::nRegVencido               := 0
+    ::nRegVencer                := 0
+    ::nVlrPrincipalTribunal     := 0
+    ::nVlrPrincipalRecibo       := 0
+    ::nVlrPrincipalVencido      := 0
+    ::nVlrPrincipalVencer       := 0
+    ::nTotalRecibo              := 0
+    ::nTotalVencido             := 0
+    ::nTotalVencer              := 0
+    ::nVlrCorrigido             := 0
+    ::nVlrCorrigidoTotal        := 0
+    ::nSoJuros                  := 0
+    ::nSoJurosTotal             := 0
+    ::nVlrCorrigidoMaisnSoJuros := 0
+    ::nMultaTotal               := 0
+    ::nTotalGeral               := 0
+    ::nMulta                    := 0
+    ::nSoma                     := 0
+    ::nAtraso                   := 0
+    ::nCarencia                 := 0
+    ::nDesconto                 := 0
+    ::nJuros                       := 0
+    ::nSoma                         := 0
+    ::nMulta                        := 0
+    ::nValorCm                  := 0
+    ::nCm                       := 0
+    ::nVlrCorrigido             := 0
+    ::nDias                     := 0
+    ::nJuro                          := 0
+    ::aJuro                     := {}
+    ::nJuroDia                  := 0
+    ::nJuroTotal                := 0
+    ::nSoJuros                  := 0
+    ::nJuroTotal                := 0
+    ::nJuroDia                  := 0
+    ::nVlr                      := 0
+    ::dVcto                     := Date()
+    ::dVcto                     := Date()
+return self
+
+static FUNCTION TExtratoImp_CalculaPorraToda( ) ; local Self AS CLASS TExtratoImp := QSelf() AS CLASS TExtratoImp
+   ::nAtraso       := Atraso(      ::dCalculo, ::dVcto )
+    ::nCarencia        := Carencia(    ::dCalculo, ::dVcto )
+    ::nDesconto        := VlrDesconto( ::dCalculo, ::dVcto, ::nVlr )
+
+    ::nJuros           := if( ::nAtraso <= 0, 0, ( ::nCarencia * ::nJurodia ))
+    ::nSoma             := ((::nVlr + ::nJuros ) - ::nDesconto)
+    ::nMulta            := VlrMulta( ::dCalculo, ::dVcto, ::nSoma )
+    ::nSoma             += ::nMulta
+
+    ::nValorCm      := CalculaCm(::nVlr, ::dVcto, ::dCalculo)
+    ::nCm           := (::nValorCm - ::nVlr)
+    ::nVlrCorrigido := ::nValorCm
+    ::nDias         := (::dCalculo - ::dVcto)
+    ::nJuro              := oAmbiente:aSciArray[1 , 8]
+    ::aJuro         := aAntComposto( ::nVlr, ::nJuro, ::nDias, (1/30))
+    ::nJuroDia      := ::aJuro[6]
+    ::nJuroTotal    := ::aJuro[5]
+    ::nSoJuros      := ::aJuro[5]
+    ::nJuroTotal    += ::nCm
+    ::nJuroDia      := (::nJuroTotal / ::nDias)
+return self
+
+static FUNCTION TExtratoImp_ContaTribunal( ) ; local Self AS CLASS TExtratoImp := QSelf() AS CLASS TExtratoImp
+    ::nRegTribunal++
+    ::nVlrPrincipalTribunal     += ::nVlr
+    ::nVlrCorrigidoTotal        += ::nVlrCorrigido
+    ::nSoJurosTotal             += ::nSoJuros
+    ::nVlrCorrigidoMaisnSoJuros += ::nVlrCorrigido + ::nSoJuros
+    ::nMultaTotal               += ::nMulta
+    ::nTotalGeral               += ::nVlrCorrigido + ::nSoJuros + ::nMulta
+return self
+
+static FUNCTION TExtratoImp_ContaRecibo( ) ; local Self AS CLASS TExtratoImp := QSelf() AS CLASS TExtratoImp
+    ::nRegRecibo++
+    ::nVlrPrincipalRecibo += ::nVlr
+    ::nTotalRecibo        += Recibo->Vlr
+return self
+
+static FUNCTION TExtratoImp_ContaVencido( ) ; local Self AS CLASS TExtratoImp := QSelf() AS CLASS TExtratoImp
+    ::nRegVencido++
+    ::nVlrPrincipalVencido += ::nVlr
+    ::nTotalVencido        += ::nSoma
+return self
+
+static FUNCTION TExtratoImp_ContaVencer( ) ; local Self AS CLASS TExtratoImp := QSelf() AS CLASS TExtratoImp
+    ::nRegVencer++
+    ::nVlrPrincipalVencer += ::nVlr
+    ::nTotalVencer        += ::nSoma
+return self

@@ -1,0 +1,195 @@
+#line 12 "c:\sci\include\rddName.ch"
+    EXTERNAL leto
+    EXTERNAL DBFNTX
+   EXTERNAL DBFCDX
+
+
+    EXTERNAL DBFFPT
+    EXTERNAL SIXCDX
+    EXTERNAL DBFNSX
+    EXTERNAL HB_MEMIO
+#line 3 "tindice.prg"
+_HB_CLASS TIndice ; function TIndice ( ... ) ; STATIC s_oClass ; LOCAL nScope, oClass, oInstance ; IF s_oClass == NIL .AND. __clsLockDef( @s_oClass ) ; BEGIN SEQUENCE ; nScope := 1 ; ( ( nScope ) ) ; oClass := iif( .F.,, HBClass():new( "TIndice", iif( .F., { }, { @HBObject() } ), @TIndice() ) ) ;
+     nScope := 1 ; ( ( nScope ) )
+          _HB_MEMBER { aNome_Campo } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"aNome_Campo"}, .F. )
+          _HB_MEMBER { aNome_Ntx } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"aNome_Ntx"}, .F. )
+          _HB_MEMBER { acTag } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"acTag"}, .F. )
+          _HB_MEMBER { ProgressoNtx } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"ProgressoNtx"}, .F. )
+          _HB_MEMBER { Reindexando } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"Reindexando"}, .F. )
+          _HB_MEMBER { Row } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"Row"}, .F. )
+          _HB_MEMBER { Col } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"Col"}, .F. )
+          _HB_MEMBER { Alias } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"Alias"}, .F. )
+          _HB_MEMBER { Compactar } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"Compactar"}, .F. )
+          _HB_MEMBER { Reindexado } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"Reindexado"}, .F. )
+          _HB_MEMBER { Final } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"Final"}, .F. )
+     nScope := 1 ; ( ( nScope ) )
+          _HB_MEMBER New() AS CLASS TIndice; oClass:AddMethod( "New", @TIndice_New(), nScope + iif( .T., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+          _HB_MEMBER DbfNtx(); oClass:AddMethod( "DbfNtx", @TIndice_DbfNtx(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+          _HB_MEMBER AddNtx(); oClass:AddMethod( "AddNtx", @TIndice_AddNtx(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+          _HB_MEMBER CriaNtx(); oClass:AddMethod( "CriaNtx", @TIndice_CriaNtx(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+          _HB_MEMBER ProgNtx(); oClass:AddMethod( "ProgNtx", @TIndice_ProgNtx(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+          _HB_MEMBER PackDbf(); oClass:AddMethod( "PackDbf", @TIndice_PackDbf(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+          _HB_MEMBER Limpa(); oClass:AddMethod( "Limpa", @TIndice_Limpa(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+oClass:Create() ; ; ALWAYS ; __clsUnlockDef( @s_oClass, oClass ) ; end ; oInstance := oClass:Instance() ; IF __objHasMsg( oInstance, "InitClass" ) ; oInstance:InitClass( ... ) ; END ; RETURN oInstance ; END ; RETURN s_oClass:Instance() AS CLASS TIndice ;
+
+static FUNCTION TIndice_New( cAlias ) ; local Self AS CLASS TIndice := QSelf() AS CLASS TIndice
+    Self:ProgressoNtx := .F.
+    Self:Reindexando    := .F.
+    Self:aNome_Campo    := {}
+    Self:aNome_Ntx     := {}
+    Self:acTag            := {}
+    Self:Row             := 09
+    Self:Col             := 15
+    Self:Compactar     := .F.
+    Self:Reindexado    := .F.
+    Self:Final            := .F.
+    Self:DbfNtx( cAlias )
+    return( Self )
+
+static FUNCTION TIndice_Limpa( ) ; local Self AS CLASS TIndice := QSelf() AS CLASS TIndice
+    ::aNome_Campo    := {}
+    ::aNome_Ntx     := {}
+    ::acTag            := {}
+    return( Self )
+
+static FUNCTION TIndice_DbfNtx( cAlias ) ; local Self AS CLASS TIndice := QSelf() AS CLASS TIndice
+
+    LOCAL bQuery
+    Self:aNome_Campo    := {}
+    Self:aNome_Ntx     := {}
+    Self:acTag            := {}
+
+    if cAlias <> NIL
+        if (oAmbiente:LetoAtivo)
+            if !Used()
+                if !NetUse( cAlias, .F. )
+                    resTela( cTela )
+                    return(.F.)
+                endif
+            endif
+        else
+            if !Used()
+                dbUseArea( .T.,, (cAlias),, iif( .T. .OR. .F., ! .F., NIL ), .F. ) ; HB_DBDETACH( (cAlias) )
+                HB_DBREQUEST( (cAlias) )
+            endif
+        endif
+        dbSelectArea( (cAlias) )
+    endif
+    if Used()
+        Self:Alias := Alias()
+    endif
+    return( Self )
+
+static FUNCTION TIndice_PackDbf( cAlias ) ; local Self AS CLASS TIndice := QSelf() AS CLASS TIndice
+
+    if Self:Compactar
+        if cAlias <> NIL
+            if (oAmbiente:LetoAtivo)
+                if !Used()
+                    if !NetUse( cAlias, .F. )
+                        resTela( cTela )
+                        return(.F.)
+                    endif
+                endif
+            else
+                if !Used()
+                    dbUseArea( .T.,, (cAlias),, iif( .T. .OR. .F., ! .F., NIL ), .F. ) ; HB_DBDETACH( (cAlias) )
+                    HB_DBREQUEST( (cAlias) )
+                endif
+            endif
+            dbSelectArea( (cAlias) )
+        endif
+        if Used()
+            Self:Alias := Alias()
+            mensagem(" Aguarde, Compactando ;-;;#" + cAlias)
+            __DbPack()
+        endif
+    endif
+    return( Self )
+
+static FUNCTION TIndice_AddNtx( Nome_Campo, Nome_Ntx, cTag ) ; local Self AS CLASS TIndice := QSelf() AS CLASS TIndice
+    Aadd( Self:aNome_Campo, Nome_Campo )
+    Aadd( Self:aNome_Ntx,    Nome_Ntx   )
+    Aadd( Self:acTag,         cTag          )
+    return( Self )
+
+static FUNCTION TIndice_CriaNtx( ) ; local Self AS CLASS TIndice := QSelf() AS CLASS TIndice
+    LOCAL cScreen := SaveScreen()
+    LOCAL nLen      := Len( Self:aNome_Campo )
+    LOCAL nX       := 0
+    LOCAL nCol      := Self:Row - 2
+    PRIVA Nome_Campo
+    PRIVA Nome_Ntx
+    PRIVA cTag
+
+    if Used()
+        oMenu:Limpa()
+        MaBox( Self:Row, Self:Col, Self:Row+nLen+1, 42, Self:Alias )
+
+        Self:Reindexando    := .T.
+        Self:Reindexado    := .F.
+        For nX := 1 To nLen
+            Nome_Campo := ::aNome_Campo[nX]
+            Nome_Ntx   := ::aNome_Ntx[nX]
+            cTag            := ::acTag[nX] + ".CDX"
+
+
+
+
+
+            Write( Self:Row+nX, Self:Col+1, Self:aNome_Ntx[nX] + Repl("Ä", 24 - Len( Self:aNome_Ntx[nX])))
+            Write( Self:Row+nX, Self:Col+15+10, Chr(10))
+
+            if RddSetDefa() = "DBFNTX"
+                if Self:ProgressoNtx
+                    MaBox( Self:Row-5, Self:Col, Self:Row-1, Self:Row+57 )
+                    ordCondSet(,,,, {|| Self:ProgNtx()}, LastRec() / 100, RecNo(),,,,,,,,,,,,, ) ; ordCreate( Nome_Ntx,, Nome_Campo, {|| &Nome_Campo.}, )
+                else
+                    ordCondSet(,,,,,, RecNo(),,,,,,,,,,,,, ) ; ordCreate( Nome_Ntx,, Nome_Campo, {|| &Nome_Campo.}, )
+                endif
+            else
+                if Self:ProgressoNtx
+                    MaBox( Self:Row-5, Self:Col, Self:Row-1, Self:Row+57 )
+                    if (oAmbiente:LetoAtivo)
+
+                        ordCondSet(,,,, {|| Self:ProgNtx()}, Lastrec() / 100, RecNo(),,,,,,,,,,,,, ) ; ordCreate( ( cTag ), Nome_Ntx, Nome_Campo, {|| &Nome_Campo.}, )
+                    else
+                        ordCondSet(,,,, {|| Self:ProgNtx()}, Lastrec() / 100, RecNo(),,,,,,,,,,,,, ) ; ordCreate( ( cTag ), Nome_Ntx, Nome_Campo, {|| &Nome_Campo.}, )
+                    endif
+
+                else
+                    ordCondSet(,,,,,, RecNo(),,,,,,,,,,,,, ) ; ordCreate( ( cTag ), Nome_Ntx, Nome_Campo, {|| &Nome_Campo.}, )
+
+                endif
+            endif
+            nSetColor(Cor())
+            Write( Self:Row+nX, Self:Col+1, Self:aNome_Ntx[nX] + Repl("Ä", 24 - Len( Self:aNome_Ntx[nX])))
+            Write( Self:Row+nX, Self:Col+15+10, Chr(251))
+        Next
+        Self:Reindexando    := .F.
+        Self:Reindexado    := .T.
+        resTela( cScreen )
+        if Used()
+            DbCloseArea()
+        endif
+        return( Self )
+    endif
+
+static function TIndice_ProgNtx ; local Self AS CLASS TIndice := QSelf() AS CLASS TIndice
+    LOCAL nReg         := Recno()
+    LOCAL nUltimo     := LastRec()
+    LOCAL nPorcento := ( nReg / nUltimo ) * 100
+    LOCAL cComplete := LTrim( Str( Int( nPorcento )))
+
+    if cComplete  = "99"
+        cComplete := "100"
+    endif
+    DevPos( Self:Row-4, Self:Col+1 ) ; DevOut( "þ " + LTrim(Str(nReg)) + " de " + LTrim(Str(nUltimo )) + " Registros" )
+    DevPos( Self:Row-3, Self:Col+1 ) ; DevOut( "þ " + cComplete + "%" )
+    DevPos( Self:Row-2, Self:Col+1 ) ; DevOut( Replicate(" ", 100/2 ), "W+/r" )
+    DevPos( Self:Row-2, Self:Col+1 ) ; DevOut( Replicate("Û", nPorcento/2 ), "W+/r" )
+    return .T.
+
+
+function TIndiceNew( cAlias )
+    return( TIndice():New( cAlias ))

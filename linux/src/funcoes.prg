@@ -16,7 +16,6 @@
 */
 #include <sci.ch>
 
-
 STATIC static13
 STATIC static14
 STATIC static1 := "ÕÍ¸³¾ÍÔ³"
@@ -25,125 +24,6 @@ STATIC static3 := {1, 1, 0, 0, 0, 0, 0, 0, 0, 24, 79, 1, 0, 0, 0, 1, 8, 1, 0, 1,
 
 *==================================================================================================*
 
-def AlertPy(string, cor, centralizar, nOK, cOk)
-*----------------------------------------------*
-	AlertaPy(string, cor, centralizar, nOK, cOk)
-	return nil
-endef
-	
-def AlertaPy(string, Cor, Centralizar, lOK, aPrompt)
-*--------------------------------------------------*
-	LOCAL nlinhas := 0
-	LOCAL aString := ""
-	LOCAL nLen    := 0
-	LOCAL nPv     := 0
-	LOCAL nSep    := 0
-	LOCAL nRow
-	LOCAL nCol
-	LOCAL nRow1
-	LOCAL nCol1
-   LOCAL nMax
-   LOCAL xTemp	 
-    
-   hb_default(@string, "AlertaPy")    
-   //hb_default(@cor, 31)    
-	hb_default(@centralizar, false)    
-	hb_default(@lOk, true) 
-   hb_default(@aPrompt, {" Ok "}) 
-   
-   nlinhas := strcount(';', string)
-	aString := StrSplit( string, ';', -1)  
-	nLen    := amaxstrlen( aString)   
-   nMax    := Len(aString)	     		   
-     
-   if aPrompt == nil .or. len(aPrompt) == 0 .or. !IsArray(aPrompt)
-		aPrompt := {" Ok "}
-	endif
-	
-	// verifica se a string contem separador de linhas ;-; 
-	for x := 1 To nMax
-		switch aString[x] 
-			case ';'; nPv++ ;	exit
-			case '-'; nSep++;	exit
-		endswitch
-	next
-	 
-	if nSep == 0 // Sem linha horizontal
-		string  += ';-;'
-		nlinhas := strcount(';', string)
-		aString := StrSplit( string, ';', -1)  
-		nLen    := amaxstrlen( aString)	
-	endif		
-
-   nMax    := Len(aString)	     		   
-   
-   if !IsArray(Cor)
-      xTemp := Cor
-      Cor   := Array(nMax)      
-      Afill( Cor, xTemp)
-   endif   
-   
-   if !IsArray(Centralizar)
-      xTemp       := Centralizar 
-      Centralizar := Array(nMax)
-      Afill(Centralizar, xTemp )
-   endif    
-   
-   if nLen < 6
-		nLen = 6
-	endif	 
-   
-	row     := (maxrow() / 2) - (nlinhas / 2) - 4
-	col     := (maxcol() - nLen) / 2	 
-	cScreen := SaveScreen()	 
-	nrow    := row
-	ncol    := (col-2)
-	nrow1   := (row+4+nlinhas)
-	ncol1   := (col+nLen+1)	 	 
-	 
-	nTamPrompt := 0
-	nLenaPrompt := Len(aPrompt)	
-	for k := 1 to nLenaPrompt
-		nTamPrompt += Len(aPrompt[k])
-	next	
-	 
-	center  := (maxcol()/2) - (nTamPrompt/2)
-	 
-//==================== 20/2 = 10
-       //center
-	 
-    setcursor(0)    
-    box(nrow, ncol, nrow1, ncol1, "ÕÍ¸³¾ÍÔ³", Cor[1])
-    for x := 1 To Len(aString)	     
-	     cString := aString[x]
-        if centralizar[x]
-            ncol := (maxcol() - len(cString)) / 2
-        else
-            ncol := col
-		  endif		
-		  if cString == '-'
-			  LinhaHorizontal(row + 1, Col - 2, Col + nlen, cor[x])
-		  else	  
-				aprint(row + 1, ncol, cString, cor[x])
-		  endif		
-        row := row + 1
-	 next	  
-	 if lOk
-		if nLenaPrompt = 1
-			aprint(row + 2, center, aPrompt[1], roloc(cor[1]))
-			inkey(0)
-			restela(cScreen) 	 
-			return(cScreen) 	 
-		else			
-			//nSetColor(cor)
-			return( nRetval := aChoice( row, Col, row + 4, Col + nLen, aPrompt))
-		endif
-	 endif
-	 return(cScreen) 	 
-endef	 
-
-*==================================================================================================*    
-    
 static def MaxDrawBox(Arg1)
    Arg1[18]:= untrim(m_title(), Arg1[11] - Arg1[22]) + right(Arg1[28], Arg1[11])
    mabox(Arg1[1], Arg1[2], Arg1[3], Arg1[4], m_frame(), Arg1[5])
@@ -161,13 +41,12 @@ endef
 def m_frame( cFrame )
    LOCAL pFrame := static1 
 	
-	if ISNIL( cFrame )      
-      //pFrame  := Static1 := oAmbiente:Frame
-      pFrame  := Static1 := "ÕÍ¸³¾ÍÔ³"
+	if (ISNIL( cFrame ))
+      return oAmbiente:Frame 
    else
-      pFrame := Static1 := cFrame
+      Static1 := cFrame
    endif
-   return( pFrame )   
+   return( pFrame )
 endef
 	
 *==================================================================================================*
@@ -218,6 +97,226 @@ endef
 
 *==================================================================================================*
 
+def VerDebitosEmAtraso()
+	LOCAL nNivel := SCI_VERIFICAR_DEBITOS_EM_ATRASO
+
+	if !Empty( aPermissao )
+		if aPermissao[ nNivel ]
+			return( true )
+		endif
+	endif
+	return( FALSO )
+endef
+
+*==================================================================================================*
+
+def PodeExcederDescMax()
+	LOCAL nNivel := SCI_PODE_EXCEDER_DESCONTO_MAXIMO
+	if !Empty( aPermissao )
+		if aPermissao[ nNivel ]
+			return( true )
+		endif
+		return( PedePermissao( nNivel))
+	endif
+	return( false )
+endef
+
+*==================================================================================================*
+	
+def PodeMudarData( dEmis )
+	LOCAL nNivel := SCI_ALTERAR_DATA_FATURA
+	
+	if dEmis == Date()
+		return( true )
+	endif
+	
+	if !Empty( aPermissao )
+		if aPermissao[ nNivel ]
+			return( true )
+		endif
+		if !PedePermissao( nNivel )
+			return( false )
+		endif
+		return( true )
+	endif	
+	return( false )
+endef
+
+*==================================================================================================*
+	
+def PodeRecDataDif( dEmis )
+	LOCAL nNivel := SCI_ALTERAR_DATA_BAIXA
+
+	if dEmis == Date()
+		return( true )
+	endif
+	if !Empty( aPermissao )
+		if aPermissao[ nNivel ]
+			return( true )
+		endif
+		if !PedePermissao( nNivel )
+			return( false )
+		endif
+		return( true )
+	endif
+	return( false )
+endef
+
+*==================================================================================================*
+	
+def PodeReceber()
+	if !Empty( aPermissao )
+		if aPermissao[ SCI_RECEBIMENTOS ]
+			return( true )
+		endif
+		nNivel := SCI_RECEBIMENTOS
+		if !PedePermissao( nNivel )
+			return( false )
+		endif
+		return( true )
+	endif
+	return( false )
+endef
+	
+*==================================================================================================*	
+	
+def PodePagar()
+	if !Empty( aPermissao )
+		if aPermissao[ SCI_PAGAMENTOS ]
+			return( true )
+		endif
+		nNivel := SCI_PAGAMENTOS
+		if !PedePermissao( nNivel )
+			return( false )
+		endif
+		return( true )
+	endif
+	return( false )
+endef
+
+*==================================================================================================*
+	
+def PodeVenderComLimiteEstourado()
+	if !Empty( aPermissao )
+		if aPermissao[SCI_VENDER_COM_LIMITE_ESTOURADO]
+			return( true )
+		endif
+	endif
+	return( false )
+endef
+	
+*==================================================================================================*	
+	
+def VerificarLimiteCredito()
+	if !Empty( aPermissao )
+		if aPermissao[SCI_VERIFICAR_LIMITE_DE_CREDITO]
+			return( true )
+		endif
+	endif
+	return( false )
+endef
+	
+*==================================================================================================*	
+	
+def TipoCadastro()
+	if !Empty( aPermissao )
+		if aPermissao[SCI_TIPO_DE_CADASTRO_DE_CLIENTE]
+			return( true )
+		endif
+	endif
+	return( false )
+endef
+	
+*==================================================================================================*	
+	
+def PodeBaixarTituloAVista()
+	if !Empty( aPermissao )
+		if aPermissao[SCI_BAIXAR_TITULO_QDO_VENDA_A_VISTA]
+			return( true )
+		endif
+	endif
+	return( false )
+endef
+
+*==================================================================================================*
+	
+def PodeFaturarComEstoqueNegativo()
+	if !Empty( aPermissao )
+		if aPermissao[SCI_FATURAR_COM_ESTOQUE_NEGATIVO]
+			return( true )
+		endif
+	endif
+	return( false )
+endef
+
+*==================================================================================================*
+	
+def PodeFazerBackup()
+	if !Empty( aPermissao )
+		if aPermissao[SCI_COPIA_DE_SEGURANCA]
+			return( true )
+		endif
+	endif
+	return( false )
+endef
+	
+*==================================================================================================*	
+	
+def PodeFazerRestauracao()
+	if !Empty( aPermissao )
+		if aPermissao[SCI_RESTAURAR_COPIA_SEGURANCA]
+			return( true )
+		endif
+	endif
+	return( false )	
+endef	
+
+*==================================================================================================*
+
+def PodeAlterar()
+	if !Empty( aPermissao )
+		if aPermissao[SCI_ALTERACAO_DE_REGISTROS]
+			return( true )
+		endif
+	endif
+	return( false )
+endef
+
+*==================================================================================================*
+	
+def PodeTrocarEmpresa()
+	if !Empty( aPermissao )
+		if aPermissao[SCI_TROCAR_DE_EMPRESA]
+			return( true )
+		endif
+	endif
+	return( false )
+endef
+
+*==================================================================================================*
+	
+def PodeIncluir()
+	if !Empty( aPermissao )
+		if aPermissao[SCI_INCLUSAO_DE_REGISTROS]
+			return( true )
+		endif
+	endif
+	return( false )
+endef
+
+*==================================================================================================*
+	
+def PodeExcluir()
+	if !Empty( aPermissao )
+		if aPermissao[SCI_EXCLUSAO_DE_REGISTROS]
+			return( .t. )
+		endif
+	endif
+	return( false )
+endef
+
+*==================================================================================================*
+
 def BoxConf( nRow, nCol, nRow1, nCol1 )
 	LOCAL PBack
 	LOCAL Exceto	 := .F.
@@ -238,87 +337,49 @@ endef
 
 *==================================================================================================*
 
-def SaidaParaRedeCups()   
-	LOCAL cDir     := oAmbiente:xBaseTxt	
-   LOCAL xArquivo := ""
-	
-   xArquivo           := TrimStr(FTempPorExt('txt', cDir))
-	oAmbiente:cArquivo := xArquivo
-   oAmbiente:Spooler  := true
-	Set Print To (xArquivo)	   	
-	return true
+def AcionaSpooler()
+	Set Key F8 To
+	Spooler()
+	Set Key F8 To AcionaSpooler()
+	return( nil )
 endef
-
-*==================================================================================================*
-def PickAviso(cvar, cmsg)
-   return if(Empty(cvar), ( ErrorBeep(), Alerta(cMsg ), false ), true )
-endef
-
-*==================================================================================================*
-
-def MsMemoEdit( cString, cTitulo, nTop, nLeft, nBottom, nRight )
-   LOCAL cScreen := SaveScreen()
-           
-   Mabox(nTop, nLeft, nBottom, nRight, cTitulo)
-   cString = MemoEdit(cString, nTop+1, nLeft+1, nBottom-1, nRight-1)
-   Restela(cScreen)
-   return true
-endef   
 
 *==================================================================================================*
 
 def SaidaParaEmail()
-	LOCAL GetList	:= {}
-   LOCAL cScreen	:= SaveScreen()
-	LOCAL cDir     := oAmbiente:xBaseTxt
-	LOCAL xArquivo := ""
-	
-	oMenu:Limpa()	
-   xArquivo           := TrimStr(FTempPorExt('txt', cDir))	
-   oAmbiente:SendMail := true
-   oAmbiente:cArquivo := xArquivo
-	oAmbiente:Spooler  := true   
-	Set Print To (xArquivo)	
-	ResTela( cScreen )
-	return true
-endef
-
-def SendMail()
 	LOCAL cScreen	:= SaveScreen()
 	LOCAL GetList	:= {}
-	LOCAL cDir     := oAmbiente:xBaseTxt
-	LOCAL xArquivo := oAmbiente:cArquivo
-	LOCAL cTo		:= "vcatafesta@sybernet.com.br" + Space(40)
-	LOCAL cFrom 	:= oIni:ReadString('sistema', 'email', "vcatafesta@gmail.com" + Space(40))
-	LOCAL cSubject := 'Arquivo em Anexo:' + xArquivo
+	LOCAL cDir     := oAmbiente:xRoot + "\" + oAmbiente:xBaseTmp
+	LOCAL xArquivo := FTempName('T*.TXT', cDir)
+	LOCAL cTo		:= Space(40)
+	LOCAL cFrom 	:= oIni:ReadString('sistema', 'email', Space(40))
+	LOCAL cSubject := 'Enviando Email : ' + xTemp + Space(10)
 	LOCAL xServer	:= oIni:ReadString('sistema','smtp', 'SMTP.MICROBRAS.COM.BR' + Space(19))
 	LOCAL xString
-   LOCAL cString
 	LOCAL i
 
 	oMenu:Limpa()		
-	MaBox( 15, 00, 21, 79, "NOVA MENSAGEM")
-	@ 16, 01 Say "Para     : " Get cTo      Valid PickAviso(cTo, "Ooops!: Vai enviar para quem ?")
-	@ 17, 01 Say "De       : " Get cFrom    Valid if(Empty(cFrom),    ( ErrorBeep(), Alerta("Ooops!: Nao vai dizer o email de quem enviou ?"), false ), true )
-	@ 18, 01 Say "Anexo    : " Get xArquivo Valid PickTemp( @xArquivo)
-	@ 19, 01 Say "Assunto  : " Get cSubject Valid if(Empty(cSubject), ( ErrorBeep(), Alerta("Ooops!: Entre com o Assunto!"), false ), true )
-	@ 20, 01 Say "Servidor : " Get xServer  Valid if(Empty(xServer),  ( ErrorBeep(), Alerta("Ooops!: Entre com o servidor!"), false ), true )
-	@ 23, 01                   Get cString  Valid MsMemoEdit( @cString, "CORPO DA MENSAGEM - CTRL+W GRAVAR", 22, 00, 30, 79, true, false)
+	MaBox( 15, 00, 21, 79 )
+	@ 16, 01 Say "Para    : " Get cTo      Pict "@!" Valid if(Empty(cTo),      ( ErrorBeep(), Alerta("Ooops!: Vai enviar para quem ?"), false ), true )
+	@ 17, 01 Say "De      : " Get cFrom    Pict "@!" Valid if(Empty(cFrom),    ( ErrorBeep(), Alerta("Ooops!: Nao vai dizer o email de quem enviou ?"), false ), true )
+	@ 18, 01 Say "Anexo   : " Get xArquivo Pict "@!" Valid if(Empty(xArquivo), ( ErrorBeep(), Alerta("Ooops!: Entre com o Anexo!"), false ), true )
+	@ 19, 01 Say "Assunto : " Get cSubject Pict "@!" Valid if(Empty(cSubject), ( ErrorBeep(), Alerta("Ooops!: Entre com o Assunto!"), false ), true )
+	@ 20, 01 Say "Servidor: " Get xServer  Pict "@!" Valid if(Empty(xServer),  ( ErrorBeep(), Alerta("Ooops!: Entre com o servidor!"), false ), true )
 	Read
 	
 	if LastKey() = K_ESC
-      oAmbiente:SendMail := false     
-      oAmbiente:Spooler  := false         
 		oAmbiente:cArquivo := ""
-      ResTela(cScreen)
-      return false      
+		return(ResTela(cScreen))
 	endif
-   
+	
 	cFrom 				 := AllTrim( cFrom )
 	cTo					 := AllTrim( cTo )
 	cSubject           := AllTrim( cSubject )
 	xServer				 := AllTrim( xServer )
-	
+	oAmbiente:Spooler  := OK
+	oAmbiente:cArquivo := xArquivo
+	xArquivo           := AllTrim( xArquivo )
+	Set Print To (xArquivo)
 	Mensagem('Aguarde, Enviando Email.')
 	/*
 	xString := 'mail.bat'
@@ -327,43 +388,32 @@ def SendMail()
 	xString += '  ' + cFrom
 	xString += '  ' + cTo
 	*/
-   
-   #ifdef __PLATFORM__WINDOWS
-      xstring := 'mail.bat'      
-      i = SWPVIDMDE(OK)
-      i = SWPDISMSG(OK)
-      i = SWPFREEMS(640)
-      i = SWPFREXMS(640)
-      i = SWPSETENV(32000)
-      i = SWPADDENV(2048)
-      i := SWPRUNCMD( xString , 100, "", "")
-   #else
-      #if defined( __PLATFORM__UNIX )         
-         xString := 'echo "' + (cSubject) + '"'
-         xString += ' | mutt -s ' + '"' + (cSubJect) + '"'
-         xString += ' -a '      + oAmbiente:cArquivo
-         xString += ' -- '      + cTo         
-         alert(xstring)
-         ms_system( xString)
-      #endif   
-   #endif	
-   oAmbiente:SendMail := false     
-   oAmbiente:Spooler  := false         
-	ResTela(cScreen)
-   return true
+	xstring := 'mail.bat'
+	FChdir( oAmbiente:xBaseDoc )
+	Set Defa To ( oAmbiente:xBaseDoc )
+	i = SWPVIDMDE(OK)
+	i = SWPDISMSG(OK)
+	i = SWPFREEMS(640)
+	i = SWPFREXMS(640)
+	i = SWPSETENV(32000)
+	i = SWPADDENV(2048)
+	i := SWPRUNCMD( xString , 100, "", "")
+	FChdir( oAmbiente:xBaseDados )
+	Set Defa To ( oAmbiente:xBaseDados )
+	return(ResTela(cScreen))
 endef
 
 *==================================================================================================*
 
 def SaidaParaArquivo()
+	LOCAL cScreen	:= SaveScreen()
+	LOCAL cDir     := oAmbiente:xBaseTmp
 	LOCAL GetList	:= {}
-   LOCAL cScreen	:= SaveScreen()
-	LOCAL cDir     := oAmbiente:xBaseTxt
 	LOCAL xArquivo := ""
 	
 	oMenu:Limpa()
-	xArquivo := FTempPorExt('txt', cDir) + Space(10)	
-	MaBox( 15, 00, 17, MaxCol()-1 )
+	xArquivo := FTempName(".TXT", cDir) + Space(20)	
+	MaBox( 15, 00, 17, 79 )
 	@ 16, 01 Say "Visualizar no Arquivo: " Get xArquivo Pict "@!"
 	Read
 	
@@ -374,70 +424,65 @@ def SaidaParaArquivo()
 			return false
 		endif	
 	endif
-	xArquivo           := StrTrim(xArquivo)
-   oAmbiente:cArquivo := xArquivo
-	oAmbiente:Spooler  := true
-   oAmbiente:externo  := true
+	
+	xArquivo           := AllTrim(xArquivo)
+	oAmbiente:Spooler  := OK
+	oAmbiente:cArquivo := xArquivo
 	Set Print To (xArquivo)	
 	ResTela( cScreen )
 	return true
 endef
 
 *==================================================================================================*	
-
+	
 def SaidaParaSpooler()
-   LOCAL GetList	:= {}
-	LOCAL cScreen	:= SaveScreen()	
-	LOCAL cDir     := oAmbiente:xBaseTxt
-   LOCAL xArquivo := ""
+	LOCAL cScreen	:= SaveScreen()
+	LOCAL GetList	:= {}
+	LOCAL xArquivo := ""
+	LOCAL cDir     := oAmbiente:xBaseTmp
 
 	oMenu:Limpa()
-	xArquivo := FTempPorExt('txt', cDir) + Space(10)
-	MaBox( 15, 00, 17, MaxCol()-1 )
+	xArquivo := FTempName(".PRN", cDir) + Space(20)
+	MaBox( 15, 00, 17, 79 )
 	@ 16, 01 Say "Visualizar no Arquivo: " Get xArquivo Pict "@!"
 	Read
 	
 	if LastKey() = K_ESC
 		oAmbiente:cArquivo := ""
-		ResTela( cScreen )
-      return false
+		return(ResTela( cScreen ))
 	endif
-   
-	xArquivo           := StrTrim(xArquivo)
-   oAmbiente:cArquivo := xArquivo
-	oAmbiente:Spooler  := true	
+	
+	oAmbiente:Spooler  := OK
+	oAmbiente:cArquivo := xArquivo
+	xArquivo := AllTrim( xArquivo )
 	Set Print To (xArquivo)	
-	ResTela( cScreen )
-   return true
+	return(ResTela( cScreen ))
 endef
 
 *==================================================================================================*
 	
 def SaidaParaHtml()
-   LOCAL GetList	:= {}
-	LOCAL cScreen	:= SaveScreen()		
-	LOCAL cDir     := oAmbiente:xBaseHtm 
-   LOCAL xArquivo := ""
+	LOCAL cScreen	:= SaveScreen()
+	LOCAL GetList	:= {}
+	LOCAL xArquivo := ""
+	LOCAL cDir     := oAmbiente:xBase + "\HTM\" 
 
 	oMenu:Limpa()
-	xArquivo := FTempPorExt('htm', cDir) + Space(10)
-   MaBox( 15, 00, 17, MaxCol()-1 )
+	//xArquivo := oAmbiente:xBase + "\HTM\" + FTempName("T*.TXT") + Space(10)
+	xArquivo := FTempName(".TXT", cDir) + Space(10)
+	MaBox( 15, 00, 17, 79 )
 	@ 16, 01 Say "Visualizar no Arquivo: " Get xArquivo Pict "@!"
 	Read
-   
 	if LastKey() = K_ESC
 		oAmbiente:cArquivo := ""
-		ResTela( cScreen )
-      return false
+		return(ResTela( cScreen ))
 	endif
-   
-   xArquivo           := StrTrim(xArquivo)
-   oAmbiente:cArquivo := xArquivo
-	oAmbiente:Spooler  := true	
-	oAmbiente:externo  := true
+	xArquivo := AllTrim( xArquivo )
+	oAmbiente:Spooler  := OK
+	oAmbiente:cArquivo := xArquivo
+	oAmbiente:externo  := OK
 	Set Print To ( xArquivo )
-	ResTela( cScreen )
-   return true
+	return(ResTela( cScreen ))
 endef
 
 *==================================================================================================*
@@ -446,15 +491,16 @@ def SaidaParaUsb()
 	LOCAL cScreen	:= SaveScreen()
 	LOCAL GetList	:= {}
 	LOCAL xArquivo := ""
-	LOCAL cDir     := oAmbiente:xBaseTmp
+	LOCAL cDir     := oAmbiente:xBaseDados + "\" 
 	LOCAL i
 
-	oMenu:Limpa()	
-	xArquivo           := StrTrim(FTempPorExt('txt', cDir))
+	oMenu:Limpa()
+	//xArquivo := oAmbiente:xBaseDados + "\" + FTempName("T*.TMP") + Space(10)
+	xArquivo := FTempName(".TMP", cDir) + Space(10)
 	oAmbiente:Spooler  := FALSO
 	oAmbiente:cArquivo := xArquivo
-	xArquivo           := AllTrim(xArquivo)
-	Set Print To (xArquivo)
+	xArquivo := AllTrim( xArquivo )
+	Set Print To ( xArquivo )
 	i = SWPUSEEMS(OK)
 	i = SWPUSEXMS(OK)
 	i = SWPUSEUMB(OK)
@@ -465,18 +511,39 @@ def SaidaParaUsb()
 	xString := "COPY /B " + xArquivo + " PRN"
 	i		  := SWPRUNCMD( xString, 0, "", "" )
 	ResTela( cScreen )
-	return true
+	return(OK)
 endef	
 
 *==================================================================================================*
 
 def Alerta( cString, aArray, Color )
-*----------------------------------*
+	if oAmbiente:Visual
+		aArray := Iif( aArray = NIL, {"&OK"}, aArray )
+		nTam := Len( aArray )
+		if 	 nTam = 1
+			nButton := MsgBox1( cString, SISTEM_NA1 )
+			return( nButton )
+		elseif nTam = 2
+			aArray[1] := '&' + AllTrim( aArray[1] )
+			aArray[2] := '&' + AllTrim( aArray[2] )
+			nButton := MsgBox2( cString, SISTEM_NA1, NIL, aArray[1], aArray[2] )
+			return( nButton )
+		elseif nTam = 3
+			aArray[1] := '&' + AllTrim( aArray[1] )
+			aArray[2] := '&' + AllTrim( aArray[2] )
+			aArray[3] := '&' + AllTrim( aArray[3] )
+			nButton := MsgBox3( cString, SISTEM_NA1, NIL, aArray[1], aArray[2], aArray[3] )
+			return( nButton )
+		elseif nTam > 3
+			nButton := Alert( cString, aArray, oAmbiente:CorAlerta )
+			return( nButton )
+		endif
+	endif	
 	__DefaultNIL(@cString, '(Pressione qualquer tecla)')	
 	__DefaultNIL(@Color, oAmbiente:CorAlerta)
-	__DefaultNIL(@aArray, ' Ok ')		
+	__DefaultNIL(@aArray, ' true ')		
 	return( alert( cString, aArray, ColorIntToStr(Color)))
-endef	
+endef
 
 *==================================================================================================*	
 
@@ -485,8 +552,7 @@ def LinhaHorizontal(nrow, ncol, nlen, ncor)
 	LOCAL cFrame := m_Frame()
 
 	aprint(nRow, nCol, chr(195), nCor, 1)
-	//aprint(nRow, nCol + 1, replicate(substr(cFrame, 2, 1), nComp), nCor, 1)
-	aprint(nRow, nCol + 1, replicate(chr(196), nComp), nCor, 1)
+	aprint(nRow, nCol + 1, replicate(substr(cFrame, 2, 1), nComp), nCor, 1)
 	aprint(nRow, nCol + nComp + 1, chr(180), nCor, 1)
 	return NIL	
 endef
@@ -562,42 +628,44 @@ endef
 
 *==================================================================================================*
 
-def Old_Rel_Ok(cMensagem)
-	LOCAL cScreen    := SaveScreen()
-	LOCAL nChoice    := 2
-	LOCAL nRow	     := Prow()
-	LOCAL nCol	     := PCol()
-   LOCAL lPrinter   := SET(_SET_PRINTER)
-   LOCAL cDevice    := SET(_SET_DEVICE)
-   LOCAL lConsole   := SET(_SET_CONSOLE)
-   LOCAL cPrintFile := SET(_SET_PRINTFILE)
-   
-	if inkey() == K_ESC
-      SET(_SET_PRINTER, false)
-      SET(_SET_DEVICE, "SCREEN")
-      SET(_SET_CONSOLE, true)
+def Rel_Ok(cMensagem)
+	LOCAL cScreen := SaveScreen()
+	LOCAL nChoice := 2
+	LOCAL nRow	  := Prow()
+	LOCAL nCol	  := PCol()
+
+	if Inkey() == K_ESC
+		Set Print Off
+		Set Devi To Scre
 		ErrorBeep()
-		if Conf("Pergunta: Deseja cancelar a impressao ?") .or. !LptOk()         			
-         SET(_SET_PRINTFILE, "")
-			restela( cScreen )
-			break
-			return false
-		endif		
-		restela( cScreen )
-      if lPrinter
-         SET(_SET_PRINTER, lPrinter)
-         
-         
-         Set Devi To Print
-         SetPrc( nRow, nCol )
-      endif   
+		if Conf("Pergunta: Deseja cancelar a impressao ?")
+			Set Prin Off
+			Set Print to
+			Set Devi To Screen
+			Set Cons On
+			ResTela( cScreen )
+			Break
+			return FALSO
+		endif
+		if !LptOk()
+			Set Devi To Screen
+			Set Prin Off
+			Set Cons On
+			Set Print to
+			Break
+			return FALSO
+		endif
+		ResTela( cScreen )
+		Set Print On
+		Set Devi To Print
+		SetPrc( nRow, nCol )
 	else
 		Set Print Off
 		Set Devi To Scre
 		if cMensagem != Nil
 			oMenu:StatReg(cMensagem)
 		else	
-			oMenu:StatReg("REG# " + StrTrim( ++oAmbiente:nRegistrosImpressos))
+			oMenu:StatReg("REGISTRO #" + StrZero( ++oAmbiente:nRegistrosImpressos, 7))
 		endif	
 		Set Print On
 		Set Devi To Print
@@ -607,47 +675,21 @@ def Old_Rel_Ok(cMensagem)
 endef
 
 *==================================================================================================*
+	
+def ContaReg(cMensagem)
+	LOCAL cScreen := SaveScreen()
+	LOCAL nChoice := 2
 
-def Rel_Ok(cMensagem)
-	LOCAL cScreen    := SaveScreen()
-	LOCAL nChoice    := 2
-	LOCAL nRow	     := Prow()
-	LOCAL nCol	     := PCol()
-   LOCAL lPrinter   := SET(_SET_PRINTER)
-   LOCAL cDevice    := SET(_SET_DEVICE)
-   LOCAL lConsole   := SET(_SET_CONSOLE)   
-
-   if lPrinter
-      SET(_SET_PRINTER, false)
-      SET(_SET_DEVICE, "SCREEN")
-      SET(_SET_CONSOLE, true)   
-   endif   
-	if inkey() == K_ESC   
-		ErrorBeep()
-		if Conf("Pergunta: Deseja cancelar a impressao ?") .or. !LptOk()
-         CloseSpooler()
-			restela( cScreen )
-			break
-			return false
-		endif		
-		restela( cScreen )      
-	endif   
 	if cMensagem != Nil
-      oMenu:StatReg(cMensagem)
+		oMenu:StatReg(cMensagem)
 	else	
-      oMenu:StatReg("REG# " + StrTrim(++oAmbiente:nRegistrosImpressos))
-	endif   
-   if lPrinter
-      SET(_SET_PRINTER, lPrinter)
-      SET(_SET_DEVICE, cDevice)
-      SET(_SET_CONSOLE, lConsole)
-      SetPrc( nRow, nCol )
-   endif
-	return true
+		oMenu:StatReg("REGISTRO#" + StrZero( ++oAmbiente:nRegistrosImpressos, 7))
+	endif	
+	return( true )
 endef
 
 *==================================================================================================*
-
+	
 def LptOk()
 	LOCAL cScreen
 	LOCAL nComPort := 1
@@ -674,11 +716,8 @@ def LptOk()
 	if lMaluco 
 		return( lMaluco)
 	endif
-   
-   switch oAmbiente:Isprinter 
-   case 1
-   case 2
-   case 3   
+
+	if oAmbiente:Isprinter <= 3
 		nStatus := PrnStatus( oAmbiente:Isprinter )
 		if !oAmbiente:Spooler
 			cScreen := SaveScreen()
@@ -710,21 +749,15 @@ def LptOk()
 					lMaluco  := FALSO
 					lRetorno := FALSO
 					exit
-				endif				
+				endif
+				
 			EndDo
-			ResTela( cScreen )         
+			ResTela( cScreen )
 		endif
-      exit
-	case 4
-	case 5
-	case 6   
+	else
 		nComPort := ( oAmbiente:IsPrinter - 4 )
 		lRetorno := ( nStatus := FIsPrinter( nComPort ))
-      exit
-   otherwise
-      lRetorno := true
-      exit      
-   endswitch
+	endif
 	return( lRetorno )
 endef
 
@@ -739,67 +772,105 @@ endef
 *==================================================================================================*	
 
 def CloseSpooler()
-******************
-   LOCAL cScreen	   := SaveScreen()
-   LOCAL lSpooler	   := oAmbiente:Spooler
-   LOCAL cTemp 	   := oAmbiente:cArquivo
-   LOCAL lexterno    := oAmbiente:externo
-   LOCAL lVisualizar := oAmbiente:lVisSpooler
-   LOCAL cComando
-   LOCAL i
+***********************
+LOCAL cScreen	:= SaveScreen()
+LOCAL lTemp 	:= oAmbiente:Spooler
+LOCAL cTemp 	:= oAmbiente:cArquivo
+LOCAL lexterno := oAmbiente:externo
+LOCAL cComando
+LOCAL i
 
-   Set(_SET_PRINTFILE, "" )
-   Set Print To
-   
-   if oAmbiente:SendMail
-      oAmbiente:externo     := false
-      oAmbiente:Spooler     := false
-      oAmbiente:lVisSpooler := false
-      SendMail()
-      return nil   
-   endif
-   
-   if lexterno
-      #if defined( __PLATFORM__UNIX )
-         //ms_system("gnome-terminal --command '/opt/shell.sh'");
-         ms_system("nano " + cTemp)
-      #else
-         cComando := 'firefox.exe ' + cTemp
-         cComando := "C:\Program Files\Mozilla Firefox\firefox.exe " + cTemp
-         cComando := "chrome.exe " + cTemp	// colocar o chrome no path do windows	
-         ShellRun("NOTEPAD " + cTemp )
-         //ShellRun( cComando )
-         /*
-         i = SWPUSEEMS(OK)
-         i = SWPUSEXMS(OK)
-         i = SWPUSEUMB(OK)
-         i = SWPCURDIR(OK)
-         i = SWPVIDMDE(OK)
-         //i = SWPDISMSG(OK)
-         i = SWPRUNCMD( cComando, 0, "", "")
-         */         
-      #endif
-      oAmbiente:externo := false
-   else
-      if lSpooler
-         if lVisualizar
-            oMenu:Limpa()
-            oMenu:StatInf()
-            oMenu:StatReg("IMPRESSO #" + StrZero( oAmbiente:nRegistrosImpressos, 7))
-            M_Title( "ESC - Retorna ³Setas CIMA/BAIXO Move")
-            M_View( 00, 00, MaxRow()-1, MaxCol(), cTemp, Cor())
-            //ShellRun("NOTEPAD " + cTemp )
-            ResTela( cScreen )
-         else
-            cupsPrintFile( oAmbiente:CupsPrinter, oAmbiente:cArquivo, "Macrosoft SCI for Linux")
-         endif
-      endif
-   endif
-   //oAmbiente:cArquivo := ""
-   oAmbiente:Spooler     := false
-   oAmbiente:lVisSpooler := false
-   return nil
-endef   
+Set(_SET_PRINTFILE, "" )
+Set Print To
+
+if lexterno
+	cComando := 'firefox.exe ' + cTemp
+	cComando := "C:\Program Files\Mozilla Firefox\firefox.exe " + cTemp
+	cComando := "chrome.exe " + cTemp		
+	ShellRun("NOTEPAD " + cTemp )
+	//ShellRun( cComando )
+	/*
+   i = SWPUSEEMS(OK)
+	i = SWPUSEXMS(OK)
+	i = SWPUSEUMB(OK)
+	i = SWPCURDIR(OK)
+	i = SWPVIDMDE(OK)
+	//i = SWPDISMSG(OK)
+	i = SWPRUNCMD( cComando, 0, "", "")
+	*/
+	oAmbiente:externo := FALSO
+else
+	if lTemp
+		oMenu:Limpa()
+		oMenu:StatInf()
+		oMenu:StatReg("IMPRESSO #" + StrZero( oAmbiente:nRegistrosImpressos, 7))
+		M_Title( "ESC - Retorna ³Setas CIMA/BAIXO Move")
+      M_View( 00, 00, MaxRow()-1, MaxCol(), cTemp, Cor())
+		//ShellRun("NOTEPAD " + cTemp )
+		ResTela( cScreen )
+	endif
+endif
+//oAmbiente:cArquivo := ""
+oAmbiente:Spooler  := FALSO
+return Nil
+
+/*
+def viewArquivo(cArquivo)
+*------------------------*
+	LOCAL Form3
+
+	#include <hmg.ch>	
+	DEFINE WINDOW Form3;
+		 At 0,0              ;
+		 Width 450        ;
+		 Height 500       ;
+		 Title "Contatos Cadastrados com Letra " + cLetra;		 
+		 ICON "AGENDA";
+		 CHILD ;
+		 NOSYSMENU;
+		 NOSIZE       ;       
+		 BACKCOLOR WHITE
+
+		 @ 20,-1 EDITBOX Edit_1 ;
+			  WIDTH 460 ;
+			  HEIGHT 510 ;
+			  VALUE cArquivo ;
+			  TOOLTIP "Contatos Cadastrados com Letra "+cLetra ;
+			  MAXLENGTH 255               
+
+		 @ 01,01 BUTTON Bt_Zoom_Mais  ;
+			  CAPTION '&Zoom(+)'             ;
+			  WIDTH 120 HEIGHT 17    ;
+			  ACTION ZoomLabel(1);
+			  FONT "MS Sans Serif" SIZE 09 FLAT
+
+		 @ 01,125 BUTTON Bt_Zoom_menos  ;
+			  CAPTION '&Zoom(-)'             ;
+			  WIDTH 120 HEIGHT 17    ;
+			  ACTION ZoomLabel(2);
+			  FONT "Calibri" SIZE 09 FLAT
+
+		 @ 01,321 BUTTON Sair_1  ;
+			  CAPTION '&Sair'             ;
+			  WIDTH 120 HEIGHT 17    ;
+			  ACTION Form3.Release;
+			  FONT "Calibri" SIZE 09 FLAT
+
+	END WINDOW
+	MODIFY CONTROL Edit_1 OF Form3 FONTSIZE nFont 
+	Center Window Form3
+	Activate Window Form3
+	Return Nil
+
+Function ZoomLabel(nmm)         
+	If nmm == 1
+		nFont++
+	Else
+		nFont--
+	Endif
+	MODIFY CONTROL Edit_1 OF Form3 FONTSIZE nFont
+	Return Nil	
+*/	
 	
 Proc GravaDisco()
 *---------------*
@@ -817,8 +888,26 @@ def Area( cArea)
 	return NIl
 endef	
 
+Proc Altc( cTexto )
+*******************
+LOCAL cScreen := SaveScreen()
+LOCAL cCor	  := SetColor()
+SetColor("")
+Cls
+ErrorBeep()
+if Conf("Encerrar a Execucao do Aplicativo ?")
+	DbCommitAll()
+	DbCloseAll()
+	FChDir( oAmbiente:xBase )
+	Cls
+	F_Fim( cTexto )
+	lOk := FALSO
+	Quit
+endif
+SetColor( cCor )
+ResTela( cScreen )
+return
 
-   
 Proc VerRelato()
 ****************
 LOCAL cScreen := SaveScreen()
@@ -843,27 +932,87 @@ while( true )
 EndDO
 return
 
+def Spooler()
+******************
+LOCAL GetList     := {}
+LOCAL cScreen     := SaveScreen()
+LOCAL Arq_Ant     := Alias()
+LOCAL Ind_Ant     := IndexOrd()
+LOCAL Files       := '*.TXT'
+LOCAL aMenuChoice := { " Enviar para Impressora ",;
+							  " Enviar para Arquivo    ",;
+							  " Visualizar Arquivo     ",;
+							  " Escolher Impressora    "}
+oMenu:Limpa()
+WHILE OK
+	M_Title("SPOOLER")
+	nChoice := FazMenu( 05, 50, aMenuChoice )
+	Do Case
+	Case nChoice = 0
+		if !Empty( Arq_Ant)
+			Select( Arq_Ant )
+			Order( Ind_Ant )
+		endif
+		ResTela( cScreen )
+		Exit
 
-def PickTemp(cFile)
-   LOCAL cScreen := SaveScreen()
-   LOCAL cDir    := oAmbiente:xBaseTxt + _SLASH_
-   LOCAL Files   := cDir + '*.txt'   
-   
-   if !file(cFile)
-      oMenu:Limpa()      
-      M_Title( "Setas CIMA/BAIXO Move")			
-      cFile := cDir + Mx_PopFile( 03, 10, 15, 61, Files, Cor())
-      if Empty( cFile )         
-         ErrorBeep()
-         Alerta("Erro: O Arquivo Nao Existe. ")
-         ResTela(cScreen)
-         return false
-      endif
-      ResTela(cScreen)
-   endif
-   return true
-endef
+	Case nChoice = 1
+		oAmbiente:cArquivo := ""
+		oAmbiente:Spooler  := FALSO
+		ResTela( cScreen )
+		Exit
 
+	Case nChoice = 2
+		oAmbiente:cArquivo := Iif( Empty( oAmbiente:cArquivo ), oAmbiente:xBaseDados + "\" +  FTempName("T*.TMP") + Space(10), oAmbiente:cArquivo )
+		MaBox( 15, 10, 17 , 79 )
+		@ 16, 11 Say "Arquivo de Impressao... ¯ " Get oAmbiente:cArquivo Pict "@!"
+		Read
+		if LastKey() = 27
+			oAmbiente:cArquivo := ""
+			ResTela( cScreen )
+			Exit
+		endif
+		oAmbiente:Spooler := OK
+      cArq              := AllTrim( oAmbiente:cArquivo )
+		ResTela( cScreen )
+		Exit
+
+	Case nChoice = 3
+		MaBox( 15, 10, 17 , 79 )
+		@ 16, 11 Say "Arquivo a Visualizar... ¯ " Get oAmbiente:cArquivo Pict "@!"
+		Read
+		if LastKey() = 27
+			ResTela( cScreen )
+			Exit
+		endif		
+		if !IsFile( oAmbiente:cArquivo )
+			oMenu:Limpa()
+			FChDir( oAmbiente:xBaseTxt )
+			Set Defa To ( oAmbiente:xBaseTxt )
+			M_Title( "Setas CIMA/BAIXO Move")			
+			oAmbiente:cArquivo := Mx_PopFile( 03, 10, 15, 61, Files, Cor())
+			if Empty( oAmbiente:cArquivo )
+				FChDir( oAmbiente:xBaseDados )
+				Set Defa To ( oAmbiente:xBaseDados )
+				ErrorBeep()
+				Alerta("Erro: O Arquivo Nao Existe. ")
+				return(ResTela(cScreen))
+		  endif
+		endif
+		oAmbiente:Externo := FALSO
+		oAmbiente:Spooler := OK
+		// M_View( 00, 00, MaxRow(), MaxCol(), oAmbiente:cArquivo, Cor())			
+		ShellRun("NOTEPAD " + oAmbiente:cArquivo )
+		CloseSpooler()
+		oAmbiente:Spooler := FALSO
+		ResTela( cScreen )
+		Exit
+
+	Case nChoice = 4
+		Impressora()
+	EndCase
+EndDo
+return
 
 def Refresh()
 *+-----------------------------------+*
@@ -972,7 +1121,6 @@ def Cor( nTipo, nTemp )
 	Case 9 	
 		return( oAmbiente:CorMsg )				
 	EndSwitch
-	
 	
 def CorAlerta( nTipo )
 ***************************
@@ -1477,9 +1625,7 @@ def ErrorBeep(lOK)
 ***********************
 DEFAU lOk TO FALSO
 
-if !(oAmbiente:Sound)
-	return NIL // aff, sem som
-endif
+//return Nil // aff, sem som
 if lOk   // Good Sound
    Tone(  500, 1 )
    //Tone( 4000, 1 )
@@ -1496,109 +1642,238 @@ return Nil
 
 def Escolhe
 ************************************************************************************************************************
-   Param Col1, Lin1, Col2, Nome_Campo, Cabecalho, aRotina, lExcecao, aRotinaAlteracao, aRotinaExclusao, lLimpaTela, lDbSeek
-   LOCAL GetList := {}
-   LOCAL _Atela  := SaveScreen()
-   LOCAL _corant := SetColor()
-   LOCAL Arq_Ant := Alias()
-   LOCAL Ind_Ant := IndexOrd()
-   LOCAL nMaxCol := MaxCol()
-   LOCAL _Tam
-   LOCAL Lin2
-   LOCAL nRecno
-         cCampo  := Nome_Campo
-         Col1    := if( Col1 == 00, 1, Col1)   
-         Col2    := if( Col2 >= 22, (MaxRow()-2), Col2)         
-         nCol    := Col2
-         nLin	  := Lin1+1
-   PRIVA aScroll
+Param Col1, Lin1, Col2, Nome_Campo, Cabecalho, aRotina, lExcecao, aRotinaAlteracao, aRotinaExclusao, lLimpaTela, lDbSeek
+LOCAL GetList := {}
+LOCAL _Atela  := SaveScreen()
+LOCAL _corant := SetColor()
+LOCAL Arq_Ant := Alias()
+LOCAL Ind_Ant := IndexOrd()
+LOCAL nMaxCol := MaxCol()
+LOCAL _Tam
+LOCAL Lin2
+LOCAL nRecno
+		cCampo  := Nome_Campo
+      Col2    := if( Col2 == 22, (MaxRow()-2), Col2)
+      nCol    := Col2
+		nLin	  := Lin1+1
+PRIVA aScroll
 
-   if ValType( Nome_Campo ) != "A"
-      Cabecalho := Iif( Cabecalho = Nil, "", Cabecalho )
-      if ValType( &Nome_Campo ) = "D"
-         Lin2 := Lin1 + 9
-      else
-         nTam := Len( &Nome_Campo. )
-         nCab := Len( Cabecalho )
-         Lin2 := Iif( nTam >= nCab, nTam + ( Lin1 + 1 ), nCab + ( Lin1 + 1 ) )
-      endif
-      _Vetor1 := { Nome_Campo }
-      _Vetor2 := { if ( Cabecalho = Nil, Cabecalho := .T. , Cabecalho := Upper( Cabecalho ) ) }
-      if Lin2 >= nMaxCol
-         Lin2 := nMaxCol
-      endif
-   else
-      _Vetor1 := Nome_Campo
-      _Vetor2 := Cabecalho
-      Lin2	  := 70
-   endif
-   if lLimpaTela = NIL .OR. lLimpatela = OK
-      oMenu:Limpa()
-   endif
-   MaBox( Col1, Lin1,	Col2, Lin2+2, /*Cabecalho*/ )
-   MaBox( Col1, Lin1+2, Col2, Lin2+2, /*Cabecalho*/ )
-   Print( Col1, Lin1+2, SubStr( oAmbiente:Frame, 1, 1 ), Cor())
-   Print( Col2, Lin1+2, SubStr( oAmbiente:Frame, 5, 1 ), Cor())
+if ValType( Nome_Campo ) != "A"
+	Cabecalho := Iif( Cabecalho = Nil, "", Cabecalho )
+	if ValType( &Nome_Campo ) = "D"
+		Lin2 := Lin1 + 9
+	else
+		nTam := Len( &Nome_Campo. )
+		nCab := Len( Cabecalho )
+		Lin2 := Iif( nTam >= nCab, nTam + ( Lin1 + 1 ), nCab + ( Lin1 + 1 ) )
+	endif
+	_Vetor1 := { Nome_Campo }
+	_Vetor2 := { if ( Cabecalho = Nil, Cabecalho := .T. , Cabecalho := Upper( Cabecalho ) ) }
+   if Lin2 >= nMaxCol
+      Lin2 := nMaxCol
+	endif
+else
+	_Vetor1 := Nome_Campo
+	_Vetor2 := Cabecalho
+	Lin2	  := 70
+endif
+if lLimpaTela = NIL .OR. lLimpatela = OK
+	oMenu:Limpa()
+endif
+MaBox( Col1, Lin1,	Col2, Lin2+2, /*Cabecalho*/ )
+MaBox( Col1, Lin1+2, Col2, Lin2+2, /*Cabecalho*/ )
+Print( Col1, Lin1+2, SubStr( oAmbiente:Frame, 1, 1 ), Cor())
+Print( Col2, Lin1+2, SubStr( oAmbiente:Frame, 5, 1 ), Cor())
 
-   if aRotina != NIL
-      if Alias() = "LISTA"
-         if aRotinaAlteracao != NIL
-            Print( Col2, Lin1+3, "INS _Incluir³DEL _Excluir³F2 _Cod Fabr³CTRL/ALT+ENTER _Alterar", Cor( 5 ), Lin2 - (Lin1+1))
-         else
-            Print( Col2, Lin1+3, "INS _Incluir³DEL _Excluir³F2 _Cod Fabr", Cor( 5 ), Lin2 - (Lin1+1))
-         endif
-      else
-         if aRotinaAlteracao != NIL
-            Print( Col2, Lin1+3, "INS _Incluir³DEL _Excluir³F2 _Filtro³CTRL/ALT+ENTER _Alterar", Cor( 5 ), Lin2 - (Lin1+1))
-         else
-            Print( Col2, Lin1+3, "INS _Incluir³DEL _Excluir³F2 _Filtro³", Cor( 5 ), Lin2 - (Lin1+1))
-         endif
-      endif
-   endif
-   if lDbSeek != NIL
-      nRecno := Recno()
-   endif
-   DbGoTop()
-   if Eof()
-      if aRotina != NIL
-         if Conf("Arquivo Vazio. Deseja Incluir Registros ?")
-            Eval( aRotina[1])
-            AreaAnt( Arq_Ant, Ind_Ant )
-         endif
-      endif
-   endif
-   if lDbSeek != NIL
-      DbGoto( nRecno )
-   endif
-   ScrollBarDisplay( aScroll := ScrollBarNew( Col1+1, Lin1+1, Col2-1, Roloc(Cor()),1))
-   DbEdit((Col1+1), (Lin1+3), (Col2-1), (Lin2+1), _Vetor1, "MS_DbUser", OK, _Vetor2 )
-   ResTela( _Atela )
-   SetColor(_corant )
-   return( true )
-endef   
+if aRotina != NIL
+	if Alias() = "LISTA"
+		if aRotinaAlteracao != NIL
+			Print( Col2, Lin1+3, "INS _Incluir³DEL _Excluir³F2 _Cod Fabr³CTRL+ENTER _Alterar", Cor( 5 ), Lin2 - (Lin1+1))
+		else
+			Print( Col2, Lin1+3, "INS _Incluir³DEL _Excluir³F2 _Cod Fabr", Cor( 5 ), Lin2 - (Lin1+1))
+		endif
+	else
+		if aRotinaAlteracao != NIL
+			Print( Col2, Lin1+3, "INS _Incluir³DEL _Excluir³F2 _Filtro³CTRL+ENTER _Alterar", Cor( 5 ), Lin2 - (Lin1+1))
+		else
+			Print( Col2, Lin1+3, "INS _Incluir³DEL _Excluir³F2 _Filtro³", Cor( 5 ), Lin2 - (Lin1+1))
+		endif
+	endif
+endif
+if lDbSeek != NIL
+	nRecno := Recno()
+endif
+DbGoTop()
+if Eof()
+	if aRotina != NIL
+		if Conf("Arquivo Vazio. Deseja Incluir Registros ?")
+			Eval( aRotina[1])
+			AreaAnt( Arq_Ant, Ind_Ant )
+		endif
+	endif
+endif
+if lDbSeek != NIL
+	DbGoto( nRecno )
+endif
+ScrollBarDisplay( aScroll := ScrollBarNew( Col1+1, Lin1+1, Col2-1, Roloc(Cor()),1))
+DbEdit((Col1+1), (Lin1+3), (Col2-1), (Lin2+1), _Vetor1, "MS_DbUser", OK, _Vetor2 )
+ResTela( _Atela )
+SetColor(_corant )
+return( true )
+
+def MS_DbUser( Modo, Ponteiro , Var)
+*-----------------------------------*
+LOCAL GetList		:= {}
+LOCAL cScreen		:= SaveScreen()
+LOCAL Key			:= LastKey()
+LOCAL Arq_Ant		:= Alias()
+LOCAL Ind_Ant		:= IndexOrd()
+LOCAL cN_Original := Space(15)
+STATI nPosicao 	:= 1
+LOCAL nLastrec 	:= Lastrec()
+LOCAL Registro
+LOCAL Salva_tela
+LOCAL lInativos	:= oIni:ReadBool('sistema', 'MostrarClientesInativos', false )
+
+ScrollBarUpdate( aScroll, Recno(), Lastrec(), true )
+Do Case
+	Case Key = F2
+		if Alias() = "LISTA"
+			oMenu:Limpa()
+			MaBox( 10, 10, 12, 48 )
+			@ 11, 11 Say "Codigo Fabricante..." Get cN_Original Pict "@!" Valid CodiOriginal( @cN_Original )
+			Read
+			if LastKey() = ESC
+				ResTela( cScreen )
+				return(1)
+			endif
+			ResTela( cScreen )
+		else
+			if Alias() = "RECEBER"
+				oMenu:Limpa()
+				ClientesFiltro()
+				ResTela( cScreen )
+			endif
+		endif
+		AreaAnt( Arq_Ant, Ind_Ant )
+		return(1)
+
+	Case Key = K_INS
+		if aRotina != Nil
+			if PodeIncluir()
+				Eval( aRotina[1])
+			else
+				if lExcecao != Nil
+					Eval( aRotina[1])
+				endif
+			endif
+		endif
+		AreaAnt( Arq_Ant, Ind_Ant )
+		return(1)
+
+	Case Key = K_CTRL_RET		 // Ctrl-Enter
+		if !(aRotinaAlteracao == NIL )
+			if PodeAlterar() .OR. !(lExcecao == NIL)
+			   Eval( aRotinaAlteracao[1])
+			endif
+		endif
+		AreaAnt( Arq_Ant, Ind_Ant )
+		return(1)
+
+	Case Key = K_DEL
+		if aRotina != Nil
+			if PodeExcluir()
+				if aRotinaExclusao != NIL
+					if !Eval( aRotinaExclusao[1] )
+						return(1)
+					endif
+				endif
+				ErrorBeep()
+				if Conf("Pergunta: Excluir Registro sob o Cursor ?")
+					if TravaReg()
+						DbDelete()
+						Libera()
+					  Keyb Chr( K_CTRL_PGUP )
+					endif
+				endif
+			endif
+		endif
+		return(1)
+
+	Case Modo < 4
+		return(1)
+
+	Case LastKey() = 27
+		nPosicao := 1
+		return(0)
+
+	Case LastKey() = 13
+		return(0)
+
+	Case LastKey() >= 48 .AND. LastKey() <= 122	&&  1 a Z
+		if   ValType( cCampo ) = "C"
+			xVar := Upper(Chr(Key))
+			xVar := xVar + Space( nTam - Len( xVar))
+			Keyb(Chr(K_RIGHT))
+			@ nCol-1, nLin+2 Get xVar Pict "@!"
+			Read
+
+		elseif ValType( cCampo ) = "N"
+			if nKey < Chr(48) .OR. nKey > Chr(57) // 0 a 9
+				return(1)
+			endif
+			xVar := Chr(nKey)
+			Keyb(Chr(K_RIGHT))
+			@ nCol-1, nLin+2 Get xVar
+			Read
+
+		elseif ValType( cCampo ) = "D"
+			xVar := Date()
+			@ nCol-1, nLin+2 Get xVar Pict "##/##/##"
+			Read
+		endif
+		if LasTKey() = ESC
+			ResTela( cScreen )
+			return(1)
+		endif
+		xVar := Iif( ValType( cCampo ) = "C", AllTrim( xVar ), xVar)
+		ResTela( cScreen )
+		DbSeek( xVar )
+		return(1)
+
+	OTHERWISE
+		if Alias() = "RECEBER"
+			if lInativos
+				if Receber->Cancelada
+					Receber->(DbSkip(1))
+				endif
+			endif
+		endif
+		return(1)
+
+ENDCASE
+return(1)
 
 def Order( Ordem )
 ***********************
-   Iif( Ordem = Nil , Ordem := 0,  Ordem )
-   DbSetOrder( Ordem )
-   DbGoTo( Recno())			 // Fixar Bug
-   return( IndexOrd())
-endef   
+Iif( Ordem = Nil , Ordem := 0,  Ordem )
+DbSetOrder( Ordem )
+DbGoTo( Recno())			 // Fixar Bug
+return( IndexOrd())
 
 def FPrint( cString )
 **************************
-   return( DevOut( cString ) )
-endef   
+return( DevOut( cString ) )
 
-def WriteBox( Linha, Col, xString, nCor )
+Proc WriteBox( Linha, Col, xString, nCor )
 ******************************************
-   Iif( Linha	 = Nil, Linha	 := Row(), Linha )
-   Iif( Col 	 = Nil, Col 	 := Col(), Col )
-   Iif( xString = Nil, xString := "",    xString )
-   Iif( nCor	 = Nil, nCor	 := CorBoxCima(), nCor )
-   Print( Linha, Col, xString, nCor )
-   return nil
-endef
+Iif( Linha	 = Nil, Linha	 := Row(), Linha )
+Iif( Col 	 = Nil, Col 	 := Col(), Col )
+Iif( xString = Nil, xString := "",    xString )
+Iif( nCor	 = Nil, nCor	 := CorBoxCima(), nCor )
+Print( Linha, Col, xString, nCor )
+return
+
 
 def TestaCgc( Var )
 ************************
@@ -1829,7 +2104,229 @@ Dia	 := { "Primeiro ",;
 
 return( Dia[ Day( dData ) ] + "de " + MesExt[ Mes,1 ] + " de " + Str( Year( dData ),4))
 
+def Crontab(pH1)
+******************
+LOCAL ph         := {}
+LOCAL cEmpresa   := oAmbiente:_EMPRESA
+LOCAL nTarefas   := oIni:ReadInteger('crontab','tarefas', 0 )
+LOCAL aHoraCerta := {}
+LOCAL nY         := 0    
+LOCAL pRow
+LOCAL pCol
+LOCAL cComando
+LOCAL oBloco
+LOCAL cMinutos   
+LOCAL cHoras     
+LOCAL cDiaMes    
+LOCAL cMes       
+LOCAL cDiaSemana 
+LOCAL cUsuario   
+LOCAL aHora
+LOCAL lAtivo
+STATIC nConta           := 0
+STATIC lTarefaConcluida := FALSO
 
+/*
+		SCI0001.INI
+
+		[crontab]
+		tarefas=03
+
+		[01-crontab]
+		horaultimatarefa=04:30:00
+		dataultimatarefa=10/02/17
+		ativo=1
+		minutos=20
+		horas=12
+		diames=*
+		mes=*
+		diasemana=*
+		usuario=ADMIN
+		comando=CriaIndice
+
+		[02-crontab]
+		horaultimatarefa=18:42:00
+		dataultimatarefa=22/02/17
+		ativo=1
+		minutos=1
+		horas=*
+		diames=*
+		mes=*
+		diasemana=*
+		usuario=ADMIN
+		comando=ExcluirTemporarios
+
+		[03-crontab]
+		horaultimatarefa=23:49:00
+		dataultimatarefa=09/02/17
+		ativo=1
+		minutos=30
+		horas=12
+		diames=*
+		mes=*
+		diasemana=*
+		usuario=ADMIN
+		comando=CriaNewNota
+*/
+
+hb_gcAll() // This def releases all memory blocks that are considered as the garbage.
+
+aHora          := ft_elapsed(,, oAmbiente:Clock, Time())
+nRetval        := aHora[4 , 2] // segundos
+
+if nRetval >= 1
+	pRow := Row()
+	pCol := Col()
+	write( 00 , MaxCol()-17, Dtoc(Date()) + ' ' + (oAmbiente:Clock := Time()), omenu:corcabec)
+	DevPos( pRow, pCol)
+	//SetCursor( iif( Upper( "on" ) == "ON", 1, 0 )) 
+endif	
+	
+if nTarefas <= 0	
+   return nil
+endif
+
+if lTarefaConcluida
+	return nil
+endif
+hb_idleState()
+
+for nY := 1 to nTarefas
+   lAtivo := oIni:ReadBool(StrZero(nY,2) + '-crontab','ativo', true )
+	if !lAtivo
+		loop
+	endif
+	
+	cComando   := oIni:ReadString(StrZero(nY,2) + '-crontab','comando', NIL)
+	cMinutos   := oIni:ReadString(StrZero(nY,2) + '-crontab','minutos', "0" )
+	cHoras     := oIni:ReadString(StrZero(nY,2) + '-crontab','horas', "*" )
+	cDiaMes    := oIni:ReadString(StrZero(nY,2) + '-crontab','diames', "*" )
+	cMes       := oIni:ReadString(StrZero(nY,2) + '-crontab','mes', "*" )
+	cDiaSemana := oIni:ReadString(StrZero(nY,2) + '-crontab','diasemana', "*" )
+	if cComando != NIL
+	   if cDiaSemana != "*"
+		   nDiaSemanaAtual := Dow(Date())
+			if StrZero(nDiaSemanaAtual,1) != cDiaSemana // Nada a Fazer neste dia da semana
+			   Loop
+			endif		   
+		endif
+		
+		if cMes != "*"
+			nMesAtual := Month(Date())
+			if StrZero(nMesAtual,2) != StrZero(Val(cMes),2) // Nada a Fazer neste mes
+			   Loop
+			endif
+		endif
+				
+		if cDiaMes != "*"
+			nDiaMesAtual := Day(Date())
+			if StrZero(nDiaMesAtual,2) != StrZero(Val(cDiaMes),2) // Nada a Fazer neste dia do mes
+			   Loop
+			endif
+		endif
+		
+		if cHoras != "*"
+			cHorasAtual := SUBSTR(TIME(), 1, 2)
+			if cHorasAtual != cHoras // Nada a Fazer nesta hora
+			   Loop
+			endif
+		endif
+		if !cMinutos == "*"
+		   if Left(cMinutos, 2) == "*/"  // cada tantos minutos
+			   cFracaoMinutos := SubStr(AllTrim(cMinutos), 3, 2)
+				cTimeNow       := Time()
+				aHora          := ft_elapsed(,, oAmbiente:HoraCerta[nY], cTimeNow)
+				nRetval        := aHora[3 , 1]
+				if nRetval < val(cFracaoMinutos)
+				   loop
+				endif
+				oAmbiente:TarefaConcluida[nY] := FALSO
+				oAmbiente:HoraCerta[nY]       := Time()
+			else
+				cMinutoAtual := SUBSTR(TIME(), 4,5)
+				if !cMinutoAtual == cMinutos + ':00' // Nada a Fazer neste minuto
+					Loop
+				endif
+				//if oAmbiente:TarefaConcluida[nY] 
+				//   loop
+				//endif
+				//oAmbiente:TarefaConcluida[nY] := OK
+			endif	
+		endif	
+		//oBloco := {|x| ph1 := hb_idleAdd( {|x| Do(x), hb_idleDel()})}
+		//Aadd(ph,   {|| nHandle := hb_idleAdd( {|nHandle| IdleCriaIndice(nHandle), hb_idleDel(nHandle) })})
+		//Aadd(ph,   {|| hb_idleAdd( {|x| Do(x), hb_idleDel()})})		
+		//Aeval(ph,  {|cComando|Eval(cComando)})
+		
+		oMenu:ContaReg( "CRONTAB # " + Strzero(++nConta,7))		
+		oIni:WriteString(StrZero(nY,2) + '-crontab','ativo', lAtivo)
+		oIni:WriteString(StrZero(nY,2) + '-crontab','dataultimatarefa', Tran(Date(), "@D"))
+		oIni:WriteString(StrZero(nY,2) + '-crontab','horaultimatarefa', Time())
+		Do(cComando, OK)		
+	endif
+next
+SetCursor(1)
+return nil
+
+def Clock(row,col)
+*************************
+LOCAL ph1
+Iif( row = Nil , row := Row(), row )
+Iif( col = Nil , col := Col(), col )
+//pH1 := hb_idleAdd( {|| write( row, col-10, Dtoc(Date()), omenu:corcabec), write( row, col, Time(), omenu:corcabec), SetCursor( iif( Upper( "on" ) == "ON", 1, 0 ) )   })
+//Clock12(row, col)
+return( Dtoc(Date()) + ' ' + Time())
+
+def IdleCriaIndice(nHandle)
+********************************
+LOCAL ph1
+oIndice:Compactar    := FALSO
+oIndice:ProgressoNtx := FALSO
+CriaIndice()
+//pH1 := hb_idleAdd( {|| CriaIndice()})
+hb_idleDel( nHandle ) 
+return NIL
+
+def IdleDeletaArquivosTemporarios()
+***************************************
+LOCAL ph1
+pH1 := hb_idleAdd( {|| ExcluirTemporarios()})
+hb_idleDel( pH1 ) 
+return NIL
+
+def F_Fim( Texto )
+***********************
+	LOCAL cMicrobras := oAmbiente:xProgramador
+				  Texto := Iif( Texto = NIL, "MICROBRAS", Texto )
+
+	SetColor("")
+	Cls
+	Alert( Texto + ";;Copyright (C)1992," + Str(Year(Date()),4) + ";" + cMicrobras + ";;Todos Direitos;Reservados", "W+/G")
+	return
+endef
+
+def StaTusInf( XNOMEFIR, Msg, Color )
+******************************************
+	LOCAL nCol	:= LastRow()
+	LOCAL Tam	:= MaxCol()
+	DEFAU Msg   TO ""
+	DEFAU	Color TO Cor(2)
+				
+	aPrint( nCol, 00, Msg, Color, MaxCol() )
+	Pos := ( Tam - Len( XNOMEFIR ) )
+	aPrint( nCol, Pos, XNOMEFIR, Color )
+	return Nil
+endef	
+
+def StaTusSup( Msg, Color )
+	LOCAL Tam	:= MaxCol()
+			Msg	:= Iif( Msg = Nil, "", Msg )
+			Color := Iif( Color = Nil, Cor(2), Color )
+	Print( 00, 00, Padc( Msg, Tam ) , Color, Tam )
+	Print( 00, (Tam-8), Clock( 00, (Tam-8), Color ), Color )
+	return Nil
+endef
+	
 def Seta1( Row, Col )
 	LOCAL cString := "Use as Setas " + Chr( 27 ) + Chr( 24 ) + Chr( 25 ) + Chr( 26 )
 	LOCAL nLen	  := Len( cString )
@@ -1850,13 +2347,7 @@ def Ponto(cCampo, nTamanho)
 	return(alltrim(cCampo) + replicate(".", nTamanho - Len(alltrim(cCampo))))
 endef
 	
-def MsgOK( String, nOK)
-   __DefaultNIL(@String, "Tecle algo")
-   __DefaultNIL(@nOk, true)
-   return(mensagem( String, nil , nil , nil , nil, nOk ))
-endef   
-
-def Mensagem( String, Color, nLine, nCol, centralizar, nOk )
+def Mensagem( String, Color, nLine, nCol, centralizar )
 	LOCAL cScreen := SaveScreen()
 	LOCAL pstrlen := len(string) + 6
 	LOCAL nlinhas := strcount(';', string)
@@ -1865,10 +2356,10 @@ def Mensagem( String, Color, nLine, nCol, centralizar, nOk )
 	LOCAL Row
 	LOCAL Col
 	LOCAL Col2
+	LOCAL nOk := false
 	
-	__DefaultNIL(@centralizar, true)    
+	__DefaultNIL(@centralizar, false)    
 	__DefaultNIL(@color, oAmbiente:CorMsg)    
-   __DefaultNIL(@nOk, false)    
 	Do case
 		case nLine == nil .and. nLinhas = 0	
 			String := SISTEM_NA1 + ";-;" + String
@@ -1913,7 +2404,103 @@ def Mensagem( String, Color, nLine, nCol, centralizar, nOk )
 	Print( Row + 2, Col + 4, String, Color)
 	return( cScreen )
 endef	
-    
+
+def AlertPy(string, cor, centralizar, nOK, cOk)
+*----------------------------------------------*
+	AlertaPy(string, cor, centralizar, nOK, cOk)
+	return nil
+endef
+	
+def AlertaPy(string, cor, centralizar, lOK, aPrompt)
+****************************************************
+	LOCAL nlinhas := strcount(';', string)
+	LOCAL aString := StrSplit( string, ';', -1)  
+	LOCAL nLen    := amaxstrlen( aString)
+	LOCAL nPv     := 0
+	LOCAL nSep    := 0
+	LOCAL nRow
+	LOCAL nCol
+	LOCAL nRow1
+	LOCAL nCol1
+	 
+	__DefaultNIL(@cor, 31)    
+	__DefaultNIL(@centralizar, false)    
+	__DefaultNIL(@lOk, true) 
+	
+	// if left(string, len(SISTEM_NA1)) != SISTEM_NA1	
+	   // string := SISTEM_NA1 + ";-;" + String
+	// endif
+	
+	if aPrompt == nil .or. len(aPrompt) == 0
+		aPrompt := {" Ok "}
+	endif
+	
+	// verifica se a string contem separador de linhas ;-; 
+	for x := 1 To Len(aString)	     		
+		switch aString[x] 
+			case ';'; nPv++ ;	exit
+			case '-'; nSep++;	exit
+		endswitch
+	next
+	 
+	if nSep == 0 // Sem linha horizontal
+		string += ';-;'
+		nlinhas := strcount(';', string)
+		aString := StrSplit( string, ';', -1)  
+		nLen    := amaxstrlen( aString)	
+	endif		
+
+   if nLen < 6
+		nLen = 6
+	endif	 
+	row     := (maxrow() / 2) - (nlinhas / 2) - 4
+	col     := (maxcol() - nLen) / 2	 
+	cScreen := SaveScreen()	 
+	nrow    := row
+	ncol    := (col-2)
+	nrow1   := (row+4+nlinhas)
+	ncol1   := (col+nLen+1)	 	 
+	 
+	nTamPrompt := 0
+	nLenaPrompt := Len(aPrompt)	
+	for k := 1 to nLenaPrompt
+		nTamPrompt += Len(aPrompt[k])
+	next	
+	 
+	center  := (maxcol()/2) - (nTamPrompt/2)
+	 
+//==================== 20/2 = 10
+       //center
+	 
+    setcursor(0)    
+    box(nrow, ncol, nrow1, ncol1, m_frame(), Cor)
+    for x := 1 To Len(aString)	     
+	     cString := aString[x]
+        if centralizar
+            ncol := (maxcol() - len(cString)) / 2
+        else
+            ncol := col
+		  endif		
+		  if cString == '-'
+			  LinhaHorizontal(row + 1, Col - 2, Col + nlen, cor)
+		  else	  
+				aprint(row + 1, ncol, cString, cor)
+		  endif		
+        row := row + 1
+	 next	  
+	 if lOk
+		if nLenaPrompt = 1
+			aprint(row + 2, center, aPrompt[1], roloc(cor))
+			inkey(0)
+			restela(cScreen) 	 
+			return(cScreen) 	 
+		else			
+			//nSetColor(cor)
+			return( nRetval := aChoice( row, Col, row + 4, Col + nLen, aPrompt))
+		endif
+	 endif
+	 return(cScreen) 	 	 
+
 def Mens( String, Color, nLine )
 *********************************
 	LOCAL cScreen := SaveScreen()
@@ -2186,27 +2773,216 @@ def NomePrograma()
 	LOCAL cStr      := SubStr(cPrograma, nPos+1)
 return(cStr)
 
+def Hard( nPos, ProcName, ProcLine )
+*****************************************
+LOCAL cScreen := SaveScreen()
+LOCAL cCodigo
+LOCAL cSenha
+LOCAL nCrc
+LOCAL cCrc
+LOCAL cData
+LOCAL dData
+LOCAL nSpaco
+LOCAL nTemp
+LOCAL cMens 			:= "Foi detectado um problema, Verifique as opcoes:"
+LOCAL aMensagem		:= Array(3,5)
+		aMensagem[1,1] := "[Limite de Codigo de Acesso Vencido]"
+		aMensagem[1,2] := "1 - A data do Sistema Operacional esta correta ?"
+		aMensagem[1,3] := "2 - Caso Positivo, solicite novo Codigo de Acesso."
+		aMensagem[1,4] := ""
+		aMensagem[1,5] := ""
 
+		aMensagem[2,1] := "[Verificacao de Copia Original]"
+		aMensagem[2,2] := "1 - O SCI esta sendo instalado pela 1¦ vez ?"
+		aMensagem[2,3] := "2 - Esta atualizando a versao do SCI ?"
+		aMensagem[2,4] := "3 - Esta instalando um novo terminal ?"
+		aMensagem[2,5] := "4 - Caso Positivo, solicite Codigo de Acesso."
+
+		aMensagem[3,1] := "[Renovacao de Codigo de Acesso]"
+		aMensagem[3,2] := "1 - Informe ao nosso suporte tecnico que est  sendo"
+		aMensagem[3,3] := "    um pedido antecipado de codigo de acesso, e que"
+		aMensagem[3,4] := "    o mesmo ‚ de seu conhecimento.                 "
+		aMensagem[3,5] := ""
+
+if ProcName != NIL
+	cMens := ProcName + "(" + StrZero( ProcLine, 5 ) + "): " + cMens
+endif
+Set Conf On
+oMenu:Limpa()
+BoxConf( 00, 05, 24, 75 )
+CenturyOn()
+WHILE OK
+	nTemp := Val( StrTran( Time(), ":"))
+	//Seed( nTemp )
+	cCodigo := ""
+	For nX := 1 To 5
+		nNumero := Random()
+		nNumero := Alltrim( Str( nNumero ))
+		cCodigo += Left( nNumero, 2)
+	Next
+	ErrorBeep()
+	SetColor("R/W")
+	Write( 01, 06, cMens )
+	SetColor("B/W")
+	Write( 03, 06, aMensagem[nPos,1])
+	SetColor("GR+/W")
+	Write( 04, 06, aMensagem[nPos,2])
+	Write( 05, 06, aMensagem[nPos,3])
+	Write( 06, 06, aMensagem[nPos,4])
+	Write( 07, 06, aMensagem[nPos,5])
+	SetColor("N/W")
+	Write( 09, 06, "Sr. Usuario, ligue para o Depto. de Suporte ao Usuario atraves do" )
+	Write( 10, 06, "Tel (69)3451-3085 e informe os dados apresentados abaixo:")
+	cInterno := Left( cCodigo,3 ) + "." + SubStr( cCodigo, 4, 3 ) + "." + Right( cCodigo, 4 )
+	Write( 12, 06, "Nome do Registro....: " + XNOMEFIR )
+	Write( 13, 06, "Nome do Aplicativo..: " + SISTEM_NA1 )
+	Write( 14, 06, "Versao..............: " + SISTEM_VERSAO )
+	Write( 15, 06, "Codigo Interno......: " )
+	@		 15, 28 Say cInterno Color "R/W"
+
+	Write( 17, 06, "O Depto. de Suporte ira lhe informar um codigo de acesso para libe-")
+	Write( 18, 06, "racao imediata do sistema, o qual devera ser digitado abaixo:")
+
+	//SetKey( 309, {||Cod_Acesso( cCodigo, GetList ) } )
+	@ 22, 06 Say "IMPORTANTE: Nao tecle ENTER ou saia antes de ter o codigo de acesso," Color "R/W"
+	@ 23, 06 Say "pois o codigo interno se modificara novamente." Color "R/W"
+
+	Set Date Brit
+	dDatados := Date()
+	cSenha	:= Space(13)
+	@ 20, 06 Say "Codigo de Acesso...:" Get cSenha   Pict "@R 999.999.999.999.9" Valid Right( cSenha, 3) != "000"
+	@ 20, 45 Say "Data Atual..:"        Get dDatados Pict "##/##/##"
+	Read
+	//SetKey( 309, NIL )
+	if LastKey() = ESC
+		if nPos <> 3
+			Cls
+			Quit
+		else
+			CenturyOff()
+			return
+		endif
+	endif
+	nCrc := 0
+	For nX := 1 To 10
+		nCrc += Val( SubStr( cSenha, nX,1)) * Val( SubStr( cSenha, nX, 1)) + Val( SubStr( cCodigo, nX,1))
+	Next
+	cCrc := Right(StrZero( nCrc, 10),3)
+	if cCrc != Right( cSenha, 3 )
+		ErrorBeep()
+		Alert("Erro : O Codigo de Acesso inv lido. Solicite Novamente.")
+		Loop
+	endif
+	Set Date To USA // mm/dd/yy
+	cDataDos := Dtoc( dDataDos )
+	cData 	:= SubStr( cSenha, 3, 2 ) + "/" + Left( cSenha, 2) + "/" + SubStr( cSenha, 5, 2 )
+	dData 	:= Dtoc( Ctod( cData ))
+	SET DEFA TO ( oAmbiente:xBase )
+	if !File( 'SCI.DBF' )
+		SetColor("")
+		Cls
+		ErrorBeep()
+		Alert( oAmbiente:xBase )
+		Alert( "Erro: Arquivo SCI.DBF nao localizado.")
+		Quit
+	endif
+	if !NetUse( 'SCI.DBF', true )
+		SetColor("")
+		Cls
+		ErrorBeep()
+		Alert("Erro: Impossivel abrir SCI.DBF.")
+		Quit
+	endif
+	
+	oAmbiente:xDataCodigo := dData
+	cDia := SubStr( oAmbiente:xDataCodigo, 4, 2 )
+	cMes := Left(	oAmbiente:xDataCodigo, 2 )
+	cAno := Right( oAmbiente:xDataCodigo, 4 )
+	oAmbiente:xDataCodigo := cDia + "/" + cMes + "/" + cAno
+	CopyCria()
+	if Sci->(TravaArq())
+		Sci->Limite   := MsEncrypt( dData )
+		Sci->(Libera())
+		Sci->(DbCloseArea())
+	else
+		if nPos <> 3
+			Cls
+			Quit
+		endif
+	endif
+	Set Defa To ( oAmbiente:xBaseDados )
+	ResTela( cScreen )
+	Exit
+EndDo
+CenturyOff()
+Set Conf Off
+return
+
+def Cod_Acesso( cCodigo, GetList )
+**************************************
+LOCAL Data_Limite
+LOCAL cExecucoes
+
+	CenturyOff()
+	// Monte a Senha Para calculo
+	cExecucoes	 := Right( StrTran( Time(), ":"),2)
+	cExecucoes	 += Right( StrTran( Time(), ":"),2)
+	cData_Limite := StrTran( Dtoc( Date()+15), "/" )
+	cSenha		 := cData_Limite + cExecucoes
+
+	// Calcula o Crc
+	nCrc := 0
+	nX   := 0
+	For nX := 1 To 10
+		nCrc += Val( SubStr( cSenha,	nX, 1 )) * ;
+				  Val( SubStr( cSenha,	nX, 1 )) + ;
+				  Val( SubStr( cCodigo, nX, 1 ))
+	Next
+	cCrc	 := Right( StrZero( nCrc, 10),3)
+	cSenha += cCrc
+	cSenha := Tran( cSenha, "@R 999.999.999.999.9")
+	Getlist[1]:buffer  := cSenha
+	Getlist[1]:Changed := OK
+	Getlist[1]:Assign()
+	Getlist[1]:Reset()
+	Getlist[1]:Display()
+	Getlist[1]:ExitState := GE_ENTER
+	CenturyOn()
+	return
+
+def HoraSaida( HR_ENTRADA, HR_SAIDA )
+******************************************
+LOCAL cStartTime := HR_ENTRADA
+LOCAL cTempo	  := StrTran( TimeDiff( cStartTime, Time()), ":")
+
+if !NetUse("SCI", true )
+	EncerraDbf(, ProcName(), ProcLine())
+endif
+if Sci->(TravaReg())
+	Sci->Time += Val( cTempo )
+	Sci->(Libera())
+	Sci->(DbCloseArea())
+else
+	Cls
+	Quit
+endif
 
 /*
 def TimeDiff( cStartTime, cEndTime )
 *****************************************
-   return TimeAsString(Iif(cEndTime < cStartTime, 86400 , 0) +;
-          TimeAsSeconds(cEndTime) - TimeAsSeconds(cStartTime))
-endef
-          
+return TimeAsString(Iif(cEndTime < cStartTime, 86400 , 0) +;
+		 TimeAsSeconds(cEndTime) - TimeAsSeconds(cStartTime))
+
 def TimeAsSeconds( cTime )
 *******************************
-   return VAL(cTime) * 3600 + VAL(SUBSTR(cTime, 4)) * 60 +;
-          VAL(SUBSTR(cTime, 7))
-endef          
+return VAL(cTime) * 3600 + VAL(SUBSTR(cTime, 4)) * 60 +;
+		 VAL(SUBSTR(cTime, 7))
 
 def TimeAsString( nSeconds )
 *********************************
-   return StrZero(INT(Mod(nSeconds / 3600, 24)), 2, 0) + ":" +;
-                  StrZero(INT(Mod(nSeconds / 60, 60)), 2, 0) + ":" +;
-                  StrZero(INT(Mod(nSeconds, 60)), 2, 0)
-endef                  
+return StrZero(INT(Mod(nSeconds / 3600, 24)), 2, 0) + ":" +;
+					StrZero(INT(Mod(nSeconds / 60, 60)), 2, 0) + ":" +;
+					StrZero(INT(Mod(nSeconds, 60)), 2, 0)
 */
 
 def ScrollBarNew( nTopRow, nTopColumn, nBottomRow, cColorString, nInitPosition )
@@ -2227,88 +3003,83 @@ def ScrollBarNew( nTopRow, nTopColumn, nBottomRow, cColorString, nInitPosition )
 		nInitPosition := 1
 	endif
 	aScrollBar[ TB_POSITION ] := nInitPosition
+
 	return ( aScrollBar )
-endef   
 
 def ScrollBarDisplay( aScrollBar )
 ***************************************
-   LOCAL cOldColor
-   LOCAL nRow
+LOCAL cOldColor
+LOCAL nRow
 
-   cOldColor := SETCOLOR( aScrollBar[ TB_COLOR ] )
-   @ aScrollBar[ TB_ROWTOP ], aScrollBar[ TB_COLTOP ] SAY TB_UPARROW
-   @ aScrollBar[ TB_ROWBOTTOM ], aScrollBar[ TB_COLBOTTOM ] SAY TB_DNARROW
+cOldColor := SETCOLOR( aScrollBar[ TB_COLOR ] )
+@ aScrollBar[ TB_ROWTOP ], aScrollBar[ TB_COLTOP ] SAY TB_UPARROW
+@ aScrollBar[ TB_ROWBOTTOM ], aScrollBar[ TB_COLBOTTOM ] SAY TB_DNARROW
 
-   FOR nRow := (aScrollBar[ TB_ROWTOP ] + 1) TO (aScrollBar[ TB_ROWBOTTOM ] - 1)
-      @ nRow, aScrollBar[ TB_COLTOP ] SAY TB_BACKGROUND
-   NEXT
-   SETCOLOR( cOldColor )
-   return ( aScrollBar )
-endef   
+FOR nRow := (aScrollBar[ TB_ROWTOP ] + 1) TO (aScrollBar[ TB_ROWBOTTOM ] - 1)
+	@ nRow, aScrollBar[ TB_COLTOP ] SAY TB_BACKGROUND
+NEXT
+SETCOLOR( cOldColor )
+return ( aScrollBar )
 
 def ScrollBarUpdate( aScrollBar, nCurrent, nTotal, lForceUpdate )
 *******************************************************************
-   LOCAL cOldColor
-   LOCAL nNewPosition
-   LOCAL nScrollHeight := ( aScrollBar[TB_ROWBOTTOM] - 1 ) - ( aScrollBar[TB_ROWTOP] )
+LOCAL cOldColor
+LOCAL nNewPosition
+LOCAL nScrollHeight := ( aScrollBar[TB_ROWBOTTOM] - 1 ) - ( aScrollBar[TB_ROWTOP] )
 
-   if nTotal < 1
-      nTotal := 1
-   endif
+if nTotal < 1
+	nTotal := 1
+endif
 
-   if nCurrent < 1
-      nCurrent := 1
-   endif
+if nCurrent < 1
+	nCurrent := 1
+endif
 
-   if nCurrent > nTotal
-      nCurrent := nTotal
-   endif
+if nCurrent > nTotal
+	nCurrent := nTotal
+endif
 
-   if lForceUpdate == NIL
-      lForceUpdate := .F.
-   endif
+if lForceUpdate == NIL
+	lForceUpdate := .F.
+endif
 
-   cOldColor := SETCOLOR( aScrollBar[ TB_COLOR ] )
+cOldColor := SETCOLOR( aScrollBar[ TB_COLOR ] )
 
-   nNewPosition := ROUND( (nCurrent / nTotal) * nScrollHeight, 0 )
+nNewPosition := ROUND( (nCurrent / nTotal) * nScrollHeight, 0 )
 
-   nNewPosition := Iif( nNewPosition < 1, 1, nNewPosition )
-   nNewPosition := Iif( nCurrent == 1, 1, nNewPosition )
-   nNewPosition := Iif( nCurrent >= nTotal, nScrollHeight, nNewPosition )
+nNewPosition := Iif( nNewPosition < 1, 1, nNewPosition )
+nNewPosition := Iif( nCurrent == 1, 1, nNewPosition )
+nNewPosition := Iif( nCurrent >= nTotal, nScrollHeight, nNewPosition )
 
-   if nNewPosition <> aScrollBar[ TB_POSITION ] .OR. lForceUpdate
-      @ (aScrollBar[ TB_POSITION ] + aScrollBar[ TB_ROWTOP ]), aScrollBar[ TB_COLTOP ] SAY TB_BACKGROUND
-      @ (nNewPosition + aScrollBar[ TB_ROWTOP ]), aScrollBar[ TB_COLTOP ] SAY TB_HIGHLIGHT
-      aScrollBar[ TB_POSITION ] := nNewPosition
-   endif
-   SETCOLOR( cOldColor )
-   return ( aScrollBar )
-endef   
+if nNewPosition <> aScrollBar[ TB_POSITION ] .OR. lForceUpdate
+	@ (aScrollBar[ TB_POSITION ] + aScrollBar[ TB_ROWTOP ]), aScrollBar[ TB_COLTOP ] SAY TB_BACKGROUND
+	@ (nNewPosition + aScrollBar[ TB_ROWTOP ]), aScrollBar[ TB_COLTOP ] SAY TB_HIGHLIGHT
+	aScrollBar[ TB_POSITION ] := nNewPosition
+endif
+SETCOLOR( cOldColor )
+return ( aScrollBar )
 
 def Criptar( Pal )
 ***********************
-   LOCAL Fra, X, L
-
-   Fra := ""
-   Tam := Len( Pal )
-   FOR X := 1 TO Tam
-       L := SubStr(Pal, X, 1)
-       Fra += Chr(Asc(L) + 61 - 2 * X + 3 * x )
-   NEXT
-   return Fra
-endef   
+LOCAL Fra, X, L
+Fra := ""
+Tam := Len( Pal )
+FOR X := 1 TO Tam
+	 L := SubStr(Pal, X, 1)
+	 Fra += Chr(Asc(L) + 61 - 2 * X + 3 * x )
+NEXT
+return Fra
 
 def DCriptar( Pal )
 ************************
-   LOCAL Fra, X, L, Tam
-   Fra := ""
-   Tam := Len( Pal )
-   FOR X := 1 TO Tam
-       L := SubStr(Pal, X, 1)
-       Fra += Chr(Asc(L) - 61 + 2 * X - 3 * x )
-   NEXT
-   return Fra
-endef   
+LOCAL Fra, X, L, Tam
+Fra := ""
+Tam := Len( Pal )
+FOR X := 1 TO Tam
+	 L := SubStr(Pal, X, 1)
+	 Fra += Chr(Asc(L) - 61 + 2 * X - 3 * x )
+NEXT
+return Fra
 
 def M_Menu( ativo, Arg2, Arg3, Arg4, aMensagem )
 ****************************************************
@@ -4117,10 +4888,10 @@ endef
 *==================================================================================================*		
 
 def DelTemp()
-	Aeval( Directory( "t0*.*"),   { | aFile | Ferase( aFile[ F_NAME ] )})
-	Aeval( Directory( "t1*.*"),   { | aFile | Ferase( aFile[ F_NAME ] )})
-	Aeval( Directory( "t2*.*"),   { | aFile | Ferase( aFile[ F_NAME ] )})
-	Aeval( Directory( "t*.tmp"),  { | aFile | Ferase( aFile[ F_NAME ] )})
+	Aeval( Directory( "T0*.*"),   { | aFile | Ferase( aFile[ F_NAME ] )})
+	Aeval( Directory( "T1*.*"),   { | aFile | Ferase( aFile[ F_NAME ] )})
+	Aeval( Directory( "T2*.*"),   { | aFile | Ferase( aFile[ F_NAME ] )})
+	Aeval( Directory( "T0*.TMP"), { | aFile | Ferase( aFile[ F_NAME ] )})
 	return( nil )
 endef
 
@@ -4233,7 +5004,545 @@ endef
 */
 
 *==================================================================================================*		
+
+def PrintOn( lFechaSpooler )
+	LOCAL nQualPorta := 1
+	LOCAL cSaida	  := ""
+
+	if lFechaSpooler = NIL
+		AbreSpooler()
+	endif
+	Instru80( @nQualPorta )
+	if 	 nQualPorta = 1
+		cSaida := "LPT1"
+	elseif nQualPorta = 2
+		cSaida := "LPT2"
+	elseif nQualPorta = 3
+		cSaida := "LPT3"
+	elseif nQualPorta = 4
+		cSaida := "COM1"
+	elseif nQualPorta = 5
+		cSaida := "COM2"
+	elseif nQualPorta = 6
+		cSaida := "COM3"
+	endif
+	if lFechaSpooler == nil
+		oMenu:StatInf()
+		oAmbiente:nRegistrosImpressos := 0
+	endif	
+	Set Cons Off
+	Set Devi To Print
+	if !oAmbiente:Spooler
+		if nQualPorta != 1
+			Set Print To ( cSaida )
+		endif
+	endif
+	Set Print On
+	FPrint( RESETA )
+	SetPrc(0,0)
+	return Nil
+endef
+
+*==================================================================================================*		
 	
+def PrintOff()
+	PrintOn( true )
+	FPrint( RESETA )
+	Set Devi To Screen
+	Set Prin Off
+	Set Cons On
+	Set Print to
+	CloseSpooler()
+	return Nil
+endef
+
+*==================================================================================================*		
+	
+def Instru80( nQualPorta )
+	LOCAL cScreen				:= SaveScreen()
+	LOCAL Arq_Ant				:= Alias()
+	LOCAL Ind_Ant				:= IndexOrd()
+	LOCAL nChoice
+	LOCAL aNewLpt
+	LOCAL i						:= 0
+	LOCAL nStatus				:= 0
+	STATI nPortaDeImpressao := 1
+	PUBLI lCancelou			:= FALSO
+	PRIVA aStatus				:= {}
+	PRIVA aAction				:= {}
+	PRIVA aComPort 			:= {}
+	PRIVA aMenu
+
+	if len(oAmbiente:aLpt1) == 0
+		EscolheImpressoraUsuario(nil, nil, nil)
+	endif
+	
+	if nQualPorta != NIL
+		nQualPorta := nPortaDeImpressao
+		return( true )
+	endif
+	ErrorBeep()
+	while(true)
+		oMenu:Limpa()
+		aAction	:= { "PRONTA         ","FORA DE LINHA  ","DESLIGADA      ","SEM PAPEL      ", "NAO CONECTADA  "}
+		aComPort := { "DISPONIVEL     ","INDISPONIVEL   " }
+		aStatus := {}
+		alDisp  := { OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, OK, true }
+		For i := 1 To 3
+			nStatus := PrnStatus(i)
+			if nStatus = 0 
+				nStatus := Iif(IsPrinter(i), 1, 2 )
+			else
+			  if nStatus = -1
+				  nStatus = 4
+			  else
+				  nStatus++
+				endif
+			endif	
+			Aadd( aStatus, nStatus )
+		Next
+		aMenu   := {" LPT1 þ " + aAction[ aStatus[1]] + " þ " + oAmbiente:aLpt1[1,2],;
+						" LPT2 þ " + aAction[ aStatus[2]] + " þ " + oAmbiente:aLpt2[1,2],;
+						" LPT3 þ " + aAction[ aStatus[3]] + " þ " + oAmbiente:aLpt3[1,2],;
+						" COM1 þ " + Iif( FIsPrinter("COM1"), aComPort[1], aComPort[2]) + " þ " + "PORTA SERIAL 1",;
+						" COM2 þ " + Iif( FIsPrinter("COM2"), aComPort[1], aComPort[2]) + " þ " + "PORTA SERIAL 2",;
+						" COM3 þ " + Iif( FIsPrinter("COM3"), aComPort[1], aComPort[2]) + " þ " + "PORTA SERIAL 3",;
+						" USB  þ " + aAction[ aStatus[1]] + " þ IMPRESSORA USB",;
+						" VISUALIZAR   þ ",;
+						" EMAIL        þ ",;
+						" WEB BROWSER  þ ",;
+						" SPOOLER      þ ",;
+						" CANCELAR     þ "}
+		MaBox( 05, 10, 18, 62, nil, "ENTER=IMPRIMIR³CTRL+ENTER=ESCOLHER³CTRL+PGDN=ONLINE")
+		nChoice := aChoice( 06, 11, 17, 61, aMenu, alDisp, "_Instru80" )
+		if nChoice = 0 .OR. nChoice = 12
+			if Conf("Pergunta: Cancelar Impressao ?")
+				lCancelou := OK
+				return( false )
+			endif
+			Loop
+		endif	
+		aNewLpt := aLpt1
+		Do Case
+			Case nChoice = 1
+				aNewLpt := aLpt1
+			Case nChoice = 2
+				aNewLpt := aLpt2
+			Case nChoice = 3
+				aNewLpt := aLpt3
+			Case nChoice = 7
+				aNewLpt := aLpt1
+			Case nChoice = 8
+				aNewLpt := aLpt1
+			Case nChoice = 9
+				aNewLpt := aLpt1
+			Case nChoice = 11
+				aNewLpt := aLpt1
+		EndCase
+		AreaAnt( Arq_Ant, Ind_Ant )
+		SetarVariavel( aNewLpt )
+		Do Case
+		Case nChoice = 0 .OR. nChoice = 12
+			if lCancelou
+				lCancelou := FALSO
+				Loop
+			endif
+			if Conf("Pergunta: Cancelar Impressao ?")
+				return( false )
+			endif
+		Case nChoice = 7
+			nPortaDeImpressao := 1
+			SaidaParaUsb()
+			return( true )
+		Case nChoice = 8
+			nPortaDeImpressao := 1
+			return( SaidaParaArquivo())
+		Case nChoice = 9
+			nPortaDeImpressao := 1
+			SaidaParaEmail()
+			return( true )
+		Case nChoice = 10
+			nPortaDeImpressao := 1
+			SaidaParaHtml()
+			return( true )
+		Case nChoice = 11
+			nPortaDeImpressao := 1
+			SaidaParaSpooler()
+			return( true )
+		OTherWise
+			nPortaDeImpressao   := Iif( nChoice = 0, 1, nChoice )
+			oAmbiente:cArquivo  := ""
+			oAmbiente:Spooler   := FALSO
+			oAmbiente:IsPrinter := nChoice
+			nQualPorta			  := nChoice
+			if LptOk()
+				ResTela( cScreen )
+				return( true )
+			endif
+		EndCase
+	EndDo
+	ResTela( cScreen )
+endef	
+	
+*==================================================================================================*			
+	
+def _Instru80( Mode, nCorrente, nRowPos )
+**********************************************
+	LOCAL cCodi := Space(02)
+	LOCAL cPath := FChdir()
+
+	Do Case
+	Case LastKey() = K_CTRL_PGDN
+	  lCancelou := OK
+	  return( 0 )
+
+	Case Mode = 0
+		return(2)
+
+	Case Mode = 1 .OR. Mode = 2
+		ErrorBeep()
+		return(2)
+
+	Case LastKey() = K_ESC
+		return(0)
+
+	Case LastKey() = K_ENTER
+		return(1)
+
+	Case LastKey() = K_CTRL_RET  // CTRL+ENTER
+		//FChDir( oAmbiente:xBaseDados )
+		//Set Defa To ( oAmbiente:xBaseDados )
+		if UsaArquivo("PRINTER")
+			PrinterErrada( @cCodi )
+			if nCorrente = 1
+				aLpt1 := {}
+				Aadd( aLpt1, { Printer->Codi, Printer->Nome, Printer->_Cpi10, Printer->_Cpi12, Printer->Gd, Printer->Pq, Printer->Ng, Printer->Nr, ;
+									Printer->Ca, Printer->c18, Printer->LigSub, Printer->DesSub, Printer->_SaltoOff, Printer->_Spaco1_8, ;
+									Printer->_Spaco1_6, Printer->Reseta })
+				aMenu[1] := " LPT1 þ " + aAction[ aStatus[1]] + " þ " + aLpt1[1,2]
+			elseif nCorrente = 2
+				aLpt2 := {}
+				Aadd( aLpt2, { Printer->Codi, Printer->Nome, Printer->_Cpi10, Printer->_Cpi12, Printer->Gd, Printer->Pq, Printer->Ng, Printer->Nr, ;
+									Printer->Ca, Printer->c18, Printer->LigSub, Printer->DesSub, Printer->_SaltoOff, Printer->_Spaco1_8, ;
+									Printer->_Spaco1_6, Printer->Reseta })
+
+				aMenu[2] := " LPT2 þ " + aAction[ aStatus[2]] + " þ " + aLpt2[1,2]
+			elseif nCorrente = 3
+				aLpt3 := {}
+				Aadd( aLpt3, { Printer->Codi, Printer->Nome, Printer->_Cpi10, Printer->_Cpi12, Printer->Gd, Printer->Pq, Printer->Ng, Printer->Nr, ;
+									Printer->Ca, Printer->c18, Printer->LigSub, Printer->DesSub, Printer->_SaltoOff, Printer->_Spaco1_8, ;
+									Printer->_Spaco1_6, Printer->Reseta })
+				aMenu[3] := " LPT3 þ " + aAction[ aStatus[3]] + " þ " + aLpt3[1,2]
+			endif
+			
+			oAmbiente:aLpt1  := aLpt1			
+			oAmbiente:aLpt2  := aLpt2
+			oAmbiente:aLpt3  := aLpt3			
+			
+			Printer->(DbCloseArea())
+			if UsaArquivo("USUARIO")
+				if Usuario->(DbSeek( oAmbiente:xUsuario ))
+					if Usuario->(TravaReg())
+						Usuario->Lpt1 := Iif( oAmbiente:aLpt1[1,1] = NIL, "", oAmbiente:aLpt1[1,1])
+						Usuario->Lpt2 := Iif( oAmbiente:aLpt2[1,1] = NIL, "", oAmbiente:aLpt2[1,1])
+						Usuario->Lpt3 := Iif( oAmbiente:aLpt3[1,1] = NIL, "", oAmbiente:aLpt3[1,1])
+						Usuario->(Libera())
+					endif
+				endif
+				Usuario->(DbCloseArea())
+			endif
+		endif
+		//FChDir( cPath )
+		//Set Defa To ( cPath )
+		return(2)
+
+	OtherWise
+		return(2)
+
+	EndCase
+endef
+	
+*==================================================================================================*			
+
+Proc SetarVariavel( aNewLpt )
+*****************************
+	LOCAL nPos := 2
+	PUBLIC _CPI10	  := MsDecToChr( aNewLpt[1,++nPos] )
+	PUBLIC _CPI12	  := MsDecToChr( aNewLpt[1,++nPos] )
+	PUBLIC GD		  := MsDecToChr( aNewLpt[1,++nPos] )
+	PUBLIC PQ		  := MsDecToChr( aNewLpt[1,++nPos] )
+	PUBLIC NG		  := MsDecToChr( aNewLpt[1,++nPos] )
+	PUBLIC NR		  := MsDecToChr( aNewLpt[1,++nPos] )
+	PUBLIC CA		  := MsDecToChr( aNewLpt[1,++nPos] )
+	PUBLIC C18		  := MsDecToChr( aNewLpt[1,++nPos] )
+	PUBLIC LIGSUB	  := MsDecToChr( aNewLpt[1,++nPos] )
+	PUBLIC DESSUB	  := MsDecToChr( aNewLpt[1,++nPos] )
+	PUBLIC _SALTOOFF := MsDecToChr( aNewLpt[1,++nPos] )
+	PUBLIC _SPACO1_8 := MsDecToChr( aNewLpt[1,++nPos] )
+	PUBLIC _SPACO1_6 := MsDecToChr( aNewLpt[1,++nPos] )
+	PUBLIC RESETA	  := MsDecToChr( aNewLpt[1,++nPos] )
+	return
+
+def Impressora()
+*********************
+LOCAL cScreen := SaveScreen()
+LOCAL nChoice := 0
+LOCAL aMenu   := {}
+
+oMenu:Limpa()
+WHILE OK
+	aMenu := { " LPT1 þ " + Iif( aLpt1[1,2] != NIL, aLpt1[1,2],""),;
+				  " LPT2 þ " + Iif( aLpt2[1,2] != NIL, aLpt2[1,2],""),;
+				  " LPT3 þ " + Iif( aLpt3[1,2] != NIL, aLpt3[1,2],"")}
+	M_Title(" TECLE ENTER PARA ESCOLHER, ESC CANCELAR")
+	nChoice := FazMenu( 09, 14, aMenu, Cor())
+	if  nChoice = 0
+		ResTela( cScreen )
+		return
+	else
+		MudaImpressora( nChoice )
+	endif
+EndDo
+
+Proc MudaImpressora( nCorrente )
+********************************
+LOCAL cCodi := Space(02)
+
+if UsaArquivo("PRINTER")
+	PrinterErrada( @cCodi )
+	if nCorrente = 1
+		aLpt1 := {}
+		Aadd( aLpt1, { Printer->Codi, Printer->Nome, Printer->_Cpi10, Printer->_Cpi12, Printer->Gd, Printer->Pq, Printer->Ng, Printer->Nr, ;
+							Printer->Ca, Printer->c18, Printer->LigSub, Printer->DesSub, Printer->_SaltoOff, Printer->_Spaco1_8, ;
+							Printer->_Spaco1_6, Printer->Reseta })
+	elseif nCorrente = 2
+		aLpt2 := {}
+		Aadd( aLpt2, { Printer->Codi, Printer->Nome, Printer->_Cpi10, Printer->_Cpi12, Printer->Gd, Printer->Pq, Printer->Ng, Printer->Nr, ;
+							Printer->Ca, Printer->c18, Printer->LigSub, Printer->DesSub, Printer->_SaltoOff, Printer->_Spaco1_8, ;
+							Printer->_Spaco1_6, Printer->Reseta })
+
+	elseif nCorrente = 3
+		aLpt3 := {}
+		Aadd( aLpt3, { Printer->Codi, Printer->Nome, Printer->_Cpi10, Printer->_Cpi12, Printer->Gd, Printer->Pq, Printer->Ng, Printer->Nr, ;
+							Printer->Ca, Printer->c18, Printer->LigSub, Printer->DesSub, Printer->_SaltoOff, Printer->_Spaco1_8, ;
+							Printer->_Spaco1_6, Printer->Reseta })
+	endif
+	Printer->(DbCloseArea())
+	if UsaArquivo("USUARIO")
+		if Usuario->(DbSeek( oAmbiente:xUsuario ))
+			if Usuario->(TravaReg())
+				Usuario->Lpt1 := Iif( aLpt1[1,1] = NIL, "", aLpt1[1,1])
+				Usuario->Lpt2 := Iif( aLpt2[1,1] = NIL, "", aLpt2[1,1])
+				Usuario->Lpt3 := Iif( aLpt3[1,1] = NIL, "", aLpt3[1,1])
+				Usuario->(Libera())
+			endif
+		endif
+		Usuario->(DbCloseArea())
+	endif
+endif
+
+def Instruim()
+*******************
+	return( Instru80() )
+
+def InstruEt()
+*******************
+LOCAL cScreen := SaveScreen()
+LOCAL nChoice
+oMenu:Limpa()
+ErrorBeep()
+nChoice := Alert(" INSTRU€ŽO PARA EMISSŽO DE ETIQUETAS      " + ;
+						";; û Coloque Formulario Etiqueta.        " + ;
+						"; û Acerte a Altura do Picote           " + ;
+						"; û Resete ou Ligue a Impressora        ", { "Imprimir", "Visualizar", "Cancelar"})
+ResTela( cScreen )
+if nChoice = 1
+	oAmbiente:cArquivo := ""
+	oAmbiente:Spooler  := FALSO
+	return( true )
+elseif nChoice = 2
+	SaidaParaArquivo()
+	return( true )
+else
+	return( false )
+endif
+
+def PrinterErrada( cCodi )
+*******************************
+LOCAL aRotina := {{|| CadastroImpressoras() }}
+LOCAL Arq_Ant := Alias()
+LOCAL Ind_Ant := IndexOrd()
+LOCAL lRetVal := OK
+
+Area("Printer")
+Printer->(Order( PRINTER_CODI ))
+if Printer->(!DbSeek( cCodi ))
+	Printer->(Order( PRINTER_NOME ))
+	Printer->(Escolhe( 00, 00, 24, "Codi + ' ' + Nome", "ID NOME DA IMPRESSORA", aRotina ))
+	cCodi := Printer->Codi
+endif
+AreaAnt( Arq_Ant, Ind_Ant )
+return( lRetVal )
+
+def PrinterDbedit()
+************************
+LOCAL Arq_Ant	:= Alias()
+LOCAL Ind_Ant	:= IndexOrd()
+LOCAL cScreen	:= SaveScreen()
+LOCAL oBrowse	:= MsBrowse():New()
+LOCAL nField
+Set Key -8 To
+
+if !UsaArquivo("Printer")
+	return( nil )
+endif
+
+oMenu:Limpa()
+Area("Printer")
+Printer->(Order( PRINTER_CODI ))
+Printer->(DbGoBottom())
+
+for nField := 1 To Printer->(FCount())
+   cName := Printer->(FieldName( nField ))
+   oBrowse:Add( cName, cName, NIL, "PRINTER")
+next
+
+//oBrowse:Add( "INICIO",     "inicio", PIC_DATA )
+//oBrowse:Add( "FIM",        "fim",    PIC_DATA )
+//oBrowse:Add( "INDICE",     "indice", '9999.9999')
+//oBrowse:Add( "OBSERVACAO", "obs",   '@!')
+oBrowse:Titulo   := "CONSULTA/ALTERACAO DE IMPRESSORAS"
+oBrowse:PreDoGet := {|| PodeAlterar() }
+oBrowse:PreDoDel := {|| PodeExcluir() }
+oBrowse:Show()
+oBrowse:Processa()
+ResTela( cScreen )
+return( nil )
+
+Proc CadastroImpressoras()
+**************************
+LOCAL GetList	  := {}
+LOCAL cScreen	  := SaveScreen()
+LOCAL cCodi 	  := Space(02)
+LOCAL cNome 	  := Space(30)
+LOCAL c_Cpi10	  := Space(30)
+LOCAL c_Cpi12	  := Space(30)
+LOCAL cGd		  := Space(30)
+LOCAL cPq		  := Space(30)
+LOCAL cNg		  := Space(30)
+LOCAL cNr		  := Space(30)
+LOCAL cCa		  := Space(30)
+LOCAL cC18		  := Space(30)
+LOCAL cLigSub	  := Space(30)
+LOCAL cDesSub	  := Space(30)
+LOCAL c_SaltoOff := Space(30)
+LOCAL c_Spaco1_6 := Space(30)
+LOCAL c_Spaco1_8 := Space(30)
+LOCAL cReseta	  := Space(30)
+LOCAL nOpcao
+LOCAL nTam
+LOCAL nCol
+LOCAL nRow
+
+FIELD Codi
+FIELD Nome
+FIELD Gd
+FIELD Pq
+FIELD Ng
+FIELD Nr
+FIELD Ca
+FIELD C18
+FIELD LigSub
+FIELD DesSub
+FIELD _SaltoOff
+FIELD _Spaco1_6
+FIELD _Spaco1_8
+FIELD Reseta
+
+if !UsaArquivo("PRINTER")
+	return
+endif
+Area("Printer")
+Printer->(DbGoBottom())
+nTam	:= Printer->(Len( Codi ))
+cCodi := Printer->(StrZero( Val( Codi ) +1, nTam ))
+oMenu:Limpa()
+MaBox( 05, 10, 22, 60, "INCLUSAO DE IMPRESSORAS" )
+nCol := 11
+nRow := 06
+WHILE OK
+	@ nRow,	  nCol Say "Codigo...........:" Get cCodi Pict "99" Valid PrinterCerto( @cCodi )
+	@ Row()+1, nCol Say "Modelo...........:" Get cNome Pict "@!"
+	@ Row()+1, nCol Say "Ligar 05 CPI.....:" Get cGd        Pict "@!"
+	@ Row()+1, nCol Say "Desl  05 CPI.....:" Get cCA        Pict "@!"
+	@ Row()+1, nCol Say "Ligar 10 CPI.....:" Get c_Cpi10    Pict "@!"
+	@ Row()+1, nCol Say "Ligar 12 CPI.....:" Get c_Cpi12    Pict "@!"
+	@ Row()+1, nCol Say "Ligar 15 CPI.....:" Get cPQ        Pict "@!"
+	@ Row()+1, nCol Say "Desl  15 CPI.....:" Get cC18       Pict "@!"
+	@ Row()+1, nCol Say "Ligar NEGRITO....:" Get cNG        Pict "@!"
+	@ Row()+1, nCol Say "Desl  NEGRITO....:" Get cNR        Pict "@!"
+	@ Row()+1, nCol Say "Ligar SUBLINHADO.:" Get cLigSub    Pict "@!"
+	@ Row()+1, nCol Say "Desl  SUBLINHADO.:" Get cDesSub    Pict "@!"
+	@ Row()+1, nCol Say "Desl SALTO PAG...:" Get c_SaltoOff Pict "@!"
+	@ Row()+1, nCol Say "Espacamento 1/8..:" Get c_Spaco1_8 Pict "@!"
+	@ Row()+1, nCol Say "Espacamento 1/6..:" Get c_Spaco1_6 Pict "@!"
+	@ Row()+1, nCol Say "RESETAR..........:" Get cReseta    Pict "@!"
+	Read
+	if LastKey() = ESC
+		ResTela( cScreen )
+		Exit
+	endif
+	ErrorBeep()
+	nOpcao := Alerta(" Pergunta: Voce Deseja ? ", {" Incluir ", " Alterar ", " Sair " })
+	if nOpcao = 1 // Incluir
+		if PrinterCerto( @cCodi )
+			if Printer->(Incluiu())
+				Printer->Codi		 := cCodi
+				Printer->Nome		 := cNome
+				Printer->_Cpi10	 := c_Cpi10
+				Printer->_Cpi12	 := c_Cpi12
+				Printer->Gd 		 := cGd
+				Printer->Pq 		 := cPq
+				Printer->Ng 		 := cNg
+				Printer->Nr 		 := cNr
+				Printer->Ca 		 := cCa
+				Printer->C18		 := cC18
+				Printer->LigSub	 := cLigSub
+				Printer->DesSub	 := cDesSub
+				Printer->_SaltoOff := c_SaltoOff
+				Printer->_Spaco1_6 := c_Spaco1_6
+				Printer->_Spaco1_8 := c_Spaco1_8
+				Printer->Reseta	 := cReseta
+				cCodi 				 := Printer->(StrZero( Val( Codi ) +1, nTam ))
+				Printer->(Libera())
+			endif
+		endif
+	elseif nOpcao = 2 // Alterar
+		Loop
+	elseif nOpcao = 3 // Sair
+		ResTela( cScreen )
+		Exit
+	endif
+END
+
+def PrinterCerto( cCodi )
+******************************
+LOCAL nTam	  := Printer->(Len( Codi ))
+LOCAL Arq_Ant := Alias()
+LOCAL Ind_Ant := IndexOrd()
+LOCAL lRetVal := OK
+
+Area("Printer")
+Printer->(Order( PRINTER_CODI ))
+if Printer->(DbSeek( cCodi ))
+	ErrorBeep()
+	Alerta("Erro: Codigo ja Registrado.")
+	cCodi := StrZero( Val( cCodi ) + 1, nTam )
+	lRetVal := FALSO
+endif
+AreaAnt( Arq_Ant, Ind_Ant )
+return( lRetVal )
+
 def CpfCgcIntToStr( nCpfCgc )
 **********************************
 LOCAL cCgc	:= AllTrim( Str( nCpfCgc ))
@@ -4501,17 +5810,41 @@ def MsEncrypt( Pal )
 	Next
 	return( Encrypt( Pal, cChave ))
 
+def CriaNtx( Col_1, Lin_1, Nome_Field, Nome_Ntx, cTag )
+************************************************************
+	Ferase( (Nome_Ntx) + ".NTX")
+	Ferase( (Nome_Ntx) + ".CDX")
+	SetColor("W*+/N")
+	Write( Col_1, Lin_1, Chr(10))
+	MacroNtx( Nome_Field, Nome_Ntx, cTag )
+	SetColor("W+/R")
+	Write( Col_1, Lin_1, Chr(251)) // û
+	return Nil
+
+def MacroNtx( Nome_Field, Nome_Ntx, cTag )
+***********************************************
+	LOCAL cScreen := SaveScreen()
+
+	if RddSetDefa() = "DBFNTX"
+	  MaBox( 07, 10, 11, 61 )
+	  Index On &Nome_Field. To &Nome_Ntx. Eval NtxProgress() Every LastRec()/1000
+	else
+	  Index On &Nome_Field. Tag &Nome_Ntx. TO ( cTag ) EVAL Odometer() Every 10
+	endif
+	ResTela( cScreen )
+	return Nil
+
 def FazMenu( nTopo, nEsquerda, aArray, Cor )
 *************************************************
 	LOCAL cFrame     := m_Frame()
 	LOCAL cFrame2	  := SubStr( "ÕÍ¸³¾ÍÔ³", 2, 1 )
 	LOCAL nFundo	  := ( nTopo + Len( aArray ) + 3 )
 	LOCAL nTamTitle  := ( Len( m_Title() ) + 12 )
-	LOCAL nDireita   := ( nEsquerda + AmaxStrLen( aArray ) + 3 )
+	LOCAL nDireita   := ( nEsquerda + AmaxStrLen( aArray ) + 1 )
 	LOCAL cTitulo    := m_Title() 
 	LOCAL cChar      :=  "³û³ð³³"
-	
-   hb_default(@Cor, oAmbiente:CorMenu)
+	DEFAU Cor        TO Cor( 1 )  // oAmbiente:CorMenu
+
 	if ( nDireita - nEsquerda ) <  nTamTitle
 		nDireita := ( nEsquerda + nTamTitle )
 	endif
@@ -4532,9 +5865,9 @@ def FazMenu( nTopo, nEsquerda, aArray, Cor )
 def MaBox( nTopo, nEsq, nFundo, nDireita, Cabecalho, Rodape, lInverterCor )
 *--------------------------------------------------------------------------*
 	LOCAL cPattern := " "
-	LOCAL pfore 	:= oAmbiente:Cormenu
-	LOCAL pback    := oAmbiente:CorLightBar	
-	LOCAL cCor     := oAmbiente:CorLightBar
+	LOCAL pfore 	:= Cor( 1 ) // oAmbiente:Cormenu
+	LOCAL pback    := Cor( 5 ) // oAmbiente:CorLightBar	
+	LOCAL cCor     := Cor( 5 ) // oAmbiente:CorLightBar
 	LOCAL pUns     := Roloc( pFore )
 	
 	hb_default(@nTopo, 0)
@@ -4545,11 +5878,7 @@ def MaBox( nTopo, nEsq, nFundo, nDireita, Cabecalho, Rodape, lInverterCor )
 	if(nDireita > maxcol(), nDireita := maxcol(), nDireita)		
 	if(nFundo   > maxrow(), nFundo   := maxrow(), nFundo)	
 	
-   DispBegin()
 	hb_DispBox( nTopo, nEsq, nFundo, nDireita, oAmbiente:Frame + cPattern, pfore )
-   if oAmbiente:Sombra
-      hb_Shadow( nTopo, nEsq, nFundo, nDireita)
-   endif   
 	
 	if !(IsNil(Cabecalho))
 		aPrint( nTopo, nEsq+1, "Û", cCor, (nDireita-nEsq)-1)
@@ -4561,7 +5890,6 @@ def MaBox( nTopo, nEsq, nFundo, nDireita, Cabecalho, Rodape, lInverterCor )
 		aPrint( nFundo, nEsq+1, Padc( Rodape, ( nDireita-nEsq)-1), cCor )
 	endif
 	nSetColor( pfore, pback, pUns )
-   DispEnd()
 	return NIL
 endef
 	
@@ -4571,11 +5899,7 @@ def MS_Box( nRow, nCol, nRow1, nCol1, cFrame, nCor)
 	DEFAU cFrame TO M_Frame()
 	DEFAU nCor	 TO Cor()
 
-	Hb_DispBox( nRow, nCol, nRow1, nCol1, cFrame + " ", nCor)
-   if oAmbiente:Sombra
-      Hb_Shadow( nRow, nCol, nRow1, nCol1)   
-   endif
-   return nil
+	return( Hb_DispBox( nRow, nCol, nRow1, nCol1, cFrame + " ", nCor))
 
 	//Box( nRow, nCol, nRow1, nCol1, M_Frame() + " ", nCor, 1, 8 )      // Funcky
 	//DispBox( nRow, nCol, nRow1, nCol1, M_Frame() + " ", nCor, 1, 8 )  // Harbour
@@ -4709,15 +6033,15 @@ def AchaSegunda( dDate )
 
 def TempNew( cDeleteFile)
 ******************************
-	LOCAL xTemp := FTempName()
-	//LOCAL cTela := Mensagem("Aguarde, Criando Arquivo Temporario.")
+	LOCAL xTemp := FTempName("T*.TMP")
+	LOCAL cTela := Mensagem("Aguarde, Criando Arquivo Temporario.")
 
-	Ferase("*.tmp")
-	//WHILE !File((xTemp))
-		//xTemp := FTempName()
-	//EndDo
-	//ResTela( cTela )   
-	return((FTempName())) 
+	Ferase("*.TMP")
+	WHILE !File( (xTemp) )
+		xTemp := FTempName("T*.TMP")
+	EndDo
+	ResTela( cTela )
+	return( (xTemp) ) 
 
 def RetPerc( nDivisor, nDividendo )
 ****************************************
@@ -4867,7 +6191,7 @@ def FTempMemory()
    snRandom := Val( Str(snRandom - Int(snRandom), 17, 15 ) ) 	
 	nNumber  := HB_RandomInt(snRandom, 999999)	
 	cNumber  := StrZero(nNumber, 7)	
-	cFile    := 'mem' + cNumber	
+	cFile    := 'MEM' + cNumber	
 	return cFile
 endef	
 	
@@ -4880,86 +6204,34 @@ def FTempRandomName( xCoringa, cDir )
 	LOCAL snRandom := Seconds() / Exp(1) 
    LOCAL nLimit   := 65535 
 	
-	hb_default(@xCoringa, "t*.tmp")
-   if at(".", xCoringa ) != 0
-      cExt := "." + GetFileExtension(xCoringa)
-   else
-      cExt := "." + xCoringa
-   endif   
+	hb_default(@xCoringa, "T*.TMP")
+	cExt     := "." + GetFileExtension(xCoringa)
 	snRandom := Log( snRandom + Sqrt(2) ) * Exp(3) 
    snRandom := Val( Str(snRandom - Int(snRandom), 17, 15 ) ) 	
 	nNumber  := HB_RandomInt(snRandom, 999999)	
 	cNumber  := StrZero(nNumber,7)	
-	cFile    := 't' + cNumber + cExt
+	cFile    := 'T' + cNumber + cExt
 	return cFile
 endef		
-
-*----------------------------------------------------------------------------------------------------------------------*
-
-def GetFileExtension(cFile)   
-	return(substr( cFile, at( ".", cFile ) + 1, 3 ))
-endef	
-
-*----------------------------------------------------------------------------------------------------------------------*
-
+	
 def FTempName( xCoringa, cDir )
+*-----------------------------*
 	LOCAL cTempFile := ""
 	LOCAL nConta    := 0
 	LOCAL cTela     := Mensagem("Aguarde, Criando Arquivo Temporario.")
 	
-	hb_default(@cDir, ms_swap_tmp())	
-	hb_default(@xCoringa, "t*.tmp")			
+	cDir := ms_swap_tmp()	
+	hb_default(@xCoringa, "T*.TMP")			
 	//Aeval( Directory( cDir + xCoringa), { | aFile | ms_swap_ferase( aFile[F_NAME])})	
 
-	cTempFile := cDir + FTempRandomName(xCoringa, cDir)
+	cTempFile := cDir + FTempRandomName()
 	While !file(cTempFile) .AND. nConta <= 100
-		cTempFile := cDir + FTempRandomName(xCoringa, cDir)
+		cTempFile := cDir + FTempRandomName()
 		nConta++
 	EndDo	
 	restela(cTela)
 	return( cTempFile )
 endef
-
-*----------------------------------------------------------------------------------------------------------------------*
-
-def FTempPorExt(cExt, cDir)
-   LOCAL cFile := ""
-
-   hb_default(@cExt, 'tmp')      
-   switch lower(cExt)
-   case 'txt'
-   case 'prn' 
-      if isnil(cDir)
-         cDir := oAmbiente:xBaseTmp
-      endif   
-      cDir += _SLASH_      
-      return FTempName(cExt, cDir)
-      exit
-   case 'htm' 
-      if isnil(cDir)
-         cDir := oAmbiente:xBaseHtm
-      endif   
-      cDir += _SLASH_      
-      return FTempName(cExt, cDir)   
-      exit
-   case 'doc' 
-      if isnil(cDir)
-         cDir := oAmbiente:xBaseDoc
-      endif   
-      cDir += _SLASH_      
-      return FTempName(cExt, cDir)   
-      exit
-   otherwise
-      if isnil(cDir)
-         cDir := oAmbiente:xBaseTmp
-      endif   
-      cDir += _SLASH_      
-      return FTempName('tmp', cDir)   
-      exit   
-   endswitch
-endef
-
-*==================================================================================================*
 	
 def HB_TempName()
 *********************
@@ -5038,6 +6310,66 @@ def Sx_Count()
 	endif
 	return( 0)
 
+def ArrPrinter()
+	LOCAL hESCP    := oAmbiente:hESCP
+	LOCAL aPrinter := {}
+	LOCAL nTam
+	LOCAL nX
+	
+	Aadd( aPrinter, {'12','FUJITSU DL-700','#27#80','#27#77','#14','#15','#27#69','#27#70','#20','#18','#27#45#49','#27#45#48','#27#79','#27#48','#27#50','#27#64#27#70', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'13','SAMSUNG EE-809','#27#18','#27#58','#14','#15','#27#69','#27#70','#20','#18','#27#45#49','#27#45#48','#27#79','#27#48','#27#50','#27#64#27#70', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'14','PROLOGICA P720 XT','#27#18','#27#58','#14','#15','#27#120#49','#27#120#48','#20','#18','#27#45#49','#27#45#48','#27#79','#27#48','#27#50','#27#64#27#70', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'27','DATAMAX','#27#40#115#49#48#72','#27#40#115#49#50#72','#27#40#115#51#66#27#40#115#54#72','#27#40#115#49#55#72','#27#40#115#51#66','#27#40#115#48#66','#27#40#115#49#48#72','#27#40#115#49#48#72','#27#38#100#49#68','#27#38#100#64','#27#38#108#48#76','#27#38#108#54#67','#27#38#108#56#67','#27#69', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'28','ARGOX','#27#40#115#49#48#72','#27#40#115#49#50#72','#27#40#115#51#66#27#40#115#54#72','#27#40#115#49#55#72','#27#40#115#51#66','#27#40#115#48#66','#27#40#115#49#48#72','#27#40#115#49#48#72','#27#38#100#49#68','#27#38#100#64','#27#38#108#48#76','#27#38#108#54#67','#27#38#108#56#67','#27#69', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'01','EPSON FX-1170','#27#18','#27#58','#14','#15','#27#69','#27#70','#20','#18','#27#45#49','#27#45#48','#27#79','#27#48','#27#50','#27#64#27#70#27#85#49#27#52', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'02','EPSON FX-1050','#27#80','#27#77','#14','#15','#27#69','#27#70','#20','#18','#27#45#49','#27#45#48','#27#79','#27#48','#27#50','#27#64#27#70#27#85#49#27#52', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'03','EPSON LQ-1070','#27#80','#27#77','#14','#15','#27#69','#27#70','#20','#18','#27#45#49','#27#45#48','#27#79','#27#48','#27#50','#27#64#27#70#27#85#49#27#52', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'04','EPSON LQ-570','#27#80','#27#77','#14','#15','#27#69','#27#70','#20','#18','#27#45#49','#27#45#48','#27#79','#27#48','#27#50','#27#64#27#70#27#85#49#27#52', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'05','EPSON LX-810','#27#80','#27#77','#14','#15','#27#69','#27#70','#20','#18','#27#45#49','#27#45#48','#27#79','#27#48','#27#50','#27#64#27#70#27#85#49#27#52', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'06','EPSON LX-300','#27#80','#27#77','#14','#15','#27#69','#27#70','#20','#18','#27#45#49','#27#45#48','#27#79','#27#48','#27#50','#27#64#27#70#27#85#49#27#52', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'34','EPSON LX-300+','#27#80','#27#77','#14','#15','#27#69','#27#70','#20','#18','#27#45#49','#27#45#48','#27#79','#27#48','#27#50','#27#64#27#70#27#85#49#27#52', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'20','EPSON FX-2170','#27#80','#27#77','#14','#15','#27#69','#27#70','#20','#18','#27#45#49','#27#45#48','#27#79','#27#48','#27#50','#27#64#27#70#27#85#49#27#52', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'21','EPSON LQ-2170','#27#80','#27#77','#14','#15','#27#69','#27#70','#20','#18','#27#45#49','#27#45#48','#27#79','#27#48','#27#50','#27#64#27#70#27#85#49#27#52', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'07','RIMA XT-180','#30#49','#30#50','#14','#15','#27#69','#27#70','#20','#18','#27#45#49','#27#45#48','#27#79','#27#48','#27#50','#27#64#27#70', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'08','CITYZEN GSX-190','#27#80','#27#77','#14','#15','#27#69','#27#70','#20','#18','#27#45#49','#27#45#48','#27#79','#27#48','#27#50','#27#64#27#70', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'09','SEIKOSHA','#27#80','#27#77','#14','#15','#27#69','#27#70','#20','#18','#27#45#49','#27#45#48','#27#79','#27#48','#27#50','#27#64#27#70', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'10','HP DESKJET 500',  '#27#40#115#49#48#72','#27#40#115#49#50#72','#27#40#115#51#66#27#40#115#54#72','#27#40#115#49#55#72','#27#40#115#51#66','#27#40#115#48#66','#27#40#115#49#48#72','#27#40#115#49#48#72','#27#38#100#49#68','#27#38#100#64','#27#38#108#48#76','#27#38#108#54#67','#27#38#108#56#67','#27#69', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'11','HP DESKJET 520',  '#27#40#115#49#48#72','#27#40#115#49#50#72','#27#40#115#51#66#27#40#115#54#72','#27#40#115#49#55#72','#27#40#115#51#66','#27#40#115#48#66','#27#40#115#49#48#72','#27#40#115#49#48#72','#27#38#100#49#68','#27#38#100#64','#27#38#108#48#76','#27#38#108#54#67','#27#38#108#56#67','#27#69', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'15','HP DESKJET 600',  '#27#40#115#49#48#72','#27#40#115#49#50#72','#27#40#115#51#66#27#40#115#54#72','#27#40#115#49#55#72','#27#40#115#51#66','#27#40#115#48#66','#27#40#115#49#48#72','#27#40#115#49#48#72','#27#38#100#49#68','#27#38#100#64','#27#38#108#48#76','#27#38#108#54#67','#27#38#108#56#67','#27#69', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'40','HP DESKJET 656C', '#27#40#115#49#48#72','#27#40#115#49#50#72','#27#40#115#51#66#27#40#115#54#72','#27#40#115#49#55#72','#27#40#115#51#66','#27#40#115#48#66','#27#40#115#49#48#72','#27#40#115#49#48#72','#27#38#100#49#68','#27#38#100#64','#27#38#108#48#76','#27#38#108#54#67','#27#38#108#56#67','#27#69', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'16','HP DESKJET 660',  '#27#40#115#49#48#72','#27#40#115#49#50#72','#27#40#115#51#66#27#40#115#54#72','#27#40#115#49#55#72','#27#40#115#51#66','#27#40#115#48#66','#27#40#115#49#48#72','#27#40#115#49#48#72','#27#38#100#49#68','#27#38#100#64','#27#38#108#48#76','#27#38#108#54#67','#27#38#108#56#67','#27#69', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'17','HP DESKJET 680',  '#27#40#115#49#48#72','#27#40#115#49#50#72','#27#40#115#51#66#27#40#115#54#72','#27#40#115#49#55#72','#27#40#115#51#66','#27#40#115#48#66','#27#40#115#49#48#72','#27#40#115#49#48#72','#27#38#100#49#68','#27#38#100#64','#27#38#108#48#76','#27#38#108#54#67','#27#38#108#56#67','#27#69', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'18','HP DESKJET 692',  '#27#40#115#49#48#72','#27#40#115#49#50#72','#27#40#115#51#66#27#40#115#54#72','#27#40#115#49#55#72','#27#40#115#51#66','#27#40#115#48#66','#27#40#115#49#48#72','#27#40#115#49#48#72','#27#38#100#49#68','#27#38#100#64','#27#38#108#48#76','#27#38#108#54#67','#27#38#108#56#67','#27#69', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'19','HP DESKJET 693',  '#27#40#115#49#48#72','#27#40#115#49#50#72','#27#40#115#51#66#27#40#115#54#72','#27#40#115#49#55#72','#27#40#115#51#66','#27#40#115#48#66','#27#40#115#49#48#72','#27#40#115#49#48#72','#27#38#100#49#68','#27#38#100#64','#27#38#108#48#76','#27#38#108#54#67','#27#38#108#56#67','#27#69', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'24','HP DESKJET 670',  '#27#40#115#49#48#72','#27#40#115#49#50#72','#27#40#115#51#66#27#40#115#54#72','#27#40#115#49#55#72','#27#40#115#51#66','#27#40#115#48#66','#27#40#115#49#48#72','#27#40#115#49#48#72','#27#38#100#49#68','#27#38#100#64','#27#38#108#48#76','#27#38#108#54#67','#27#38#108#56#67','#27#69', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'25','HP DESKJET 695',  '#27#40#115#49#48#72','#27#40#115#49#50#72','#27#40#115#51#66#27#40#115#54#72','#27#40#115#49#55#72','#27#40#115#51#66','#27#40#115#48#66','#27#40#115#49#48#72','#27#40#115#49#48#72','#27#38#100#49#68','#27#38#100#64','#27#38#108#48#76','#27#38#108#54#67','#27#38#108#56#67','#27#69', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'26','HP DESKJET 610',  '#27#40#115#49#48#72','#27#40#115#49#50#72','#27#40#115#51#66#27#40#115#54#72','#27#40#115#49#55#72','#27#40#115#51#66','#27#40#115#48#66','#27#40#115#49#48#72','#27#40#115#49#48#72','#27#38#100#49#68','#27#38#100#64','#27#38#108#48#76','#27#38#108#54#67','#27#38#108#56#67','#27#69', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'29','HP DESKJET 640',  '#27#40#115#49#48#72','#27#40#115#49#50#72','#27#40#115#51#66#27#40#115#54#72','#27#40#115#49#55#72','#27#40#115#51#66','#27#40#115#48#66','#27#40#115#49#48#72','#27#40#115#49#48#72','#27#38#100#49#68','#27#38#100#64','#27#38#108#48#76','#27#38#108#54#67','#27#38#108#56#67','#27#69', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'30','HP DESKJET 710',  '#27#40#115#49#48#72','#27#40#115#49#50#72','#27#40#115#51#66#27#40#115#54#72','#27#40#115#49#55#72','#27#40#115#51#66','#27#40#115#48#66','#27#40#115#49#48#72','#27#40#115#49#48#72','#27#38#100#49#68','#27#38#100#64','#27#38#108#48#76','#27#38#108#54#67','#27#38#108#56#67','#27#69', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'31','HP DESKJET 740',  '#27#40#115#49#48#72','#27#40#115#49#50#72','#27#40#115#51#66#27#40#115#54#72','#27#40#115#49#55#72','#27#40#115#51#66','#27#40#115#48#66','#27#40#115#49#48#72','#27#40#115#49#48#72','#27#38#100#49#68','#27#38#100#64','#27#38#108#48#76','#27#38#108#54#67','#27#38#108#56#67','#27#69', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'32','HP DESKJET 950',  '#27#40#115#49#48#72','#27#40#115#49#50#72','#27#40#115#51#66#27#40#115#54#72','#27#40#115#49#55#72','#27#40#115#51#66','#27#40#115#48#66','#27#40#115#49#48#72','#27#40#115#49#48#72','#27#38#100#49#68','#27#38#100#64','#27#38#108#48#76','#27#38#108#54#67','#27#38#108#56#67','#27#69', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'33','HP DESKJET 970',  '#27#40#115#49#48#72','#27#40#115#49#50#72','#27#40#115#51#66#27#40#115#54#72','#27#40#115#49#55#72','#27#40#115#51#66','#27#40#115#48#66','#27#40#115#49#48#72','#27#40#115#49#48#72','#27#38#100#49#68','#27#38#100#64','#27#38#108#48#76','#27#38#108#54#67','#27#38#108#56#67','#27#69', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'35','HP DESKJET 840',  '#27#40#115#49#48#72','#27#40#115#49#50#72','#27#40#115#51#66#27#40#115#54#72','#27#40#115#49#55#72','#27#40#115#51#66','#27#40#115#48#66','#27#40#115#49#48#72','#27#40#115#49#48#72','#27#38#100#49#68','#27#38#100#64','#27#38#108#48#76','#27#38#108#54#67','#27#38#108#56#67','#27#69', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'38','HP DESKJET 3420', '#27#40#115#49#48#72','#27#40#115#49#50#72','#27#40#115#51#66#27#40#115#54#72','#27#40#115#49#55#72','#27#40#115#51#66','#27#40#115#48#66','#27#40#115#49#48#72','#27#40#115#49#48#72','#27#38#100#49#68','#27#38#100#64','#27#38#108#48#76','#27#38#108#54#67','#27#38#108#56#67','#27#69', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'39','HP DESKJET 3820', '#27#40#115#49#48#72','#27#40#115#49#50#72','#27#40#115#51#66#27#40#115#54#72','#27#40#115#49#55#72','#27#40#115#51#66','#27#40#115#48#66','#27#40#115#49#48#72','#27#40#115#49#48#72','#27#38#100#49#68','#27#38#100#64','#27#38#108#48#76','#27#38#108#54#67','#27#38#108#56#67','#27#69', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'36','HP LASERJET 1100','#27#38#107#48#83',   '#27#38#107#52#83',   '#27#40#115#51#66#27#40#115#54#72','#27#38#107#50#83','#27#40#115#51#66','#27#40#115#48#66','#27#38#107#48#83','#27#38#107#48#83','#27#38#100#49#68','#27#38#100#64','#27#38#108#48#76','#27#38#108#54#67','#27#38#108#56#67','#27#69', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'22','HP LASERJET 5L',  '#27#38#107#48#83',   '#27#38#107#52#83',   '#27#40#115#51#66#27#40#115#54#72','#27#38#107#50#83','#27#40#115#51#66','#27#40#115#48#66','#27#38#107#48#83','#27#38#107#48#83','#27#38#100#49#68','#27#38#100#64','#27#38#108#48#76','#27#38#108#54#67','#27#38#108#56#67','#27#69', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'23','HP LASERJET 6L',  '#27#38#107#48#83',   '#27#40#115#112#72',  '#27#40#115#51#66#27#40#115#54#72','#27#38#107#50#83','#27#40#115#51#66','#27#40#115#48#66','#27#38#107#48#83','#27#38#107#48#83','#27#38#100#49#68','#27#38#100#64','#27#38#108#48#76','#27#38#108#54#67','#27#38#108#56#67','#27#69', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'37','HP LASERJET 4L',  '#27#38#107#48#83',   '#27#38#107#52#83',   '#27#40#115#51#66#27#40#115#54#72','#27#38#107#50#83','#27#40#115#51#66','#27#40#115#48#66','#27#38#107#48#83','#27#38#107#48#83','#27#38#100#49#68','#27#38#100#64','#27#38#108#48#76','#27#38#108#54#67','#27#38#108#56#67','#27#69', '#27#52', '#27#53', Date()})
+	Aadd( aPrinter, {'38',' ARQUIVO',        '#255','#255','#255','#255','#255','#255','#255','#255','#255','#255','#255','#255','#255','#255','#27#52', '#27#53', Date()})
+	nTam := Len( aPrinter )
+	if Printer->(TravaArq())
+	  for nX := 1 To nTam
+		  Printer->(DbAppend())
+		  for nField := 1 To Printer->(FCount())
+			  Printer->(FieldPut( nField, aPrinter[nX,nField]))
+		  next
+	  next
+	  Printer->(Libera())
+	endif
+	return
+endef	
+
 def lAnoBissexto( dData )
 	LOCAL nAno := Year( dData )
 	return( nAno % 4 == 0 .AND. nAno % 100 != 0)
@@ -5045,7 +6377,7 @@ endef
 
 def DaysInAMonth(dIni, nMes, lString)
 ******************************************
-	LOCAL aDias := {31 , 28 , 31 , 30 , 31 , 30 , 31 , 31 , 30 , 31 , 30 , 31} 
+	LOCAL aDias := {31,28,31,30,31,30,31,31,30,31,30,31} 
 	LOCAL Result
 
 	hb_default(@dIni, Date())
@@ -5386,11 +6718,8 @@ def Untrim( cString, nTam)
 def FCurdir()
 *-----------------*
 	LOCAL cRetChar
-   #ifdef __PLATFORM__WINDOWS
-      cRetChar := CurDrive() + ':\' + Curdir()
-   #else
-      cRetChar := Curdir()   
-   #endif
+
+	cRetChar := CurDrive() + ':\' + Curdir()
 	return(cRetChar)
 
 def aMaxStrLen( xArray )
@@ -5503,7 +6832,7 @@ def StrExtract( string, delims, ocurrence )
 		End		
 	Next
 	*/
-  
+
 	aPos   := aStrPos(string, Delims)
 	nConta := Len(aPos)
 	For x := 1 to nConta 
@@ -5586,18 +6915,15 @@ endef
 	
 def Shr
 	return nil
-endef   
 
 def achartest
 	return nil
-endef   
 
 def M_Prompt
 	return NIL
-endef   
 
 def Write( Linha, Col, xString, nCor)
-*-----------------------------------*
+******************************************
 	LOCAL Color_Ant := SetCOlor()
 
 	Linha   := Iif( Linha	= NIL, Row(),	Linha   )
@@ -5605,14 +6931,13 @@ def Write( Linha, Col, xString, nCor)
 	xString := Iif( xString = NIL, "",     xString )
 
 	if nCor = nil
-		//SetColor(ColorIntToStr(Color_Ant))
+		SetColor(ColorIntToStr(Color_Ant))
 		DevPos( Linha, Col ) ; Qqout( xString )
 	else	
 		Print( Linha, Col, xString, nCor )
-      SetColor( Color_Ant)	
-   endif		
-	return nil
-endef   
+	endif	
+	SetColor( Color_Ant)	
+	return( nil )
 
 def Print( row, col, string, attrib, length, cChar)
 *+-----------------------------------------------------+*
@@ -5642,7 +6967,7 @@ def printf(string, attrib)
 	DevPos(row, col) ; DevOut(string)
 	//hb_DispOutAt( row, col, string)
 	SetColor( Color_Ant)
-	return string
+	return NIL
 endef
 
 *+-----------------------------------------------------------------------------------
@@ -5718,13 +7043,11 @@ def Cls( CorFundo, PanoFundo, lforcar )
 	//HB3.0
 	//hb_DispBox( 00, 00, maxrow(), maxcol(), Repl(PanoFundo,9))
 
-	ms_cls(CorFundo, PanoFundo, nDelay)
-   return nil
-   
+	Ms_Cls(CorFundo, PanoFundo, nDelay)
 	//Tela(CorFundo, PanoFundo)
 	//Ms_Char(CorFundo, PanoFundo)
 	//Ms_Cls(CorFundo, PanoFundo)
-	//return NIL
+	return NIL
 
 
 	if lforcar = nil
@@ -5822,79 +7145,79 @@ def nSetColor(std, enh, uns)
 	return COlorStrToInt(cColor)
 
 def cSetColor(ColorStr)
-*----------------------*
-   LOCAL nStd, ;
-         nEnh, ;
-         nUns
-         
-   nStd := atoattr( strextract( ColorStr, ",", 1))
-   nEnh := atoattr( strextract( ColorStr, ",", 2))
-   nUns := atoattr( strextract( ColorStr, ",", 4))
+****************************
+LOCAL nStd, ;
+		nEnh, ;
+		nUns
+		
+nStd := atoattr( strextract( ColorStr, ",", 1))
+nEnh := atoattr( strextract( ColorStr, ",", 2))
+nUns := atoattr( strextract( ColorStr, ",", 4))
 
-   /*
-   * Set FUNCky Colors
-   */
-   ColorStandard(nStd)
-   ColorEnhanced(nEnh)
-   Colorunselected(nUns)
+/*
+* Set FUNCky Colors
+*/
+ColorStandard(nStd)
+ColorEnhanced(nEnh)
+Colorunselected(nUns)
 
-   /* Set Clipper Colors */
-   SetColor( ColorStr )
-   return ColorIntToStr(ColorStrToInt(ColorStr));
-endef
+/* Set Clipper Colors */
+SetColor( ColorStr )
+return ColorIntToStr(ColorStrToInt(ColorStr));
+
+//******************************************************************************
 
 def atoattr(cColor)
-*------------------*
-   return (ColorStrToInt(cColor))
-endef   
+************************
+return (ColorStrToInt(cColor))
+
+//******************************************************************************
 
 def attrtoa(nColor)
-*------------------*
-   return (ColorIntToStr(nColor))		
-endef   
+************************
+return (ColorIntToStr(nColor))		
 
+//******************************************************************************
 
 def MS_QuadroCorInt()
-*-------------------*
-   LOCAL x := 10
-   LOCAL y := 10
-   LOCAL a
+**************************
+LOCAL x := 10
+LOCAL y := 10
+LOCAL a
 
-   // MS_Box(09 , 12 , 29 , 70)		
-   dispbox(09 , 12 , 29 , 70)		
-   for a := 1 to 256
-         //Print( x, y*3, Repl(Chr(x+64),3), x*y,)
-         //Print( a,   b*6, hb_NToColor(a*b), a*b)
-         if y >= 64
-            y := 10
-            x++
-         endif	
-         y += 4
-         Print( x, y, StrZero(HB_ColorToN(hb_NToColor(a)),3), a,)
-   next
-   return nil
-endef   
+MS_Box(09,12,29,70)		
+For a := 1 to 256
+	   //Print( x, y*3, Repl(Chr(x+64),3), x*y,)
+		//Print( a,   b*6, hb_NToColor(a*b), a*b)
+		if y >= 64
+		   y := 10
+			x++
+		endif	
+		y += 4
+		Print( x, y, StrZero(HB_ColorToN(hb_NToColor(a)),3), a,)
+Next
+return NIL
 
 def MS_QuadroCorStr()
-*-------------------*
-   LOCAL x := 10
-   LOCAL y := 10
-   LOCAL a
+**************************
+LOCAL x := 10
+LOCAL y := 10
+LOCAL a
 
-   // MS_Box(09,15,28,135)
-   dispbox(09,15,28,135)   
-   for a := 1 to 256
-         //Print( x, y*3, Repl(Chr(x+64),3), x*y,)
-         //Print( a,   b*6, hb_NToColor(a*b), a*b)
-         if y >= 128
-            y := 10
-            x++
-         endif	
-         y += 8
-         Print( x, y, hb_NToColor(a), a,)
-   next
-   return nil
-endef   
+MS_Box(09,15,28,135)		
+For a := 1 to 256
+	   //Print( x, y*3, Repl(Chr(x+64),3), x*y,)
+		//Print( a,   b*6, hb_NToColor(a*b), a*b)
+		if y >= 128
+		   y := 10
+			x++
+		endif	
+		y += 8
+		Print( x, y, hb_NToColor(a), a,)
+Next
+return NIL
+
+//******************************************************************************
 
 //def FT_DskSize( cDrive )
 //   return hb_vfDirSpace( cDrive + hb_osDriveSeparator(), HB_DISK_TOTAL )
@@ -5924,10 +7247,10 @@ intWindowStyle
 10 Sets the show-state based on the state of the program that started the application.
 */
 
-#ifdef __PLATFORM__WINDOWS
-   WshShell := win_oleCreateObject("WScript.Shell")
-#else
+#ifdef __XHARBOUR__
    WshShell := CreateObject("WScript.Shell")
+#else
+   WshShell := win_oleCreateObject("WScript.Shell")
 #endif
 
 lRet     := WshShell:Run("%comspec% /c " + cComando, intWindowStyle, .F.)
@@ -5960,7 +7283,7 @@ def ShellExec( cComando )
 	#ifdef __XHARBOUR__
 		WshShell := CreateObject("WScript.Shell")
 	#else
-		//WshShell := win_oleCreateObject("WScript.Shell")
+		WshShell := win_oleCreateObject("WScript.Shell")
 	#endif
 
 	//oExec := oShell:Run("%comspec% /c " + cComando, intWindowStyle, .F.)
@@ -5974,7 +7297,7 @@ endef
 	
 def M_View( row, col, row1, col1, cFile, nCor )
 	MaBox(row, col, row1, col1)
-	FT_DFSetup(cFile, row+1, col+1, row1-1, col1-1, 1, nCor, Roloc(nCor),"EeQqXx", .T., 5, col1-1, 8196)
+	FT_DFSetup(cFile, row+1, col+1, row1-1, col1-1, 1, nCor, Roloc(nCor),"EeQqXx", .T., 5, MaxCol()+80, 8196)
 	cKey := FT_DispFile()
 	FT_DFClose()
 	return NIL
@@ -5986,15 +7309,9 @@ def MX_PopFile( row, col, row1, col1, xCoringa, nColor)
 	LOCAL aFileList  := {}
 	LOCAL nChoice 
 	
-   hb_default(@row, 02)
-   hb_default(@col, 10)
-   hb_default(@row1, MaxRow()-2)
-   hb_default(@col1, Maxcol()-1)
-   hb_default(@ncolor, 31)
-   
 	Aeval( Directory( xCoringa ), {|aDirectory|;
-								Aadd( aFileList,;								
-								PADR( aDirectory[F_NAME], 15 ) + ;
+								Aadd( aFileList,;
+								Upper(PADR( aDirectory[F_NAME], 15 )) + ;
 								if( SUBSTR( aDirectory[F_ATTR], 1,1) == "D", "   <DIR>", ;
 								TRAN(       aDirectory[F_SIZE], "99,999,999 B"))  + "  " + ;
 								DTOC(       aDirectory[F_DATE])       + "  " + ;
@@ -6010,7 +7327,7 @@ endef
 
 def MS_Version()
    LOCAL k
-   ? "-------------------------------------------------------------------"
+
 	? "Harbour vers„o:                    " , hb_Version( 0 )
 	? "Compilador usado:                  " , hb_Version( HB_VERSION_COMPILER ) 
    ? "Harbour build date:                " , hb_Version( HB_VERSION_BUILD_DATE_STR ) 
@@ -6023,12 +7340,12 @@ def MS_Version()
 	? "Ambiente:                          " , hb_Version( 21 )
 	? "Cpu:                               " , hb_Version( 24 )
 	? "-------------------------------------------------------------------"
-   
+   /*
 	for k = 0 TO 25
       ? k , hb_Version( k )
    next k
    ? "-------------------------------------------------------------------"
-	
+	*/
    
    return
 endef
@@ -6705,92 +8022,4 @@ def Act_Geral()
 endef
 	
 *==================================================================================================*	
-
-def ms_swap_tmp()
-	LOCAL cBase := alltrim(oAmbiente:xRoot)
 	
-	if right(cBase, 1) == "/" .OR. right(cBase, 1) == "\" 
-		cBase := left(cBase, len(cBase)-1)		
-	endif	
-	cBase += DEF_SEP				
-	cBase += "tmp"
-	cBase += DEF_SEP				
-	return(cBase)
-endef
-
-*==================================================================================================*	
-
-def DosShell(cComando)
-      !( GetEnv( _SHELLENV_ ))      
-      return nil
-endef
-
-*==================================================================================================*	
-   
-def StaTusInf( XNOMEFIR, Msg, Color )
-******************************************
-	LOCAL nCol	:= LastRow()
-	LOCAL Tam	:= MaxCol()
-	DEFAU Msg   TO ""
-	DEFAU	Color TO Cor(2)
-				
-	aPrint( nCol, 00, Msg, Color, MaxCol() )
-	Pos := ( Tam - Len( XNOMEFIR ) )
-	aPrint( nCol, Pos, XNOMEFIR, Color )
-	return Nil
-endef	
-
-*==================================================================================================*
-
-def StaTusSup( Msg, Color )
-	LOCAL Tam	:= MaxCol()
-			Msg	:= Iif( Msg = Nil, "", Msg )
-			Color := Iif( Color = Nil, Cor(2), Color )
-	Print( 00, 00, Padc( Msg, Tam ) , Color, Tam )
-	Print( 00, (Tam-8), Clock( 00, (Tam-8), Color ), Color )
-	return Nil
-endef
-
-*==================================================================================================*
-   
-def Clock(row,col)
-   LOCAL ph1
-   Iif( row = Nil , row := Row(), row )
-   Iif( col = Nil , col := Col(), col )
-   //pH1 := hb_idleAdd( {|| write( row, col-10, Dtoc(Date()), omenu:corcabec), write( row, col, Time(), omenu:corcabec), SetCursor( iif( Upper( "on" ) == "ON", 1, 0 ) )   })
-   //Clock12(row, col)
-   return( Dtoc(Date()) + ' ' + Time())
-endef   
-   
-*==================================================================================================*
-   
-def DateToStr( dParms )
-   Return( Dtos( dParms ))
-endef   
-
-*==================================================================================================*
-
-def StrToVal( nParms )
-   Return(Val(StrTran(nParms,",",".")))
-   Return( Str( nParms ))
-endef   
-
-*==================================================================================================*
-
-def ValToStr( nParms )
-   Return( Str( nParms ))
-endef   
-
-*==================================================================================================*
-
-def IntToStr( nParms )
-   Return( AllTrim(Str( nParms )))
-endef   
-
-*==================================================================================================*
-
-def Barra()
-   Return( Trans( (Recno()/Lastrec())*100, "@R 999.99%"))
-endef
-
-*==================================================================================================*   

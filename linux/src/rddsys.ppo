@@ -1,0 +1,28 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ANNOUNCE RDDSYS
+INIT PROCEDURE RddInit()
+
+
+   EXTERNAL DBFNTX
+   EXTERNAL DBFCDX
+    EXTERNAL DBFNSX
+
+
+   return

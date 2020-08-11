@@ -1,0 +1,829 @@
+#line 12 "c:\sci\include\rddName.ch"
+    EXTERNAL leto
+    EXTERNAL DBFNTX
+   EXTERNAL DBFCDX
+
+
+    EXTERNAL DBFFPT
+    EXTERNAL SIXCDX
+    EXTERNAL DBFNSX
+    EXTERNAL HB_MEMIO
+#line 3 "tbrowse.prg"
+_HB_CLASS MsBrowse ; function MsBrowse ( ... ) ; STATIC s_oClass ; LOCAL nScope, oClass, oInstance ; IF s_oClass == NIL .AND. __clsLockDef( @s_oClass ) ; BEGIN SEQUENCE ; nScope := 1 ; ( ( nScope ) ) ; oClass := iif( .F.,, HBClass():new( "MsBrowse", iif( .T., { @TBrowse() }, { @HBObject() } ), @MsBrowse() ) ) ;
+        nScope := 1 ; ( ( nScope ) )
+         _HB_MEMBER { Titulo } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"Titulo"}, .F. )
+         _HB_MEMBER { Topo } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"Topo"}, .F. )
+         _HB_MEMBER { Esquerda } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"Esquerda"}, .F. )
+         _HB_MEMBER { Baixo } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"Baixo"}, .F. )
+         _HB_MEMBER { Direita } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"Direita"}, .F. )
+         _HB_MEMBER { PreDoGet } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"PreDoGet"}, .F. )
+         _HB_MEMBER { PosDoGet } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"PosDoGet"}, .F. )
+         _HB_MEMBER { PreDoDel } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"PreDoDel"}, .F. )
+         _HB_MEMBER { PosDoDel } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"PosDoDel"}, .F. )
+         _HB_MEMBER { KeyHotKey } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"KeyHotKey"}, .F. )
+         _HB_MEMBER { Registro } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"Registro"}, .F. )
+         _HB_MEMBER { Deletado } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"Deletado"}, .F. )
+         _HB_MEMBER { Alterado } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"Alterado"}, .F. )
+            _HB_MEMBER { LinhaHelpTecla1 } ; oClass:AddMultiData(, "", nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"LinhaHelpTecla1"}, .F. )
+            _HB_MEMBER { LinhaHelpTecla2 } ; oClass:AddMultiData(, "", nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"LinhaHelpTecla2"}, .F. )
+
+        nScope := 1 ; ( ( nScope ) )
+        _HB_MEMBER New() AS CLASS MsBrowse; oClass:AddMethod( "New", @MsBrowse_New(), nScope + iif( .T., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+          _HB_MEMBER Processa(); oClass:AddMethod( "Processa", @MsBrowse_Processa(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+          _HB_MEMBER Doget(); oClass:AddMethod( "Doget", @MsBrowse_Doget(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+          _HB_MEMBER FreshOrder(); oClass:AddMethod( "FreshOrder", @MsBrowse_FreshOrder(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+          _HB_MEMBER Skipped(); oClass:AddMethod( "Skipped", @MsBrowse_Skipped(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+          _HB_MEMBER Show(); oClass:AddMethod( "Show", @MsBrowse_Show(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+        _HB_MEMBER ExitKey(); oClass:AddMethod( "ExitKey", @MsBrowse_ExitKey(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+        _HB_MEMBER TrocaChave(); oClass:AddMethod( "TrocaChave", @MsBrowse_TrocaChave(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+        _HB_MEMBER SeekChave(); oClass:AddMethod( "SeekChave", @MsBrowse_SeekChave(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+        _HB_MEMBER FiltraChave(); oClass:AddMethod( "FiltraChave", @MsBrowse_FiltraChave(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+        _HB_MEMBER ForceStable(); oClass:AddMethod( "ForceStable", @MsBrowse_ForceStable(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+        _HB_MEMBER InsToggle(); oClass:AddMethod( "InsToggle", @MsBrowse_InsToggle(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+        _HB_MEMBER Add(); oClass:AddMethod( "Add", @MsBrowse_TAdd(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+        _HB_MEMBER HotKey(); oClass:AddMethod( "HotKey", @MsBrowse_HotKey(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+          _HB_MEMBER DupReg( cAlias, cCampo, nOrder); oClass:AddMethod( "DupReg", @MsBrowse_DupReg(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+          _HB_MEMBER Duplica( cAlias); oClass:AddMethod( "Duplica", @MsBrowse_Duplica(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+oClass:Create() ; ; ALWAYS ; __clsUnlockDef( @s_oClass, oClass ) ; end ; oInstance := oClass:Instance() ; IF __objHasMsg( oInstance, "InitClass" ) ; oInstance:InitClass( ... ) ; END ; RETURN oInstance ; END ; RETURN s_oClass:Instance() AS CLASS MsBrowse ;
+
+static FUNCTION MsBrowse_New( nLint, nColt, nLinB, nColb ) ; local Self AS CLASS MsBrowse := QSelf() AS CLASS MsBrowse
+
+   LOCAL cFrame2     := SubStr( oAmbiente:Frame, 2, 1 )
+   LOCAL cFrame3     := SubStr( oAmbiente:Frame, 3, 1 )
+   LOCAL cFrame4     := SubStr( oAmbiente:Frame, 4, 1 )
+   LOCAL cFrame6     := SubStr( oAmbiente:Frame, 6, 1 )
+
+   ::Titulo    := "CONSULTA/ALTERACAO"
+   ::Topo      := 00
+   ::Esquerda  := 00
+   ::Baixo     := MaxRow()-4
+   ::Direita   := MaxCol()
+   ::PreDoGet  := NIL
+   ::PosDoGet  := NIL
+   ::PreDoDel  := NIL
+   ::PosDoDel  := NIL
+   ::KeyHotKey := NIL
+   ::nTop      := if( nLint = NIL, ::Topo+1,     nLint )
+   ::nLeft     := if( nColt = NIL, ::Esquerda+1, nColt )
+   ::nRight    := if( nColb = NIL, ::Direita-1,  nColb )
+   ::nBottom   := if( nLinb = NIL, ::Baixo-1,    nLinb )
+   ::HeadSep   := cFrame2 + cFrame3 + cFrame2
+   ::ColSep    := Chr(032) + cFrame4 + Chr(032)
+   ::FootSep   := cFrame2  + cFrame2 + cFrame2
+   ::Topo      := ::nTop
+   ::Esquerda  := ::nLeft
+   ::Baixo     := ::nBottom
+   ::Direita   := ::nRight
+   ::Registro  := 0
+   ::Deletado  := NIL
+   ::Alterado  := NIL
+return( Self )
+
+static FUNCTION MsBrowse_Show ; local Self AS CLASS MsBrowse := QSelf() AS CLASS MsBrowse
+
+   MaBox( ::Baixo+2, ::Esquerda-1, ::Baixo+5, ::Direita+1,"OPCOES")
+   Write( ::Baixo+3, 01, "[_+]Alterar  [F2]Localizar [F3]Filtrar  [CTRL+INSERT]Ins Campo [A-Z]Localizar " + ::LinhaHelpTecla1)
+   Write( ::Baixo+4, 01, "[ESC]Encerrar [F6]Ordem     [F4]Duplicar [CTRL+DELETE]Esc Campo [DEL]Excluir   " + ::LinhaHelpTecla2)
+   MaBox( ::Topo-1, ::Esquerda-1, ::Baixo+1, ::Direita+1, ::Titulo )
+   Seta1( ::Baixo+1 )
+return( Self )
+
+static FUNCTION MsBrowse_TAdd( cNome, cField, cPicture, cAlias ) ; local Self AS CLASS MsBrowse := QSelf() AS CLASS MsBrowse
+
+   LOCAL oCol
+
+   if Valtype( cField ) = "B"
+      oCol := TBColumnNew( cNome, cField )
+   else
+      if cAlias = NIL
+         oCol := TBColumnNew( cNome,  FieldBlock( FieldName( FieldPos( cField ))))
+      else
+         oCol := TBColumnNew( cNome,  FieldWBlock( FieldName( FieldPos( cField )), Select( cAlias )))
+      endif
+   endif
+   if cPicture <> NIL
+      oCol:Picture := cPicture
+   endif
+   ::AddColumn( oCol )
+return( Self )
+
+
+static FUNCTION MsBrowse_Processa( ) ; local Self AS CLASS MsBrowse := QSelf() AS CLASS MsBrowse
+
+   LOCAL cScreen  := SaveScreen()
+   LOCAL Local3   := .T.
+   LOCAL Local5   := .F.
+   LOCAL Local6   := .F.
+   LOCAL LOCAL8   := Setcursor(0)
+   LOCAL LOCAL9   := .F.
+   LOCAL aCampos  := {}
+   LOCAL nKey
+   LOCAL cCombinado := ""
+
+   ::skipBlock( { |x| ::Skipped( x, Local5 ) })
+   ::ForceStable()
+   if ( LastRec() == 0 )
+      nKey := 24
+      LOCAL9 := .T.
+   else
+      LOCAL9 := .F.
+   endif
+   LOCAL3 := .T.
+   while ( LOCAL3 )
+      if ( !LOCAL9 )
+         ::ForceStable()
+      endif
+      if ( !LOCAL9 )
+         if ( ::Hitbottom() .AND. ( !LOCAL5 .OR. RecNo()  <>  LastRec() + 1 ) )
+            if ( LOCAL5 )
+               ::Refreshcurrent()
+               ::ForceStable()
+               dbGoBottom()
+            else
+               LOCAL5 := .T.
+               Setcursor(Iif( Readinsert(), 2, 1 ))
+            endif
+            ::Down()
+            ::ForceStable()
+            ::Colorrect({::Rowpos(), 1, ::Rowpos(), ::Colcount()}, {2, 2})
+         endif
+         ::ForceStable()
+         nKey := InKey(0)
+         if ( ( cRotina := SetKey(nKey) )  <>  Nil )
+            Eval( cRotina, Procname(1), Procline(1), "")
+            Loop
+         endif
+         if ::KeyHotKey <> NIL
+            nHot := Len( ::KeyHotKey )
+            if ( nPos := Ascan( ::KeyHotKey, { |oBloco|oBloco[1] = nKey })) <> 0
+               Eval( ::KeyHotKey[nPos,2])
+               Loop
+            endif
+         endif
+      else
+         LOCAL9 := .F.
+      endif
+      do case
+      case nKey == -5
+         ::TrocaChave()
+         ::refreshCurrent():forceStable()
+         ::up():forceStable()
+         ::Freshorder()
+
+      case nKey == -1
+         SetCursor(1)
+         ::SeekChave()
+         ::FreshOrder()
+         SetCursor(0)
+
+      case nKey == -2
+         SetCursor(1)
+         ::FiltraChave()
+         ::FreshOrder()
+         SetCursor(0)
+
+      case nKey == 402
+         cTela := SaveScreen()
+         oMenu:Limpa()
+         M_Title("INSERIR COLUNAS")
+         nChoice := FazMenu( 10, 10, {" Individual", " Combinado", " Todos " })
+         nLen  := FCount()
+         if nChoice = 0
+            ResTela( cTela )
+            Loop
+         elseif nChoice = 1
+            For i := 1 To nLen
+               cString := FieldName( i )
+               Aadd( aCampos, cString )
+            Next
+            oMenu:Limpa()
+            MaBox( 01, 10, 23, 50, "ESCOLHA O CAMPO",, Roloc( Cor()))
+            n  := Achoice( 02, 11, 22, 39, aCampos )
+            if n = 0
+               ResTela( cTela )
+               Loop
+            endif
+            oColuna := TBColumnNew( field( n ), FieldWBlock( field( n ), select() ) )
+            ::InsColumn( ::ColPos, oColuna )
+
+         elseif nChoice = 2
+            SetCursor(1)
+            oMenu:Limpa()
+            cCombinado := Space(50)
+            MaBox( 10, 05, 13, 70, "ENTRE COM A SEQUENCIA",, Roloc( Cor()))
+            SetCursor(1) ; DevPos( 12, 06 ) ; DevOut( "Combinacao :" ) ; SetCursor(1) ; SetPos( Row(), Col()+1 ) ; AAdd( GetList, _GET_( cCombinado, "cCombinado",,,))
+            ReadModal( GetList, NIL,,,,, ) ; GetList := {} ; ( GetList )
+            if !LastKey() = 27
+               oColuna := TBColumnNew( ltrim(rtrim(cCombinado)) , {|| &cCombinado. })
+               ::InsColumn( ::ColPos, oColuna )
+            endif
+            SetCursor(0)
+
+         elseif nChoice = 3
+            For i := 1 To nLen
+               oColuna := TBColumnNew( field( i ), FieldWBlock( field( i ), select() ) )
+               ::InsColumn( ::ColPos, oColuna )
+            Next
+          endif
+          ResTela( cTela )
+
+      case nKey == 403
+         ErrorBeep()
+         if ::ColCount = 1
+            Alerta("Erro: Nao se pode Excluir a Ultima Coluna")
+         else
+            if Conf("Pergunta: Esconder a Coluna ?" )
+               oPos := ::ColPos
+               ::DelColumn( ::ColPos )
+            endif
+        endif
+
+      case nKey == -9
+         ::Freeze := ::ColPos
+
+      Case nKey == 24
+         if ( LOCAL5 )
+            ::Hitbottom(.T.)
+         else
+            ::Down()
+         endif
+      Case nKey == 5
+         if ( LOCAL5 )
+            LOCAL6 := .T.
+         else
+            ::Up()
+         endif
+      Case nKey == 3
+         if ( LOCAL5 )
+            ::Hitbottom(.T.)
+         else
+            ::Pagedown()
+         endif
+      Case nKey == 18
+         if ( LOCAL5 )
+            LOCAL6 := .T.
+         else
+            ::Pageup()
+         endif
+
+      Case nKey == 31
+           DbGotop()
+           if ( LOCAL5 )
+            LOCAL6 := .T.
+         else
+            ::Gotop()
+         endif
+      Case nKey == 30
+           DbGoBottom()
+           if ( LOCAL5 )
+            LOCAL6 := .T.
+         else
+            ::Gobottom()
+         endif
+
+        Case nKey == 4
+         ::Right()
+      Case nKey == 19
+         ::Left()
+      Case nKey == 1
+         ::Home()
+      Case nKey == 6
+         ::End()
+      Case nKey == 26
+         ::Panleft()
+      Case nKey == 2
+         ::Panright()
+      Case nKey == 29
+         ::Panhome()
+      Case nKey == 23
+         ::Panend()
+      Case nKey == 22
+         if ( LOCAL5 )
+            Eval( { || Setcursor(Iif( Readinsert(!Readinsert()), 1, 2 )) } )
+         endif
+      Case nKey == 7
+         if !PodeExcluir()
+            ErrorBeep()
+            Alerta("Erro: Exclusao nao Permitida")
+            Loop
+         endif
+         if ::PreDoDel <> NIL
+            if !Eval( ::PreDoDel )
+               Loop
+            endif
+         endif
+         if PodeExcluir()
+            ErrorBeep()
+            if Conf("Pergunta: Excluir Registro Sob o Cursor ?")
+               if TravaReg()
+                  if ( RecNo()  <>  LastRec() + 1 )
+                     if ( Deleted() )
+                        ::Deletado := NIL
+                        DbRecall()
+                     else
+                        ::Deletado := .T.
+                        DbDelete()
+                     endif
+                     ::refreshCurrent():forceStable()
+                     ::up():forceStable()
+                     ::Freshorder()
+                     Libera()
+                  endif
+               endif
+            endif
+         endif
+         if ::PosDoDel <> NIL
+            Eval( ::PosDoDel )
+         endif
+
+      Case nKey == 13
+         oCol := ::getColumn( ::colPos )
+
+
+
+            if oCol:Heading = "ID"
+               ErrorBeep()
+            Alerta("ERRO;;Campo de autoincremento.;Alteracao nao Permitida!")
+            Loop
+         endif
+
+         if !PodeAlterar()
+            ErrorBeep()
+            Alerta("Erro: Alteracao nao Permitida")
+            Loop
+         endif
+         if ( LOCAL5 .OR. RecNo()  <>  LastRec() + 1 )
+            SetCursor(1)
+            nKey    := ::Doget( LOCAL5)
+            LOCAL9  := nKey  <>  0
+            SetCursor(0)
+         else
+            nKey := 24
+            LOCAL9 := .T.
+         endif
+
+      Case nKey == 27
+         LOCAL3 := .F.
+      Otherwise
+         if ( nKey >= 32 .AND. nKey <= 255 )
+            SetCursor(1)
+            __Keyboard( Chr(nKey) )
+            ::SeekChave()
+            ::FreshOrder()
+            SetCursor(0)
+
+         endif
+      EndCase
+      if ( LOCAL6 )
+         LOCAL6 := .F.
+         LOCAL5 := .F.
+         ::Freshorder()
+         Setcursor(0)
+      endif
+   EndDo
+   Setcursor(LOCAL8)
+   RestScreen( cScreen )
+return( Self )
+
+static FUNCTION MsBrowse_TrocaChave( ) ; local Self AS CLASS MsBrowse := QSelf() AS CLASS MsBrowse
+
+   LOCAL cScreen := SaveScreen()
+   LOCAL aArray  := {}
+   LOCAL nX      := 1
+   LOCAL nChoice := 0
+   LOCAL nMaximo := 12
+   LOCAL cString := ""
+   LOCAL nAntigo := IndexOrd()
+
+   For nX := 1 To nMaximo
+      if !Empty(( cIndice := IndexKey( nX )))
+         Aadd( aArray, Upper(IndexKey( nX )))
+      endif
+   Next
+   Aadd( aArray, "Natural" )
+   M_Title("ESCOLHA A ORDEM")
+   nChoice := FazMenu( 02, 02, aArray, Cor())
+   if nChoice = 0
+      DbSetOrder( nAntigo )
+      ResTela( cScreen )
+      return
+   endif
+   cString := aArray[ nChoice ]
+   if cString = "Natural"
+      DbSetOrder( 0 )
+   else
+      DbSetOrder( nChoice )
+   endif
+   ResTela( cScreen )
+return( Self )
+
+static FUNCTION MsBrowse_SeekChave( ) ; local Self AS CLASS MsBrowse := QSelf() AS CLASS MsBrowse
+
+   LOCAL cScreen  := SaveScreen()
+    LOCAL cPicture := "@K!"
+   LOCAL cProcura
+    LOCAL xCampo
+    LOCAL nField
+
+   if Empty( IndexKey())
+      ErrorBeep()
+      Alert("Erro: Escolha um indice antes.")
+      return
+   endif
+   MaBox( 10, 10, 12, 70,,, Roloc(Cor()))
+    nField   := FieldPos(IndexKey())
+    xCampo   := FieldName( nField )
+   cProcura := FieldGet(nField)
+    if xCampo == "FONE" .OR. xCampo == "FAX"
+        cPicture := "(##)#####-####"
+    endif
+   if cProcura = NIL
+      cProcura := Space(40)
+   endif
+   SetCursor(1) ; DevPos( 11, 11 ) ; DevOut( "Procurar por : " ) ; SetCursor(1) ; SetPos( Row(), Col()+1 ) ; AAdd( GetList, _GET_( cProcura, "cProcura", cPicture,,))
+   ReadModal( GetList, NIL,,,,, ) ; GetList := {} ; ( GetList )
+   if LastKey() = 27
+      ResTela( cScreen )
+      return
+   endif
+   if ValType( cProcura ) = "C"
+      cProcura := ltrim(rtrim(cProcura))
+   endif
+   DbSeek( cProcura )
+   Restela( cScreen )
+return( Self )
+
+static FUNCTION MsBrowse_FiltraChave( ) ; local Self AS CLASS MsBrowse := QSelf() AS CLASS MsBrowse
+
+   LOCAL cScreen := SaveScreen()
+   LOCAL cProcura
+
+   if Empty( IndexKey())
+      ErrorBeep()
+      Alert("Erro: Escolha um indice antes.")
+      return
+   endif
+   MaBox( 10, 10, 12, 70,,, Roloc(Cor()))
+   cProcura := FieldGet(FieldPos( IndexKey()))
+   if cProcura = NIL
+      cProcura := Space(40)
+   endif
+   SetCursor(1) ; DevPos( 11, 11 ) ; DevOut( "Filtrar por : " ) ; SetCursor(1) ; SetPos( Row(), Col()+1 ) ; AAdd( GetList, _GET_( cProcura, "cProcura", "@K!",,))
+   ReadModal( GetList, NIL,,,,, ) ; GetList := {} ; ( GetList )
+   if LastKey() = 27
+      ResTela( cScreen )
+      return
+   endif
+   if ValType( cProcura ) = "C"
+      cProcura := ltrim(rtrim(cProcura))
+   endif
+   OrdScope( 0, cProcura)
+   OrdScope( 1, cProcura )
+   DbGoTop()
+return( Self )
+
+static FUNCTION MsBrowse_DupReg( cAlias, cCampo, nOrder ) ; local Self AS CLASS MsBrowse := QSelf() AS CLASS MsBrowse
+
+    LOCAL cScreen := SaveScreen()
+    LOCAL oCol      := ::getColumn( ::colPos )
+    LOCAL Arq_Ant := Alias()
+    LOCAL Ind_Ant := IndexOrd()
+    LOCAL Handle  := FTempMemory()
+    LOCAL xAlias  := FTempMemory()
+    LOCAL aStru   := (cAlias)->(DbStruct())
+    LOCAL nConta  := (cAlias)->(FCount())
+    LOCAL lAdmin  := TIniNew(oAmbiente:xUsuario + ".INI"):ReadBool("permissao","usuarioadmin", .F.)
+    LOCAL xLen
+    LOCAL cRegisto
+    LOCAL xRegistro
+    LOCAL xRegLocal
+    LOCAL cType
+    LOCAL xCampo
+
+    if !lAdmin
+        if !PodeIncluir()
+            return(.T.)
+        endif
+    endif
+    if( nOrder = NIL, nOrder := 0, nOrder )
+    ErrorBeep()
+    if !Conf("Pergunta: Duplicar registro sob o cursor ?")
+        return( .T. )
+    endif
+    xRegistro := (cAlias)->(Recno())
+
+    xAlias := ms_mem_dbCreate(Handle, aStru)
+    (xAlias)->(DbAppend())
+
+    for nField := 1 To nConta
+        xCampo := (xAlias)->(FieldName( nField ))
+        if xCampo <> "ID"
+            (xAlias)->(FieldPut( nField, (cAlias)->(FieldGet( nField ))))
+        endif
+    next
+
+    if (cAlias)->(Incluiu())
+        for nField := 1 To nConta
+            xCampo := (xAlias)->(FieldName( nField ))
+            if xCampo <> "ID"
+                (cAlias)->(FieldPut( nField, (xAlias)->(FieldGet( nField ))))
+            endif
+        next
+        xRegLocal := (cAlias)->(Recno())
+        (cAlias)->(Libera())
+        (cAlias)->(Order( nOrder))
+        (cAlias)->(DbGoBottom())
+
+        cType := ValType((cAlias)->&(cCampo))
+        if cType == "C"
+            xLen  := Len((cAlias)->&(cCampo))
+            CRegistro := StrZero(Val((cAlias)->&(cCampo)) + 1 , xLen)
+        elseif cType == "N"
+            CRegistro := (cAlias)->&(cCampo) + 1
+        else
+            CRegistro := (cAlias)->&(cCampo)
+        endif
+        (cAlias)->(DbGoto( xRegistro ))
+        if (cAlias)->(TravaReg())
+            (cAlias)->&(cCampo) := cRegistro
+            (cAlias)->(Libera())
+        endif
+
+    endif
+    (xAlias)->(DbCloseArea())
+    FecharTemp(Handle)
+    AreaAnt( Arq_Ant, Ind_Ant )
+    (cAlias)->(DbGoto( xRegistro ))
+    ::FreshOrder()
+    (cAlias)->(DbGoto( xRegistro ))
+    return( .T. )
+
+static FUNCTION MsBrowse_Duplica( cAlias ) ; local Self AS CLASS MsBrowse := QSelf() AS CLASS MsBrowse
+
+    LOCAL cScreen := SaveScreen()
+    LOCAL oCol      := ::getColumn( ::colPos )
+    LOCAL Arq_Ant := Alias()
+    LOCAL Ind_Ant := IndexOrd()
+    LOCAL Handle  := FTempMemory()
+    LOCAL xAlias  := FTempMemory()
+    LOCAL lAdmin  := TIniNew(oAmbiente:xUsuario + ".INI"):ReadBool("permissao","usuarioadmin", .F.)
+    LOCAL xLen
+    LOCAL cRegisto
+    LOCAL xRegistro
+    LOCAL xRegLocal
+    LOCAL cType
+    LOCAL xCampo
+    LOCAL aStru
+    LOCAL nConta
+    LOCAL nOrder := Ind_Ant
+    IF cAlias == NIL ; cAlias := Alias() ; END
+
+    if !lAdmin
+        if !PodeIncluir()
+            return(.T.)
+        endif
+    endif
+
+    ErrorBeep()
+    if !Conf("Pergunta: Duplicar registro sob o cursor ?")
+        return( .T. )
+    endif
+
+    aStru     := (cAlias)->(DbStruct())
+    nConta    := (cAlias)->(FCount())
+    xRegistro := (cAlias)->(Recno())
+    xAlias    := ms_mem_dbCreate(Handle, aStru)
+
+    (xAlias)->(DbAppend())
+    for nField := 1 To nConta
+        xCampo := (xAlias)->(FieldName( nField ))
+        if xCampo <> "ID"
+            (xAlias)->(FieldPut( nField, (cAlias)->(FieldGet( nField ))))
+        endif
+    next
+
+    if (cAlias)->(Incluiu())
+        for nField := 1 To nConta
+            xCampo := (xAlias)->(FieldName( nField ))
+            if xCampo <> "ID"
+                (cAlias)->(FieldPut( nField, (xAlias)->(FieldGet( nField ))))
+            endif
+        next
+        xRegLocal := (cAlias)->(Recno())
+        (cAlias)->(Libera())
+        (cAlias)->(Order( nOrder))
+        (cAlias)->(DbGoBottom())
+    endif
+    (xAlias)->(DbCloseArea())
+    FecharTemp(Handle)
+    AreaAnt( Arq_Ant, Ind_Ant )
+    (cAlias)->(DbGoto( xRegistro ))
+    ::FreshOrder()
+    (cAlias)->(DbGoto( xRegistro ))
+    return( .T. )
+
+static FUNCTION MsBrowse_Doget( ARG2 ) ; local Self AS CLASS MsBrowse := QSelf() AS CLASS MsBrowse
+
+    LOCAL Local1
+    LOCAL LOCAL2
+    LOCAL LOCAL3
+    LOCAL oCol
+    LOCAL LOCAL6
+    LOCAL LOCAL8
+    LOCAL LOCAL9
+    LOCAL Local10
+    LOCAL Local11
+    LOCAL Local12
+    LOCAL nIndice
+    LOCAL oGet
+    LOCAL xValue
+
+    ::Hittop(.F.)
+    ::ForceStable()
+
+    if ::PreDoGet <> NIL
+        if !Eval( ::PreDoGet )
+            return( 0 )
+        endif
+    endif
+
+    LOCAL2  := LETO_SET( 32, .F. )
+    LOCAL3  := LETO_SET( 30, .T. )
+    Local1  := SetKey(22, { || Setcursor(Iif( Readinsert(!Readinsert()), 1, 2 )) } )
+    Local10 := Setcursor(Iif( Readinsert(), 2, 1 ))
+    nIndice := Indexkey(0)
+    if ( !Empty( nIndice ))
+        LOCAL8 := &nIndice
+    endif
+    oCol     := ::Getcolumn(::Colpos())
+    xValue := Eval( oCol:Block )
+    cCor1  := AttrToa( 79 )
+    if oCol:Picture = NIL
+        Do case
+        Case HB_ISSTRING( xValue )
+            oCol:picture    := repl( "!", len( xValue ) )
+        Case HB_ISDATE( xValue )
+            oCol:picture    := "##/##/##"
+        EndCase
+    endif
+    Local11 := Eval(oCol:Block())
+    oGet      := Getnew(Row(), Col(), { | _1 | Iif( PCount() == 0, Local11, Local11 := _1 ) }, "mGetVar", oCol:Picture, ::Colorspec )
+    oGet:ColorDisp( cCor1 )
+    LOCAL9 := .F.
+    if ::PreDoGet <> NIL
+        if Eval( ::PreDoGet )
+            if ( LOCAL9 )
+                ::Freshorder()
+                LOCAL6 := 0
+            else
+                ::Refreshcurrent()
+                LOCAL6 := ::Exitkey(ARG2)
+            endif
+            if ( ARG2 )
+                ::Colorrect({::Rowpos(), 1, ::Rowpos(), ::Colcount()}, {2, 2})
+            endif
+            Setcursor(Local10)
+            LETO_SET( 32, LOCAL2 )
+            LETO_SET( 30, LOCAL3 )
+            SetKey(22, Local1)
+        endif
+    endif
+    if TravaReg()
+        if ReadModal({oGet})
+            if ( ARG2 .AND. RecNo() == LastRec() + 1 )
+                if PodeIncluir()
+                    if Incluiu()
+                    endif
+                endif
+            endif
+            Eval( oCol:Block(), Local11)
+            if ( !ARG2 .AND. !Empty(Local12 := Ordfor(Indexord())) .AND. !&Local12 )
+              DbGoTop()
+            endif
+            if ( !ARG2 .AND. !Empty(nIndice) .AND. LOCAL8  <>  &nIndice )
+                LOCAL9 := .T.
+            endif
+        endif
+        if ::PosDoGet <> NIL
+            Eval( ::PosDoGet )
+        endif
+        ::Alterado := .T.
+        _Field->Atualizado := Date()
+        Libera()
+    endif
+    if ( LOCAL9 )
+        ::Freshorder()
+        LOCAL6 := 0
+    else
+        ::Refreshcurrent()
+        LOCAL6 := ::Exitkey(ARG2)
+    endif
+    if ( ARG2 )
+        ::Colorrect({::Rowpos(), 1, ::Rowpos(), ::Colcount()}, {2, 2})
+    endif
+    Setcursor(Local10)
+    LETO_SET( 32, LOCAL2 )
+    LETO_SET( 30, LOCAL3 )
+    SetKey(22, Local1)
+    return LOCAL6
+
+static FUNCTION MsBrowse_ExitKey( ARG1 ) ; local Self AS CLASS MsBrowse := QSelf() AS CLASS MsBrowse
+
+    Local nKey
+
+    nKey := LastKey()
+    Do Case
+    Case nKey == 3
+        if ( ARG1 )
+            nKey := 0
+        else
+            nKey := 24
+        endif
+    Case nKey == 18
+        if ( ARG1 )
+            nKey := 0
+        else
+            nKey := 5
+        endif
+    Case nKey == 13 .OR. nKey >= 32 .AND. nKey <= 255
+        nKey := 4
+    Case nKey  <>    5 .AND. nKey  <>    24
+        nKey := 0
+    EndCase
+    return nKey
+
+static FUNCTION MsBrowse_FreshOrder( ) ; local Self AS CLASS MsBrowse := QSelf() AS CLASS MsBrowse
+
+    LOCAL nRecno := RecNo()
+    ::Refreshall()
+    ::ForceStable()
+    if ( nRecno  <>  LastRec() + 1 )
+        while ( RecNo()  <>    nRecno .AND. !BOF() )
+            ::Up()
+            ::ForceStable()
+        EndDo
+    endif
+    return( Self )
+
+static FUNCTION MsBrowse_Skipped( ARG1, ARG2 ) ; local Self AS CLASS MsBrowse := QSelf() AS CLASS MsBrowse
+
+    Local oBrowse
+    oBrowse := 0
+    if ( LastRec()  <>  0 )
+        if ( ARG1 == 0 )
+            dbSkip( 0 )
+        elseif ( ARG1 > 0 .AND. RecNo()    <>  LastRec() + 1 )
+            while ( oBrowse < ARG1 )
+                dbSkip()
+                if ( EOF() )
+                    if ( ARG2 )
+                        oBrowse++
+                    else
+                        dbSkip( -1 )
+                    endif
+                    Exit
+                endif
+                oBrowse++
+            EndDo
+        elseif ( ARG1 < 0 )
+            while ( oBrowse > ARG1 )
+                dbSkip( -1 )
+                if ( BOF() )
+                    Exit
+                endif
+                oBrowse--
+            EndDo
+        endif
+    endif
+    return oBrowse
+
+static FUNCTION MsBrowse_ForceStable( browse ) ; local Self AS CLASS MsBrowse := QSelf() AS CLASS MsBrowse
+
+   WHILE !::stabilize()
+   EndDo
+    return( Self )
+
+static FUNCTION MsBrowse_InsToggle( ) ; local Self AS CLASS MsBrowse := QSelf() AS CLASS MsBrowse
+
+   if READINSERT()
+       READINSERT(.F.)
+       SETCURSOR(1)
+
+   else
+       READINSERT(.T.)
+       SETCURSOR(2)
+
+   endif
+   return( Self )
+
+static FUNCTION MsBrowse_HotKey( cTecla, xFuncao ) ; local Self AS CLASS MsBrowse := QSelf() AS CLASS MsBrowse
+
+   if ::KeyHotKey = NIL
+      ::KeyHotKey := {}
+   endif
+   Aadd( ::KeyHotKey, { cTecla, xFuncao } )
+    return( Self )
+
+Function TMsBrowseNew( nLint, nColt, nLinB, nColb )
+
+    return( MsBrowse():New( nLint, nColt, nLinb, nColb ))

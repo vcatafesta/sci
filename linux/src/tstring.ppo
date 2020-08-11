@@ -1,0 +1,69 @@
+#line 12 "c:\sci\include\rddName.ch"
+    EXTERNAL leto
+    EXTERNAL DBFNTX
+   EXTERNAL DBFCDX
+
+
+    EXTERNAL DBFFPT
+    EXTERNAL SIXCDX
+    EXTERNAL DBFNSX
+    EXTERNAL HB_MEMIO
+#line 11 "tstring.prg"
+_HB_CLASS TString ; function TString ( ... ) ; STATIC s_oClass ; LOCAL nScope, oClass, oInstance ; IF s_oClass == NIL .AND. __clsLockDef( @s_oClass ) ; BEGIN SEQUENCE ; nScope := 1 ; ( ( nScope ) ) ; oClass := iif( .F.,, HBClass():new( "TString", iif( .F., { }, { @HBObject() } ), @TString() ) ) ;
+    nScope := 4 ; ( ( nScope ) )
+        _HB_MEMBER { xbuffer } ; oClass:AddMultiData(, "", nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"xbuffer"}, .F. )
+
+    nScope := 2; ( ( nScope ) )
+        _HB_MEMBER { lChanged } ; oClass:AddMultiData(, .F., nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"lChanged"}, .F. )
+        _HB_MEMBER { buffer } ; oClass:AddMultiData(, "", nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"buffer"}, .F. )
+        _HB_MEMBER { cWho } ; oClass:AddMultiData(, "TTString", nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"cWho"}, .F. )
+        _HB_MEMBER { cNome } ; oClass:AddMultiData(, ProcName(), nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"cNome"}, .F. )
+
+    nScope := 1 ; ( ( nScope ) )
+        _HB_MEMBER { value } ; oClass:AddMultiData(, "", nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"value"}, .F. )
+
+    nScope := 1 ; ( ( nScope ) )
+        _HB_MEMBER new( xValue) AS CLASS TString; oClass:AddMethod( "new", @TString_new(), nScope + iif( .T., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+        _HB_MEMBER Destroy(); oClass:SetDestructor( @TString_Destroy() )
+        _HB_MEMBER len(); oClass:AddInline( "len", {|Self | ( ( Self ) ), len(::buffer)}, nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+        _HB_MEMBER capitalize(); oClass:AddInline( "capitalize", {|Self | ( ( Self ) ), capitalize(::buffer)}, nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+        _HB_MEMBER upcase(); oClass:AddInline( "upcase", {|Self | ( ( Self ) ), upper(::buffer)}, nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+        _HB_MEMBER toupper(); oClass:AddInline( "toupper", {|Self | ( ( Self ) ), upper(::buffer)}, nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+        _HB_MEMBER downcase(); oClass:AddInline( "downcase", {|Self | ( ( Self ) ), lower(::buffer)}, nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+        _HB_MEMBER tolower(); oClass:AddInline( "tolower", {|Self | ( ( Self ) ), lower(::buffer)}, nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+        _HB_MEMBER type(); oClass:AddInline( "type", {|Self | ( ( Self ) ), valtype(::buffer)}, nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+        _HB_MEMBER Destroy(); oClass:AddMethod( "Destroy", @TString_Destroy(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+
+    nScope := 1 ; ( ( nScope ) )
+        _HB_MEMBER changed(); oClass:AddMethod( "changed", @TString_getChanged(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+        _HB_MEMBER _changed(); oClass:AddMethod( "_changed", @TString_setChanged(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+        _HB_MEMBER gets(); oClass:AddMethod( "gets", @TString_SetGet(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+        _HB_MEMBER get(); oClass:AddMethod( "get", @TString_SetGet(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+        _HB_MEMBER _set(); oClass:AddMethod( "_set", @TString_SetGet(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+        _HB_MEMBER _put(); oClass:AddMethod( "_put", @TString_SetGet(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+oClass:Create() ; ; ALWAYS ; __clsUnlockDef( @s_oClass, oClass ) ; end ; oInstance := oClass:Instance() ; IF __objHasMsg( oInstance, "InitClass" ) ; oInstance:InitClass( ... ) ; END ; RETURN oInstance ; END ; RETURN s_oClass:Instance() AS CLASS TString ;
+
+static FUNCTION TString_new( xValue ) ; local Self AS CLASS TString := QSelf() AS CLASS TString
+    ::set   := xValue
+    return self
+
+static FUNCTION TString_Destroy( ) ; local Self AS CLASS TString := QSelf() AS CLASS TString
+    self := nil
+    return self
+
+static FUNCTION TString_SetGet( xValue ) ; local Self AS CLASS TString := QSelf() AS CLASS TString
+   if HB_ISSTRING(xValue)
+      ::buffer   := xValue
+      ::value    := ::buffer
+        ::lChanged := .T.
+   endif
+   return ::buffer
+
+static FUNCTION TString_getChanged( ) ; local Self AS CLASS TString := QSelf() AS CLASS TString
+   return ::lChanged
+
+static FUNCTION TString_setChanged( lChanged ) ; local Self AS CLASS TString := QSelf() AS CLASS TString
+   if HB_ISLOGICAL(lChanged)
+      return ::lChanged := lChanged
+   endif
+   return .F.

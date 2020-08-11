@@ -4,22 +4,16 @@
  */
  
 #include <box.ch>
-#include <fileio.ch>
+#include <fileIO.ch>
 #include <directry.ch>
-#include "browsearraysrc.prg"
 
-#define def	   function
-#define endef
-#define true	.t.
-#define false  .f.
-#define null   nil
-#define NULL   nil
-REQUEST HB_MEMIO
+#define def 	function
+#define true 	.t.
 
 *-----------------*
 def Main(argc)
 *-----------------*
-	LOCAL xCoringa   := "*.dbf"
+	LOCAL xCoringa   := "*.DBF"
 	LOCAL aFileList  := {}
 	LOCAL aFiles[ Adir(xCoringa)]
 	LOCAL aSelect[Adir(xCoringa)]
@@ -53,20 +47,13 @@ def Main(argc)
 		endif	
 		use (AllTrim(right(aFileList[nChoice],15))) new
 	else
-		Use (argc) New      
+		Use (argc) New
 	endif
-   cAlias := Alias()
-   SetColor("W+/B")
-   cls
 	Browse()
-   BrowseArrayDbf()
-   BrowseArray((cAlias)->(DbStruct()))
 	QuitTBDemo()
-endef
 	
-def QuitTBDemo()
+def QuitDemo()
 	setcolor("")
 	SetPos(maxrow(), 0)
 	? "Macrosoft TDBdemo terminate!"
 	quit
-endef

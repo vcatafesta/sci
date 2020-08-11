@@ -281,7 +281,7 @@ Return(NIL)
 
 -------------------------------------------------------------------*/
 
-#include "box.ch"
+#include "BOX.CH"
 
 FUNCTION ShowIt()
 

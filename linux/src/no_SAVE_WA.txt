@@ -1,0 +1,22 @@
+  No_Save_WA = 1           -    server mode of internally handling database tables 
+                                    1  each dbUseArea() will cause a real file open operation by the OS,
+                                       identical to what client requested, so workareas at the server are same as
+                                       at client side. [ WA number, alias, filter conditions, relations ]
+                                    0  each table is opened only one time, this workarea 'exchanged' in between client
+                                       requests. so only one connection will have access to the table at a time.
+                                       No relations active at server, Alias names at server are different from 
+                                       the client.
+                                    Recommend '1' if you plan to execute functions at server side ( UDF ).
+
+--------
+      Share_Tables = 0         -    other software simultanous access tables used by server,
+                                    which changes logical or physical locking -- in dependance:
+                                    # No_Save_WA = 0    
+                                    0  server open all tables in exclusive mode, what leads to
+                                       performance increase as e.g. record-/ file- locks are not applied by OS.
+                                    1  tables are opened in the same mode [shared/exclusive] as client
+                                       applications opened them, what allows LetoDB to work in coexistence with
+                                       other applications [ non LetoDB users ] simultanous on the same DBF tables.
+                                    # No_Save_WA = 1
+                                    1  physical record-/ file- locks set with the OS are viewable for other
+                                    0  only logical internally locking

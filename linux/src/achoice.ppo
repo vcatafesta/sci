@@ -1,0 +1,752 @@
+#line 12 "c:\sci\include\rddName.ch"
+    EXTERNAL leto
+    EXTERNAL DBFNTX
+   EXTERNAL DBFCDX
+
+
+    EXTERNAL DBFFPT
+    EXTERNAL SIXCDX
+    EXTERNAL DBFNSX
+    EXTERNAL HB_MEMIO
+#line 3 "achoice.prg"
+FUNCTION AChoice( nTop, nLeft, nBottom, nRight, acItems, xSelect, xUserFunc, nPos, nHiLiteRow, lPageCircular)
+
+   LOCAL nNumCols
+   LOCAL nNumRows
+   LOCAL nRowsClr
+   LOCAL alSelect
+   LOCAL nNewPos   := 0
+   LOCAL lFinished
+   LOCAL nKey      := 0
+   LOCAL nMode
+   LOCAL nAtTop
+   LOCAL nItems    := 0
+   LOCAL nGap
+
+
+   LOCAL lUserFunc
+   LOCAL nUserFunc
+   LOCAL nSaveCsr
+   LOCAL nFrstItem := 0
+   LOCAL nLastItem := 0
+
+   LOCAL bAction
+   LOCAL cKey
+   LOCAL nAux
+    IF lPageCircular == NIL ; lPageCircular := .T. ; END
+    PRIVA oAchoice  := TAchoiceNew()
+
+
+
+
+
+    hb_default( @nTop, 0)
+   hb_default( @nBottom, 0)
+
+   hb_default( @nLeft, 0 )
+   hb_default( @nRight, 0 )
+
+   if nRight > MaxCol()
+      nRight := MaxCol()
+   endif
+
+   if nBottom > MaxRow()
+      nBottom := MaxRow()
+   endif
+
+   if ! HB_ISARRAY( acItems ) .OR. Len( acItems ) == 0
+      SetPos( nTop, nRight + 1 )
+      return 0
+   endif
+
+   nSaveCsr := SetCursor( 0 )
+   ColorSelect( 0 )
+
+
+
+
+
+
+   if Empty( xUserFunc ) .AND. ValType( xSelect ) $ "CBS"
+      xUserFunc := xSelect
+      xSelect   := NIL
+   endif
+
+   lUserFunc := ! Empty( xUserFunc ) .AND. ValType( xUserFunc ) $ "CBS"
+
+   if ! HB_ISARRAY( xSelect ) .AND. ! HB_ISLOGICAL( xSelect )
+      xSelect := .T.
+   endif
+
+   hb_default( @nPos, 1 )
+   hb_default( @nHiLiteRow, 0 )
+
+   nNumCols := nRight - nLeft + 1
+   nNumRows := nBottom - nTop + 1
+
+   if HB_ISARRAY( xSelect )
+         alSelect := xSelect
+   else
+      alSelect := Array( Len( acItems ) )
+      AFill( alSelect, xSelect )
+   endif
+
+   if ( nMode := Ach_Limits( @nFrstItem, @nLastItem, @nItems, alSelect, acItems ) ) == 4
+      nPos := 0
+        oAchoice:CurElemento := nPos
+   endif
+
+
+   nPos := Min( Max( nFrstItem, nPos ), nLastItem )
+    oAchoice:CurElemento := nPos
+
+
+   nHiLiteRow := Min( Max( 0, nHiLiteRow ), nNumRows - 1 )
+
+
+   nAtTop := Min( Max( 1, Max( 1, nPos - nHiLiteRow ) ), nItems )
+
+
+   if ( nAtTop + nNumRows - 1 ) > nItems
+      nAtTop := Max( 1, nItems - nNumrows + 1 )
+   endif
+
+   DispPage( acItems, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems, nItems )
+
+   lFinished := ( nMode == 4 )
+   if lFinished .AND. lUserFunc
+       Do( xUserFunc, nMode, nPos, nPos - nAtTop )
+   endif
+
+   while !lFinished
+        if nMode <> 3 .AND. nMode <> 4 .AND. nMode <> 10
+         nKey  := Inkey( 0 )
+         nMode := 0
+      endif
+
+      DO CASE
+        CASE nMode = 10
+           nNewPos := oAchoice:CurElemento
+            while !Ach_Select( alSelect, nNewPos )
+            nNewPos--
+         ENDDO
+         if ( nNewPos >= nAtTop .AND. nNewPos <= nAtTop + nNumRows - 1 )
+            DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
+            nPos := nNewPos
+            DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, Ach_Select( alSelect, nPos ), .T., nNumCols, nPos )
+         else
+            DispBegin()
+            DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
+            hb_Scroll( nTop, nLeft, nBottom, nRight, nNewPos - ( nAtTop + nNumRows - 1 ) )
+            nAtTop := nNewPos
+            nPos   := Max( nPos, nAtTop + nNumRows - 1 )
+            while nPos > nNewPos
+               if nTop + nPos - nAtTop <= nBottom
+                  DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
+               endif
+               nPos--
+            ENDDO
+            DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, Ach_Select( alSelect, nPos ), .T., nNumCols, nPos )
+            DispEnd()
+         endif
+
+      CASE ( bAction := SetKey( nKey ) ) <> NIL
+         Eval( bAction, ProcName( 1 ), ProcLine( 1 ), "" )
+         if NextKey() == 0
+            hb_keySetLast( 255 )
+            nKey := 0
+         endif
+
+         nRowsClr := Min( nNumRows, nItems )
+         if ( nMode := Ach_Limits( @nFrstItem, @nLastItem, @nItems, alSelect, acItems ) ) == 4
+            nPos := 0
+            nAtTop := Max( 1, nPos - nNumRows + 1 )
+         else
+            while nPos < nLastItem .AND. ! Ach_Select( alSelect, nPos )
+               nPos++
+            ENDDO
+
+            if nPos > nLastItem
+               nPos := Min( Max( nFrstItem, nPos ), nLastItem )
+            endif
+
+            nAtTop := Min( nAtTop, nPos )
+            if nAtTop + nNumRows - 1 > nItems
+               nAtTop := Min( Max( 1, nPos - nNumRows + 1 ), nItems - nNumRows + 1 )
+            endif
+
+            if nAtTop < 1
+               nAtTop := 1
+            endif
+         endif
+
+         DispPage( acItems, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems, nRowsClr )
+
+      CASE ( nKey == 27 .OR. nMode == 4 ) .AND. ! lUserFunc
+
+         if nPos <> 0
+            DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, .T., .F., nNumCols, nPos )
+         endif
+
+         nMode     := 0
+         nPos      := 0
+         lFinished := .T.
+
+      CASE nKey == 1006 .OR. nKey == 1002
+         nAux := HitTest( nTop, nLeft, nBottom, nRight, MRow(), MCol() )
+         if nAux <> 0 .AND. ( nNewPos := nAtTop + nAux - 1 ) <= nItems
+            if Ach_Select( alSelect, nNewPos )
+               DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
+               nPos := nNewPos
+               DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, Ach_Select( alSelect, nPos ), .T., nNumCols, nPos )
+               if nKey == 1006
+                  hb_keyIns( 13 )
+               endif
+            endif
+         endif
+
+
+
+
+      CASE nKey == 5 .OR. nKey == 1014
+
+            nNewPos := nPos - 1
+            if nNewPos < nFrstItem
+                nPos    := nLastItem
+                nAtTop  := Max( 1, nPos - nNumRows + 1 )
+                nNewPos := nPos
+                DispPage( acItems, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
+                nMode   := 2
+            endif
+
+            while ! Ach_Select( alSelect, nNewPos )
+               nNewPos--
+            ENDDO
+            if ( nNewPos >= nAtTop .AND. nNewPos <= nAtTop + nNumRows - 1 )
+               DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
+               nPos := nNewPos
+               DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, Ach_Select( alSelect, nPos ), .T., nNumCols, nPos )
+            else
+               DispBegin()
+               DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
+               hb_Scroll( nTop, nLeft, nBottom, nRight, nNewPos - ( nAtTop + nNumRows - 1 ) )
+               nAtTop := nNewPos
+               nPos   := Max( nPos, nAtTop + nNumRows - 1 )
+               while nPos > nNewPos
+                  if nTop + nPos - nAtTop <= nBottom
+                     DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
+                  endif
+                  nPos--
+               ENDDO
+               DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, Ach_Select( alSelect, nPos ), .T., nNumCols, nPos )
+               DispEnd()
+            endif
+
+
+
+
+      CASE nKey == 24 .OR. nKey == 1015
+
+
+
+            nNewPos := nPos + 1
+                if nNewPos > nLastItem
+                    nPos    := nFrstItem
+                    nAtTop  := nPos
+                    nNewPos := nPos
+                    DispPage( acItems, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
+                    nMode   := 1
+                endif
+
+            while ! Ach_Select( alSelect, nNewPos )
+               nNewPos++
+            ENDDO
+
+            if ( nNewPos >= nAtTop .AND. nNewPos <= nAtTop + nNumRows - 1 )
+               DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
+               nPos := nNewPos
+               DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, Ach_Select( alSelect, nPos ), .T., nNumCols, nPos )
+            else
+               DispBegin()
+               DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
+               hb_Scroll( nTop, nLeft, nBottom, nRight, nNewPos - ( nAtTop + nNumRows - 1 ) )
+               nAtTop := nNewPos - nNumRows + 1
+               nPos   := Max( nPos, nAtTop )
+               while nPos < nNewPos
+                  DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
+                  nPos++
+               ENDDO
+               DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, Ach_Select( alSelect, nPos ), .T., nNumCols, nPos )
+               DispEnd()
+            endif
+
+
+
+      CASE nKey == 31 .OR. ( nKey == 1 .AND. ! lUserFunc )
+
+         if nPos == nFrstItem
+                if lPageCircular
+                    nPos    := nLastItem
+                    nAtTop  := Max( 1, nPos - nNumRows + 1 )
+                    nNewPos := nPos
+                    DispPage( acItems, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
+                    nMode   := 2
+                else
+                    if nAtTop == Max( 1, nPos - nNumRows + 1 )
+                        nMode := 1
+                    else
+                        nAtTop := Max( 1, nPos - nNumRows + 1 )
+                        DispPage( acItems, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
+                    endif
+                endif
+         else
+            nPos   := nFrstItem
+            nAtTop := nPos
+            DispPage( acItems, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
+         endif
+
+      CASE nKey == 30 .OR. ( nKey == 6 .AND. ! lUserFunc )
+
+         if nPos == nLastItem
+                if lPageCircular
+                    nPos    := nFrstItem
+                    nAtTop  := nPos
+                    nNewPos := nPos
+                    DispPage( acItems, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
+                    nMode   := 1
+                else
+                    if nAtTop == Min( nLastItem, nItems - Min( nItems, nNumRows ) + 1 )
+                        nMode   := 1
+                        nMode := 2
+                    else
+                        nAtTop := Min( nLastItem, nItems - nNumRows + 1 )
+                        DispPage( acItems, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
+                    endif
+                endif
+         else
+            if ( nLastItem >= nAtTop .AND. nLastItem <= nAtTop + nNumRows - 1 )
+               DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
+               nPos := nLastItem
+               DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, Ach_Select( alSelect, nPos ), .T., nNumCols, nPos )
+            else
+               nPos   := nLastItem
+               nAtTop := Max( 1, nPos - nNumRows + 1 )
+               DispPage( acItems, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
+            endif
+         endif
+
+      CASE nKey == 29
+
+         if nPos == nFrstItem
+            if nAtTop == Max( 1, nPos - nNumRows + 1 )
+               nMode := 1
+            else
+               nAtTop := Max( 1, nPos - nNumRows + 1 )
+               DispPage( acItems, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
+            endif
+         else
+            nNewPos := nAtTop
+            while ! Ach_Select( alSelect, nNewPos )
+               nNewPos++
+            ENDDO
+            if nNewPos <> nPos
+               DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
+               nPos := nNewPos
+               DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, Ach_Select( alSelect, nPos ), .T., nNumCols, nPos )
+            endif
+         endif
+
+      CASE nKey == 23
+
+         if nPos == nLastItem
+            if nAtTop == Min( nPos, nItems - Min( nItems, nNumRows ) + 1 ) .OR. nPos == nItems
+               nMode := 2
+            else
+               nAtTop := Min( nPos, nItems - nNumRows + 1 )
+               DispPage( acItems, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
+            endif
+         else
+            nNewPos := Min( nAtTop + nNumRows - 1, nItems )
+            while ! Ach_Select( alSelect, nNewPos )
+               nNewPos--
+            ENDDO
+            if nNewPos <> nPos
+               DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
+               nPos := nNewPos
+               DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, Ach_Select( alSelect, nPos ), .T., nNumCols, nPos )
+            endif
+         endif
+
+      CASE nKey == 18
+
+         if nPos == nFrstItem
+                if lPageCircular
+                    nPos    := nLastItem
+                    nAtTop  := Max( 1, nPos - nNumRows + 1 )
+                    nNewPos := nPos
+                    DispPage( acItems, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
+                    nMode   := 2
+                else
+                    nMode := 1
+                    if nAtTop > Max( 1, nPos - nNumRows + 1 )
+                        nAtTop := Max( 1, nPos - nNumRows + 1 )
+                        DispPage( acItems, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
+                    endif
+                endif
+         else
+            if ( nFrstItem >= nAtTop .AND. nFrstItem <= nAtTop + nNumRows - 1 )
+
+               nPos   := nFrstItem
+               nAtTop := Max( nPos - nNumRows + 1, 1 )
+            else
+               if ( nPos - nNumRows + 1 ) < nFrstItem
+                  nPos   := nFrstItem
+                  nAtTop := nFrstItem
+               else
+                  nPos   := Max( nFrstItem, nPos - nNumRows + 1 )
+                  nAtTop := Max( 1, nAtTop - nNumRows + 1 )
+                  while nPos > nFrstItem .AND. ! Ach_Select( alSelect, nPos )
+                     nPos--
+                     nAtTop--
+                  ENDDO
+                  nAtTop := Max( 1, nAtTop )
+                  if nAtTop < nNumRows .AND. nPos < nNumRows
+                     nPos := nNumRows
+                     nAtTop := 1
+                  endif
+               endif
+            endif
+            DispPage( acItems, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
+         endif
+
+      CASE nKey == 3
+
+         if nPos == nLastItem
+                if lPageCircular
+                    nPos    := nFrstItem
+                    nAtTop  := nPos
+                    nNewPos := nPos
+                    DispPage( acItems, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
+                    nMode   := 1
+                else
+                    nMode := 2
+                    if nAtTop < Min( nPos, nItems - nNumRows + 1 )
+                        nAtTop := Min( nPos, nItems - nNumRows + 1 )
+                        DispPage( acItems, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
+                    endif
+                endif
+         else
+            if ( nLastItem >= nAtTop .AND. nLastItem <= nAtTop + nNumRows - 1 )
+
+               DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
+               nPos := nLastItem
+               DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, Ach_Select( alSelect, nPos ), .T., nNumCols, nPos )
+            else
+               nGap := nPos - nAtTop
+               nPos := Min( nLastItem, nPos + nNumRows - 1 )
+               if ( nPos + nNumRows - 1 ) > nLastItem
+
+                  nAtTop := nLastItem - nNumRows + 1
+                  nPos   := Min( nLastItem, nAtTop + nGap )
+               else
+
+                  nAtTop := nPos - nGap
+               endif
+
+               while nPos < nLastItem .AND. ! Ach_Select( alSelect, nPos )
+                  nPos++
+                  nAtTop++
+               ENDDO
+
+               while ( nAtTop + nNumRows - 1 ) > nItems
+                  nAtTop--
+               ENDDO
+               DispPage( acItems, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
+            endif
+         endif
+
+      CASE nKey == 13 .AND. ! lUserFunc
+
+         if nPos <> 0
+            DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, .T., .F., nNumCols, nPos )
+         endif
+
+         nMode     := 0
+         lFinished := .T.
+
+      CASE nKey == 4 .AND. ! lUserFunc
+
+         if nPos <> 0
+            DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, .T., .F., nNumCols, nPos )
+         endif
+
+         nPos      := 0
+         lFinished := .T.
+
+      CASE nKey == 19 .AND. ! lUserFunc
+
+         if nPos <> 0
+            DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, .T., .F., nNumCols, nPos )
+         endif
+
+         nPos      := 0
+         lFinished := .T.
+
+
+      CASE ( ! lUserFunc .OR. nMode == 3 ) .AND.  ! ( cKey := Upper( hb_keyChar( nKey ) ) ) == ""
+
+
+         FOR nNewPos := nPos + 1 TO nItems
+            if Ach_Select( alSelect, nNewPos ) .AND. LeftEqI( acItems[ nNewPos ], cKey )
+               EXIT
+            endif
+         NEXT
+         if nNewPos == nItems + 1
+            FOR nNewPos := 1 TO nPos - 1
+               if Ach_Select( alSelect, nNewPos ) .AND. LeftEqI( acItems[ nNewPos ], cKey )
+                  EXIT
+               endif
+            NEXT
+         endif
+
+         if nNewPos <> nPos
+            if ( nNewPos >= nAtTop .AND. nNewPos <= nAtTop + nNumRows - 1 )
+
+               DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, Ach_Select( alSelect, nPos ), .F., nNumCols, nPos )
+               nPos := nNewPos
+               DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, Ach_Select( alSelect, nPos ), .T., nNumCols, nPos )
+            else
+
+               nPos   := nNewPos
+               nAtTop := Min( Max( 1, nPos - nNumRows + 1 ), nItems )
+               DispPage( acItems, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
+            endif
+         endif
+
+         nMode := 0
+
+      CASE nMode == 3
+           nPos := oAchoice:CurElemento
+
+         nMode := 0
+
+        CASE nMode == 10
+            nPos := oAchoice:CurElemento
+            if nPos <> 0
+                DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, .T., .F., nNumCols, nPos )
+         endif
+            nMode := 0
+
+      CASE nMode <> 4
+         nMode := iif( nKey == 0, 0, 3 )
+
+      ENDCASE
+
+      if lUserFunc
+         if HB_ISNUMERIC( nUserFunc := Do( xUserFunc, nMode, nPos, nPos - nAtTop ) )
+
+            SWITCH nUserFunc
+            CASE 0
+                    lFinished := .T.
+                    nPos      := 0
+               EXIT
+
+                CASE 10
+                    nPos := oAchoice:CurElemento
+                    if nPos <> 0
+                        DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, .T., .F., nNumCols, nPos )
+                    endif
+                    lFinished := .F.
+               LOOP
+
+                CASE 4
+               if nPos <> 0
+                  DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, .T., .F., nNumCols, nPos )
+               endif
+               lFinished := .T.
+               nPos      := 0
+               EXIT
+            CASE 1
+               if nPos <> 0
+                  DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, .T., .F., nNumCols, nPos )
+               endif
+               lFinished := .T.
+               EXIT
+            CASE 2
+
+                    nMode := 0
+               EXIT
+            CASE 3
+
+
+               nMode := 3
+               EXIT
+            ENDSWITCH
+
+            if nPos > 0 .AND. nMode <> 3
+
+
+
+
+
+
+
+               if ( nMode := Ach_Limits( @nFrstItem, @nLastItem, @nItems, alSelect, acItems ) ) == 4
+                  nPos := 0
+                  nAtTop := Max( 1, nPos - nNumRows + 1 )
+               else
+                  while nPos < nLastItem .AND. ! Ach_Select( alSelect, nPos )
+                     nPos++
+                  ENDDO
+
+                  if nPos > nLastItem
+                     nPos := Min( Max( nFrstItem, nPos ), nLastItem )
+                  endif
+
+                  nAtTop := Min( nAtTop, nPos )
+
+                  if nAtTop + nNumRows - 1 > nItems
+                     nAtTop := Min( Max( 1, nPos - nNumRows + 1 ), nItems - nNumRows + 1 )
+                  endif
+
+                  if nAtTop < 1
+                     nAtTop := 1
+                  endif
+               endif
+
+               DispPage( acItems, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nItems )
+            endif
+         else
+            if nPos <> 0
+               DispLine( acItems[ nPos ], nTop + nPos - nAtTop, nLeft, .T., .F., nNumCols, nPos )
+            endif
+            nPos      := 0
+            lFinished := .T.
+         endif
+      endif
+   ENDDO
+   SetCursor( nSaveCsr )
+   return nPos
+
+STATIC FUNCTION HitTest( nTop, nLeft, nBottom, nRight, mRow, mCol )
+
+
+
+
+   if mCol >= nLeft .AND.  mCol <= nRight .AND.  mRow >= nTop .AND.  mRow <= nBottom
+      return mRow - nTop + 1
+   endif
+
+   return 0
+
+STATIC PROCEDURE DispPage( acItems, alSelect, nTop, nLeft, nRight, nNumRows, nPos, nAtTop, nArrLen, nRowsClr )
+
+   LOCAL nCntr
+   LOCAL nRow
+   LOCAL nIndex
+
+   hb_default( @nRowsClr, nArrLen )
+
+   DispBegin()
+   FOR nCntr := 1 TO Min( nNumRows, nRowsClr )
+
+      nRow   := nTop + nCntr - 1
+      nIndex := nCntr + nAtTop - 1
+
+      if ( nIndex >= 1 .AND. nIndex <= nArrLen )
+         DispLine( acItems[ nIndex ], nRow, nLeft, Ach_Select( alSelect, nIndex ), nIndex == nPos, nRight - nLeft + 1, nIndex )
+      else
+         ColorSelect( 0 )
+         hb_DispOutAt( nRow, nLeft, Space( nRight - nLeft + 1 ) )
+      endif
+   NEXT
+   DispEnd()
+
+   return
+
+STATIC PROCEDURE DispLine( cLine, nRow, nCol, lSelect, lHiLite, nNumCols, nCurElemento )
+
+
+    ColorSelect( iif( lSelect .AND. HB_ISSTRING( cLine ), iif( lHiLite, 1, 0 ), 4 ))
+    hb_DispOutAt( nRow, nCol, iif( HB_ISSTRING( cLine ), PadR( cLine, nNumCols ), Space( nNumCols ) ) )
+   if lHiLite
+      SetPos( nRow, nCol )
+   endif
+   ColorSelect( 0 )
+   return
+
+STATIC FUNCTION Ach_Limits( nFrstItem, nLastItem, nItems, alSelect, acItems )
+
+   LOCAL nCntr
+
+   nFrstItem := nLastItem := nItems := 0
+
+   FOR nCntr := 1 TO Len( acItems )
+      if HB_ISSTRING( acItems[ nCntr ] ) .AND. Len( acItems[ nCntr ] ) > 0
+         nItems++
+         if Ach_Select( alSelect, nCntr )
+            if nFrstItem == 0
+               nFrstItem := nLastItem := nCntr
+            else
+               nLastItem := nItems
+            endif
+         endif
+      else
+         EXIT
+      endif
+   NEXT
+
+   if nFrstItem == 0
+      nLastItem := nItems
+      return 4
+   endif
+
+   return 0
+
+STATIC FUNCTION Ach_Select( alSelect, nPos )
+
+   LOCAL sel
+
+   if nPos >= 1 .AND. nPos <= Len( alSelect )
+      sel := alSelect[ nPos ]
+      if HB_ISEVALITEM( sel )
+         sel := Eval( sel )
+      elseif HB_ISSTRING( sel ) .AND. ! Empty( sel )
+         sel := Eval( hb_macroBlock( sel ) )
+      endif
+      if HB_ISLOGICAL( sel )
+         return sel
+      endif
+   endif
+
+   return .T.
+
+Function LeftEqI( string, cKey )
+    LOCAL nLen := Len( cKey )
+    return( Iif(Left(string, nLen ) == cKey, .T., .F.))
+
+
+_HB_CLASS TAchoice ; function TAchoice ( ... ) ; STATIC s_oClass ; LOCAL nScope, oClass, oInstance ; IF s_oClass == NIL .AND. __clsLockDef( @s_oClass ) ; BEGIN SEQUENCE ; nScope := 1 ; ( ( nScope ) ) ; oClass := iif( .F.,, HBClass():new( "TAchoice", iif( .T., { @TReceposi() }, { @HBObject() } ), @TAchoice() ) ) ;
+    _HB_MEMBER { cWho } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"cWho"}, .F. )
+    _HB_MEMBER { cNome } ; oClass:AddMultiData(,, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"cNome"}, .F. )
+    _HB_MEMBER { aDefault } ; oClass:AddMultiData(, {}, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"aDefault"}, .F. )
+    _HB_MEMBER { CurElemento } ; oClass:AddMultiData(, 1, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"CurElemento"}, .F. )
+    _HB_MEMBER { Color_pFore } ; oClass:AddMultiData(, {}, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"Color_pFore"}, .F. )
+    _HB_MEMBER { Color_pBack } ; oClass:AddMultiData(, {}, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"Color_pBack"}, .F. )
+    _HB_MEMBER { Color_pUns } ; oClass:AddMultiData(, {}, nScope + iif( .F., 16, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ), {"Color_pUns"}, .F. )
+    _HB_MEMBER New() AS CLASS TAchoice; oClass:AddMethod( "New", @TAchoice_New(), nScope + iif( .T., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+    _HB_MEMBER Hello(); oClass:AddMethod( "Hello", @TAchoice_Hello(), nScope + iif( .F., 8, 0 ) + iif( .F., 256, 0 ) + iif( .F., 2048, 0 ) )
+oClass:Create() ; ; ALWAYS ; __clsUnlockDef( @s_oClass, oClass ) ; end ; oInstance := oClass:Instance() ; IF __objHasMsg( oInstance, "InitClass" ) ; oInstance:InitClass( ... ) ; END ; RETURN oInstance ; END ; RETURN s_oClass:Instance() AS CLASS TAchoice ;
+
+static FUNCTION TAchoice_New( ) ; local Self AS CLASS TAchoice := QSelf() AS CLASS TAchoice
+    Self:cWho      := "TTAchoice"
+    Self:cNome      := ProcName()
+return self
+
+static FUNCTION TAchoice_Hello ; local Self AS CLASS TAchoice := QSelf() AS CLASS TAchoice
+  QOut( "Hello",Self:cWho )
+  QOut( "Hello",::cNome )
+return self
+
+Function TAchoiceNew()
+    return(TAchoice():New())

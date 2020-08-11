@@ -5205,4 +5205,24 @@ WHILE OK
 EndDo
 Return
 
+Function DateToStr( dParms )
+****************************
+Return( Dtos( dParms ))
 
+Function StrToVal( nParms )
+***************************
+Return(Val(StrTran(nParms,",",".")))
+
+Return( Str( nParms ))
+
+Function ValToStr( nParms )
+***************************
+Return( Str( nParms ))
+
+Function IntToStr( nParms )
+***************************
+Return( AllTrim(Str( nParms )))
+
+Function Barra()
+****************
+Return( Trans( (Recno()/Lastrec())*100, "@R 999.99%"))

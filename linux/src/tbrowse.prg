@@ -72,14 +72,7 @@ return( Self )
 
 METHOD Show
 ************
-   LOCAL pfore 	:= oAmbiente:Cormenu
-	LOCAL pback    := oAmbiente:CorLightBar	
-	LOCAL cCor     := oAmbiente:CorLightBar
-	LOCAL pUns     := Roloc( pFore )
-   
-   nSetColor( pfore, pback, pUns )
-   ::cColorSpec := cSetColor( SetColor())   
-   MaBox( ::Baixo+2, ::Esquerda-1, ::Baixo+5, ::Direita+1, "OPCOES")
+   MaBox( ::Baixo+2, ::Esquerda-1, ::Baixo+5, ::Direita+1,"OPCOES")
    Write( ::Baixo+3, 01, "[_+]Alterar  [F2]Localizar [F3]Filtrar  [CTRL+INSERT]Ins Campo [A-Z]Localizar " + ::LinhaHelpTecla1)
    Write( ::Baixo+4, 01, "[ESC]Encerrar [F6]Ordem     [F4]Duplicar [CTRL+DELETE]Esc Campo [DEL]Excluir   " + ::LinhaHelpTecla2)
    MaBox( ::Topo-1, ::Esquerda-1, ::Baixo+1, ::Direita+1, ::Titulo )
@@ -95,9 +88,8 @@ METHOD TAdd( cNome, cField, cPicture, cAlias )
    else
       if cAlias = NIL
          oCol := TBColumnNew( cNome,  FieldBlock( FieldName( FieldPos( cField ))))
-      else         
-         // oCol := TBColumnNew( cNome,  FieldWBlock( FieldName( FieldPos( cField )), Select( cAlias )))
-         oCol := TBColumnNew( cNome,  FieldWBlock(cField, Select(cAlias)))
+      else
+         oCol := TBColumnNew( cNome,  FieldWBlock( FieldName( FieldPos( cField )), Select( cAlias )))
       endif
    endif
    if cPicture != NIL
@@ -105,6 +97,7 @@ METHOD TAdd( cNome, cField, cPicture, cAlias )
    endif
    ::AddColumn( oCol )
 return( Self )
+
 
 METHOD Processa()
 *****************
@@ -180,7 +173,7 @@ METHOD Processa()
          ::FreshOrder()
          SetCursor(0)
 
-      case nKey == K_CTRL_INS .or. nKey = 418 // Alt_Ins
+      case nKey == K_CTRL_INS
          cTela := SaveScreen()
          oMenu:Limpa()
          M_Title("INSERIR COLUNAS")
@@ -389,7 +382,7 @@ METHOD TrocaChave()
    LOCAL aArray  := {}
    LOCAL nX      := 1
    LOCAL nChoice := 0
-   LOCAL nMaximo := OrdCount() //12
+   LOCAL nMaximo := 12
    LOCAL cString := ""
    LOCAL nAntigo := IndexOrd()
 
@@ -497,7 +490,6 @@ METHOD DupReg(cAlias, cCampo, nOrder)
 	LOCAL xRegLocal
 	LOCAL cType
 	LOCAL xCampo
-	LOCAL xType   
 
 	if !lAdmin
 		if !PodeIncluir()
@@ -515,20 +507,16 @@ METHOD DupReg(cAlias, cCampo, nOrder)
 	(xAlias)->(DbAppend())	
 	
 	for nField := 1 To nConta
-		xType  := (xAlias)->(FieldType( nField ))
-		// xCampo := (xAlias)->(FieldName( nField ))
-		// if xCampo != "ID"
-		if xType != "+"
+		xCampo := (xAlias)->(FieldName( nField ))
+		if xCampo != "ID"
 			(xAlias)->(FieldPut( nField, (cAlias)->(FieldGet( nField ))))
 		endif	
 	next
 	
 	if (cAlias)->(Incluiu())
 		for nField := 1 To nConta
-			xType  := (xAlias)->(FieldType( nField ))
-			// xCampo := (xAlias)->(FieldName( nField ))
-			// if xCampo != "ID"
-			if xType != "+"
+			xCampo := (xAlias)->(FieldName( nField ))
+			if xCampo != "ID"
 				(cAlias)->(FieldPut( nField, (xAlias)->(FieldGet( nField ))))
 			endif	
 		next
@@ -576,7 +564,6 @@ METHOD Duplica( cAlias )
 	LOCAL xRegLocal
 	LOCAL cType
 	LOCAL xCampo
-   LOCAL xType
 	LOCAL aStru   
 	LOCAL nConta  
 	LOCAL nOrder := Ind_Ant
@@ -600,20 +587,16 @@ METHOD Duplica( cAlias )
 
 	(xAlias)->(DbAppend())
 	for nField := 1 To nConta
-      xType  := (xAlias)->(FieldType( nField ))
-		// xCampo := (xAlias)->(FieldName( nField ))
-		// if xCampo != "ID"
-		if xType != "+"
+		xCampo := (xAlias)->(FieldName( nField ))
+		if xCampo != "ID"
 			(xAlias)->(FieldPut( nField, (cAlias)->(FieldGet( nField ))))
 		endif	
 	next
 	
 	if (cAlias)->(Incluiu())
 		for nField := 1 To nConta
-			xType  := (xAlias)->(FieldType( nField ))
-			// xCampo := (xAlias)->(FieldName( nField ))
-			// if xCampo != "ID"
-			if xType != "+"
+			xCampo := (xAlias)->(FieldName( nField ))
+			if xCampo != "ID"
 				(cAlias)->(FieldPut( nField, (xAlias)->(FieldGet( nField ))))
 			endif	
 		next
@@ -665,8 +648,7 @@ METHOD DOGET(  ARG2 )
 	endif
 	oCol	 := ::Getcolumn(::Colpos())
 	xValue := Eval( oCol:Block )
-	//cCor1  := AttrToa( 79 )
-	cCor1  := AttrToa( Cor(1))
+	cCor1  := AttrToa( 79 )
 	if oCol:Picture = NIL
 		Do case
 		Case ISCHAR( xValue )

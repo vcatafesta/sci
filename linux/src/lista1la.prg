@@ -855,8 +855,8 @@ LOCAL nCop		  := 0
 LOCAL nTam		  := 132
 LOCAL Col		  := 58
 LOCAL Pagin 	  := 0
-LOCAL xAlias	  := FTempName("T*.TMP")
-LOCAL xNtx		  := FTempName("T*.TMP")
+LOCAL xAlias	  := FTempName("t*.tmp")
+LOCAL xNtx		  := FTempName("t*.tmp")
 LOCAL aMenuArray := { "Codigo", "Descricao", "Estoque", "Total Venda"}
 LOCAL cGrupoIni  := Space(03)
 LOCAL cGrupoFim  := Space(03)
@@ -1019,8 +1019,8 @@ LOCAL nCop		  := 0
 LOCAL nTam		  := 132
 LOCAL Col		  := 58
 LOCAL Pagin 	  := 0
-LOCAL xAlias	  := FTempName("T*.TMP")
-LOCAL xNtx		  := FTempName("T*.TMP")
+LOCAL xAlias	  := FTempName("t*.tmp")
+LOCAL xNtx		  := FTempName("t*.tmp")
 LOCAL aMenuArray := { "Regiao", "Nome Regiao", "Estoque", "Total Venda"}
 LOCAL cRegiaoIni := Space(02)
 LOCAL cRegiaoFim := Space(02)
@@ -1175,8 +1175,8 @@ LOCAL nCop			:= 0
 LOCAL nTam			:= 132
 LOCAL Col			:= 58
 LOCAL Pagin 		:= 0
-LOCAL xAlias		:= FTempName("T*.TMP")
-LOCAL xNtx			:= FTempName("T*.TMP")
+LOCAL xAlias		:= FTempName("t*.tmp")
+LOCAL xNtx			:= FTempName("t*.tmp")
 LOCAL aMenuArray	:= {"Codigo","Descricao","Estoque","Total Custo","Total Varejo","Total Atacado"}
 LOCAL cGrupoIni	:= Space(03)
 LOCAL cGrupoFim	:= Space(03)
@@ -2199,8 +2199,8 @@ LOCAL nChoice		 := 0
 LOCAL nQtde 		 := 0
 LOCAL aConfig		 := {}
 LOCAL aGets 		 := {}
-LOCAL xAlias		 := FTempName("T*.TMP")
-LOCAL xNtx			 := FTempName("T*.TMP")
+LOCAL xAlias		 := FTempName("t*.tmp")
+LOCAL xNtx			 := FTempName("t*.tmp")
 LOCAL aStru
 LOCAL cGrupo		 := Space(03)
 LOCAL cLetra1		 := Space(40)
@@ -2564,8 +2564,8 @@ LOCAL nOrdem	:= 0
 LOCAL lFiltro	:= FALSO
 LOCAL dIni		:= Date()
 LOCAL dFim		:= Date()
-LOCAL xAlias	:= FTempName("T*.TMP")
-LOCAL xNtx		:= FTempName("T*.TMP")
+LOCAL xAlias	:= FTempName("t*.tmp")
+LOCAL xNtx		:= FTempName("t*.tmp")
 LOCAL aMenu 	:= {"Parcial", "Por Fornecedor"}
 LOCAL aOrdem	:= {"Codigo","Descricao","Cod Fabr/Ref","Agrupado por Cod Fabr/Ref", "Descricao+Tamanho"}
 LOCAL aDbf		:= {{"CODIGO",     "C", 06, 0 }, {"DESCRICAO",  "C", 40, 0 },;
@@ -4290,8 +4290,8 @@ LOCAL lCodigo		 := FALSO
 LOCAL lCodi 		 := FALSO
 LOCAL lTipo 		 := FALSO
 LOCAL lForma		 := FALSO
-LOCAL xArquivo 	 := FTempName("T*.TMP")
-LOCAL xNtx			 := FTempName("T*.TMP")
+LOCAL xArquivo 	 := FTempName("t*.tmp")
+LOCAL xNtx			 := FTempName("t*.tmp")
 LOCAL aMenu 		 := {"Emissao", "Codigo", "Fatura", "Tipo", "Fatura+Codigo", "Emissao+Fatura"}
 LOCAL nRolVendas	 := oIni:Readinteger('relatorios','rolvendas', 2 )
 LOCAL nChoice
@@ -5753,8 +5753,8 @@ LOCAL nChoice		 := 0
 LOCAL nQtde 		 := 0
 LOCAL aConfig		 := {}
 LOCAL aGets 		 := {}
-LOCAL xAlias		 := FTempName("T*.TMP")
-LOCAL xNtx			 := FTempName("T*.TMP")
+LOCAL xAlias		 := FTempName("t*.tmp")
+LOCAL xNtx			 := FTempName("t*.tmp")
 LOCAL aStru
 LOCAL cGrupo		 := Space(03)
 LOCAL cLetra1		 := Space(40)
@@ -6465,178 +6465,178 @@ WHILE OK
 	endif
 EndDo
 
-Function MudaTab1()
-*******************
-oBrowse := oRecemov
-Sele MovTemp
+def MudaTab1()
+   oBrowse := oRecemov
+   Sele MovTemp
+endef
 
-Function MudaTab2()
-*******************
-oBrowse := oReceber
-Sele ReceTemp
+def MudaTab2()
+   oBrowse := oReceber
+   Sele ReceTemp
+endef
 
-Function MudaTab3()
-*******************
-oBrowse := oSaidas
-Sele SaiTemp
+def MudaTab3()
+   oBrowse := oSaidas
+   Sele SaiTemp
+endef
 
-Function Ped_Cli9_2( cNrfatu )
-******************************
-LOCAL cScreen	  := SaveScreen()
-LOCAL nTotFatu   := 0
-LOCAL nTotRece   := 0
-LOCAL nTotBido   := 0
-LOCAL nPagarPerc := 0
-LOCAL nPagoPerc  := 0
-LOCAL nVlrFatura := 0
-LOCAL nPos       := SCI_MAXROW - 9
-LOCAL cFile1
-LOCAL cFile2
-LOCAL cFile3
+def Ped_Cli9_2( cNrfatu )
+   LOCAL cScreen	  := SaveScreen()
+   LOCAL nTotFatu   := 0
+   LOCAL nTotRece   := 0
+   LOCAL nTotBido   := 0
+   LOCAL nPagarPerc := 0
+   LOCAL nPagoPerc  := 0
+   LOCAL nVlrFatura := 0
+   LOCAL nPos       := SCI_MAXROW - 9
+   LOCAL cFile1
+   LOCAL cFile2
+   LOCAL cFile3
 
-oMenu:Limpa()
-Lista->(Order( LISTA_CODIGO ))
-Area("Saidas")
-Set Rela To Codigo Into Lista
-Saidas->(Order( SAIDAS_FATURA ))
-Saidas->(DbGoTop())
-bBloco := {|| Saidas->Fatura = cNrFatu }
-Saidas->(DbSeek( cNrFatu ))
-cCodi  := Codi
-cFile1 := TempNew()
-Copy Stru Fields Codigo, Serie, Saida, Data, Fatura, Pedido, Pvendido, Placa, Forma, Codiven To ( cFile1 )
-Use ( cFile1 ) Alias SaiTemp Exclusive New
-WHILE Eval( bBloco )
-	SaiTemp->( DbAppend())
-	SaiTemp->Codigo	 := Saidas->Codigo
-	SaiTemp->Saida 	 := Saidas->Saida
-	SaiTemp->Data		 := Saidas->Data
-	SaiTemp->Fatura	 := Saidas->Fatura
-	SaiTemp->Pedido	 := Saidas->Pedido
-	SaiTemp->PVendido  := Saidas->Pvendido
-	SaiTemp->Placa 	 := Saidas->Placa
-	SaiTemp->Forma 	 := Saidas->Forma
-	SaiTemp->Serie 	 := Saidas->Serie
-   SaiTemp->Codiven   := Saidas->Codiven
-	nTotFatu 			 += Saidas->Saida * Saidas->Pvendido
-	nVlrFatura			 := Saidas->VlrFatura
-	Saidas->(DbSkip(1))
-Enddo
-Sele SaiTemp
-Set Rela To Codigo Into Lista
-oSaidas := CriaBrowse( 01, 01, SCI_MAXROW/2-1, MaxCol()-1, "VALOR TOTAL DA FATURA ¯ " + Tran( nTotFatu, "@E 9,999,999,999.99") )
-oSaidas:AddColumn( TBColumnNew( "CODIGO ",   {||codigo } ))
-oSaidas:AddColumn( TBColumnNew( "DESCRICAO DO PRODUTO",{|| Lista->Descricao } ))
-oSaidas:AddColumn( TBColumnNew( "N?SERIE",  {||Serie }))
-oSaidas:AddColumn( TBColumnNew( "QUANT",     {||Saida }))
-oSaidas:AddColumn( TBColumnNew( "PVENDIDO",  {||Tran( Pvendido,"@E 999,999.99") } ) )
-oSaidas:AddColumn( TBColumnNew( "TOTAL ITEM",{||Tran( (saida * pvendido) ,"@E 9,999,999.99") } ) )
-oSaidas:AddColumn( TBColumnNew( "UN",        {||Lista->Un } ))
-oSaidas:AddColumn( TBColumnNew( "EMISSAO",   {||Data } ) )
-oSaidas:AddColumn( TBColumnNew( "FORMA PGTO",{||Forma } ) )
-oSaidas:AddColumn( TBColumnNew( "FATURA N§", {||Fatura } ) )
-oSaidas:AddColumn( TBColumnNew( "PEDIDO N§", {||Pedido } ) )
-oSaidas:AddColumn( TBColumnNew( "PLACA"    , {||Placa  } ) )
-oSaidas:AddColumn( TBColumnNew( "VENDEDOR" , {||Codiven } ) )
-Coluna:=oSaidas:GetColumn(5)		  // Pvendido
-Coluna:DefColor := { 7, 8 }
-Coluna:=oSaidas:GetColumn(6)		 // Total
-Coluna:DefColor := { 7, 8 }
+   oMenu:Limpa()
+   Lista->(Order( LISTA_CODIGO ))
+   Area("Saidas")
+   Set Rela To Codigo Into Lista
+   Saidas->(Order( SAIDAS_FATURA ))
+   Saidas->(DbGoTop())
+   bBloco := {|| Saidas->Fatura = cNrFatu }
+   Saidas->(DbSeek( cNrFatu ))
+   cCodi  := Codi
+   cFile1 := TempNew()
+   Copy Stru Fields Codigo, Serie, Saida, Data, Fatura, Pedido, Pvendido, Placa, Forma, Codiven To ( cFile1 )
+   Use ( cFile1 ) Alias SaiTemp Exclusive New
+   WHILE Eval( bBloco )
+      SaiTemp->( DbAppend())
+      SaiTemp->Codigo	 := Saidas->Codigo
+      SaiTemp->Saida 	 := Saidas->Saida
+      SaiTemp->Data		 := Saidas->Data
+      SaiTemp->Fatura	 := Saidas->Fatura
+      SaiTemp->Pedido	 := Saidas->Pedido
+      SaiTemp->PVendido  := Saidas->Pvendido
+      SaiTemp->Placa 	 := Saidas->Placa
+      SaiTemp->Forma 	 := Saidas->Forma
+      SaiTemp->Serie 	 := Saidas->Serie
+      SaiTemp->Codiven   := Saidas->Codiven
+      nTotFatu 			 += Saidas->Saida * Saidas->Pvendido
+      nVlrFatura			 := Saidas->VlrFatura
+      Saidas->(DbSkip(1))
+   Enddo
+   Sele SaiTemp
+   Set Rela To Codigo Into Lista
+   oSaidas := CriaBrowse( 01, 01, SCI_MAXROW/2-1, MaxCol()-1, "VALOR TOTAL DA FATURA ¯ " + Tran( nTotFatu, "@E 9,999,999,999.99") )
+   oSaidas:AddColumn( TBColumnNew( "CODIGO ",   {||codigo } ))
+   oSaidas:AddColumn( TBColumnNew( "DESCRICAO DO PRODUTO",{|| Lista->Descricao } ))
+   oSaidas:AddColumn( TBColumnNew( "N?SERIE",  {||Serie }))
+   oSaidas:AddColumn( TBColumnNew( "QUANT",     {||Saida }))
+   oSaidas:AddColumn( TBColumnNew( "PVENDIDO",  {||Tran( Pvendido,"@E 999,999.99") } ) )
+   oSaidas:AddColumn( TBColumnNew( "TOTAL ITEM",{||Tran( (saida * pvendido) ,"@E 9,999,999.99") } ) )
+   oSaidas:AddColumn( TBColumnNew( "UN",        {||Lista->Un } ))
+   oSaidas:AddColumn( TBColumnNew( "EMISSAO",   {||Data } ) )
+   oSaidas:AddColumn( TBColumnNew( "FORMA PGTO",{||Forma } ) )
+   oSaidas:AddColumn( TBColumnNew( "FATURA N§", {||Fatura } ) )
+   oSaidas:AddColumn( TBColumnNew( "PEDIDO N§", {||Pedido } ) )
+   oSaidas:AddColumn( TBColumnNew( "PLACA"    , {||Placa  } ) )
+   oSaidas:AddColumn( TBColumnNew( "VENDEDOR" , {||Codiven } ) )
+   Coluna:=oSaidas:GetColumn(5)		  // Pvendido
+   Coluna:DefColor := { 7, 8 }
+   Coluna:=oSaidas:GetColumn(6)		 // Total
+   Coluna:DefColor := { 7, 8 }
 
-WHILE ( !oSaidas:Stabilize() )
-EndDo
+   WHILE ( !oSaidas:Stabilize() )
+   EndDo
 
-Sele ReceMov
-Recemov->(Order( RECEMOV_FATURA ))
-Recemov->(DbGoTop())
-oBloco := {|| Recemov->Fatura = cNrFatu }
-Recemov->(DbSeek( cNrFatu ))
-cFile3 := TempNew()
-Copy Stru Fields Docnr, Vlr, Vcto, Tipo, Emis, Juro, Port, VlrFatu To ( cFile3 )
-Use ( cFile3) Alias MovTemp Exclusive New
-WHILE Eval( oBloco )
-	MovTemp->( DbAppend())
-	MovTemp->Docnr 	 := Recemov->Docnr
-	MovTemp->Vlr		 := Recemov->Vlr
-	MovTemp->Emis		 := Recemov->Emis
-	MovTemp->Vcto		 := Recemov->Vcto
-	MovTemp->Tipo		 := Recemov->Tipo
-	MovTemp->Juro		 := Recemov->Juro
-	MovTemp->Port		 := "NAO"
-	MovTemp->VlrFatu	 := 0
-	nTotRece 			 += Recemov->Vlr
-	Recemov->( DbSkip())
-Enddo
+   Sele ReceMov
+   Recemov->(Order( RECEMOV_FATURA ))
+   Recemov->(DbGoTop())
+   oBloco := {|| Recemov->Fatura = cNrFatu }
+   Recemov->(DbSeek( cNrFatu ))
+   cFile3 := TempNew()
+   Copy Stru Fields Docnr, Vlr, Vcto, Tipo, Emis, Juro, Port, VlrFatu To ( cFile3 )
+   Use ( cFile3) Alias MovTemp Exclusive New
+   WHILE Eval( oBloco )
+      MovTemp->( DbAppend())
+      MovTemp->Docnr 	 := Recemov->Docnr
+      MovTemp->Vlr		 := Recemov->Vlr
+      MovTemp->Emis		 := Recemov->Emis
+      MovTemp->Vcto		 := Recemov->Vcto
+      MovTemp->Tipo		 := Recemov->Tipo
+      MovTemp->Juro		 := Recemov->Juro
+      MovTemp->Port		 := "NAO"
+      MovTemp->VlrFatu	 := 0
+      nTotRece 			 += Recemov->Vlr
+      Recemov->( DbSkip())
+   Enddo
 
-Recebido->(Order( RECEBIDO_FATURA ))
-bBloco := {|| Recebido->Fatura = cNrFatu }
-Recebido->(DbSeek( cNrFatu ))
-WHILE Eval( bBloco )
-	MovTemp->( DbAppend())
-	MovTemp->Docnr 	 := Recebido->Docnr
-	MovTemp->Vlr		 := Recebido->Vlr
-	MovTemp->Emis		 := Recebido->Emis
-	MovTemp->Vcto		 := Recebido->Vcto
-	MovTemp->Tipo		 := Recebido->Tipo
-	MovTemp->Juro		 := Recebido->Juro
-	MovTemp->Port		 := Recebido->(Dtoc( DataPag))
-	MovTemp->VlrFatu	 := Recebido->VlrPag
-	nTotBido 			 += Recebido->Vlr
-	Recebido->(DbSkip())
-Enddo
-nPagoPerc  := ( nTotBido / nVlrFatura ) * 100
-nPagarPerc := ( 100 - nPagoPerc )
-oRecemov   := CriaBrowse( SCI_MAXROW/2+1, 01, SCI_MAXROW-1, MaxCol()-1, "ALT+F1|ALT+F2|ALT+F3|TOTAL FATURA: " + AllTrim(Tran( nTotRece+nTotBido, "@E 999,999.99")) + '|' + " PERC PAGO : " + AllTrim(Tran( nPagoPerc, "999%" + '|' + " PERC PAGAR : " + AllTrim(Tran( nPagarPerc, "999%")))))
-DbGotop()
-oRecemov:AddColumn(TBColumnNew( "TITULO N?", {|| DocNr } ))
-oRecemov:AddColumn(TBColumnNew( "TIPO",       {|| tipo } ))
-oRecemov:AddColumn(TBColumnNew( "EMIS",       {|| Emis } ))
-oRecemov:AddColumn(TBColumnNew( "VCTO",       {|| vcto } ))
-oRecemov:AddColumn(TBColumnNew( "VALOR",      {|| Tran( Vlr,"@E 999,999.99") } ))
-oRecemov:AddColumn(TBColumnNew( "VLR REC",    {|| VlrFatu } ) )
-oRecemov:AddColumn(TBColumnNew( "BX",         {|| port } ) )
-coluna:=oRecemov:GetColumn(5) 		// Vlr
-coluna:DefColor := { 7, 8 }
-coluna:=oRecemov:GetColumn(6)
-coluna:DefColor := { 7, 8 }
-WHILE ( !oRecemov:Stabilize())
-EndDo
+   Recebido->(Order( RECEBIDO_FATURA ))
+   bBloco := {|| Recebido->Fatura = cNrFatu }
+   Recebido->(DbSeek( cNrFatu ))
+   WHILE Eval( bBloco )
+      MovTemp->( DbAppend())
+      MovTemp->Docnr 	 := Recebido->Docnr
+      MovTemp->Vlr		 := Recebido->Vlr
+      MovTemp->Emis		 := Recebido->Emis
+      MovTemp->Vcto		 := Recebido->Vcto
+      MovTemp->Tipo		 := Recebido->Tipo
+      MovTemp->Juro		 := Recebido->Juro
+      MovTemp->Port		 := Recebido->(Dtoc( DataPag))
+      MovTemp->VlrFatu	 := Recebido->VlrPag
+      nTotBido 			 += Recebido->Vlr
+      Recebido->(DbSkip())
+   Enddo
+   nPagoPerc  := ( nTotBido / nVlrFatura ) * 100
+   nPagarPerc := ( 100 - nPagoPerc )
+   oRecemov   := CriaBrowse( SCI_MAXROW/2+1, 01, SCI_MAXROW-1, MaxCol()-1, "ALT+F1|ALT+F2|ALT+F3|TOTAL FATURA: " + AllTrim(Tran( nTotRece+nTotBido, "@E 999,999.99")) + '|' + " PERC PAGO : " + AllTrim(Tran( nPagoPerc, "999%" + '|' + " PERC PAGAR : " + AllTrim(Tran( nPagarPerc, "999%")))))
+   DbGotop()
+   oRecemov:AddColumn(TBColumnNew( "TITULO N?", {|| DocNr } ))
+   oRecemov:AddColumn(TBColumnNew( "TIPO",       {|| tipo } ))
+   oRecemov:AddColumn(TBColumnNew( "EMIS",       {|| Emis } ))
+   oRecemov:AddColumn(TBColumnNew( "VCTO",       {|| vcto } ))
+   oRecemov:AddColumn(TBColumnNew( "VALOR",      {|| Tran( Vlr,"@E 999,999.99") } ))
+   oRecemov:AddColumn(TBColumnNew( "VLR REC",    {|| VlrFatu } ) )
+   oRecemov:AddColumn(TBColumnNew( "BX",         {|| port } ) )
+   coluna:=oRecemov:GetColumn(5) 		// Vlr
+   coluna:DefColor := { 7, 8 }
+   coluna:=oRecemov:GetColumn(6)
+   coluna:DefColor := { 7, 8 }
+   WHILE ( !oRecemov:Stabilize())
+   EndDo
 
-oBrowse := oSaidas
-oBrowse:GoTop()
-Sele SaiTemp
-WHILE OK
-	WHILE (! oBrowse:Stabilize())
-		Tecla := InKey()
-		if (Tecla != ZERO )
-			Exit
+   oBrowse := oSaidas
+   oBrowse:GoTop()
+   Sele SaiTemp
+   WHILE OK
+      WHILE (! oBrowse:Stabilize())
+         Tecla := InKey()
+         if (Tecla != ZERO )
+            Exit
 
-		endif
-	EndDo
-	if oBrowse:HitTop .OR. oBrowse:HitBottom
-		ErrorBeep()
+         endif
+      EndDo
+      if oBrowse:HitTop .OR. oBrowse:HitBottom
+         ErrorBeep()
 
-	endif
-	Tecla := InKey( ZERO )
-	if Tecla == K_ESC
-		 DbClearRel()
-		 SaiTemp->( DbCloseArea())
-		 MovTemp->( DbCloseArea())
-		 Ferase( cFile1 )
-		 Ferase( cFile2 )
-		 Ferase( cFile3 )
-		 ResTela( cScreen )
-		 Area("Saidas")
-		 Exit
+      endif
+      Tecla := InKey( ZERO )
+      if Tecla == K_ESC
+          DbClearRel()
+          SaiTemp->( DbCloseArea())
+          MovTemp->( DbCloseArea())
+          Ferase( cFile1 )
+          Ferase( cFile2 )
+          Ferase( cFile3 )
+          ResTela( cScreen )
+          Area("Saidas")
+          Exit
 
-  elseif Tecla == F10
-	  Calc()
-  elseif Tecla == F5
-	  TabPreco()
-  else
-		TestaTecla(Tecla, oBrowse)
-	endif
-EndDo
+     elseif Tecla == F10
+         Calc()
+     elseif Tecla == F5
+         TabPreco()
+     else
+         TestaTecla(Tecla, oBrowse)
+      endif
+   EndDo
+endef
 
 Proc RelFaturas()
 *****************

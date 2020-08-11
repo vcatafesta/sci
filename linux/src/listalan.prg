@@ -2623,8 +2623,8 @@ LOCAL cScreen	  := SaveScreen()
 LOCAL aMenuArray := { " Ordem Numerica ", " Ordem Alfabetica ", " Ordem Cod. Fabr " }
 LOCAL aTotalParc := { " Total  ", " Parcial ", " Por Fornecedor ", " Por Grupo ", " Entradas Por Data" }
 LOCAL aNormal	  := { " Lista Normal ", " Lista Por Grupo ", " Lista de Pedidos " }
-LOCAL xIndice	  := FTempName("T*.TMP")
-LOCAL xArquivo   := FTempName("T*.TMP")
+LOCAL xIndice	  := FTempName("t*.tmp")
+LOCAL xArquivo   := FTempName("t*.tmp")
 LOCAL cCodiIni
 LOCAL cCodifim
 LOCAL cGrupoIni
@@ -2937,8 +2937,8 @@ LOCAL GetList	  := {}
 LOCAL cScreen	  := SaveScreen()
 LOCAL EntSai	  := SaveScreen()
 LOCAL aMenuArray := {"Por Codigo", "Por Fornecedor", "Por Documento", "Geral"}
-LOCAL xDbf		  := FTempName("T*.TMP")
-LOCAL xNtx		  := FTempName("T*.TMP")
+LOCAL xDbf		  := FTempName("t*.tmp")
+LOCAL xNtx		  := FTempName("t*.tmp")
 LOCAL nChoice	  := 0
 LOCAL xCodigo	  := 0
 LOCAL xCodigo1   := 0
@@ -3318,8 +3318,8 @@ LOCAL nTam		  := 132
 LOCAL Col		  := 58
 LOCAL Pagin 	  := 0
 LOCAL nQuant	  := 0
-LOCAL xAlias	  := FTempName("T*.TMP")
-LOCAL xNtx		  := FTempName("T*.TMP")
+LOCAL xAlias	  := FTempName("t*.tmp")
+LOCAL xNtx		  := FTempName("t*.tmp")
 LOCAL lFiltro	  := OK
 LOCAL aStru
 LOCAL aMenuArray := { "Codigo", "Descricao", "Tamanho", "Cod Fabricante", "Qtde Minima", "Estoque", "Preco Venda" }
@@ -3477,8 +3477,8 @@ LOCAL nCop		  := 0
 LOCAL nTam		  := 132
 LOCAL Col		  := 58
 LOCAL Pagin 	  := 0
-LOCAL xAlias	  := FTempName("T*.TMP")
-LOCAL xNtx		  := FTempName("T*.TMP")
+LOCAL xAlias	  := FTempName("t*.tmp")
+LOCAL xNtx		  := FTempName("t*.tmp")
 LOCAL aStru
 LOCAL aMenuArray := { "Codigo", "Descricao", "Tamanho", "Cod Fabricante", "Qtde Minima", "Estoque", "Preco Venda" }
 LOCAL cTela
@@ -3627,8 +3627,8 @@ LOCAL nCop		  := 0
 LOCAL nTam		  := 132
 LOCAL Col		  := 58
 LOCAL Pagin 	  := 0
-LOCAL xAlias	  := FTempName("T*.TMP")
-LOCAL xNtx		  := FTempName("T*.TMP")
+LOCAL xAlias	  := FTempName("t*.tmp")
+LOCAL xNtx		  := FTempName("t*.tmp")
 LOCAL aMenuArray := { "Codigo", "Descricao", "Estoque", "Total Custo", "Total Venda" }
 LOCAL cGrupoIni  := Space(03)
 LOCAL cGrupoFim  := Space(03)
@@ -6429,8 +6429,8 @@ LOCAL cGrupoIni  := Space(3)
 LOCAL cGrupoFim  := Space(3)
 LOCAL cSubIni	  := Space(SEIS)
 LOCAL cSubFim	  := Space(SEIS)
-LOCAL xDbf		  := FTempName("T*.TMP")
-LOCAL xNtx		  := FTempName("T*.TMP")
+LOCAL xDbf		  := FTempName("t*.tmp")
+LOCAL xNtx		  := FTempName("t*.tmp")
 LOCAL nCusParc   := 0
 LOCAL nVarParc   := 0
 LOCAL nAtaParc   := 0

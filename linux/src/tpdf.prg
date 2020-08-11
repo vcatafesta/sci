@@ -3,14 +3,15 @@
 
 REQUEST HB_CODEPAGE_UTF8EX
 REQUEST HB_CODEPAGE_HUISO  /* for iso8859-2 */
-
-
 STATIC s_lUTF8
 
-function PdfMain()
-	oPdf := TPdf():New("sci.pdf")
-	? oPdf:FileName
+def TPdfNew()
+	return(PdfMain())
+endef	
 
+function PdfMain()   
+	oPdf := TPdf():New("sci.pdf")   
+   return oPdf
 
 class Tpdf
 	export:
@@ -29,12 +30,11 @@ METHOD new(cFileToSave)
 	::FileName := cFileToSave
 
    IF ::DesignHaruPDF( ::FileName)
-      ms_msg(hb_StrFormat( "PDF File '%1$s' criado!", ::FileName), "Macrosoft SCI")
+      alert(hb_StrFormat( "PDF File '%1$s' criado!", ::FileName), "Macrosoft SCI")
    ELSE
-      ms_msg("Ocorreu um problema ao criar o PDF!", "MACROSOFT SCI")
+      alert("Ocorreu um problema ao criar o PDF!", "MACROSOFT SCI")
    ENDIF
 	return self
-
 	
 METHOD DesignHaruPDF( cFileToSave )
    LOCAL cFont
@@ -45,7 +45,7 @@ METHOD DesignHaruPDF( cFileToSave )
 	LOCAL tw
 	LOCAL samp_text
 	LOCAL font
-   LOCAL page_title := "Macrosoft SCI for Windows"
+   LOCAL page_title := "Macrosoft SCI for Linux"
    LOCAL font_list  := { ;
       "Courier"               , ;
       "Courier-Bold"          , ;
@@ -63,8 +63,7 @@ METHOD DesignHaruPDF( cFileToSave )
       "ZapfDingbats"          }
 
    LOCAL pdf := HPDF_New()
-
-   hb_vfErase( cFileToSave )
+   hb_vfErase(cFileToSave)
 
    IF pdf == NIL
       ? "PDF could not be created!"
@@ -92,65 +91,266 @@ METHOD DesignHaruPDF( cFileToSave )
 
    /* Print the lines of the page. */
    HPDF_Page_SetLineWidth( page, 1 )
-   HPDF_Page_Rectangle( page, 50, 50, width - 100, height - 110 )
+   HPDF_Page_Rectangle( page, 10, 50, width - 100, height - 110 )
    HPDF_Page_Stroke( page )
 
    /* Print the title of the page(with positioning center). */
    def_font := HPDF_GetFont( pdf, "Helvetica-Bold", NIL )
 
-   HPDF_Page_SetFontAndSize( page, def_font, 24 )
+   HPDF_Page_SetFontAndSize( page, def_font, 12 )
    tw := HPDF_Page_TextWidth( page, page_title )
 		
    HPDF_Page_BeginText( page )
    HPDF_Page_TextOut( page, ( width - tw ) / 2, height - 50, page_title )
    HPDF_Page_EndText( page )
+   
+   //HPDF_Page_SetLineWidth( page, 2 )
+   //draw_line( page, 60, 770, "line width: 0" )   
+   //draw_line( page, 40, 770, "line width: 0" )   
+   
+   
 
    /* output subtitle. */
    HPDF_Page_BeginText( page )
-   HPDF_Page_SetFontAndSize( page, def_font, 16 )
-   HPDF_Page_TextOut( page, 60, height - 80, "<Standard Type1 fonts samples>" )
+   HPDF_Page_SetFontAndSize( page, def_font, 10 )
+   HPDF_Page_TextOut( page, 60, height - 80, "<Lista de Fontes>" )
    HPDF_Page_EndText( page )
 
    HPDF_Page_BeginText( page )
    HPDF_Page_MoveTextPos( page, 60, height - 105 )
 
 
+   //samp_text := "abcdefgABCDEFG12345!#$%&+-@?"
+   samp_text := "VILMAR CATAFESTA"
    FOR EACH cFont IN font_list
-      samp_text := "abcdefgABCDEFG12345!#$%&+-@?"
-      font := HPDF_GetFont( pdf, cFont, NIL )
-
-      HPDF_Page_SetFontAndSize( page, def_font, 9 )
-      HPDF_Page_ShowText( page, cFont )
-      HPDF_Page_MoveTextPos( page, 0, -18 )
-
-      HPDF_Page_SetFontAndSize( page, font, 20 )
+      
+      font := HPDF_GetFont( pdf, cFont, NIL )      
+      HPDF_Page_SetFontAndSize( page, font, 10 )
       HPDF_Page_ShowText( page, samp_text )
-      HPDF_Page_MoveTextPos( page, 0, -20 )
+      HPDF_Page_MoveTextPos( page, 00, -10 )
    NEXT
    HPDF_Page_EndText( page )
-
-   Page_Lines( pdf )
-
-   Page_Text( pdf )
-
-   Page_TextScaling( pdf )
-
-   Page_Graphics( pdf )
-
-   Page_Annotation( pdf )
-
-   Page_Images( pdf )
+   //Page_Lines( pdf )
+   //Page_Text( pdf )
+   //Page_TextScaling( pdf )
+   //Page_Graphics( pdf )
+   //Page_Annotation( pdf)
+   //Page_Images( pdf )
 
    // Comment out the following line if you need ASCII chart by Codepages
-   Page_CodePages( pdf )
-
+   //Page_CodePages( pdf )
    IF HPDF_SaveToFile( pdf, cFileToSave ) != HPDF_OK
       ? "0x" + hb_NumToHex( HPDF_GetError( pdf ), 4 ), hb_HPDF_GetErrorString( HPDF_GetError( pdf ) ), HPDF_GetErrorDetail( pdf )
    ENDIF
-
    HPDF_Free( pdf )
-
    RETURN hb_vfExists( cFileToSave )
+   
+STATIC PROCEDURE Page_Text( pdf )
+
+   LOCAL page
+   LOCAL font
+   LOCAL rect := Array( 4 )
+   LOCAL SAMP_TXT := "Macrosoft SCI for Linux"
+   LOCAL angle1
+   LOCAL angle2
+   LOCAL rad1
+   LOCAL rad2
+   LOCAL i
+   LOCAL x
+   LOCAL y
+   LOCAL buf
+
+#if 0
+   LOCAL page_height
+#endif
+
+   /* add a new page object. */
+   page := HPDF_AddPage( pdf )
+   HPDF_Page_SetSize( page, HPDF_PAGE_SIZE_A4, HPDF_PAGE_PORTRAIT )
+
+#if 0
+   print_grid( pdf, page )
+
+   page_height := HPDF_Page_GetHeight( page )
+#endif
+
+   font := HPDF_GetFont( pdf, "Helvetica", NIL )
+   HPDF_Page_SetTextLeading( page, 20 )
+   
+
+   /*
+   #define rLEFT    1
+   #define rTOP     2
+   #define rRIGHT   3
+   #define rBOTTOM  4
+
+   
+   rect[ rLEFT   ] := 25
+   rect[ rTOP    ] := 545
+   rect[ rRIGHT  ] := 200
+   rect[ rBOTTOM ] := rect[ 2 ] - 40
+
+   
+   HPDF_Page_Rectangle( page, rect[ rLEFT ], rect[ rBOTTOM ], rect[ rRIGHT ] - rect[ rLEFT ], rect[ rTOP ] - rect[ rBOTTOM ] )
+   HPDF_Page_Stroke( page )
+   
+   
+   HPDF_Page_BeginText( page )
+
+   HPDF_Page_SetFontAndSize( page, font, 10 )
+   HPDF_Page_TextOut( page, rect[ rLEFT ], rect[ rTOP ] + 3, "HPDF_TALIGN_LEFT" )
+
+   HPDF_Page_SetFontAndSize( page, font, 13 )
+   HPDF_Page_TextRect( page, rect[ rLEFT ], rect[ rTOP ], rect[ rRIGHT ], rect[ rBOTTOM ], ;
+      SAMP_TXT, HPDF_TALIGN_LEFT, NIL )
+
+   HPDF_Page_EndText( page )
+
+   
+   rect[ rLEFT  ] := 220
+   rect[ rRIGHT ] := 395
+
+   HPDF_Page_Rectangle( page, rect[ rLEFT ], rect[ rBOTTOM ], rect[ rRIGHT ] - rect[ rLEFT ], ;
+      rect[ rTOP ] - rect[ rBOTTOM ] )
+   HPDF_Page_Stroke( page )
+
+   HPDF_Page_BeginText( page )
+
+   HPDF_Page_SetFontAndSize( page, font, 10 )
+   HPDF_Page_TextOut( page, rect[ rLEFT ], rect[ rTOP ] + 3, "HPDF_TALIGN_RIGTH" )
+
+   HPDF_Page_SetFontAndSize( page, font, 13 )
+   HPDF_Page_TextRect( page, rect[ rLEFT ], rect[ rTOP ], rect[ rRIGHT ], rect[ rBOTTOM ], ;
+      SAMP_TXT, HPDF_TALIGN_RIGHT, NIL )
+
+   HPDF_Page_EndText( page )
+
+   
+   rect[ rLEFT   ] := 25
+   rect[ rTOP    ] := 475
+   rect[ rRIGHT  ] := 200
+   rect[ rBOTTOM ] := rect[ rTOP ] - 40
+
+   HPDF_Page_Rectangle( page, rect[ rLEFT ], rect[ rBOTTOM ], rect[ rRIGHT ] - rect[ rLEFT ], ;
+      rect[ rTOP ] - rect[ rBOTTOM ] )
+   HPDF_Page_Stroke( page )
+
+   HPDF_Page_BeginText( page )
+
+   HPDF_Page_SetFontAndSize( page, font, 10 )
+   HPDF_Page_TextOut( page, rect[ rLEFT ], rect[ rTOP ] + 3, "HPDF_TALIGN_CENTER" )
+
+   HPDF_Page_SetFontAndSize( page, font, 13 )
+   HPDF_Page_TextRect( page, rect[ rLEFT ], rect[ rTOP ], rect[ rRIGHT ], rect[ rBOTTOM ], ;
+      SAMP_TXT, HPDF_TALIGN_CENTER, NIL )
+
+   HPDF_Page_EndText( page )
+
+   
+   rect[ rLEFT  ] := 220
+   rect[ rRIGHT ] := 395
+
+   HPDF_Page_Rectangle( page, rect[ rLEFT ], rect[ rBOTTOM ], rect[ rRIGHT ] - rect[ rLEFT ], ;
+      rect[ rTOP ] - rect[ rBOTTOM ] )
+   HPDF_Page_Stroke( page )
+
+   HPDF_Page_BeginText( page )
+
+   HPDF_Page_SetFontAndSize( page, font, 10 )
+   HPDF_Page_TextOut( page, rect[ rLEFT ], rect[ rTOP ] + 3, "HPDF_TALIGN_JUSTIFY" )
+
+   HPDF_Page_SetFontAndSize( page, font, 13 )
+   HPDF_Page_TextRect( page, rect[ rLEFT ], rect[ rTOP ], rect[ rRIGHT ], rect[ rBOTTOM ], ;
+      SAMP_TXT, HPDF_TALIGN_JUSTIFY, NIL )
+
+   HPDF_Page_EndText( page )
+
+   
+   HPDF_Page_GSave( page )
+
+   angle1 := 5
+   angle2 := 10
+   rad1   := angle1 / 180 * Pi()
+   rad2   := angle2 / 180 * Pi()
+
+   HPDF_Page_Concat( page, 1, Tan( rad1 ), Tan( rad2 ), 1, 25, 350 )
+   rect[ rLEFT   ] := 0
+   rect[ rTOP    ] := 40
+   rect[ rRIGHT  ] := 175
+   rect[ rBOTTOM ] := 0
+
+   HPDF_Page_Rectangle( page, rect[ rLEFT ], rect[ rBOTTOM ], rect[ rRIGHT ] - rect[ rLEFT ], ;
+      rect[ rTOP ] - rect[ rBOTTOM ] )
+   HPDF_Page_Stroke( page )
+
+   HPDF_Page_BeginText( page )
+
+   HPDF_Page_SetFontAndSize( page, font, 10 )
+   HPDF_Page_TextOut( page, rect[ rLEFT ], rect[ rTOP ] + 3, "Skewed coordinate system" )
+
+   HPDF_Page_SetFontAndSize( page, font, 13 )
+   HPDF_Page_TextRect( page, rect[ rLEFT ], rect[ rTOP ], rect[ rRIGHT ], rect[ rBOTTOM ], ;
+      SAMP_TXT, HPDF_TALIGN_LEFT, NIL )
+
+   HPDF_Page_EndText( page )
+
+   HPDF_Page_GRestore( page )
+
+   
+   HPDF_Page_GSave( page )
+
+   angle1 := 5
+   rad1   := angle1 / 180 * Pi()
+
+   HPDF_Page_Concat( page, Cos( rad1 ), Sin( rad1 ), - Sin( rad1 ), Cos( rad1 ), 220, 350 )
+   rect[ rLEFT   ] := 0
+   rect[ rTOP    ] := 40
+   rect[ rRIGHT  ] := 175
+   rect[ rBOTTOM ] := 0
+
+   HPDF_Page_Rectangle( page, rect[ rLEFT ], rect[ rBOTTOM ], rect[ rRIGHT ] - rect[ rLEFT ], ;
+      rect[ rTOP ] - rect[ rBOTTOM ] )
+   HPDF_Page_Stroke( page )
+
+   HPDF_Page_BeginText( page )
+
+   HPDF_Page_SetFontAndSize( page, font, 10 )
+   HPDF_Page_TextOut( page, rect[ rLEFT ], rect[ rTOP ] + 3, "Rotated coordinate system" )
+
+   HPDF_Page_SetFontAndSize( page, font, 13 )
+   HPDF_Page_TextRect( page, rect[ rLEFT ], rect[ rTOP ], rect[ rRIGHT ], rect[ rBOTTOM ], ;
+      SAMP_TXT, HPDF_TALIGN_LEFT, NIL )
+
+   HPDF_Page_EndText( page )
+   HPDF_Page_GRestore( page )
+   */
+
+   /* text along a circle */
+   HPDF_Page_SetGrayStroke( page, 0 )
+   HPDF_Page_Circle( page, 210, 190, 145 )
+   HPDF_Page_Circle( page, 210, 190, 113 )
+   HPDF_Page_Stroke( page )
+
+   angle1 := 360 / ( Len( "VILMAR CATAFESTA") )
+   angle2 := 180
+
+   HPDF_Page_BeginText( page )
+   font := HPDF_GetFont( pdf, "Courier-Bold", NIL )
+   HPDF_Page_SetFontAndSize( page, font, 30 )
+
+   FOR i := 1 TO Len( "VILMAR CATAFESTA" )
+      rad1 := ( angle2 - 90 ) / 180 * Pi()
+      rad2 := angle2 / 180 * Pi()
+      x := 210 + Cos( rad2 ) * 122
+      y := 190 + Sin( rad2 ) * 122
+      HPDF_Page_SetTextMatrix( page, Cos( rad1 ), Sin( rad1 ), - Sin( rad1 ), Cos( rad1 ), x, y )
+      buf := SubStr( "VILMAR CATAFESTA", i, 1 )
+      HPDF_Page_ShowText( page, buf )
+      angle2 -= angle1
+   NEXT
+   HPDF_Page_EndText( page )
+   RETURN   
+   
 
 STATIC PROCEDURE Page_Lines( pdf )
 
@@ -442,206 +642,7 @@ STATIC PROCEDURE draw_line2( page, x, y, label )
 
    RETURN
 
-STATIC PROCEDURE Page_Text( pdf )
 
-   LOCAL page, font, rect := Array( 4 )
-   LOCAL SAMP_TXT := "Macrosoft SCI for Windows. "
-   LOCAL angle1, angle2, rad1, rad2, i, x, y, buf
-
-#if 0
-   LOCAL page_height
-#endif
-
-   /* add a new page object. */
-   page := HPDF_AddPage( pdf )
-   HPDF_Page_SetSize( page, HPDF_PAGE_SIZE_A5, HPDF_PAGE_PORTRAIT )
-
-#if 0
-   print_grid( pdf, page )
-
-   page_height := HPDF_Page_GetHeight( page )
-#endif
-
-   font := HPDF_GetFont( pdf, "Helvetica", NIL )
-   HPDF_Page_SetTextLeading( page, 20 )
-
-   #define rLEFT    1
-   #define rTOP     2
-   #define rRIGHT   3
-   #define rBOTTOM  4
-
-   /* text_rect method */
-
-   /* HPDF_TALIGN_LEFT */
-   rect[ rLEFT   ] := 25
-   rect[ rTOP    ] := 545
-   rect[ rRIGHT  ] := 200
-   rect[ rBOTTOM ] := rect[ 2 ] - 40
-
-   HPDF_Page_Rectangle( page, rect[ rLEFT ], rect[ rBOTTOM ], rect[ rRIGHT ] - rect[ rLEFT ], ;
-      rect[ rTOP ] - rect[ rBOTTOM ] )
-   HPDF_Page_Stroke( page )
-
-   HPDF_Page_BeginText( page )
-
-   HPDF_Page_SetFontAndSize( page, font, 10 )
-   HPDF_Page_TextOut( page, rect[ rLEFT ], rect[ rTOP ] + 3, "HPDF_TALIGN_LEFT" )
-
-   HPDF_Page_SetFontAndSize( page, font, 13 )
-   HPDF_Page_TextRect( page, rect[ rLEFT ], rect[ rTOP ], rect[ rRIGHT ], rect[ rBOTTOM ], ;
-      SAMP_TXT, HPDF_TALIGN_LEFT, NIL )
-
-   HPDF_Page_EndText( page )
-
-   /* HPDF_TALIGN_RIGTH */
-   rect[ rLEFT  ] := 220
-   rect[ rRIGHT ] := 395
-
-   HPDF_Page_Rectangle( page, rect[ rLEFT ], rect[ rBOTTOM ], rect[ rRIGHT ] - rect[ rLEFT ], ;
-      rect[ rTOP ] - rect[ rBOTTOM ] )
-   HPDF_Page_Stroke( page )
-
-   HPDF_Page_BeginText( page )
-
-   HPDF_Page_SetFontAndSize( page, font, 10 )
-   HPDF_Page_TextOut( page, rect[ rLEFT ], rect[ rTOP ] + 3, "HPDF_TALIGN_RIGTH" )
-
-   HPDF_Page_SetFontAndSize( page, font, 13 )
-   HPDF_Page_TextRect( page, rect[ rLEFT ], rect[ rTOP ], rect[ rRIGHT ], rect[ rBOTTOM ], ;
-      SAMP_TXT, HPDF_TALIGN_RIGHT, NIL )
-
-   HPDF_Page_EndText( page )
-
-   /* HPDF_TALIGN_CENTER */
-   rect[ rLEFT   ] := 25
-   rect[ rTOP    ] := 475
-   rect[ rRIGHT  ] := 200
-   rect[ rBOTTOM ] := rect[ rTOP ] - 40
-
-   HPDF_Page_Rectangle( page, rect[ rLEFT ], rect[ rBOTTOM ], rect[ rRIGHT ] - rect[ rLEFT ], ;
-      rect[ rTOP ] - rect[ rBOTTOM ] )
-   HPDF_Page_Stroke( page )
-
-   HPDF_Page_BeginText( page )
-
-   HPDF_Page_SetFontAndSize( page, font, 10 )
-   HPDF_Page_TextOut( page, rect[ rLEFT ], rect[ rTOP ] + 3, "HPDF_TALIGN_CENTER" )
-
-   HPDF_Page_SetFontAndSize( page, font, 13 )
-   HPDF_Page_TextRect( page, rect[ rLEFT ], rect[ rTOP ], rect[ rRIGHT ], rect[ rBOTTOM ], ;
-      SAMP_TXT, HPDF_TALIGN_CENTER, NIL )
-
-   HPDF_Page_EndText( page )
-
-   /* HPDF_TALIGN_JUSTIFY */
-   rect[ rLEFT  ] := 220
-   rect[ rRIGHT ] := 395
-
-   HPDF_Page_Rectangle( page, rect[ rLEFT ], rect[ rBOTTOM ], rect[ rRIGHT ] - rect[ rLEFT ], ;
-      rect[ rTOP ] - rect[ rBOTTOM ] )
-   HPDF_Page_Stroke( page )
-
-   HPDF_Page_BeginText( page )
-
-   HPDF_Page_SetFontAndSize( page, font, 10 )
-   HPDF_Page_TextOut( page, rect[ rLEFT ], rect[ rTOP ] + 3, "HPDF_TALIGN_JUSTIFY" )
-
-   HPDF_Page_SetFontAndSize( page, font, 13 )
-   HPDF_Page_TextRect( page, rect[ rLEFT ], rect[ rTOP ], rect[ rRIGHT ], rect[ rBOTTOM ], ;
-      SAMP_TXT, HPDF_TALIGN_JUSTIFY, NIL )
-
-   HPDF_Page_EndText( page )
-
-   /* Skewed coordinate system */
-   HPDF_Page_GSave( page )
-
-   angle1 := 5
-   angle2 := 10
-   rad1   := angle1 / 180 * Pi()
-   rad2   := angle2 / 180 * Pi()
-
-   HPDF_Page_Concat( page, 1, Tan( rad1 ), Tan( rad2 ), 1, 25, 350 )
-   rect[ rLEFT   ] := 0
-   rect[ rTOP    ] := 40
-   rect[ rRIGHT  ] := 175
-   rect[ rBOTTOM ] := 0
-
-   HPDF_Page_Rectangle( page, rect[ rLEFT ], rect[ rBOTTOM ], rect[ rRIGHT ] - rect[ rLEFT ], ;
-      rect[ rTOP ] - rect[ rBOTTOM ] )
-   HPDF_Page_Stroke( page )
-
-   HPDF_Page_BeginText( page )
-
-   HPDF_Page_SetFontAndSize( page, font, 10 )
-   HPDF_Page_TextOut( page, rect[ rLEFT ], rect[ rTOP ] + 3, "Skewed coordinate system" )
-
-   HPDF_Page_SetFontAndSize( page, font, 13 )
-   HPDF_Page_TextRect( page, rect[ rLEFT ], rect[ rTOP ], rect[ rRIGHT ], rect[ rBOTTOM ], ;
-      SAMP_TXT, HPDF_TALIGN_LEFT, NIL )
-
-   HPDF_Page_EndText( page )
-
-   HPDF_Page_GRestore( page )
-
-   /* Rotated coordinate system */
-   HPDF_Page_GSave( page )
-
-   angle1 := 5
-   rad1   := angle1 / 180 * Pi()
-
-   HPDF_Page_Concat( page, Cos( rad1 ), Sin( rad1 ), - Sin( rad1 ), Cos( rad1 ), 220, 350 )
-   rect[ rLEFT   ] := 0
-   rect[ rTOP    ] := 40
-   rect[ rRIGHT  ] := 175
-   rect[ rBOTTOM ] := 0
-
-   HPDF_Page_Rectangle( page, rect[ rLEFT ], rect[ rBOTTOM ], rect[ rRIGHT ] - rect[ rLEFT ], ;
-      rect[ rTOP ] - rect[ rBOTTOM ] )
-   HPDF_Page_Stroke( page )
-
-   HPDF_Page_BeginText( page )
-
-   HPDF_Page_SetFontAndSize( page, font, 10 )
-   HPDF_Page_TextOut( page, rect[ rLEFT ], rect[ rTOP ] + 3, "Rotated coordinate system" )
-
-   HPDF_Page_SetFontAndSize( page, font, 13 )
-   HPDF_Page_TextRect( page, rect[ rLEFT ], rect[ rTOP ], rect[ rRIGHT ], rect[ rBOTTOM ], ;
-      SAMP_TXT, HPDF_TALIGN_LEFT, NIL )
-
-   HPDF_Page_EndText( page )
-
-   HPDF_Page_GRestore( page )
-
-   /* text along a circle */
-   HPDF_Page_SetGrayStroke( page, 0 )
-   HPDF_Page_Circle( page, 210, 190, 145 )
-   HPDF_Page_Circle( page, 210, 190, 113 )
-   HPDF_Page_Stroke( page )
-
-   angle1 := 360 / ( Len( SAMP_TXT ) )
-   angle2 := 180
-
-   HPDF_Page_BeginText( page )
-   font := HPDF_GetFont( pdf, "Courier-Bold", NIL )
-   HPDF_Page_SetFontAndSize( page, font, 30 )
-
-   FOR i := 1 TO Len( SAMP_TXT )
-      rad1 := ( angle2 - 90 ) / 180 * Pi()
-      rad2 := angle2 / 180 * Pi()
-
-      x := 210 + Cos( rad2 ) * 122
-      y := 190 + Sin( rad2 ) * 122
-
-      HPDF_Page_SetTextMatrix( page, Cos( rad1 ), Sin( rad1 ), - Sin( rad1 ), Cos( rad1 ), x, y )
-
-      buf := SubStr( SAMP_TXT, i, 1 )
-      HPDF_Page_ShowText( page, buf )
-      angle2 -= angle1
-   NEXT
-
-   HPDF_Page_EndText( page )
-
-   RETURN
 
 STATIC PROCEDURE Page_TextScaling( pdf )
 

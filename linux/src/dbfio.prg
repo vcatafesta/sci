@@ -23,22 +23,62 @@ STATIC static3 := {1, 1, 0, 0, 0, 0, 0, 0, 0, 24, 79, 1, 0, 0, 0, 1, 8, 1, 0, 1,
 *==================================================================================================*		
 
 def AchaCampo( aStruct, Dbf1, nX, cCampo )
-	LOCAL cTipo, nTam, nDec
+	LOCAL cTipo
+   LOCAL nTam
+   LOCAL nDec
 	LOCAL nPos := Ascan2( aStruct, cCampo, 1 )
-	IF nPos > 0
+   
+	if nPos > 0
 		cTipo := Dbf1[nX,2]
 		nTam	:= Dbf1[nX,3]
 		nDec	:= Dbf1[nX,4]
-		if cCampo == "ID"
-			return OK
+		// if cCampo == "ID"
+		if cTipo == "+"
+			return true
 		endif
 		return(( aStruct[ nPos, 2 ] == cTipo .AND. ;
 					aStruct[ nPos, 3 ] == nTam  .AND. ;
 					aStruct[ nPos, 4 ] == nDec ))
 	EndIf
-	Return(FALSO)
+	return false
 endef
 
+*==================================================================================================*		
+
+def AchaIndice(cAlias)	
+   LOCAL aIndice := ArrayIndices()
+   LOCAL cTela   := SaveScreen()
+   LOCAL nX
+	LOCAL nY
+   
+   if !ISNIL(cAlias)
+      if !Used()   
+         WA_USE((cAlias))
+			WA_LOCK((cAlias))            			            
+		endif		    
+	endif   
+   Sele (cAlias)      
+	FOR EACH nX IN aIndice		
+		FOR EACH nY IN nX          
+         if nY:__enumindex() == 1 .and. alltrim(lower(cAlias)) != alltrim(lower(nY)) 
+            exit
+         endif   
+         if nY:__enumindex() == 1            
+            loop
+         endif   
+         mensagem("Aguarde, Verificando Tags de indices: ;-;;#" + cAlias + "=>" + lower(nY))         
+			//? lower(nY), nY:__enumindex()-1, lower(OrdName(nY:__enumindex()-1))
+         //? lower(nY) == lower(OrdName(nY:__enumindex()-1))			
+         if !(lower(nY) == lower(OrdName(nY:__enumindex()-1)))            
+            (cAlias)->(DbCloseArea())
+            return false
+         endif         
+		NEXT      
+	NEXT
+   (cAlias)->(DbCloseArea())
+   return true
+endef
+   
 *==================================================================================================*		
 
 def VerIndice()
@@ -50,14 +90,14 @@ def VerIndice()
 	LOCAL nTodos
 	LOCAL nX
 
-	oReindexa := TIniNew("REINDEXA.INI")
+	oReindexa := TIniNew("reindexa.ini")
 	oMenu:Limpa()
 	nTodos := Len( aIndice )
 
 #ifdef FOXPRO
 	for nX := 1 To nTodos
 		cDbf		 := aIndice[nX,1]
-		cLocalDbf := cDbf + '.DBF'
+		cLocalDbf := cDbf + '.dbf'
 		cIndice	 := cDbf + '.' + CEXT
 		
 		if !ms_swap_file(cIndice)
@@ -77,12 +117,15 @@ def VerIndice()
 				endif
 			endif
 			*/
+         if !AchaIndice(cDbf)
+            CriaIndice(cDbf)
+         endif
 		endif
 	next
 #else 
 	for nX := 1 To nTodos
 		cDbf		 := aIndice[nX,1]
-		cLocalDbf := cDbf + '.DBF'
+		cLocalDbf := cDbf + '.dbf'
 		nLen		 := Len(aIndice[nX])
 		
 		For nY := 2 To nLen
@@ -105,20 +148,20 @@ def VerIndice()
 		Next
 	Next
 #endif
-	if oIndice:Reindexado
-		oReindexa:Close()
-		return true
-	endif
-	oReindexa:Close()
-	ErrorBeep()
-	if !Conf("Pergunta: Deseja entrar sem reindexar ?")
-		if MenuIndice()
-			CriaIndice()
-		else	
-			return false
-		endif
-	endif
-	return(OK)
+   if oIndice:Reindexado
+      oReindexa:Close()
+      return true
+   endif
+   oReindexa:Close()
+   ErrorBeep()
+   if !Conf("Pergunta: Deseja entrar sem reindexar ?")
+      if MenuIndice()
+         CriaIndice()
+      else	
+         return false
+      endif
+   endif
+   return true
 endef
 
 *==================================================================================================*		
@@ -158,7 +201,7 @@ endef
 *==================================================================================================*		
 
 def AbreArquivo( cArquivo )
-	LOCAL cTela  := Mensagem(" Aguarde... Verificando Arquivos.")
+	LOCAL cTela  := Mensagem("Aguarde... Verificando Arquivos.")
 	LOCAL nQt
 	LOCAL nPos
 	LOCAL nQtArquivos
@@ -167,12 +210,13 @@ def AbreArquivo( cArquivo )
 	// FechaTudo()
 	aArquivos := ArrayArquivos()
 	if cArquivo != NIL
+      cArquivo := lower(cArquivo)    
 	   CriaArquivo(cArquivo)		
 		//CriaIndice(cArquivo)		
 		nPos := Ascan( aArquivos,{ |oBloco|oBloco[1] = cArquivo })
 		if nPos != 0
 			cArquivo := aArquivos[nPos,1]
-			cTela := mensagem(" Aguarde... Verificando Arquivo ;-;;#" + TrimStr(nPos) + ' ' + cArquivo )					
+			cTela := mensagem("Aguarde... Verificando Arquivo ;-;;#" + AllTrim(Str(nPos)) + ' ' + cArquivo )					
 			if !NetUse( cArquivo, MONO )			
 				ResTela( cTela )
 				return(FALSO)
@@ -181,10 +225,11 @@ def AbreArquivo( cArquivo )
 		endif
 		return( FALSO )
 	endif
+
 	nQtArquivos := Len( aArquivos )
 	For nQt := 1 To nQtArquivos
 		cArquivo := aArquivos[nQt,1]
-		cTela := mensagem(" Aguarde... Verificando Arquivo ;-;;#" + TrimStr(nQt) + ' ' + cArquivo)
+		cTela := mensagem("Aguarde... Verificando Arquivo ;-;;#" + AllTrim(Str(nQt)) + ' ' + cArquivo)
 		if !NetUse( cArquivo, MONO )
 			ResTela( cTela )
 			return(FALSO)
@@ -257,57 +302,57 @@ def CriaIndice( cDbf )
 	LOCAL cLocalNtx					:= ''
 	LOCAL aProc 						:= {}
 
-	Aadd( aProc, {"CHEMOV",   {||Re_Chemov()}})
-	Aadd( aProc, {"SAIDAS",   {||Re_Saidas()}})
-	Aadd( aProc, {"RECEBIDO", {||Re_Recebido()}})
-	Aadd( aProc, {"LISTA",    {||Re_Lista()}})
-	Aadd( aProc, {"CEP",      {||Re_Cep()}})
-	Aadd( aProc, {"CHEQUE",   {||Re_Cheque()}})
-	Aadd( aProc, {"CHEPRE",   {||Re_Chepre()}})
-	Aadd( aProc, {"CONTA",    {||Re_Conta()}})
-	Aadd( aProc, {"CORTES",   {||Re_Cortes()}})
-	Aadd( aProc, {"CURSOS",   {||Re_Cursos()}})
-	Aadd( aProc, {"CURSADO",  {||Re_Cursado()}})
-	Aadd( aProc, {"ENTRADAS", {||Re_Entradas()}})
-	Aadd( aProc, {"FORMA",    {||Re_Forma()}})
-	Aadd( aProc, {"FUNCIMOV", {||Re_Funcimov()}})
-	Aadd( aProc, {"GRUPO",    {||Re_Grupo()}})
-	Aadd( aProc, {"GRPSER",   {||Re_GrpSer()}})
-	Aadd( aProc, {"MOVI",     {||Re_Movi()}})
-	Aadd( aProc, {"ENTNOTA",  {||Re_EntNota()}})
-	Aadd( aProc, {"NOTA",     {||Re_Nota()}})
-	Aadd( aProc, {"PAGAR",    {||Re_Pagar()}})
-	Aadd( aProc, {"PAGAMOV",  {||Re_Pagamov()}})
-	Aadd( aProc, {"PAGO",     {||Re_Pago()}})
-	Aadd( aProc, {"PREVENDA", {||Re_Prevenda()}})
-	Aadd( aProc, {"PRINTER",  {||Re_Printer()}})
-	Aadd( aProc, {"PONTO",    {||Re_Ponto()}})
-	Aadd( aProc, {"RECEMOV",  {||Re_Recemov()}})
-	Aadd( aProc, {"REGIAO",   {||Re_Regiao()}})
-	Aadd( aProc, {"RECEBER",  {||Re_Receber()}})
-	Aadd( aProc, {"REPRES",   {||Re_Representante()}})
-	Aadd( aProc, {"RETORNO",  {||Re_Retorno()}})
-	Aadd( aProc, {"SERVICO",  {||Re_Servico()}})
-	Aadd( aProc, {"SERVIDOR", {||Re_Servidor()}})
-	Aadd( aProc, {"SUBCONTA", {||Re_SubConta()}})
-	Aadd( aProc, {"SUBGRUPO", {||Re_SubGrupo()}})
-	Aadd( aProc, {"TAXAS",    {||Re_Taxas()}})
-	Aadd( aProc, {"USUARIO",  {||Re_Usuario()}})
-	Aadd( aProc, {"VENDEDOR", {||Re_Vendedor()}})
-	Aadd( aProc, {"VENDEMOV", {||Re_Vendemov()}})
-	Aadd( aProc, {"RECIBO",   {||Re_Recibo()}})
-	Aadd( aProc, {"AGENDA",   {||Re_Agenda()}})
-	Aadd( aProc, {"CM",       {||Re_Cm()}})
+	Aadd( aProc, {"chemov",   {||Re_Chemov()}})
+	Aadd( aProc, {"saidas",   {||Re_Saidas()}})
+	Aadd( aProc, {"recebido", {||Re_Recebido()}})
+	Aadd( aProc, {"lista",    {||Re_Lista()}})
+	Aadd( aProc, {"cep",      {||Re_Cep()}})
+	Aadd( aProc, {"cheque",   {||Re_Cheque()}})
+	Aadd( aProc, {"chepre",   {||Re_Chepre()}})
+	Aadd( aProc, {"conta",    {||Re_Conta()}})
+	Aadd( aProc, {"cortes",   {||Re_Cortes()}})
+	Aadd( aProc, {"cursos",   {||Re_Cursos()}})
+	Aadd( aProc, {"cursado",  {||Re_Cursado()}})
+	Aadd( aProc, {"entradas", {||Re_Entradas()}})
+	Aadd( aProc, {"forma",    {||Re_Forma()}})
+	Aadd( aProc, {"funcimov", {||Re_Funcimov()}})
+	Aadd( aProc, {"grupo",    {||Re_Grupo()}})
+	Aadd( aProc, {"grpser",   {||Re_GrpSer()}})
+	Aadd( aProc, {"movi",     {||Re_Movi()}})
+	Aadd( aProc, {"entnota",  {||Re_EntNota()}})
+	Aadd( aProc, {"nota",     {||Re_Nota()}})
+	Aadd( aProc, {"pagar",    {||Re_Pagar()}})
+	Aadd( aProc, {"pagamov",  {||Re_Pagamov()}})
+	Aadd( aProc, {"pago",     {||Re_Pago()}})
+	Aadd( aProc, {"prevenda", {||Re_Prevenda()}})
+	Aadd( aProc, {"printer",  {||Re_Printer()}})
+	Aadd( aProc, {"ponto",    {||Re_Ponto()}})
+	Aadd( aProc, {"recemov",  {||Re_Recemov()}})
+	Aadd( aProc, {"regiao",   {||Re_Regiao()}})
+	Aadd( aProc, {"receber",  {||Re_Receber()}})
+	Aadd( aProc, {"repres",   {||Re_Representante()}})
+	Aadd( aProc, {"retorno",  {||Re_Retorno()}})
+	Aadd( aProc, {"servico",  {||Re_Servico()}})
+	Aadd( aProc, {"servidor", {||Re_Servidor()}})
+	Aadd( aProc, {"subconta", {||Re_SubConta()}})
+	Aadd( aProc, {"subgrupo", {||Re_SubGrupo()}})
+	Aadd( aProc, {"taxas",    {||Re_Taxas()}})
+	Aadd( aProc, {"usuario",  {||Re_Usuario()}})
+	Aadd( aProc, {"vendedor", {||Re_Vendedor()}})
+	Aadd( aProc, {"vendemov", {||Re_Vendemov()}})
+	Aadd( aProc, {"recibo",   {||Re_Recibo()}})
+	Aadd( aProc, {"agenda",   {||Re_Agenda()}})
+	Aadd( aProc, {"cm",       {||Re_Cm()}})
 
 	nTodos := Len( aProc )
 	//----------------------------------------------------------------//
 	Aeval( Directory( "*.$$$"), { | aFile | Ferase( aFile[ F_NAME ] )})
-	Aeval( Directory( "*.TMP"), { | aFile | Ferase( aFile[ F_NAME ] )})
-	Aeval( Directory( "*.BAK"), { | aFile | Ferase( aFile[ F_NAME ] )})
-	Aeval( Directory( "*.MEM"), { | aFile | Ferase( aFile[ F_NAME ] )})
-	Aeval( Directory( "T0*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
-	Aeval( Directory( "T1*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
-	Aeval( Directory( "T2*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
+	Aeval( Directory( "*.tmp"), { | aFile | Ferase( aFile[ F_NAME ] )})
+	Aeval( Directory( "*.bak"), { | aFile | Ferase( aFile[ F_NAME ] )})
+	Aeval( Directory( "*.mem"), { | aFile | Ferase( aFile[ F_NAME ] )})
+	Aeval( Directory( "t0*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
+	Aeval( Directory( "t1*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
+	Aeval( Directory( "t2*.*"), { | aFile | Ferase( aFile[ F_NAME ] )})
 	Aeval( Directory( "*."),    { | aFile | Ferase( aFile[ F_NAME ] )})
 	//-----------------------------------------------------------------//
 
@@ -315,19 +360,19 @@ def CriaIndice( cDbf )
 	//hb_mutexUnlock( s_hMutex )
 
 	//oMenu:Limpa()
-	oReindexa := TIniNew("REINDEXA.INI")
-	cDbf		 := IF( cDbf != NIL, Upper( cDbf ), NIL )
+	oReindexa := TIniNew("reindexa.ini")
+	cDbf		 := IF( cDbf != NIL, lower( cDbf ), NIL )
 	
 	if cDbf = NIL
-		Aeval( Directory( "*.NSX"), { | aFile | Ferase( aFile[ F_NAME ] )})
-		Aeval( Directory( "*.CDX"), { | aFile | Ferase( aFile[ F_NAME ] )})
-		Aeval( Directory( "*.NTX"), { | aFile | Ferase( aFile[ F_NAME ] )})
+		Aeval( Directory( "*.nsx"), { | aFile | Ferase( aFile[ F_NAME ] )})
+		Aeval( Directory( "*.cdx"), { | aFile | Ferase( aFile[ F_NAME ] )})
+		Aeval( Directory( "*.ntx"), { | aFile | Ferase( aFile[ F_NAME ] )})
 	endif
 	
-	IF cDbf != NIL
+	if cDbf != NIL
 		nPos := Ascan( aProc,{ |oBloco|oBloco[1] = cDbf })
 		if nPos != 0
-			cLocalDbf := aProc[nPos,1] + '.DBF'
+			cLocalDbf := aProc[nPos,1] + '.dbf'
 			cLocalNtx := aProc[nPos,1] + '.' + CEXT
 			Ferase( cLocalNtx )
 			oReindexa:WriteBool('reindexando', cLocalDbf, FALSO )
@@ -340,12 +385,12 @@ def CriaIndice( cDbf )
 			// FechaTudo()
 			return(nil)
 		endif
-	EndIF
+	endif
 	FechaTudo()
 	//oIndice:Limpa()
 	for nY := 1 To nTodos
 		cDbf		 := aProc[ nY, 1 ]
-		cLocalDbf := cDbf + '.DBF'
+		cLocalDbf := cDbf + '.dbf'
 		
 		if AbreArquivo( cDbf )
 			oReindexa:WriteBool('reindexando', cLocalDbf, FALSO )
@@ -363,26 +408,76 @@ endef
 
 *==================================================================================================*		
 
+def ArrayIndices()
+*----------------*
+	LOCAL aArquivos := {}
+	Aadd( aArquivos, { "nota",      "nota1", "nota2", "nota3","nota"})
+	Aadd( aArquivos, { "lista",     "lista1", "lista2", "lista3","lista4","lista5","lista6","lista7","lista8","lista9","lista10","lista11"})
+	Aadd( aArquivos, { "saidas",    "saidas1","saidas2","saidas3","saidas4","saidas5","saidas6","saidas7"})
+	Aadd( aArquivos, { "receber",   "receber1","receber2","receber3", "receber4", "receber5","receber6","receber7","receber8","receber9","receber10"})
+	Aadd( aArquivos, { "repres",    "repres1","repres2","repres3"})
+	Aadd( aArquivos, { "grupo",     "grupo1","grupo2"})
+	Aadd( aArquivos, { "subgrupo",  "subgrupo1"})
+	Aadd( aArquivos, { "vendedor",  "vendedo1","vendedo2"})
+	Aadd( aArquivos, { "vendemov",  "vendemo1","vendemo2","vendemo3","vendemo4", "vendemo5", "vendemo6"})
+	Aadd( aArquivos, { "recemov",   "recemov1","recemov2","recemov3","recemov4","recemov5","recemov6","recemov7", "recemov8","recemov9", "recemov10", "recemov11", "recemov12"})
+	Aadd( aArquivos, { "entradas",  "entrada1","entrada2","entrada3","entrada4"})
+	Aadd( aArquivos, { "pagar",     "pagar1","pagar2","pagar3"})
+	Aadd( aArquivos, { "pagamov",   "pagamov1","pagamov2","pagamov3","pagamov4"})
+	Aadd( aArquivos, { "taxas",     "taxas1","taxas2"})
+	Aadd( aArquivos, { "pago",      "pago1","pago2","pago3"})
+	Aadd( aArquivos, { "recebido",  "recebid1","recebid2","recebid3","recebid4","recebid5","recebid6","recebid7","recebid8","recebid9","recebid10","recebid11","recebid12"})
+	Aadd( aArquivos, { "cheque",    "cheque1","cheque2","cheque3"})
+	Aadd( aArquivos, { "chemov",    "chemov1","chemov2","chemov3","chemov4","chemov5","chemov6"})
+	Aadd( aArquivos, { "chepre",    "chepre1","chepre2","chepre3","chepre4", "chepre5"})
+	Aadd( aArquivos, { "usuario",   "usuario1"})
+	Aadd( aArquivos, { "forma",     "forma1","forma2"})
+	Aadd( aArquivos, { "cursos",    "cursos1"})
+	Aadd( aArquivos, { "cursado",   "cursado1","cursado2","cursado3"})
+	Aadd( aArquivos, { "regiao",    "regiao1", "regiao2"})
+	Aadd( aArquivos, { "cep",       "cep1", "cep2"})
+	Aadd( aArquivos, { "ponto",     "ponto1", "ponto2", "ponto3"})
+	Aadd( aArquivos, { "servidor",  "servido1", "servido2"})
+	Aadd( aArquivos, { "printer",   "printer1", "printer2"})
+	Aadd( aArquivos, { "entnota",   "entnota1", "entnota2", "entnota3","entnota4"})
+	Aadd( aArquivos, { "conta",     "conta1"})
+	Aadd( aArquivos, { "subconta",  "subcont1", "subcont2"})
+	Aadd( aArquivos, { "retorno",   "retorno1"})
+	Aadd( aArquivos, { "prevenda",  "prevend1","prevend2","prevend3"})
+	Aadd( aArquivos, { "cortes",    "cortes1"})
+	Aadd( aArquivos, { "servico",   "servico1", "servico2"})
+	Aadd( aArquivos, { "movi",      "movi1", "movi2","movi3","movi4"})
+	Aadd( aArquivos, { "funcimov",  "funcimo1", "funcimo2","funcimo3"})
+	Aadd( aArquivos, { "grpser",    "grpser1", "grpser2"})
+	Aadd( aArquivos, { "recibo",    "recibo1","recibo2","recibo3", "recibo4", "recibo5", "recibo6","recibo7","recibo8","recibo9","recibo10","recibo11", "recibo12","recibo13"})
+	Aadd( aArquivos, { "agenda",    "agenda1","agenda2","agenda3", "agenda4", "agenda5", "agenda6", "agenda7"})
+	Aadd( aArquivos, { "cm",        "cm1","cm2","cm3","cm4"})
+	//Aadd( aArquivos, { "EMPRESA",   "EMPRESA1"})
+	return( aArquivos )
+endef
+
+*==================================================================================================*		
+
 def Re_Cortes()
-	oIndice:DbfNtx("CORTES")
-	oIndice:PackDbf("CORTES")
-	oIndice:AddNtx("Tabela", "CORTES1", "CORTES" )
+	oIndice:DbfNtx("cortes")
+	oIndice:PackDbf("cortes")
+	oIndice:AddNtx("Tabela", "CORTES1", "cortes" )
 	oIndice:CriaNtx()
 	return nil
 endef
 
 def Re_GrpSer()
-	oIndice:DbfNtx("GRPSER")
-	oIndice:PackDbf("GRPSER")
-	oIndice:AddNtx("Grupo",    "GRPSER1", "GRPSER" )
-	oIndice:AddNtx("DesGrupo", "GRPSER2", "GRPSER" )
+	oIndice:DbfNtx("grpser")
+	oIndice:PackDbf("grpser")
+	oIndice:AddNtx("Grupo",    "GRPSER1", "grpser" )
+	oIndice:AddNtx("DesGrupo", "GRPSER2", "grpser" )
 	oIndice:CriaNtx()
 	Return
 endef
 
 def Re_Servico()
-	oIndice:DbfNtx("SERVICO")
-	oIndice:PackDbf("SERVICO")
+	oIndice:DbfNtx("servico")
+	oIndice:PackDbf("servico")
 	oIndice:AddNtx("CodiSer", "SERVICO1", "SERVICO" )
 	oIndice:AddNtx("Nome",    "SERVICO2", "SERVICO" )
 	oIndice:CriaNtx()
@@ -391,8 +486,8 @@ endef
 
 Proc Re_Movi()
 **************
-oIndice:DbfNtx("MOVI")
-oIndice:PackDbf("MOVI")
+oIndice:DbfNtx("movi")
+oIndice:PackDbf("movi")
 oIndice:AddNtx("Tabela",  "MOVI1", "MOVI" )
 oIndice:AddNtx("Codiven+Left(Tabela,4)+CodiSer", "MOVI2", "MOVI" )
 oIndice:AddNtx("Data",     "MOVI3", "MOVI" )
@@ -402,8 +497,8 @@ Return
 
 Proc Re_Funcimov()
 ******************
-oIndice:DbfNtx("FUNCIMOV")
-oIndice:PackDbf("FUNCIMOV")
+oIndice:DbfNtx("funcimov")
+oIndice:PackDbf("funcimov")
 oIndice:AddNtx("Data",    "FUNCIMO1", "FUNCIMOV" )
 oIndice:AddNtx("Docnr",   "FUNCIMO2", "FUNCIMOV" )
 oIndice:AddNtx("Codiven+dTos(Data)", "FUNCIMO3", "FUNCIMOV" )
@@ -412,24 +507,24 @@ Return
 
 Proc Re_Retorno()
 *****************
-oIndice:DbfNtx("RETORNO")
-oIndice:PackDbf("RETORNO")
+oIndice:DbfNtx("retorno")
+oIndice:PackDbf("retorno")
 oIndice:AddNtx("Codi", "RETORNO1", "RETORNO" )
 oIndice:CriaNtx()
 Return
 
 Proc Re_Conta()
 ***************
-oIndice:DbfNtx("CONTA")
-oIndice:PackDbf("CONTA")
+oIndice:DbfNtx("conta")
+oIndice:PackDbf("conta")
 oIndice:AddNtx("Codi", "CONTA1", "CONTA" )
 oIndice:CriaNtx()
 Return
 
 Proc Re_SubConta()
 ***************
-oIndice:DbfNtx("SUBCONTA")
-oIndice:PackDbf("SUBCONTA")
+oIndice:DbfNtx("subconta")
+oIndice:PackDbf("subconta")
 oIndice:AddNtx("Codi",   "SUBCONT1", "SUBCONTA" )
 oIndice:AddNtx("SubCodi","SUBCONT2", "SUBCONTA" )
 oIndice:CriaNtx()
@@ -437,8 +532,8 @@ Return
 
 Proc Re_Cep()
 *************
-oIndice:DbfNtx("CEP")
-oIndice:PackDbf("CEP")
+oIndice:DbfNtx("cep")
+oIndice:PackDbf("cep")
 oIndice:AddNtx("Cep",  "CEP1", "CEP" )
 oIndice:AddNtx("Cida", "CEP2", "CEP" )
 oIndice:CriaNtx()
@@ -446,32 +541,32 @@ Return
 
 Proc Re_Usuario()
 *****************
-oIndice:DbfNtx("USUARIO")
-oIndice:PackDbf("USUARIO")
+oIndice:DbfNtx("usuario")
+oIndice:PackDbf("usuario")
 oIndice:AddNtx("Nome", "USUARIO1", "USUARIO" )
 oIndice:CriaNtx()
 Return
 
 Proc Re_Forma()
 **************
-oIndice:DbfNtx("FORMA")
-oIndice:PackDbf("FORMA")
+oIndice:DbfNtx("forma")
+oIndice:PackDbf("forma")
 oIndice:AddNtx("Forma", "FORMA1", "FORMA" )
 oIndice:CriaNtx()
 Return
 
 Proc Re_Cursos()
 ****************
-oIndice:DbfNtx("CURSOS")
-oIndice:PackDbf("CURSOS")
+oIndice:DbfNtx("cursos")
+oIndice:PackDbf("cursos")
 oIndice:AddNtx("Curso", "CURSOS1", "CURSOS" )
 oIndice:CriaNtx()
 Return
 
 Proc Re_Cursado()
 *****************
-oIndice:DbfNtx("CURSADO")
-oIndice:PackDbf("CURSADO")
+oIndice:DbfNtx("cursado")
+oIndice:PackDbf("cursado")
 oIndice:AddNtx( "Curso",   "CURSADO1", "CURSADO" )
 oIndice:AddNtx( "Codi",    "CURSADO2", "CURSADO" )
 oIndice:AddNtx( "Fatura",  "CURSADO3", "CURSADO" )
@@ -480,8 +575,8 @@ Return
 
 Proc Re_Regiao()
 ****************
-oIndice:DbfNtx("REGIAO")
-oIndice:PackDbf("REGIAO")
+oIndice:DbfNtx("regiao")
+oIndice:PackDbf("regiao")
 oIndice:AddNtx("Regiao", "REGIAO1", "REGIAO" )
 oIndice:AddNtx("Nome",   "REGIAO2", "REGIAO" )
 oIndice:CriaNtx()
@@ -489,16 +584,16 @@ Return
 
 Proc Re_SubGrupo()
 *******************
-oIndice:DbfNtx("SUBGRUPO")
-oIndice:PackDbf("SUBGRUPO")
+oIndice:DbfNtx("subgrupo")
+oIndice:PackDbf("subgrupo")
 oIndice:AddNtx("codsgrupo","SUBGRUPO1", "SUBGRUPO" )
 oIndice:CriaNtx()
 Return
 
 Proc Re_Nota()
 **************
-oIndice:DbfNtx("NOTA")
-oIndice:PackDbf("NOTA")
+oIndice:DbfNtx("nota")
+oIndice:PackDbf("nota")
 oIndice:AddNtx("Numero", "NOTA1", "NOTA" )
 oIndice:AddNtx("Codi",   "NOTA2", "NOTA" )
 oIndice:AddNtx("Data",   "NOTA3", "NOTA" )
@@ -507,8 +602,8 @@ Return
 
 Proc Re_EntNota()
 *****************
-oIndice:DbfNtx("ENTNOTA")
-oIndice:PackDbf("ENTNOTA")
+oIndice:DbfNtx("entnota")
+oIndice:PackDbf("entnota")
 oIndice:AddNtx("Data",   "ENTNOTA1", "ENTNOTA" )
 oIndice:AddNtx("Codi",   "ENTNOTA2", "ENTNOTA" )
 oIndice:AddNtx("Numero", "ENTNOTA3", "ENTNOTA" )
@@ -519,8 +614,8 @@ Return
 Proc Re_Printer()
 *****************
 oIndice:Limpa()
-oIndice:DbfNtx("PRINTER")
-oIndice:PackDbf("PRINTER")
+oIndice:DbfNtx("printer")
+oIndice:PackDbf("printer")
 oIndice:AddNtx("Codi", "PRINTER1", "PRINTER" )
 oIndice:AddNtx("Nome", "PRINTER2", "PRINTER" )
 oIndice:CriaNtx()
@@ -528,8 +623,8 @@ Return
 
 Proc Re_Grupo()
 ***************
-oIndice:DbfNtx("GRUPO")
-oIndice:PackDbf("GRUPO")
+oIndice:DbfNtx("grupo")
+oIndice:PackDbf("grupo")
 oIndice:AddNtx("CodGrupo","GRUPO1", "GRUPO" )
 oIndice:AddNtx("DesGrupo","GRUPO2", "GRUPO" )
 oIndice:CriaNtx()
@@ -537,8 +632,8 @@ Return
 
 Proc Re_Taxas()
 ***************
-oIndice:DbfNtx("TAXAS")
-oIndice:PackDbf("TAXAS")
+oIndice:DbfNtx("taxas")
+oIndice:PackDbf("taxas")
 oIndice:AddNtx("Dini", "TAXAS1", "TAXAS" )
 oIndice:AddNtx("DFim", "TAXAS2", "TAXAS" )
 oIndice:CriaNtx()
@@ -546,8 +641,8 @@ Return
 
 Proc Re_Vendedor()
 ******************
-oIndice:DbfNtx("VENDEDOR")
-oIndice:PackDbf("VENDEDOR")
+oIndice:DbfNtx("vendedor")
+oIndice:PackDbf("vendedor")
 oIndice:AddNtx("Codiven", "VENDEDO1", "VENDEDOR" )
 oIndice:AddNtx("nome",    "VENDEDO2", "VENDEDOR" )
 oIndice:CriaNtx()
@@ -555,8 +650,8 @@ Return
 
 Proc Re_Ponto()
 ***************
-oIndice:DbfNtx("PONTO")
-oIndice:PackDbf("PONTO")
+oIndice:DbfNtx("ponto")
+oIndice:PackDbf("ponto")
 oIndice:AddNtx("Codi",  "PONTO1",             "PONTO" )
 oIndice:AddNtx("Data",  "PONTO2",             "PONTO" )
 oIndice:AddNtx("Codi + dTos( Data)","PONTO3", "PONTO" )
@@ -565,8 +660,8 @@ Return
 
 Proc Re_Cheque()
 ****************
-oIndice:DbfNtx("CHEQUE")
-oIndice:PackDbf("CHEQUE")
+oIndice:DbfNtx("cheque")
+oIndice:PackDbf("cheque")
 oIndice:AddNtx("Codi",    "CHEQUE1", "CHEQUE" )
 oIndice:AddNtx("Titular", "CHEQUE2", "CHEQUE" )
 oIndice:AddNtx("Horario", "CHEQUE3", "CHEQUE" )
@@ -575,8 +670,8 @@ Return
 
 Proc Re_Receber()
 *****************
-oIndice:DbfNtx("RECEBER")
-oIndice:PackDbf("RECEBER")
+oIndice:DbfNtx("receber")
+oIndice:PackDbf("receber")
 oIndice:AddNtx("nome",                "RECEBER1", "RECEBER" )
 oIndice:AddNtx("codi",                "RECEBER2", "RECEBER" )
 oIndice:AddNtx("cida",                "RECEBER3", "RECEBER" )
@@ -592,8 +687,8 @@ Return
 
 Proc Re_Representante()
 ***********************
-oIndice:DbfNtx("REPRES")
-oIndice:PackDbf("REPRES")
+oIndice:DbfNtx("repres")
+oIndice:PackDbf("repres")
 oIndice:AddNtx("nome",      "REPRES1", "REPRES" )
 oIndice:AddNtx("Repres",    "REPRES2", "REPRES" )
 oIndice:AddNtx("cida+nome", "REPRES3", "REPRES" )
@@ -602,8 +697,8 @@ Return
 
 Proc Re_Pagar()
 ***************
-oIndice:DbfNtx("PAGAR")
-oIndice:PackDbf("PAGAR")
+oIndice:DbfNtx("pagar")
+oIndice:PackDbf("pagar")
 oIndice:AddNtx("nome",      "PAGAR1", "PAGAR")
 oIndice:AddNtx("codi",      "PAGAR2", "PAGAR")
 oIndice:AddNtx("cida+nome", "PAGAR3", "PAGAR")
@@ -612,8 +707,8 @@ Return
 
 Proc Re_Pagamov()
 *****************
-oIndice:DbfNtx("PAGAMOV")
-oIndice:PackDbf("PAGAMOV")
+oIndice:DbfNtx("pagamov")
+oIndice:PackDbf("pagamov")
 oIndice:AddNtx("Docnr",              "PAGAMOV1", "PAGAMOV" )
 oIndice:AddNtx("Vcto",               "PAGAMOV2", "PAGAMOV" )
 oIndice:AddNtx("Codi + dTos(Vcto)", "PAGAMOV3", "PAGAMOV" )
@@ -623,8 +718,8 @@ Return
 
 Proc Re_Chepre()
 ****************
-oIndice:DbfNtx("CHEPRE")
-oIndice:PackDbf("CHEPRE")
+oIndice:DbfNtx("chepre")
+oIndice:PackDbf("chepre")
 oIndice:AddNtx("Codi  + dTos(Vcto)",  "CHEPRE1", "CHEPRE" )
 oIndice:AddNtx("Docnr + dTos(Vcto)",  "CHEPRE2", "CHEPRE" )
 oIndice:AddNtx("Praca + dTos(Vcto)",  "CHEPRE3", "CHEPRE" )
@@ -635,8 +730,8 @@ Return
 
 Proc Re_Pago()
 **************
-oIndice:DbfNtx("PAGO")
-oIndice:PackDbf("PAGO")
+oIndice:DbfNtx("pago")
+oIndice:PackDbf("pago")
 oIndice:AddNtx("Docnr",   "PAGO1", "PAGO" )
 oIndice:AddNtx("Datapag", "PAGO2", "PAGO" )
 oIndice:AddNtx("Codi + dTos( Datapag )", "PAGO3", "PAGO")
@@ -645,8 +740,8 @@ Return
 
 Proc Re_Servidor()
 ******************
-oIndice:DbfNtx("SERVIDOR")
-oIndice:PackDbf("SERVIDOR")
+oIndice:DbfNtx("servidor")
+oIndice:PackDbf("servidor")
 oIndice:AddNtx("Nome", "SERVIDO1", "SERVIDOR"  )
 oIndice:AddNtx("Codi", "SERVIDO2", "SERVIDOR"  )
 oIndice:CriaNtx()
@@ -654,8 +749,8 @@ Return
 
 Proc Re_Entradas()
 ******************
-oIndice:DbfNtx("ENTRADAS")
-oIndice:PackDbf("ENTRADAS")
+oIndice:DbfNtx("entradas")
+oIndice:PackDbf("entradas")
 oIndice:AddNtx("Codigo+dTos(Data)","ENTRADA1", "ENTRADAS" )
 oIndice:AddNtx("Fatura",                "ENTRADA2", "ENTRADAS"  )
 oIndice:AddNtx("Data",                  "ENTRADA3", "ENTRADAS"  )
@@ -665,8 +760,8 @@ Return
 
 Proc Re_Vendemov()
 ******************
-oIndice:DbfNtx("VENDEMOV")
-oIndice:PackDbf("VENDEMOV")
+oIndice:DbfNtx("vendemov")
+oIndice:PackDbf("vendemov")
 oIndice:AddNtx("data",    "VENDEMO1", "VENDEMOV" )
 oIndice:AddNtx("docnr",   "VENDEMO2", "VENDEMOV" )
 oIndice:AddNtx("Codiven+dTos(Data)", "VENDEMO3", "VENDEMOV" )
@@ -678,8 +773,8 @@ Return
 
 Proc Re_Recibo()
 ******************
-oIndice:DbfNtx("RECIBO")
-oIndice:PackDbf("RECIBO")
+oIndice:DbfNtx("recibo")
+oIndice:PackDbf("recibo")
 oIndice:AddNtx("tipo",       "RECIBO1", "RECIBO" )
 oIndice:AddNtx("codi",       "RECIBO2", "RECIBO" )
 oIndice:AddNtx("docnr",      "RECIBO3", "RECIBO" )
@@ -691,14 +786,15 @@ oIndice:AddNtx("nome",       "RECIBO8", "RECIBO"  )
 oIndice:AddNtx("codi+docnr", "RECIBO9", "RECIBO"  )
 oIndice:AddNtx("fatura",     "RECIBO10", "RECIBO"  )
 oIndice:AddNtx("Codi+dTos(Data)", "RECIBO11", "RECIBO" )
-oIndice:AddNtx("Right(Docnr, 8)",      "RECIBO12", "RECIBO" )
+oIndice:AddNtx("Right(Docnr, 8)", "RECIBO12", "RECIBO" )
+oIndice:AddNtx("fatura+docnr",    "RECIBO13", "RECIBO" )
 oIndice:CriaNtx()
 Return
 
 Proc Re_Agenda()
 ****************
-oIndice:DbfNtx("AGENDA")
-oIndice:PackDbf("AGENDA")
+oIndice:DbfNtx("agenda")
+oIndice:PackDbf("agenda")
 oIndice:AddNtx("codi",    "AGENDA1", "AGENDA" )
 oIndice:AddNtx("hist",    "AGENDA2", "AGENDA" )
 oIndice:AddNtx("data",    "AGENDA3", "AGENDA" )
@@ -711,8 +807,8 @@ Return
 
 Proc Re_Cm()
 ************
-oIndice:DbfNtx("CM")
-oIndice:PackDbf("CM")
+oIndice:DbfNtx("cm")
+oIndice:PackDbf("cm")
 oIndice:AddNtx("inicio",  "CM1", "CM" )
 oIndice:AddNtx("fim",     "CM2", "CM" )
 oIndice:AddNtx("dTos(inicio)", "CM3", "CM" )
@@ -722,8 +818,8 @@ Return
 
 Proc Re_Chemov()
 ****************
-oIndice:DbfNtx("CHEMOV")
-oIndice:PackDbf("CHEMOV")
+oIndice:DbfNtx("chemov")
+oIndice:PackDbf("chemov")
 oIndice:AddNtx("docnr",  "CHEMOV1", "CHEMOV"  )
 oIndice:AddNtx("data",   "CHEMOV2", "CHEMOV"  )
 oIndice:AddNtx("Codi + dTos( Data )", "CHEMOV3", "CHEMOV" )
@@ -735,8 +831,8 @@ Return
 
 Proc Re_Recemov()
 *****************
-oIndice:DbfNtx("RECEMOV")
-oIndice:PackDbf("RECEMOV")
+oIndice:DbfNtx("recemov")
+oIndice:PackDbf("recemov")
 oIndice:AddNtx("Docnr",      "RECEMOV1", "RECEMOV" )
 oIndice:AddNtx("Codi",       "RECEMOV2", "RECEMOV"  )
 oIndice:AddNtx("Vcto",       "RECEMOV3", "RECEMOV"  )
@@ -754,8 +850,8 @@ Return
 
 Proc Re_Recebido()
 ******************
-oIndice:DbfNtx("RECEBIDO")
-oIndice:PackDbf("RECEBIDO")
+oIndice:DbfNtx("recebido")
+oIndice:PackDbf("recebido")
 oIndice:AddNtx("Docnr",    "RECEBID1", "RECEBIDO"  )
 oIndice:AddNtx("DataPag",  "RECEBID2", "RECEBIDO"  )
 oIndice:AddNtx("Fatura",   "RECEBID3", "RECEBIDO"  )
@@ -773,8 +869,8 @@ Return
 
 Proc Re_Saidas()
 ****************
-oIndice:DbfNtx("SAIDAS")
-oIndice:PackDbf("SAIDAS")
+oIndice:DbfNtx("saidas")
+oIndice:PackDbf("saidas")
 oIndice:AddNtx("Codigo",        "SAIDAS1", "SAIDAS" )
 oIndice:AddNtx("Regiao",        "SAIDAS2", "SAIDAS" )
 oIndice:AddNtx("Fatura+Codigo", "SAIDAS3", "SAIDAS" )
@@ -787,8 +883,8 @@ Return
 
 Proc Re_prevenda()
 ****************
-oIndice:DbfNtx("PREVENDA")
-oIndice:PackDbf("PREVENDA")
+oIndice:DbfNtx("prevenda")
+oIndice:PackDbf("prevenda")
 oIndice:AddNtx("Fatura", "PREVEND1", "PREVENDA" )
 oIndice:AddNtx("Emis",   "PREVEND2", "PREVENDA" )
 oIndice:AddNtx("Codigo", "PREVEND3", "PREVENDA" )
@@ -797,8 +893,8 @@ Return
 
 Proc Re_Lista()
 ***************
-oIndice:DbfNtx("LISTA")
-oIndice:PackDbf("LISTA")
+oIndice:DbfNtx("lista")
+oIndice:PackDbf("lista")
 oIndice:AddNtx("CodGrupo",                         "LISTA1", "LISTA" )
 oIndice:AddNtx("Codigo",                           "LISTA2", "LISTA" )
 oIndice:AddNtx("Descricao",                        "LISTA3", "LISTA" )
@@ -813,37 +909,7 @@ oIndice:AddNtx("CodeBar",                          "LISTA11","LISTA" )
 oIndice:CriaNtx()
 Return
 
-
 *==================================================================================================*		
-
-static def MS_Box( nRow, nCol, nRow1, nCol1, cFrame, nCor)
-**********************************************************
-	LOCAL nComp  := ( nCol1 - nCol )-1
-	DEFAU cFrame TO M_Frame()
-	DEFAU nCor	 TO Cor()
-
-	return( Hb_DispBox( nRow, nCol, nRow1, nCol1, cFrame + " ", nCor))
-
-	//Box( nRow, nCol, nRow1, nCol1, M_Frame() + " ", nCor, 1, 8 )      // Funcky
-	//DispBox( nRow, nCol, nRow1, nCol1, M_Frame() + " ", nCor, 1, 8 )  // Harbour
-
-	for x := nRow To nRow1
-		Print( x, nCol, Space(1), nCor, nComp+1, " ")
-	next
-
-	Print( nRow, nCol, Left(cFrame,1), nCor, 1 )
-	Print( nRow, nCol+1, Repl(SubStr(cFrame,2,1),nComp), nCor )
-	Print( nRow, nCol1, SubStr(cFrame,3,1), nCor, 1 )
-	
-	for x := nRow+1 To nRow1
-		Print( x, nCol,  SubStr(cFrame,4,1), nCor, 1 )
-		Print( x, nCol1, SubStr(cFrame,8,1), nCor, 1 )
-	Next
-	
-	Print( nRow1, nCol, SubStr(cFrame,7,1),  nCor, 1 )
-	Print( nRow1, nCol+1, Repl(SubStr(cFrame,6,1),nComp), nCor )
-	Print( nRow1, nCol1, SubStr(cFrame,5,1), nCor, 1 )
-return NIL
 
 static def Cor( nTipo, nTemp )
 ******************************
@@ -967,29 +1033,6 @@ static def StrExtract( string, delims, ocurrence )
 	endif
 	return(aArray[ocurrence])
 
-static def nSetColor(std, enh, uns)
-***********************************
-	LOCAL cStd, ;
-			cEnh, ;
-			cUns, ;
-			cColor
-
-	cStd	 := attrtoa(std)
-	cEnh	 := attrtoa(enh)
-	cUns	 := attrtoa(uns)
-	//cColor := setcolor()
-
-	ColorStandard(std)
-	ColorEnhanced(enh)
-	ColorUnselected(uns)
-	cColor := cStd + ',' + cEnh + ',,,' + cUns
-
-	//cColor := strswap(cColor, "," , 1, cStd)
-	//cColor := strswap(cColor, "," , 2, cEnh)
-	//cColor := strswap(cColor, "," , 4, cUns)
-	Setcolor( cColor )
-	return COlorStrToInt(cColor)
-
 static def cSetColor(ColorStr)
 ******************************
 	LOCAL nStd, ;
@@ -1035,17 +1078,6 @@ static def MsFrame( nTopo, nEsquerda, nFundo, nDireita, Cor )
 	@ nTopo+1, nEsquerda+1 SAY Padc( M_Title(), nDireita-nEsquerda-1)
 	@ nTopo+3, nDireita-2  TO  nFundo-1, nDireita-2
 	return( NIL )
-
-static def m_frame( cFrame )
-********************************
-   LOCAL pFrame := static1 
-	
-	if (ISNIL( cFrame ))
-      return oAmbiente:Frame 
-   else
-      Static1 := cFrame
-   endif
-   return( pFrame )
 
 static def m_title( cTitulo )
 ******************************
@@ -1140,14 +1172,6 @@ static def ColorIntToStr(xColor)
 	//return(cColor := hb_NToColor(xColor))
 	return(cColor := FT_n2Color(xColor))
 
-static def Alerta( cString, aArray, Color )
-*------------------------------------------*
-	__DefaultNIL(@cString, '(Pressione qualquer tecla)')	
-	__DefaultNIL(@Color, oAmbiente:CorAlerta)
-	__DefaultNIL(@aArray, ' Ok ')		
-	return( alert( cString, aArray, ColorIntToStr(Color)))
-endef	
-
 static def ResTela( cScreen )
 *----------------------------*
 	RestScreen(,,,,  cScreen )
@@ -1186,14 +1210,16 @@ def NetUse( cBcoDados, lModo, nSegundos, cAlias )
 	LOCAL lForever
 	LOCAL cTela
 	LOCAL lAberto    := FALSO
-	LOCAL cBcoSemExt := StrTran( cBcoDados, '.DBF')	
+	LOCAL cBcoSemExt := StrTran( cBcoDados, '.dbf')	
 	P_DEF( lModo, OK )
 	P_DEF( nSegundos, 2 )
 	
-	cBcoDados = Upper(cBcoDados)     // para compatibilidade em linux 
+	cBcoDados = Lower(cBcoDados)       // para compatibilidade em linux 
+	//cBcoDados = Upper(cBcoDados)     // para compatibilidade em linux 
+	//alert(cBcoDados)
 	
-	if right(cBcoDados,4) != '.DBF'
-	   cBcoDados += '.DBF'		
+	if right(cBcoDados,4) != '.dbf'
+	   cBcoDados += '.dbf'		
 	endif	
 	
 	cAlias := iif( cAlias = NIL, cBcoSemExt, cAlias )
@@ -1257,54 +1283,6 @@ static def DbfEmUso( cBcoDados )
 	return( OK )
 endef	
 
-def ArrayIndices()
-*----------------*
-	LOCAL aArquivos := {}
-	Aadd( aArquivos, { "NOTA",      "NOTA1", "NOTA2", "NOTA3"})
-	Aadd( aArquivos, { "LISTA",     "LISTA1", "LISTA2", "LISTA3","LISTA4","LISTA5","LISTA6","LISTA7","LISTA8","LISTA9","LISTA10","LISTA11"})
-	Aadd( aArquivos, { "SAIDAS",    "SAIDAS1","SAIDAS2","SAIDAS3","SAIDAS4","SAIDAS5","SAIDAS6","SAIDAS7"})
-	Aadd( aArquivos, { "RECEBER",   "RECEBER1","RECEBER2","RECEBER3", "RECEBER4", "RECEBER5","RECEBER6","RECEBER7","RECEBER8","RECEBER9","RECEBER10"})
-	Aadd( aArquivos, { "REPRES",    "REPRES1","REPRES2","REPRES3"})
-	Aadd( aArquivos, { "GRUPO",     "GRUPO1","GRUPO2"})
-	Aadd( aArquivos, { "SUBGRUPO",  "SUBGRUPO1"})
-	Aadd( aArquivos, { "VENDEDOR",  "VENDEDO1","VENDEDO2"})
-	Aadd( aArquivos, { "VENDEMOV",  "VENDEMO1","VENDEMO2","VENDEMO3","VENDEMO4", "VENDEMO5", "VENDEMO6"})
-	Aadd( aArquivos, { "RECEMOV",   "RECEMOV1","RECEMOV2","RECEMOV3","RECEMOV4","RECEMOV5","RECEMOV6","RECEMOV7", "RECEMOV8","RECEMOV9", "RECEMOV10", "RECEMOV11", "RECEMOV12"})
-	Aadd( aArquivos, { "ENTRADAS",  "ENTRADA1","ENTRADA2","ENTRADA3","ENTRADA4"})
-	Aadd( aArquivos, { "PAGAR",     "PAGAR1","PAGAR2","PAGAR3"})
-	Aadd( aArquivos, { "PAGAMOV",   "PAGAMOV1","PAGAMOV2","PAGAMOV3","PAGAMOV4"})
-	Aadd( aArquivos, { "TAXAS",     "TAXAS1","TAXAS2"})
-	Aadd( aArquivos, { "PAGO",      "PAGO1","PAGO2","PAGO3"})
-	Aadd( aArquivos, { "RECEBIDO",  "RECEBID1","RECEBID2","RECEBID3","RECEBID4","RECEBID5","RECEBID6","RECEBID7","RECEBID8","RECEBID9","RECEBID10","RECEBID11","RECEBID12"})
-	Aadd( aArquivos, { "CHEQUE",    "CHEQUE1","CHEQUE2","CHEQUE3"})
-	Aadd( aArquivos, { "CHEMOV",    "CHEMOV1","CHEMOV2","CHEMOV3","CHEMOV4","CHEMOV5","CHEMOV6"})
-	Aadd( aArquivos, { "CHEPRE",    "CHEPRE1","CHEPRE2","CHEPRE3","CHEPRE4", "CHEPRE5"})
-	Aadd( aArquivos, { "USUARIO",   "USUARIO1"})
-	Aadd( aArquivos, { "FORMA",     "FORMA1","FORMA2"})
-	Aadd( aArquivos, { "CURSOS",    "CURSOS1"})
-	Aadd( aArquivos, { "CURSADO",   "CURSADO1","CURSADO2","CURSADO3"})
-	Aadd( aArquivos, { "REGIAO",    "REGIAO1", "REGIAO2"})
-	Aadd( aArquivos, { "CEP",       "CEP1", "CEP2"})
-	Aadd( aArquivos, { "PONTO",     "PONTO1", "PONTO2", "PONTO3"})
-	Aadd( aArquivos, { "SERVIDOR",  "SERVIDO1", "SERVIDO2"})
-	Aadd( aArquivos, { "PRINTER",   "PRINTER1", "PRINTER2"})
-	Aadd( aArquivos, { "ENTNOTA",   "ENTNOTA1", "ENTNOTA2", "ENTNOTA3","ENTNOTA4"})
-	Aadd( aArquivos, { "CONTA",     "CONTA1"})
-	Aadd( aArquivos, { "SUBCONTA",  "SUBCONT1", "SUBCONT2"})
-	Aadd( aArquivos, { "RETORNO",   "RETORNO1"})
-	Aadd( aArquivos, { "PREVENDA",  "PREVEND1","PREVEND2","PREVEND3"})
-	Aadd( aArquivos, { "CORTES",    "CORTES1"})
-	Aadd( aArquivos, { "SERVICO",   "SERVICO1", "SERVICO2"})
-	Aadd( aArquivos, { "MOVI",      "MOVI1", "MOVI2","MOVI3","MOVI4"})
-	Aadd( aArquivos, { "FUNCIMOV",  "FUNCIMO1", "FUNCIMO2","FUNCIMO3"})
-	Aadd( aArquivos, { "GRPSER",    "GRPSER1", "GRPSER2"})
-	Aadd( aArquivos, { "RECIBO",    "RECIBO1","RECIBO2","RECIBO3", "RECIBO4", "RECIBO5", "RECIBO6","RECIBO7","RECIBO8","RECIBO9","RECIBO10","RECIBO11", "RECIBO12"})
-	Aadd( aArquivos, { "AGENDA",    "AGENDA1","AGENDA2","AGENDA3", "AGENDA4", "AGENDA5", "AGENDA6", "AGENDA7"})
-	Aadd( aArquivos, { "CM",        "CM1","CM2","CM2","CM3"})
-	//Aadd( aArquivos, { "EMPRESA",   "EMPRESA1"})
-	return( aArquivos )
-endef
-
 def MensFecha()
 *--------------*
 	Mensagem("Aguarde, Fechando Arquivos.", WARNING, _LIN_MSG )
@@ -1327,7 +1305,7 @@ def UsaArquivo( cArquivo, cAlias )
 	LOCAL aArquivos	:= ArrayIndices()
 
 	nTodos	:= Len( aArquivos )
-	cArquivo := Upper( cArquivo )
+	cArquivo := Lower( cArquivo )
 	if !lJahAcessou
 		lJahAcessou := OK
 		Mensagem("Aguarde, Compartilhando o Arquivos. ", WARNING, _LIN_MSG )
@@ -1422,16 +1400,16 @@ endef
 def NovoDbf(cArquivo, aStru, cCampo, lCriarDbf )
 	LOCAL cLocalNtx := cArquivo + '.' + CEXT
 	LOCAL cTela     := SaveScreen()
-	LOCAL cAlias    := Alias() 
+	LOCAL cAlias    := lower(Alias()) 
+   LOCAL cOld      := '.old'
 
 	IF lCriarDbf
 		(cAlias)->(DbCloseArea())
-
 		Mensagem("Aguarde, renomeando Arquivo: ;-;" + cArquivo)
-		ms_swap_ferase(cAlias + ".OLD")
-		ms_swap_ferase(cAlias + ".NSX")
-		ms_swap_ferase(cAlias + ".CDX")		
-		ms_swap_rename(cArquivo, cAlias + ".OLD")
+		ms_swap_ferase(cAlias + cOld)
+		ms_swap_ferase(cAlias + ".nsx")
+		ms_swap_ferase(cAlias + ".cdx")		
+		ms_swap_rename(cArquivo, cAlias + cOld)
 		
 		Mensagem("Aguarde, Criando Arquivo Novo: ;-;" + cArquivo)		
 		CriaArquivo(cArquivo)
@@ -1440,14 +1418,16 @@ def NovoDbf(cArquivo, aStru, cCampo, lCriarDbf )
 		if NetUse(cArquivo, MONO, 2, "XTEMP")
 			Mensagem("Aguarde, Incluindo Registros no arquivo Novo: ;-;" + cArquivo)
 			if (oAmbiente:LetoAtivo)
-				Appe From (oAmbiente:LetoPath + cAlias + ".OLD")
+				Appe From (oAmbiente:LetoPath + cAlias + cOld)
 			else	
-				Appe From (cAlias + ".OLD") 
+				Appe From (cAlias + cOld) 
 			endif	
 		endif			
 	EndIF
 	ResTela( cTela )
 
+   cArquivo := upper(cArquivo)
+   cCampo   := upper(cCampo)
 	IF cArquivo = "LISTA" .AND. cCampo = "CLASSE"
 		cTela := msgconverte(cCampo, cArquivo)
 		Lista->(DbGoTop())

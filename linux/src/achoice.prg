@@ -652,15 +652,16 @@ STATIC PROCEDURE DispPage( acItems, alSelect, nTop, nLeft, nRight, nNumRows, nPo
       endif
    NEXT
    DispEnd()
-
    return
 
 STATIC PROCEDURE DispLine( cLine, nRow, nCol, lSelect, lHiLite, nNumCols, nCurElemento )
 	
 	//nSetColor( oAchoice:Color_pFore[nCurElemento], oAchoice:Color_pBack[nCurElemento], oAchoice:Color_pUns[nCurElemento])
 	ColorSelect( iif( lSelect .AND. HB_ISSTRING( cLine ), iif( lHiLite, CLR_ENHANCED, CLR_STANDARD ), CLR_UNSELECTED ))	
-	hb_DispOutAt( nRow, nCol, iif( HB_ISSTRING( cLine ), PadR( cLine, nNumCols ), Space( nNumCols ) ) )	
+	   hb_DispOutAt( nRow, nCol, iif( HB_ISSTRING(cLine), PadR(' ' + cLine + ' ', nNumCols ), Space( nNumCols ) ) )	   
    if lHiLite
+      //hb_DispOutAt( nRow, nCol, iif( HB_ISSTRING(cLine), PadR(chr(16) + cLine + chr(17) + chr(32)+ chr(251), nNumCols ), Space( nNumCols ) ) )	   
+      hb_DispOutAt( nRow, nCol, iif( HB_ISSTRING(cLine), PadR(chr(16) + cLine + chr(17), nNumCols ), Space( nNumCols ) ) )	   
       SetPos( nRow, nCol )
    endif	
    ColorSelect( CLR_STANDARD )

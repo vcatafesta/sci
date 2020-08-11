@@ -32,8 +32,7 @@ class TIni
 		MESSAGE Create       METHOD New	 	 
 endclass
 	
-METHOD ShowVar()
-	/*
+METHOD ShowVar()	
 	AlertaPy(;
 		"Variaveis TINI;-;" + ;
 		"::file      # " + ::file + ';' + ;
@@ -44,8 +43,7 @@ METHOD ShowVar()
 		"::writeopen # " + formatavar(::WriteOpen)+ ';' + ;
 		"::writecount# " + formatavar(::WriteCount)+ ';' + ;
 		"::separator # " + formatavar(::Separador), 31, false ;		
-	)
-	*/
+	)	
 	return self
 	
 	
@@ -53,8 +51,8 @@ METHOD New( cFile )
 *******************
 	::File      := cFile
 	::Separador := ';'
-	if RAT( ".", ::File ) == 0
-		::File := UPPER( ALLTRIM( cFile )) + ".INI"
+	if rat( ".", ::File ) == 0
+		::File := alltrim( cFile ) + ".ini"
 	endif
 	::Open()
 	//::Close()

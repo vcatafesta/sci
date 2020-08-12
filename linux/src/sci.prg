@@ -1675,9 +1675,9 @@ LOCAL cDtRec	  := "S"
 LOCAL cAtra 	  := "S"
 LOCAL nChoice	  := 1
 LOCAL cDefault   := "06"
-LOCAL cLpt1 	  := oEscolhe:ReadString("printer", "lpt01", cDefault)
-LOCAL cLpt2 	  := oEscolhe:ReadString("printer", "lpt02", cDefault)
-LOCAL cLpt3 	  := oEscolhe:ReadString("printer", "lpt03", cDefault)
+LOCAL cLpt1 	  := oVenlan:ReadString("printer", "lpt01", cDefault)
+LOCAL cLpt2 	  := oVenlan:ReadString("printer", "lpt02", cDefault)
+LOCAL cLpt3 	  := oVenlan:ReadString("printer", "lpt03", cDefault)
 
 LOCAL cNome 	  := Space(10)
 LOCAL Passe
@@ -1855,10 +1855,10 @@ WHILE OK
 			Usuario->NivelR := MSEncrypt( cDtRec	 )  //  28
 			Usuario->NivelS := MSEncrypt( cAtra	 )  //  29
 			Usuario->(Libera())
-			oEscolhe:WriteString('printer', 'lpt01', cLpt1)
-			oEscolhe:WriteString('printer', 'lpt02', cLpt2)
-			oEscolhe:WriteString('printer', 'lpt03', cLpt3)
-			
+			oVenlan:WriteString('printer', 'lpt01', cLpt1)
+			oVenlan:WriteString('printer', 'lpt02', cLpt2)
+			oVenlan:WriteString('printer', 'lpt03', cLpt3)
+
 			aPermissao := {}
 			Aadd( aPermissao, IF( cEs	     = "S", OK, FALSO ))  //   1
 			Aadd( aPermissao, IF( cRe	     = "S", OK, FALSO ))  //   2

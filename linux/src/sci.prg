@@ -1,14 +1,15 @@
 /*
   ┌─────────────────────────────────────────────────────────────────────────?
  ▌│																								 │
- ▌│   Programa.....: SCI.PRG                                                │
- ▌│   Aplicacao....: SCI - SISTEMA COMERCIAL INTEGRADO SCI                  │
- ▌│   Versao.......: 10.0.00                                                │
- ▌│   Escrito por..: Vilmar Catafesta                                       │
+ ▌│   Modulo.......: SCI.PRG                                                │
+ ▌│   Aplicacao....: SCI - SISTEMA COMERCIAL INTEGRADO                      │
+ ▌│   Versao.......: 10.0.04                                                │
+ ▌│   Escrito por..: Vilmar Catafesta, <vcatafesta@gmail.com>               │
  ▌│   Empresa......: Macrosoft Sistemas de Informatica Ltda.                │
  ▌│   Inicio.......: 12 de Novembro de 1991                                 │
- ▌│   Ult.Atual....: 30 de Maio de 2020                                     │
+ ▌│   Ult.Atual....: 11 de Julhode 2020                                     │
  ▌│   Linguagem....: Harbour 3.4                                            │
+ ▌│   Compilador...: Gcc 10.1.0                                             │
  ▌│   Linker.......: Gcc                                                    │
  ▌└─────────────────────────────────────────────────────────────────────────┘
  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
@@ -47,7 +48,7 @@ init def Main(...)
 	PUBLI aIss		  := {}
 	PUBLI XCFGPIRACY := MsEncrypt( ENCRYPT )
 	*:----------------------------------------------------------------------------
-	hb_langSelect( "pt" ) 	
+	hb_langSelect( "pt" )
 	//hb_cdpSelect( "PT860" )
    Altd(1)        //Debug
 	PUBLI oAmbiente := TAmbiente():New()
@@ -56,18 +57,18 @@ init def Main(...)
 	PUBLI oIndice	 := TIndiceNew()
 	PUBLI oProtege	 := TProtegeNew()
    PUBLI oPrinter  := TPrinterNew()
-	PUBLI oReindexa  // Controle de Reindexacao 
+	PUBLI oReindexa  // Controle de Reindexacao
 	PUBLI oSci       // Controle de Usuario
-	PUBLI cCaixa   
+	PUBLI cCaixa
 	*:----------------------------------------------------------------------------
 	//Eval( oAmbiente:TabelaFonte[ oAmbiente:Fonte ])
 	//IntroMain()
 	//Turbo(OK)
 	//OL_AutoYield(OK)
-	//SetMode(oAmbiente:AlturaFonteDefaultWindows, oAmbiente:LarguraFonteDefaultWindows)   
+	//SetMode(oAmbiente:AlturaFonteDefaultWindows, oAmbiente:LarguraFonteDefaultWindows)
 	SetColor("")
 	SetaIni()
-	//RddSetDefault( RDDNAME )   
+	//RddSetDefault( RDDNAME )
 	Acesso()
 	*:----------------------------------------------------------------------------
 	SetKey( F1, 		  {|| HelpReceposi() })
@@ -174,7 +175,6 @@ init def Main(...)
 				#ELSE
 					Alerta("INFORME: Modulo nao disponivel para esse cliente.")
 				#ENDIF
-				
 			Case opc = 2.02
 				#IFDEF RECELAN
 					if aPermissao[SCI_CONTAS_A_RECEBER]
@@ -9992,9 +9992,9 @@ def Cod_Acesso( cCodigo, GetList )
 	Getlist[1]:ExitState := GE_ENTER
 	CenturyOn()
 	return nil
-endef   
-   
-*----------------------------------------------------------------------------------------------------------------------*   
+endef
+
+*----------------------------------------------------------------------------------------------------------------------*
 
 def HoraSaida( HR_ENTRADA, HR_SAIDA )
    LOCAL cStartTime := HR_ENTRADA
@@ -10011,5 +10011,8 @@ def HoraSaida( HR_ENTRADA, HR_SAIDA )
       Cls
       Quit
    endif
-endef   
+endef
 
+*----------------------------------------------------------------------------------------------------------------------*
+
+** end

@@ -1,6 +1,6 @@
 #include "hbclass.ch"
-#Include "box.ch"
-#Include "inkey.ch"
+#include "box.ch"
+#include "inkey.ch"
 
 #Define  FALSO   .F.
 #Define  OK      .T.
@@ -13,6 +13,7 @@ CLASS TRelato
 		  VAR RowPrn
 		  VAR Pagina
 		  VAR Tamanho
+		  VAR Coluna
 		  VAR NomeFirma
 		  VAR Sistema
 		  VAR Titulo
@@ -33,6 +34,7 @@ EndClass
 Method New() class TRelato
 		  ::RowPrn	  := 0
 		  ::Pagina	  := 0
+		  ::Coluna    := 66
 		  ::Tamanho   := 80
 		  ::NomeFirma := if( XNOMEFIR = NIL, AllTrim(oAmbiente:xFanta), XNOMEFIR )
         ::Sistema   := "Macrosoft NOME DO PROGRAMA"
@@ -60,15 +62,19 @@ Method Inicio() class TRelato
 		
 Method PrintOn(cCodigoControle) class TRelato
 	PrintOn()
-	if cCodigoControle != NIL
-		Fprint( cCodigoControle)
+	if !(oAmbiente:lVisSpooler) // Visualizar
+		if cCodigoControle != NIL
+			Fprint( cCodigoControle)
+		endif		
 	endif		
    SetPrc(0,0)
 	return self
 	
 Method PrintOff(cCodigoControle) class TRelato
-	if cCodigoControle != NIL
-		Fprint( cCodigoControle)
+	if !(oAmbiente:lVisSpooler) // Visualizar
+		if cCodigoControle != NIL
+			Fprint( cCodigoControle)
+		endif		   
 	endif		   
 	PrintOff()
 	return self	

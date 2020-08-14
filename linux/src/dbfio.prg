@@ -1,22 +1,22 @@
 /*
-ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ?
- İ³																								 ?
- İ³	Programa.....: FUNCOES.PRG 														 ?
- İ³	Aplicacaoo...: MODULO DE FUNCOES DE APOIO AO SCI							 ?
- İ³	Versao.......: 19.50 																 ?
- İ³	Programador..: Vilmar Catafesta													 ?
- İ³	Empresa......: Microbras Com de Prod de Informatica Ltda 				 ?
- İ³	Inicio.......: 12 de Novembro de 1991. 										 ?
- İ³	Ult.Atual....: 06 de Dezembro de 1998. 										 ?
- İ³	Compilacao...: Clipper 5.2e														 ?
- İ³	Linker.......: Blinker 7.0													   	 ?
- İ³	Bibliotecas..: Clipper/Funcoes/Mouse/Funcky15/Funcky50/Classe/Classic ?
- İÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
- ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€?
+ â–Œâ”‚																								 ?
+ â–Œâ”‚	Programa.....: FUNCOES.PRG 														 ?
+ â–Œâ”‚	Aplicacaoo...: MODULO DE FUNCOES DE APOIO AO SCI							 ?
+ â–Œâ”‚	Versao.......: 19.50 																 ?
+ â–Œâ”‚	Programador..: Vilmar Catafesta													 ?
+ â–Œâ”‚	Empresa......: Microbras Com de Prod de Informatica Ltda 				 ?
+ â–Œâ”‚	Inicio.......: 12 de Novembro de 1991. 										 ?
+ â–Œâ”‚	Ult.Atual....: 06 de Dezembro de 1998. 										 ?
+ â–Œâ”‚	Compilacao...: Clipper 5.2e														 ?
+ â–Œâ”‚	Linker.......: Blinker 7.0													   	 ?
+ â–Œâ”‚	Bibliotecas..: Clipper/Funcoes/Mouse/Funcky15/Funcky50/Classe/Classic ?
+ â–Œâ””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+ â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€
 */
 #include <sci.ch>
 
-STATIC static1 := "ÕÍ¸³¾ÍÔ³"
+STATIC static1 := "â•’â•â••â”‚â•›â•â•˜â”‚"
 STATIC static2 := ""
 STATIC static3 := {1, 1, 0, 0, 0, 0, 0, 0, 0, 24, 79, 1, 0, 0, 0, 1, 8, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, -999, 0, 0, Nil}
 
@@ -1261,12 +1261,12 @@ def NetUse( cBcoDados, lModo, nSegundos, cAlias )
 			FChDir( oAmbiente:xBase )
 			SetColor("")
 			Cls
-			cStr1 := "#1 Se outra esta‡„o estiver usando o sistema, finalize-a. ;;"
-			cStr2 := "#2 Se outra esta‡„o estiver indexando, aguarde o t‚rmino. ;;"
-			cStr3 := "#3 Se SHARE estiver instalado, aumente os par„metros de   ;"
+			cStr1 := "#1 Se outra estaÃ§Ã£o estiver usando o sistema, finalize-a. ;;"
+			cStr2 := "#2 Se outra estaÃ§Ã£o estiver indexando, aguarde o tÃ©rmino. ;;"
+			cStr3 := "#3 Se SHARE estiver instalado, aumente os parÃ£metros de   ;"
 			cStr4 := "   travamento de arquivos. Ex.: SHARE /F:18810 /L:510.    ;;"
 			cStr5 := "#4 Em ambiente de rede NOVELL, verifique o arquivo NET.CFG;"
-			cStr6 := "   e se necess rio, acrescente a linha FILE HANDLES=127.  ;"
+			cStr6 := "   e se necessÃ¡rio, acrescente a linha FILE HANDLES=127.  ;"
 			Alert( cStr1 + cStr2 + cStr3 + cStr4 + cStr5 + cStr6, "W+/B")
 			Break
 			//Quit

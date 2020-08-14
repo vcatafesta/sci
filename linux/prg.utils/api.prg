@@ -1,20 +1,38 @@
+/*
+  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+ İ³                                                                         ³
+ İ³   Programa.....: SCIAPI.PRG                                                ³
+ İ³   Aplicacao....: SCI - SISTEMA COMERCIAL INTEGRADO SCI                  ³
+ İ³   Versao.......: 6.2.30                                                 ³
+ İ³   Escrito por..: Vilmar Catafesta                                       ³
+ İ³   Empresa......: Macrosoft Sistemas de Informatica Ltda.                ³
+ İ³   Inicio.......: 12 de Novembro de 1991.                                ³
+ İ³   Ult.Atual....: 25 de Julho de 2016.                                   ³
+ İ³   Linguagem....: Clipper 5.2e/C/Assembler                               ³
+ İ³   Linker.......: Blinker 6.00                                           ³
+ İ³   Bibliotecas..: Clipper/Funcoes/Mouse/Funcky15/Funcky50/Classe/Classic ³
+ İ³   Bibliotecas..: Oclip/Six3                                             ³
+ İÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+ ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+*/
+
 #include <sci.ch>
 
 //ANNOUNCE HB_GT_SYS 
 //REQUEST HB_GT_WIN
 //REQUEST HB_GT_WVT_DEFAULT
 
-def main()
+def teste()
 /*-----------------------------------------------------------------------------------------------*/	
-	LOCAL ncor := 15
+	LOCAL ncor := 31
 	LOCAL x    := 999
 	LOCAL cstr := ms_replicate("=", 80)
 	LOCAL cfor := MS_for(100)
 	LOCAL ctit := capitalize("Macrosoft api " + ProcName())
 	
-	setcolor("")			
-	MS_Cls(nCor)	
-	//ms_SetConsoleTitle(cTit)
+	//setcolor("")			
+	//MS_Cls(nCor)	
+	ms_SetConsoleTitle(cTit)
 	? cstr	
 	? "Api for Win32, Copyright (c) 1991-2018, Vilmar Catafesta"
 	? "Versao Harbour : ", hb_Version(HB_VERSION_HARBOUR )
@@ -34,29 +52,26 @@ def main()
 	? "capitalize      :", capitalize("vilmar catafesta ")
 	? "capitalize      :", len(capitalize("vilmar catafesta "))
 	
-	ms_pause()
-	
 		
-	ms_cls(23, "*VILMAR**", 0, 00, 00)
+	//SayCls(23, "**°±²VILMAR**", 0, 00, 00)
 	//ms_SetConsole(50 , 110)
-	ms_pause()
+	//ms_cls(ncor, "°±²")
+	//? MS_MAXROW(), MS_MAXBUFFERROW()
+	//? MS_MAXCOL(), MS_MAXBUFFERCOL()
+	//? MS_SETBUFFER(50,120)
+	//? MS_MAXROW(), MS_MAXBUFFERROW()
+	//? MS_MAXCOL(), MS_MAXBUFFERCOL()
 	
-	ms_cls(ncor, "°±")
-	// ? MS_MAXROW(), MS_MAXBUFFERROW()
-	// ? MS_MAXCOL(), MS_MAXBUFFERCOL()
-	// ? MS_SETBUFFER(50,120)
-	// ? MS_MAXROW(), MS_MAXBUFFERROW()
-	// ? MS_MAXCOL(), MS_MAXBUFFERCOL()
-	ms_pause()
-	
+
+	/*
 	for ncor := 0 to 255   
-		MS_Cls(ncor, "°±")
+		MS_Cls(ncor, "°±²")
 		Qout( ncor )
 		inkey(0.01)
 		//inkey(5)
 	next	
-	ms_pause()
-	
+	*/
+
 	//MS_Cls(15)
 	//cscreen := SaveScreen()
 	//inkey(0)
@@ -65,29 +80,15 @@ def main()
 	//restScreen(,,,, cScreen)
 	//inkey(0)
 
-	// Msg("Parametro 1 incorrecto", "Atencion")
-	// ms_writechar(31, "°±VILMAR****")
+	//Msg("Parametro 1 incorrecto", "Atencion")
+	//ms_writechar(31, "°±²VILMAR****")
 
-	//qout( "ms_maxrow()", Ms_MaxRow())
-	//Qout( "ms_maxcol()", Ms_MaxCol())
-	//ms_pause()
-	
-	// teste2()
-	// teste3()
-
+	//Qout( Ms_MaxRow())
+	//Qout( Ms_MaxCol())
 	return nil
 
 /*-----------------------------------------------------------------------------------------------*/	
 
-
-def ms_pause()
-	qout()
-	Qout("Tecle algo ou ESC sair")
-	inkey(0)
-	if lastkey() = 27
-	   __quit()
-	endif		
-	retur nil
 
 #require "hbwin"
 
@@ -367,7 +368,7 @@ LOCAL cPrinter:= WIN_PrinterGetDefault() , cMsg:="", nRet, nErro, cMensagem
          cMsg := 'Erro Imprimindo: '+hb_ntos(nRet)+" "
          SWITCH nRet
          CASE -1
-            cMsg+="Parametros invalidos passados para funcao."   ; EXIT
+            cMsg+="Parƒmetros inv lidos passados para fun‡„o."   ; EXIT
          CASE -2
             cMsg+="WinAPI OpenPrinter() falha na chamada."      ; EXIT
          CASE -3 
@@ -375,14 +376,14 @@ LOCAL cPrinter:= WIN_PrinterGetDefault() , cMsg:="", nRet, nErro, cMensagem
          CASE -4
             cMsg+="WinAPI StartPagePrinter() falha na chamada." ; EXIT
          CASE -5
-            cMsg+="WinAPI malloc() falha de memoria."           ; EXIT
+            cMsg+="WinAPI malloc() falha de mem¢ria."           ; EXIT
          CASE -6
-            cMsg+="Arquivo " + cArq + " nao localizado."        ; EXIT
+            cMsg+="Arquivo " + cArq + " n„o localizado."        ; EXIT
          END
          nErro := wapi_GetLastError()
          cMensagem := space(128)
          wapi_FormatMessage(,,,,@cMensagem)
-			Alert("Numero: "+hb_ntos(nErro)+;
+        Alert("N§ erro: "+hb_ntos(nErro)+;
                                 hb_eol()+;
                                 hb_eol()+;
                                 cMsg+;

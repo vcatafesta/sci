@@ -135,7 +135,7 @@ METHOD CriaNtx()
 
 			//nSetColor( Roloc( Cor()))
 
-			Write( Self:Row+nX, Self:Col+1, Self:aNome_Ntx[nX] + Repl("Ä", 24 - Len( Self:aNome_Ntx[nX])))
+			Write( Self:Row+nX, Self:Col+1, Self:aNome_Ntx[nX] + Repl("â”€", 24 - Len( Self:aNome_Ntx[nX])))
 			Write( Self:Row+nX, Self:Col+15+10, Chr(10))
 
 			if RddSetDefa() = "DBFNTX"
@@ -162,7 +162,7 @@ METHOD CriaNtx()
 				endif
 			endif
 			nSetColor(Cor())
-			Write( Self:Row+nX, Self:Col+1, Self:aNome_Ntx[nX] + Repl("Ä", 24 - Len( Self:aNome_Ntx[nX])))
+			Write( Self:Row+nX, Self:Col+1, Self:aNome_Ntx[nX] + Repl("â”€", 24 - Len( Self:aNome_Ntx[nX])))
 			Write( Self:Row+nX, Self:Col+15+10, Chr(251))		
 		Next	
 		Self:Reindexando	:= false
@@ -183,10 +183,10 @@ METHOD def ProgNtx
 	if cComplete  = "99"
 		cComplete := "100"
 	endif
-	@ Self:Row-4, Self:Col+1 Say "þ " + LTrim(Str(nReg)) + " de " + LTrim(Str(nUltimo )) + " Registros"
-	@ Self:Row-3, Self:Col+1 Say "þ " + cComplete + "%"
+	@ Self:Row-4, Self:Col+1 Say "â–  " + LTrim(Str(nReg)) + " de " + LTrim(Str(nUltimo )) + " Registros"
+	@ Self:Row-3, Self:Col+1 Say "â–  " + cComplete + "%"
 	@ Self:Row-2, Self:Col+1 Say Replicate(" ", 100/2 ) Color "W+/r"
-	@ Self:Row-2, Self:Col+1 Say Replicate("Û", nPorcento/2 ) Color "W+/r"
+	@ Self:Row-2, Self:Col+1 Say Replicate("â–ˆ", nPorcento/2 ) Color "W+/r"
 	return true
 	
 

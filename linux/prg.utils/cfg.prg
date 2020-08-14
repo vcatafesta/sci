@@ -1,11 +1,8 @@
-//#include "sci.ch"
-#include "clientes.ch"
-#include "hbver.ch"
-#include "fileio.ch"
+#include <sci.ch>
 
 #Define  XEXE            "SCI.EXE"
-#Define  XSISTEM_VERSAO  "- Vers„o 9.4.01 x86_64 "
-#Define  XSISTEM_1       "Macrosoft SCI for Linux"
+#Define  XSISTEM_VERSAO  "- Vers„o r09082018_8.6.00_x32_64"
+#Define  XSISTEM_1       "Macrosoft SCI for Windows"
 #Define  XSISTEM_2       "Macrosoft SCI - CONTROLE ESTOQUE"
 #Define  XSISTEM_3       "Macrosoft SCI - CONTAS RECEBER"
 #Define  XSISTEM_4       "Macrosoft SCI - CONTAS PAGAR"
@@ -14,17 +11,12 @@
 #Define  XSISTEM_7       "Macrosoft SCI - CONTROLE PRODUCAO"
 #Define  XSISTEM_8       "Macrosoft SCI - CONTROLE PONTO"
 #Define  DATALIMITE      DTOC(DATE()+15) // MM/DD/YY
-#Translate MsWriteLine	    => FWriteLine
-#Translate MsReadLine	    => FReadL sci.err ine
-#Translate Encrypt 	 	 	 => HB_Crypt
-#Translate Decrypt			 => HB_Decrypt
 
 *---------------------------*
-function main()
+def main()
 *---------------------------*
    LOCAL hSci           := Hash() // {=>}
 	LOCAL cEncrypt       := ENCRYPT
-	LOCAL cXnomefir      := ENCRYPT
 	LOCAL cVersao        := XSISTEM_VERSAO
 	LOCAL cSis1          := XSISTEM_1
 	LOCAL cSis2          := XSISTEM_2
@@ -34,7 +26,8 @@ function main()
 	LOCAL cSis6          := XSISTEM_6
 	LOCAL cSis7          := XSISTEM_7
 	LOCAL cSis8          := XSISTEM_8
-	LOCAL cExe           := XEXE	
+	LOCAL cExe           := XEXE
+	LOCAL cXnomefir      := ENCRYPT
 	LOCAL cSystem_Versao := XSISTEM_VERSAO
 	LOCAL cSci           := XSISTEM_1
 	LOCAL cTestelan      := XSISTEM_2
@@ -45,9 +38,6 @@ function main()
 	LOCAL cProducao      := XSISTEM_7
 	LOCAL cPonto         := XSISTEM_8
 	Set Century On
-   Set Date To Italian
-   
-   cSystem_Versao += Dtoc(Date()) + " " + Left(Time(),5)
 	
 	?
 	? "cfg, Copyright(c) 2018, Vilmar Catafesta"
@@ -55,19 +45,19 @@ function main()
 	? "   Compiler C++   : ", hb_Version(HB_VERSION_COMPILER)
 	?
 	?	
-	Qout("þþþ Excluindo sci.cfg...")
-	Ferase("sci.cfg")	
-	Qout("þþþ Criando novo sci.cfg...")
-	handle := FCreate("sci.cfg")
+	Qout("þþþ Excluindo SCI.CFG...")
+	Ferase("SCI.CFG")	
+	Qout("þþþ Criando novo SCI.CFG...")
+	handle := FCreate("SCI.CFG")
 	if ( Ferror() != 0 )
-		Alert("Erro de Criacao de sci.cfg")
+		Alert("Erro de Criacao de SCI.CFG")
 		__Quit()
 	endif
-	Qout("þþþ Gravando String em sci.cfg...")
-	cMicrobras := "CCopyright (c) 1991, 2018 Vilmar Catafesta"
-	cEndereco  := "AAv Castelo Branco, 693 * Pioneiros * (69)3451-3085/98110-1393 * Pimenta Bueno/RO"
-	cTelefone  := "eemail * vcatafesta@sybernet.com.br/vcatafesta@gmail.com   "
-	cCidade    := "hhttp://www.sybernet.com.br - Todos Direitos Reservados"
+	Qout("þþþ Gravando String em SCI.CFG...")
+	cMicrobras := "Copyright (c) 1991, 2018 Vilmar Catafesta"
+	cEndereco  := "Av Castelo Branco, 693 * bairro Pioneiros * (69)3451-3085/98110-1393 * Pimenta Bueno/RO"
+	cTelefone  := "email * vcatafesta@sybernet.com.br/vcatafesta@gmail.com   "
+	cCidade    := "http://www.sybernet.com.br - Todos Direitos Reservados"
 	
 	MsWriteLine( Handle, "[ENDERECO_STRING]")
 	MsWriteLine( Handle, cMicroBras )
@@ -113,12 +103,12 @@ function main()
 	MsWriteLine( Handle, MSEncrypt("ßßßßßßßßÙ  ßßßßßßßßÙ ßß³"))
 	MsWriteLine( Handle, MSEncrypt(" ßßßßßßÙ    ßßßßßßÙ  ßßÙ"))
 	Fclose(handle)      
-	Qout("þþþ Arquivo sci.cfg. OK.")
-	Qout("þþþ Criando sci.dbf.")
+	Qout("þþþ Arquivo SCI.CFG. OK.")
+	Qout("þþþ Criando SCI.DBF.")
 	CriaDbf()
 	Qout("þþþ Anexando Informacoes.")
 	Set Date To USA
-	Use sci New
+	Use Sci New
 	DbAppend()
 	Sci->EMPRESA  := MSEncrypt( ENCRYPT )        ; Sci->NOME     := ENCRYPT
 	Sci->CODI_SCI := MSEncrypt( XSISTEM_1 )      ; Sci->NOME_SCI := XSISTEM_1
@@ -129,7 +119,7 @@ function main()
 	Sci->CODI_VEN := MSEncrypt( XSISTEM_6 )      ; Sci->NOME_VEN := XSISTEM_6
 	Sci->CODI_PRO := MSEncrypt( XSISTEM_7 )      ; Sci->NOME_PRO := XSISTEM_7
 	Sci->CODI_PON := MSEncrypt( XSISTEM_8 )      ; Sci->NOME_PON := XSISTEM_8
-	Sci->CODI_VER := MSEncrypt( cSystem_Versao)  ; Sci->NOME_VER := cSystem_Versao
+	Sci->CODI_VER := MSEncrypt( XSISTEM_VERSAO ) ; Sci->NOME_VER := XSISTEM_VERSAO
 	Sci->NOMEEXE  := MSEncrypt( XEXE )
 	Sci->LIMITE   := MSEncrypt( DATALIMITE )
 	Set Date Brit
@@ -142,9 +132,9 @@ function main()
 	Quit
 
 *---------------------------*
-function CriaDbf()
+def CriaDbf()
 *---------------------------*
-	DbCreate("sci.dbf", ;
+	DbCreate("SCI.DBF", ;
 					{{ "EMPRESA",    "C", 40, 0 },;
 					{ "NOME",       "C", 40, 0 },;
 					{ "CODI_SCI",   "C", 45, 0 },;
@@ -170,7 +160,7 @@ function CriaDbf()
 	return
 
 *--------------------*
-function MsDecrypt( Pal )
+def MsDecrypt( Pal )
 *--------------------*
 	LOCAL cChave	:= ""
 	LOCAL nX 		:= 0
@@ -181,7 +171,7 @@ function MsDecrypt( Pal )
 	return( Decrypt( Pal, cChave ))
 
 *--------------------*
-function MsEncrypt( Pal )
+def MsEncrypt( Pal )
 *--------------------*
 	LOCAL cChave	:= ""
 	LOCAL nX 		:= 0
@@ -192,7 +182,7 @@ function MsEncrypt( Pal )
 	return( Encrypt( Pal, cChave ))
 
 *---------------------------*	
-function FWriteLine( nH, cBuffer)
+def FWriteLine( nH, cBuffer)
 *---------------------------*
 	LOCAL nSavePos
 	LOCAL nNumRead
@@ -205,7 +195,7 @@ function FWriteLine( nH, cBuffer)
    return nNumRead != 0	
 	
 *---------------------------*
-function FBot( nHandle )
+def FBot( nHandle )
 *---------------------------*
    LOCAL nPos := FSeek( nHandle, 0, FS_END )
    return nPos	!= -2	

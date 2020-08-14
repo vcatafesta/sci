@@ -305,19 +305,6 @@ def formatavar(xvar)
 	endswitch
 endef
 
-def ValueAndTypeVar(xvar)	
-	switch valtype(xvar)
-		case "C" 
-			alertpy("Tipo : ", "C", ";Valor :" + trimstr(xvar))
-		case "N" 
-			return(trimstr(xvar))
-		case "L"
-			return(truefalse(xvar))
-		case "D"	
-			return(dtoc(xvar))				
-	endswitch
-endef
-
 *==================================================================================================*	
 
 def truefalse(xvar)

@@ -1,0 +1,684 @@
+// https://msdn.microsoft.com/en-us/library/windows/desktop/ms681382(v=vs.85).aspx
+
+
+
+Extended DOS Error Messages
+Posted on October 24, 2013 by vivaclipper
+0 No error occurred.
+1 Invalid function number.
+2 File not found.
+3 Path not found.
+4 Too many open files (no handles left).
+5 Access denied.
+6 Invalid handle.
+7 Memory control blocks destroyed.
+8 Insufficient memory.
+9 Invalid memory-block address.
+10 Invalid environment.
+11 Invalid format.
+12 Invalid access code.
+13 Invalid data.
+14 Reserved.
+15 Invalid drive specified.
+16 Attempting to remove current directory.
+17 Not same device.
+18 No more files.
+19 Attempt to write on write-protected diskette.
+20 Unknown unit.
+21 Drive not ready.
+22 Unknown command.
+23 Data error – cyclic redundancy check.
+24 Invalid request structure length.
+25 Seek error.
+26 Unknown media type.
+27 Sector not found.
+28 Printer is out of paper.
+29 Write fault.
+30 Read fault.
+31 General failure.
+32 Sharing violation.
+33 Lock violation.
+34 Invalid disk change.
+35 FCB unavailable.
+36 Sharing buffer overflow.
+37 Code page does not match.
+38 End of file reached.
+39 Disk is full.
+40-49 Reserved.
+50 Network request not supported.
+51 Remote network node is not online.
+52 Duplicate file name in network.
+53 Network path not found.
+54 Network is busy.
+55 Device is not installed in network.
+56 Network command limit reached.
+57 Network adapter hardware error.
+58 Incorrect response in network.
+59 Unexpected error in network.
+60 Remote network adapter error.
+61 Network printer queue is full.
+62 No space in print spool file.
+63 Print spool file deleted.
+64 Network name deleted.
+65 Access to network denied.
+66 Device type invalid for network.
+67 Network name not found.
+68 Network name limit exceeded.
+69 Network session limit exceeded.
+70 Temporary pause in network.
+71 Network request denied.
+72 Pause in network print disk redirection.
+73 Attempted write on protected disk.
+74 General failure, single-byte character set.
+75-79 Reserved.
+80 File exists.
+81 Reserved.
+82 Cannot make directory entry.
+83 Failure on INT 24.
+84 Too many redirections.
+85 Duplicate redirection.
+86 Invalid password.
+87 Invalid parameter.
+88 Network device fault.
+89 No process slots available.
+90 System error.
+91 Timer service table overflow.
+92 Timer service table duplicate.
+93 No items to work on.
+95 Interrupted system call.
+99 Device in use.
+100 User/system open semaphore limit reached.
+101 Exclusive semaphore already owned.
+102 DosCloseSem found semaphore set.
+103 Too many exclusive semaphore requests.
+104 Operation invalid at interrupt time.
+105 Previous semaphore owner terminated without freeing semaphore.
+106 Semaphore limit exceeded.
+107 Insert drive B disk into drive A.
+108 Drive locked by another process.
+109 Write on pipe with no reader.
+110 Open/create failed due to explicit fail command.
+111 Buffer passed to system call too small to hold return data.
+112 Not enough space on the disk.
+113 Cannot allocate another search structure and handle.
+114 Target handle in DosDupHandle invalid.
+115 Invalid user virtual address.
+116 Error on display write or keyboard read.
+117 Category for DevIOCtl not defined.
+118 Invalid value passed for verify flag.
+119 Level four driver not found.
+120 Invalid function called.
+121 Time-out occurred from semaphore API function.
+122 Data buffer too small.
+123 Illegal character or invalid file-system name.
+124 Non-implemented level for information retrieval or setting.
+125 No volume label found with DosQueryFSInfo function.
+126 Module handle not found with DosQueryAddr(), DosQueryProcAddr().
+127 Procedure address not found with DosQueryProcAddr().
+128 DosWaitChild finds no children.
+129 DosWaitChild children not terminated.
+130 Handle operation invalid for direct disk-access handles.
+131 Attempting seek to negative offset.
+132 Application trying to seek on device or pipe.
+133 Drive has previously joined drives.
+134 Drive is already joined.
+135 Drive is already substituted.
+136 Cannot delete drive that is not joined.
+137 Cannot delete drive that is not substituted.
+138 Cannot join to a joined drive.
+139 Cannot substitute to a substituted drive.
+140 Cannot join to a substituted drive.
+141 Cannot substitute to a joined drive.
+142 Specified drive is busy.
+143 Cannot join or substitute a drive to a directory on the same drive.
+144 Directory must be a subdirectory of the root.
+145 Directory must be empty to use join command.
+146 Path specified is being used in a substitute.
+147 Path specified is being used in a join.
+148 Path specified is being used by another process.
+149 Cannot join or substitute a drive that has a directory that is the target of a previous substitute.
+150 System trace error.
+151 DosWaitMuxWaitSem errors.
+152 System limit of 100 entries reached.
+153 Invalid list format.
+154 Volume label too big.
+155 Cannot create another TCB.
+156 Signal refused.
+157 Segment is discarded.
+158 Segment is not locked.
+159 Invalid thread-identity address.
+160 Invalid environment pointer.
+161 Invalid path name passed to exec.
+162 Signal already pending.
+163 Error with INT 24 mapping.
+164 No more process slots.
+165 Error with INT 24 mapping.
+166 Default redirection return code.
+167 Locking failed.
+168 Swap I/O failed.
+169 Swap in failed.
+170 Segment is busy.
+171-172 Reserved.
+173 A lock request is not outstanding for the specified file range, or the range length is zero.
+174 The file-system driver (FSD) does not support atomic lock operations. Versions of OS/2 prior to version 2.00 do not support atomic lock operations.
+175 The file system driver (FSD) does not support shared read locks.
+176-179 Reserved.
+180 Invalid segment number.
+181 Invalid call gate.
+182 Invalid ordinal.
+183 Shared segment already exists.
+184 No child process to wait for.
+185 NoWait specified and child alive.
+186 Invalid flag number.
+187 Semaphore does not exist.
+188 Invalid starting code segment, incorrect END (label) directive.
+189 Invalid stack segment.
+190 Invalid module type – dynamic-link library file cannot be used as an application. Application cannot be used as a dynamic-link library.
+191 Invalid EXE signature – file is a DOS mode program or an improper program.
+192 EXE marked invalid – link detected errors when the application was created.
+193 Invalid EXE format – file is a DOS mode program or an improper program.
+194 Iterated data exceeds 64KB – there is more than 64KB of data in one of the segments of the file.
+195 Invalid minimum allocation size – the size is specified to be less than the size of the segment data in the file.
+196 Dynamic link from invalid privilege level – privilege level 2 routine cannot link to dynamic-link libraries.
+197 IOPL not enabled – IOPL set to NO in CONFIG.SYS.
+198 Invalid segment descriptor privilege level – can only have privilege levels of 2 and 3.
+199 Automatic data segment exceeds 64KB.
+200 Privilege level 2 segment must be movable.
+201 Relocation chain exceeds segment limit.
+202 Infinite loop in relocation chain segment.
+203 Environment variable not found.
+204 Not current country.
+205 No signal sent – no process in the command subtree has a signal handler.
+206 File name or extension is greater than 8.3 characters.
+207 Privilege level 2 stack is in use.
+208 Meta (global) expansion is too long.
+209 Invalid signal number.
+210 Inactive thread.
+211 File system information is not available for this file.
+212 Locked error.
+213 Attempted to execute a non-family API in DOS mode.
+214 Too many modules.
+215 Nesting is not allowed.
+217 Zombie process.
+218 Stack is in high memory.
+219 Invalid exit routine ring.
+220 Get buffer failed.
+221 Flush buffer failed.
+222 Transfer is too long.
+224 The application window was created without the FCF_TASKLIST style, or the application window not yet been created or has already been destroyed.
+228 No child process.
+229 Invalid session.
+230 Non-existent pipe or invalid operation.
+231 Pipe is busy.
+232 No data available on non-blocking read.
+233 Pipe was disconnected by server.
+234 More data is available.
+240 Session was dropped due to errors.
+250 Renaming a directory that would cause a circularity problem.
+251 Renaming a directory that is in use.
+252 Trying to access nonexistent FSD.
+253 Invalid pseudo device.
+254 Invalid character in name, or invalid cbName.
+255 List does not match its size, or there are invalid EAs in the list.
+256 FEAList is longer than 64K-1 bytes.
+257 String does not match expression.
+259 DosQueryFSAttach ordinal query.
+260 DOS mode findfirst/next search structure reused.
+261 Character not found.
+262 Stack request exceeds system limit.
+263 Invalid attribute.
+264 Invalid starting ring.
+265 Invalid DLL INIT ring.
+266 Cannot copy.
+267 Used by DOSCOPY in doscall1.
+268 Oplocked file.
+269 Oplock thread exists.
+270 Volume changed.
+271-273 Reserved.
+274 System is already shut down.
+275 Buffer is not big enough to hold the EAs.
+276 EA file has been damaged.
+277 EA table is full.
+278 EA handle is invalid.
+279 No cluster.
+280 Cannot create the EA file.
+281 Cannot open the EA file.
+282 Destination file system does not support EAs.
+283 Destination file system does not support EAs, and the source file’s EAs contain a need EA.
+284 The handle already exists.
+285 The name already exists.
+286 The list of semaphores in a muxwait semaphore is empty.
+287 The calling thread owns one or more of the mutex semaphores in the list.
+288 Caller does not own the semaphore.
+289 Parameter is not large enough to contain all of the semaphore records in the muxwait semaphore.
+290 Limit reached for number of handles.
+291 There are too many files or semaphores open.
+292 Attempted to create wrong type of semaphore.
+293 Code is not used.
+294 Thread has not terminated.
+295 Initialization routine failed.
+296 Module is in use.
+297 There are not enough watchpoints.
+298 Post count limit was reached for an event semaphore.
+299 Event semaphore is already posted.
+300 Event semaphore is already reset.
+301 Semaphore is busy.
+302 Reserved
+303 Invalid process identity.
+304 Invalid priority delta.
+305 Not descendant.
+306 Requestor not session manager.
+307 Invalid P class.
+308 Invalid scope.
+309 Invalid thread identity.
+310 Cannot shrink segment – DosSubSetMem.
+311 No memory to satisfy request – DosSubAllocMem.
+312 Overlap of the specified block with a block of allocated memory – DosSubFreeMem.
+313 Invalid size parameter – DosSubAllocMem or DosSubFreeMem.
+314 Invalid flag parameter – DosSubSetMem.
+315 Invalid segment selector.
+316 Message too long for buffer.
+317 Message identity number not found.
+318 Unable to access message file.
+319 Invalid message file format.
+320 Invalid insertion variable count.
+321 Unable to perform function.
+322 Unable to wake up.
+323 Invalid system semaphore.
+324 No timers available.
+326 Invalid timer handle.
+327 Date or time invalid.
+328 Internal system error.
+329 Current queue name does not exist.
+330 Current process does not own queue.
+331 Current process owns queue.
+332 Duplicate queue name.
+333 Queue element does not exist.
+334 Inadequate queue memory.
+335 Invalid queue name.
+336 Invalid queue priority parameter.
+337 Invalid queue handle.
+338 Queue link not found.
+339 Queue memory error.
+340 Previous queue element was at end of queue.
+341 Process does not have access to queues.
+342 Queue is empty.
+343 Queue name does not exist.
+344 Queues not initialized.
+345 Unable to access queues.
+346 Unable to add new queue.
+347 Unable to initialize queues.
+349 Invalid function replaced.
+350 Invalid pointer to parameter.
+351 Invalid pointer to attribute.
+352 Invalid pointer to row.
+353 Invalid pointer to column.
+354 Invalid pointer to length.
+355 Unsupported screen mode.
+356 Invalid cursor width value.
+357 Invalid cursor attribute value.
+358 Invalid row value.
+359 Invalid column value.
+360 Invalid TopRow value.
+361 Invalid BotRow value.
+362 Invalid right column value.
+363 Invalid left column value.
+364 Call issued by other than session manager.
+365 Value is not for save or restore.
+366 Invalid wait flag setting.
+367 Screen not previously locked.
+368 Caller not session manager.
+369 Invalid session identity.
+369 Invalid session ID.
+370 No sessions available.
+370 No sessions available.
+371 Session not found.
+371 Session not found.
+372 Title sent by shell or parent cannot be changed.
+373 Invalid parameter to keyboard.
+374 No device.
+375 Invalid I/O wait specified.
+376 Invalid length for keyboard.
+377 Invalid echo mode mask.
+378 Invalid input mode mask.
+379 Invalid parameters to DosMon.
+380 Invalid device name string.
+381 Invalid device handle.
+382 Buffer too small.
+383 Buffer is empty.
+384 Data record is too large.
+385 Mouse device closed (invalid device handle).
+386 Mouse device closed (invalid device handle).
+387 Parameters invalid for display mode.
+388 Function assigned and cannot be reset.
+389 Parameters invalid for display mode.
+390 Module not valid.
+391 Entry point not valid.
+392 Function mask invalid.
+393 No valid data.
+394 Pointer drawn.
+395 Invalid frequency for beep.
+396 Cannot find COUNTRY.SYS file.
+397 Cannot open COUNTRY.SYS file.
+398 Country code not found.
+399 Table returned information truncated, buffer is too small.
+400 Selected type does not exist.
+401 Selected type is not in file.
+402 Valid from session manager only.
+403 Invalid ASCIIZ length.
+404 VioDeRegister not allowed.
+405 Pop-up window not allocated.
+406 Pop-up window on screen (NoWait).
+407 Valid from session manager only.
+408 Invalid ASCIIZ length.
+409 Invalid replacement mask.
+410 KbdRegister not allowed.
+411 KbdDeRegister not allowed.
+412 Valid from session manager only.
+413 Invalid ASCIIZ length.
+414 Invalid replacement mask.
+415 Mouse register not allowed.
+416 Mouse deregister not allowed.
+417 Invalid action specified.
+418 INIT called more than once, or invalid session identity.
+419 New session number.
+420 Caller is not shell.
+421 Invalid parameters passed.
+422 Save/restore already owned.
+423 Non-destruct return (undo).
+424 Caller invalid function.
+425 Caller not session manager.
+426 Vio register not allowed.
+427 No mode restore thread in SG.
+428 No save/restore thread in SG.
+429 Function invalid in background.
+430 Function not allowed during pop-up window.
+431 Caller is not the base shell.
+432 Invalid status requested.
+433 NoWait parameter out of bounds.
+434 Error returned from Scroll Lock.
+435 Invalid parameters for IOWait.
+436 Invalid VIO handle.
+437 Function not allowed during screen lock.
+438 Invalid VIO length.
+439 Invalid KBD handle.
+440 Ran out of handles.
+441 Unable to create kcb.
+442 Unsuccessful code-page load.
+443 Invalid code-page identity.
+444 No code page support.
+445 Keyboard focus required.
+446 Calling thread has an outstanding focus.
+447 Keyboard is busy.
+448 Invalid code page.
+449 Focus attempt failed.
+450 Session is not selectable.
+451 Parent/child session is not foreground.
+452 Not parent of requested child.
+453 Invalid session start mode.
+454 Invalid session start related option.
+455 Invalid session bond option.
+456 Invalid session select option.
+457 Session started in background.
+458 Invalid session stop option.
+459 Reserved parameters are not zero.
+460 Session parent process already exists.
+461 Invalid data length.
+462 Parent is not bound.
+463 Retry request block allocation.
+464 This call is not allowed for a detached PID.
+465 This call is not allowed for a detached PID.
+466 This call is not allowed for a detached PID.
+467 No font is available to support the mode.
+468 User font is active.
+469 Invalid code page specified.
+470 System displays do not support code page.
+471 Current display does not support code page.
+472 Invalid code page.
+473 Code page list is too small.
+474 Code page was not moved.
+475 Mode switch initialization error.
+476 Code page was not found.
+477 Internal error.
+478 Invalid start session trace indicator.
+479 VIO internal resource error.
+480 VIO shell initialization error.
+481 No session manager hard errors.
+482 DosSetProcessCp is unable to set a KBD or VIO code page.
+483 Error during VIO pop-up window.
+484 Critical section overflow.
+485 Critical section underflow.
+486 Reserved parameter is not zero.
+487 Invalid physical address.
+488 At least one selector must be requested.
+489 Not enough GDT selectors to satisfy request.
+490 Not a GDT selector.
+491 Invalid program type.
+492 Invalid program control.
+493 Invalid inherit option.
+494 ERROR_VIO_EXTENDED_SG
+495 ERROR_VIO_NOT_PRES_MGR_SG
+496 ERROR_VIO_SHIELD_OWNED
+497 ERROR_VIO_NO_MORE_HANDLES
+498 ERROR_VIO_SEE_ERROR_LOG
+499 ERROR_VIO_ASSOCIATED_DC
+500 ERROR_KBD_NO_CONSOLE
+501 ERROR_MOUSE_NO_CONSOLE
+502 ERROR_MOUSE_INVALID_HANDLE
+503 ERROR_SMG_INVALID_DEBUG_PARMS
+504 ERROR_KBD_EXTENDED_SG
+505 ERROR_MOU_EXTENDED_SG
+506 ERROR_SMG_INVALID_ICON_FILE
+507 ERROR_TRC_PID_NON_EXISTENT
+508 ERROR_TRC_COUNT_ACTIVE
+509 ERROR_TRC_SUSPENDED_BY_COUNT
+510 ERROR_TRC_COUNT_INACTIVE
+511 ERROR_TRC_COUNT_REACHED
+512 ERROR_NO_MC_TRACE
+513 ERROR_MC_TRACE
+514 ERROR_TRC_COUNT_ZERO
+515 ERROR_SMG_TOO_MANY_DDS
+516 ERROR_SMG_INVALID_NOTIFICATION
+517 ERROR_LF_INVALID_FUNCTION
+518 ERROR_LF_NOT_AVAIL
+519 ERROR_LF_SUSPENDED
+520 ERROR_LF_BUF_TOO_SMALL
+521 ERROR_LF_BUFFER_CORRUPTED
+521 ERROR_LF_BUFFER_FULL
+522 ERROR_LF_INVALID_DAEMON
+522 ERROR_LF_INVALID_RECORD
+523 ERROR_LF_INVALID_TEMPL
+523 ERROR_LF_INVALID_SERVICE
+524 ERROR_LF_GENERAL_FAILURE
+525 ERROR_LF_INVALID_ID
+526 ERROR_LF_INVALID_HANDLE
+527 ERROR_LF_NO_ID_AVAIL
+528 ERROR_LF_TEMPLATE_AREA_FULL
+529 ERROR_LF_ID_IN_USE
+530 ERROR_MOU_NOT_INITIALIZED
+531 ERROR_MOUINITREAL_DONE
+532 ERROR_DOSSUB_CORRUPTED
+533 ERROR_MOUSE_CALLER_NOT_SUBSYS
+534 ERROR_ARITHMETIC_OVERFLOW
+535 ERROR_TMR_NO_DEVICE
+536 ERROR_TMR_INVALID_TIME
+537 ERROR_PVW_INVALID_ENTITY
+538 ERROR_PVW_INVALID_ENTITY_TYPE
+539 ERROR_PVW_INVALID_SPEC
+540 ERROR_PVW_INVALID_RANGE_TYPE
+541 ERROR_PVW_INVALID_COUNTER_BLK
+542 ERROR_PVW_INVALID_TEXT_BLK
+543 ERROR_PRF_NOT_INITIALIZED
+544 ERROR_PRF_ALREADY_INITIALIZED
+545 ERROR_PRF_NOT_STARTED
+546 ERROR_PRF_ALREADY_STARTED
+547 ERROR_PRF_TIMER_OUT_OF_RANGE
+548 ERROR_PRF_TIMER_RESET
+639 ERROR_VDD_LOCK_USEAGE_DENIED
+640 ERROR_TIMEOUT
+641 ERROR_VDM_DOWN
+642 ERROR_VDM_LIMIT
+643 ERROR_VDD_NOT_FOUND
+644 ERROR_INVALID_CALLER
+645 ERROR_PID_MISMATCH
+646 ERROR_INVALID_VDD_HANDLE
+647 ERROR_VLPT_NO_SPOOLER
+648 ERROR_VCOM_DEVICE_BUSY
+649 ERROR_VLPT_DEVICE_BUSY
+650 ERROR_NESTING_TOO_DEEP
+651 ERROR_VDD_MISSING
+691 ERROR_IMP_INVALID_PARM
+692 ERROR_IMP_INVALID_LENGTH
+693 MSG_HPFS_DISK_ERROR_WARN
+730 ERROR_MON_BAD_BUFFER
+731 ERROR_MODULE_CORRUPTED
+2055 ERROR_LF_TIMEOUT
+2057 ERROR_LF_SUSPEND_SUCCESS
+2058 ERROR_LF_RESUME_SUCCESS
+2059 ERROR_LF_REDIRECT_SUCCESS
+2060 ERROR_LF_REDIRECT_FAILURE
+32768 ERROR_SWAPPER_NOT_ACTIVE
+32769 ERROR_INVALID_SWAPID
+32770 ERROR_IOERR_SWAP_FILE
+32771 ERROR_SWAP_TABLE_FULL
+32772 ERROR_SWAP_FILE_FULL
+32773 ERROR_CANT_INIT_SWAPPER
+32774 ERROR_SWAPPER_ALREADY_INIT
+32775 ERROR_PMM_INSUFFICIENT_MEMORY
+32776 ERROR_PMM_INVALID_FLAGS
+32777 ERROR_PMM_INVALID_ADDRESS
+32778 ERROR_PMM_LOCK_FAILED
+32779 ERROR_PMM_UNLOCK_FAILED
+32780 ERROR_PMM_MOVE_INCOMPLETE
+32781 ERROR_UCOM_DRIVE_RENAMED
+32782 ERROR_UCOM_FILENAME_TRUNCATED
+32783 ERROR_UCOM_BUFFER_LENGTH
+32784 ERROR_MON_CHAIN_HANDLE
+32785 ERROR_MON_NOT_REGISTERED
+32786 ERROR_SMG_ALREADY_TOP
+32787 ERROR_PMM_ARENA_MODIFIED
+32788 ERROR_SMG_PRINTER_OPEN
+32789 ERROR_PMM_SET_FLAGS_FAILED
+32790 ERROR_INVALID_DOS_DD
+32791 ERROR_BLOCKED
+32792 ERROR_NOBLOCK
+32793 ERROR_INSTANCE_SHARED
+32794 ERROR_NO_OBJECT
+32795 ERROR_PARTIAL_ATTACH
+32796 ERROR_INCACHE
+32797 ERROR_SWAP_IO_PROBLEMS
+32798 ERROR_CROSSES_OBJECT_BOUNDARY
+32799 ERROR_LONGLOCK
+32800 ERROR_SHORTLOCK
+32801 ERROR_UVIRTLOCK
+32802 ERROR_ALIASLOCK
+32803 ERROR_ALIAS
+32804 ERROR_NO_MORE_HANDLES
+32805 ERROR_SCAN_TERMINATED
+32806 ERROR_TERMINATOR_NOT_FOUND
+32807 ERROR_NOT_DIRECT_CHILD
+32808 ERROR_DELAY_FREE
+32809 ERROR_GUARDPAGE
+32900 ERROR_SWAPERROR
+32901 ERROR_LDRERROR
+32902 ERROR_NOMEMORY
+32903 ERROR_NOACCESS
+32904 ERROR_NO_DLL_TERM
+65026 ERROR_CPSIO_CODE_PAGE_INVALID
+65027 ERROR_CPSIO_NO_SPOOLER
+65028 ERROR_CPSIO_FONT_ID_INVALID
+65033 ERROR_CPSIO_INTERNAL_ERROR
+65034 ERROR_CPSIO_INVALID_PTR_NAME
+65037 ERROR_CPSIO_NOT_ACTIVE
+65039 ERROR_CPSIO_PID_FULL
+65040 ERROR_CPSIO_PID_NOT_FOUND
+65043 ERROR_CPSIO_READ_CTL_SEQ
+65045 ERROR_CPSIO_READ_FNT_DEF
+65047 ERROR_CPSIO_WRITE_ERROR
+65048 ERROR_CPSIO_WRITE_FULL_ERROR
+65049 ERROR_CPSIO_WRITE_HANDLE_BAD
+65074 ERROR_CPSIO_SWIT_LOAD
+65077 ERROR_CPSIO_INV_COMMAND
+65078 ERROR_CPSIO_NO_FONT_SWIT
+65079 ERROR_ENTRY_IS_CALLGATE
+
+ 
+ 
+Posted on July 22, 2012 by vivaclipper
+The following table provides a complete listing of DOS error numbers and their descriptions.
+
+ Error
+ Number Description
+ ------ ------------------------------------------------
+    1   Invalid function number
+    2   File not found
+    3   Path not found
+    4   Too many open files (no handles left)
+    5   Access denied
+    6   Invalid handle
+    7   Memory control blocks destroyed
+    8   Insufficient memory
+    9   Invalid memory block address
+   10   Invalid environment
+   11   Invalid format
+   12   Invalid access code
+   13   Invalid data
+   14   Reserved
+   15   Invalid drive was specified
+   16   Attempt to remove the current directory
+   17   Not same device
+   18   No more files
+   19   Attempt to write on write-protected diskette
+   20   Unknown unit
+   21   Drive not ready
+   22   Unknown command
+   23   Data error (CRC)
+   24   Bad request structure length
+   25   Seek error
+   26   Unknown media type
+   27   Sector not found
+   28   Printer out of paper
+   29   Write fault
+   30   Read fault
+   31   General failure
+   32   Sharing violation
+   33   Lock violation
+   34   Invalid disk change
+   35   FCB unavailable
+   36   Sharing buffer overflow
+  37-49 Reserved
+   50   Network request not supported
+   51   Remote computer not listening
+   52   Duplicate name on network
+   53   Network name not found
+   54   Network busy
+   55   Network device no longer exists
+   56   Network BIOS command limit exceeded
+   57   Network adapter hardware error
+   58   Incorrect response from network
+   59   Unexpected network error
+   60   Incompatible remote adapter
+   61   Print queue full
+   62   Not enough space for print file
+   63   Print file deleted (not enough space)
+   64   Network name deleted
+   65   Access denied
+   66   Network device type incorrect
+   67   Network name not found
+   68   Network name limit exceeded
+   69   Network BIOS session limit exceeded
+   70   Temporarily paused
+   71   Network request not accepted
+   72   Print or disk redirection paused
+  73-79 Reserved
+   80   File already exists
+   81   Reserved
+   82   Cannot make directory entry
+   83   Fail on INT 24H
+   84   Too many redirections
+   85   Duplicate redirection
+   86   Invalid password
+   87   Invalid parameter
+   88   Network device fault
+Rate this: 
+ 

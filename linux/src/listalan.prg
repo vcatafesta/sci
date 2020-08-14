@@ -1,19 +1,19 @@
 /*
-  ��������������������������������������������������������������������������?
- ݳ																								 ?
- ݳ	Modulo.......: LISTALAN.PRG		  												 ?
- ݳ	Sistema......: CONTROLE DE ESTOQUE				                         ?
- ݳ	Aplicacao....: SCI - SISTEMA COMERCIAL INTEGRADO                      ?
- ݳ	Versao.......: 8.5.00							                            ?
- ݳ	Programador..: Vilmar Catafesta				                            ?
- ݳ   Empresa......: Macrosoft Informatica Ltda                             ?
- ݳ	Inicio.......: 12.11.1991 						                            ?
- ݳ   Ult.Atual....: 12.04.2018                                             ?
- ݳ   Compilador...: Harbour 3.2/3.4                                        ?
- ݳ   Linker.......: BCC/GCC/MSCV                                           ?
- ݳ	Bibliotecas..:  									                            ?
- ����������������������������������������������������������������������������
- ��������������������������������������������������������������������������
+  ┌─────────────────────────────────────────────────────────────────────────?
+ ▌│																								 ?
+ ▌│	Modulo.......: LISTALAN.PRG		  												 ?
+ ▌│	Sistema......: CONTROLE DE ESTOQUE				                         ?
+ ▌│	Aplicacao....: SCI - SISTEMA COMERCIAL INTEGRADO                      ?
+ ▌│	Versao.......: 8.5.00							                            ?
+ ▌│	Programador..: Vilmar Catafesta				                            ?
+ ▌│   Empresa......: Macrosoft Informatica Ltda                             ?
+ ▌│	Inicio.......: 12.11.1991 						                            ?
+ ▌│   Ult.Atual....: 12.04.2018                                             ?
+ ▌│   Compilador...: Harbour 3.2/3.4                                        ?
+ ▌│   Linker.......: BCC/GCC/MSCV                                           ?
+ ▌│	Bibliotecas..:  									                            ?
+ ▌└─────────────────────────────────────────────────────────────────────────┘
+ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 */
 
 #include   <sci.ch>
@@ -736,7 +736,7 @@ LOCAL cScreen := SaveScreen()
 LOCAL dData   := Date()
 
 MaBox( 10, 10, 12, 45 )
-@ 11, 11 Say "Reajustar para o Dia �� " Get dData Pict PIC_DATA
+@ 11, 11 Say "Reajustar para o Dia »» " Get dData Pict PIC_DATA
 Read
 if LastKey() = ESC
 	ResTela( cScreen )
@@ -747,7 +747,7 @@ Area("Taxas")
 Taxas->(Order( TAXAS_DFIM ))
 WHILE !DbSeek( dData )
 	ErrorBeep()
-	 if Conf("Cota�ao de " + Dtoc( dData ) + " Nao Encontrada. Registrar ? ")
+	 if Conf("Cotaçao de " + Dtoc( dData ) + " Nao Encontrada. Registrar ? ")
 		 InclusaoDolar( dData )
 	 else
 		 ResTela( cScreen )
@@ -756,7 +756,7 @@ WHILE !DbSeek( dData )
 EndDo
 if Taxas->Cotacao = 0
 	ErrorBeep()
-	if Conf("Cota�ao Ja registrada com valor 0. Alterar ? ")
+	if Conf("Cotaçao Ja registrada com valor 0. Alterar ? ")
 		MudaDolar( OK )
 	else
 		ResTela( cScreen )
@@ -787,7 +787,7 @@ LOCAL cScreen := SaveScreen()
 LOCAL dData   := Date()
 
 MaBox( 10, 10, 12, 45 )
-@ 11, 11 Say "Reajustar para o Dia �� " Get dData Pict PIC_DATA
+@ 11, 11 Say "Reajustar para o Dia »» " Get dData Pict PIC_DATA
 Read
 if LastKey() = ESC
 	ResTela( cScreen )
@@ -798,7 +798,7 @@ Area("Taxas")
 Taxas->(Order( TAXAS_DFIM ))
 WHILE !DbSeek( dData )
 	ErrorBeep()
-	if Conf("Cota�ao de " + Dtoc( dData ) + " Nao Encontrada. Registrar ? ")
+	if Conf("Cotaçao de " + Dtoc( dData ) + " Nao Encontrada. Registrar ? ")
 		InclusaoDolar( dData )
 	else
 		ResTela( cScreen )
@@ -807,7 +807,7 @@ WHILE !DbSeek( dData )
 EndDo
 if Taxas->Cotacao = 0
 	ErrorBeep()
-	if Conf("Cota�ao Ja registrada com valor 0. Alterar ? ")
+	if Conf("Cotaçao Ja registrada com valor 0. Alterar ? ")
 		MudaDolar( OK )
 	else
 		ResTela( cScreen )
@@ -911,7 +911,7 @@ WHILE OK
 		Lista->(Order( LISTA_CODI ))
 		cCodifor := Space(QUATRO)
 		MaBox( 15, 11, 17, 62 )
-		@ 16, 12 Say "Fornecedor �� " Get cCodifor Pict "9999" Valid Pagarrado( @cCodifor, 16, 22 )
+		@ 16, 12 Say "Fornecedor »» " Get cCodifor Pict "9999" Valid Pagarrado( @cCodifor, 16, 22 )
 		Read
 		if LastKey() = ESC
 			ResTela( cScreen )
@@ -953,8 +953,8 @@ WHILE OK
 		MaBox( 15, 11, 18, 31 )
 		cGrupoIni := Space(TRES)
 		cGrupoFim := Space(TRES)
-		@ 16, 12 Say "Grupo Inicial �" Get cGrupoIni Pict "999" Valid CodiGrupo( @cGrupoIni )
-		@ 17, 12 Say "Grupo Final   �" Get cGrupoFim Pict "999" Valid CodiGrupo( @cGrupoFim )
+		@ 16, 12 Say "Grupo Inicial »" Get cGrupoIni Pict "999" Valid CodiGrupo( @cGrupoIni )
+		@ 17, 12 Say "Grupo Final   »" Get cGrupoFim Pict "999" Valid CodiGrupo( @cGrupoFim )
 		Read
 		if LastKey() = ESC
 			ResTela( cScreen )
@@ -967,8 +967,8 @@ WHILE OK
 		MaBox( 15, 11, 18, 37 )
 		cSubIni := Space(SEIS)
 		cSubFim := Space(SEIS)
-		@ 16, 12 Say "SubGrupo Inicial �" Get cSubIni Pict "999.99" Valid CodiSubGrupo( @cSubIni )
-		@ 17, 12 Say "SubGrupo Final   �" Get cSubFim Pict "999.99" Valid CodiSubGrupo( @cSubFim )
+		@ 16, 12 Say "SubGrupo Inicial »" Get cSubIni Pict "999.99" Valid CodiSubGrupo( @cSubIni )
+		@ 17, 12 Say "SubGrupo Final   »" Get cSubFim Pict "999.99" Valid CodiSubGrupo( @cSubFim )
 		Read
 		if LastKey() = ESC
 			ResTela( cScreen )
@@ -1051,7 +1051,7 @@ WHILE OK
 			if cOpcao = "N"
 				MaBox( 21, 04, 23, 73, "MENSAGEM")
 				nPorc := 0
-				@ 22, 10 Say  "Novo Preco ��" Get nPorc Pict "@E 99,999,999.99"
+				@ 22, 10 Say  "Novo Preco »»" Get nPorc Pict "@E 99,999,999.99"
 				Read
 				ErrorBeep()
 				if Conf( "Confirma Novo Preco ?" )
@@ -1220,7 +1220,7 @@ WHILE OK
 				 nPorc := 0
 				 cQual := TipoPreco()
 				 MaBox( 21, 04, 23, 73, "MENSAGEM")
-				 @ 22, 10 Say	"Digite Novo Preco ��" Get nPorc Pict "@E 99,999,999.99"
+				 @ 22, 10 Say	"Digite Novo Preco »»" Get nPorc Pict "@E 99,999,999.99"
 				 Read
 				 ErrorBeep()
 				 if Conf( "Confirma Novo Preco ?" )
@@ -1504,7 +1504,7 @@ LOCAL nTaxa   := 0
 
 MaBox( 21, 04, 23, 73, "MENSAGEM")
 WHILE OK
-	@ 22, 10 Say  "Porcentagem a Reajustar �� " Get nTaxa Pict "999.99"
+	@ 22, 10 Say  "Porcentagem a Reajustar »» " Get nTaxa Pict "999.99"
 	Read
 	if LastKey() = ESC
 		return(0)
@@ -1526,7 +1526,7 @@ LOCAL GetList := {}
 LOCAL cOpcao  := "P"
 
 MaBox( 21, 04, 23, 73, "MENSAGEM")
-@ 22, 10 Say  "Porcentagem ou Normal ��" Get cOpcao Pict "!" Valid cOpcao $ "PN"
+@ 22, 10 Say  "Porcentagem ou Normal »»" Get cOpcao Pict "!" Valid cOpcao $ "PN"
 Read
 if LastKey() = ESC
 	return("")
@@ -1538,7 +1538,7 @@ Function TipoPreco()
 lOCAL GetList := {}
 LOCAL cTipo   := "T"
 MaBox( 21, 04, 23, 73, "MENSAGEM")
-@ 22, 10 Say  "(A)tacado (V)arejo (T)odos �� " Get cTipo Pict "!"
+@ 22, 10 Say  "(A)tacado (V)arejo (T)odos »» " Get cTipo Pict "!"
 Read
 if LastKey() = ESC
 	return(" ")
@@ -1984,7 +1984,7 @@ WHILE OK
 		 WHILE OK
 			 MaBox( 13, 05, 15, 30 )
 			 cDocnr = Space( 07 )
-			 @ 14, 06 Say "Fatura N?...į" Get cDocnr Pict "@!" Valid VisualAchaFatura( @cDocnr )
+			 @ 14, 06 Say "Fatura N?...─»" Get cDocnr Pict "@!" Valid VisualAchaFatura( @cDocnr )
 			 Read
 			 if LastKey() = ESC
 				 ResTela( cScreen )
@@ -2306,7 +2306,7 @@ Tb:AddColumn(TBColumnNew( "DESCRICAO DO PRODUTO", {|| Lista->descricao } ))
 Tb:AddColumn(TBColumnNew( "UN",                   {|| Lista->Un } ) )
 Tb:AddColumn(TBColumnNew( "DATA",                 {|| Data } ) )
 Tb:AddColumn(TBColumnNew( "ENTRADA",              {|| Entrada } ))
-Tb:AddColumn(TBColumnNew( "DOCTO N�",             {|| Fatura } ) )
+Tb:AddColumn(TBColumnNew( "DOCTO Nº",             {|| Fatura } ) )
 Tb:AddColumn(TBColumnNew( "CFOP",                 {|| CFop } ) )
 Tb:AddColumn(TBColumnNew( "CUSTO NFF",            {|| Tran( Pcusto, "@E 9,999,999,999.99") } ) )
 Tb:AddColumn(TBColumnNew( "T. CUSTO",             {|| Tran( Pcusto*Entrada, "@E 9,999,999,999.99") } ) )
@@ -2437,7 +2437,7 @@ Tb:AddColumn(TBColumnNew( "VAREJO",    {|| Tran( Varejo,   "@E 9,999,999,999.99"
 Tb:AddColumn(TBColumnNew( "P.ATACADO", {|| Tran( Atacado,  "@E 9,999,999,999.99")} ) )
 Tb:AddColumn(TBColumnNew( "COD FABR.", {|| Lista->N_Original } ))
 Tb:AddColumn(TBColumnNew( "N?SERIE",  {|| Serie } ))
-Tb:AddColumn(TBColumnNew( "DOCTO N�",  {|| Docnr } ) )
+Tb:AddColumn(TBColumnNew( "DOCTO Nº",  {|| Docnr } ) )
 Tb:AddColumn(TBColumnNew( "CLIENTE",   {|| Receber->Nome } ))
 Tb:AddColumn(TBColumnNew( "VENDEDOR" , {|| Codiven } ) )
 Tb:AddColumn(TBColumnNew( "TECNICO" ,  {|| Tecnico } ) )
@@ -3833,14 +3833,14 @@ WHILE !Eof() .AND. Rep_Ok()
 		Write( 07, 00, "CODIGO COD FABRICANT  DESCRICAO DO PRODUTO                     UN EMB   ESTOQUE")
 		Write( 08, 00, Linha5(Tam))
 		Col := 9
-		Qout( NG + Pagar->(Padr( Codi + " " + cNome, Tam,"�")) + NR)
+		Qout( NG + Pagar->(Padr( Codi + " " + cNome, Tam,"─")) + NR)
 		Col++
 	EndIF
 	IF lNovo
 		lNovo := FALSO
 		IF Col != 10
 			Qout("")
-			Qout( NG + Pagar->(Padr( Codi + " " + cNome, Tam,"�")) + NR)
+			Qout( NG + Pagar->(Padr( Codi + " " + cNome, Tam,"─")) + NR)
 			Col += 2
 		EndIF
 	EndIF
@@ -4320,7 +4320,7 @@ return
 Proc LisTela()
 ***************
 LOCAL cScreen	  := SaveScreen()
-LOCAL aMenuArray	:= { " Pre�o Varejo     ", " Pre�o Atacado    ", " Pre�o Custo  " }
+LOCAL aMenuArray	:= { " Preço Varejo     ", " Preço Atacado    ", " Preço Custo  " }
 LOCAL aTodos	  := {}
 LOCAL nChoic	  := 0
 LOCAL nContador  := 0
@@ -4667,10 +4667,10 @@ if Pagina = 1
 	#ifDEF CICLO
 		Write(00,00, NG + "===C I C L O    C A I R U=== | P E D I D O        DATA____/____/_____         Pagina N?" + StrZero( Pagina, 3 ) + NR )
 		Write(01,00, NG + "---------------------------- | Cliente:___________________________________________C?._____" + NR )
-		Write(02,00, NG + "Fone:   0800-99-5252         | Endere�o:___________________________N?_____Fone:___________" + NR )
+		Write(02,00, NG + "Fone:   0800-99-5252         | Endereço:___________________________N?_____Fone:___________" + NR )
 		Write(03,00, NG + "Fone: (069) 451-3922         | Munic?io:___________________________________Estado:________" + NR )
 		Write(04,00, NG + "Fax : (069) 451-2367         | C.G.G.:________.__________.__________/____________-_________" + NR )
-		Write(05,00, NG + "Pimenta Bueno - Rond�nia     | Inscri��o Estadual:_________________________________________" + NR )
+		Write(05,00, NG + "Pimenta Bueno - Rondônia     | Inscrição Estadual:_________________________________________" + NR )
 	#else
 		Write(00,00, NG + Padc( XNOMEFIR, Tam ) + NR )
 		Write(01,00, NG + "P E D I D O  | P E D I D O   | P E D I D O        DATA____/____/_____         Pagina N?" + StrZero( Pagina, 3 ) + NR )
@@ -5386,8 +5386,8 @@ if Taxas->(LastRec() = 0 )
 	return
 endif
 MaBox( 10, 10, 13, 43 )
-@ 11, 11 Say "Data Inicial.......� " Get dDataIni Pict PIC_DATA
-@ 12, 11 Say "Data Final.........� " Get dDataFim Pict PIC_DATA
+@ 11, 11 Say "Data Inicial.......» " Get dDataIni Pict PIC_DATA
+@ 12, 11 Say "Data Final.........» " Get dDataFim Pict PIC_DATA
 Read
 if LastKey() = ESC
 	ResTela( cScreen )
@@ -5445,7 +5445,7 @@ WHILE OK
 	 Saidas->(DbGoTop())
 	 MaBox( 10, 10, 12, 37 )
 	 cFatura := Space(7)
-	 @ 11, 11 Say "Fatura N?....�" Get cFatura Pict "@!" Valid VisualAchaFatura( @cFatura )
+	 @ 11, 11 Say "Fatura N?....»" Get cFatura Pict "@!" Valid VisualAchaFatura( @cFatura )
 	 Read
 	 if LastKey() = K_ESC
 		 ResTela( cScreen )
@@ -6296,10 +6296,10 @@ else
 	cStr_Sombra := "Ligar Sombra"
 endif
 AADD( AtPrompt, {"Sair",       {"Encerrar Sessao"}})
-Aadd( AtPrompt, {"Cadastro",   {"Produtos","Grupos","SubGrupos","Indexadores","Cota�ao Dolar","Forma de Pgto","Fornecedores","Vendedores","Clientes","Cep","Representantes"}})
-Aadd( AtPrompt, {"Alteracao",  {"Produtos","Grupos","SubGrupos","Indexadores","Cota�ao Dolar","Forma de Pgto","Margem de Venda","Cep","Fornecedor de Produtos","Ajuste do Estoque", "Ajuste do Prevenda", "Taxa de Icms Substituicao","Representantes de Produtos","Gerar Codigo de Barra","Transporte de Valores","Representantes","Movimento Entrada/Saida"}})
+Aadd( AtPrompt, {"Cadastro",   {"Produtos","Grupos","SubGrupos","Indexadores","Cotaçao Dolar","Forma de Pgto","Fornecedores","Vendedores","Clientes","Cep","Representantes"}})
+Aadd( AtPrompt, {"Alteracao",  {"Produtos","Grupos","SubGrupos","Indexadores","Cotaçao Dolar","Forma de Pgto","Margem de Venda","Cep","Fornecedor de Produtos","Ajuste do Estoque", "Ajuste do Prevenda", "Taxa de Icms Substituicao","Representantes de Produtos","Gerar Codigo de Barra","Transporte de Valores","Representantes","Movimento Entrada/Saida"}})
 Aadd( AtPrompt, {"Relatorios", {"Cotacao Dolar","Etiquetas Produtos","Estoques","Entradas/Saidas","Formas de Pagto","Grupos","Lista de Precos","Notas de Entradas","Pedidos a Fornecedor","Representantes","SubGrupos","Indexadores"}})
-Aadd( AtPrompt, {"Consulta",   {"Entradas de Produtos","Saidas de Produtos","Indexadores","Grupos","SubGrupos","Lista de Precos","Fornecedores","Clientes","Cota�ao do Dolar","Forma de Pagto","Grafico de Vendas","Grafico de Compras","Pedido a Fornecedor","Grafico 12 maiores clientes"}})
+Aadd( AtPrompt, {"Consulta",   {"Entradas de Produtos","Saidas de Produtos","Indexadores","Grupos","SubGrupos","Lista de Precos","Fornecedores","Clientes","Cotaçao do Dolar","Forma de Pagto","Grafico de Vendas","Grafico de Compras","Pedido a Fornecedor","Grafico 12 maiores clientes"}})
 Aadd( AtPrompt, {"Reajuste",   {"Preco Venda","Preco Custo","Preco Varejo Pelo Dolar","Preco Atacado Pelo Dolar","Debito Conta Corrente"}})
 Aadd( AtPrompt, {"Faturar",    {"Saidas Produtos","Devolucao Saidas","Inclusao Produtos","Visualizar Fatura","Entradas de Produtos","Baixa Debito c/c","Devolucao Entradas","Trocar Emissao Fatura"}})
 Aadd( AtPrompt, {"Impressao",  {"Duplicatas","Boleto Bancario","Promissorias","Espelho Nota","Espelho Nota Parcial","Relacao Entrega","Relacao de Separacao","Nota Fiscal","Demostrativo IPI","Bordero","Arquivo Nota Fiscal"}})
@@ -6529,8 +6529,8 @@ elseif nTipo = 3
 	MaBox( 15, 11, 18, 31 )
 	cGrupoIni := Space(TRES)
 	cGrupoFim := Space(TRES)
-	@ 16, 12 Say "Grupo Inicial �" Get cGrupoIni Pict "999" Valid CodiGrupo( @cGrupoIni )
-	@ 17, 12 Say "Grupo Final   �" Get cGrupoFim Pict "999" Valid CodiGrupo( @cGrupoFim )
+	@ 16, 12 Say "Grupo Inicial »" Get cGrupoIni Pict "999" Valid CodiGrupo( @cGrupoIni )
+	@ 17, 12 Say "Grupo Final   »" Get cGrupoFim Pict "999" Valid CodiGrupo( @cGrupoFim )
 	Read
 	if LastKey() = ESC
 		ResTela( cScreen )
@@ -6563,8 +6563,8 @@ elseif nTipo = 4
 	MaBox( 15, 11, 18, 37 )
 	cSubIni := Space(SEIS)
 	cSubFim := Space(SEIS)
-	@ 16, 12 Say "SubGrupo Inicial �" Get cSubIni Pict "999.99" Valid CodiSubGrupo( @cSubIni )
-	@ 17, 12 Say "SubGrupo Final   �" Get cSubFim Pict "999.99" Valid CodiSubGrupo( @cSubFim )
+	@ 16, 12 Say "SubGrupo Inicial »" Get cSubIni Pict "999.99" Valid CodiSubGrupo( @cSubIni )
+	@ 17, 12 Say "SubGrupo Final   »" Get cSubFim Pict "999.99" Valid CodiSubGrupo( @cSubFim )
 	Read
 	if LastKey() = ESC
 		ResTela( cScreen )
@@ -6596,7 +6596,7 @@ elseif nTipo = 4
 elseif nTipo = 5
 	cCodifor := Space(QUATRO)
 	MaBox( 15, 01, 17, 62 )
-	@ 16, 02 Say "Fornecedor �� " Get cCodifor Pict "9999" Valid Pagarrado( @cCodifor, 16, 22 )
+	@ 16, 02 Say "Fornecedor »» " Get cCodifor Pict "9999" Valid Pagarrado( @cCodifor, 16, 22 )
 	Read
 	if LastKey() = ESC
 		ResTela( cScreen )
@@ -7462,7 +7462,7 @@ WHILE !Eof() .AND. Rel_Ok()
 	EndIF
 	IF NovoCodigo .OR. Col = 8
 		cDescricao := Lista->(AllTrim( Descricao))
-		Write( Col, 0, NG + Lista->(Padr( Codigo + " " + cDescricao, Tam,"�")) + NR)
+		Write( Col, 0, NG + Lista->(Padr( Codigo + " " + cDescricao, Tam,"─")) + NR)
 		IF NovoCodigo
 			TotSaida   := 0
 			GerSaida   := 0

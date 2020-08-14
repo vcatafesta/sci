@@ -24,7 +24,7 @@
 #-mwindows
 
 #linkar com todas as bibliotecas estaticas
-#-fullstatic
+-fullstatic
 
 #para gerar uma biblioteca
 #-hblib funcoes.prg -ofuncoes

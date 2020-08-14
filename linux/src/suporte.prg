@@ -1,18 +1,18 @@
 /*
-  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
- İ³																								 ³
- İ³	Programa.....: SUPORTE.PRG 														 ³
- İ³	Aplicacaoo...: MODULO DE SUPORTE AO SCI										 ³
- İ³	Versao.......: 19.50 																 ³
- İ³	Programador..: Vilmar Catafesta													 ³
- İ³	Empresa......: Microbras Com de Prod de Informatica Ltda 				 ³
- İ³	Inicio.......: 12 de Novembro de 1991. 										 ³
- İ³	Ult.Atual....: 06 de Dezembro de 1998. 										 ³
- İ³	Compilacao...: Clipper 5.02														 ³
- İ³	Linker.......: Blinker 3.20														 ³
- İ³	Bibliotecas..: Clipper/Funcoes/Mouse/Funcky15/Funcky50/Classe/Classic ³
- İÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
- ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+ â–Œâ”‚																								 â”‚
+ â–Œâ”‚	Programa.....: SUPORTE.PRG 														 â”‚
+ â–Œâ”‚	Aplicacaoo...: MODULO DE SUPORTE AO SCI										 â”‚
+ â–Œâ”‚	Versao.......: 19.50 																 â”‚
+ â–Œâ”‚	Programador..: Vilmar Catafesta													 â”‚
+ â–Œâ”‚	Empresa......: Microbras Com de Prod de Informatica Ltda 				 â”‚
+ â–Œâ”‚	Inicio.......: 12 de Novembro de 1991. 										 â”‚
+ â–Œâ”‚	Ult.Atual....: 06 de Dezembro de 1998. 										 â”‚
+ â–Œâ”‚	Compilacao...: Clipper 5.02														 â”‚
+ â–Œâ”‚	Linker.......: Blinker 3.20														 â”‚
+ â–Œâ”‚	Bibliotecas..: Clipper/Funcoes/Mouse/Funcky15/Funcky50/Classe/Classic â”‚
+ â–Œâ””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+ â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€
 */
 
 #Include <sci.ch>
@@ -212,8 +212,8 @@ WHILE OK
 	aReg		:= {}
 	_QtDup	:= 0
 	xReg		:= 5
-	cString	:= "ENTER=MARCAR³ESC=SAIR/IMPRIMIR MARCADOS"
-	cString1 := " DOCTO N§     EMIS   VENCTO ATRA  NOMINAL     DESC    MULTA    JUROS    GERAL OBSERVACOES" 
+	cString	:= "ENTER=MARCARâ”‚ESC=SAIR/IMPRIMIR MARCADOS"
+	cString1 := " DOCTO NÂº     EMIS   VENCTO ATRA  NOMINAL     DESC    MULTA    JUROS    GERAL OBSERVACOES" 
 	cString1 += Space(MaxCol() - Len(cString1))
 	Print( 00, 0, Padc( cString, MaxCol()), 75 )
 	MaBox( 01, 00, MaxRow()-9, MaxCol()-1, cString1 )	
@@ -493,7 +493,7 @@ Proc CarneOutros()
 ******************
 LOCAL nDiaMulta := oAmbiente:aSciArray[1,DIAMULTA]
 LOCAL nMulta    := oAmbiente:aSciArray[1,MULTA]
-LOCAL cObs      := "APOS " + AllTrim(Str(nDiaMulta,3)) + "§ DIA, " + AllTrim(Str(nMulta, 6, 2)) + "% MULTA + JUROS AO DIA"
+LOCAL cObs      := "APOS " + AllTrim(Str(nDiaMulta,3)) + "Âº DIA, " + AllTrim(Str(nMulta, 6, 2)) + "% MULTA + JUROS AO DIA"
 LOCAL nLargura  := 53
 LOCAL nVlr_Dup  := Extenso( Recemov->Vlr, 1, 3, nLargura )
 LOCAL cDia		 := StrZero( Day( Recemov->Emis ), 2 )
@@ -1385,7 +1385,7 @@ Taxas->(Order( TAXAS_DFIM ))
 Taxas->(DbGoTop())
 oBrowse:Add( "DATA",    "DFim")
 oBrowse:Add( "COTACAO", "Cotacao")
-oBrowse:Titulo   := "CONSULTA/ALTERACAO DE COTA€AO DE DOLAR"
+oBrowse:Titulo   := "CONSULTA/ALTERACAO DE COTAÃ‡AO DE DOLAR"
 oBrowse:PreDoGet := NIL
 oBrowse:PosDoGet := NIL
 oBrowse:Show()
@@ -1459,7 +1459,7 @@ Cm->(Order(CM_FIM))
 Cm->(DbGoBottom())
 oBrowse:Add( "INICIO",     "inicio", PIC_DATA )
 oBrowse:Add( "FIM",        "fim",    PIC_DATA )
-oBrowse:Add( "INDICE",     "indice", '9999.9999')
+oBrowse:Add( "INDICE",     "indice", '9999.9999999')
 oBrowse:Add( "OBSERVACAO", "obs",   '@!')
 oBrowse:Titulo   := "CONSULTA/ALTERACAO DE INDICE DE CM"
 oBrowse:HotKey( F4, {|| oBrowse:DupReg("CM", "INICIO", CM_INICIO)})
@@ -1771,7 +1771,7 @@ FWriteLine( Handle,"[cabecalho]                         ; Configuracao do Boleto
 FWriteLine( Handle,"LocalDePagamento=00,01              ; Linha,Coluna do Local do Pagamento")
 FWriteLine( Handle,"Vencimento=00,68                    ; Linha,Coluna do Vencimento")
 FWriteLine( Handle,"DataDeEmissao=05,01                 ; Linha,Coluna da Data de Emissao")
-FWriteLine( Handle,"NrDocumento=05,12                   ; Linha,Coluna da N§ do Documento")
+FWriteLine( Handle,"NrDocumento=05,12                   ; Linha,Coluna da NÂº do Documento")
 FWriteLine( Handle,"Especie=-1,-1                       ; Linha,Coluna da Especie de Documento")
 FWriteLine( Handle,"Moeda=-1,-1                         ; Linha,Coluna da Especie de Moeda")
 FWriteLine( Handle,"ValorDocumento=07,66                ; Linha,Coluna do Valor do Documento")
@@ -2276,7 +2276,7 @@ IF xArqNota = NIL .OR. !File( xArqNota ) .OR. Empty( xArqNota )
 	SetKey( F11,		{|| GravaNota() })
 	SetKey( F12,		{|| Edicao( OK, "*.NFF")})
 	oMenu:Limpa()
-	M_Title("ESCOLHA O ARQUIVO DE NOTA³F11=CRIAR³F12=ALTERAR")
+	M_Title("ESCOLHA O ARQUIVO DE NOTAâ”‚F11=CRIARâ”‚F12=ALTERAR")
 	//xArqNota := Mx_PopFile( 05, 10, 20, 74, cFiles, Cor() )
 EndIF
 Handle  := Fopen( xArqNota )
@@ -2831,7 +2831,7 @@ Proc DiretaLivre( cCodi_Cli, aReg  )
 LOCAL cScreen			:= SaveScreen()
 LOCAL GetList			:= {}
 LOCAL aMenu 			:= { "Imprimir, Usando um Arquivo Existente", "Criar Arquivo de Configuracao ", "Alterar Arquivos de Boleto", "Configurar arquivo padrao"}
-LOCAL cObs1 			:= "PROTESTAR NO 5§ DIA UTIL APOS VENCIDO.  "
+LOCAL cObs1 			:= "PROTESTAR NO 5Âº DIA UTIL APOS VENCIDO.  "
 LOCAL cObs2 			:= "NAO DISPENSAR ENCARGOS DE MORA.         "
 LOCAL cObs3 			:= Space(40)
 LOCAL aNt				:= {}
@@ -3950,7 +3950,7 @@ WHILE OK
 		ProtegerDbf( FALSO )
 	Case nChoice = 11
 		 ErrorBeep()
-		 IF Conf("Pergunta: Continuar com a opera‡ao ?")
+		 IF Conf("Pergunta: Continuar com a operaÃ§ao ?")
 			 DupSaidas()
 			 Fechatudo()
 			 IF AbreArquivo("SAIDAS")
@@ -3959,7 +3959,7 @@ WHILE OK
 		 EndIF
 	Case nChoice = 12
 		 ErrorBeep()
-		 IF Conf("Pergunta: Continuar com a opera‡ao ?")
+		 IF Conf("Pergunta: Continuar com a operaÃ§ao ?")
 			 DupRecemov()
 			 Fechatudo()
 			 IF AbreArquivo("RECEMOV")
@@ -3968,7 +3968,7 @@ WHILE OK
 		 EndIF
 	Case nChoice = 13
 		 ErrorBeep()
-		 IF Conf("Pergunta: Continuar com a opera‡ao ?")
+		 IF Conf("Pergunta: Continuar com a operaÃ§ao ?")
 			 DupChemov()
 			 Fechatudo()
 			 IF AbreArquivo("CHEMOV")
@@ -3977,7 +3977,7 @@ WHILE OK
 		 EndIF
 	Case nChoice = 14
 		 ErrorBeep()
-		 IF Conf("Pergunta: Continuar com a opera‡ao ?")
+		 IF Conf("Pergunta: Continuar com a operaÃ§ao ?")
 			 DupLista()
 			 Fechatudo()
 			 IF AbreArquivo("LISTA")
@@ -3986,7 +3986,7 @@ WHILE OK
 		 EndIF
 	Case nChoice = 15
 		 ErrorBeep()
-		 IF Conf("Pergunta: Continuar com a opera‡ao ?")
+		 IF Conf("Pergunta: Continuar com a operaÃ§ao ?")
 			 DupReceber()
 			 Fechatudo()
 			 IF AbreArquivo("RECEBER")
@@ -3995,7 +3995,7 @@ WHILE OK
 		 EndIF
 	Case nChoice = 16
 		 ErrorBeep()
-		 IF Conf("Pergunta: Continuar com a opera‡ao ?")
+		 IF Conf("Pergunta: Continuar com a operaÃ§ao ?")
 			 DupEntradas()
 			 Fechatudo()
 			 IF AbreArquivo("ENTRADAS")
@@ -4004,7 +4004,7 @@ WHILE OK
 		 EndIF
 	Case nChoice = 17
 		 ErrorBeep()
-		 IF Conf("Pergunta: Continuar com a opera‡ao ?")
+		 IF Conf("Pergunta: Continuar com a operaÃ§ao ?")
 			 DupPagamov()
 			 Fechatudo()
 			 IF AbreArquivo("PAGAMOV")
@@ -4013,7 +4013,7 @@ WHILE OK
 		 EndIF
 	Case nChoice = 18
 		 ErrorBeep()
-		 IF Conf("Pergunta: Continuar com a opera‡ao ?")
+		 IF Conf("Pergunta: Continuar com a operaÃ§ao ?")
 			 DupRecebido()
 			 Fechatudo()
 			 IF AbreArquivo("RECEBIDO")
@@ -4088,7 +4088,7 @@ IF Conf('Pergunta: Deseja imprimir ?')
 		cCodi  := m[nX,2]
 		nTotal := m[nX,1]
 		Receber->(DbSeek( cCodi ))
-		Qout( cCodi, Receber->Nome, Tran( nTotal, '@E 999,999,999.99'), Tran( nConta, '99§' ))
+		Qout( cCodi, Receber->Nome, Tran( nTotal, '@E 999,999,999.99'), Tran( nConta, '99Âº' ))
 		oRelato:RowPrn ++
 	Next
 	__Eject()
@@ -4856,37 +4856,37 @@ nLarg 	  := 60
 nLinhas	  := 2
 Vlr_Dup	  := Extenso( Recemov->Vlr, 1, nLinhas, nLarg )
 
-Write(nRow+00, 0, 'ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿')
-Write(nRow+01, 0, '³' + xcNomefir +                                '³Duplicata de Venda Mercantil ³')
-Write(nRow+02, 0, '³' + xcRamo +                                   '³CGC(MF) : ' + xcCgc+        '³')
-Write(nRow+03, 0, '³' + xcEnde +                                   '³I. ESTADUAL :' + xcInsc +   '³')
-Write(nRow+04, 0, '³' + xcFone +                                   '³                             ³')
-Write(nRow+05, 0, '³' + xcCepCida +                                '³DATA DE EMISSAO : '+ cEmis +'³')
-Write(nRow+06, 0, 'ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄ´')
-Write(nRow+07, 0, '³     F A T U R A       ³    D U P L I C A T A       ³ VENCIMENTO  ³Para Uso da³')
-Write(nRow+08, 0, '³   Valor      Numero   ³   Valor      N§ de Ordem   ³             ³Inst. Fin. ³')
-Write(nRow+09, 0, '³' + NG + cVn +NR +             '³' + NG + cVd + NR +                 '³' + NG + cVcto + NR + '³           ³')
-Write(nRow+10, 0, 'ÃÄÄÄÄÄÂÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄ´           ³')
-Write(nRow+11, 0, '³     ³A  ³' + cLn1 +                                             '³           ³')
-Write(nRow+12, 0, '³     ³S  ³Condicoes Especiais          Juros p/ Dia R$:' + cJrd +'³           ³')
-Write(nRow+13, 0, '³     ³S  ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄ´')
-Write(nRow+14, 0, '³     ³   ³Sacado....:' + NG + cNome + NR +                                   '³')
-Write(nRow+15, 0, '³     ³d  ³Endereco..:' + cEnde +                     'Bairro :'+ cBair +     '³')
-Write(nRow+16, 0, '³     ³o  ³Municipio.:' + cCida +                     'Cep    :'+cCep+' Uf:'+cEsta+' ³')
-Write(nRow+17, 0, '³     ³   ³Praca Pgto:' + cCida +                     'Cep    :'+cCep+' Uf:'+cEsta+' ³')
-Write(nRow+18, 0, '³     ³E  ³Cnpj/Cpf..:' + cCgc  +                     'I.E/Rg.:' + cRg +      '³')
-Write(nRow+19, 0, '³     ³m  ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´')
-Write(nRow+20, 0, '³     ³i  ³Valor   ' + Left( Vlr_Dup, nLarg ) +                               '³')
-Write(nRow+21, 0, '³     ³t  ³Extenso ' + Right( Vlr_Dup, nLarg ) +                              '³')
-Write(nRow+22, 0, '³     ³e  ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´')
-Write(nRow+23, 0, '³     ³n  ³Reconheco(emos) a exatidao desta DUPLICATA DE VENDA MERCANTIL da im-³')
-Write(nRow+24, 0, '³     ³t  ³' + Left(xStr,68) +                                                '³')
-Write(nRow+25, 0, '³     ³e  ³' + Padr( Substr(xStr, 69, Len(xStr)),68) +                        '³')
-Write(nRow+26, 0, 'ÃÄÄÄÄÄÁÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´')
-Write(nRow+27, 0, '³TRABALHO : ' + xcTrabalho +                                                    '³')
-Write(nRow+28, 0, '³Data do Aceite : ___/___/_____               ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ³')
-Write(nRow+29, 0, '³                                                  Assinatura do Sacado        ³')
-Write(nRow+30, 0, 'ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ')
+Write(nRow+00, 0, 'â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”')
+Write(nRow+01, 0, 'â”‚' + xcNomefir +                                'â”‚Duplicata de Venda Mercantil â”‚')
+Write(nRow+02, 0, 'â”‚' + xcRamo +                                   'â”‚CGC(MF) : ' + xcCgc+        'â”‚')
+Write(nRow+03, 0, 'â”‚' + xcEnde +                                   'â”‚I. ESTADUAL :' + xcInsc +   'â”‚')
+Write(nRow+04, 0, 'â”‚' + xcFone +                                   'â”‚                             â”‚')
+Write(nRow+05, 0, 'â”‚' + xcCepCida +                                'â”‚DATA DE EMISSAO : '+ cEmis +'â”‚')
+Write(nRow+06, 0, 'â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤')
+Write(nRow+07, 0, 'â”‚     F A T U R A       â”‚    D U P L I C A T A       â”‚ VENCIMENTO  â”‚Para Uso daâ”‚')
+Write(nRow+08, 0, 'â”‚   Valor      Numero   â”‚   Valor      NÂº de Ordem   â”‚             â”‚Inst. Fin. â”‚')
+Write(nRow+09, 0, 'â”‚' + NG + cVn +NR +             'â”‚' + NG + cVd + NR +                 'â”‚' + NG + cVcto + NR + 'â”‚           â”‚')
+Write(nRow+10, 0, 'â”œâ”€â”€â”€â”€â”€â”¬â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤           â”‚')
+Write(nRow+11, 0, 'â”‚     â”‚A  â”‚' + cLn1 +                                             'â”‚           â”‚')
+Write(nRow+12, 0, 'â”‚     â”‚S  â”‚Condicoes Especiais          Juros p/ Dia R$:' + cJrd +'â”‚           â”‚')
+Write(nRow+13, 0, 'â”‚     â”‚S  â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤')
+Write(nRow+14, 0, 'â”‚     â”‚   â”‚Sacado....:' + NG + cNome + NR +                                   'â”‚')
+Write(nRow+15, 0, 'â”‚     â”‚d  â”‚Endereco..:' + cEnde +                     'Bairro :'+ cBair +     'â”‚')
+Write(nRow+16, 0, 'â”‚     â”‚o  â”‚Municipio.:' + cCida +                     'Cep    :'+cCep+' Uf:'+cEsta+' â”‚')
+Write(nRow+17, 0, 'â”‚     â”‚   â”‚Praca Pgto:' + cCida +                     'Cep    :'+cCep+' Uf:'+cEsta+' â”‚')
+Write(nRow+18, 0, 'â”‚     â”‚E  â”‚Cnpj/Cpf..:' + cCgc  +                     'I.E/Rg.:' + cRg +      'â”‚')
+Write(nRow+19, 0, 'â”‚     â”‚m  â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤')
+Write(nRow+20, 0, 'â”‚     â”‚i  â”‚Valor   ' + Left( Vlr_Dup, nLarg ) +                               'â”‚')
+Write(nRow+21, 0, 'â”‚     â”‚t  â”‚Extenso ' + Right( Vlr_Dup, nLarg ) +                              'â”‚')
+Write(nRow+22, 0, 'â”‚     â”‚e  â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤')
+Write(nRow+23, 0, 'â”‚     â”‚n  â”‚Reconheco(emos) a exatidao desta DUPLICATA DE VENDA MERCANTIL da im-â”‚')
+Write(nRow+24, 0, 'â”‚     â”‚t  â”‚' + Left(xStr,68) +                                                'â”‚')
+Write(nRow+25, 0, 'â”‚     â”‚e  â”‚' + Padr( Substr(xStr, 69, Len(xStr)),68) +                        'â”‚')
+Write(nRow+26, 0, 'â”œâ”€â”€â”€â”€â”€â”´â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤')
+Write(nRow+27, 0, 'â”‚TRABALHO : ' + xcTrabalho +                                                    'â”‚')
+Write(nRow+28, 0, 'â”‚Data do Aceite : ___/___/_____               â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”‚')
+Write(nRow+29, 0, 'â”‚                                                  Assinatura do Sacado        â”‚')
+Write(nRow+30, 0, 'â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜')
 Return
 
 Function SomaReq( yPar, xPar, aQuant, aUnitario, aTotal, nGeral )
@@ -4976,7 +4976,7 @@ WHILE OK
 	cDc2		  := 'D'
 	MaBox( 01, 02, 10, 77 )
 	@ nRow,	  nCol Say "Codigo Fornecedor.:" Get cCodi  Pict "9999"     Valid Pagarrado( @cCodi, Row(), Col()+1 )
-	@ Row()+1, nCol Say "Documento N§......:" Get cDocnr Pict "@K!"      Valid PgDocCerto( @cDocnr )
+	@ Row()+1, nCol Say "Documento NÂº......:" Get cDocnr Pict "@K!"      Valid PgDocCerto( @cDocnr )
 	@ Row()+1, nCol Say "Emissao...........:" Get dEmis  Pict "##/##/##"
 	@ Row(),   xCol Say "Vencimento.:"        Get dVcto  Pict "##/##/##" Valid dDataVer( dEmis, dVcto )
 	@ Row()+1, nCol Say "A ser utilizado em:" Get cObs1  Pict "@!"
@@ -5154,19 +5154,19 @@ WHILE OK
 			FPrInt( Chr(ESC) + "C" + Chr(33))
 			SetPrc( 0,0 )
 			nRow := 0
-			Write(nRow+00, 0, 'ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿')
-			Write(nRow+01, 0, '³' + xcNomefir +                                '³  R E Q U I S I S I C A O    ³')
-			Write(nRow+02, 0, '³' + xcRamo +                                   '³                             ³')
-			Write(nRow+03, 0, '³' + xcEnde +                                   '³         N§ :' + cDocnr +   '³')
-			Write(nRow+04, 0, '³' + xcFone +                                   '³                             ³')
-			Write(nRow+05, 0, '³' + xcCepCida +                                '³DATA DE EMISSAO : '+ cEmis +'³')
-			Write(nRow+06, 0, 'ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´')
-			Write(nRow+07, 0, '³Fornecedor   :' + xcNome + '                        ³')
-			Write(nRow+08, 0, '³Utilizado em :' + xcObs1 + '                        ³')
-			Write(nRow+09, 0, '³Portador     :' + xcObs2 + '                        ³')
-			Write(nRow+10, 0, 'ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´')
-			Write(nRow+11, 0, '³SQ  QUANT               DESCRIMINACAO                 UNITARIO        TOTAL   ³')
-			Write(nRow+12, 0, 'ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´')
+			Write(nRow+00, 0, 'â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”')
+			Write(nRow+01, 0, 'â”‚' + xcNomefir +                                'â”‚  R E Q U I S I S I C A O    â”‚')
+			Write(nRow+02, 0, 'â”‚' + xcRamo +                                   'â”‚                             â”‚')
+			Write(nRow+03, 0, 'â”‚' + xcEnde +                                   'â”‚         NÂº :' + cDocnr +   'â”‚')
+			Write(nRow+04, 0, 'â”‚' + xcFone +                                   'â”‚                             â”‚')
+			Write(nRow+05, 0, 'â”‚' + xcCepCida +                                'â”‚DATA DE EMISSAO : '+ cEmis +'â”‚')
+			Write(nRow+06, 0, 'â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤')
+			Write(nRow+07, 0, 'â”‚Fornecedor   :' + xcNome + '                        â”‚')
+			Write(nRow+08, 0, 'â”‚Utilizado em :' + xcObs1 + '                        â”‚')
+			Write(nRow+09, 0, 'â”‚Portador     :' + xcObs2 + '                        â”‚')
+			Write(nRow+10, 0, 'â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤')
+			Write(nRow+11, 0, 'â”‚SQ  QUANT               DESCRIMINACAO                 UNITARIO        TOTAL   â”‚')
+			Write(nRow+12, 0, 'â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤')
 			nConta := Len( aQuant )
 			nRow	 := 12
 			nGeral := 0
@@ -5176,27 +5176,27 @@ WHILE OK
 				EndIF
 				nRow ++
 				nGeral += aTotal[nZ]
-				Write(nRow, 0, '³' + StrZero( nZ, 02 ) + Space(01) + ;
+				Write(nRow, 0, 'â”‚' + StrZero( nZ, 02 ) + Space(01) + ;
 				Tran( aQuant[nZ], 	 '999.99') + Space(01) + ;
 				Ponto( aDescricao[nZ], 40 ) + Space(02) + ;
 				Tran( aUnitario[nZ], '@E 99,999.99') + Space(03) + ;
-				Tran( aTotal[nZ], 	'@E 999,999.99') + Space(04) + '³')
+				Tran( aTotal[nZ], 	'@E 999,999.99') + Space(04) + 'â”‚')
 			Next
 			nConta := nRow
 			For nZ := nConta To 17
-				Write(++nRow, 0, '³                                                                              ³')
+				Write(++nRow, 0, 'â”‚                                                                              â”‚')
 			Next
-			Write(++nRow, 0, '³' + Left( cExtenso, 78 ) + '³')
-			Write(++nRow, 0, '³' + SubStr( cExtenso, 79, 78 ) + '³')
-			Write(++nRow, 0, '³' + Right( cExtenso, 78 ) + '³')
-			Write(++nRow, 0, 'ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´')
-			Write(++nRow, 0, '³OBS: Somente pagaremos o que estiver na requisicao nao         ³ ' + Tran( nGeral, '@E 99,999.99') + '    ³')
-			Write(++nRow, 0, '³     sendo o uso para outras mercadorias ou fornecedor         ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´')
-			Write(++nRow, 0, '³                                                                              ³')
-			Write(++nRow, 0, '³                                                                              ³')
-			Write(++nRow, 0, '³________________________   ___________________________                        ³')
-			Write(++nRow, 0, '³    Ass. Autorizado               Ass. Portador           VENCTO : '+ cVcto +'³')
-			Write(++nRow, 0, 'ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ')
+			Write(++nRow, 0, 'â”‚' + Left( cExtenso, 78 ) + 'â”‚')
+			Write(++nRow, 0, 'â”‚' + SubStr( cExtenso, 79, 78 ) + 'â”‚')
+			Write(++nRow, 0, 'â”‚' + Right( cExtenso, 78 ) + 'â”‚')
+			Write(++nRow, 0, 'â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤')
+			Write(++nRow, 0, 'â”‚OBS: Somente pagaremos o que estiver na requisicao nao         â”‚ ' + Tran( nGeral, '@E 99,999.99') + '    â”‚')
+			Write(++nRow, 0, 'â”‚     sendo o uso para outras mercadorias ou fornecedor         â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤')
+			Write(++nRow, 0, 'â”‚                                                                              â”‚')
+			Write(++nRow, 0, 'â”‚                                                                              â”‚')
+			Write(++nRow, 0, 'â”‚________________________   ___________________________                        â”‚')
+			Write(++nRow, 0, 'â”‚    Ass. Autorizado               Ass. Portador           VENCTO : '+ cVcto +'â”‚')
+			Write(++nRow, 0, 'â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜')
 			__Eject()
 			FPrInt( Chr( 27 )+ "C" + Chr( 66 ) )
 			PrintOff()

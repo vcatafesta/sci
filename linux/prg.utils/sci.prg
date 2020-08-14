@@ -1,19 +1,18 @@
 /*
-  �������������������������������������������������������������������������Ŀ
- ݳ                                                                         �
- ݳ   Programa.....: SCI.PRG                                                �
- ݳ   Aplicacao....: SCI - SISTEMA COMERCIAL INTEGRADO SCI                  �
- ݳ   Versao.......: 6.2.30                                                 �
- ݳ   Escrito por..: Vilmar Catafesta                                       �
- ݳ   Empresa......: Macrosoft Sistemas de Informatica Ltda.                �
- ݳ   Inicio.......: 12 de Novembro de 1991.                                �
- ݳ   Ult.Atual....: 25 de Julho de 2016.                                   �
- ݳ   Linguagem....: Clipper 5.2e/C/Assembler                               �
- ݳ   Linker.......: Blinker 6.00                                           �
- ݳ   Bibliotecas..: Clipper/Funcoes/Mouse/Funcky15/Funcky50/Classe/Classic �
- ݳ   Bibliotecas..: Oclip/Six3                                             �
- ����������������������������������������������������������������������������
- ��������������������������������������������������������������������������
+  ┌─────────────────────────────────────────────────────────────────────────?
+ ▌│																								 │
+ ▌│   Modulo.......: SCI.PRG                                                │
+ ▌│   Aplicacao....: SCI - SISTEMA COMERCIAL INTEGRADO                      │
+ ▌│   Versao.......: 10.0.04                                                │
+ ▌│   Escrito por..: Vilmar Catafesta, <vcatafesta@gmail.com>               │
+ ▌│   Empresa......: Macrosoft Sistemas de Informatica Ltda.                │
+ ▌│   Inicio.......: 12 de Novembro de 1991                                 │
+ ▌│   Ult.Atual....: 11 de Julhode 2020                                     │
+ ▌│   Linguagem....: Harbour 3.4                                            │
+ ▌│   Compilador...: Gcc 10.1.0                                             │
+ ▌│   Linker.......: Gcc                                                    │
+ ▌└─────────────────────────────────────────────────────────────────────────┘
+ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 */
 
 /*
@@ -49,7 +48,7 @@ init def Main(...)
 	PUBLI aIss		  := {}
 	PUBLI XCFGPIRACY := MsEncrypt( ENCRYPT )
 	*:----------------------------------------------------------------------------
-	hb_langSelect( "pt" ) 	
+	hb_langSelect( "pt" )
 	//hb_cdpSelect( "PT860" )
    Altd(1)        //Debug
 	PUBLI oAmbiente := TAmbiente():New()
@@ -58,18 +57,18 @@ init def Main(...)
 	PUBLI oIndice	 := TIndiceNew()
 	PUBLI oProtege	 := TProtegeNew()
    PUBLI oPrinter  := TPrinterNew()
-	PUBLI oReindexa  // Controle de Reindexacao 
+	PUBLI oReindexa  // Controle de Reindexacao
 	PUBLI oSci       // Controle de Usuario
-	PUBLI cCaixa   
+	PUBLI cCaixa
 	*:----------------------------------------------------------------------------
 	//Eval( oAmbiente:TabelaFonte[ oAmbiente:Fonte ])
 	//IntroMain()
 	//Turbo(OK)
 	//OL_AutoYield(OK)
-	//SetMode(oAmbiente:AlturaFonteDefaultWindows, oAmbiente:LarguraFonteDefaultWindows)   
+	//SetMode(oAmbiente:AlturaFonteDefaultWindows, oAmbiente:LarguraFonteDefaultWindows)
 	SetColor("")
 	SetaIni()
-	//RddSetDefault( RDDNAME )   
+	//RddSetDefault( RDDNAME )
 	Acesso()
 	*:----------------------------------------------------------------------------
 	SetKey( F1, 		  {|| HelpReceposi() })
@@ -176,7 +175,6 @@ init def Main(...)
 				#ELSE
 					Alerta("INFORME: Modulo nao disponivel para esse cliente.")
 				#ENDIF
-				
 			Case opc = 2.02
 				#IFDEF RECELAN
 					if aPermissao[SCI_CONTAS_A_RECEBER]
@@ -570,7 +568,7 @@ init def Main(...)
 				CriaNewNota()
 			Case oPc = 8.03
 				 ErrorBeep()
-				 if Conf("Pergunta: Continuar com a opera�ao ?")
+				 if Conf("Pergunta: Continuar com a opera∩┐╜ao ?")
 					 oPrinter:CriaNewPrinter()
 					 FechaTudo()
 					 if AbreArquivo('PRINTER')
@@ -584,7 +582,7 @@ init def Main(...)
 				 endif
 			Case oPc = 8.04
 				 ErrorBeep()
-				 IF Conf("Pergunta: Continuar com a opera�ao ?")
+				 IF Conf("Pergunta: Continuar com a opera∩┐╜ao ?")
 					 CriaNewEnt()
 					 FechaTudo()
 					 IF AbreArquivo('ENTNOTA')
@@ -598,7 +596,7 @@ init def Main(...)
 				 EndIF
 			Case oPc = 8.05
 				 ErrorBeep()
-				 IF Conf("Pergunta: Continuar com a opera�ao ?")
+				 IF Conf("Pergunta: Continuar com a opera∩┐╜ao ?")
 					 Fechatudo()
 					 IF AbreArquivo('PREVENDA')
 						 oIndice:ProgressoNtx := true
@@ -647,14 +645,14 @@ def SetaClasse()
 
 	LOCAL cSv  := SISTEM_VERSAO
 	LOCAL cSp  := Space(1)
-	LOCAL cSt1 := "F1-HELP�F5-PRECOS�F10-CALC�"
-	LOCAL cSt2 := "F1-HELP�F5-LISTA�F8-SPOOL�ESC-RETORNA�"
-	LOCAL cSt3 := "F1-HELP�F5-LISTA�F8-SPOOL�ESC-RETORNA�"
-	LOCAL cSt4 := "F1-HELP�F5-LISTA�F8-SPOOL�ESC-RETORNA�"
-	LOCAL cSt5 := "F1-HELP�F5-LISTA�F8-SPOOL�ESC-RETORNA�"
-	LOCAL cSt6 := "F1-HELP�F5-LISTA�F8-SPOOL�ESC-RETORNA�"
-	LOCAL cSt7 := "F1-HELP�F5-LISTA�F8-SPOOL�ESC-RETORNA�"
-	LOCAL cSt8 := "F1-HELP�F5-LISTA�F8-SPOOL�ESC-RETORNA�"
+	LOCAL cSt1 := "F1-HELP|F5-PRECOS|F10-CALC|"
+	LOCAL cSt2 := "F1-HELP|F5-LISTA|F8-SPOOL|ESC-RETORNA|"
+	LOCAL cSt3 := "F1-HELP|F5-LISTA|F8-SPOOL|ESC-RETORNA|"
+	LOCAL cSt4 := "F1-HELP|F5-LISTA|F8-SPOOL|ESC-RETORNA|"
+	LOCAL cSt5 := "F1-HELP|F5-LISTA|F8-SPOOL|ESC-RETORNA|"
+	LOCAL cSt6 := "F1-HELP|F5-LISTA|F8-SPOOL|ESC-RETORNA|"
+	LOCAL cSt7 := "F1-HELP|F5-LISTA|F8-SPOOL|ESC-RETORNA|"
+	LOCAL cSt8 := "F1-HELP|F5-LISTA|F8-SPOOL|ESC-RETORNA|"
 
 	oMenu:StSupArray               := { cSn1+cSp+cSv, cSn2+cSp+cSv,cSn3+cSp+cSv,cSn4+cSp+cSv,cSn5+cSp+cSv,cSn6+cSp+cSv, cSn7+cSp+cSv, cSn8+cSp+cSv }
 	oMenu:StInfArray               := { cSt1, cSt2, cSt3, cSt4, cSt5, cSt6, cSt7, cSt8,  }
@@ -733,6 +731,7 @@ def SetaIni()
 	oAmbiente:Get_Ativo           := oIni:ReadBool( oAmbiente:xUsuario,    'get_ativo',     oAmbiente:Get_Ativo )
 	oAmbiente:Mostrar_Desativados := oIni:ReadBool( "sistema",'Mostrar_Desativados', oAmbiente:Mostrar_Desativados )
 	oAmbiente:Mostrar_Recibo      := oIni:ReadBool( "sistema",'Mostrar_Recibo', oAmbiente:Mostrar_Recibo )
+	oAmbiente:Sound			      := oIni:ReadBool( "sistema",'sound', oAmbiente:Sound )
 	oAmbiente:Frame               := oMenu:Frame
 	oAmbiente:PanoFundo     		:= oMenu:PanoFundo
 	oAmbiente:CorMenu 	      	:= oMenu:CorMenu
@@ -779,17 +778,17 @@ MsWriteLine( Handle, "@ECHO OFF")
 MsWriteLine( Handle, "CLS")
 MsWriteLine( Handle, Left( oAmbiente:xBase, 2 ))
 MsWriteLine( Handle, "CD " + oAmbiente:xBase )
-MsWriteLine( Handle, "ECHO �����������������������������������������������������������������������������͸")
-MsWriteLine( Handle, "ECHO � ����  ����Macrosoft           �Av Castelo Branco, 693 - Pioneiros           �")
-MsWriteLine( Handle, "ECHO � �� ���� ��   Informatica      �Fone (69)3451-3085                           �")
-MsWriteLine( Handle, "ECHO � ��  ��  ��      Ltda          �76976-000/Pimenta Bueno - Rondonia           �")
-MsWriteLine( Handle, "ECHO �����������������������������������������������������������������������������;")
+MsWriteLine( Handle, "ECHO ∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜═╕")
+MsWriteLine( Handle, "ECHO ∩┐╜ ∩┐╜∩┐╜∩┐╜∩┐╜  ∩┐╜∩┐╜∩┐╜∩┐╜Macrosoft           ∩┐╜Av Castelo Branco, 693 - Pioneiros           ∩┐╜")
+MsWriteLine( Handle, "ECHO ∩┐╜ ∩┐╜∩┐╜ ∩┐╜∩┐╜∩┐╜∩┐╜ ∩┐╜∩┐╜   Informatica      ∩┐╜Fone (69)3451-3085                           ∩┐╜")
+MsWriteLine( Handle, "ECHO ∩┐╜ ∩┐╜∩┐╜  ∩┐╜∩┐╜  ∩┐╜∩┐╜      Ltda          ∩┐╜76976-000/Pimenta Bueno - Rondonia           ∩┐╜")
+MsWriteLine( Handle, "ECHO ∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜═╛")
 MsWriteLine( Handle, "ECHO ")
-MsWriteLine( Handle, "ECHO �����������������������������������������������������������������������������͸")
-MsWriteLine( Handle, "ECHO � Insira o disco de backup no drive A: e tecle ENTER para iniciar             �")
-MsWriteLine( Handle, "ECHO �                                                                             �")
-MsWriteLine( Handle, "ECHO � CUIDADO!! Os dados do drive A: serao todos apagados.                        �")
-MsWriteLine( Handle, "ECHO �������������������������������������������������������������������������������")
+MsWriteLine( Handle, "ECHO ∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜═╕")
+MsWriteLine( Handle, "ECHO ∩┐╜ Insira o disco de backup no drive A: e tecle ENTER para iniciar             ∩┐╜")
+MsWriteLine( Handle, "ECHO ∩┐╜                                                                             ∩┐╜")
+MsWriteLine( Handle, "ECHO ∩┐╜ CUIDADO!! Os dados do drive A: serao todos apagados.                        ∩┐╜")
+MsWriteLine( Handle, "ECHO ∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜")
 MsWriteLine( Handle, "PAUSE >NUL")
 MsWriteLine( Handle, "COMPRIME -EX -RP -SMSIL -&F A:\SCI *.DBF + *.CFG + *.DOC + *.TXT + *.BAT + *.ETI + *.NFF + *.COB + *.DUP")
 FClose( Handle )
@@ -1008,7 +1007,7 @@ if (oAmbiente:LetoAtivo)
 		Leto_MakeDir( cTxt )
 		Leto_MakeDir( cHtm )				
 		Leto_MakeDir( cTmp )						
-	#else LETO
+	#else
 		MkDir( cBaseDados )
 		MkDir( cCmd )
 		MkDir( cDoc )
@@ -1016,7 +1015,7 @@ if (oAmbiente:LetoAtivo)
 		MkDir( cTxt )
 		MkDir( cHtm )	
 		MkDir( cTmp )	
-	#endif LETO	
+	#endif
 	else
 		MkDir( cBaseDados )
 		MkDir( cCmd )
@@ -1151,7 +1150,7 @@ def CriaBcoDadosEmpresa()
 		//	Quit
 		//EndIF
 		MaBox( 10, 10, 13, 42, "EMPRESA" )
-		Write( 12, 11, "CODIGO ��������" )
+		Write( 12, 11, "CODIGO ∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" )
 		oIndice:DbfNtx("empresa")
 		oIndice:AddNtx("Codi","empresa", "empresa" )
 		oIndice:CriaNtx()
@@ -1238,9 +1237,9 @@ def Usuario()
 	oMenu:Limpa()
 	WHILE OK
 		cPassword := Space(10)
-		MaBox( 10, 20, 13, 48 )
-		@ 11, 21 Say "Usuario.:  " Get cLogin    Pict "@!" Valid UsuarioErrado( @cLogin )
-		@ 12, 21 Say "Senha...:  " Get cPassWord Pict "@S" Valid SenhaErrada(cLogin, cPassWord)
+		MaBox( 10, 20, 15, 48, 'LOGIN' )
+		@ 12, 21 Say "Usuario.:  " Get cLogin    Pict "@!" Valid UsuarioErrado( @cLogin )
+		@ 13, 21 Say "Senha...:  " Get cPassWord Pict "@S" Valid SenhaErrada(cLogin, cPassWord)
 		Read
 		IF LastKey() = ESC
 			IF Conf("Pergunta: Encerrar a Execucao do Sistema ?")
@@ -1259,19 +1258,7 @@ def SenhaErrada(cLogin, cPassWord)
 	LOCAL cSenha1 := MSEncrypt(StrTran(Dtoc(Date()),'/'))
 	LOCAL Passe   := MSEncrypt(Alltrim(Upper(cPassword)))
 	LOCAL xAdmin  := AllTrim( Passe )
-	MEMVAR cLpt1
-	MEMVAR cLpt2
-	MEMVAR cLpt3
-	MEMVAR cLpd1
-	MEMVAR cLpd2
-	MEMVAR cLpd3
-	MEMVAR cLpd4
-	MEMVAR cLpd5
-	MEMVAR cLpd6
-	MEMVAR cLpd7
-	MEMVAR cLpd8
-	MEMVAR cLpd9
-   
+	
 	IF Alltrim( cLogin ) == "ADMIN" .AND. !Empty( Passe ) .AND. cSenha1 == xAdmin
 		oAmbiente:lGreenCard := OK
 		Passe                := cSenha
@@ -1308,52 +1295,8 @@ def SenhaErrada(cLogin, cPassWord)
 		Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelR)) = "S", OK, FALSO ))
 		Aadd( aPermissao, IF( Usuario->(MSDecrypt( NivelS)) = "S", OK, FALSO ))
 
-		cLpt1 := Usuario->Lpt1
-		cLpt2 := Usuario->Lpt2
-		cLpt3 := Usuario->Lpt3
-		cLpd1 := Usuario->Lpd1
-		cLpd2 := Usuario->Lpd2
-		cLpd3 := Usuario->Lpd3
-		cLpd4 := Usuario->Lpd4
-		cLpd5 := Usuario->Lpd5
-		cLpd6 := Usuario->Lpd6
-		cLpd7 := Usuario->Lpd7
-		cLpd8 := Usuario->Lpd8
-		cLpd9 := Usuario->Lpd9
-      
-				
-		if empty( cLpt1 ) .or. empty( cLpd1 )
-			if Usuario->(TravaReg())
-				Usuario->Lpt1 := "06"
-				Usuario->Lpt2 := "06"
-				Usuario->Lpt3 := "06"
-            Usuario->Lpd1 := "06"
-            Usuario->Lpd2 := "06"
-            Usuario->Lpd3 := "06"
-            Usuario->Lpd4 := "06"
-            Usuario->Lpd5 := "06"
-            Usuario->Lpd6 := "06"
-            Usuario->Lpd7 := "06"
-            Usuario->Lpd8 := "06"
-            Usuario->Lpd9 := "06"            
-				Usuario->(Libera())
-			endif
-			cLpt1 := "06"
-			cLpt2 := "06"
-			cLpt3 := "06"
-			cLpd1 := "06"
-			cLpd2 := "06"
-			cLpd3 := "06"
-			cLpd4 := "06"
-			cLpd5 := "06"
-			cLpd6 := "06"
-			cLpd7 := "06"
-			cLpd8 := "06"
-			cLpd9 := "06"
-		endif
-		
 		oAmbiente:xUsuario := AllTrim( cLogin )
-      oPrinter:EscolheImpressoraUsuario(cLpt1,cLpt2,cLpt3,cLpd1,cLpd2,cLpd3,cLpd4,cLpd5,cLpd6,cLpd7,cLpd8,cLpd9)
+      oPrinter:EscolheImpressoraUsuario()
 		//oAmbiente:ConfAmbiente( oAmbiente:xBase )		
 		SetaIni()
 		return true
@@ -1475,7 +1418,7 @@ def Terminate()
 	if oAmbiente:LetoAtivo
 	   leto_DisConnect()
 	endif	
-	#endif LETO
+	#endif
 	oIni:Close()	
 	//oSci:Close()
 
@@ -1496,7 +1439,7 @@ def Encerra()
 	if oAmbiente:LetoAtivo
 	   leto_DisConnect()
 	endif	
-	#endif LETO
+	#endif
 	oIni:Close()	
 	//oSci:Close()
 
@@ -1731,9 +1674,10 @@ LOCAL cFat		  := "S"
 LOCAL cDtRec	  := "S"
 LOCAL cAtra 	  := "S"
 LOCAL nChoice	  := 1
-LOCAL cLpt1 	  := "06"
-LOCAL cLpt2 	  := "06"
-LOCAL cLpt3 	  := "06"
+LOCAL cDefault   := "06"
+LOCAL cLpt1 	  := oVenlan:ReadString("printer", "lpt01", cDefault)
+LOCAL cLpt2 	  := oVenlan:ReadString("printer", "lpt02", cDefault)
+LOCAL cLpt3 	  := oVenlan:ReadString("printer", "lpt03", cDefault)
 
 LOCAL cNome 	  := Space(10)
 LOCAL Passe
@@ -1788,9 +1732,6 @@ WHILE OK
 		cFat		 := MSDecrypt( NivelQ )
 		cDtRec	 := MSDecrypt( NivelR )
 		cAtra 	 := MSDecrypt( NivelS )
-		cLpt1 	 := Usuario->Lpt1
-		cLpt2 	 := Usuario->Lpt2
-		cLpt3 	 := Usuario->Lpt2
 
 	Case nChoice = 3
 		Area("USUARIO")
@@ -1913,10 +1854,10 @@ WHILE OK
 			Usuario->NivelQ := MSEncrypt( cFat 	 )  //  27
 			Usuario->NivelR := MSEncrypt( cDtRec	 )  //  28
 			Usuario->NivelS := MSEncrypt( cAtra	 )  //  29
-			Usuario->Lpt1	 := cLpt1
-			Usuario->Lpt2	 := cLpt2
-			Usuario->Lpt3	 := cLpt3
 			Usuario->(Libera())
+			oVenlan:WriteString('printer', 'lpt01', cLpt1)
+			oVenlan:WriteString('printer', 'lpt02', cLpt2)
+			oVenlan:WriteString('printer', 'lpt03', cLpt3)
 
 			aPermissao := {}
 			Aadd( aPermissao, IF( cEs	     = "S", OK, FALSO ))  //   1
@@ -2083,7 +2024,7 @@ ErrorBeep()
 IF lNenhum
 	cString := "Nenhum Modulo {...}"
 EndIF
-Alert("Erro: Usuario Com Acesso Restrito ao:;������������������������������������;" + cString )
+Alert("Erro: Usuario Com Acesso Restrito ao:;∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜;" + cString )
 Return( NIL )
 
 Proc Carta( lFecharTudo )
@@ -2553,7 +2494,7 @@ EndDo
 Function Linha1( Tam, Pagina )
 ********************************
 LOCAL nDiv := Tam / 2
-Return( Padr( "Pagina N� " + StrZero(++Pagina,5), nDiv ) + Padl(Time(), nDiv ))
+Return( Padr( "Pagina N∩┐╜ " + StrZero(++Pagina,5), nDiv ) + Padl(Time(), nDiv ))
 
 Function Linha2()
 *****************
@@ -2657,7 +2598,7 @@ WHILE OK
 	ResTela( cTela )
 	IF Len( aArray ) != 0
 		MaBox( 09, 00, 24, 79 )
-		Aadd( aArray, Repl("�",80))
+		Aadd( aArray, Repl("∩┐╜",80))
 		Aadd( aArray, Rjust("VALOR TOTAL " + Tran( nTotal, "@E 999,999,999.99"), 78))
 		Aadd( aArray, Rjust("  COM JUROS " + Tran( nTotalJuros, "@E 999,999,999.99"), 78))
 		Print( 09, 01, "DATA     FATURA   CODIGO DESCRICAO DO PRODUTO                 QUANT   UNITARIO", Roloc( Cor()))
@@ -3503,7 +3444,7 @@ endef
 def lCancelou()
 *+-------------+*
 	if LastKey() = K_ESC
-		if alerta("INFO: Tarefa n�o concluida. Banco de Dados poder� ficar inconsitente.;; Deseja cancelar mesmo assim?", {" Sim ", " Nao "}) == 1
+		if alerta("INFO: Tarefa n∩┐╜o concluida. Banco de Dados poder∩┐╜ ficar inconsitente.;; Deseja cancelar mesmo assim?", {" Sim ", " Nao "}) == 1
 			FechaTudo()
 			return false
 		endif
@@ -3654,7 +3595,7 @@ WHILE OK
 	oRelato:NomeFirma := AllTrim(oAmbiente:xFanta)
 	oRelato:Sistema	:= SISTEM_NA3
 	oRelato:Titulo 	:= cTitulo
-	oRelato:Cabecalho := "TIPO    CODI NOME CLIENTE                     DOCTO N�     VCTO    PAGTO     HORA  RECEBIDO CAIXA HISTORICO"
+	oRelato:Cabecalho := "TIPO    CODI NOME CLIENTE                     DOCTO N∩┐╜     VCTO    PAGTO     HORA  RECEBIDO CAIXA HISTORICO"
 	
 	if !lVideo
 		IF !Instru80()
@@ -3666,13 +3607,13 @@ WHILE OK
 		EndIF
 		cTela := Mensagem("Aguarde, Imprimindo Relatorio de Recibos.")
 		oRelato:PrintOn(Chr(ESC) + "C" + Chr(33) + PQ )
-		//oRelato:Cabecalho := "TIPO    CODI NOME CLIENTE                     DOCTO N�     VCTO    PAGTO     HORA  RECEBIDO CAIXA HISTORICO"
+		//oRelato:Cabecalho := "TIPO    CODI NOME CLIENTE                     DOCTO N∩┐╜     VCTO    PAGTO     HORA  RECEBIDO CAIXA HISTORICO"
 		oRelato:Inicio()         
 	else
 		cTela := Mensagem("Aguarde, Imprimindo Relatorio de Recibos.")
 		aadd( aTodos, Padc(oRelato:Titulo, oRelato:Tamanho))
 		aadd( aTodos, Repl( oRelato:Separador, oRelato:Tamanho ))
-		aadd( aTodos, "TIPO    CODI NOME CLIENTE                     DOCTO N�     VCTO    PAGTO     HORA  RECEBIDO CAIXA HISTORICO")			
+		aadd( aTodos, "TIPO    CODI NOME CLIENTE                     DOCTO N∩┐╜     VCTO    PAGTO     HORA  RECEBIDO CAIXA HISTORICO")			
 		aadd( aTodos, Repl( oRelato:Separador, oRelato:Tamanho ))
 	endif		
 	WHILE Recibo->(!Eof()) //.AND. Rel_Ok()      
@@ -3923,7 +3864,7 @@ def UltRetorno( xCliente )
             ErrorBeep()
             MaBox( 00, 00, 09, MaxCol())
             Write( 01, 01, "Ja foi fornecido Codigo para " + Dtoc( Retorno->Limite ) + ". Verifique com o cliente as opcoes.")
-            Write( 03, 01, "1 - O SCI esta sendo instalado pela 1� vez?")
+            Write( 03, 01, "1 - O SCI esta sendo instalado pela 1∩┐╜ vez?")
             Write( 04, 01, "2 - Esta atualizando a versao do SCI?")
             Write( 05, 01, "3 - Esta instalando um novo terminal?")
             Write( 06, 01, "4 - A data do Sistema Operacional esta correta?")
@@ -4572,8 +4513,8 @@ def ConfFaturamento()
       cCabecIni      += Space( 40 - Len( Trim( cCabecIni )))
       cFantaCodeBar  := oIni:ReadString('sistema', 'fantacodebar', FANTACODEBAR + Space(10-Len(FANTACODEBAR)))
       oMenu:MaBox( 01, 01, 21, 78, "CONFIGURACAO - SAIDAS")
-      @ 02, 	  02 Say "N� Fatura Automatica.: " Get cAutoFatura    Pict "!"     Valid PickSimNao( @cAutoFatura )
-      @ Row(),   41 Say "N� Docto Automatico..: " Get cAutoDocumento Pict "!"     Valid PickSimNao( @cAutoDocumento )
+      @ 02, 	  02 Say "N∩┐╜ Fatura Automatica.: " Get cAutoFatura    Pict "!"     Valid PickSimNao( @cAutoFatura )
+      @ Row(),   41 Say "N∩┐╜ Docto Automatico..: " Get cAutoDocumento Pict "!"     Valid PickSimNao( @cAutoDocumento )
       @ Row()+1, 02 Say "Data Emis Automatica.: " Get cAutoEmissao   Pict "!"     Valid PickSimNao( @cAutoEmissao )
       @ Row(),   41 Say "Desconto Automatico..: " Get cAutoDesconto  Pict "!"     Valid PickSimNao( @cAutoDesconto )
       @ Row()+1, 02 Say "Liquido Automatico...: " Get cAutoLiquido   Pict "!"     Valid PickSimNao( @cAutoLiquido )
@@ -4582,7 +4523,7 @@ def ConfFaturamento()
       @ Row(),   41 Say "Qtde Items Nff.......: " Get nItemNff       Pict "999"   Valid if( nItemNff <=0, ( ErrorBeep(), Alerta("Erro: Entrada invalida. Valor de 1 a 999"), FALSO ), OK )
       @ Row()+1, 02 Say "Tipo Venda Preferen..: " Get cTipoVenda     Pict "!"     Valid PickTipoVenda( @cTipoVenda )
       @ Row(),   41 Say "Preco Ticket Venda...: " Get cPrecoTicket   Pict "!"     Valid PickSimNao( @cPrecoTicket )
-      @ Row()+1, 02 Say "N� Serie Produto.....: " Get cSerieProduto  Pict "!"     Valid PickSimNao( @cSerieProduto )
+      @ Row()+1, 02 Say "N∩┐╜ Serie Produto.....: " Get cSerieProduto  Pict "!"     Valid PickSimNao( @cSerieProduto )
       @ Row(),   41 Say "Permitir Duplicidade.: " Get cDuplicidade   Pict "!"     Valid PickSimNao( @cDuplicidade )
       @ Row()+1, 02 Say "Percentual ISS.......: " Get nIss           Pict "99.99"
       @ Row(),   41 Say "Inscricao Municipal..: " Get cInscMun       Pict "@!"
@@ -4595,10 +4536,10 @@ def ConfFaturamento()
       @ Row()+1, 02 Say "Mens 2 Posicao Fat...: " Get cMens2         Pict "@!"
       @ Row()+1, 02 Say "Mens 3 Posicao Fat...: " Get cMens3         Pict "@!"
       @ Row()+1, 02 Say "Mens 4 Posicao Fat...: " Get cMens4         Pict "@!"
-      @ Row()+1, 02 Say "Mens 1� Lin Ticket...: " Get cCabecIni      Pict "@!"
-      @ Row()+1, 02 Say "Mens 2� Lin Ticket...: " Get cRamo          Pict "@!"
-      @ Row()+1, 02 Say "Mens 1� Lin Ticket PV: " Get cPvCabec       Pict "@!"
-      @ Row()+1, 02 Say "Mens 2� Lin Ticket PV: " Get cPvRamo        Pict "@!"
+      @ Row()+1, 02 Say "Mens 1∩┐╜ Lin Ticket...: " Get cCabecIni      Pict "@!"
+      @ Row()+1, 02 Say "Mens 2∩┐╜ Lin Ticket...: " Get cRamo          Pict "@!"
+      @ Row()+1, 02 Say "Mens 1∩┐╜ Lin Ticket PV: " Get cPvCabec       Pict "@!"
+      @ Row()+1, 02 Say "Mens 2∩┐╜ Lin Ticket PV: " Get cPvRamo        Pict "@!"
       @ Row()+1, 02 Say "Fantasia Codigo Barra: " Get cFantaCodeBar  Pict "@!"
       Read
       IF LastKey() = ESC
@@ -4836,8 +4777,8 @@ LOCAL cMinimoIndice := Space(1)
 
 Set Defa To ( oAmbiente:xBase )
 cObs1 		  := oIni:ReadString('notafiscal','obs1', 'ESTE DOCUMENTO NAO GERA DIREITO A CREDITO FISCAL  ')
-cObs2 		  := oIni:ReadString('notafiscal','obs2', 'CONTRIBUINTE ENQUADRADO NO SIMPLES. LEI FEDERAL N�')
-cObs3 		  := oIni:ReadString('notafiscal','obs3', '9317/96 E DECRETO ESTADUAL N� 8570/98.            ')
+cObs2 		  := oIni:ReadString('notafiscal','obs2', 'CONTRIBUINTE ENQUADRADO NO SIMPLES. LEI FEDERAL N∩┐╜')
+cObs3 		  := oIni:ReadString('notafiscal','obs3', '9317/96 E DECRETO ESTADUAL N∩┐╜ 8570/98.            ')
 cIsento		  := IF( oIni:ReadBool('notafiscal','isento', FALSO ), "S", "N")
 cMinimoIndice := IF( oIni:ReadBool('notafiscal','minimoindice', FALSO ), "S", "N")
 WHILE OK
@@ -4871,6 +4812,7 @@ LOCAL GetList		:= {}
 LOCAL cPath 		:= FCurdir()
 LOCAL cEmail
 LOCAL cSmtp
+LOCAL cSound
 LOCAL nScreenSaver
 LOCAL nRecibo
 LOCAL nAutenticar
@@ -4902,30 +4844,32 @@ WHILE OK
    nAutenticar     := oIni:ReadInteger('baixasrece', 'autenticar', 2 )
    nNenhum         := oIni:ReadInteger('baixasrece', 'nenhum', 3 )
    nTipoBusca      := oIni:ReadInteger('sistema', 'tipobusca', 1 )	
+	cSound          := IF( oIni:ReadBool('sistema','sound', true ), "S", "N")
 	cNrMarcaTicket  := IF( oIni:ReadBool('sistema','nrmarcaticket', FALSO ), "S", "N")
    cPvMarcaTicket  := IF( oIni:ReadBool('sistema','pvmarcaticket', FALSO ), "S", "N")
    cCampoDesconto  := IF( oIni:ReadBool('baixasrece','campodesconto', OK ), "S", "N")
    cTrocarVendedor := IF( oIni:ReadBool('sistema','trocarvendedor', OK ), "S", "N")
    cManterPosicaoMenuV := IF( oIni:ReadBool('sistema','manterposicaomenuvertical', OK ), "S", "N")
 
-   MaBox( 01, 01, 19, 79, "CONFIGURACAO - GERAL")
+   MaBox( 01, 01, 20, 79, "CONFIGURACAO - GERAL")
 	@ 02, 02 Say "Tempo Protetor Tela.: " Get nScreenSaver   Pict "9999"
-	@ 03, 02 Say "Email...............: " Get cEmail         Pict "@!"
-	@ 04, 02 Say "Servidor SMTP.......: " Get cSmtp          Pict "@!"
-   @ 05, 02 Say "Nome Empresa........: " Get cNomeEmpresa   Pict "@!"
-   @ 06, 02 Say "Nome Fantasia.......: " Get cFantasia      Pict "@!"
-   @ 07, 02 Say "Cnpj/CPF Empresa....: " Get cCgcEmpresa    Pict "@!"
-   @ 08, 02 Say "Nome Socio..........: " Get cNomeSocio     Pict "@!"
-   @ 09, 02 Say "CPF Socio...........: " Get cCpfSocio      Pict "999.999.999-99"
-   @ 10, 02 Say "Posicao Menu [Recibo] apos Recebimento.....:" Get nRecibo             Pict "9" Valid PickTam({'Primeiro','Segundo','Terceiro'}, {1,2,3}, @nRecibo)
-   @ 11, 02 Say "Posicao Menu [Autenticar] apos Recebimento.:" Get nAutenticar         Pict "9" Valid PickTam({'Primeiro','Segundo','Terceiro'}, {1,2,3}, @nAutenticar)
-   @ 12, 02 Say "Posicao Menu [Nenhum] apos Recebimento.....:" Get nNenhum             Pict "9" Valid PickTam({'Primeiro','Segundo','Terceiro'}, {1,2,3}, @nNenhum)
-   @ 13, 02 Say "Mostrar Campo Desconto ao receber titulo...:" Get cCampoDesconto      Pict "!" Valid PickSimNao( @cCampoDesconto )
-   @ 14, 02 Say "Tipo Menu de Procura Produto...............:" Get nTipoBusca          Pict "9" Valid PickTam({'Ordem Codigo','Ordem Fabricante'}, {1,2}, @nTipoBusca)
-   @ 15, 02 Say "Imprimir Marca Produto Ticket Venda........:" Get cNrMarcaTicket      Pict "!" Valid PickSimNao( @cNrMarcaTicket )
-   @ 16, 02 Say "Imprimir Marca Produto Ticket PreVenda.....:" Get cPvMarcaTicket      Pict "!" Valid PickSimNao( @cPvMarcaTicket )
-   @ 17, 02 Say "Permitir faturar comissao outro vendedor...:" Get cTrocarVendedor     Pict "!" Valid PickSimNao( @cTrocarVendedor )
-   @ 18, 02 Say "Manter posicao item menu vertical..........:" Get cManterPosicaoMenuV Pict "!" Valid PickSimNao( @cManterPosicaoMenuV )
+	@ 03, 02 Say "Beep alerta.........: " Get csound         Pict "!" Valid PickSimNao( @cSound )
+	@ 04, 02 Say "Email...............: " Get cEmail         Pict "@!"
+	@ 05, 02 Say "Servidor SMTP.......: " Get cSmtp          Pict "@!"
+   @ 06, 02 Say "Nome Empresa........: " Get cNomeEmpresa   Pict "@!"
+   @ 07, 02 Say "Nome Fantasia.......: " Get cFantasia      Pict "@!"
+   @ 08, 02 Say "Cnpj/CPF Empresa....: " Get cCgcEmpresa    Pict "@!"
+   @ 09, 02 Say "Nome Socio..........: " Get cNomeSocio     Pict "@!"
+   @ 10, 02 Say "CPF Socio...........: " Get cCpfSocio      Pict "999.999.999-99"
+   @ 11, 02 Say "Posicao Menu [Recibo] apos Recebimento.....:" Get nRecibo             Pict "9" Valid PickTam({'Primeiro','Segundo','Terceiro'}, {1,2,3}, @nRecibo)
+   @ 12, 02 Say "Posicao Menu [Autenticar] apos Recebimento.:" Get nAutenticar         Pict "9" Valid PickTam({'Primeiro','Segundo','Terceiro'}, {1,2,3}, @nAutenticar)
+   @ 13, 02 Say "Posicao Menu [Nenhum] apos Recebimento.....:" Get nNenhum             Pict "9" Valid PickTam({'Primeiro','Segundo','Terceiro'}, {1,2,3}, @nNenhum)
+   @ 14, 02 Say "Mostrar Campo Desconto ao receber titulo...:" Get cCampoDesconto      Pict "!" Valid PickSimNao( @cCampoDesconto )
+   @ 15, 02 Say "Tipo Menu de Procura Produto...............:" Get nTipoBusca          Pict "9" Valid PickTam({'Ordem Codigo','Ordem Fabricante'}, {1,2}, @nTipoBusca)
+   @ 16, 02 Say "Imprimir Marca Produto Ticket Venda........:" Get cNrMarcaTicket      Pict "!" Valid PickSimNao( @cNrMarcaTicket )
+   @ 17, 02 Say "Imprimir Marca Produto Ticket PreVenda.....:" Get cPvMarcaTicket      Pict "!" Valid PickSimNao( @cPvMarcaTicket )
+   @ 18, 02 Say "Permitir faturar comissao outro vendedor...:" Get cTrocarVendedor     Pict "!" Valid PickSimNao( @cTrocarVendedor )
+   @ 19, 02 Say "Manter posicao item menu vertical..........:" Get cManterPosicaoMenuV Pict "!" Valid PickSimNao( @cManterPosicaoMenuV )
    Read
 	IF LastKey() = ESC
 		Set Defa To ( cPath )		
@@ -4951,10 +4895,12 @@ WHILE OK
 		oIni:WriteBool('baixasrece','campodesconto', IF( cCampoDesconto = "S", OK, FALSO ))
       oIni:WriteBool('sistema','trocarvendedor', IF( cTrocarVendedor = "S", OK, FALSO ))
       oIni:WriteBool('sistema','manterposicaomenuvertical', IF( cManterPosicaoMenuV = "S", OK, FALSO ))
-      
-      oAmbiente:xFanta   := cFantasia
-      oAmbiente:xNomefir := cNomeEmpresa
-      oAmbiente:lManterPosicaoMenuVertical := oIni:ReadBool('sistema','manterposicaomenuvertical')         
+		oIni:WriteBool('sistema','sound', IF( cSound = "S", true, false ))
+         
+	   oAmbiente:xFanta   						 := cFantasia
+      oAmbiente:xNomefir 						 := cNomeEmpresa
+      oAmbiente:lManterPosicaoMenuVertical := oIni:ReadBool('sistema','manterposicaomenuvertical')
+		oAmbiente:Sound 							 := if( cSound = "S", true, false )
 	EndIF
 EndDo
 
@@ -5142,7 +5088,7 @@ WHILE OK
 	@ 06, 02 Say "Emitir Nome Cliente...: " Get cNomeEcf   Pict "!"  Valid PickSimNao( @cNomeEcf )
 	@ 06, 40 Say "Auto Emitir Cupom.....: " Get cAutoEcf   Pict "!"  Valid PickSimNao( @cAutoEcf )
 	@ 07, 02 Say "Imprimir CF em Linhas.: " Get nSigLinha  Pict "9"  Valid PickTam({'1 Linha', '2 Linhas'}, {1,2}, @nSigLinha )
-//   Write( 08, 02, Repl("�",77))
+//   Write( 08, 02, Repl("∩┐╜",77))
    oMenu:MaBox( 08, 01, 18, 78, 'CONFIGURACAO ADICIONAL PARA: ' + aEcf[2])
    @ 09, 02 Say "Aliquota Posicao 01...: " Get cPos1Icms  Pict "99.99" when nModelo == 2
    @ 09, 40 Say "Icms/Iss..............: " Get cIcmsIss1  Pict "9" Valid PickTam({'Icms', 'Iss'}, {'1','2'}, @cIcmsIss1 ) when nModelo = 2
@@ -5235,7 +5181,7 @@ LOCAL xCodigo	:= 0
 LOCAL nCol		:= LastRow()
 LOCAL nTam		:= MaxCol()
 LOCAL nPos		:= 0
-LOCAL cString1 := "�ENTER=CONSULTA�ESC=SAIR"
+LOCAL cString1 := "∩┐╜ENTER=CONSULTA∩┐╜ESC=SAIR"
 
 SetKey( F5, NIL )
 oMenu:Limpa()
@@ -5245,7 +5191,7 @@ WHILE OK
 	MaBox( 02, 01, 10, 78 )
 	MaBox( 12, 01, 22, 78 )
 	nPos := ( nTam - Len( cString1 ))
-	aPrint( nCol, 00, "�CLIQUE COM O SCANNER OU DIGITE O CODIGO DO PRODUTO", oMenu:CorCabec, MaxCol() )
+	aPrint( nCol, 00, "∩┐╜CLIQUE COM O SCANNER OU DIGITE O CODIGO DO PRODUTO", oMenu:CorCabec, MaxCol() )
 	aPrint( nCol, nPos, cString1, oMenu:CorCabec )
 	Set Conf On
 	@ 04, 10 Say "Codigo...: " Get xCodigo Pict "9999999999999" Valid TermProduto( @xCodigo )
@@ -5302,56 +5248,56 @@ Return( .T. )
 
 Function Num( nRow, nValor )
 ****************************
-LOCAL aNum := {{" ��� " ,;
-					 "�  ��" ,;
-					 "� � �" ,;
-					 "��  �" ,;
-					 " ��� "},;
-					{"  ��" ,;
-					 " � �" ,;
-					 "�  �" ,;
-					 "   �" ,;
-					 "����"},;
-					{"�����" ,;
-					 "    �" ,;
-					 "�����" ,;
-					 "�    " ,;
-					 "�����"},;
-					{"�����" ,;
-					 "    �" ,;
-					 " ����" ,;
-					 "    �" ,;
-					 "�����"},;
-					{"�   �" ,;
-					 "�   �" ,;
-					 "�����" ,;
-					 "    �" ,;
-					 "    �"},;
-					{"�����" ,;
-					 "�    " ,;
-					 "�����" ,;
-					 "    �" ,;
-					 "�����"},;
-					{"�����" ,;
-					 "�    " ,;
-					 "�����" ,;
-					 "�   �" ,;
-					 "�����"},;
-					{"�����" ,;
-					 "   ��" ,;
-					 "  �� " ,;
-					 " ��  " ,;
-					 "��   "},;
-					{"�����" ,;
-					 "�   �" ,;
-					 "�����" ,;
-					 "�   �" ,;
-					 "�����"},;
-					{"�����" ,;
-					 "�   �" ,;
-					 "�����" ,;
-					 "    �" ,;
-					 "�����"},;
+LOCAL aNum := {{" ∩┐╜∩┐╜∩┐╜ " ,;
+					 "∩┐╜  ∩┐╜∩┐╜" ,;
+					 "∩┐╜ ∩┐╜ ∩┐╜" ,;
+					 "∩┐╜∩┐╜  ∩┐╜" ,;
+					 " ∩┐╜∩┐╜∩┐╜ "},;
+					{"  ∩┐╜∩┐╜" ,;
+					 " ∩┐╜ ∩┐╜" ,;
+					 "∩┐╜  ∩┐╜" ,;
+					 "   ∩┐╜" ,;
+					 "∩┐╜∩┐╜∩┐╜∩┐╜"},;
+					{"∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "    ∩┐╜" ,;
+					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "∩┐╜    " ,;
+					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜"},;
+					{"∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "    ∩┐╜" ,;
+					 " ∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "    ∩┐╜" ,;
+					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜"},;
+					{"∩┐╜   ∩┐╜" ,;
+					 "∩┐╜   ∩┐╜" ,;
+					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "    ∩┐╜" ,;
+					 "    ∩┐╜"},;
+					{"∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "∩┐╜    " ,;
+					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "    ∩┐╜" ,;
+					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜"},;
+					{"∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "∩┐╜    " ,;
+					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "∩┐╜   ∩┐╜" ,;
+					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜"},;
+					{"∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "   ∩┐╜∩┐╜" ,;
+					 "  ∩┐╜∩┐╜ " ,;
+					 " ∩┐╜∩┐╜  " ,;
+					 "∩┐╜∩┐╜   "},;
+					{"∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "∩┐╜   ∩┐╜" ,;
+					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "∩┐╜   ∩┐╜" ,;
+					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜"},;
+					{"∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "∩┐╜   ∩┐╜" ,;
+					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
+					 "    ∩┐╜" ,;
+					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜"},;
 					{"   " ,;
 					 "   " ,;
 					 "   " ,;
@@ -5498,7 +5444,7 @@ WHILE OK
    Otherwise
       IF nIniEcf != nChoice
          ErrorBeep()
-         Alerta('Erro: ECF configurada na base de dados �: ' + aEcf[nIniEcf])
+         Alerta('Erro: ECF configurada na base de dados ∩┐╜: ' + aEcf[nIniEcf])
          Loop
       EndIF
       Ecf(nChoice, aEcf)
@@ -6417,7 +6363,7 @@ WHILE OK
 			cTime := oIni:ReadString('indices', aArquivos[nX,1], Space(08), 4 )
 			cFim	:= oIni:ReadString('indices', aArquivos[nX,1], Space(08), 5 )
 			Aadd( aDisponivel, IF( lOk == '1', OK, FALSO ))
-			Aadd( aMenu, aArquivos[nX,1] + Space(14-Len(AllTrim(aArquivos[nX,1]))) + '�' + AllTrim( cUser ) + Space(10-Len(AllTrim(cUser))) + '�' + cData + '�' + cTime  + '�' + cFim )
+			Aadd( aMenu, aArquivos[nX,1] + Space(14-Len(AllTrim(aArquivos[nX,1]))) + '∩┐╜' + AllTrim( cUser ) + Space(10-Len(AllTrim(cUser))) + '∩┐╜' + cData + '∩┐╜' + cTime  + '∩┐╜' + cFim )
 			Aadd( aTemp, aArquivos[nX,1])
 		Next
 		oMenu:Limpa()
@@ -6442,7 +6388,7 @@ WHILE OK
 		oIni:WriteString('indices', aArquivos[nChoice,1], cBuffer )
 		Aadd( aEscolhido, AllTrim(StrTran( aTemp[nChoice],'.DBF')))
 		nQuant++
-		aMenu[nChoice] 		 += " � "
+		aMenu[nChoice] 		 += " ∩┐╜ "
 		aDisponivel[nChoice]  := FALSO
 		nPosicao 				 := nChoice + 1
 	EndDo
@@ -7286,12 +7232,12 @@ FClose( nHandle )
 	SetColor("")
 	
 	MsBox( nMaxRow-8, 00, nMaxRow-3, MaxCol()-2, 9, FALSO )
-	WriteBox( nMaxRow-7, 10, "Esta � uma licen�a de uso individual e  intransfer�vel" )
-	WriteBox( nMaxRow-6, 10, "para o usuario acima. C�pia ilegais e n�o  autorizadas" )
-	WriteBox( nMaxRow-5, 10, "� crime de PIRATARIA o qual ser�o processadas a m�xima" )
-	WriteBox( nMaxRow-4, 10, "ext�ns�o da LEI.")
+	WriteBox( nMaxRow-7, 10, "Esta ∩┐╜ uma licen∩┐╜a de uso individual e  intransfer∩┐╜vel" )
+	WriteBox( nMaxRow-6, 10, "para o usuario acima. C∩┐╜pia ilegais e n∩┐╜o  autorizadas" )
+	WriteBox( nMaxRow-5, 10, "∩┐╜ crime de PIRATARIA o qual ser∩┐╜o processadas a m∩┐╜xima" )
+	WriteBox( nMaxRow-4, 10, "ext∩┐╜ns∩┐╜o da LEI.")
 	SetColor("R")
-	Write( nMaxRow-2,00, "TECLE ALGO PARA INICIAR��������������������������������������������������������")
+	Write( nMaxRow-2,00, "TECLE ALGO PARA INICIAR∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜")
 	Inkey(2)	
 	ScrollEsq()
 Return
@@ -7363,9 +7309,9 @@ def Info(nRow, lInkey)
 	aHost := GetIp()
 	Print( nRow+06, 03, "S. Operacional : ") ; printf(Os(), AscanCor(clBrightYellow))
 	Print( nRow+07, 03, "  Data Sistema : ") ; printf(Date(), AscanCor(clBrightGreen))
-	Print( nRow+08, 03, "     Diret�rio : ") ; printf(AllTrim(oAmbiente:xRoot), AscanCor(clBrightGreen))      
-	Print( nRow+09, 03, "  Espa�o Total : ") ; printf(AllTrim(Tran( FT_DskSize(Drive)/1024/1024/1024, "999,999")), AscanCor(clBrightCyan)) ; printf( " GB", AscanCor(clBrightGreen))
-	Print( nRow+10, 03, "   Mem�ria RAM : ") ; printf(hb_ntos(Memory(HB_MEM_BLOCK)/1024), AscanCor(clBrightCyan)) ; printf( " GB", AscanCor(clBrightGreen))
+	Print( nRow+08, 03, "     Diretorio : ") ; printf(AllTrim(oAmbiente:xRoot), AscanCor(clBrightGreen))      
+	Print( nRow+09, 03, "  Espaco Total : ") ; printf(AllTrim(Tran( FT_DskSize(Drive)/1024/1024/1024, "999,999")), AscanCor(clBrightCyan)) ; printf( " GB", AscanCor(clBrightGreen))
+	Print( nRow+10, 03, "   Memoria RAM : ") ; printf(hb_ntos(Memory(HB_MEM_BLOCK)/1024), AscanCor(clBrightCyan)) ; printf( " GB", AscanCor(clBrightGreen))
 	Print( nRow+11, 03, "   Mem Virtual : ") ; printf(hb_ntos(Memory(HB_MEM_VM)/1024),     AscanCor(clBrightCyan)) ; printf( " GB", AscanCor(clBrightGreen))
 	Print( nRow+12, 03, "  Max Used Mem : ") ; printf(hb_ntos(Memory(HB_MEM_USEDMAX)/1024),     AscanCor(clBrightCyan)) ; printf( " KB", AscanCor(clBrightGreen))
 	Print( nRow+13, 03, "  Arqs Abertos : ") //; printf(AllTrim(Str(NextHandle()-6,3)), AscanCor(clBrightGreen))
@@ -7378,10 +7324,10 @@ def Info(nRow, lInkey)
 	Print( nRow+20, 03, "       Leto IP : ") ; #ifdef LETO; printf(LETO_GETCURRENTCONNECTION(), AscanCor(clBrightCyan)); #endif
 	Print( nRow+21, 03, "      IP Local : ") ; printf(StrGetIp(), AscanCor(clBrightCyan))
 	
-	Print( nRow+06, ((nMaxCol/2)-2), "   Nome Esta��o : ") ; printf(AllTrim(Left(NetName(),20)), AscanCor(clBrightYellow))
+	Print( nRow+06, ((nMaxCol/2)-2), "   Nome Estacao : ") ; printf(AllTrim(Left(NetName(),20)), AscanCor(clBrightYellow))
 	Print( nRow+07, ((nMaxCol/2)-2), "  Horas Sistema : " + Time())	
    Print( nRow+08, ((nMaxCol/2)-2), " Drive Corrente : ") ; printf(AllTrim(Drive), AscanCor(clBrightGreen))   	
-	Print( nRow+09, ((nMaxCol/2)-2), "  Espa�o Livre  : ") ; printf(AllTrim(Tran(ft_DskFree()/1024/1024/1024, "999,999")), AscanCor(clBrightCyan)) ; printf( " GB", AscanCor(clBrightGreen))
+	Print( nRow+09, ((nMaxCol/2)-2), "  Espaco Livre  : ") ; printf(AllTrim(Tran(ft_DskFree()/1024/1024/1024, "999,999")), AscanCor(clBrightCyan)) ; printf( " GB", AscanCor(clBrightGreen))
 	Print( nRow+10, ((nMaxCol/2)-2), "  Mem RAM Livre : " + AllTrim(Str(nRamLivre/1024) + " GB"))
 	IF nRamLivre < 100 // Pouca memoria
 	Print( nRow+10, ((nMaxCol/2)-2), "  Mem RAM Livre : " + AllTrim(Str(nRamLivre/1024) + " GB"), Roloc(Cor()))
@@ -7394,17 +7340,18 @@ def Info(nRow, lInkey)
 	Print( nRow+16, ((nMaxCol/2)-2), "     Portas COM : " + IF( FisPrinter("COM1"), "#1 ","NIL,") + IF( FisPrinter("COM2"), "#2 ","NIL,") + IF( FisPrinter("COM3"), "#3 ","NIL,"))
 
    nRow1 := 16   
+	#ifdef LETO
    FOR EACH nPr IN aPrinter
       nRow1++            
       Print( nRow+nRow1, ((nMaxCol/2)-2), "  Porta Cups #" + TrimStr(nPr:__enumIndex()) + " : " + nPr)
    NEXT                         
-   
+   #endif
    
 	IF oAmbiente:Visual
-	  Print( nRow+22, 03, Padc( "Software Li�enciado para", nMaxCol-7), AscanCor(clBrightGreen))
+	  Print( nRow+22, 03, Padc( "Software Li∩┐╜enciado para", nMaxCol-7), AscanCor(clBrightGreen))
 	  Print( nRow+23, 03, Padc( XNOMEFIR, nMaxCol-7 ), AscanCor(clBrightRed))
 	Else
-	  Print( nRow+22, 03, Padc( "Software Li�enciado para" , nMaxCol-2), AscanCor(clBrightGreen))
+	  Print( nRow+22, 03, Padc( "Software Li∩┐╜enciado para" , nMaxCol-2), AscanCor(clBrightGreen))
 	  Print( nRow+23, 03, Padc( XNOMEFIR, nMaxCol-2 ), AscanCor(clBrightRed))
 	EndIF	
 		
@@ -7763,9 +7710,9 @@ Function MacroErro(e)
 	@ 4, 1  Say "Area      : "
 	@ 4, 35 Say "Indice  : "
 
-	@ 5, 1 Say "Descri�ao : "
-	@ 6, 1 Say "Explana�ao: "
-	@ 7, 1 Say "A�ao      : "
+	@ 5, 1 Say "Descri∩┐╜ao : "
+	@ 6, 1 Say "Explana∩┐╜ao: "
+	@ 7, 1 Say "A∩┐╜ao      : "
 	
 	@ 1, 14 Say csystem             				Color "W+/B"
 	@ 1, 45 Say Str(nsubcode, 4)    				Color "W+/B"
@@ -8413,7 +8360,8 @@ Aadd( aArquivos, { "regiao.dbf",;
 											  { "NOME",    "C", 40, 0 }}})
 
 Aadd( aArquivos, { "usuario.dbf",;
-											 {{ "NOME",    "C", 10, 0 },;
+											 {{ "ID",      "+", 10, 0 },;
+											  { "NOME",    "C", 10, 0 },;
 											  { "SENHA",   "C", 10, 0 },;
 											  { "NIVEL1",  "C", 01, 0 },;
 											  { "NIVEL2",  "C", 01, 0 },;
@@ -8444,24 +8392,7 @@ Aadd( aArquivos, { "usuario.dbf",;
 											  { "NIVELQ",  "C", 01, 0 },;
 											  { "NIVELR",  "C", 01, 0 },;
 											  { "NIVELS",  "C", 01, 0 },;
-											  { "LPT1",    "C", 02, 0 },;
-											  { "LPT2",    "C", 02, 0 },;
-											  { "LPT3",    "C", 02, 0 },;
-											  { "LPT4",    "C", 02, 0 },;
-											  { "LPD1",    "C", 02, 0 },;
-											  { "LPD2",    "C", 02, 0 },;
-											  { "LPD3",    "C", 02, 0 },;
-											  { "LPD4",    "C", 02, 0 },;
-											  { "LPD5",    "C", 02, 0 },;
-											  { "LPD6",    "C", 02, 0 },;
-											  { "LPD7",    "C", 02, 0 },;
-											  { "LPD8",    "C", 02, 0 },;
-											  { "LPD9",    "C", 02, 0 },;
-											  { "COM1",    "C", 02, 0 },;
-											  { "COM2",    "C", 02, 0 },;
-											  { "COM3",    "C", 02, 0 },;
-											  { "ATUALIZADO", "D", 08, 0 },;
-											  { "COM4",    "C", 02, 0 }}})
+											  { "ATUALIZADO", "D", 08, 0 }}})
 
 Aadd( aArquivos, { "cursos.dbf",;
 											 {{ "CURSO",   "C", 04, 0 } , ;
@@ -8666,20 +8597,21 @@ Aadd( aArquivos, { "agenda.dbf",;
            {{ "ID",         "+", 04, 0 }, ;
 				{ "CODI",       "C", 05, 0 }, ;
             { "HIST",       "C", 132, 0 }, ;
-            { "DATA",       "D", 08, 0 }, ;
-            { "HORA",       "C", 08, 0 }, ;
-            { "USUARIO",    "C", 10, 0 }, ;
-            { "CAIXA",      "C", 04, 0 }, ;
-            { "ULTIMO",     "L", 01, 0 }, ;
+            { "DATA",       "D", 08, 0 },;
+            { "HORA",       "C", 08, 0 },;
+            { "USUARIO",    "C", 10, 0 },;
+            { "CAIXA",      "C", 04, 0 },;
+            { "ULTIMO",     "L", 01, 0 },;
             { "ATUALIZADO", "D", 08, 0 }}})
 
 Aadd( aArquivos, { "cm.dbf",;
-           {{ "CODI",       "C", 05, 0 }, ;
-            { "INICIO",     "D", 08, 0 }, ;
+           {{ "ID",         "+", 04, 0 },;
+            { "CODI",       "C", 05, 0 },;
+            { "INICIO",     "D", 08, 0 },;
             { "FIM",        "D", 08, 0 },;
-            { "INDICE",     "N", 09, 4 }, ;
-            { "OBS",        "C", 40, 0 }, ;
-            { "ULTIMO",     "L", 01, 0 }, ;
+            { "INDICE",     "N", 12, 7 },;
+            { "OBS",        "C", 40, 0 },;
+            { "ULTIMO",     "L", 01, 0 },;
             { "ATUALIZADO", "D", 08, 0 }}})
 
 Return( aArquivos )
@@ -8748,7 +8680,7 @@ def Configuracao( lMicrobras, lNaoMostrarConfig)
 	Set Defa To (cBase)
 	
 	if !lNaoMostrarConfig
-		Qout("� Localizando Arquivo SCI.DBF.")
+		Qout("∩┐╜ Localizando Arquivo SCI.DBF.")
 	endif
 
 	if !file(cDbf)
@@ -8763,17 +8695,17 @@ def Configuracao( lMicrobras, lNaoMostrarConfig)
 		Quit
 	endif	
 	
-	QQout("� OK")
+	QQout("∩┐╜ OK")
 	Set Defa To (cBase)
-	//Qout("� Abrindo Arquivo SCI.DBF em " + cPath)
-	Qout("� Abrindo Arquivo SCI.DBF em " + cBase)
+	//Qout("∩┐╜ Abrindo Arquivo SCI.DBF em " + cPath)
+	Qout("∩┐╜ Abrindo Arquivo SCI.DBF em " + cBase)
 	
 	if !NetUse(cDbf, true )
 		Quit
 	endif
 	
-	QQout("� OK")
-	Qout("� Lendo Arquivo SCI.DBF em " + cBase)
+	QQout("∩┐╜ OK")
+	Qout("∩┐╜ Lendo Arquivo SCI.DBF em " + cBase)
 	For x := 1 To Sci->(FCount())
 		IF Sci->(FieldName( x )) != "TIME"
 			IF Sci->(Empty( FieldGet( x )))
@@ -8803,11 +8735,11 @@ def Configuracao( lMicrobras, lNaoMostrarConfig)
 		Alert( "Erro #0: Favor instalar arquivo SCI.DBF original.")
 		Quit
 	EndIF
-	QQout("� OK")
+	QQout("∩┐╜ OK")
 
 	** SCI.CFG *******************************************************
 	IF !lNaoMostrarConfig
-		Qout("� Localizando Arquivo SCI.CFG.")
+		Qout("∩┐╜ Localizando Arquivo SCI.CFG.")
 	EndIF
 
 	cPath := cCurDir
@@ -8830,8 +8762,8 @@ def Configuracao( lMicrobras, lNaoMostrarConfig)
 		EndIF
 		cPath := oAmbiente:xBase
 	EndIF
-	QQout("� OK")
-	Qout("� Abrindo Arquivo SCI.CFG em " + cPath)
+	QQout("∩┐╜ OK")
+	Qout("∩┐╜ Abrindo Arquivo SCI.CFG em " + cPath)
 	Handle := FOpen(cCfg)
 	IF ( Ferror() != 0 )
 		FClose( Handle )
@@ -8840,8 +8772,8 @@ def Configuracao( lMicrobras, lNaoMostrarConfig)
 		Alert( "Erro #3: Erro de Abertura do Arquivo SCI.CFG.")
 		Quit
 	EndIF
-	Qout("� Lendo Arquivo SCI.CFG em " + cPath)
-	QQout("� OK")
+	Qout("∩┐╜ Lendo Arquivo SCI.CFG em " + cPath)
+	QQout("∩┐╜ OK")
 
 	nErro := FLocate( Handle, "[ENDERECO_STRING]")
 	IF nErro < 0
@@ -8879,7 +8811,7 @@ def Configuracao( lMicrobras, lNaoMostrarConfig)
 	FClose( Handle )	
 	//VerExe()
 	IF !lNaoMostrarConfig
-		Qout("� Verificando Aplicativo.")
+		Qout("∩┐╜ Verificando Aplicativo.")
 	EndIF
 	*:*******************************************************************************
 	oAmbiente:xDataCodigo 	:= MsDecrypt( oAmbiente:XLIMITE )
@@ -9400,7 +9332,7 @@ def SetaIniLeto()
                         }
 	
 	CriarDiretorios()
-	Qout("� Iniciando Conexao com Servidor LETO.")	
+	Qout("∩┐╜ Iniciando Conexao com Servidor LETO.")	
 	cTela := SaveScreen()
 	if oAmbiente:argc    	== 0	
 		cLetoIP             := oIni:ReadString('LETO', 'ip', cHost)
@@ -9441,13 +9373,13 @@ def SetaIniLeto()
 			nChoice := AlertaPy(;
                      cSistema + ;
                      + ';-;-' + ;
-                     + ';'   + "Conectado a Esta��o   : " + AllTrim(Left(NetName(),20)) + ;
-							+ ';'   + "IP da Esta��o Remota  : " + StrGetIp() + ;
+                     + ';'   + "Conectado a Esta∩┐╜∩┐╜o   : " + AllTrim(Left(NetName(),20)) + ;
+							+ ';'   + "IP da Esta∩┐╜∩┐╜o Remota  : " + StrGetIp() + ;
 							+ ';'   + "Diretorio de trabalho : " + oAmbiente:xRoot + ;
 							+ ";-;AVISO: SERVIDOR TCP/IP LETO CONFIGURADO EM: " + ;
                      + ";Arquivo: " + cPathLocal + "/sci.ini" + ;							                     
 							+ ';-;' + cString + ;
-							+ ';-;' + "ESCOLHA UMA DAS OP��ES ABAIXO;-;", aCor, aCentralizar, lOk := true, aPrompt;
+							+ ';-;' + "ESCOLHA UMA DAS OP∩┐╜∩┐╜ES ABAIXO;-;", aCor, aCentralizar, lOk := true, aPrompt;
 							)
 			if     nchoice == 0 .OR. nChoice == 3
 				Terminate()
@@ -9904,15 +9836,15 @@ LOCAL aMensagem		:= Array(3,5)
 		aMensagem[1,5] := ""
 
 		aMensagem[2,1] := "[Verificacao de Copia Original]"
-		aMensagem[2,2] := "1 - O SCI esta sendo instalado pela 1� vez ?"
+		aMensagem[2,2] := "1 - O SCI esta sendo instalado pela 1∩┐╜ vez ?"
 		aMensagem[2,3] := "2 - Esta atualizando a versao do SCI ?"
 		aMensagem[2,4] := "3 - Esta instalando um novo terminal ?"
 		aMensagem[2,5] := "4 - Caso Positivo, solicite Codigo de Acesso."
 
 		aMensagem[3,1] := "[Renovacao de Codigo de Acesso]"
-		aMensagem[3,2] := "1 - Informe ao nosso suporte tecnico que est� sendo"
+		aMensagem[3,2] := "1 - Informe ao nosso suporte tecnico que est∩┐╜ sendo"
 		aMensagem[3,3] := "    um pedido antecipado de codigo de acesso, e que"
-		aMensagem[3,4] := "    o mesmo � de seu conhecimento.                 "
+		aMensagem[3,4] := "    o mesmo ∩┐╜ de seu conhecimento.                 "
 		aMensagem[3,5] := ""
 
 if ProcName != NIL
@@ -9981,7 +9913,7 @@ WHILE OK
 	cCrc := Right(StrZero( nCrc, 10),3)
 	if cCrc != Right( cSenha, 3 )
 		ErrorBeep()
-		Alert("Erro : O Codigo de Acesso inv�lido. Solicite Novamente.")
+		Alert("Erro : O Codigo de Acesso inv∩┐╜lido. Solicite Novamente.")
 		Loop
 	endif
 	Set Date To USA // mm/dd/yy
@@ -10061,9 +9993,9 @@ def Cod_Acesso( cCodigo, GetList )
 	Getlist[1]:ExitState := GE_ENTER
 	CenturyOn()
 	return nil
-endef   
-   
-*----------------------------------------------------------------------------------------------------------------------*   
+endef
+
+*----------------------------------------------------------------------------------------------------------------------*
 
 def HoraSaida( HR_ENTRADA, HR_SAIDA )
    LOCAL cStartTime := HR_ENTRADA
@@ -10080,14 +10012,8 @@ def HoraSaida( HR_ENTRADA, HR_SAIDA )
       Cls
       Quit
    endif
-endef   
+endef
 
-*----------------------------------------------------------------------------------------------------------------------*   
+*----------------------------------------------------------------------------------------------------------------------*
 
-#ifdef __PLATFORM__WINDOWS
-	function cupsPrintFile()
-		return nil
-
-	function cupsGetDests()
-		return nil
-#endif		
+** end

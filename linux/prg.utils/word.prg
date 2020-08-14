@@ -1,4 +1,3 @@
-
 #xcommand TRY       => 	bError := errorBlock( {|oErr| break( oErr ) } ) ;;
 								BEGIN SEQUENCE
 #xcommand CATCH [<!oErr!>] => errorBlock( bError ) ;;

@@ -1,17 +1,17 @@
 /*
-  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
- İ³	Programa.....: ORCALAN.PRG 														 ³
- İ³	Aplicacaoo...: SISTEMA DE CONTROLE DE ESTOQUE/FATURAMENTO				 ³
- İ³	Versao.......: 4.3.26																 ³
- İ³	Programador..: Vilmar Catafesta													 ³
- İ³	Empresa......: Microbras Com de Prod de Informatica Ltda 				 ³
- İ³	Inicio.......: 12 de Novembro de 1991. 										 ³
- İ³   Ult.Atual....: 23 de agosto de 2014.                                  ³
- İ³	Compilacao...: Clipper 5.2e														 ³
- İ³	Linker.......: Blinker 3.20														 ³
- İ³	Bibliotecas..: Clipper/Funcoes/Mouse/Funcky15/Funcky50/Classe/Classic ³
- İÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
- ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+ â–Œâ”‚	Programa.....: ORCALAN.PRG 														 â”‚
+ â–Œâ”‚	Aplicacaoo...: SISTEMA DE CONTROLE DE ESTOQUE/FATURAMENTO				 â”‚
+ â–Œâ”‚	Versao.......: 4.3.26																 â”‚
+ â–Œâ”‚	Programador..: Vilmar Catafesta													 â”‚
+ â–Œâ”‚	Empresa......: Microbras Com de Prod de Informatica Ltda 				 â”‚
+ â–Œâ”‚	Inicio.......: 12 de Novembro de 1991. 										 â”‚
+ â–Œâ”‚   Ult.Atual....: 23 de agosto de 2014.                                  â”‚
+ â–Œâ”‚	Compilacao...: Clipper 5.2e														 â”‚
+ â–Œâ”‚	Linker.......: Blinker 3.20														 â”‚
+ â–Œâ”‚	Bibliotecas..: Clipper/Funcoes/Mouse/Funcky15/Funcky50/Classe/Classic â”‚
+ â–Œâ””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+ â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€
 */
 #include <sci.ch>
 
@@ -189,7 +189,7 @@ def Orcamento( lTestelan, cCaixa )
    Area((xAlias)) 
    Inde On Codigo To mem:xNtx
    Print( 00, 01, Padc( cString, (MaxCol()-1)), 31 )
-   StatusInf( oMenu:Codifirma + ':' + oMenu:NomeFirma, "ESC=RETORNA ³F5-PRECOS ³F10-CALC ³")
+   StatusInf( oMenu:Codifirma + ':' + oMenu:NomeFirma, "ESC=RETORNA â”‚F5-PRECOS â”‚F10-CALC â”‚")
    oOrca := FazBrowse( 01, 01, MaxRow()-9, (MaxCol()-1) )
    oMenu:Limpa()
 
@@ -1344,7 +1344,7 @@ def Vendedor( cCodiVen, nRow, nCol, lTrocarVendedor, cOldVendedor )
    Vendedor->(Order( VENDEDOR_CODIVEN ))
    if Vendedor->(!DbSeek( cCodiVen ))
       Vendedor->(Order( VENDEDOR_NOME ))
-      Vendedor->(Escolhe( 03, 01, MaxRow()-2, "CodiVen + 'İ' + Nome + 'İ' + Fone", "CODI NOME DO VENDEDOR" + Space(25)+ "TELEFONE", aRotinaInc, NIL, aRotinaAlt ))
+      Vendedor->(Escolhe( 03, 01, MaxRow()-2, "CodiVen + 'â–Œ' + Nome + 'â–Œ' + Fone", "CODI NOME DO VENDEDOR" + Space(25)+ "TELEFONE", aRotinaInc, NIL, aRotinaAlt ))
       cCodiven := Vendedor->Codiven
    endif
    if Vendedor->Rol = OK
@@ -1382,25 +1382,25 @@ endef
 Proc TelaFechaCli()
 *******************
 MaBox( 00, 0, 12, MaxCol() )
-Write( 01, 1 , "Forma Pagto.:    Dia:  ³Prazo.....:")
-Write( 02, 1 , "Comissao....:          ³Vendedor 1:")
-Write( 03, 1 , "Dividir.....:          ³Vendedor 2:")
-Write( 04, 1 , "Tecnico.....:          ³Nome......:")
-Write( 05, 1 , "Fatura N§...:          ³Emissao...:")
-Write( 06, 1 , "Desconto %..:          ³Liquido...:")
-Write( 07, 1 , "ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÄDADOS DO CLIENTEÄÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ")
-Write( 08, 1 , "Cliente.....:          ³                                                      ")
-Write( 09, 1 , "C/C/........:          ³                                                      ")
-Write( 10, 1 , "Placa.......:          ³                                                      ")
-Write( 11, 1 , "Observacoes.:          ³                                                      ")
+Write( 01, 1 , "Forma Pagto.:    Dia:  â”‚Prazo.....:")
+Write( 02, 1 , "Comissao....:          â”‚Vendedor 1:")
+Write( 03, 1 , "Dividir.....:          â”‚Vendedor 2:")
+Write( 04, 1 , "Tecnico.....:          â”‚Nome......:")
+Write( 05, 1 , "Fatura NÂº...:          â”‚Emissao...:")
+Write( 06, 1 , "Desconto %..:          â”‚Liquido...:")
+Write( 07, 1 , "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•ªâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â”€DADOS DO CLIENTEâ”€â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•")
+Write( 08, 1 , "Cliente.....:          â”‚                                                      ")
+Write( 09, 1 , "C/C/........:          â”‚                                                      ")
+Write( 10, 1 , "Placa.......:          â”‚                                                      ")
+Write( 11, 1 , "Observacoes.:          â”‚                                                      ")
 return
 
 Proc TelaFechaTit()
 *******************
 MaBox( 13, 0, 24, MaxCol() )
 Write( 14, 1, "  OBSERVACOES                                                                 " )
-Write( 15, 1, "  TITULO N§        VALOR R$  DIAS VENCTO    TIPO  COM TIT JR/MES   PORTADOR   " )
-Write( 16, 1 , "ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ")
+Write( 15, 1, "  TITULO NÂº        VALOR R$  DIAS VENCTO    TIPO  COM TIT JR/MES   PORTADOR   " )
+Write( 16, 1 , "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•")
 Write( 17, 1 , "A:                                                                            ")
 Write( 18, 1 , "B:                                                                            ")
 Write( 19, 1 , "C:                                                                            ")
@@ -1690,7 +1690,7 @@ if Instru80() .OR. Lptok()
 	Write( nRow + 08, 15, cMarca )
 	Write( nRow + 08, 61, cModelo )
 	Write( nRow + 09, 15, cDefeito )
-	Write( nRow + 10, 15, "CONFORME ORCAMENTO N§ " + cFatu )
+	Write( nRow + 10, 15, "CONFORME ORCAMENTO NÂº " + cFatu )
 	Write( nRow + 11, 15, cTecnico )
 	Write( nRow + 12, 15, cObs1 )
 	Write( nRow + 13, 15, cObs2 )
@@ -1860,7 +1860,7 @@ SetPrc(0,0)
 (xAlias)->(DbGoTop())
 Qout( GD + Padc( AllTrim( cCabecIni ), Tam/2 ) + CA )
 Qout( Padc( Trim( cEndeFir ), Tam ))
-Qout( GD + Padc( "ORCAMENTO N§ " + cFatu, Tam/2 ) + CA )
+Qout( GD + Padc( "ORCAMENTO NÂº " + cFatu, Tam/2 ) + CA )
 Qout( GD + Padc( "NAO TEM VALOR FISCAL", Tam/2 ) + CA )
 Qout( Repl("-", Tam))
 Qout( "Cliente..:", cCodi + "  " + AllTrim(cNomeCliente) + "/" + cFanta )
@@ -1878,7 +1878,7 @@ else
 		if nTipoBusca = 1 // Codigo
 			Qout( "CODIGO    QUANT DESCRICAO DO PRODUTO                                      UNITARIO      TOTAL")
 		else
-			Qout( "N§ ORIGINAL        QUANT DESCRICAO DO PRODUTO                             UNITARIO      TOTAL")
+			Qout( "NÂº ORIGINAL        QUANT DESCRICAO DO PRODUTO                             UNITARIO      TOTAL")
 		endif
 	endif
 endif
@@ -1933,8 +1933,8 @@ While (xAlias)->(!Eof())
 				__Eject()
 				SetPrc( 0, 0 )
 				Qout( Repl("-", Tam))
-				Qout( GD + Padc( "ORCAMENTO N§ " + cFatu, Tam/2 ) + CA)
-				Qout( "N§ Docto.: " + cFatu, Space(nDif+31), "Data : " + Dtoc( dEmis ))
+				Qout( GD + Padc( "ORCAMENTO NÂº " + cFatu, Tam/2 ) + CA)
+				Qout( "NÂº Docto.: " + cFatu, Space(nDif+31), "Data : " + Dtoc( dEmis ))
 				Qout( Repl("-", Tam))
 				if Tam = 66
 					Qout( "CODIGO    QUANT DESCRICAO DO PRODUTO                         TOTAL")
@@ -1945,7 +1945,7 @@ While (xAlias)->(!Eof())
 						if nTipoBusca = 1 // Codigo
 							Qout( "CODIGO    QUANT DESCRICAO DO PRODUTO                                      UNITARIO      TOTAL")
 						else
-							Qout( "N§ ORIGINAL        QUANT DESCRICAO DO PRODUTO                             UNITARIO      TOTAL")
+							Qout( "NÂº ORIGINAL        QUANT DESCRICAO DO PRODUTO                             UNITARIO      TOTAL")
 						endif
 					endif
 				endif
@@ -1976,7 +1976,7 @@ Proc TickVcto( cFatu )
 LOCAL cVista	 := "A VISTA "
 Recemov->(Order( RECEMOV_FATURA ))
 if Recemov->(DbSeek( cFatu ))
-	Qout( "DOCTO N§  TIPO     VCTO       JR DIA     VLR TITULO")
+	Qout( "DOCTO NÂº  TIPO     VCTO       JR DIA     VLR TITULO")
 	WHILE Recemov->Fatura = cFatu
 		Recemov->(Qout( Docnr, Tipo, if( Vcto == Emis, cVista, Vcto), Tran( Jurodia, "@E 999,999.99"), Tran( Vlr, "@E 999,999,999.99")))
 		Recemov->(DbSkip(1))
@@ -2007,7 +2007,7 @@ While (xAlias)->(!Eof())
 		Write( 01, 00, GD + Padc( "ORCAMENTO", Tam/2 ) + CA)
 		Write( 02, 00, GD + Padc( "NAO TEM VALOR FISCAL", Tam/2 ) + CA)
 		Fprint( PQ )
-		Write( 03, 000, "N§ Docto.: " + cFatu  + " Caixa.: " + cCaixa + " Data.: " + Dtoc( dEmis ) + " Hora..: " + Time())
+		Write( 03, 000, "NÂº Docto.: " + cFatu  + " Caixa.: " + cCaixa + " Data.: " + Dtoc( dEmis ) + " Hora..: " + Time())
 		Write( 03, 117, "TICKET.:" + cFatu )
 		Write( 04, 000, "Cliente..: "+ cCodi + "  " + Left( cNomeCliente, 32)   + " Vendedor..: " + cVend )
 		Write( 04, 117, "Data...:" + Dtoc( dEmis ))
@@ -2069,7 +2069,7 @@ While (xAlias)->(!Eof())
 	if nCol >= nLinhas
 		Write( 00, 00, GD + Padc( "ORCAMENTO - INTERLOJAS", Tam/2 ) + CA)
 		Fprint( PQ )
-		Write( 01, 000, "N§ Docto.: " + cFatu  + " Caixa.: " + cCaixa + " Data.: " + Dtoc( dEmis ) + " Hora..: " + Time())
+		Write( 01, 000, "NÂº Docto.: " + cFatu  + " Caixa.: " + cCaixa + " Data.: " + Dtoc( dEmis ) + " Hora..: " + Time())
 		Write( 02, 000, "Cliente..: "+ cCodi + "  " + Left( cNomeCliente, 32)   + " Vendedor..: " + cVend )
 		Write( 03, 000, Repl("-", Tam))
 		Write( 04, 000, "CODIGO DESCRICAO DO PRODUTO                     TAMANH      QTD      CUSTO         UNITARIO      TOTAL")
@@ -2126,11 +2126,11 @@ Qout( GD + Padc(AllTrim(oAmbiente:xFanta),33 ) + CA )
 Qout( Padc( XENDEFIR + " - " + XCCIDA + " - " + XFONE, 66 ))
 Qout( Repl("-", Tam))
 Qout( GD + Padc( "POSICAO DE FATURAMENTO", 33 ) + CA)
-Qout(  "N§ Docto.: ", cFatu, Space(29), "Data : ", Dtoc( dEmis ))
+Qout(  "NÂº Docto.: ", cFatu, Space(29), "Data : ", Dtoc( dEmis ))
 Qout(  "Cliente..: ", cCodi, cNomeCliente )
 Qout(  "Endereco.: ", Receber->Ende, Receber->Fone )
 Qout(  Repl("-", Tam))
-Qout(  "DOCTO N§              VENCTO                     VALOR")
+Qout(  "DOCTO NÂº              VENCTO                     VALOR")
 Qout(  Repl("-", Tam))
 nCol := 08
 
@@ -2258,18 +2258,18 @@ cHist   := Space(40)
 nVlr	  := 0
 lSair   := FALSO
 MaBox( 12, 10, 20, 73 )
-Write( 13, 11 , "Codigo....:¯ ")
-Write( 14, 11 , "Saldo R$. ¯¯ ")
+Write( 13, 11 , "Codigo....:Â» ")
+Write( 14, 11 , "Saldo R$. Â»Â» ")
 WHILE OK
 	Write( 13, 24 , cCodi + " " + Cheque->Titular )
 	Write( 14, 24 , Cheque->(Tran( Saldo, "@ECX 9,999,999,999.99")))
 	lOpcional := OK
 	cCodi1	 := Space(04)
-	@ 15, 11 Say "Data......:¯" Get dEmis    Pict PIC_DATA
-	@ 16, 11 Say "Docto. N§.:¯" Get cDocnr   Pict "@K!" Valid CheqDoc( cDocnr ) .OR. LastKey() = UP
-	@ 17, 11 Say "Historico.:¯" Get cHist    Pict "@K!" Valid !Empty( cHist ) .OR. LastKey() = UP
-	@ 18, 11 Say "Valor.....:¯" Get nVlr     Pict "@E 9,999,999,999.99" Valid nVlr > 0 .OR. LastKey() = UP
-	@ 19, 11 Say "D/C.......:¯" GET cDebCre  Pict "!" Valid cDebCre $("CD") .OR. LastKey() = UP
+	@ 15, 11 Say "Data......:Â»" Get dEmis    Pict PIC_DATA
+	@ 16, 11 Say "Docto. NÂº.:Â»" Get cDocnr   Pict "@K!" Valid CheqDoc( cDocnr ) .OR. LastKey() = UP
+	@ 17, 11 Say "Historico.:Â»" Get cHist    Pict "@K!" Valid !Empty( cHist ) .OR. LastKey() = UP
+	@ 18, 11 Say "Valor.....:Â»" Get nVlr     Pict "@E 9,999,999,999.99" Valid nVlr > 0 .OR. LastKey() = UP
+	@ 19, 11 Say "D/C.......:Â»" GET cDebCre  Pict "!" Valid cDebCre $("CD") .OR. LastKey() = UP
 	Read
 	if LastKey() = ESC
 		lSair := OK
@@ -2455,7 +2455,7 @@ endif
 if !DbSeek( cCodi )
 	Receber->(Order( RECEBER_NOME ))
 	Receber->(DbGoTop())
-	Receber->(Escolhe( 03, 00, 22,"Codi + 'İ' + Nome + 'İ' + Fone + 'İ' + Left( Fanta, 15 )", "CODI NOME DO CLIENTE                          TELEFONE       FANTASIA", aRotina,, aRotinaAlteracao ))
+	Receber->(Escolhe( 03, 00, 22,"Codi + 'â–Œ' + Nome + 'â–Œ' + Fone + 'â–Œ' + Left( Fanta, 15 )", "CODI NOME DO CLIENTE                          TELEFONE       FANTASIA", aRotina,, aRotinaAlteracao ))
 	if LastKey() = ESC
 		AreaAnt( Arq_Ant, Ind_Ant )
 		ResTela( cScreen )
@@ -2549,7 +2549,7 @@ def xIncluiRegistro( lVarejo, oObjeto, lFatCodeBar )
          @ nPos+4, 09 Get nQuant		Pict "99999.99"         Valid nConta_Quant( nQuant ) .OR. LastKey() = UP
          @ nPos+5, 09 Get nDesc		Pict "999.9"            Valid Preco_Desc( @nPreco, nDesc, nPrecoAnterior, NIL, nDescMax )
          @ nPos+6, 09 Get nPreco		Pict "@E 99,999,999.99" Valid ValidaPreco( nPreco, nDesc, nPrecoAnterior ) .AND. nPreco > 0
-         if lSerieProduto	// Entrar com n§ serie Produto ?
+         if lSerieProduto	// Entrar com nÂº serie Produto ?
             @ nPos+7, 09 Get cSerie	Pict "@!"
          endif
       else
@@ -2563,7 +2563,7 @@ def xIncluiRegistro( lVarejo, oObjeto, lFatCodeBar )
             @ nPos+4, 09 Get nQuant		Pict "99999.99"         Valid nConta_Quant( nQuant ) .OR. LastKey() = UP
             @ nPos+5, 09 Get nDesc		Pict "99.9"             Valid Preco_Desc( @nPreco, nDesc, nPrecoAnterior, NIL, nDescMax )
             @ nPos+6, 09 Get nPreco		Pict "@E 99,999,999.99" Valid ValidaPreco( nPreco, nDesc, nPrecoAnterior ) .AND. nPreco > 0
-            if lSerieProduto	// Entrar com n§ serie Produto ?
+            if lSerieProduto	// Entrar com nÂº serie Produto ?
                @ nPos+7, 09 Get cSerie	Pict "@!"
             endif
          else
@@ -2708,14 +2708,14 @@ if Lista->( !DbSeek( cCodigo ))
 	if nTipoBusca = 1
 		#ifDEF MICROBRAS
 			Lista->(Order( LISTA_DESCRICAO ))
-			Escolhe( 03, 00, 22, "Codigo + 'İ' + Left( N_Original, 12 ) + 'İ' + Descricao + 'İ' + Tran( Quant, '999.99') + 'İ' + Tran( Varejo, '@E 9,999.99')","CODI  COD FABR   DESCRICAO DO PRODUTO                      ESTOQUE     PRECO", aRotina,, aRotinaAlteracao )
+			Escolhe( 03, 00, 22, "Codigo + 'â–Œ' + Left( N_Original, 12 ) + 'â–Œ' + Descricao + 'â–Œ' + Tran( Quant, '999.99') + 'â–Œ' + Tran( Varejo, '@E 9,999.99')","CODI  COD FABR   DESCRICAO DO PRODUTO                      ESTOQUE     PRECO", aRotina,, aRotinaAlteracao )
 		#else
 			Lista->(Order( LISTA_DESCRICAO ))
-         Escolhe( 03, 00, 22, "Codigo + 'İ' + Sigla + 'İ' + Left( Descricao, 39 ) + 'İ' + Tran( Quant, '99999.99') + 'İ' + Tran( Varejo, '@E 99,999.99')","CODI  MARCA      DESCRICAO DO PRODUTO                      ESTOQUE     PRECO", aRotina,, aRotinaAlteracao )
+         Escolhe( 03, 00, 22, "Codigo + 'â–Œ' + Sigla + 'â–Œ' + Left( Descricao, 39 ) + 'â–Œ' + Tran( Quant, '99999.99') + 'â–Œ' + Tran( Varejo, '@E 99,999.99')","CODI  MARCA      DESCRICAO DO PRODUTO                      ESTOQUE     PRECO", aRotina,, aRotinaAlteracao )
 		#endif
 	else
 		Lista->(Order( LISTA_N_ORIGINAL ))
-		Escolhe( 03, 00, 22, "N_Original + 'İ' + Sigla + 'İ' + Left( Descricao, 31 ) + 'İ' + Tran( Quant, '9999.99') + 'İ' + Tran( Varejo, '@E 99,999.99')","COD FABR        MARCA      DESCRICAO DO PRODUTO            ESTOQUE    PRECO", aRotina,, aRotinaAlteracao )
+		Escolhe( 03, 00, 22, "N_Original + 'â–Œ' + Sigla + 'â–Œ' + Left( Descricao, 31 ) + 'â–Œ' + Tran( Quant, '9999.99') + 'â–Œ' + Tran( Varejo, '@E 99,999.99')","COD FABR        MARCA      DESCRICAO DO PRODUTO            ESTOQUE    PRECO", aRotina,, aRotinaAlteracao )
 	endif
 	if LastKey() = ESC
 		AreaAnt( Arq_Ant, Ind_Ant )
@@ -2829,7 +2829,7 @@ endif
 @ nPos+4, 09 Get nQuant		Pict "99999.99"         Valid nConta_Quant( nQuant ) .OR. LastKey() = UP
 @ nPos+5, 09 Get nDesc		Pict "99.9"             Valid Preco_Desc( @nPreco, nDesc, nPrecoAnterior, NIL, nDescMax )
 @ nPos+6, 09 Get nPreco		Pict "@E 99,999,999.99" Valid ValidaPreco( nPreco, nDesc, nPrecoAnterior )
-if lSerieProduto	// Entrar com n§ serie Produto ?
+if lSerieProduto	// Entrar com nÂº serie Produto ?
 	@ nPos+7, 09 Get cSerie		Pict "@!"
 endif
 Read
@@ -3038,7 +3038,7 @@ function VerPosicao( cCaixa)
 								"Receber Por Tipo",;
 								"Receber Por Fatura",;							
 								"Receber Geral",;
-								"ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ",;
+								"â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€",;
 								"Recebido Por Codigo",;
 								"Recebido Por Regiao",;
 								"Recebido Por Periodo",;
@@ -3117,7 +3117,7 @@ endif
 oMenu:Limpa()
 if !lDireto
    M_Title( "MANUTENCAO DA FATURA" )
-   nChoice := FazMenu( 05, 10, {"Pre‡o Atacado","Pre‡o Varejo", "Pre‡o Custo"} )
+   nChoice := FazMenu( 05, 10, {"PreÃ§o Atacado","PreÃ§o Varejo", "PreÃ§o Custo"} )
    if nChoice = 0
 	   ResTela( cScreen )
 	   return lRetVal
@@ -3132,7 +3132,7 @@ WHILE OK
 	if !lDireto
 		cFatu 	  := Space(7)
 		MaBox( 12, 10, 14, 32 )
-		@ 13, 11 Say "Fatura N§...:" Get cFatu Pict "@!" Valid VisualAchaFatura( @cFatu )
+		@ 13, 11 Say "Fatura NÂº...:" Get cFatu Pict "@!" Valid VisualAchaFatura( @cFatu )
 		Read
 		if LastKey() = ESC
 			ResTela( cScreen )
@@ -3549,7 +3549,7 @@ LOCAL aVlr			 := {}
 
 oMenu:Limpa()
 MaBox( 18, 10, 20, 32 )
-@ 19, 11 Say "Fatura N§...¯" Get cFatura Pict "@!" Valid VisualAchaFatura( @cFatura )
+@ 19, 11 Say "Fatura NÂº...Â»" Get cFatura Pict "@!" Valid VisualAchaFatura( @cFatura )
 Read
 if LastKey() = ESC
 	ResTela( cScreen )
@@ -3633,7 +3633,7 @@ FPrint( _CPI12 )
 FPrint( _SPACO1_8 )
 SetPrc(0,0)
 Write(	nCol, 00, "")
-Write( ++nCol, 00, NG + Padc("CONTRATO PARTICULAR DE COMPRA E VENDA COM RESERVA DE DOMINIO - N§ " + cFatu, Tam ) + NR )
+Write( ++nCol, 00, NG + Padc("CONTRATO PARTICULAR DE COMPRA E VENDA COM RESERVA DE DOMINIO - NÂº " + cFatu, Tam ) + NR )
 Write( ++nCol, 00, Repl("-", Tam ))
 Write( ++nCol, 00, "A " + AllTrim(oAmbiente:xNomefir) )
 Write( ++nCol, 00, XENDEFIR + " - " + XCEPCIDA + " - " + XCESTA )
@@ -3669,7 +3669,7 @@ nCol++
 Write( ++nCol, 00, NG + "SEGUNDA: " + NR + "O preco de venda e de R$ " + AllTrim( Tran( nLiquido, "@E 999,999,999.99")) + " cujo pagamento o COMPRADOR se obriga a realizar")
 Write( ++nCol, 00, "do seguinte modo:")
 Write( ++nCol, 00, Repl("-", Tam ))
-Write( ++nCol, 00, "N§ DOCTO  VENCIMENTO       VALOR OBS                 N§ DOCTO  VENCIMENTO       VALOR OBS")
+Write( ++nCol, 00, "NÂº DOCTO  VENCIMENTO       VALOR OBS                 NÂº DOCTO  VENCIMENTO       VALOR OBS")
 nLen := Len( Dpnr )
 nSoma := 0
 nSum	:= 1
@@ -3891,11 +3891,11 @@ if lMedias != NIL
 endif
 if lMostrar = Nil
 	MaBox( nPos+2, 00, MaxRow()-1, MaxCol(),"TOTAL FATURA R$  " + Tran( nTotal, "@E 9,999,999,999.99"))
-	Write( nPos+3, 01,"INSERT  Incluir Registrosİ  F1 Consulta Debito      İ F11 Devol/Incl Fatura   ")
-	Write( nPos+4, 01,"DELETE  Excluir Registrosİ  F2 Baixar Dup/Prom/Cc   İ F3  Pagamentos          ")
-	Write( nPos+5, 01,"F4      Lanc/Pos Caixa   İ  F5 Lista Pre‡os         İ F6  Manutencao Pre-Venda")
-	Write( nPos+6, 01,"F7      Visualizar Faturaİ  F8 Fechar Pre-Venda     İ F9  Inclusao Clientes   ")
-	Write( nPos+7, 01,"F10     Fechar Fatura    İ^F10 Imprime Orcamento    İ ^P  Menu de Impressao   ")
+	Write( nPos+3, 01,"INSERT  Incluir Registrosâ–Œ  F1 Consulta Debito      â–Œ F11 Devol/Incl Fatura   ")
+	Write( nPos+4, 01,"DELETE  Excluir Registrosâ–Œ  F2 Baixar Dup/Prom/Cc   â–Œ F3  Pagamentos          ")
+	Write( nPos+5, 01,"F4      Lanc/Pos Caixa   â–Œ  F5 Lista PreÃ§os         â–Œ F6  Manutencao Pre-Venda")
+	Write( nPos+6, 01,"F7      Visualizar Faturaâ–Œ  F8 Fechar Pre-Venda     â–Œ F9  Inclusao Clientes   ")
+	Write( nPos+7, 01,"F10     Fechar Fatura    â–Œ^F10 Imprime Orcamento    â–Œ ^P  Menu de Impressao   ")
 endif
 return
 
@@ -3921,11 +3921,11 @@ pComissaoMed := ( nComissaoMed := ( nComissao * 100 ) / nTotal )
 pTotal		 := nTotal
 if lMostrar = Nil
 	MaBox( nPos+2, 00, MaxRow()-1, MaxCol(),"TOTAL FATURA R$  " + Tran( nTotal, "@E 9,999,999,999.99"))
-	Write( nPos+3, 01,"ENTER   Incluir Registrosİ  ^ENTER Alterar          İ  ^Q  Limpar Fatura    ")
-	Write( nPos+4, 01,"DELETE  Excluir Registrosİ  F10    Fechar Fatura    İ  F11 Devolucao Total  ")
-	Write( nPos+5, 01,"F5      Lista Precos     İ                          İ                       ")
-	Write( nPos+6, 01,"                         İ                          İ                       ")
-	Write( nPos+7, 01,"                         İ                          İ                       ")
+	Write( nPos+3, 01,"ENTER   Incluir Registrosâ–Œ  ^ENTER Alterar          â–Œ  ^Q  Limpar Fatura    ")
+	Write( nPos+4, 01,"DELETE  Excluir Registrosâ–Œ  F10    Fechar Fatura    â–Œ  F11 Devolucao Total  ")
+	Write( nPos+5, 01,"F5      Lista Precos     â–Œ                          â–Œ                       ")
+	Write( nPos+6, 01,"                         â–Œ                          â–Œ                       ")
+	Write( nPos+7, 01,"                         â–Œ                          â–Œ                       ")
 endif
 return
 
@@ -4414,7 +4414,7 @@ LOCAL aRotinaAlteracao := {{||CliInclusao( OK )}}
 
 xCodigo := StrCodigo( xCodigo )
 if (xAlias)->(!DbSeek( xCodigo ))
-	(xAlias)->(Escolhe( 03, 01, 22,"Codigo + 'İ' + Descricao","CODIG DESCRICAO DO PRODUTO", aRotina,,aRotinaAlteracao))
+	(xAlias)->(Escolhe( 03, 01, 22,"Codigo + 'â–Œ' + Descricao","CODIG DESCRICAO DO PRODUTO", aRotina,,aRotinaAlteracao))
 endif
 nQuant := (xAlias)->Quant
 Write( nRow+0, nCol, (xAlias)->Descricao )
@@ -4472,13 +4472,13 @@ if lMedias != NIL
 	endif
 endif
 if lMostrar = NIL
-	MaBox( 17, 00, MaxRow(), MaxCol(),"TOTAL COMPRA R$ " + Tran( nTotal, "@E 9,999,999,999.99") + " İ TOTAL CUSTO R$  " + Tran( nTotCustoFinal, "@E 9,999,999,999.99"))
-	Write( 18, 01, "INSERT Incluir Registro  İ  F1  Posicao Cliente    İ  F2  Recebimentos      ")
-	Write( 19, 01, "DELETE Excluir Registro  İ  F3  Pagamentos         İ  F4  Alterar Produtos  ")
-	Write( 20, 01, "^ENTER Alterar Registro  İ  F5  Lista Precos       İ  F6  Consulta Entradas ")
-	Write( 21, 01, "^Q     Limpar Fatura     İ  F7  Alterar Fornecedor İ  F8  Posicao Fornecedor")
-	Write( 22, 01, "F10    Fechar Fatura     İ  F9  Incluir Fornecedor İ  F11 Devolucao Fatura  ")
-	Write( 23, 01, "F12                      İ ^F1  Alteracao Pagar    İ ^F2  Alteracao Pago    ")
+	MaBox( 17, 00, MaxRow(), MaxCol(),"TOTAL COMPRA R$ " + Tran( nTotal, "@E 9,999,999,999.99") + " â–Œ TOTAL CUSTO R$  " + Tran( nTotCustoFinal, "@E 9,999,999,999.99"))
+	Write( 18, 01, "INSERT Incluir Registro  â–Œ  F1  Posicao Cliente    â–Œ  F2  Recebimentos      ")
+	Write( 19, 01, "DELETE Excluir Registro  â–Œ  F3  Pagamentos         â–Œ  F4  Alterar Produtos  ")
+	Write( 20, 01, "^ENTER Alterar Registro  â–Œ  F5  Lista Precos       â–Œ  F6  Consulta Entradas ")
+	Write( 21, 01, "^Q     Limpar Fatura     â–Œ  F7  Alterar Fornecedor â–Œ  F8  Posicao Fornecedor")
+	Write( 22, 01, "F10    Fechar Fatura     â–Œ  F9  Incluir Fornecedor â–Œ  F11 Devolucao Fatura  ")
+	Write( 23, 01, "F12                      â–Œ ^F1  Alteracao Pagar    â–Œ ^F2  Alteracao Pago    ")
 endif
 return
 
@@ -4502,13 +4502,13 @@ WHILE !Eof()
 EndDo
 (xAlias)->(DbGoTo( nCurrente ))
 if lMostrar = Nil
-	MaBox( 17, 00, MaxRow(), MaxCol(),"TOTAL COMPRA R$ " + Tran( nTotal, "@E 9,999,999,999.99") + " İ TOTAL CUSTO R$  " + Tran( nTotCustoFinal, "@E 9,999,999,999.99"))
-	Write( 18, 01,"--+    Incluir Registrosİ  ^--+ Alterar           İ  ^Q  Limpar Fatura    ")
-	Write( 19, 01,"DELETE  Excluir Registrosİ  F10   Fechar Fatura     İ  F11 Devolucao Total  ")
-	Write( 20, 01,"F5      Lista Precos     İ                          İ                       ")
-	Write( 21, 01,"                         İ                          İ                       ")
-	Write( 22, 01,"                         İ                          İ                       ")
-	Write( 23, 01,"                         İ                          İ                       ")
+	MaBox( 17, 00, MaxRow(), MaxCol(),"TOTAL COMPRA R$ " + Tran( nTotal, "@E 9,999,999,999.99") + " â–Œ TOTAL CUSTO R$  " + Tran( nTotCustoFinal, "@E 9,999,999,999.99"))
+	Write( 18, 01,"--+    Incluir Registrosâ–Œ  ^--+ Alterar           â–Œ  ^Q  Limpar Fatura    ")
+	Write( 19, 01,"DELETE  Excluir Registrosâ–Œ  F10   Fechar Fatura     â–Œ  F11 Devolucao Total  ")
+	Write( 20, 01,"F5      Lista Precos     â–Œ                          â–Œ                       ")
+	Write( 21, 01,"                         â–Œ                          â–Œ                       ")
+	Write( 22, 01,"                         â–Œ                          â–Œ                       ")
+	Write( 23, 01,"                         â–Œ                          â–Œ                       ")
 endif
 return
 
@@ -4516,11 +4516,11 @@ Proc TelaFechaEntra()
 *********************
 MaBox( 00, 00, 10, MaxCol() )
 Write( 01, 01, "Forma Pagto   :")
-Write( 02, 01, "N§ Nff        :                 N§ Duplicata :           Cfop    :")
+Write( 02, 01, "NÂº Nff        :                 NÂº Duplicata :           Cfop    :")
 Write( 03, 01, "Data Emissao  :                 Data Entrada :           % Icms  :")
 Write( 04, 01, "Valor Real    :                 Valor NFF    :")
 Write( 05, 01, "Valor Frete   :                 Conhecimento :           Emissao :")
-Write( 06, 01, "Valor Imposto :                 N§ Documento :           Emissao :")
+Write( 06, 01, "Valor Imposto :                 NÂº Documento :           Emissao :")
 Write( 07, 01, "Fornecedor    :")
 Write( 08, 01, "Transportador :")
 Write( 09, 01, "Imposto       :")
@@ -4671,15 +4671,15 @@ For x := 1 To nConta
 Next
 MaBox( 11, 0, 24, MaxCol() )
 Write( 12, 1, Padc("DESDOBRAMENTO DOS TITULOS A PAGAR", MaxCol()-2 ))
-Write( 13, 1, Repl( "Ä", MaxCol()-1))
-Write( 14, 1, "  TITULO N§        VALOR DIAS VENCTO    TIPO  JR/MES  DESC PORTADOR  " )
-Write( 15, 1, Repl( "Ä", MaxCol()-1))
+Write( 13, 1, Repl( "â”€", MaxCol()-1))
+Write( 14, 1, "  TITULO NÂº        VALOR DIAS VENCTO    TIPO  JR/MES  DESC PORTADOR  " )
+Write( 15, 1, Repl( "â”€", MaxCol()-1))
 Write( 16, 1, "A:                                                                           " )
 Write( 17, 1, "B:                                                                           " )
 Write( 18, 1, "C:                                                                           " )
 Write( 19, 1, "D:                                                                           " )
 Write( 20, 1, "E:                                                                           " )
-Write( 21, 1, Repl( "Ä", MaxCol()-1))
+Write( 21, 1, Repl( "â”€", MaxCol()-1))
 Write( 22, 1, "OBS:                                                                         " )
 Write( 23, 1, "                                                                             " )
 
@@ -4783,15 +4783,15 @@ if nValorFrete > 0
 	cPortador	  := "CARTEIRA  "
 	MaBox( 11, 0, 24, MaxCol() )
 	Write( 12, 1, Padc("TITULO PAGAR A TRANSPORTADOR", MaxCol()-2 ))
-	Write( 13, 1, Repl( "Ä", MaxCol()-1))
-	Write( 14, 1, "  TITULO N§        VALOR DIAS VENCTO  TIPO  JR/MES  DESC PORTADOR    " )
-	Write( 15, 1, Repl( "Ä", MaxCol()-1))
+	Write( 13, 1, Repl( "â”€", MaxCol()-1))
+	Write( 14, 1, "  TITULO NÂº        VALOR DIAS VENCTO  TIPO  JR/MES  DESC PORTADOR    " )
+	Write( 15, 1, Repl( "â”€", MaxCol()-1))
 	Write( 16, 1, "A:                                                                           " )
 	Write( 17, 1, "B:                                                                           " )
 	Write( 18, 1, "C:                                                                           " )
 	Write( 19, 1, "D:                                                                           " )
 	Write( 20, 1, "E:                                                                           " )
-	Write( 21, 1, Repl( "Ä", MaxCol()-1))
+	Write( 21, 1, Repl( "â”€", MaxCol()-1))
 	Write( 22, 1, "OBS:                                                                         " )
 	Write( 23, 1, "                                                                             " )
 	nCol := 16
@@ -4841,15 +4841,15 @@ if nVlrIcms > 0
 	cPortador	  := "CARTEIRA  "
 	MaBox( 11, 0, 24, MaxCol() )
 	Write( 12, 1, Padc("LANCAMENTO DE IMPOSTO A PAGAR", MaxCol()-2 ))
-	Write( 13, 1, Repl( "Ä", MaxCol()-1))
-	Write( 14, 1, "  TITULO N§        VALOR DIAS VENCTO  TIPO  JR/MES  DESC PORTADOR    " )
-	Write( 15, 1, Repl( "Ä", MaxCol()-1))
+	Write( 13, 1, Repl( "â”€", MaxCol()-1))
+	Write( 14, 1, "  TITULO NÂº        VALOR DIAS VENCTO  TIPO  JR/MES  DESC PORTADOR    " )
+	Write( 15, 1, Repl( "â”€", MaxCol()-1))
 	Write( 16, 1, "A:                                                                           " )
 	Write( 17, 1, "B:                                                                           " )
 	Write( 18, 1, "C:                                                                           " )
 	Write( 19, 1, "D:                                                                           " )
 	Write( 20, 1, "E:                                                                           " )
-	Write( 21, 1, Repl( "Ä", MaxCol()-1))
+	Write( 21, 1, Repl( "â”€", MaxCol()-1))
 	Write( 22, 1, "OBS:                                                                         " )
 	Write( 23, 1, "                                                                             " )
 	nCol := 16
@@ -5095,7 +5095,7 @@ WHILE OK
 	cFatura	  := Space(07)
 	aDevolucao := {}
 	MaBox( 18, 10, 20, 32 )
-	@ 19, 11 Say "Fatura N§...:" Get cFatura Pict "@!" Valid VisualEntraFatura( @cFatura )
+	@ 19, 11 Say "Fatura NÂº...:" Get cFatura Pict "@!" Valid VisualEntraFatura( @cFatura )
 	Read
 	if LastKey() = ESC
 		ResTela( cScreen )
@@ -5292,7 +5292,7 @@ endef
 
 Proc CabecCaixa( Pagina, Tam, cTitulo, cCaixa, cTitular )
 *********************************************************
-Write( 00, 00, Padr( "Pagina N§ " + StrZero( Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
+Write( 00, 00, Padr( "Pagina NÂº " + StrZero( Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
 Write( 01, 00, Date())
 Write( 02, 00, Padc( AllTrim(oAmbiente:xFanta), Tam ))
 Write( 03, 00, Padc( SISTEM_NA1, Tam ))
@@ -5538,7 +5538,7 @@ Case nChoice = 1
 						Chemov->Emis	  := dData
 						Chemov->Data	  := dData
 						Chemov->Baixa	  := Date()
-						Chemov->Hist	  := "CRE REF FATURA N§ " + cFatura
+						Chemov->Hist	  := "CRE REF FATURA NÂº " + cFatura
 						Chemov->Saldo	  := nChSaldo
 						Chemov->Tipo	  := "DH"
 						Chemov->Caixa	  := if( cCaixa = Nil, Space(4), cCaixa )
@@ -5562,7 +5562,7 @@ Case nChoice = 2
 		nApagar	  := 0
 		MaBox( 10, 10, 17, 78 )
 		@ 11, 11 Say "Codigo Cliente..: " Get cCodi   Pict PIC_RECEBER_CODI Valid RecErrado( @cCodi,, 11, 35 )
-		@ 12, 11 Say "Fatura n§.......: " Get cFatura Pict "@!"   When BaixaLocaliza( cCodi, @cFatura ) Valid VisualAchaFatura( @cFatura, @nApagar, @cCodi )
+		@ 12, 11 Say "Fatura nÂº.......: " Get cFatura Pict "@!"   When BaixaLocaliza( cCodi, @cFatura ) Valid VisualAchaFatura( @cFatura, @nApagar, @cCodi )
 		@ 13, 11 Say "Data............: " Get dData   Pict "##/##/##" Valid SomaPago( @nApagar, cFatura, @nPago )
 		@ 14, 11 Say "Valor a Pagar...: " Get nApagar Pict "@E 9,999,999,999.99"
 		@ 15, 11 Say "Desconto........: " Get nPerc   Pict "999.99" Valid nPerc >= 0 .AND. CalcSobra( nApagar, nPerc, @nSobra )
@@ -5618,7 +5618,7 @@ Case nChoice = 2
 						Chemov->Emis	  := dData
 						Chemov->Data	  := dData
 						Chemov->Baixa	  := Date()
-						Chemov->Hist	  := "CRE REF FATURA N§ " + cFatura
+						Chemov->Hist	  := "CRE REF FATURA NÂº " + cFatura
 						Chemov->Saldo	  := nChSaldo
 						Chemov->Tipo	  := "DH"
 						Chemov->Caixa	  := if( cCaixa = Nil, Space(4), cCaixa )
@@ -5700,7 +5700,7 @@ Case nChoice = 3
 					Chemov->Emis	  := dData
 					Chemov->Data	  := dData
 					Chemov->Baixa	  := Date()
-					Chemov->Hist	  := "CRE REF FATURA N§ " + cFatura
+					Chemov->Hist	  := "CRE REF FATURA NÂº " + cFatura
 					Chemov->Saldo	  := nChSaldo
 					Chemov->Tipo	  := "DH"
 					Chemov->Caixa	  := if( cCaixa = Nil, Space(4), cCaixa )
@@ -5914,10 +5914,10 @@ endif
 if !( DbSeek( cCodigo ))
 	if nTipoBusca = 1
 		Lista->(Order( LISTA_DESCRICAO ))
-		Escolhe( 03, 00, 22, "Codigo + 'İ' + Sigla + 'İ' + Left( Descricao, 39 ) + 'İ' + Tran( Quant, '99999.99') + 'İ' + Tran( Pcusto, '@E 99,999.99')","CODI  MARCA      DESCRICAO DO PRODUTO                      ESTOQUE     CUSTO", aRotina,, aRotinaAlteracao )
+		Escolhe( 03, 00, 22, "Codigo + 'â–Œ' + Sigla + 'â–Œ' + Left( Descricao, 39 ) + 'â–Œ' + Tran( Quant, '99999.99') + 'â–Œ' + Tran( Pcusto, '@E 99,999.99')","CODI  MARCA      DESCRICAO DO PRODUTO                      ESTOQUE     CUSTO", aRotina,, aRotinaAlteracao )
 	else
 		Lista->(Order( LISTA_N_ORIGINAL ))
-		Escolhe( 03, 00, 22, "N_Original + 'İ' + Sigla + 'İ' + Left( Descricao, 31 ) + 'İ' + Tran( Quant, '9999.99') + 'İ' + Tran( Varejo, '@E 99,999.99')","COD FABR        MARCA      DESCRICAO DO PRODUTO            ESTOQUE    PRECO", aRotina,, aRotinaAlteracao )
+		Escolhe( 03, 00, 22, "N_Original + 'â–Œ' + Sigla + 'â–Œ' + Left( Descricao, 31 ) + 'â–Œ' + Tran( Quant, '9999.99') + 'â–Œ' + Tran( Varejo, '@E 99,999.99')","COD FABR        MARCA      DESCRICAO DO PRODUTO            ESTOQUE    PRECO", aRotina,, aRotinaAlteracao )
 	endif
 	if LastKey() = ESC
 		AreaAnt( Arq_Ant, Ind_Ant )
@@ -5969,11 +5969,11 @@ Proc TelaSai( cString )
 LOCAL nPos := SCI_MAXROW - 9
 
 MaBox( nPos+2, 00, nPos+8, MaxCol(), cString, NIL, Roloc( Cor() ))
-Write( nPos+3, 01, "Codigo.:             ³Descricao.:                                             ")
-Write( nPos+4, 01, "Quant..:             ³Grupo.....:                                             ")
-Write( nPos+5, 01, "Desc...:             ³SubGrupo..:                                             ")
-Write( nPos+6, 01, "Preco..:             ³Cod Fabr..:                  Marca....:                 ")
-Write( nPos+7, 01, "Serie..:             ³Tamanho...:                  Desc Max.:                 ")
+Write( nPos+3, 01, "Codigo.:             â”‚Descricao.:                                             ")
+Write( nPos+4, 01, "Quant..:             â”‚Grupo.....:                                             ")
+Write( nPos+5, 01, "Desc...:             â”‚SubGrupo..:                                             ")
+Write( nPos+6, 01, "Preco..:             â”‚Cod Fabr..:                  Marca....:                 ")
+Write( nPos+7, 01, "Serie..:             â”‚Tamanho...:                  Desc Max.:                 ")
 return
 
 Proc TelaEnt()
@@ -6116,7 +6116,7 @@ WHILE OK
 		cFaturaPrevenda += Space(07 - Len(AllTrim( cFaturaPrevenda)))
 	endif
 	MaBox( 05, 0, 18, MaxCol(), "FECHAMENTO DA PRE-VENDA")
-	@ 06, 	  01 Say "Documento n§....:" Get cFaturaPrevenda Pict "@!"    Valid VerNrPrevenda( @cFaturaPrevenda, @cForma, @cCodiVen, @cCodi, @cNome, @cEnde, @cFone, @cAparelho, @cMarca, @cModelo, @cNrSerie, @cObs, @cObs1, @cObs2, @cAno, @cCor, @cPlaca, @cEstadoGeral )
+	@ 06, 	  01 Say "Documento nÂº....:" Get cFaturaPrevenda Pict "@!"    Valid VerNrPrevenda( @cFaturaPrevenda, @cForma, @cCodiVen, @cCodi, @cNome, @cEnde, @cFone, @cAparelho, @cMarca, @cModelo, @cNrSerie, @cObs, @cObs1, @cObs2, @cAno, @cCor, @cPlaca, @cEstadoGeral )
 	@ Row()+1, 01 Say "Forma Pgto......:" Get cForma          Pict "@R99"  Valid LastKey() = UP .OR. FormaErrada( @cForma )
 	@ Row()+1, 01 Say "Vendedor........:" Get cCodiVen        Pict "####"  Valid Vendedor( @cCodiVen, Row(), Col()+1)
 	@ Row()+1, 01 Say "Nome Cliente....:" Get cCodi           Pict "99999" Valid RecErrado( @cCodi, NIL, Row(), Col()+1, @cNome )
@@ -6296,7 +6296,7 @@ Qout( GD + Padc( AllTrim( cPriLinPv ), Tam/2 ) + CA )
 Qout( GD + Padc( AllTrim( cSegLinPv ), Tam/2 ) + CA )
 Qout( Padc( XENDEFIR + " - " + XCCIDA + " - " + XFONE, Tam ))
 Qout( Repl("-", Tam))
-Qout( GD + Padc( "ORCAMENTO N§ " + cFatu, Tam/2 ) + CA )
+Qout( GD + Padc( "ORCAMENTO NÂº " + cFatu, Tam/2 ) + CA )
 if xTam = 40
 	Qout( "Cliente..:", cCodi, cNomeCliente )
 	Qout( "Fantasia.:", Left( cFanta, 26), "Bairro.: " + Left( cBair, 14))
@@ -6381,8 +6381,8 @@ While (xAlias)->(!Eof())
 				__Eject()
 				SetPrc( 0, 0 )
 				Qout( Repl("-", Tam))
-				Qout( GD + Padc( "ORCAMENTO N§ " + cFatu, Tam/2 ) + CA)
-				Qout( "N§ Docto.: " + cFatu, Space(nDif+28), "Data : " + Dtoc( dEmis ))
+				Qout( GD + Padc( "ORCAMENTO NÂº " + cFatu, Tam/2 ) + CA)
+				Qout( "NÂº Docto.: " + cFatu, Space(nDif+28), "Data : " + Dtoc( dEmis ))
 				Qout( Repl("-", Tam))
 				if Tam = 66
 					Qout( "CODIGO    QUANT DESCRICAO DO PRODUTO                         TOTAL")
@@ -6514,7 +6514,7 @@ def ZerarPreVenda()
 		cFaturaPrevenda := Space(07)
 		MaBox( SCI_MAXROW - 6 , 10 , SCI_MAXROW - 4 , 44 )
 		AchaPreVenda( @cFaturaPrevenda, FALSO )
-		@ SCI_MAXROW - 5 , 11 Say "N§ Pre-Venda a Excluir.:" Get cFaturaPrevenda Pict "@!" Valid AchaPreVenda( @cFaturaPrevenda, OK )
+		@ SCI_MAXROW - 5 , 11 Say "NÂº Pre-Venda a Excluir.:" Get cFaturaPrevenda Pict "@!" Valid AchaPreVenda( @cFaturaPrevenda, OK )
 		Read
 		if LastKey() = ESC
 			AreaAnt( Arq_Ant, Ind_Ant )
@@ -6539,7 +6539,7 @@ WHILE OK
 	cFaturaPrevenda := Space(07)
 	MaBox( nPos+3, 10, nPos+5, 34 )
 	AchaPreVenda( @cFaturaPrevenda, FALSO )
-	@ nPos+4, 11 Say "Pre-Venda n§.:" Get cFaturaPrevenda Pict "@!" Valid AchaPreVenda( @cFaturaPrevenda )
+	@ nPos+4, 11 Say "Pre-Venda nÂº.:" Get cFaturaPrevenda Pict "@!" Valid AchaPreVenda( @cFaturaPrevenda )
 	Read
 	if LastKey() = ESC
 		AreaAnt( Arq_Ant, Ind_Ant )
@@ -6605,7 +6605,7 @@ def AchaPreVenda( cFatura, lMostrar )
 			xFatura := Prevenda->Fatura
 			if Ascan( aFatura, xFatura ) = 0
 				Aadd( aFatura, xFatura )
-				Aadd( aTodos, xFatura + '³' + Prevenda->CodiVen + '³' + PreVenda->Nome )
+				Aadd( aTodos, xFatura + 'â”‚' + Prevenda->CodiVen + 'â”‚' + PreVenda->Nome )
 				Aadd( aMostrar, lMostrar )
 			endif
 			Prevenda->(DbSkip(1))
@@ -6647,7 +6647,7 @@ WHILE OK
 	oMenu:Limpa()
 	cFatu 	  := Space(07)
 	MaBox( 18, 10, 20, 34 )
-	@ 19, 11 Say "Fatura n§....:" Get cFatu Pict "@!" Valid VisualAchaFatura( @cFatu )
+	@ 19, 11 Say "Fatura nÂº....:" Get cFatu Pict "@!" Valid VisualAchaFatura( @cFatu )
 	Read
 	if LastKey() = ESC
 		AreaAnt( Arq_Ant, Ind_Ant )
@@ -6718,7 +6718,7 @@ WHILE OK
 	oMenu:Limpa()
 	cFatu 	  := Space(07)
 	MaBox( 18, 10, 20, 34 )
-	@ 19, 11 Say "Ticket n§....:" Get cFatu Pict "@!" Valid VisualAchaFatura( @cFatu )
+	@ 19, 11 Say "Ticket nÂº....:" Get cFatu Pict "@!" Valid VisualAchaFatura( @cFatu )
 	Read
 	if LastKey() = ESC
 		AreaAnt( Arq_Ant, Ind_Ant )
@@ -6936,26 +6936,26 @@ WHILE OK
 				MaBox( 05, 03, 18, 77)
 				@ 05, 03 to 18,77
 				@ 06, 24 say " -> Retorno da Impressora <- "
-				@ 07, 03 say "Ã"
+				@ 07, 03 say "â”œ"
 				@ 07, 04 to 07,76
-				@ 07, 77 say "´"
-				@ 07, 38 say "Â"
+				@ 07, 77 say "â”¤"
+				@ 07, 38 say "â”¬"
 				@ 08, 15 say "-> ST1 <-"
-				@ 08, 38 say "³"
+				@ 08, 38 say "â”‚"
 				@ 08, 53 say "-> ST2 <-"
-				@ 09, 03 say "Ã"
+				@ 09, 03 say "â”œ"
 				@ 09, 04 to 09,76
-				@ 09, 38 say "Å"
-				@ 09, 77 say "´"
-				@ 10, 38 say "³"
-				@ 11, 38 say "³"
-				@ 12, 38 say "³"
-				@ 13, 38 say "³"
-				@ 14, 38 say "³"
-				@ 15, 38 say "³"
-				@ 16, 38 say "³"
-				@ 17, 38 say "³"
-				@ 18, 38 say "Á"
+				@ 09, 38 say "â”¼"
+				@ 09, 77 say "â”¤"
+				@ 10, 38 say "â”‚"
+				@ 11, 38 say "â”‚"
+				@ 12, 38 say "â”‚"
+				@ 13, 38 say "â”‚"
+				@ 14, 38 say "â”‚"
+				@ 15, 38 say "â”‚"
+				@ 16, 38 say "â”‚"
+				@ 17, 38 say "â”‚"
+				@ 18, 38 say "â”´"
 
 				setcolor( "N+/G+" )
 				@ 10, 04 say ST1_BIT_7
@@ -7057,7 +7057,7 @@ LOCAL cScreen := SaveScreen()
 LOCAL aMenu   := {'Cancelar Cupom', 'Fechar Cupom'}
 
 oMenu:Limpa()
-M_Title( "ESCOLHA UMA OP€AO" )
+M_Title( "ESCOLHA UMA OPÃ‡AO" )
 nChoice := FazMenu( 10, 10, aMenu )
 ErrorBeep()
 if nChoice = 0 .OR. !Conf("Pergunta: Ecf Pronta ?")
@@ -7961,8 +7961,8 @@ WHILE OK
 	cFaturaIni := Space(07)
 	cFaturaFim := Space(07)
 	MaBox( 17, 10, 20, 41 )
-	@ 18, 11 Say "Pre-Venda n§ Inicial.:" Get cFaturaIni Pict "@!" Valid AchaPreVenda( @cFaturaIni )
-	@ 19, 11 Say "Pre-Venda n§ Final...:" Get cFaturaFim Pict "@!" Valid AchaPreVenda( @cFaturaFim )
+	@ 18, 11 Say "Pre-Venda nÂº Inicial.:" Get cFaturaIni Pict "@!" Valid AchaPreVenda( @cFaturaIni )
+	@ 19, 11 Say "Pre-Venda nÂº Final...:" Get cFaturaFim Pict "@!" Valid AchaPreVenda( @cFaturaFim )
 	Read
 	if LastKey() = ESC
 		AreaAnt( Arq_Ant, Ind_Ant )
@@ -8169,7 +8169,7 @@ Case nChoice = 3
 	WHILE OK
 		cFatura := Space( 07 )
 		MaBox( 20, 01, 22, 25 )
-		@ 21, 02 Say "Fatura N§...:" Get cFatura Pict "@!" Valid AchaPrevenda( @cFatura )
+		@ 21, 02 Say "Fatura NÂº...:" Get cFatura Pict "@!" Valid AchaPrevenda( @cFatura )
 		Read
 		if LastKey() = ESC
 			ResTela( cScreen )
@@ -8248,7 +8248,7 @@ Case nChoice = 4
 
 Case nChoice = 5
 	ErrorBeep()
-	if !Conf("Pergunta: Poder  demorar. Continuar ?")
+	if !Conf("Pergunta: PoderÃ¡ demorar. Continuar ?")
 		ResTela( cScreen )
 		return
 	endif
@@ -8290,9 +8290,9 @@ if nChoice != 3
 	nConta := 0
 	nSobra := nContaFatura
 	MaBox( 00, 00, 02, 79 )
-	Write( 01, 01, "Total de Faturas.¯ " + StrZero( nContaFatura, 4 ))
-	Write( 01, 26, "Selecionadas.....¯ " + StrZero( nConta,       4 ))
-	Write( 01, 51, "Disponiveis......¯ " + StrZero( nSobra,       4 ))
+	Write( 01, 01, "Total de Faturas.Â» " + StrZero( nContaFatura, 4 ))
+	Write( 01, 26, "Selecionadas.....Â» " + StrZero( nConta,       4 ))
+	Write( 01, 51, "Disponiveis......Â» " + StrZero( nSobra,       4 ))
 	aRegis	:= {}
 	aFatura	:= {}
 	Col		:= 4
@@ -9254,7 +9254,7 @@ FPrint( _CPI12 )
 FPrint( _SPACO1_8 )
 SetPrc(0,0)
 Write(	nCol, 00, "")
-Write( ++nCol, 00, NG + Padc("CONTRATO PARTICULAR DE COMPRA E VENDA COM RESERVA DE DOMINIO - N§ " + cFatu, Tam ) + NR )
+Write( ++nCol, 00, NG + Padc("CONTRATO PARTICULAR DE COMPRA E VENDA COM RESERVA DE DOMINIO - NÂº " + cFatu, Tam ) + NR )
 Write( ++nCol, 00, Repl("-", Tam ))
 Write( ++nCol, 00, "A " + AllTrim(oAmbiente:xNomefir) )
 Write( ++nCol, 00, XENDEFIR + " - " + XCEPCIDA + " - " + XCESTA )
@@ -9290,7 +9290,7 @@ nCol++
 Write( ++nCol, 00, NG + "SEGUNDA: " + NR + "O preco de venda e de R$ " + AllTrim( Tran( nLiquido, "@E 999,999,999.99")) + " cujo pagamento o COMPRADOR se obriga a realizar")
 Write( ++nCol, 00, "do seguinte modo:")
 Write( ++nCol, 00, Repl("-", Tam ))
-Write( ++nCol, 00, "N§ DOCTO  VENCIMENTO       VALOR OBS                 N§ DOCTO  VENCIMENTO       VALOR OBS")
+Write( ++nCol, 00, "NÂº DOCTO  VENCIMENTO       VALOR OBS                 NÂº DOCTO  VENCIMENTO       VALOR OBS")
 nLen := Len( Dpnr )
 nSoma := 0
 nSum	:= 1
@@ -9321,7 +9321,7 @@ Write( ++nCol, 00, "se fara amigavelmente ou em juizo, perdendo o COMPRADOR em f
 Write( ++nCol, 00, "tancia ja paga.")
 nCol++
 Write( ++nCol, 00, NG + "QUINTA: " + NR + "A 'VENDEDORA' declara, para todos os fins de direito que as mercadorias ora vendidas")
-Write( ++nCol, 00, "sao de 1§ qualidade, e apropriada para o fim que se destina.")
+Write( ++nCol, 00, "sao de 1Âº qualidade, e apropriada para o fim que se destina.")
 nCol++
 Write( ++nCol, 00, NG + "SEXTA: " + NR + "Na vigencia deste contrato nao podera o 'COMPRADOR' alienar sob  qualquer  forma, dar")
 Write( ++nCol, 00, "a penhora, transferir ou ceder a terceiros as mercadorias  objeto  do  presente, sob pena  de")
@@ -9778,7 +9778,7 @@ def DetalheCaixa( cCaixa, lDetalhe, nOpcao )
 		SetPrc(0,0)      
 		CabecCaixa( ++Pagina, Tam, cTitulo, cCaixa, cTitular )
 		if lDetalhe
-			Write( 06, 00,"TIPO   ORC/FAT   VENCTO   PAGTO    HISTORICO/CLIENTE                DOCTO N§       NOMINAL       DEBITO      CREDITO         DF   CX")
+			Write( 06, 00,"TIPO   ORC/FAT   VENCTO   PAGTO    HISTORICO/CLIENTE                DOCTO NÂº       NOMINAL       DEBITO      CREDITO         DF   CX")
 			Write( 07, 00, Repl( SEP, Tam ))
 			nCol := 10
 		else
@@ -9797,7 +9797,7 @@ def DetalheCaixa( cCaixa, lDetalhe, nOpcao )
 				if nCol >= 58
 					__Eject()
 					CabecCaixa( ++Pagina, Tam, cTitulo, cCaixa, cTitular )
-					Write( 08, 00,"TIPO   ORC/FAT   VENCTO   PAGTO    HISTORICO/CLIENTE                DOCTO N§       NOMINAL       DEBITO      CREDITO         DF   CX")
+					Write( 08, 00,"TIPO   ORC/FAT   VENCTO   PAGTO    HISTORICO/CLIENTE                DOCTO NÂº       NOMINAL       DEBITO      CREDITO         DF   CX")
 					Write( 09, 00, Repl( SEP, Tam ))
 					nCol := 10
 				endif
@@ -9891,7 +9891,7 @@ def DetalheCaixa( cCaixa, lDetalhe, nOpcao )
       __Eject()
       PrintOff()
    else      
-      AlertaPy("Informa: Nenhum registro atende a condi‡ao.")
+      AlertaPy("Informa: Nenhum registro atende a condiÃ§ao.")
    endif      
 	Recemov->(DbClearRel())
 	Recemov->(DbGoTop())
@@ -10081,7 +10081,7 @@ Area("Forma")
 Forma->(Order(FORMA_FORMA))
 if Forma->(!DbSeek( cForma ))
 	Forma->(Order(FORMA_CONDICOES))
-	Forma->(Escolhe( 03, 01, 22,"Forma + 'İ' + Condicoes + 'İ' + Str( Comissao,5,2)", "CODIGO CONDICOES                             COMISSAO", aRotina ))
+	Forma->(Escolhe( 03, 01, 22,"Forma + 'â–Œ' + Condicoes + 'â–Œ' + Str( Comissao,5,2)", "CODIGO CONDICOES                             COMISSAO", aRotina ))
 	if LastKey() = ESC
 		AreaAnt( Arq_Ant, Ind_Ant )
 		return( FALSO )
@@ -10434,16 +10434,16 @@ FPrint( _CPI12 )
 FPrint( _SPACO1_8 )
 SetPrc(0,0)
 Write(	nCol, 00, "")
-Write( ++nCol, 00, NG + Padc("CONTRATO PARTICULAR DE CONFISSAO DE DIVIDA E COMPROMISSO DE PAGAMENTO - N§ " + cFatu, Tam ) + NR )
+Write( ++nCol, 00, NG + Padc("CONTRATO PARTICULAR DE CONFISSAO DE DIVIDA E COMPROMISSO DE PAGAMENTO - NÂº " + cFatu, Tam ) + NR )
 Write( ++nCol, 00, Repl("-", Tam ))
 Write( ++nCol, 00, NG + "CREDORA: " + NR + AllTrim(AllTrim(oAmbiente:xNomefir)) + ", empresa de direito privado, estabelecida na")
-Write( ++nCol, 00, XENDEFIR + "/" + XCCIDA + "-" + XCESTA + ",inscrita no CPF/CNPJ n§ " + XCGCFIR )
+Write( ++nCol, 00, XENDEFIR + "/" + XCCIDA + "-" + XCESTA + ",inscrita no CPF/CNPJ nÂº " + XCGCFIR )
 Write( ++nCol, 00, "por seu representante legal, doravante denominada simplesmente 'CREDORA'.")
 FPrint( _CPI12 )
 ++nCol
 Write( ++nCol, 00, NG + "DEVEDOR: " + NR + Alltrim(cNomeCliente) + ", Brasileiro, " + AllTrim(Receber->Civil) + ", " + AllTrim(Receber->Profissao))
 Write( ++nCol, 00, AllTrim( Receber->Ende ) + " - " + AllTrim(Receber->Bair) + " - " + Receber->Cep + "/" + AllTrim(Receber->( Cida )) + " - " + Receber->Esta )
-Write( ++nCol, 00, "inscrita no CPF/CNPJ sob n§ " + cCpf + " RG/IE : " + cRg )
+Write( ++nCol, 00, "inscrita no CPF/CNPJ sob nÂº " + cCpf + " RG/IE : " + cRg )
 Write( ++nCol, 00, Repl("-", Tam ))
 Write( ++nCol, 00, "doravante denominado simplesmente 'DEVEDOR' pelo presente instrumento particular e na  melhor")
 Write( ++nCol, 00, "forma de direito, tem entre si justo contratados as Clausulas e condicoes a seguir:")
@@ -10454,7 +10454,7 @@ Write( ++nCol, 00, "quida, certa e exigivel da importancia de R$ " + Tran(nLiqui
 Write( ++nCol, 00, Right(cExtenso, (127-36)) + "),")
 Write( ++nCol, 00, "cujo pagamento o DEVEDOR e o AVALISTA se obrigam a realizar do seguinte modo:")
 Write( ++nCol, 00, Repl("-", Tam ))
-Write( ++nCol, 00, "N§ DOCTO  VENCIMENTO       VALOR                     N§ DOCTO  VENCIMENTO       VALOR")
+Write( ++nCol, 00, "NÂº DOCTO  VENCIMENTO       VALOR                     NÂº DOCTO  VENCIMENTO       VALOR")
 nLen := Len( Dpnr )
 nSoma := 0
 nSum	:= 1
@@ -10557,7 +10557,7 @@ FPrint( _CPI12 )
 FPrint( _SPACO1_8 )
 SetPrc(0,0)
 Write(	nCol, 00, "")
-Write( ++nCol, 00, NG + Padc("CONTRATO PARTICULAR DE COMPRA E VENDA COM RESERVA DE DOMINIO - N§ " + cFatu, Tam ) + NR )
+Write( ++nCol, 00, NG + Padc("CONTRATO PARTICULAR DE COMPRA E VENDA COM RESERVA DE DOMINIO - NÂº " + cFatu, Tam ) + NR )
 Write( ++nCol, 00, Repl("-", Tam ))
 Write( ++nCol, 00, "A " + AllTrim(oAmbiente:xNomefir) )
 Write( ++nCol, 00, XENDEFIR + " - " + XCEPCIDA + " - " + XCESTA )
@@ -10593,7 +10593,7 @@ nCol++
 Write( ++nCol, 00, NG + "SEGUNDA: " + NR + "O preco de venda e de R$ " + AllTrim( Tran( nLiquido, "@E 999,999,999.99")) + " cujo pagamento o COMPRADOR se obriga a realizar")
 Write( ++nCol, 00, "do seguinte modo:")
 Write( ++nCol, 00, Repl("-", Tam ))
-Write( ++nCol, 00, "N§ DOCTO  VENCIMENTO       VALOR OBS                 N§ DOCTO  VENCIMENTO       VALOR OBS")
+Write( ++nCol, 00, "NÂº DOCTO  VENCIMENTO       VALOR OBS                 NÂº DOCTO  VENCIMENTO       VALOR OBS")
 nLen := Len( Dpnr )
 nSoma := 0
 nSum	:= 1
@@ -10680,12 +10680,12 @@ FPrint( _CPI12 )
 FPrint( _SPACO1_8 )
 SetPrc(0,0)
 Write(	nCol, 00, "")
-Write( ++nCol, 00, NG + Padc("INSTRUMENTO PARTICULAR DE CONTRATO DE COMPRA E VENDA COM RESERVA DE DOMINIO - N§ " + cFatu, Tam ) + NR )
+Write( ++nCol, 00, NG + Padc("INSTRUMENTO PARTICULAR DE CONTRATO DE COMPRA E VENDA COM RESERVA DE DOMINIO - NÂº " + cFatu, Tam ) + NR )
 Write( ++nCol, 00, Repl("-", Tam ))
 nCol++
 Write( ++nCol, 00, "        Os infra assinados, de um lado CASA DOS COLCHOES LTDA, pessoa juridica de direitos pri-")
 Write( ++nCol, 00, "vado, estabelecida nesta cidade de Pimenta Bueno/Ro., sito a Av Castelo Branco, 773, devidamen-")
-Write( ++nCol, 00, "te inscrita no CGC/MF sob o n§ 15.875.594/00001-51, Inscricao Estadual n§ 407.15974-3, simples-")
+Write( ++nCol, 00, "te inscrita no CGC/MF sob o nÂº 15.875.594/00001-51, Inscricao Estadual nÂº 407.15974-3, simples-")
 Write( ++nCol, 00, "mente denominada VENDEDORA, e, do outro lado o Sr(a) " + cNomeCliente +".")
 Write( ++nCol, 00, "simplesmente denominado(a) COMPRADOR, tem justos e contratados a venda e compra do seguinte:")
 Write( ++nCol, 00, Repl("-", Tam ))
@@ -10705,10 +10705,10 @@ Enddo
 Write( ++nCol, 00, Repl("-", Tam ))
 Write( ++nCol, 00, "de propriedade da primeira contratante, mediante as condicoes e clausulas seguintes:")
 nCol++
-Write( ++nCol, 00, "1¦) - O preco de venda e de R$ " + AllTrim( Tran( nLiquido, '@E 999,999,999.99')) + ' cujo pagamento o COMPRADOR se obriga a realizar')
+Write( ++nCol, 00, "1Âª) - O preco de venda e de R$ " + AllTrim( Tran( nLiquido, '@E 999,999,999.99')) + ' cujo pagamento o COMPRADOR se obriga a realizar')
 Write( ++nCol, 00, 'do seguinte modo:')
 Write( ++nCol, 00, Repl("-", Tam ))
-Write( ++nCol, 00, "N§ DUPLICATA         VENCIMENTO                  VALOR       OBS")
+Write( ++nCol, 00, "NÂº DUPLICATA         VENCIMENTO                  VALOR       OBS")
 Write( ++nCol, 00, Repl("-", Tam ))
 nLen := Len( Dpnr )
 nSoma := 0
@@ -10722,20 +10722,20 @@ Write( ++nCol, 00, "com duplicata de emissao da VENDEDORA e aceite do COMPRADOR 
 Write( ++nCol, 00, Receber->Conhecida )
 Write( ++nCol, 00, "as quais ficam fazendo parte integral no presente instrumento.")
 nCol++
-Write( ++nCol, 00, "2¦) - Por forca do pagamento de reserva de dominio, aqui expressamente instituido, e aceito pe-")
+Write( ++nCol, 00, "2Âª) - Por forca do pagamento de reserva de dominio, aqui expressamente instituido, e aceito pe-")
 Write( ++nCol, 00, "las partes, fica reservado a VENDEDORA a propriedade do(s) objeto(s) descrito(s) no inicio   do")
 Write( ++nCol, 00, "presente contrato, ate que se liquida a ultima das prestacoes acima mencionadas.")
 nCol++
-Write( ++nCol, 00, "3¦) - Em consequencia do disposto na Clausula precedente, caso faltar o COMPRADOR, ao   pontual")
+Write( ++nCol, 00, "3Âª) - Em consequencia do disposto na Clausula precedente, caso faltar o COMPRADOR, ao   pontual")
 Write( ++nCol, 00, "pagamento de qualquer das referidas prestacoes, ficara desde logo, constituido em mora e  obri-")
 Write( ++nCol, 00, "gado sob as penas da Lei, a devolver 'incontinenti', o(s) objeto(s) condicionalmente comprados,")
 Write( ++nCol, 00, "devolucao que se fara amigavelmente ou em juizo, perdendo o COMPRADOR em  favor  da  VENDEDORA,")
 Write( ++nCol, 00, "toda a importancia ja paga.")
 nCol++
-Write( ++nCol, 00, "4¦) - A falencia do COMPRADOR tambem resolve este contrato, podendo a VENDEDORA reivindicar  da")
+Write( ++nCol, 00, "4Âª) - A falencia do COMPRADOR tambem resolve este contrato, podendo a VENDEDORA reivindicar  da")
 Write( ++nCol, 00, "massa o(s) objeto(s) condicionalmente vendido(s).")
 nCol++
-Write( ++nCol, 00, "5¦) - Enquanto nao tiver pago integralmente o preco, fica expressamente proibido o COMPRADOR, a")
+Write( ++nCol, 00, "5Âª) - Enquanto nao tiver pago integralmente o preco, fica expressamente proibido o COMPRADOR, a")
 Write( ++nCol, 00, "vender, ceder, transferir a terceiros, bem como, a manter em perfeito estado de conservacao o(s)")
 Write( ++nCol, 00, "objeto(s) recebido(s), protegendo-o(s) das turbacoes de terceiros, permitindo a VENDEDORA a ins-")
 Write( ++nCol, 00, "pecao, quanto esta julgar conveniente, e avisando-lhe, por escrito, sempre que mudar de residen-")

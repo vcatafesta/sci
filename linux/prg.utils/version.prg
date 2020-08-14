@@ -1,4 +1,3 @@
-
 #include <hbver.ch>
 
 function main()

@@ -81,7 +81,7 @@
 #-ldflag=-Wl,--allow-multiple-definition
 
 sci.prg
-sciapilinux.c 
+sciapi.c 
 dbfio.prg
 #sciext.prg
 api.prg
@@ -119,8 +119,6 @@ treceposi.prg
 trelato.prg
 tdbf.prg
 tstring.prg
-tprinter.prg
-tpdf.prg
 #tvmenu.prg
 #tgui.prg
 #printdc.c

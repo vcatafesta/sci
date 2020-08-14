@@ -1,18 +1,18 @@
 /*
-  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
- İ³																								 ³
- İ³	Programa.....: TESTE1LA.PRG														 ³
- İ³	Aplicacaoo...: SISTEMA DE CONTROLE DE ESTOQUE								 ³
- İ³	Versao.......: 19.50 																 ³
- İ³	Programador..: Vilmar Catafesta													 ³
- İ³   Empresa......: Microbras Com de Prod de Informatica Ltda              ³
- İ³	Inicio.......: 12 de Novembro de 1991. 										 ³
- İ³	Ult.Atual....: 06 de Dezembro de 1998. 										 ³
- İ³	Compilacao...: Clipper 5.02														 ³
- İ³	Linker.......: Blinker 3.20														 ³
- İ³	Bibliotecas..: Clipper/Funcoes/Mouse/Funcky15/Funcky50/Classe/Classic ³
- İÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
- ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+ â–Œâ”‚																								 â”‚
+ â–Œâ”‚	Programa.....: TESTE1LA.PRG														 â”‚
+ â–Œâ”‚	Aplicacaoo...: SISTEMA DE CONTROLE DE ESTOQUE								 â”‚
+ â–Œâ”‚	Versao.......: 19.50 																 â”‚
+ â–Œâ”‚	Programador..: Vilmar Catafesta													 â”‚
+ â–Œâ”‚   Empresa......: Microbras Com de Prod de Informatica Ltda              â”‚
+ â–Œâ”‚	Inicio.......: 12 de Novembro de 1991. 										 â”‚
+ â–Œâ”‚	Ult.Atual....: 06 de Dezembro de 1998. 										 â”‚
+ â–Œâ”‚	Compilacao...: Clipper 5.02														 â”‚
+ â–Œâ”‚	Linker.......: Blinker 3.20														 â”‚
+ â–Œâ”‚	Bibliotecas..: Clipper/Funcoes/Mouse/Funcky15/Funcky50/Classe/Classic â”‚
+ â–Œâ””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+ â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€
 */
 #include   <sci.ch>
 
@@ -78,7 +78,7 @@ Area("Lista")
 Lista->(Order( LISTA_CODIGO ))
 if !DbSeek( cCodiIni )
 	Lista->(Order( LISTA_DESCRICAO ))
-   Escolhe( 03, 01, 22,"Codigo + 'º' + Descricao + 'º' + Sigla","CODIG DESCRICAO DO PRODUTO                     SIGLA", aRotina,,aRotinaAlteracao )
+   Escolhe( 03, 01, 22,"Codigo + 'â•‘' + Descricao + 'â•‘' + Sigla","CODIG DESCRICAO DO PRODUTO                     SIGLA", aRotina,,aRotinaAlteracao )
 	cCodiIni := Codigo
 endif
 Write( nCol, nRow, Descricao )
@@ -401,7 +401,7 @@ For I := 1 To nCop
 		DbGoTop()
 	endif
 	PrintOff()
-	Mensagem( "Aguarde ... Imprimindo Copia N§ " + StrZero(I,4), WARNING )
+	Mensagem( "Aguarde ... Imprimindo Copia NÂº " + StrZero(I,4), WARNING )
 	PrintOn()
 	Tam	  := 132
 	FPrint( PQ )
@@ -520,7 +520,7 @@ Mensagem(" Aguarde... Imprimindo. ESC Cancela.")
 PrintOn()
 FPrint( PQ )
 SetPrc( 0, 0 )
-Write( 01, 00, Padr( "Pagina N§ 001", ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
+Write( 01, 00, Padr( "Pagina NÂº 001", ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
 Write( 02, 00, Date() )
 Write( 03, 00, Padc( XNOMEFIR, Tam ) )
 Write( 04, 00, Padc( SISTEM_NA2, Tam ) )
@@ -667,7 +667,7 @@ PrintOn()
 SetPrc(0, 0 )
 WHILE Eval( oBloco ) .AND. Rel_Ok()
 	if ( Col >= 57 )
-		Write( 00, 00, Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
+		Write( 00, 00, Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
 		Write( 01, 00, Date() )
 		Write( 02, 00, Padc( XNOMEFIR, Tam ) )
 		Write( 03, 00, Padc( SISTEM_NA2, Tam ) )
@@ -675,20 +675,20 @@ WHILE Eval( oBloco ) .AND. Rel_Ok()
 		Col := 5
 	endif
 	Write(	Col, 0 , Repl( SEP,80 ))
-	Write( ++Col, 0 , "CODI      ¯  " + REPRES )
-	Write( ++Col, 0 , "EMPRESA   ¯  " + NOME)
-	Write( ++Col, 0 , "ENDERECO  ¯  " + ENDE)
-	Write( ++Col, 0 , "BAIRRO    ¯  " + BAIR)
-	Write( ++Col, 0 , "CIDADE    ¯  " + CIDA)
-	Write( ++Col, 0 , "ESTADO    ¯  " + ESTA)
-	Write( ++Col, 0 , "CEP       ¯  " + CEP)
-	Write( ++Col, 0 , "TELEFONE  ¯  " + FONE)
-	Write( ++Col, 0 , "FAX       ¯  " + FAX)
-	Write( ++Col, 0 , "C.POSTAL  ¯  " + CAIXA)
-	Write( ++Col, 0 , "CGC/MF    ¯  " + CGC)
-	Write( ++Col, 0 , "INSC.EST  ¯  " + INSC)
-	Write( ++Col, 0 , "CONTATO   ¯  " + CON)
-	Write( ++Col, 0 , "OBSERV    ¯  " + OBS)
+	Write( ++Col, 0 , "CODI      Â»  " + REPRES )
+	Write( ++Col, 0 , "EMPRESA   Â»  " + NOME)
+	Write( ++Col, 0 , "ENDERECO  Â»  " + ENDE)
+	Write( ++Col, 0 , "BAIRRO    Â»  " + BAIR)
+	Write( ++Col, 0 , "CIDADE    Â»  " + CIDA)
+	Write( ++Col, 0 , "ESTADO    Â»  " + ESTA)
+	Write( ++Col, 0 , "CEP       Â»  " + CEP)
+	Write( ++Col, 0 , "TELEFONE  Â»  " + FONE)
+	Write( ++Col, 0 , "FAX       Â»  " + FAX)
+	Write( ++Col, 0 , "C.POSTAL  Â»  " + CAIXA)
+	Write( ++Col, 0 , "CGC/MF    Â»  " + CGC)
+	Write( ++Col, 0 , "INSC.EST  Â»  " + INSC)
+	Write( ++Col, 0 , "CONTATO   Â»  " + CON)
+	Write( ++Col, 0 , "OBSERV    Â»  " + OBS)
 	Write( ++Col, 0 , Repl( SEP, 80))
 	Col += 3
 	if Col >= 57
@@ -724,7 +724,7 @@ FPrint( PQ )
 SetPrc( 0, 0 )
 WHILE Eval( oBloco ) .AND. Rel_Ok()
 	if Col >= 57
-		 Write( 00, 00, "Pagina N§ " + StrZero( ++Pagina, 3 ) )
+		 Write( 00, 00, "Pagina NÂº " + StrZero( ++Pagina, 3 ) )
 		 Write( 00, 00, Padl( "Horas " + Time(), Tam ) )
 		 Write( 01, 00, Dtoc( Date() ) )
 		 Write( 02, 00, Padc( XNOMEFIR, Tam ) )
@@ -872,7 +872,7 @@ WHILE Saidas->(!Eof() .AND. Rep_Ok())
 	nPvendido += Saidas->Saida * Saidas->Pvendido
 	Saidas->(DbSkip( 1 ))
 EndDo
-Qout( Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ))
+Qout( Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ))
 Qout( Dtoc( Date() ))
 Qout( Padc( XNOMEFIR, Tam ))
 Qout( Padc( SISTEM_NA3, Tam ))
@@ -1402,7 +1402,7 @@ PrintOn()
 FPrint( _CPI12 )
 While !Eof() .AND. REL_OK()
 	if Col >=  58
-		Write( 01, 00, Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
+		Write( 01, 00, Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
 		Write( 02, 00, Date() )
 		Write( 03, 00, Padc( XNOMEFIR, Tam ) )
 		Write( 04, 00, Padc( SISTEM_NA6, Tam ) )
@@ -1706,14 +1706,14 @@ WHILE OK
 			nCarreiras := 5
 			if nChoice = 2
 				MaBox( 14, 12, 17, 44 )
-				@ 15, 13 Say 'Codigo Inicial...¯' Get cInic Pict PIC_LISTA_CODIGO Valid CodiErrado( @cInic )
-				@ 16, 13 Say 'Codigo Final.....¯' Get cFina Pict PIC_LISTA_CODIGO Valid CodiErrado( @cFina,,OK )
+				@ 15, 13 Say 'Codigo Inicial...Â»' Get cInic Pict PIC_LISTA_CODIGO Valid CodiErrado( @cInic )
+				@ 16, 13 Say 'Codigo Final.....Â»' Get cFina Pict PIC_LISTA_CODIGO Valid CodiErrado( @cFina,,OK )
 				Read
 			else
 				MaBox( 14, 12, 18, 44 )
-				@ 15, 13 Say 'Codigo Inicial...¯' Get cInic Pict PIC_LISTA_CODIGO Valid CodiErrado( @cInic )
-				@ 16, 13 Say 'Codigo Final.....¯' Get cFina Pict PIC_LISTA_CODIGO Valid CodiErrado( @cFina,,OK)
-				@ 17, 13 Say 'Qtde Individual..¯' Get nQtde Pict "999" Valid nQtde > 0 When nChoice = 3
+				@ 15, 13 Say 'Codigo Inicial...Â»' Get cInic Pict PIC_LISTA_CODIGO Valid CodiErrado( @cInic )
+				@ 16, 13 Say 'Codigo Final.....Â»' Get cFina Pict PIC_LISTA_CODIGO Valid CodiErrado( @cFina,,OK)
+				@ 17, 13 Say 'Qtde Individual..Â»' Get nQtde Pict "999" Valid nQtde > 0 When nChoice = 3
 				Read
 			endif
 			if LastKey() = ESC
@@ -1871,7 +1871,7 @@ WHILE OK
 			Entradas->(Order(DOIS))
 			cDocnr := Space(09)
 			MaBox( 14, 12, 16, 44 )
-			@ 15, 13 Say 'N§ Nota Entrada..:' Get cDocnr Pict "@!" Valid AchaDocEntrada( @cDocnr )
+			@ 15, 13 Say 'NÂº Nota Entrada..:' Get cDocnr Pict "@!" Valid AchaDocEntrada( @cDocnr )
 			Read
 			if LastKey() = ESC
 				ResTela( cScreen )
@@ -2003,14 +2003,14 @@ WHILE OK
 			nCarreiras := 3
 			if nChoice = 2
 				MaBox( 14, 12, 17, 44 )
-				@ 15, 13 Say 'Codigo Inicial...¯' Get cInic Pict PIC_LISTA_CODIGO Valid CodiErrado( @cInic )
-				@ 16, 13 Say 'Codigo Final.....¯' Get cFina Pict PIC_LISTA_CODIGO Valid CodiErrado( @cFina,,OK )
+				@ 15, 13 Say 'Codigo Inicial...Â»' Get cInic Pict PIC_LISTA_CODIGO Valid CodiErrado( @cInic )
+				@ 16, 13 Say 'Codigo Final.....Â»' Get cFina Pict PIC_LISTA_CODIGO Valid CodiErrado( @cFina,,OK )
 				Read
 			else
 				MaBox( 14, 12, 18, 44 )
-				@ 15, 13 Say 'Codigo Inicial...¯' Get cInic Pict PIC_LISTA_CODIGO Valid CodiErrado( @cInic )
-				@ 16, 13 Say 'Codigo Final.....¯' Get cFina Pict PIC_LISTA_CODIGO Valid CodiErrado( @cFina,,OK)
-				@ 17, 13 Say 'Qtde Individual..¯' Get nQtde Pict "999" Valid nQtde > 0 When nChoice = 3
+				@ 15, 13 Say 'Codigo Inicial...Â»' Get cInic Pict PIC_LISTA_CODIGO Valid CodiErrado( @cInic )
+				@ 16, 13 Say 'Codigo Final.....Â»' Get cFina Pict PIC_LISTA_CODIGO Valid CodiErrado( @cFina,,OK)
+				@ 17, 13 Say 'Qtde Individual..Â»' Get nQtde Pict "999" Valid nQtde > 0 When nChoice = 3
 				Read
 			endif
 			if LastKey() = ESC
@@ -2068,7 +2068,7 @@ WHILE OK
 			Entradas->(Order(DOIS))
 			cDocnr := Space(09)
 			MaBox( 14, 12, 16, 44 )
-			@ 15, 13 Say 'N§ Nota Entrada..:' Get cDocnr Pict "@!" Valid AchaDocEntrada( @cDocnr )
+			@ 15, 13 Say 'NÂº Nota Entrada..:' Get cDocnr Pict "@!" Valid AchaDocEntrada( @cDocnr )
 			Read
 			if LastKey() = ESC
 				ResTela( cScreen )
@@ -2319,7 +2319,8 @@ Proc EtiBar1()
 **************
 FPrint( "f138")
 FPrint( "O0220")
-FPrint( "L")      // Inicia Modo Etiqueta
+FPrint( "L
+")      // Inicia Modo Etiqueta
 FPrint( "D11")     // Tamanho Pixel
 FPrint( "H15")     // Calor da Cabeca Impressao
 Qout("420100000000022" + Descricao )
@@ -2897,7 +2898,7 @@ WHILE OK
 	 Saidas->(DbGoTop())
 	 MaBox( 15, 10, 17, 37 )
 	 cFatura := Space(7)
-	 @ 16, 11 Say "Fatura N§.....¯" Get cFatura Pict "@!" Valid VisualAchaFatura( @cFatura )
+	 @ 16, 11 Say "Fatura NÂº.....Â»" Get cFatura Pict "@!" Valid VisualAchaFatura( @cFatura )
 	 Read
 	 if LastKey() = K_ESC
 		 ResTela( cScreen )
@@ -2929,7 +2930,7 @@ Cor := SetColor()
 if !(DbSeek( cCodi ) )
 	Order( PAGAR_NOME )
 	DbGoTop()
-	Escolhe( 03, 01, 22, "Codi + 'º' + Nome + 'º' + Sigla", "CODI NOME DO FORNECEDOR                       SIGLA", aRotina )
+	Escolhe( 03, 01, 22, "Codi + 'â•‘' + Nome + 'â•‘' + Sigla", "CODI NOME DO FORNECEDOR                       SIGLA", aRotina )
 endif
 SetColor( Cor )
 nCliRecno := Pagar->(Recno())
@@ -2959,7 +2960,7 @@ return(OK)
 
 Proc Cabec002( Pagina, Titulo, Tam, Cabecalho)
 **********************************************
-Write( 00, 00, Padr( "Pagina N§ " + StrZero( Pagina, 4 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
+Write( 00, 00, Padr( "Pagina NÂº " + StrZero( Pagina, 4 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
 Write( 01, 00, Date() )
 Write( 02, 00, Padc( XNOMEFIR, Tam ) )
 Write( 03, 00, Padc( SISTEM_NA2, Tam ) )
@@ -2981,7 +2982,7 @@ Lista->(Order(DOIS))
 if Lista->(!DbSeek( cCodigo ))
 	Area("Lista")
 	Lista->(Order(TRES))
-   Lista->(Escolhe( 03, 01, 22,"Codigo + 'º' + Descricao + 'º' + Sigla","CODIG DESCRICAO DO PRODUTO                     MARCA", aRotina,,aRotinaAlteracao ))
+   Lista->(Escolhe( 03, 01, 22,"Codigo + 'â•‘' + Descricao + 'â•‘' + Sigla","CODIG DESCRICAO DO PRODUTO                     MARCA", aRotina,,aRotinaAlteracao ))
 endif
 cCodigo := Lista->Codigo
 AreaAnt( Arq_Ant, Ind_Ant )
@@ -2995,7 +2996,7 @@ Function SGrupoEra( cSubGrupo )
 *******************************
 LOCAL aRotina := {{|| Lista1_1() }}
 if !( DbSeek( cSubGrupo ) )
-	Escolhe( 03, 01, 22, "CodSgrupo + 'º' + DesSgrupo ", "CODIGO DESCRICAO DO SUBGRUPO", aRotina )
+	Escolhe( 03, 01, 22, "CodSgrupo + 'â•‘' + DesSgrupo ", "CODIGO DESCRICAO DO SUBGRUPO", aRotina )
 	cSubGrupo := CodSgrupo
 endif
 return( OK )
@@ -3073,7 +3074,7 @@ LOCAL  Tam	  := 132
 STATIC Pagina := 0
 		 cIni   := Dtoc( dIni )
 		 cFim   := Dtoc( dFim )
-Write( 00, 00, Padr( "Pagina N§ " + StrZero( ++Pagina, 4 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
+Write( 00, 00, Padr( "Pagina NÂº " + StrZero( ++Pagina, 4 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
 Write( 01, 00, Date() )
 Write( 02, 00, Padc( XNOMEFIR, Tam ) )
 Write( 03, 00, Padc( SISTEM_NA2, Tam ) )
@@ -3125,8 +3126,8 @@ Case Esc_Data = 1
 	dFim	 := Date()
 	nRecno := 0
 	MaBox( 18, 20, 21, 56 )
-	@ 19, 21 Say "Digite Emissao Inicial...¯" Get dIni Pict "@K##/##/##" Valid AchaDataIni( dIni, @nRecno )
-	@ 20, 21 Say "Digite Emissao Final.....¯" Get dFim Pict "@K##/##/##"
+	@ 19, 21 Say "Digite Emissao Inicial...Â»" Get dIni Pict "@K##/##/##" Valid AchaDataIni( dIni, @nRecno )
+	@ 20, 21 Say "Digite Emissao Final.....Â»" Get dFim Pict "@K##/##/##"
 	Read
 	if LastKey() = ESC
 		DbClearRel()
@@ -3157,9 +3158,9 @@ Case Esc_Data = 2
 	dIni		:= Date()-30
 	dFim		:= Date()
 	MaBox( 18, 20, 22, 56 )
-	@ 19, 21 Say "Digite a Regiao..........¯" Get cRegiao Pict "99"
-	@ 20, 21 Say "Digite Emissao Inicial...¯" Get dIni Pict PIC_DATA Valid AchaDataIni( dIni, @nRecno )
-	@ 21, 21 Say "Digite Emissao Final.....¯" Get dFim Pict PIC_DATA
+	@ 19, 21 Say "Digite a Regiao..........Â»" Get cRegiao Pict "99"
+	@ 20, 21 Say "Digite Emissao Inicial...Â»" Get dIni Pict PIC_DATA Valid AchaDataIni( dIni, @nRecno )
+	@ 21, 21 Say "Digite Emissao Final.....Â»" Get dFim Pict PIC_DATA
 	Read
 	if LastKey() = ESC
 		DbClearRel()
@@ -3217,9 +3218,9 @@ oMenu:Limpa()
 Conta := 0
 Sobra := nItens
 MaBox( 06, 00, 08, 79 )
-Write( 07, 01, "Total de Pedidos.¯ " + StrZero( nItens,4 ) )
-Write( 07, 26, "Selecionadas.....¯ " + StrZero( Conta, 4 ) )
-Write( 07, 51, "Disponiveis......¯ " + StrZero( Sobra, 4 ) )
+Write( 07, 01, "Total de Pedidos.Â» " + StrZero( nItens,4 ) )
+Write( 07, 26, "Selecionadas.....Â» " + StrZero( Conta, 4 ) )
+Write( 07, 51, "Disponiveis......Â» " + StrZero( Sobra, 4 ) )
 Priv Registro := {},  NoFatu := {}, Col := 11
 
 MaBox( 10, 26, 22, 79 , "PEDIDO   CODI NOME CLIENTE                      " )
@@ -3408,7 +3409,7 @@ WHILE Eval( bBloco )
 Enddo
 Sele SaiTemp
 Set Rela To Codigo Into Lista
-oSaidas := CriaBrowse( 15, 01, 23, MaxCol()-1, "VALOR TOTAL DA FATURA ¯ " + Tran( nTotFatu, "@E 9,999,999,999.99") )
+oSaidas := CriaBrowse( 15, 01, 23, MaxCol()-1, "VALOR TOTAL DA FATURA Â» " + Tran( nTotFatu, "@E 9,999,999,999.99") )
 oSaidas:AddColumn( TBColumnNew( "CODIGO ",   {||codigo } ))
 oSaidas:AddColumn( TBColumnNew( "DESCRICAO DO PRODUTO",{|| Lista->Descricao } ))
 oSaidas:AddColumn( TBColumnNew( "QUANT",     {||Saida } ))
@@ -3417,8 +3418,8 @@ oSaidas:AddColumn( TBColumnNew( "TOTAL ITEM",{||Tran( (saida * pvendido) ,"@E 9,
 oSaidas:AddColumn( TBColumnNew( "UN",        {||Lista->Un } ))
 oSaidas:AddColumn( TBColumnNew( "EMISSAO",   {||Data } ) )
 oSaidas:AddColumn( TBColumnNew( "FORMA PGTO",{||Forma } ) )
-oSaidas:AddColumn( TBColumnNew( "FATURA N§", {||Fatura } ) )
-oSaidas:AddColumn( TBColumnNew( "PEDIDO N§", {||Pedido } ) )
+oSaidas:AddColumn( TBColumnNew( "FATURA NÂº", {||Fatura } ) )
+oSaidas:AddColumn( TBColumnNew( "PEDIDO NÂº", {||Pedido } ) )
 oSaidas:AddColumn( TBColumnNew( "PLACA"    , {||Placa  } ) )
 Coluna:=oSaidas:GetColumn(4)       // Pvendido
 Coluna:DefColor := { 7, 8 }
@@ -3482,7 +3483,7 @@ Enddo
 
 oRecemov := CriaBrowse( 01, 01, 07, MaxCol()-1, "DESDOBRAMENTO R$  " + Tran( nTotRece, "@E 9,999,999,999.99") )
 DbGotop()
-oRecemov:AddColumn(TBColumnNew( "TITULO N§ ", {|| DocNr } ))
+oRecemov:AddColumn(TBColumnNew( "TITULO NÂº ", {|| DocNr } ))
 oRecemov:AddColumn(TBColumnNew( "TIPO",       {|| tipo } ))
 oRecemov:AddColumn(TBColumnNew( "EMIS",       {|| Emis } ))
 oRecemov:AddColumn(TBColumnNew( "VCTO",       {|| vcto } ))
@@ -3971,7 +3972,7 @@ aVetor2 := {"CODIGO","DESCRICAO DO PRODUTO", "UN", "ESTOQUE", "Q.MIN",;
 
 oMenu:Limpa()
 MaBox( 22, 00, 24, 79)
-Write( 23, 01," Total Geral Pedido ¯ " + Tran( nTotalGeral,"@E 999,999,999,999.99"))
+Write( 23, 01," Total Geral Pedido Â» " + Tran( nTotalGeral,"@E 999,999,999,999.99"))
 MaBox( 00, 00, 21, 79,"CONSULTA DE PRODUTOS ABAIXO DO MINIMO")
 Seta1(21)
 DbEdit( 01, 01, 20, 78, aVetor1, OK, OK, aVetor2 )
@@ -4002,7 +4003,7 @@ Cor := SetColor()
 if !(DbSeek( cCodi ) )
 	Order( PAGAR_NOME )
 	DbGoTop()
-	Escolhe( 03, 01, 22, "Codi + 'º' + Nome + 'º' + Sigla", "CODI NOME DO FORNECEDOR                       SIGLA", aRotina )
+	Escolhe( 03, 01, 22, "Codi + 'â•‘' + Nome + 'â•‘' + Sigla", "CODI NOME DO FORNECEDOR                       SIGLA", aRotina )
 endif
 SetColor( Cor )
 cCodi := Codi
@@ -4256,7 +4257,7 @@ LOCAL  Tam	  := CPI12132	//151
 STATIC Pagina := 0
 		 cIni   := Dtoc( dIni )
 		 cFim   := Dtoc( dFim )
-Write( 00, 00, Padr( "Pagina N§ " + StrZero( ++Pagina, 4 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
+Write( 00, 00, Padr( "Pagina NÂº " + StrZero( ++Pagina, 4 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
 Write( 01, 00, Date() )
 Write( 02, 00, Padc( XNOMEFIR, Tam ) )
 Write( 03, 00, Padc( SISTEM_NA2, Tam ) )
@@ -4266,7 +4267,7 @@ else
 	Write( 04, 00, Padc( "RELATORIO DE PRODUTOS A RECEBER NO PERIODO DE &cIni. A &cFim" ,Tam ) )
 endif
 Write( 05, 00, Repl( SEP, Tam ))
-Write( 06, 00, "DATA     DOCTO N§  TIPO   NOME DO CLIENTE      CODIGO DESCRICAO DO PRODUTO                      QUANT      P. VAREJO  PRECO VENDIDO     T. VENDIDO FP")
+Write( 06, 00, "DATA     DOCTO NÂº  TIPO   NOME DO CLIENTE      CODIGO DESCRICAO DO PRODUTO                      QUANT      P. VAREJO  PRECO VENDIDO     T. VENDIDO FP")
 Write( 07, 00, Repl( SEP, Tam ))
 return
 
@@ -4415,7 +4416,7 @@ Case nChoice = 3
 	WHILE OK
 		cFatura := Space( 07 )
 		MaBox( 20, 01, 22, 25 )
-		@ 21, 02 Say "Fatura N§...:" Get cFatura Pict "@!" Valid VisualAchaFatura( @cFatura )
+		@ 21, 02 Say "Fatura NÂº...:" Get cFatura Pict "@!" Valid VisualAchaFatura( @cFatura )
 		Read
 		if LastKey() = ESC
 			ResTela( cScreen )
@@ -4468,9 +4469,9 @@ if nChoice != 3
 	nConta := 0
 	nSobra := nContaFatura
 	MaBox( 00, 00, 02, 79 )
-	Write( 01, 01, "Total de Faturas.¯ " + StrZero( nContaFatura, 4 ))
-	Write( 01, 26, "Selecionadas.....¯ " + StrZero( nConta,       4 ))
-	Write( 01, 51, "Disponiveis......¯ " + StrZero( nSobra,       4 ))
+	Write( 01, 01, "Total de Faturas.Â» " + StrZero( nContaFatura, 4 ))
+	Write( 01, 26, "Selecionadas.....Â» " + StrZero( nConta,       4 ))
+	Write( 01, 51, "Disponiveis......Â» " + StrZero( nSobra,       4 ))
 	aRegis	:= {}
 	aFatura	:= {}
 	Col		:= 4
@@ -4811,7 +4812,7 @@ Forma->(Order( FORMA_FORMA))
 Forma->(DbSeek( cForma ))
 SetPrc( 0, 0)
 Write( 00, 00 , "Emissao....: " + Dtoc( dEmis ))
-Write( 00, 52 , "Fatura N§..: " + cFatura )
+Write( 00, 52 , "Fatura NÂº..: " + cFatura )
 Write( 01, 00 , "Transporte.: " + "RODOVIARIO" )
 Write( 01, 52 , "Nat. Oper..: " + Cep->Nat_Oper )
 Write( 02, 00 , "F. Pagto...: " + Forma->Forma + "  " + Forma->Condicoes )
@@ -4841,7 +4842,7 @@ Forma->(Order( FORMA_FORMA))
 Forma->(DbSeek( cForma ))
 SetPrc( 0, 0)
 Write( 00, 00 , "Emissao....: " + Dtoc( dEmis ))
-Write( 00, 52 , "Fatura N§..: " + cFatura )
+Write( 00, 52 , "Fatura NÂº..: " + cFatura )
 Write( 01, 00 , "Transporte.: " + "RODOVIARIO" )
 Write( 01, 52 , "Nat. Oper..: " + Cep->Nat_Oper )
 Write( 02, 00 , "F. Pagto...: " + Forma->Forma + "  " + Forma->Condicoes )
@@ -4898,7 +4899,7 @@ LOCAL oBloco
 LOCAL cDocnr
 
 nRow := 45
-Write( nRow++, 00, "DCTO N§   TP     EMISSAO  VENCTO   PORTADOR    VLR NOMINAL DT PAGTO     VLR PAGO STATUS")
+Write( nRow++, 00, "DCTO NÂº   TP     EMISSAO  VENCTO   PORTADOR    VLR NOMINAL DT PAGTO     VLR PAGO STATUS")
 Write( nRow++, 00, Repl( SEP, Tam ) )
 Recemov->(Order( RECEMOV_DOCNR ))
 Recebido->(Order( RECEBIDO_FATURA ))
@@ -5526,7 +5527,7 @@ return
 		endif
 		MaBox( 08, 01, 23, 75, "INFORMACOES COMPLEMENTARES")
 		@ nLinha   , 02 Say "Imprimir Sequencia..:" Get lSequencia     Pict "!" Valid lSequencia $ "SN"
-		@ nLinha+01, 02 Say "N§ Nota Fiscal......:" Get cFatura        Pict "@!" When lSequencia = "S"
+		@ nLinha+01, 02 Say "NÂº Nota Fiscal......:" Get cFatura        Pict "@!" When lSequencia = "S"
 		@ nLinha+02, 02 Say "Data Emissao........:" Get dEmissao       Pict PIC_DATA
 		@ nLinha+03, 02 Say "Data Saida..........:" Get dSaida         Pict PIC_DATA
 		@ nLinha+04, 02 Say "Desconto............:" Get nDesconto      Pict "99.99"
@@ -5894,7 +5895,7 @@ return
 	if nRow != 0 .AND. nCol != 0
 		 Recemov->(Order( QUATRO )) // Fatura
 		 if Recemov->(DbSeek( cFaturaSub ))
-			 DevPos( nRow, nCol ) ; DevOut("DOCTO N§    VENCTO            VALOR")
+			 DevPos( nRow, nCol ) ; DevOut("DOCTO NÂº    VENCTO            VALOR")
 			 WHILE Recemov->Fatura = cFaturaSub
 				 nConta++
 				 nVlrComDesconto := Recemov->Vlr - ( ( Recemov->Vlr * nDesconto ) / 100)
@@ -5975,7 +5976,7 @@ if ( cDrive := MacroCopia()) = NIL
 	ResTela( cScreen )
 	return
 endif
-Mensagem("şşş Aguarde, Gerando arquivo.")
+Mensagem("â– â– â–  Aguarde, Gerando arquivo.")
 cFile  := cDrive + cFile
 Handle := FCreate( cFile )
 if ( Ferror() != 0 )
@@ -5984,7 +5985,7 @@ if ( Ferror() != 0 )
 	ResTela( cScreen )
 	return
 endif
-Mensagem("şşş Aguarde, Escrevendo no Arquivo.")
+Mensagem("â– â– â–  Aguarde, Escrevendo no Arquivo.")
 Set Cent On
 Set Date Japan
 cInsc 		  += Space(14-Len( AllTrim( cInsc )))
@@ -6045,7 +6046,7 @@ WHILE Nota->( Eval( oBloco ))
 EndDo
 FClose( Handle )
 oMenu:Limpa()
-M_Title( "ESC - Retorna ³Setas CIMA/BAIXO Move")
+M_Title( "ESC - Retorna â”‚Setas CIMA/BAIXO Move")
 M_View( 00, 00, MaxRow(), 79, cFile, Cor())
 Set Date Brit
 Set Cent Off
@@ -6467,8 +6468,8 @@ Write( 00, 00 , Padc("RELATORIO DE CARGA E DESCARGA", Tam))
 Write( 01, 00 , Repl( SEP, Tam ) )
 Write( 02, 00 , "Emissao....: " + Dtoc( dEmis ))
 Write( 02, 66 , "Emissao....: " + Dtoc( dEmisDes ))
-Write( 03, 00 , "Fatura N§..: " + cFatura )
-Write( 03, 66 , "Fatura N§..: " + cDescarga )
+Write( 03, 00 , "Fatura NÂº..: " + cFatura )
+Write( 03, 66 , "Fatura NÂº..: " + cDescarga )
 Forma->(Order( FORMA_FORMA))
 Forma->(DbSeek( cForma ))
 Write( 04, 00 , "F. Pagto...: " + Forma->Forma + "  " + Forma->Condicoes )

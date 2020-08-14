@@ -1,4 +1,4 @@
-#include <sciapi.h>
+#include "sciapi.h"
 
 // synonymn for MS_* 
 	HB_FUNC_TRANSLATE(TRIM,    	RTRIM)

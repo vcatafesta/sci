@@ -263,7 +263,7 @@ method CloseSpooler() class TPrinter
             oMenu:Limpa()
             oMenu:StatInf()
             oMenu:StatReg("IMPRESSO #" + StrZero( oAmbiente:nRegistrosImpressos, 7))
-            M_Title( "ESC - Retorna ³Setas CIMA/BAIXO Move")
+            M_Title( "ESC - Retorna â”‚Setas CIMA/BAIXO Move")
             M_View( 00, 00, MaxRow()-1, MaxCol(), cTemp, Cor())
             //ShellRun("NOTEPAD " + cTemp )
             ResTela( cScreen )
@@ -376,7 +376,7 @@ method LptOk() class TPrinter
 			cMsg += " (TENTAR).                                               "
 			cMsg += ";3)Ao escolher a opcao (IMPRIMIR ASSIM MESMO) podera haver"
 			cMsg += "   um travamento completo do sistema.                    "
-			cMsg += ";4)Escolha (RETORNAR) para cancelar a impress„o.          "
+			cMsg += ";4)Escolha (RETORNAR) para cancelar a impressÃ£o.          "
 			
 	if lMaluco 
 		return( lMaluco)

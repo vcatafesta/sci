@@ -1,19 +1,19 @@
 /*
-  ��������������������������������������������������������������������������?
- ݳ																								 ?
- ݳ	Modulo.......: PONTOLAN.PRG														 ?
- ݳ	Sistema......: CONTROLE DE PONTO								          	    ?
- ݳ	Aplicacao....: SCI - SISTEMA COMERCIAL INTEGRADO                      ?
- ݳ	Versao.......: 8.5.00							                            ?
- ݳ	Programador..: Vilmar Catafesta				                            ?
- ݳ   Empresa......: Macrosoft Informatica Ltda                             ?
- ݳ	Inicio.......: 12.11.1991 						                            ?
- ݳ   Ult.Atual....: 12.04.2018                                             ?
- ݳ   Compilador...: Harbour 3.2/3.4                                        ?
- ݳ   Linker.......: BCC/GCC/MSCV                                           ?
- ݳ	Bibliotecas..:  									                            ?
- ����������������������������������������������������������������������������
- ��������������������������������������������������������������������������
+  ┌─────────────────────────────────────────────────────────────────────────?
+ ▌│																								 ?
+ ▌│	Modulo.......: PONTOLAN.PRG														 ?
+ ▌│	Sistema......: CONTROLE DE PONTO								          	    ?
+ ▌│	Aplicacao....: SCI - SISTEMA COMERCIAL INTEGRADO                      ?
+ ▌│	Versao.......: 8.5.00							                            ?
+ ▌│	Programador..: Vilmar Catafesta				                            ?
+ ▌│   Empresa......: Macrosoft Informatica Ltda                             ?
+ ▌│	Inicio.......: 12.11.1991 						                            ?
+ ▌│   Ult.Atual....: 12.04.2018                                             ?
+ ▌│   Compilador...: Harbour 3.2/3.4                                        ?
+ ▌│   Linker.......: BCC/GCC/MSCV                                           ?
+ ▌│	Bibliotecas..:  									                            ?
+ ▌└─────────────────────────────────────────────────────────────────────────┘
+ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 */
 
 #include <sci.ch>
@@ -80,7 +80,7 @@ oMenu:Menu		 := oMenuPontolan()
 oMenu:Disp		 := aDispPontoLan()
 oMenu:Ativo 	 := IF( Int( Op ) <= 0, 1, Int( Op ))
 oMenu:StatusSup := SISTEM_NA8 + " " + SISTEM_VERSAO
-oMenu:StatusInf := "F1-HELP�F8-SPOOL�F10-CALC�"
+oMenu:StatusInf := "F1-HELP│F8-SPOOL│F10-CALC│"
 Return
 
 *:==================================================================================================================================

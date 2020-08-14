@@ -8504,7 +8504,7 @@ For nX := 1 To Len( aPattern)
 next
 return( 0 )
 
-def FichaAtendimento(cCaixa, cVendedor, xTodos, nCurElemento)
+def OLDFichaAtendimento(cCaixa, cVendedor, xTodos, nCurElemento)
 **************************************************************
    LOCAL Arq_Ant	 := Alias()
    LOCAL Ind_Ant	 := IndexOrd()
@@ -8552,16 +8552,16 @@ def FichaAtendimento(cCaixa, cVendedor, xTodos, nCurElemento)
          SetPrc(0,0)
          nRow := 1
          cVisita := AllTrim(cVisita)
-         
+
          if Len( cVisita) > 0
             cVisita += IF(Right(cVisita,1) = '.', ' ','. ')
          endif
-         
+
          cObs	  := AllTrim(cObs)
          if Len( cObs) > 0
             cObs	  += IF(Right(cObs,1) = '.', '','.')
          endif
-         
+
          Write( nRow+00, 00, Repl("=",80))
          Write( nRow+01, 00, GD + Padc(AllTrim(oAmbiente:xFanta), 40) + CA )
          Write( nRow+02, 00, Padc( XENDEFIR + " - " + XCCIDA + " - " + XCESTA, 80 ))
@@ -8577,16 +8577,16 @@ def FichaAtendimento(cCaixa, cVendedor, xTodos, nCurElemento)
          Write( nRow+09, 58, "FONE   : " + NG + Receber->Fax + NR )
          Write( nRow+11, 00, "MOTIVO VISITA : " + NG + cVisita + NR )
          Write( nRow+12, 00, "OBSERVACOES   : " + NG + cObs + NR )
-         Write( nRow+14, 00, "FOI ATENDIDA RECLAMACAO ?: " + NG + "___________" + NR )
-         Write( nRow+14, 48, "INTERNET FUNCIONANDO ?: " + NG + "___________" + NR )
+         Write( nRow+14, 00, "HOUVE ATENDIMENTO ?: " + NG + "___________" + NR )
+         Write( nRow+14, 44, "INTERNET FUNCIONANDO ?: " + NG + "___________" + NR )
          Write( nRow+16, 00, "NOME/ASSINATURA  : " + NG + Repl("_",60) + NR )
          Write( nRow+18, 00, "RELATORIO TECNICO: " + NG + Repl("_",60) + NR )
          Write( nRow+20, 00, "DATA ATIVACAO    : " + NG + Dtoc(Receber->Data) + NR)
-         Write( nRow+20, 48, "ATENDIDO POR: " + NG + "_____________________" + NR )
+         Write( nRow+20, 45, "ATENDIDO POR: " + NG + "_____________________" + NR )
          Write( nRow+21, 00, Repl("-",80))
          Write( nRow+22, 00, "O CLIENTE declara expressamente e garante, para todos os fins de direito, que as")
          Write( nRow+23, 00, "informacoes  aqui  prestadas sao  verdadeiras, e possui  capacidade  plena  pela")
-         Write( nRow+24, 00, "utilizacao dos servicos prestados pela CONTRATADA.")
+         Write( nRow+24, 00, "utilizacao e pagamento dos servicos prestados pela CONTRATADA(O).")
          Write( nRow+25, 00, Repl("=",80))
          Write( nRow+26, 00, "Impresso por: " + cCaixa + ' ' + cVendedor)         
          __Eject()
@@ -8607,7 +8607,116 @@ def FichaAtendimento(cCaixa, cVendedor, xTodos, nCurElemento)
    ResTela( cScreen )
    AreaAnt( Arq_Ant, Ind_Ant )
    return nil
-endef   
+endef
+
+def FichaAtendimento(cCaixa, cVendedor, xTodos, nCurElemento)
+**************************************************************
+   LOCAL Arq_Ant	 := Alias()
+   LOCAL Ind_Ant	 := IndexOrd()
+   LOCAL cScreen	 := SaveScreen()
+   LOCAL GetList	 := {}
+   LOCAL cVisita	 := Space(60)
+   LOCAL cObs		 := Space(60)
+   LOCAL cTitulo	 := "FICHA DE ATENDIMENTO/ATIVACAO"
+   LOCAL lEject    := true
+         cCodi 	 := Space(05)
+
+   Area("Receber")
+   Receber->(Order( RECEBER_CODI))
+   WHILE OK
+      oMenu:Limpa()
+
+      if xTodos = NIL
+         dData   := Date()
+         cHora   := Time()
+         cVisita := AllTrim(cVisita) + Space(60-Len(AllTrim(cVisita)))
+         cObs	  := AllTrim(cObs)	 + Space(60-Len(AllTrim(cObs)))
+      Else
+         cCodi   := xTodos[nCurElemento,1]
+         dData   := xTodos[nCurElemento,2]
+         cHora   := xTodos[nCurElemento,3]
+         cVisita := Left(xTodos[nCurElemento,4],60)
+      endif
+      MaBox( 10, 00, 14, 80, 'IMPRESSAO ' +cTitulo )
+      @ 11, 01 Say "Codigo Cliente..:" Get cCodi   Pict PIC_RECEBER_CODI Valid RecErrado( @cCodi,, Row(), Col()+1)
+      @ 12, 01 Say "Motivo Visita...:" Get cVisita Pict "@!" Valid !Empty(cVisita)
+      @ 13, 01 Say "Observacoes.....:" Get cObs    Pict "@!"
+      Read
+      if LastKey() = ESC
+        AreaAnt( Arq_Ant, Ind_Ant )
+        ResTela( cScreen )
+        Return
+      endif
+      if Conf("Pergunta: Confirma Impressao ?")      
+         if !(Instru80()) .or. !(LptOk())
+            loop
+         endif
+         cTela := Mensagem("Aguarde, Imprimindo Ficha.", Cor())
+         PrintOn()
+         FPrInt( Chr(ESC) + "C" + Chr( 33 ))
+         SetPrc(0,0)
+         nRow := 0
+         cVisita := AllTrim(cVisita)
+
+         if Len( cVisita) > 0
+            cVisita += IF(Right(cVisita,1) = '.', ' ','. ')
+         endif
+
+         cObs	  := AllTrim(cObs)
+         if Len( cObs) > 0
+            cObs	  += IF(Right(cObs,1) = '.', '','.')
+         endif
+
+         Write( nRow+00, 00, GD + Padc(AllTrim(oAmbiente:xFanta), 40) + CA )
+         Write( nRow+01, 00, Padc( XENDEFIR + " - " + XCCIDA + " - " + XCESTA, 80 ))
+         Write( nRow+02, 00, Repl("-",80))
+         Write( nRow+03, 00, GD + Padc( cTitulo, 40) + CA )
+         Write( nRow+05, 00, "DATA     : " + NG + Dtoc(dData) + NR)
+         Write( nRow+05, 58, "HORA   : " + NG + cHora + NR)
+         Write( nRow+06, 00, "NOME     : " + NG + Receber->Nome + NR )
+         Write( nRow+06, 58, "FONE   : " + NG + Receber->Fone + NR )
+         Write( nRow+07, 00, "ENDERECO : " + NG + Receber->Ende + NR )
+         Write( nRow+07, 58, "BAIRRO : " + NG + Left(AllTrim(Receber->Bair),17) + NR )
+         Write( nRow+08, 00, "CIDADE   : " + NG + Receber->Cida + NR )
+         Write( nRow+08, 58, "FONE   : " + NG + Receber->Fax + NR )
+         Write( nRow+10, 00, "MOTIVO VISITA : " + NG + cVisita + NR )
+         Write( nRow+11, 00, "OBSERVACOES   : " + NG + cObs + NR )
+			Write( nRow+12, 00, NG + "EQUIPAMENTOS CEDIDOS EM COMODATO:" + NR)
+			Write( nRow+13, 00, "ROTEADOR     ( )SIM   ( )NAO   MODELO: _________________________________________")
+			Write( nRow+14, 00, "ANTENA       ( )SIM   ( )NAO   MODELO: _________________________________________")
+			Write( nRow+15, 00, "FONTE ANTENA ( )SIM   ( )NAO   MODELO: _________________________________________")
+			Write( nRow+16, 00, "CABO REDE    ( )SIM   ( )NAO   METROS: _________________________________________")
+			Write( nRow+17, 00, "SUPORTE      ( )SIM   ( )NAO   MODELO: _________________________________________")
+			Write( nRow+18, 00, "CANO         ( )SIM   ( )NAO   MODELO: _________________________________________")
+			Write( nRow+19, 00, "PARAFUSO SUP ( )SIM   ( )NAO   QTDE  : _________________________________________")
+			Write( nRow+21, 00, "EQUIPAMENTO INSTALADO? : ___________         INTERNET FUNCIONANDO? : ___________")
+			Write( nRow+23, 00, "NOME/ASSINATURA  : _____________________________________________________________")
+         Write( nRow+24, 00, "DATA ATIVACAO    : " + NG + Dtoc(Receber->Data) + NR)
+         Write( nRow+24, 45, "ATENDIDO POR: " + NG + "_____________________" + NR )
+         Write( nRow+25, 00, Repl("-",80))
+         Write( nRow+26, 00, "O CLIENTE declara expressamente e garante, para todos os fins de direito, que as")
+         Write( nRow+27, 00, "informacoes  aqui  prestadas sao  verdadeiras, e possui  capacidade  plena  pela")
+         Write( nRow+28, 00, "utilizacao e pagamento dos servicos prestados pela CONTRATADA(O).")
+         Write( nRow+29, 00, Repl("=",80))
+         __Eject()
+         PrintOff()
+         if xTodos = NIL
+            if Agenda->(Incluiu())
+               Agenda->Codi	 := cCodi
+               Agenda->Data	 := dData
+               Agenda->Hora	 := cHora
+               Agenda->Hist	 := cVisita + cObs
+               Agenda->Caixa	 := cCaixa
+               Agenda->Usuario := cVendedor
+               Agenda->(Libera())
+            endif
+         endif
+      endif
+   EndDo
+   ResTela( cScreen )
+   AreaAnt( Arq_Ant, Ind_Ant )
+   return nil
+endef
 
 Function AchaUltVcto( cCodi, dFim )
 ***********************************

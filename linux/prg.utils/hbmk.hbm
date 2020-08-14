@@ -1,59 +1,6 @@
--run
--inc
--w0
--es2
-#additional path to search for libraries
-#-L./ 
-
-{win}-prgflag= -i..\include;
-{win}-prgflag= -ic:\sci\include
-{win}-cflag= -cpp -w0 
-{win}-i\sci\include
-{mingw|mingw64}-ldflag=-Wl,--allow-multiple-definition 
-
-{linux}-i../include
-{linux}-i../../include
-
--ldflag=-W
--ldflag=-Wno-unused-local-typedefs
--ldflag=-Wno-unused-result
-
--cflag=-cpp
--cflag=-w
--cflag=-Wno-unused-result
--cflag=-Wno-unused-value
--cflag=-Wno-unused-variable
--cflag=-Wno-unused-function
--cflag=-Wno-unused-label
--cflag=-Wcast-function-type
-
-hbct.hbc
-hbmemio.hbc
 hbhpdf.hbc
-hbblink.hbc
+
+#-w3 -es2
+-es2
+
 hbct.hbc
-hbxpp.hbc
-xhb.hbc
-hboslib.hbc
-hbgt.hbc
-{win}hbwin.hbc
-hbnf.hbc
-hbgzio.hbc
-hbmemio.hbc
-#letodb.hbc
-{linux}rddleto.hbc
-{linux}hbcups.hbc
-#{linux}/home/vcatafesta/github/hwgui/hwgui.hbc
-
-#-lsciapilinux
-{linux}-lncurses
-
-#sci.hbc
-hbmzip.hbc
-hbmisc.hbc
-hbnetio.hbc
-rddsql.hbc
-{linux}hbunix.hbc
-#gtwvg.hbc
-#hbsqlit3.hbc
-#hbicu.hbc

@@ -13,11 +13,11 @@
 #Define VAR_AGUDO 		 39	 // Indicador de agudo
 #Define VAR_CIRCUN		 94	 // Indicador de circunflexo
 #Define VAR_TREMA 		 34	 // Indicador de trema
-#Define VAR_CEDMIN		 91	 // Cedilha min£sculo opcional [
-#Define VAR_CEDMAI		 123	 // Cedilha mai£sculo opcional {
+#Define VAR_CEDMIN		 91	 // Cedilha min¬£sculo opcional [
+#Define VAR_CEDMAI		 123	 // Cedilha mai¬£sculo opcional {
 #Define VAR_GRAVE 		 96	 // Indicador de grave
 #Define VAR_TIL			 126	 // Indicador de til
-#Define VAR_HifEN 		 95	 // Indicador de ¶ ß sublinhado+a/o
+#Define VAR_HifEN 		 95	 // Indicador de ¬¶ ¬ß sublinhado+a/o
 #define _GET_INSERT_ON	 7 	 // "Ins"
 #define _GET_INSERT_OFF  8 	 // "   "
 #define _GET_INVD_DATE	 9 	 // "Data Invalida"
@@ -26,7 +26,7 @@
 #define K_UNDO 			 K_CTRL_U
 #define CTRL_END_SPECIAL OK		 // Para Ficar no Ultimo Get qdo teclar ctr+end
 #define ECHO_CHAR        "*"
-#define ECHO_CHAR 		 "˛"
+#define ECHO_CHAR 		 "√æ"
 #define LOW 				 32
 #define HIGH				 127
 
@@ -166,13 +166,13 @@ Proc GetReader( oGet )
 
 PROCEDURE GetApplyKey( oGet, nKey )
 ***********************************
-	LOCAL VAR_CNF_AC := ['a†'eÇ'i°'o¢'u£'AÜ'Eê'Iã'Oü'Uñ'cá'CÄ] + ; // Agudo
-						  [`aÖ`eä`iç`oï`uó`Aë`Eí`Iò`O©`Uù`cá`CÄ]  + ; // Grave
-						  [^aÉ^eà^oì^Aè^Eâ^Oå^cá^CÄ]				 + ; // Circunflexo
-						  [~aÑ~n§~oî~Aé~N•~Oô~cá~CÄ]				 + ; // Til
-						  ["uÅ"Uö]                               + ; // Trema
-						  [_a¶_A¶_oß_Oß]								 + ; // H°fen
-						  [ á{ Ä]                                   // Cedilha
+	LOCAL VAR_CNF_AC := ['a¬†'e‚Äö'i¬°'o¬¢'u¬£'A‚Ä†'E¬ê'I‚Äπ'O≈∏'U‚Äì'c‚Ä°'C‚Ç¨] + ; // Agudo
+						  [`a‚Ä¶`e≈†`i¬ç`o‚Ä¢`u‚Äî`A‚Äò`E‚Äô`IÀú`O¬©`U¬ù`c‚Ä°`C‚Ç¨]  + ; // Grave
+						  [^a∆í^eÀÜ^o‚Äú^A¬è^E‚Ä∞^O≈í^c‚Ä°^C‚Ç¨]				 + ; // Circunflexo
+						  [~a‚Äû~n¬§~o‚Äù~A≈Ω~N¬•~O‚Ñ¢~c‚Ä°~C‚Ç¨]				 + ; // Til
+						  ["u¬Å"U≈°]                               + ; // Trema
+						  [_a¬¶_A¬¶_o¬ß_O¬ß]								 + ; // H¬°fen
+						  [ ‚Ä°{ ‚Ç¨]                                   // Cedilha
 	LOCAL cKey
 	LOCAL Cod_Acento
 	LOCAL bKeyBlock
@@ -312,10 +312,10 @@ PROCEDURE GetApplyKey( oGet, nKey )
 					if COD_ACENTO $ "[{"                       // Tratamento do cedilha aternativo
 						COD_ACENTO += " "                       // Completa tamanho do ACENTO
 					else
-						COD_ACENTO += chr( abs( inkey( 0 ) ) )  // ObtÇm pr¢ximo caractere
+						COD_ACENTO += chr( abs( inkey( 0 ) ) )  // Obt‚Äöm pr¬¢ximo caractere
 					endif
-					COD_ACENTO = at( COD_ACENTO, VAR_CNF_AC )  // ObtÇm caractere correspondente
-					if COD_ACENTO != 0								 // Se existe correspondància
+					COD_ACENTO = at( COD_ACENTO, VAR_CNF_AC )  // Obt‚Äöm caractere correspondente
+					if COD_ACENTO != 0								 // Se existe correspondÀÜncia
 						cKey := SubStr( VAR_CNF_AC, COD_ACENTO + 2, 1 )
 					else					 								 // Sinaliza erro
 						if (SET( _SET_BELL ))
@@ -939,7 +939,7 @@ function EventState()
 					return 0
 				endif
 			CASE K_CTRL_INS
-				if !oAmbiente:lReceber // quando K_CTRL_INS È usada em TReceposi
+				if !oAmbiente:lReceber // quando K_CTRL_INS √© usada em TReceposi
 					nBits      := hb_GtInfo( HB_GTI_KBDSHIFTS )
 					lIsKeyCtrl := ( nBits == hb_BitOr( nBits, HB_GTI_KBD_CTRL ) )
 					if lIsKeyCtrl
@@ -961,7 +961,7 @@ function EventState()
 				nBits      := hb_gtInfo( HB_GTI_KBDSHIFTS )
 				lIsKeyCtrl := ( nBits == hb_BitOr( nBits, HB_GTI_KBD_CTRL ) )
 				if lIsKeyCtrl
-					//Alerta( "Copiado para area de transferÍncia" )
+					//Alerta( "Copiado para area de transfer√™ncia" )
 					oMenu:ContaReg( "COPIADO PARA AREA DE TRANSFERENCIA.  ")		
 					if GetActive() != NIL
 						hb_gtInfo( HB_GTI_CLIPBOARDDATA, Transform( GetActive():VarGet(), "" ) )

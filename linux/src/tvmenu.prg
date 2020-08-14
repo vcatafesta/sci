@@ -61,9 +61,9 @@ Method New()
 		 ::CorBorda      := 31
        ::Cordesativada := 24
        ::Menu          := {"Opcao 1 :Item 1:Item 1", "Opcao 2:Item 2:Item2"}
-       ::PanoFundo     := "Û²°±MicroBrasÛ±²°"
+       ::PanoFundo     := "â–ˆâ–“â–‘â–’MicroBrasâ–ˆâ–’â–“â–‘"
        ::CorFundo      := 8
-       ::Frame         := "ÚÄ¿³ÙÄÀ³"
+       ::Frame         := "â”Œâ”€â”â”‚â”˜â”€â””â”‚"
        ::NomeFirma     := "MICROBRAS COM DE PROD DE INFORMATICA LTDA"
        ::Codifirma     := "0001"
        ::Sombra        := OK
@@ -148,13 +148,13 @@ Method SetaFrame
 LOCAL cScreen := SaveScreen()
 LOCAL nChoice := 1
 LOCAL aFrames := {"        ",;
-                  "ÚÄ¿³ÙÄÀ³",;
-                  "ÉÍ»º¼ÍÈº",;
-                  "ÖÄ·º½ÄÓº",;
-                  "ÕÍ¸³¾ÍÔ³",;
-                  "ßßßŞÜÜÜİ",;
-                  "ÛÛÛÛÛÛÛÛÛ",;
-                  "ÉĞËÇÊÌÈ¶"}
+                  "â”Œâ”€â”â”‚â”˜â”€â””â”‚",;
+                  "â•”â•â•—â•‘â•â•â•šâ•‘",;
+                  "â•“â”€â•–â•‘â•œâ”€â•™â•‘",;
+                  "â•’â•â••â”‚â•›â•â•˜â”‚",;
+                  "â–€â–€â–€â–â–„â–„â–„â–Œ",;
+                  "â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆ",;
+                  "â•”â•¨â•¦â•Ÿâ•©â• â•šâ•¢"}
 nChoice := ::FazMenu( 03, 10, aFrames, ::CorMenu )
 ResTela( cScreen )
 if nChoice = 0
@@ -234,7 +234,7 @@ WHILE .T.
    Keyb( Chr( 27 ))
    oCor:Show()
    M_Frame( ::Frame )
-   M_Message("Use as setas CIMA e BAIXO para trocar, ENTER para aceitar. N§ " + StrZero( Selecionado, 3 ), ::CorMenu )
+   M_Message("Use as setas CIMA e BAIXO para trocar, ENTER para aceitar. NÂº " + StrZero( Selecionado, 3 ), ::CorMenu )
    nKey := Inkey(0)
    if ( nKey == 27 .OR. nKey = 13 )
       Exit
@@ -263,11 +263,11 @@ endif
 ColorSet( @nCor, @pback )
 Box( nTopo, nEsq, nFundo, nDireita, ::Frame + cPattern, nCor )
 if Cabecalho != Nil
-   aPrint( nTopo, nEsq+1, "Û", Roloc( nCor ), (nDireita-nEsq)-1)
+   aPrint( nTopo, nEsq+1, "â–ˆ", Roloc( nCor ), (nDireita-nEsq)-1)
    aPrint( nTopo, nEsq+1, Padc( Cabecalho, ( nDireita-nEsq)-1), Roloc( nCor ))
 endif
 if Rodape != Nil
-   aPrint( nFundo, nEsq+1, "Û", Roloc( nCor ), (nDireita-nEsq)-1)
+   aPrint( nFundo, nEsq+1, "â–ˆ", Roloc( nCor ), (nDireita-nEsq)-1)
    aPrint( nFundo, nEsq+1, Padc( Rodape, ( nDireita-nEsq)-1), Roloc( nCor ))
 endif
 cSetColor( SetColor())

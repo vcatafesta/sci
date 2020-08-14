@@ -16,6 +16,7 @@
 */
 #include <sci.ch>
 
+
 STATIC static13
 STATIC static14
 STATIC static1 := "’Õ∏≥æÕ‘≥"
@@ -765,7 +766,7 @@ def CloseSpooler()
       #else
          cComando := 'firefox.exe ' + cTemp
          cComando := "C:\Program Files\Mozilla Firefox\firefox.exe " + cTemp
-         cComando := "chrome.exe " + cTemp		
+         cComando := "chrome.exe " + cTemp	// colocar o chrome no path do windows	
          ShellRun("NOTEPAD " + cTemp )
          //ShellRun( cComando )
          /*
@@ -1476,7 +1477,9 @@ def ErrorBeep(lOK)
 ***********************
 DEFAU lOk TO FALSO
 
-//return Nil // aff, sem som
+if !(oAmbiente:Sound)
+	return NIL // aff, sem som
+endif
 if lOk   // Good Sound
    Tone(  500, 1 )
    //Tone( 4000, 1 )
@@ -5921,10 +5924,10 @@ intWindowStyle
 10 Sets the show-state based on the state of the program that started the application.
 */
 
-#ifdef __XHARBOUR__
-   WshShell := CreateObject("WScript.Shell")
+#ifdef __PLATFORM__WINDOWS
+   WshShell := win_oleCreateObject("WScript.Shell")
 #else
-   //WshShell := win_oleCreateObject("WScript.Shell")
+   WshShell := CreateObject("WScript.Shell")
 #endif
 
 lRet     := WshShell:Run("%comspec% /c " + cComando, intWindowStyle, .F.)

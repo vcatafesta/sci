@@ -16,8 +16,8 @@
 
     METHOD New() CONSTRUCTOR
 
-    ACCESS Eyes 	INLINE ::pvtEyes
-    ASSIGN Eyes(x) 	INLINE Iif( ValType( x ) == 'C' .AND. ;
+    ACCESS Eyes INLINE ::pvtEyes
+    ASSIGN Eyes( x ) INLINE Iif( ValType( x ) == 'C' .AND. ;
                  x IN "Blue,Brown,Green", ::pvtEyes := x,; 
                  Alert( "Invalid value" ) )
 

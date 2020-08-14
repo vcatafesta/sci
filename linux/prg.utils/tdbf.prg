@@ -1,4 +1,4 @@
-#include "fenix.ch"
+#include "sci.ch"
 #translate pause() => pausetdbf()
 
 REQUEST HB_LANG_EN

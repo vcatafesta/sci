@@ -1,19 +1,19 @@
 /*
-  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
- İ³																								 ³
- İ³	Modulo.......: VENLAN.PRG   														 ³ 						 
- İ³	Sistema......: CONTROLE DE VENDEDORES						            	 ³ 
- İ³	Aplicacao....: SCI - SISTEMA COMERCIAL INTEGRADO                      ³
- İ³	Versao.......: 8.5.00							                            ³
- İ³	Programador..: Vilmar Catafesta				                            ³
- İ³   Empresa......: Macrosoft Informatica Ltda                             ³
- İ³	Inicio.......: 12.11.1991 						                            ³
- İ³   Ult.Atual....: 12.04.2018                                             ³
- İ³   Compilador...: Harbour 3.2/3.4                                        ³
- İ³   Linker.......: BCC/GCC/MSCV                                           ³
- İ³	Bibliotecas..:  									                            ³
- İÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
- ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+ â–Œâ”‚																								 â”‚
+ â–Œâ”‚	Modulo.......: VENLAN.PRG   														 â”‚ 						 
+ â–Œâ”‚	Sistema......: CONTROLE DE VENDEDORES						            	 â”‚ 
+ â–Œâ”‚	Aplicacao....: SCI - SISTEMA COMERCIAL INTEGRADO                      â”‚
+ â–Œâ”‚	Versao.......: 8.5.00							                            â”‚
+ â–Œâ”‚	Programador..: Vilmar Catafesta				                            â”‚
+ â–Œâ”‚   Empresa......: Macrosoft Informatica Ltda                             â”‚
+ â–Œâ”‚	Inicio.......: 12.11.1991 						                            â”‚
+ â–Œâ”‚   Ult.Atual....: 12.04.2018                                             â”‚
+ â–Œâ”‚   Compilador...: Harbour 3.2/3.4                                        â”‚
+ â–Œâ”‚   Linker.......: BCC/GCC/MSCV                                           â”‚
+ â–Œâ”‚	Bibliotecas..:  									                            â”‚
+ â–Œâ””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+ â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€
 */
 
 #include <sci.ch>
@@ -113,7 +113,7 @@ WHILE OK
 	MaBox( 08, 10, 14, 68, "LANCAMENTOS A CREDITOS" )
 	@ 09, 11 Say "Codigo....:" Get cCodi Pict "9999" Valid FunErrado( @cCodi,, Row(), Col()+1 )
 	@ 10, 11 Say "Data......:" Get dData      Pict "##/##/##"
-	@ 11, 11 Say "Docto N§..:" Get cDocnr     Pict "@!"
+	@ 11, 11 Say "Docto NÂº..:" Get cDocnr     Pict "@!"
 	@ 12, 11 Say "Valor.....:" Get nVlr       Pict "99999999.99" Valid if( nVlr <= 0,           ( ErrorBeep(), Alerta("Erro: Valor Invalido"), FALSO ), OK )
 	@ 13, 11 Say "Descricao.:" Get cDescricao Pict "@!" Valid if( Empty( cDescricao ), ( ErrorBeep(), Alerta("Erro: Campo nao Pode ser Vazio"), FALSO ), OK )
 	Read
@@ -182,7 +182,7 @@ WHILE OK
 		 Vendemov->(DbGoTop())
 		 MaBox( 18,20,20,41 )
 		 cDocnr = Space( Len( Vendemov->Docnr )-2 )
-		 @ 19, 21 Say "Docto N§...¯" Get cDocnr Pict "@!" Valid DocFuerr( cDocnr )
+		 @ 19, 21 Say "Docto NÂº...Â»" Get cDocnr Pict "@!" Valid DocFuerr( cDocnr )
 		 Read
 		 if LastKey( ) = ESC
 			 ResTela( aTela )
@@ -223,7 +223,7 @@ WHILE OK
 		Vendemov->(DbGoTop())
 		MaBox( 18, 20, 20, 36 )
 		cCodi := Space(04)
-		@ 19,21 Say "Codigo..¯" Get cCodi Pict "9999" Valid FunErrado( @cCodi )
+		@ 19,21 Say "Codigo..Â»" Get cCodi Pict "9999" Valid FunErrado( @cCodi )
 		Read
 		if LastKey( ) = ESC
 			ResTela( aTela )
@@ -269,7 +269,7 @@ WHILE OK
 		Vendemov->(DbGoTop())
 		MaBox( 18,20,20,39 )
 		dData = Date()
-		@ 19,21 Say "Data....¯" Get dData Pict "##/##/##"
+		@ 19,21 Say "Data....Â»" Get dData Pict "##/##/##"
 		Read
 		if LastKey( ) = ESC
 			ResTela( aTela )
@@ -349,7 +349,7 @@ Proc Func_Mostra()
 ******************
 LOCAL cScreen := SaveScreen()
 LOCAL Mostra2 := {"Codiven", "Vendedor->Nome", "Tran( Vlr, '@E 99,999,999,999.99' )","data", "docnr", "descricao" }
-LOCAL Mostra1 := {"CODI", "NOME DO VENDEDOR", "DEBITO" ,"DATA" ,"DOCTO N§" ,"DESCRICAO"}
+LOCAL Mostra1 := {"CODI", "NOME DO VENDEDOR", "DEBITO" ,"DATA" ,"DOCTO NÂº" ,"DESCRICAO"}
 
 oMenu:Limpa()
 MaBox( 01, 00, MaxRow()-1, MaxCol(), "CONSULTA DE LANCAMENTOS" )
@@ -392,7 +392,7 @@ WHILE OK
 		 Vendemov->(DbGoTop())
 		 MaBox( 18,20,20,41 )
 		 cDocnr = Space( Len( Vendemov->Docnr )-2 )
-		 @ 19, 21 Say "Docto N§...¯" Get cDocnr Pict "@!" Valid DocFuerr( cDocnr )
+		 @ 19, 21 Say "Docto NÂº...Â»" Get cDocnr Pict "@!" Valid DocFuerr( cDocnr )
 		 Read
 		 if LastKey( ) = ESC
 			 ResTela( aTela )
@@ -433,7 +433,7 @@ WHILE OK
 		Vendemov->(DbGoTop())
 		MaBox( 18, 20, 20, 36 )
 		cCodi := Space(04)
-		@ 19,21 Say "Codigo..¯" Get cCodi Pict "9999" Valid FunErrado( @cCodi )
+		@ 19,21 Say "Codigo..Â»" Get cCodi Pict "9999" Valid FunErrado( @cCodi )
 		Read
 		if LastKey( ) = ESC
 			ResTela( aTela )
@@ -479,7 +479,7 @@ WHILE OK
 		Vendemov->(DbGoTop())
 		MaBox( 18,20,20,39 )
 		dData = Date()
-		@ 19,21 Say "Data....¯" Get dData Pict "##/##/##"
+		@ 19,21 Say "Data....Â»" Get dData Pict "##/##/##"
 		Read
 		if LastKey( ) = ESC
 			ResTela( aTela )
@@ -575,7 +575,7 @@ MaBox( 08, 10, 14, 68, "LANCAMENTOS A DEBITOS" )
 WHILE OK
 	@ 09, 11 Say "Codigo....:" Get cCodi      Pict "9999" Valid FunErrado( @cCodi,, Row(), Col()+1 )
 	@ 10, 11 Say "Data......:" Get dData      Pict "##/##/##"
-	@ 11, 11 Say "Docto N§..:" Get cDocnr     Pict "@!"
+	@ 11, 11 Say "Docto NÂº..:" Get cDocnr     Pict "@!"
 	@ 12, 11 Say "Valor.....:" Get nVlr       Pict "99999999.99" Valid if( nVlr <= 0,           ( ErrorBeep(), Alerta("Erro: Valor Invalido"), FALSO ), OK )
 	@ 13, 11 Say "Descricao.:" Get cDescricao Pict "@!"          Valid if( Empty( cDescricao ), ( ErrorBeep(), Alerta("Erro: Campo nao Pode ser Vazio"), FALSO ), OK )
 	Read
@@ -728,7 +728,7 @@ While Eval( oBloco ) .AND. REL_OK()
 		Write( 03, 00, Linha4(Tam, SISTEM_NA6 ))
 		Write( 04, 00, Padc( cRelato, Tam ))
 		Write( 05, 00, Linha5(Tam))
-		Write( 06, 00,"DATA     DOCTO N§  DESCRICAO                                               VALOR")
+		Write( 06, 00,"DATA     DOCTO NÂº  DESCRICAO                                               VALOR")
 		Write( 07, 00, Linha5(Tam))
 		Col := 8
 	endif
@@ -1257,7 +1257,7 @@ Function DocFuerr( cDocnr )
 ***************************
 if Empty( cDocnr )
 	ErrorBeep()
-	Alerta( "ERRO: Codigo Documento Inv lido." )
+	Alerta( "ERRO: Codigo Documento InvÃ¡lido." )
 	return( FALSO )
 endif
 if !DbSeek( cDocnr )
@@ -1282,7 +1282,7 @@ Area( "Vendedor")
 Vendedor->(Order( if( Len( cCodifun) < 40, VENDEDOR_CODIVEN, VENDEDOR_NOME )))
 if Vendedor->(!DbSeek( cCodifun ))
 	Vendedor->(Order( VENDEDOR_NOME ))
-	Vendedor->(Escolhe( 03, 01, MaxRow()-2, "CodiVen + 'İ' + Nome + 'İ' + Fone", "CODI NOME DO VENDEDOR" + Space(25)+ "TELEFONE", aRotinaInc, NIL, aRotinaAlt ))
+	Vendedor->(Escolhe( 03, 01, MaxRow()-2, "CodiVen + 'â–Œ' + Nome + 'â–Œ' + Fone", "CODI NOME DO VENDEDOR" + Space(25)+ "TELEFONE", aRotinaInc, NIL, aRotinaAlt ))
 	cCodifun := if( Len( cCodifun ) < 40, Vendedor->CodiVen, Vendedor->Nome )
 	cCodi 	:= Vendedor->CodiVen
 endif
@@ -1361,7 +1361,7 @@ PrintOn()
 SetPrc( 0, 0 )
 While !Eof() .AND. REL_OK()
 	if Col >=  58
-		Write( 00, 00, Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
+		Write( 00, 00, Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
 		Write( 01, 00, Date() )
 		Write( 02, 00, Padc( XNOMEFIR, Tam ) )
 		Write( 03, 00, Padc( SISTEM_NA6, Tam ) )
@@ -1451,7 +1451,7 @@ LOCAL oBrowse	 := MsBrowse():New()
 oMenu:Limpa()
 Area("Vendemov")
 oBrowse:Add( "CODIGO",     "CodiVen")
-oBrowse:Add( "DOCTO N§",   "Docnr")
+oBrowse:Add( "DOCTO NÂº",   "Docnr")
 oBrowse:Add( "DATA",       "Data")
 oBrowse:Add( "D/C",        "Dc")
 oBrowse:Add( "VALOR",      "Vlr")
@@ -1938,13 +1938,13 @@ PrintOn()
 FPrint( PQ )
 WHILE !Eof() .AND. REL_OK()
 	if Col >=  57
-		Write( 00, 00, Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
+		Write( 00, 00, Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
 		Write( 01, 00, Date() )
 		Write( 02, 00, Padc( XNOMEFIR, Tam ) )
 		Write( 03, 00, Padc( SISTEM_NA6, Tam ) )
 		Write( 04, 00, Padc( "RELATORIO DE COMISSOES A PAGAR REF. &cIni. A &cFim.", Tam ) )
 		Write( 05, 00, Repl( SEP, Tam ) )
-		Write( 06, 00, "NOME DO CLIENTE                           EMISSAO  VENCTO ATRAS  N§ DOCTO  FATURA   CP    VLR FATURA  PERC   COM. TOTAL COM.LIBERADA")
+		Write( 06, 00, "NOME DO CLIENTE                           EMISSAO  VENCTO ATRAS  NÂº DOCTO  FATURA   CP    VLR FATURA  PERC   COM. TOTAL COM.LIBERADA")
 		Write( 07, 00, Repl( SEP, Tam ) )
 		Col := 08
 	endif
@@ -2091,7 +2091,7 @@ While Eval( oBloco ) .AND. Rel_Ok()
 		Write( 03, 00, Linha4(Tam, SISTEM_NA6 ))
 		Write( 04, 00, Padc( "DEMOSTRATIVO DAS COMISSOES REF. " + DToc( dIni ) + " A " + DToc( dFim ), Tam ) )
 		Write( 05, 00, Linha5(Tam))
-		Write( 06, 00,"CLIENTE/HISTORICO        DATA     VCTO ATR  FATURA    N§ DOCTO FP RG  PERC  VLR FATU  COMISSAO  COM.BLOQ  COM.DISP CREDITOS   ADIANT")
+		Write( 06, 00,"CLIENTE/HISTORICO        DATA     VCTO ATR  FATURA    NÂº DOCTO FP RG  PERC  VLR FATU  COMISSAO  COM.BLOQ  COM.DISP CREDITOS   ADIANT")
 		Write( 07, 00, Repl( SEP, Tam ) )
 		Col := 8
 	endif
@@ -2403,7 +2403,7 @@ While Nota->(!Eof())
 	Nota->(DbSkip(1))
 EndDo
 oMenu:Limpa()
-Alerta('Tarefa efetuada. Se ainda houver problemas,;reconstrua o arquivo NOTA e fa‡a novamente.')
+Alerta('Tarefa efetuada. Se ainda houver problemas,;reconstrua o arquivo NOTA e faÃ§a novamente.')
 
 Proc VarreComissao()
 ********************
@@ -2426,7 +2426,7 @@ WHILE OK
 	Case Choice = 1
 		MaBox( 16, 10, 19, 76 )
 		@ 17, 11 Say "Vendedor.........:" Get cCodi Pict "@!" Valid FunErrado( @cCodi, NIL, Row(), Col()+1 )
-		@ 18, 11 Say "Limpar at‚ o dia.:" Get dIni  Pict "##/##/##"
+		@ 18, 11 Say "Limpar atÃ© o dia.:" Get dIni  Pict "##/##/##"
 		Read
 		if LastKey() = ESC
 			ResTela( cScreen )
@@ -2436,7 +2436,7 @@ WHILE OK
       Exit
 	Case Choice = 2
 		MaBox( 16, 10, 18, 76 )
-		@ 17, 11 Say "Limpar at‚ o dia.:" Get dIni  Pict "##/##/##"
+		@ 17, 11 Say "Limpar atÃ© o dia.:" Get dIni  Pict "##/##/##"
 		Read
 		if LastKey() = ESC
 			ResTela( cScreen )

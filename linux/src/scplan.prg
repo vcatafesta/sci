@@ -1,18 +1,18 @@
 /*
-  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
- İ³																								 ³
- İ³	Programa.....: SCPLAN.PRG															 ³
- İ³	Aplicacaoo...: SISTEMA DE CONTROLE DE PRODUCAO								 ³
- İ³	Versao.......: 3.3.00																 ³
- İ³	Programador..: Vilmar Catafesta													 ³
- İ³   Empresa......: Microbras Com de Prod de Informatica Ltda              ³
- İ³	Inicio.......: 12 de Novembro de 1991. 										 ³
- İ³   Ult.Atual....: 20 de Janeiro de 2001.                                 ³
- İ³   Compilacao...: Clipper 5.2e                                           ³
- İ³   Linker.......: Blinker 5.0                                            ³
- İ³	Bibliotecas..: Clipper/Funcoes/Mouse/Funcky15/Funcky50/Classe/Classic ³
- İÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
- ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+ â–Œâ”‚																								 â”‚
+ â–Œâ”‚	Programa.....: SCPLAN.PRG															 â”‚
+ â–Œâ”‚	Aplicacaoo...: SISTEMA DE CONTROLE DE PRODUCAO								 â”‚
+ â–Œâ”‚	Versao.......: 3.3.00																 â”‚
+ â–Œâ”‚	Programador..: Vilmar Catafesta													 â”‚
+ â–Œâ”‚   Empresa......: Microbras Com de Prod de Informatica Ltda              â”‚
+ â–Œâ”‚	Inicio.......: 12 de Novembro de 1991. 										 â”‚
+ â–Œâ”‚   Ult.Atual....: 20 de Janeiro de 2001.                                 â”‚
+ â–Œâ”‚   Compilacao...: Clipper 5.2e                                           â”‚
+ â–Œâ”‚   Linker.......: Blinker 5.0                                            â”‚
+ â–Œâ”‚	Bibliotecas..: Clipper/Funcoes/Mouse/Funcky15/Funcky50/Classe/Classic â”‚
+ â–Œâ””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+ â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€
 */
 #Include <sci.ch>
 
@@ -168,7 +168,7 @@ STATIC Proc SetaClasse()
 oMenu:Menu		 := oMenuScpLan()
 oMenu:Disp		 := aDispScpLan()
 oMenu:StatusSup := SISTEM_NA7 + " " + SISTEM_VERSAO
-oMenu:StatusInf := "F1-HELPºF10-CALCºF8-SPOOLºESC-RETORNAº"
+oMenu:StatusInf := "F1-HELPâ•‘F10-CALCâ•‘F8-SPOOLâ•‘ESC-RETORNAâ•‘"
 Return
 
 Proc ProduRel2()
@@ -327,7 +327,7 @@ PrintOn()
 SetPrc( 0, 0 )
 WHILE Eval( oBloco1 ) .AND. Rel_Ok()
    IF Col >= 58
-      Write( 00, 00, Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
+      Write( 00, 00, Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
       Write( 01, 00, Date() )
       Write( 02, 00, Padc( XNOMEFIR, Tam ) )
       Write( 03, 00, Padc( SISTEM_NA7, Tam ) )
@@ -884,7 +884,7 @@ Servico->(Order( SERVICO_CODISER ))
 Cortes->(Order( CORTES_TABELA ))
 Set Rela To CodiSer Into Servico, Codigo Into Lista
 IF !( DbSeek( cTabela ) )
-	Cortes->(Escolhe( 00, 00, 24, "Tabela + 'İ' + Tran( Sobra, '99999') + 'İ' +Left( Lista->Descricao, 30) + 'İ' + Left( Servico->Nome,30)", "TABELA  SOBRA  PRODUTO                       SERVICO" ))
+	Cortes->(Escolhe( 00, 00, 24, "Tabela + 'â–Œ' + Tran( Sobra, '99999') + 'â–Œ' +Left( Lista->Descricao, 30) + 'â–Œ' + Left( Servico->Nome,30)", "TABELA  SOBRA  PRODUTO                       SERVICO" ))
 	cTabela := Cortes->Tabela
 EndIF
 Cortes->(DbClearRel())
@@ -910,7 +910,7 @@ FIELD Nome
 Vendedor->(Order( VENDEDOR_CODIVEN ))
 IF Vendedor->(!DbSeek( cCodi ))
 	Vendedor->(Order( VENDEDOR_NOME ))
-   Vendedor->(Escolhe( 00, 00, 24, "Codiven + 'İ' + Nome", "ID   NOME FUNCIONARIO ", aRotinaInc, NIL, aRotinaAlt ))
+   Vendedor->(Escolhe( 00, 00, 24, "Codiven + 'â–Œ' + Nome", "ID   NOME FUNCIONARIO ", aRotinaInc, NIL, aRotinaAlt ))
    cCodi := Vendedor->Codiven
 EndIf
 IF nCol != Nil
@@ -1229,7 +1229,7 @@ WHILE OK
 		MaBox( 06, 02, 11, 78, "INCLUSAO DE NOVOS SERVICOS" )
       @ 07, 03 Say "Grupo.....:" Get cGrupo     Pict "999" Valid GrpSerErrado( @cGrupo, Row(), Col()+1 )
       @ 08, 03 Say "Codigo....:" Get cCodiSer   Pict "999" Valid CodiSer( @cCodiSer )
-		@ 09, 03 Say "Servi‡o...:" Get cNomeSer   Pict "@K!" Valid NomeSer( cNomeSer )
+		@ 09, 03 Say "ServiÃ§o...:" Get cNomeSer   Pict "@K!" Valid NomeSer( cNomeSer )
       @ 10, 03 Say "Valor.....:" Get nValorSer  Pict "9999999999.9999" Valid IF( nValorSer <= 0, ( ErrorBeep(), Alerta("Erro: Campo nao Pode ser Zero ou Negativo"), FALSO ), OK )
 		Read
 		IF LastKey() = ESC
@@ -1362,7 +1362,7 @@ LOCAL Reg_Ant := Recno()
 
 IF Empty( cCodi1 )
 	ErrorBeep()
-	Alerta( "Erro: Codigo Servi‡o Invalido...")
+	Alerta( "Erro: Codigo ServiÃ§o Invalido...")
 	Return( FALSO )
 EndIf
 IF cCodi1 == cCodi2
@@ -1374,7 +1374,7 @@ Servico->(Order( SERVICO_CODISER ))
 DbGoTop()
 IF ( DbSeek( cCodi1 ) )
 	ErrorBeep()
-	Alerta( "Erro: Codigo Servi‡o Ja Registrado...")
+	Alerta( "Erro: Codigo ServiÃ§o Ja Registrado...")
 	Return( FALSO )
 EndIf
 DbGoTo( Reg_Ant )
@@ -1438,7 +1438,7 @@ FIELD CodiSer
 Area( "Servico")
 Servico->(Order( SERVICO_CODISER ))
 IF Servico->(!DbSeek( cServico ))
-	Servico->(Escolhe( 00, 00, 24, "Nome", "         SERVI€O", aRotina ))
+	Servico->(Escolhe( 00, 00, 24, "Nome", "         SERVIÃ‡O", aRotina ))
    cServico := IF( Len( cServico ) > 3, Servico->Nome, Servico->CodiSer )
 EndIF
 cCodi := Servico->CodiSer
@@ -1472,7 +1472,7 @@ LOCAL Arq_Ant := Alias()
 
 IF Empty( cCodi )
 	ErrorBeep()
-	Alerta("Erro: Codigo Servi‡o Invalido..." )
+	Alerta("Erro: Codigo ServiÃ§o Invalido..." )
 	Return( FALSO )
 EndIF
 Area( "Servico" )
@@ -1493,14 +1493,14 @@ LOCAL Arq_Ant := Alias()
 LOCAL Ind_Ant := IndexOrd()
 IF ( Empty( cNome ) )
 	ErrorBeep()
-	Alerta("Erro: Nome Servi‡o Invalido..." )
+	Alerta("Erro: Nome ServiÃ§o Invalido..." )
 	Return( FALSO )
 EndIF
 Area( "Servico" )
 Servico->(Order( SERVICO_NOME ))
 IF ( DbSeek( cNome ) )
 	ErrorBeep()
-	Alerta("Erro: Nome Servi‡o Ja Registrado..." )
+	Alerta("Erro: Nome ServiÃ§o Ja Registrado..." )
 	AreaAnt( Arq_Ant, Ind_Ant )
 	Return( FALSO )
 EndIf
@@ -1615,7 +1615,7 @@ PrintOn()
 SetPrc( 0, 0 )
 WHILE Eval( oBloco ) .AND. REL_OK()
 	IF Col >= 58
-		Write( 00, 00, Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
+		Write( 00, 00, Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
 		Write( 01, 00, Date() )
 		Write( 02, 00, Padc( XNOMEFIR, Tam ) )
 		Write( 03, 00, Padc( SISTEM_NA7, Tam ) )
@@ -1689,7 +1689,7 @@ WHILE OK
 	 Case nChoice = 2
 		 MaBox( 18, 20, 20, 41 )
 		 cDocnr = Space( Len( Docnr )-2 )
-		 @ 19, 21 Say "Docto N§...:" Get cDocnr Pict "@!" Valid DocFuErrado( @cDocnr )
+		 @ 19, 21 Say "Docto NÂº...:" Get cDocnr Pict "@!" Valid DocFuErrado( @cDocnr )
 		 Read
 		 IF LastKey() = ESC
 			 Loop
@@ -1776,7 +1776,7 @@ Area( "Funcimov")
 Set Rela To Codiven Into Vendedor
 Mostra2 := {"Codiven", "Vendedor->nome", "TransForm( Deb, '@E 999,999,999.9999' )",;
             "TransForm( Cre, '@E 999,999,999.9999' )","data", "docnr", "descricao" }
-Mostra1 := {"CODI", "NOME", "DEBITO", "CREDITO" ,"DATA" ,"DOCTO N§" ,"DESCRICAO"}
+Mostra1 := {"CODI", "NOME", "DEBITO", "CREDITO" ,"DATA" ,"DOCTO NÂº" ,"DESCRICAO"}
 MaBox( 00, 00, MaxRow(), MaxCol(), "CONSULTA DE DEBITOS/CREDITOS" )
 Seta1(24)
 DbEdit( 01, 01, MaxRow()-1, MaxCol()-1, Mostra2, OK, OK, Mostra1 )
@@ -1812,7 +1812,7 @@ WHILE OK
    @ 10, 11 Say "Codigo....:" Get cCodi Pict "9999" Valid ProduErrado( @cCodi,NIL, Row(), Col()+1 )
 	@ 11, 11 Say "Emissao...:" Get dDataEmis Pict "##/##/##"
 	@ 12, 11 Say "Vencto....:" Get dDataVcto Pict "##/##/##"
-	@ 13, 11 Say "Docto N§..:" Get cDocnr    Pict "@!"
+	@ 13, 11 Say "Docto NÂº..:" Get cDocnr    Pict "@!"
    @ 14, 11 Say "Valor.....:" Get nVlr      Pict "99999999.9999" Valid nVlr <> 0
    @ 15, 11 Say "Cred/Deb..:" Get cOpcao    Pict "!" Valid PickTam({'Credito em conta','Debito em conta'}, {'C','D'}, @cOpcao )
 	@ 16, 11 Say "Descricao.:" Get cDesc     Pict "@!" Valid !Empty( cDesc )
@@ -1869,7 +1869,7 @@ Function DocFuErrado( cDocnr )
 FIELD Docnr
 
 IF !( DbSeek( cDocnr ))
-	Escolhe( 00, 00, 24, "Docnr", "  DOCTO N§  " )
+	Escolhe( 00, 00, 24, "Docnr", "  DOCTO NÂº  " )
 	cDocnr := Docnr
 EndIf
 Return( OK )
@@ -2065,13 +2065,13 @@ FPrint( PQ )
 SetPrc( 0, 0 )
 While !Eof() .AND. REL_OK()
    IF Col >=  58
-      Write( 00, 00, Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
+      Write( 00, 00, Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
       Write( 01, 00, Date() )
       Write( 02, 00, Padc( XNOMEFIR, Tam ) )
       Write( 03, 00, Padc( SISTEM_NA7, Tam ) )
       Write( 04, 00, Padc( "POSICAO FINANCEIRA REF. " + Dtoc( dIni ) + ' A ' + Dtoc( dFim ), Tam ) )
       Write( 05, 00, Repl( SEP, Tam ) )
-      Write( 06, 00,"DATA     DOCTO N§  DESCRICAO                                        DEBITO        CREDITO")
+      Write( 06, 00,"DATA     DOCTO NÂº  DESCRICAO                                        DEBITO        CREDITO")
       Write( 07, 00, Repl( SEP, Tam ) )
       Col := 8
    EndIf
@@ -2210,7 +2210,7 @@ PrintOn()
 SetPrc( 0, 0 )
 WHILE !Eof() .AND. Rel_Ok()
    IF Col >=  58
-      Write( 00, 00, Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
+      Write( 00, 00, Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
       Write( 01, 00, Date() )
       Write( 02, 00, Padc( XNOMEFIR, Tam ) )
       Write( 03, 00, Padc( SISTEM_NA7, Tam ) )
@@ -2328,7 +2328,7 @@ FPrint( _CPI10 )
 SetPrc( 0, 0 )
 WHILE !Eof() .AND. Rel_Ok()
 	IF Col >= 58
-		Write( 00, 00, Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
+		Write( 00, 00, Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
 		Write( 01, 00, Date() )
 		Write( 02, 00, Padc( XNOMEFIR, Tam ) )
 		Write( 03, 00, Padc( SISTEM_NA7, Tam ) )
@@ -2533,7 +2533,7 @@ Funcimov->(DbGoTop())
 IF cDocnr = NIL
 	MaBox( 18, 20, 20, 43 )
 	cDocnr := Space( Len( Docnr )-2 )
-	@ 19, 21 Say "Docto N§...:" Get cDocnr Pict "@!" Valid DocFuErrado( @cDocnr )
+	@ 19, 21 Say "Docto NÂº...:" Get cDocnr Pict "@!" Valid DocFuErrado( @cDocnr )
 	Read
 	IF LastKey() = ESC
 		ResTela( cScreen )
@@ -2549,7 +2549,7 @@ PrintOn()
 SetPrc(0,0)
 Vlr_Dup := Extenso( Deb, nUrv, nLinhas, Larg )
 Write( 00, 00, GD + Padc( "RECIBO",40))
-Write( 02, 00, NG + "N§ " + NR + Docnr )
+Write( 02, 00, NG + "NÂº " + NR + Docnr )
 Write( 02, 50, NG + "R$: " + NR + Trim(Tran( Deb, "@E 99,999,999.9999")))
 Write( 04, 00, NG + "Recebi(emos) de: " + NR + XNOMEFIR )
 Write( 06, 00, NG + "A importancia por extenso abaixo relacionada:" + NR )
@@ -2925,7 +2925,7 @@ PrintOn()
 SetPrc( 0, 0 )
 WHILE !Eof() .AND. Rel_Ok()
 	IF Row >=  58
-		Write( 00, 00, Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
+		Write( 00, 00, Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
 		Write( 01, 00, Date() )
 		Write( 02, 00, Padc( XNOMEFIR, Tam ) )
 		Write( 03, 00, Padc( SISTEM_NA7, Tam ) )
@@ -3171,7 +3171,7 @@ FIELD DesGrupo
 
 IF ( GrpSer->(Order( GRPSER_GRUPO )), GrpSer->(!DbSeek( cGrupo )))
 	GrpSer->(Order( GRPSER_DESGRUPO ))
-	GrpSer->(Escolhe( 00, 00, 24, "Grupo + '³' + DesGrupo", "GRUPO DESCRICAO ", aRotina ))
+	GrpSer->(Escolhe( 00, 00, 24, "Grupo + 'â”‚' + DesGrupo", "GRUPO DESCRICAO ", aRotina ))
 EndIF
 cGrupo := GrpSer->Grupo
 IF nCol != Nil

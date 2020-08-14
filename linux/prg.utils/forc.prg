@@ -1,19 +1,16 @@
 Function main()
-	vc_for()
-   inkey(0)
+	// vc_for()
 	//vc_len({1,2,3})
-	//for i := 65 to 127
-	//	?? vc_chr(i)
-	//next	
-	//msg("Tecle algo para iniciar", "Macrosoft SCI for Windows", 2)
-	ms_cls(31, "²±²")   
-   inkey(0)
-	
+	for i := 65 to 127
+		?? vc_chr(i)
+	next	
+		msg("Tecle algo para iniciar", "Macrosoft SCI for Windows", 2)
+	msginfo("Tecle algo para iniciar", "Macrosoft SCI for Windows", 2)
 	///dbcreate("TEST.DBF", {{"AUTO", "+", 4, 0}, {"ALL","V", 255, 0}, {"CURRENCY", "Y", 8, 4}})
 	//use test shared new
-  	//a := dbstruct()
+   //a := dbstruct()
 	
-	//? vc_printf("%0d %s %s %s %s", {10, "VILMAR", NIL, NIL, "EVILI"})
+	? vc_printf("%0d %s %s %s %s", {10, "VILMAR", NIL, NIL, "EVILI"})
 	//? vc_printf("Result: %s %s %d", {"VILMAR", "EVILI", 2})
 	
 		
@@ -27,10 +24,8 @@ Function main()
 	#include "hbapierr.h"
 	#include "hbapicdp.h"	
 	#include <iostream>
-	#include <vector>
-	#ifndef __GNUC__
 	#include <windows.h>
-	#endif
+	#include <vector>
 	using namespace std;
 	
 	char *replicate(char *str, int vezes);
@@ -72,9 +67,7 @@ Function main()
 	 */
 	 
 	#include <stdio.h> /* including standard library */
-	#ifndef __GNUC__
-	#include <windows.h>
-	#endif
+	#include <windows.h> /* uncomment this for Windows */	 
 	#include <stdarg.h>
 	
 	int myprintf( char const * format, ... )
@@ -100,7 +93,7 @@ Function main()
 	
 	HB_FUNC(MSG)
 	{
-		//MessageBox( GetActiveWindow(), hb_parc(1), hb_parc(2), 0 );		
+		MessageBox( GetActiveWindow(), hb_parc(1), hb_parc(2), 0 );		
 	}
 		
 	HB_FUNC( VC_PRINTF)
@@ -220,9 +213,7 @@ char *replicate(char *str, int vezes)
 	#include "hbapi.h"
 	#include "hbapigt.h"
 	#include <iostream>
-	#ifndef __GNUC__
 	#include <windows.h>
-	#endif
 	using namespace std;
 
 	HB_FUNC( VC_FOR )

@@ -1,19 +1,19 @@
 /*
-  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
- İ³																								 ³
- İ³	Modulo.......: PAGALAN.PRG		   												 ³
- İ³	Sistema......: CONTROLE DE CONTAS A PAGAR						             ³ 
- İ³	Aplicacao....: SCI - SISTEMA COMERCIAL INTEGRADO                      ³
- İ³	Versao.......: 8.5.00							                            ³
- İ³	Programador..: Vilmar Catafesta				                            ³
- İ³   Empresa......: Macrosoft Informatica Ltda                             ³
- İ³	Inicio.......: 12.11.1991 						                            ³
- İ³   Ult.Atual....: 12.04.2018                                             ³
- İ³   Compilador...: Harbour 3.2/3.4                                        ³
- İ³   Linker.......: BCC/GCC/MSCV                                           ³
- İ³	Bibliotecas..:  									                            ³
- İÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
- ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+ â–Œâ”‚																								 â”‚
+ â–Œâ”‚	Modulo.......: PAGALAN.PRG		   												 â”‚
+ â–Œâ”‚	Sistema......: CONTROLE DE CONTAS A PAGAR						             â”‚ 
+ â–Œâ”‚	Aplicacao....: SCI - SISTEMA COMERCIAL INTEGRADO                      â”‚
+ â–Œâ”‚	Versao.......: 8.5.00							                            â”‚
+ â–Œâ”‚	Programador..: Vilmar Catafesta				                            â”‚
+ â–Œâ”‚   Empresa......: Macrosoft Informatica Ltda                             â”‚
+ â–Œâ”‚	Inicio.......: 12.11.1991 						                            â”‚
+ â–Œâ”‚   Ult.Atual....: 12.04.2018                                             â”‚
+ â–Œâ”‚   Compilador...: Harbour 3.2/3.4                                        â”‚
+ â–Œâ”‚   Linker.......: BCC/GCC/MSCV                                           â”‚
+ â–Œâ”‚	Bibliotecas..:  									                            â”‚
+ â–Œâ””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+ â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€
 */
 
 #include <sci.ch>
@@ -219,7 +219,7 @@ FIELD Nome
 Pagar->(Order( PAGAR_CODI ))
 if Pagar->(!DbSeek( cCodi ))
 	Pagar->(Order( PAGAR_NOME ))
-	Pagar->(Escolhe( 03, 01, 22,"Codi + 'İ' + Nome + 'İ' + Sigla + 'İ' + Fone", "CODI NOME FORNECEDOR                          SIGLA      TELEFONE", aRotina,, aRotinaAlteracao ))
+	Pagar->(Escolhe( 03, 01, 22,"Codi + 'â–Œ' + Nome + 'â–Œ' + Sigla + 'â–Œ' + Fone", "CODI NOME FORNECEDOR                          SIGLA      TELEFONE", aRotina,, aRotinaAlteracao ))
 endif
 cCodi := if( Len( cCodi ) = 4, Pagar->Codi, Pagar->Nome )
 if nRow != Nil
@@ -638,7 +638,7 @@ FIELD Codi
 Vetor3 := { "Emis","Vcto","Docnr","Tran( Vlr, '@E 999,999,999,999.99')","DataPag",;
 				"Tran( VlrPag, '@E 999,999,999,999.99')","Tran( VlrPag-Vlr, '@E 999,999,999,999.99')",;
 				"Tipo","Port"}
-Vetor4 := { "EMISSAO","VCTO", "DOCTO N§", "VALOR","DATA PGTO","VALOR PAGO","JUROS","TIPO","PORTADOR" }
+Vetor4 := { "EMISSAO","VCTO", "DOCTO NÂº", "VALOR","DATA PGTO","VALOR PAGO","JUROS","TIPO","PORTADOR" }
 MaBox( 00, 00, 02,			MaxCol() )
 MaBox( 21, 00, MaxRow()-1, MaxCol() )
 Write( 22, 03, "Nominal : " + Tran( Tot_Geral,"@E 999,999,999,999.99"))
@@ -757,7 +757,7 @@ WHILE OK
 	MaBox( 06, 03, 17, 77, "EXCLUSAO DE MOVIMENTO" )
 	Write( 07, 04, "Codigo...: " + Codi + "  " + Pagar->Nome )
 	Write( 08, 04, "Tipo.....: " + Tipo )
-	Write( 09, 04, "Docto N§.: " + Docnr )
+	Write( 09, 04, "Docto NÂº.: " + Docnr )
 	Write( 10, 04, "Emissao..: " + Dtoc( Emis ) )
 	Write( 11, 04, "Vencto...: " + Dtoc( Vcto ) )
 	Write( 12, 04, "Portador.: " + Port )
@@ -837,7 +837,7 @@ WHILE OK
   MaBox( 06, 05, 18, 77, "ALTERACAO DE TITULOS A PAGAR" )
   @ 07, 06 Say "Codigo...:" Get cCodi     Pict "9999" Valid Paga_AchaReg( @cCodi, Row(), Col()+1 )
   @ 08, 06 Say "Tipo ....:" Get cTipo     Pict "@!"
-  @ 09, 06 Say "Doc N§...:" Get cDocnr    Pict "@!"   Valid PgDocCerto( cDocNr, cSwap )
+  @ 09, 06 Say "Doc NÂº...:" Get cDocnr    Pict "@!"   Valid PgDocCerto( cDocNr, cSwap )
   @ 10, 06 Say "Emissao..:" Get dEmis     Pict "##/##/##"
   @ 11, 06 Say "Vencto...:" Get dVcto     Pict "##/##/##"
   @ 12, 06 Say "Portador.:" Get cPort     Pict "@!"
@@ -902,7 +902,7 @@ if Pagar->(Lastrec()) = 0
 endif
 if Pagar->(!DbSeek( cCodi ))
 	Pagar->(Order( PAGAR_NOME ))
-	Pagar->(Escolhe( 03, 01, 18, "Codi + 'º' + Nome + 'º' + Fone","CODI NOME FORNECEDOR                          TELEFONE", aRotina ))
+	Pagar->(Escolhe( 03, 01, 18, "Codi + 'â•‘' + Nome + 'â•‘' + Fone","CODI NOME FORNECEDOR                          TELEFONE", aRotina ))
 endif
 cCodi := Pagar->Codi
 if nRow != NIL
@@ -961,10 +961,10 @@ WHILE OK
 		nRow		  := 08
 		nCol		  := 03
 		MaBox( 07, 02, 21, 77 )
-		@ nRow,	  nCol Say "Fatura N§..:" Get cFatura    Pict "@K!"
+		@ nRow,	  nCol Say "Fatura NÂº..:" Get cFatura    Pict "@K!"
 		@ Row()+1, nCol Say "Vlr Fatura.:" Get nVlrFatura Pict "@E 9,999,999,999.99"
 		@ Row()+1, nCol Say "Tipo.......:" Get cTipo      Pict "@K!"
-		@ Row()+1, nCol Say "Docto N§...:" Get cDocnr     Pict "@K!" Valid PgDocCerto( @cDocnr )
+		@ Row()+1, nCol Say "Docto NÂº...:" Get cDocnr     Pict "@K!" Valid PgDocCerto( @cDocnr )
 		@ Row()+1, nCol Say "Data Lcto..:" Get dEntrada   Pict "##/##/##"
 		@ Row()+1, nCol Say "Emissao....:" Get dEmis      Pict "##/##/##"
 		@ Row()+1, nCol Say "Vencimento.:" Get dVcto      Pict "##/##/##" Valid dDataVer( dEmis, dVcto )
@@ -1045,7 +1045,7 @@ Vetor3 := { "Docnr",;
 				"Obs1",;
 				"Obs2"}
 
-Vetor4 := { "DOCTO N§",;
+Vetor4 := { "DOCTO NÂº",;
 				"EMISSAO",;
 				"VCTO",;
 				"ATRASO",;
@@ -1158,12 +1158,12 @@ WHILE !Eof() .AND. Rel_Ok()
 	nAtraso	:= Atraso( Date(), Vcto )
 	nJurodia := Jurodia( Vlr, Juro )
 	if Col >= 57
-		Write( 00, 001, Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Dtoc( Date()) + " - " + Time(), ( Tam/2 ) ) )
+		Write( 00, 001, Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Dtoc( Date()) + " - " + Time(), ( Tam/2 ) ) )
 		Write( 01, 000, Padc( XNOMEFIR, Tam ))
 		Write( 02, 000, Padc( SISTEM_NA4, Tam ))
 		Write( 03, 000, Padc( cTitulo , Tam ))
 		Write( 04, 000, Repl( "=", Tam ) )
-		Write( 05, 000, "DOCTO N§  TP      EMISSAO   VENCTO PORTADOR        VALOR JR MES  DESC   ATR     JR DIA      JUROS  VLR+JUROS             OBSERVACOES")
+		Write( 05, 000, "DOCTO NÂº  TP      EMISSAO   VENCTO PORTADOR        VALOR JR MES  DESC   ATR     JR DIA      JUROS  VLR+JUROS             OBSERVACOES")
 		Write( 06, 000, Repl( "=", Tam ) )
 		Col := 7
 	endif
@@ -1256,7 +1256,7 @@ WHILE Pagamov->(!Eof() .AND. Rep_Ok())
 	Pagamov->(DbSkip( 1 ))
 EndDo
 nGeral := ( nVlr + nJuros ) - nDesconto
-Qout( Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ))
+Qout( Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ))
 Qout( Dtoc( Date() ))
 Qout( Padc( XNOMEFIR, Tam ))
 Qout( Padc( SISTEM_NA3, Tam ))
@@ -1353,7 +1353,7 @@ WHILE Pago->(!Eof() .AND. Rep_Ok())
 	Pago->(DbSkip( 1 ))
 EndDo
 nJuros := ( nGeral - nVlr )
-Qout( Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ))
+Qout( Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ))
 Qout( Dtoc( Date() ))
 Qout( Padc( XNOMEFIR, Tam ))
 Qout( Padc( SISTEM_NA3, Tam ))
@@ -1634,12 +1634,12 @@ WHILE OK
 	  if Len( aTodos ) > 0
 		  StatusInf("")
 		  MaBox( 00, 00, 06, 79 )
-		  Print( 24, 0," TOTAL GERAL ¯¯ " + Space(18) + ;
+		  Print( 24, 0," TOTAL GERAL Â»Â» " + Space(18) + ;
 							  Tran( nValorTotal, "@E 999,999.99") + Space(1) +;
 							  Tran( nTotalDesco, "@E 999,999.99") + Space(1) +;
 							  Tran( nTotalJuros, "@E 999,999.99") + Space(1) +;
 							  Tran( nTotalGeral, "@E 999,999.99"), Cor())
-		  MaBox( 07, 00, 23, 79, "DOCTO N§   EMISSAO  VENCTO  ATRA    NOMINAL   DESCONTO      JUROS      TOTAL ")
+		  MaBox( 07, 00, 23, 79, "DOCTO NÂº   EMISSAO  VENCTO  ATRA    NOMINAL   DESCONTO      JUROS      TOTAL ")
 		  M_Title("[ESC] RETORNA")
 		  __FuncaoPago( 0, 1, 1 )
 		  aChoice( 08, 01, 22, 77, aTodos, OK, "__FuncaoPago" )
@@ -1745,8 +1745,8 @@ WHILE OK
 		  dIni := Date()-30
 		  dFim := Date()
 		  MaBox( 14, 52, 17, 75 )
-		  @ 15, 53 Say "Pgto Ini.. ¯" Get dIni Pict "##/##/##"
-		  @ 16, 53 Say "Pgto Final ¯" Get dFim Pict "##/##/##"
+		  @ 15, 53 Say "Pgto Ini.. Â»" Get dIni Pict "##/##/##"
+		  @ 16, 53 Say "Pgto Final Â»" Get dFim Pict "##/##/##"
 		  Read
 		  if LastKey() = ESC
 			  ResTela( cScreen )
@@ -1799,10 +1799,10 @@ WHILE OK
 	  if Len( aTodos ) > 0
 		  StatusInf("")
 		  MaBox( 00, 00, 06, 79 )
-		  Print( 24, 0," TOTAL GERAL ¯¯ " + Space(25) + ;
+		  Print( 24, 0," TOTAL GERAL Â»Â» " + Space(25) + ;
 							  Tran( nValorTotal, "@E 9,999,999,999.99") +;
 							  Tran( nValorPago,	"@E 9,999,999,999.99"), Cor())
-		  MaBox( 07, 00, 23, 79, " DOCTO N§  EMISSAO   VENCTO  DATAPAG ATRA   VALOR TITULO      VALOR PAGO            " )
+		  MaBox( 07, 00, 23, 79, " DOCTO NÂº  EMISSAO   VENCTO  DATAPAG ATRA   VALOR TITULO      VALOR PAGO            " )
 		  M_Title("[ESC] RETORNA")
 		  __FunPago( 0, 1, 1 )
 		  aChoice( 08, 01, 22, 77, aTodos, OK, "__FunPago" )
@@ -1852,7 +1852,7 @@ PRIVA cCodi
 WHILE OK
 	cFatura := Space(07)
 	MaBox( 14, 55, 16, 79 )
-	@ 15, 56 Say "Fatura N§..:" Get cFatura Pict "@!" Valid VisualEntraFatura( @cFatura )
+	@ 15, 56 Say "Fatura NÂº..:" Get cFatura Pict "@!" Valid VisualEntraFatura( @cFatura )
 	Read
 	if LastKey() = ESC
 		ResTela( cScreen )
@@ -1907,12 +1907,12 @@ WHILE OK
 	if Len( aTodos ) > 0
 		StatusInf("")
 		MaBox( 00, 00, 06, 79 )
-		Print( 24, 0," TOTAL GERAL ¯¯ " + Space(27) + ;
+		Print( 24, 0," TOTAL GERAL Â»Â» " + Space(27) + ;
 							Tran( nTotal,	 "@E 999,999.99") + ' ' + ;
 							Tran( nDebito,  "@E 999,999.99") + ' ' + ;
 							Tran( nCredito, "@E 999,999.99"), Cor())
-		MaBox( 07, 00, 23, 79, " DOCTO N§  EMISSAO   VENCTO  DATAPAG ATRA   VALOR DEVIDO     VALOR PAGO             " )
-		MaBox( 07, 00, 23, 79, " DOCTO N§  EMISSAO   VENCTO  DATAPAG ATRA    NOMINAL    A PAGAR       PAGO          " )
+		MaBox( 07, 00, 23, 79, " DOCTO NÂº  EMISSAO   VENCTO  DATAPAG ATRA   VALOR DEVIDO     VALOR PAGO             " )
+		MaBox( 07, 00, 23, 79, " DOCTO NÂº  EMISSAO   VENCTO  DATAPAG ATRA    NOMINAL    A PAGAR       PAGO          " )
 		M_Title("[ESC] RETORNA")
 		__FunPP( 0, 1, 1 )
 		aChoice( 08, 01, 22, 77, aTodos, OK, "__FunPP" )
@@ -2234,7 +2234,7 @@ Pagar->(Order( PAGAR_CODI ))
 Pago->(Order( PAGO_DOCNR ))
 if Pago->(!DbSeek( cDocnr ))
 	Set Rela To Pago->Codi Into Pagar
-	Pago->(Escolhe( 03, 01, 22, "Docnr + 'º' + Pagar->Nome", "DOCTO N§  NOME DO FORNECEDOR"))
+	Pago->(Escolhe( 03, 01, 22, "Docnr + 'â•‘' + Pagar->Nome", "DOCTO NÂº  NOME DO FORNECEDOR"))
 	Pago->(DbClearRel())
 endif
 cDocnr := Pago->Docnr
@@ -2325,7 +2325,7 @@ WHILE OK
 		MaBox( 13, 10, 15, 70 )
 		WHILE OK
 			cCodi := Space(04)
-			Write( 14, 35, "Selecionados ¯ " + StrZero( Len( aSelecionado ), 5 ))
+			Write( 14, 35, "Selecionados Â» " + StrZero( Len( aSelecionado ), 5 ))
 			@ 14, 11 Say "Codigo..:"Get cCodi Pict "9999" Valid Pagarrado( @cCodi )
 			Read
 			if LastKey() = ESC
@@ -2402,7 +2402,7 @@ WHILE Eval( oBloco, nX ) .AND. Rel_Ok()
 		Pagar->(DbSeek( aSelecionado[ nX ]))
 	endif
 	if Col >= 57
-		Write( 00, 00, Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
+		Write( 00, 00, Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
 		Write( 01, 00, Date() )
 		Write( 02, 00, Padc( XNOMEFIR, Tam ) )
 		Write( 03, 00, Padc( SISTEM_NA4, Tam ) )
@@ -2410,24 +2410,24 @@ WHILE Eval( oBloco, nX ) .AND. Rel_Ok()
 		Col := 5
 	endif
 	Write(	Col, 0 , Repl( SEP,80 ))
-	Write( ++Col, 0 , "CODI      ¯  " + CODI)
-	Write( ++Col, 0 , "EMPRESA   ¯  " + NOME)
-	Write( ++Col, 0 , "SIGLA     ¯  " + SIGLA)
-	Write( ++Col, 0 , "FANTASIA  ¯  " + FANTA)
-	Write( ++Col, 0 , "ENDERECO  ¯  " + ENDE)
-	Write( ++Col, 0 , "BAIRRO    ¯  " + BAIR)
-	Write( ++Col, 0 , "CIDADE    ¯  " + CIDA)
-	Write( ++Col, 0 , "ESTADO    ¯  " + ESTA)
-	Write( ++Col, 0 , "CEP       ¯  " + CEP)
-	Write( ++Col, 0 , "TELEFONE  ¯  " + FONE)
-	Write( ++Col, 0 , "FAX       ¯  " + FAX)
-	Write( ++Col, 0 , "C.POSTAL  ¯  " + CAIXA)
-	Write( ++Col, 0 , "CGC/MF    ¯  " + CGC)
-	Write( ++Col, 0 , "INSC.EST  ¯  " + INSC)
-	Write( ++Col, 0 , "CPF       ¯  " + CPF)
-	Write( ++Col, 0 , "RG        ¯  " + RG)
-	Write( ++Col, 0 , "CONTATO   ¯  " + CON)
-	Write( ++Col, 0 , "OBSERV    ¯  " + OBS)
+	Write( ++Col, 0 , "CODI      Â»  " + CODI)
+	Write( ++Col, 0 , "EMPRESA   Â»  " + NOME)
+	Write( ++Col, 0 , "SIGLA     Â»  " + SIGLA)
+	Write( ++Col, 0 , "FANTASIA  Â»  " + FANTA)
+	Write( ++Col, 0 , "ENDERECO  Â»  " + ENDE)
+	Write( ++Col, 0 , "BAIRRO    Â»  " + BAIR)
+	Write( ++Col, 0 , "CIDADE    Â»  " + CIDA)
+	Write( ++Col, 0 , "ESTADO    Â»  " + ESTA)
+	Write( ++Col, 0 , "CEP       Â»  " + CEP)
+	Write( ++Col, 0 , "TELEFONE  Â»  " + FONE)
+	Write( ++Col, 0 , "FAX       Â»  " + FAX)
+	Write( ++Col, 0 , "C.POSTAL  Â»  " + CAIXA)
+	Write( ++Col, 0 , "CGC/MF    Â»  " + CGC)
+	Write( ++Col, 0 , "INSC.EST  Â»  " + INSC)
+	Write( ++Col, 0 , "CPF       Â»  " + CPF)
+	Write( ++Col, 0 , "RG        Â»  " + RG)
+	Write( ++Col, 0 , "CONTATO   Â»  " + CON)
+	Write( ++Col, 0 , "OBSERV    Â»  " + OBS)
 	Write( ++Col, 0 , Repl( SEP, 80))
 	Col += 8
 	nX++
@@ -2477,7 +2477,7 @@ WHILE Eval( oBloco, nX ) .AND. Rel_Ok()
 		Pagar->(DbSeek( aSelecionado[ nX ]))
 	endif
 	if Col >= 57
-		 Write( 00, 00, Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
+		 Write( 00, 00, Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
 		 Write( 01, 00, Date() )
 		 Write( 02, 00, Padc( XNOMEFIR, Tam ) )
 		 Write( 03, 00, Padc( SISTEM_NA4, Tam ) )
@@ -2533,14 +2533,14 @@ WHILE !Eof() .AND. Rel_Ok()
 	if(( nAtraso := Date() - Vcto ) <= 0, nJuros := 0, nJuros := ( nAtraso * Jurodia ) )
 	if Col >= 57
 		Pagina++
-		Write( 00, 000, "Pagina N§ " + StrZero( Pagina, 3 ) )
+		Write( 00, 000, "Pagina NÂº " + StrZero( Pagina, 3 ) )
 		Write( 00, 117, "Horas " + Time() )
 		Write( 01, 000, Dtoc( Date() ) )
 		Write( 02, 000, Padc( XNOMEFIR, Tam ) )
 		Write( 03, 000, Padc( SISTEM_NA4, Tam ) )
 		Write( 04, 000, Padc( cTitulo, Tam ) )
 		Write( 05, 000, Repl( SEP, Tam ) )
-		Write( 06, 000, "CODI NOME DO FORNECEDOR        TIPO    DOCTO N§   PORTADOR EMISSAO    VENCTO     VALOR TITULO ATRASO       JURO/DIA      VALOR+JUROS")
+		Write( 06, 000, "CODI NOME DO FORNECEDOR        TIPO    DOCTO NÂº   PORTADOR EMISSAO    VENCTO     VALOR TITULO ATRASO       JURO/DIA      VALOR+JUROS")
 		Write( 07, 000, Repl( SEP, Tam ) )
 		Col := 8
 	endif
@@ -2951,7 +2951,7 @@ TotRec	:= 0
 cSistema := SISTEM_NA4
 cRelato	:= 'ROL DE TITULOS PAGOS '
 cRelato	+= cString
-cCabeca	:= "CODI NOME DO FORNECEDOR           TIPO     DOCTO  N§ EMISSAO    VENCTO     VALOR TITULO DATA PGT   ATR       VALOR PAGO PORTADOR  ND"
+cCabeca	:= "CODI NOME DO FORNECEDOR           TIPO     DOCTO  NÂº EMISSAO    VENCTO     VALOR TITULO DATA PGT   ATR       VALOR PAGO PORTADOR  ND"
 Mensagem("Aguarde... Imprimindo. ESC Cancela.", Cor())
 PrintOn()
 FPrint( PQ )
@@ -3025,7 +3025,7 @@ TotRec	:= 0
 cSistema := SISTEM_NA4
 cRelato	:= 'ROL DE TITULOS PAGOS '
 cRelato	+= cString
-cCabeca	:= "CODI NOME DO FORNECEDOR           TIPO     DOCTO  N§ EMISSAO    VENCTO     VALOR TITULO DATA PGT   ATR       VALOR PAGO PORTADOR  ND"
+cCabeca	:= "CODI NOME DO FORNECEDOR           TIPO     DOCTO  NÂº EMISSAO    VENCTO     VALOR TITULO DATA PGT   ATR       VALOR PAGO PORTADOR  ND"
 Mensagem("Aguarde... Imprimindo. ESC Cancela.", Cor())
 PrintOn()
 FPrint( PQ )
@@ -3526,14 +3526,14 @@ WHILE !Eof() .AND. Rel_Ok()
 	if(( nAtraso := Date() - Vcto ) <= 0, nJuros := 0, nJuros := ( nAtraso * Jurodia ) )
 	if Col >= 57
 		Pagina++
-		Write( 00, 000, "Pagina N§ " + StrZero( Pagina, 3 ) )
+		Write( 00, 000, "Pagina NÂº " + StrZero( Pagina, 3 ) )
 		Write( 00, 117, "Horas " + Time() )
 		Write( 01, 000, Dtoc( Date() ) )
 		Write( 02, 000, Padc( XNOMEFIR, Tam ) )
 		Write( 03, 000, Padc( SISTEM_NA4, Tam ) )
 		Write( 04, 000, Padc( cTitulo, Tam ) )
 		Write( 05, 000, Repl( SEP, Tam ) )
-		Write( 06, 000, "CODI NOME DO FORNECEDOR        TIPO    DOCTO N§   PORTADOR EMISSAO    VENCTO     VALOR TITULO ATRASO       JURO/DIA      VALOR+JUROS")
+		Write( 06, 000, "CODI NOME DO FORNECEDOR        TIPO    DOCTO NÂº   PORTADOR EMISSAO    VENCTO     VALOR TITULO ATRASO       JURO/DIA      VALOR+JUROS")
 		Write( 07, 000, Repl( SEP, Tam ) )
 		Col := 8
 	endif

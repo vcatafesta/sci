@@ -1,5 +1,5 @@
 #require "gtwvg"
-#Include "inkey.ch"
+#Include "Inkey.Ch"
 
 FUNCTION Main()
    LOCAL cF1, cF2, cF3

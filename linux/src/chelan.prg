@@ -1,18 +1,18 @@
 /*
-  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
- Ý³																								 ³
- Ý³	Programa.....: CHELAN.PRG															 ³
- Ý³	Aplicacaoo...: SISTEMA DE CONTAS CORRENTES									 ³
- Ý³   Versao.......: 3.3.00                                                 ³
- Ý³	Programador..: Vilmar Catafesta													 ³
- Ý³   Empresa......: Microbras Com de Prod de Informatica Ltda              ³
- Ý³	Inicio.......: 12 de Novembro de 1991. 										 ³
- Ý³   Ult.Atual....: 20 de Janeiro de 2001.                                 ³
- Ý³	Compilacao...: Clipper 5.2e														 ³
- Ý³   Linker.......: Blinker 5.00                                           ³
- Ý³	Bibliotecas..: Clipper/Funcoes/Mouse/Funcky15/Funcky50/Classe/Classic ³
- ÝÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
- ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+ â–Œâ”‚																								 â”‚
+ â–Œâ”‚	Programa.....: CHELAN.PRG															 â”‚
+ â–Œâ”‚	Aplicacaoo...: SISTEMA DE CONTAS CORRENTES									 â”‚
+ â–Œâ”‚   Versao.......: 3.3.00                                                 â”‚
+ â–Œâ”‚	Programador..: Vilmar Catafesta													 â”‚
+ â–Œâ”‚   Empresa......: Microbras Com de Prod de Informatica Ltda              â”‚
+ â–Œâ”‚	Inicio.......: 12 de Novembro de 1991. 										 â”‚
+ â–Œâ”‚   Ult.Atual....: 20 de Janeiro de 2001.                                 â”‚
+ â–Œâ”‚	Compilacao...: Clipper 5.2e														 â”‚
+ â–Œâ”‚   Linker.......: Blinker 5.00                                           â”‚
+ â–Œâ”‚	Bibliotecas..: Clipper/Funcoes/Mouse/Funcky15/Funcky50/Classe/Classic â”‚
+ â–Œâ””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+ â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€
 */
 #Include "sci.ch"
 
@@ -322,7 +322,7 @@ Fprint( _CPI12 )
 SetPrc( 0, 0 )
 WHILE Eval( oBloco ).AND. Rel_Ok()
   IF Col >= 56
-	  Write( 00, 00, Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
+	  Write( 00, 00, Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
 	  Write( 01, 00, Date() )
 	  Write( 02, 00, Padc( XNOMEFIR, Tam ) )
 	  Write( 03, 00, Padc( "SISTEMA DE CONTROLE BANCARIO", Tam ) )
@@ -640,7 +640,7 @@ WHILE OK
 	Chemov->(Order( CHEMOV_DOCNR ))
 	cDocnr := Space(9)
 	MaBox( 13, 11, 15, 31 )
-	@ 14, 12 Say  "Docto n§:" Get cDocnr Pict "@!" Valid Doccherr( @cDocnr )
+	@ 14, 12 Say  "Docto nÂº:" Get cDocnr Pict "@!" Valid Doccherr( @cDocnr )
 	Read
 	IF LastKey() = ESC
 		IF nConta != 0
@@ -668,7 +668,7 @@ WHILE OK
 	oMenu:Limpa()
 	MaBox( 06, 10, 12, 76, "ALTERACAO DE MOVIMENTO")
 	Write( 07, 11 , "Codigo...: " + Codi + "  " + Cheque->Titular )
-	Write( 08, 11 , "Doc.N§...: " + Docnr )
+	Write( 08, 11 , "Doc.NÂº...: " + Docnr )
 	Write( 09, 11 , "Data.....: " + Dtoc( Data ))
 	Write( 10, 11 , "Historico: " + Hist )
 	Write( 11, 11 , "Valor....: ")
@@ -811,7 +811,7 @@ WHILE OK
 	Order( CHEMOV_DOCNR )
 	cDocnr := Space(9)
 	MaBox( 13, 11, 15, 31 )
-	@ 14, 12 Say  "Doc N§..:" Get cDocnr Pict "@!" Valid Doccherr( @cDocnr )
+	@ 14, 12 Say  "Doc NÂº..:" Get cDocnr Pict "@!" Valid Doccherr( @cDocnr )
 	Read
 	IF LastKey() = ESC
 		IF nConta != 0
@@ -831,7 +831,7 @@ WHILE OK
 	oMenu:Limpa()
 	MaBox( 06, 10, 12, 76, "EXCLUSAO DE LANCAMENTO")
 	Write( 07, 11 , "Codigo...: " + Codi + "  " + Cheque->Titular )
-	Write( 08, 11 , "Doc N§...: " + Docnr )
+	Write( 08, 11 , "Doc NÂº...: " + Docnr )
 	Write( 09, 11 , "Data.....: " + Dtoc( Data ))
 	Write( 10, 11 , "Historico: " + Hist )
 	Write( 11, 11 , "Valor....: " + Tran( IF( Cre = 0, Deb, Cre ), "@E 999,999,999,999.99"))
@@ -862,7 +862,7 @@ Order( CHEQUE_CODI )
 IF !( DbSeek( Var ) )
 	Order( CHEQUE_TITULAR )
 	DbGoTop()
-	Escolhe( 03, 01, 22, "Codi + 'º' + Titular", "CODI TITULAR DA CONTA", aRotina )
+	Escolhe( 03, 01, 22, "Codi + 'â•‘' + Titular", "CODI TITULAR DA CONTA", aRotina )
 	Var := Codi
 EndIF
 Write( 07, 28, Space( 40 ))
@@ -944,7 +944,7 @@ WHILE OK
 			cCodi3	 := Space(4)
 			@ 10, 11 Say "Data.......:" Get dEmis    Pict "##/##/##"
 			@ 10, 11 Say "Data.......: " + Dtoc( dEmis )
-			@ 11, 11 Say "Docto. N§..:" Get cDocnr   Pict "@K!" Valid CheqDoc( cDocnr )
+			@ 11, 11 Say "Docto. NÂº..:" Get cDocnr   Pict "@K!" Valid CheqDoc( cDocnr )
 			@ 12, 11 Say "Historico..:" Get cHist    Pict "@K!"
 			@ 13, 11 Say "Valor......:" Get nVlr     Pict "@E 9,999,999,999.99" Valid CheqVlr( nVlr )
 			@ 14, 11 Say "D/C........:" Get cDebCre  Pict "!" Valid cDebCre $("CD")
@@ -1106,7 +1106,7 @@ IF LasTrec() = 0
 EndIF
 IF !( DbSeek( Var ) )
 	DbGoTop()
-	Chemov->(Escolhe( 03, 00, 22, "Docnr + '³' + Dtoc( Data ) + '³' + Codi + '³' + Hist", "DOC N§    DATA     CODI HISTORICO DO MOVIMENTO"))
+	Chemov->(Escolhe( 03, 00, 22, "Docnr + 'â”‚' + Dtoc( Data ) + 'â”‚' + Codi + 'â”‚' + Hist", "DOC NÂº    DATA     CODI HISTORICO DO MOVIMENTO"))
 	Var := Chemov->Docnr
 EndIF
 Return( OK )
@@ -1247,13 +1247,13 @@ WHILE Cheque->(Eval( oBloco )) .AND. !Eof() .AND. Rel_Ok()
 	WHILE Eval( oBloco1 ) .AND. Rel_Ok()
 		IF Col >= 57
 			lNovoCodigo := FALSO
-			Qout( Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ))
+			Qout( Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ))
 			Qout( Date())
 			Qout( Padc( XNOMEFIR, Tam ))
 			Qout( Padc( SISTEM_NA5, Tam ))
 			Qout( Padc( cTitulo, Tam ))
 			Qout( Repl( SEP, Tam ))
-			Qout( "EMISSAO  DT LCTO        DOC.N§    HISTORICO DO LANCAMENTO                              DEBITO            CREDITO              SALDO")
+			Qout( "EMISSAO  DT LCTO        DOC.NÂº    HISTORICO DO LANCAMENTO                              DEBITO            CREDITO              SALDO")
 			Qout( Repl( SEP, Tam ))
 			Qout( NG + Chemov->Codi + " : " + cTitular + Space(74) + Cheque->Conta + NR )
 			FPrint( PQ )
@@ -1301,13 +1301,13 @@ WHILE Cheque->(Eval( oBloco )) .AND. !Eof() .AND. Rel_Ok()
 EndDo
 IF nTotDebito != 0 .OR. nTotCredito != 0
 	IF Col >= 54
-		Qout( Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ))
+		Qout( Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ))
 		Qout( Date())
 		Qout( Padc( XNOMEFIR, Tam ))
 		Qout( Padc( SISTEM_NA5, Tam ))
 		Qout( Padc( cTitulo, Tam ))
 		Qout( Repl( SEP, Tam ))
-		Qout( "EMISSAO  DT LCTO        DOC.N§    HISTORICO DO LANCAMENTO                              DEBITO            CREDITO              SALDO")
+		Qout( "EMISSAO  DT LCTO        DOC.NÂº    HISTORICO DO LANCAMENTO                              DEBITO            CREDITO              SALDO")
 		Qout( Repl( SEP, Tam ))
 	EndIF
 	Qout( NG + "XXXX : TOTAL GERAL DAS CONTAS" + NR )
@@ -1517,7 +1517,7 @@ WHILE OK
       @ 09, 11 Say "Banco.......: " + Banco
       @ 10, 11 Say "Emissao.....:" Get dEmis    Pict "@K##/##/##"
       @ 11, 11 Say "Vencimento..:" Get dVcto    Pict "@K##/##/##"
-      @ 12, 11 Say "Docto N§....:" Get cDocnr   Pict "@K!" // Valid Ch_Doc_Pre( cDocnr )
+      @ 12, 11 Say "Docto NÂº....:" Get cDocnr   Pict "@K!" // Valid Ch_Doc_Pre( cDocnr )
       @ 13, 11 Say "Valor.......:" Get nVlr     Pict "@E 9,999,999,999.99" Valid CheqVlr( nVlr )
       @ 14, 11 Say "Historico...:" Get cHist    Pict "@K!"
       @ 15, 11 Say "Banco.......:" Get cBanco   Pict "@K!"
@@ -1663,7 +1663,7 @@ WHILE OK
 	Case nChoice = 3
 		cDocnr := Space(9)
 		MaBox( 16, 20, 18, 42 )
-		@ 17, 21 Say  "Docto N§.:" Get cDocnr Pict "@!" Valid Ch_Doc_Err( @cDocnr )
+		@ 17, 21 Say  "Docto NÂº.:" Get cDocnr Pict "@!" Valid Ch_Doc_Err( @cDocnr )
 		Read
 		IF LastKey() = ESC
 			ResTela( cScreen )
@@ -1752,7 +1752,7 @@ Area( "ChePre" )
 Order( CHEPRE_DOCNR_VCTO )
 IF ( DbSeek( Var))
 	ErrorBeep()
-	Alerta("Erro: Documento Ja Registrado ou Incluido por outra Esta‡ao...")
+	Alerta("Erro: Documento Ja Registrado ou Incluido por outra EstaÃ§ao...")
 	AreaAnt( Arq_Ant, Ind_Ant )
 	Return( FALSO )
 
@@ -1767,7 +1767,7 @@ LOCAL Ind_Ant := IndexOrd()
 Area( "ChePre" )
 Order( CHEPRE_DOCNR_VCTO )
 IF !( DbSeek( cDocnr ))
-	Escolhe( 03, 01, 22, "Docnr + 'º' + Hist", "DOCTO N§  HISTORICO DO MOVIMENTO")
+	Escolhe( 03, 01, 22, "Docnr + 'â•‘' + Hist", "DOCTO NÂº  HISTORICO DO MOVIMENTO")
 	cDocnr := Docnr
 EndIF
 AreaAnt( Arq_Ant, Ind_Ant )
@@ -1885,7 +1885,7 @@ PrintOn()
 SetPrc( 0, 0 )
 WHILE Eval( oBloco ).AND. Rel_Ok()
   IF Col >= 57
-	  Write( 00, 00, Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 )))
+	  Write( 00, 00, Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 )))
 	  Write( 01, 00, Date() )
 	  Write( 02, 00, Padc( XNOMEFIR, Tam ) )
 	  Write( 03, 00, Padc( SISTEM_NA5, Tam ) )
@@ -1965,7 +1965,7 @@ Fprint( _CPI12 )
 SetPrc( 0, 0 )
 WHILE Eval( oBloco ).AND. Rel_Ok()
   IF Col >= 57
-	  Write( 00, 00, Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
+	  Write( 00, 00, Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
 	  Write( 01, 00, Date() )
 	  Write( 02, 00, Padc( XNOMEFIR, Tam ) )
 	  Write( 03, 00, Padc( SISTEM_NA5, Tam ) )
@@ -1990,7 +1990,7 @@ WHILE Eval( oBloco ).AND. Rel_Ok()
   EndIF
 EndDo
 IF Col >= 56
-	Write( 00, 00, Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
+	Write( 00, 00, Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
 	Write( 01, 00, Date() )
 	Write( 02, 00, Padc( XNOMEFIR, Tam ) )
 	Write( 03, 00, Padc( SISTEM_NA5, Tam ) )
@@ -2056,7 +2056,7 @@ Else
 	oMenu:Limpa()
 EndIF
 MaBox( 14, 11, 17, 79, "IMPRESSAO DO CONTRATO")
-@ 15,12 Say  "Contrato N§......:" Get cFatura Pict "@!" Valid AchaContrato( @cFatura )
+@ 15,12 Say  "Contrato NÂº......:" Get cFatura Pict "@!" Valid AchaContrato( @cFatura )
 @ 16,12 Say  "Copias...........:" Get nQuant  Pict "99" Valid nQuant > 0
 Read
 IF LastKey() = ESC .OR. !InsTru80()
@@ -2135,7 +2135,7 @@ For nA := 1 To nQuant
 	Qout( 	 "Clausula Terceira: O ALUNO comparecera nas aulas no horario e dia escolhido, e pagara o curso em " + cDuracao + " parcelas iguais.")
 	Qout( 	 "   A Primeira parcela no ato da inscricao e o restante conforme descriminado abaixo:")
 	Qout("")
-	Qout( 	 "   DOCTO N§  EMISSAO    VENCTO            VALOR")
+	Qout( 	 "   DOCTO NÂº  EMISSAO    VENCTO            VALOR")
 	Qout( 	 "   --------------------------------------------")
 	For nX	:= 1 To nDuracao
 		IF Cursado->Matricula != 0  // Primeiro Curso ?
@@ -2222,7 +2222,7 @@ WHILE OK
 		DbGoBottom()
 		cCodi := StrZero( Val( Codi ) + 1, 4 )
 		@ 02,03 Say  "Anterior....: " + Codi + " " + Titular
-		@ 03,02 Say "Ã" + Repl("Ä",75) + "´"
+		@ 03,02 Say "â”œ" + Repl("â”€",75) + "â”¤"
 		@ 04,03 Say  "Codigo......:" Get cCodi      Pict "9999" Valid CheCerto( @cCodi ) .AND. RecCerto( @cCodi )
 		@ 04,22 Say  "Aluno(a):"     Get cTitular   Pict "@!" Valid !Empty( cTitular )
 		@ 05,03 Say  "CPF.........:" Get cCpf       Pict "999-999-999-99"
@@ -2236,14 +2236,14 @@ WHILE OK
 		@ 10,03 Say  "Profissao...:" Get cProfissao Pict "@!"
 		@ 11,03 Say  "Trabalho....:" Get cTrabalho  Pict "@!"
 		@ 12,03 Say  "Telefone....:" Get cFone1     Pict "(999)999-9999"
-		@ 13,02 Say "Ã" + Repl("Ä",75) + "´"
+		@ 13,02 Say "â”œ" + Repl("â”€",75) + "â”¤"
 
 		@ 14,03 Say  "Responsavel.:" Get cResp      Pict "@!" When (Date() - dNasci) < 6570
 		@ 15,03 Say  "Endereco....:" Get cEnde1     Pict "@!" When (Date() - dNasci) < 6570
 		@ 16,03 Say  "Telefone....:" Get cFone2     Pict "(999)999-9999" When (Date() - dNasci) < 6570
 		@ 17,03 Say  "CPF.........:" Get cCpf1      Pict "999-999-999-99" When (Date() - dNasci) < 6570
 		@ 18,03 Say  "RG..........:" Get cRg1       Pict "@!" When (Date() - dNasci) < 6570
-		@ 19,02 Say "Ã" + Repl("Ä",75) + "´"
+		@ 19,02 Say "â”œ" + Repl("â”€",75) + "â”¤"
 		@ 20,03 Say  "Inicio......:" Get dInicio    Pict "@!"
 		@ 21,03 Say  "Dias........:" Get cDias      Pict "@!" Valid PickDia( @cDias )
 		@ 21,43 Say  "Horario.....:" Get cHorario   Pict "99:99/99:99" Valid !Empty( cHorario )
@@ -2417,7 +2417,7 @@ Cheque->(Order( CHEQUE_HORARIO ))
 Cheque->(DbGoTop())
 WHILE !Eof() .AND. Rel_Ok()
   IF Col >= 57
-	  Write( 00, 00, Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
+	  Write( 00, 00, Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
 	  Write( 01, 00, Date() )
 	  Write( 02, 00, Padc( XNOMEFIR, Tam ) )
 	  Write( 03, 00, Padc( SISTEM_NA5, Tam ) )
@@ -2498,7 +2498,7 @@ Cheque->(Order( CHEQUE_HORARIO ))
 Cheque->(DbGoTop())
 WHILE Cheque->(!Eof()) .AND. Rel_Ok()
   IF Col >= 57
-	  Write( 00, 00, Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
+	  Write( 00, 00, Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
 	  Write( 01, 00, Date() )
 	  Write( 02, 00, Padc( XNOMEFIR, Tam ) )
 	  Write( 03, 00, Padc( SISTEM_NA5, Tam ) )
@@ -2559,7 +2559,7 @@ IF lLerNovamente
 	Cheque->(DbGoTop())
 	WHILE Cheque->(!Eof()) .AND. Rel_Ok()
 		IF Col >= 57
-			Write( 00, 00, Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
+			Write( 00, 00, Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
 			Write( 01, 00, Date() )
 			Write( 02, 00, Padc( XNOMEFIR, Tam ) )
 			Write( 03, 00, Padc( SISTEM_NA5, Tam ) )
@@ -2629,7 +2629,7 @@ Cheque->(Order( CHEQUE_HORARIO ))
 Cheque->(DbGoTop())
 WHILE !Eof() .AND. Rel_Ok()
   IF Col >= 57
-	  Write( 00, 00, Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
+	  Write( 00, 00, Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
 	  Write( 01, 00, Date() )
 	  Write( 02, 00, Padc( XNOMEFIR, Tam ) )
 	  Write( 03, 00, Padc( SISTEM_NA5, Tam ) )
@@ -2873,14 +2873,14 @@ LOCAL Arq_Ant := Alias()
 LOCAL Ind_Ant := IndexOrd()
 IF ( Empty( cCurso ) )
 	ErrorBeep()
-	Alerta( "Erro: C¢digo Curso Invalido..." )
+	Alerta( "Erro: CÃ³digo Curso Invalido..." )
 	Return( FALSO )
 EndIF
 Area( "Cursos" )
 Cursos->(Order( CURSOS_CODI ))
 IF Cursos->(DbSeek( cCurso ))
 	ErrorBeep()
-	Alerta("Erro: Codigo curso j  registrado..." )
+	Alerta("Erro: Codigo curso jÃ¡ registrado..." )
 	cCurso := StrZero( Val( cCurso )+1,4)
 	AreaAnt( Arq_Ant, Ind_Ant )
 	Return( FALSO )
@@ -2897,7 +2897,7 @@ LOCAL Ind_Ant := IndexOrd()
 Area( "Cursos" )
 Cursos->(Order( CURSOS_CODI ))
 IF Cursos->(!DbSeek( cCurso ))
-	Escolhe( 03, 01, 22, "Curso + 'º' + Obs", "CODIGO DESCRICAO DO CURSO", aRotina )
+	Escolhe( 03, 01, 22, "Curso + 'â•‘' + Obs", "CODIGO DESCRICAO DO CURSO", aRotina )
 	cCurso := Cursos->Curso
 	cObs	 := Cursos->Obs
 	IF nRow != Nil
@@ -3080,13 +3080,13 @@ Return
 
 Static Proc Linha( Lista, Titulo, Pagina, Tam )
 ***********************************************
-Write( 00, 00, Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
+Write( 00, 00, Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
 Write( 01, 01, Dtoc( Date() ))
 Write( 02, 00, Padc( XNOMEFIR, Tam ))
 Write( 03, 00, Padc( Lista  , Tam ))
 Write( 04, 00, Padc( Titulo , Tam ))
 Write( 05, 00, Repl( SEP, Tam ) )
-Write( 06, 00, "DOCTO N§   EMISSAO   VENCTO            VALOR  DT PGTO       VALOR PAGO")
+Write( 06, 00, "DOCTO NÂº   EMISSAO   VENCTO            VALOR  DT PGTO       VALOR PAGO")
 Write( 07, 00, Repl( SEP, Tam ) )
 Return
 
@@ -3217,7 +3217,7 @@ IF Cursado->(!DbSeek( cDocnr ))
 		Area("Cursado")
 		Set Rela To Codi Into Receber
 		Cursado->(Order( CURSADO_FATURA ))
-		Escolhe( 03, 01, 22, "Fatura + 'Ý' + Receber->Nome", "N§ CONTR  ONOME DO CLIENTE")
+		Escolhe( 03, 01, 22, "Fatura + 'â–Œ' + Receber->Nome", "NÂº CONTR  ONOME DO CLIENTE")
 		Cursado->(DbClearRel())
 	EndIF
 	cDocnr := Cursado->Fatura
@@ -3447,7 +3447,7 @@ FIELD Hist
 Area("Conta")
 Conta->(Order( CONTA_CODI ))
 IF Conta->( !DbSeek( cCodi ))
-	Escolhe( 03, 01, 22, "Codi + 'Ý' + Hist","CODI HISTORICO DA CONTA ", aRotina  )
+	Escolhe( 03, 01, 22, "Codi + 'â–Œ' + Hist","CODI HISTORICO DA CONTA ", aRotina  )
 	cCodi  := Conta->Codi
 EndIF
 IF nRow != Nil
@@ -3480,7 +3480,7 @@ WHILE OK
 	MaBox( 10, 10, 16, 75, cTexto )
 	@ 11, 11 Say "Codigo Historico.:" Get cCodi    Pict "@K 99" Valid ContaErrada( @cCodi, Row(), Col()+1 ) .AND. FillConta( cCodi, @aSub )
 	@ 12, 11 Say "Data.............:" Get dEmis    Pict "##/##/##"
-	@ 13, 11 Say "Docto. N§........:" Get cDocnr   Pict "@K!" Valid CheqDoc( cDocnr )
+	@ 13, 11 Say "Docto. NÂº........:" Get cDocnr   Pict "@K!" Valid CheqDoc( cDocnr )
 	@ 14, 11 Say "Historico........:" Get cHist    Pict "@K!"
 	@ 15, 11 Say "Valor............:" Get nVlr     Pict "@E 9,999,999,999.99" Valid CheqVlr( nVlr )
 	Read
@@ -3562,7 +3562,7 @@ oMenu:Limpa()
 Area("Chepre")
 oBrowse:Add( "CODIGO",    "Codi")
 oBrowse:Add( "HISTORICO", "Hist")
-oBrowse:Add( "DOCTO N§",  "Docnr")
+oBrowse:Add( "DOCTO NÂº",  "Docnr")
 oBrowse:Add( "DATA",      "Data")
 oBrowse:Add( "VCTO",      "Vcto")
 oBrowse:Add( "VALOR",     "Valor")
@@ -3605,7 +3605,7 @@ oMenu:Limpa()
 Area("Chepre")
 oBrowse:Add( "CODIGO",    "Codi")
 oBrowse:Add( "HISTORICO", "Hist")
-oBrowse:Add( "DOCTO N§",  "Docnr")
+oBrowse:Add( "DOCTO NÂº",  "Docnr")
 oBrowse:Add( "DATA",      "Data")
 oBrowse:Add( "VCTO",      "Vcto")
 oBrowse:Add( "VALOR",     "Valor")
@@ -4071,14 +4071,14 @@ IF !InsTruim() .OR. !LptOk()
 	Return
 EndIF
 cTitulo	:= "RELATORIO DE CHEQUES PRE-DATADOS NO PERIODO DE &cIni. A &cFim."
-cCabec	:= "CONTA EMISSAO VENCTO   DOCT N§   HISTORICO DO LANCAMENTO                     VALOR DO CHEQUE    BANCO      PRACA"
+cCabec	:= "CONTA EMISSAO VENCTO   DOCT NÂº   HISTORICO DO LANCAMENTO                     VALOR DO CHEQUE    BANCO      PRACA"
 Mensagem("Aguarde, Imprimindo Pre-Datados.", Cor())
 PrintOn()
 FPrint( PQ )
 SetPrc(0,0)
 WHILE !Eof() .AND. Rel_Ok()
 	 IF Col >= 57
-		  Write( 00, 00, Padr( "Pagina N§ " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
+		  Write( 00, 00, Padr( "Pagina NÂº " + StrZero( ++Pagina,3 ), ( Tam/2 ) ) + Padl( Time(), ( Tam/2 ) ) )
 		  Write( 01, 00, Date())
 		  Write( 02, 00, Padc( XNOMEFIR, Tam ))
 		  Write( 03, 00, Padc( SISTEM_NA5, Tam ))
@@ -4157,7 +4157,7 @@ WHILE OK
 	oBrowse := TMsBrowseNew()
 	oBrowse:Add( "DATA LCTO", "Data",   "##/##/##")
 	oBrowse:Add( "HISTORICO", "Hist",   "@!")
-	oBrowse:Add( "DOCTO N§",  "Docnr",  "@!")
+	oBrowse:Add( "DOCTO NÂº",  "Docnr",  "@!")
 	oBrowse:Add( "DEBITO",    "Deb",    "@E 99,999,999,999.99")
 	oBrowse:Add( "CREDITO",   "Cre",    "@E 99,999,999,999.99")
 	oBrowse:Add( "SALDO",     "Saldo",  "@ECX 99,999,999,999.99")
@@ -4356,7 +4356,7 @@ WHILE OK
 	DbCreate( cArquivo, aStru )
 	Use (cArquivo) Exclusive Alias xAlias New
 	oBloco := {|| Chemov->Codi = cCodi }
-		  cTela	:= Mensagem("Please, Aguarde... Anexando Registro n§ 0000000. ESC Cancela.", Cor())
+		  cTela	:= Mensagem("Please, Aguarde... Anexando Registro nÂº 0000000. ESC Cancela.", Cor())
 	nConta := 0
 	WHILE Eval( oBloco ) .AND. Rep_Ok()
 		IF Chemov->Data > dData_Fim
@@ -4419,7 +4419,7 @@ WHILE OK
 	oBrowse := TMsBrowseNew(01,01, 15, MaxCol()-1)
 	oBrowse:Add( "DATA LCTO", "Data",   "##/##/##")
 	oBrowse:Add( "HISTORICO", "Hist",   "@!")
-	oBrowse:Add( "DOCTO N§",  "Docnr",  "@!")
+	oBrowse:Add( "DOCTO NÂº",  "Docnr",  "@!")
 	oBrowse:Add( "DEBITO",    "Deb",    "@E 99,999,999,999.99")
 	oBrowse:Add( "CREDITO",   "Cre",    "@E 99,999,999,999.99")
 	oBrowse:Add( "SALDO",     "Saldo",  "@ECX 99,999,999,999.99")
@@ -4603,9 +4603,9 @@ For nX := UM To nTam
 	nCredito  := 0
 	nDebito	 := 0
 	MaBox( 18, 20, 22, 60, "SALDO ATUAIS ")
-	Write( 19, 21, "Credito ¯¯ " + Tran( nCredito,  "@E 999,999,999,999.99"))
-	Write( 20, 21, "Debito  ¯¯ " + Tran( nDebito ,  "@E 999,999,999,999.99"))
-	Write( 21, 21, "Saldo   ¯¯ " + Tran( nSldAtual, "@E 999,999,999,999.99"))
+	Write( 19, 21, "Credito Â»Â» " + Tran( nCredito,  "@E 999,999,999,999.99"))
+	Write( 20, 21, "Debito  Â»Â» " + Tran( nDebito ,  "@E 999,999,999,999.99"))
+	Write( 21, 21, "Saldo   Â»Â» " + Tran( nSldAtual, "@E 999,999,999,999.99"))
 	Write( 19, 02, "Conta : " + yCodi )
 	Write( 20, 02, "Data  : " + Dtoc( Data ))
 	IF DbSeek( xCodi )

@@ -1,4 +1,4 @@
-# compiladores - usar na linha de comando
+﻿# compiladores - usar na linha de comando
 #-comp=msvc
 #-comp=bcc
 #-comp=mingw
@@ -42,10 +42,7 @@
 ######################################################################################
 # adapt path to base directory of HwGUI
 #-env:HWGUI_DIR=C:\hwgui-src
--n2
--b
-#-static
-#-fullstatic
+#-n2
 #-w
 #-q0
 #-es2
@@ -65,23 +62,19 @@
 ######################################################################################
 # /github/letodbf
 ######################################################################################
-#{win}-env:LETO_DIR=\letodb
-#{win}-i${LETO_DIR}/include
-#{win}{bcc}letodb\letodb.hbc
-#{win}{mingw|mingw64}\letodb\letodb.hbc
-
-#{linux}-env:LETO_DIR=/home/vcatafesta/github/LetoDBf
-#{linux}-i${LETO_DIR}/include
-#{linux}{gcc}/letodb.hbc
+-env:LETO_DIR=C:\letodbf
+-i${LETO_DIR}/include
+{bcc}letodb\letodb.hbc
+{mingw|mingw64}\letodbf\letodb.hbc
 ######################################################################################
 
 #-b
 #-beep
 #-trace
 -inc
--info
 #-inc-
 #-rebuild
+-info
 #-q
 #-p
 -icon=sci.ico
@@ -102,14 +95,11 @@
 #especifica flags para o Harbour
 #-prgflag=<f> 
 #-prgflag= -ic:\c2wm\harbour\include;c:\c2wm\include;c:\c2wm\mingw\include;c:\c2w\include
-{win}-prgflag= -i..\include;
-{linux}-prgflag= -i../include;
--L/usr/lib/harbour
 
 #especifica flags para o compilador C
 #-cflag=<f> 
 #-cflag= -cpp -w0 -Wwrite-strings -Wunused-variable -Wformat
--cflag= -cpp -w0 
+-cflag= -cpp -w0
 
 #especifica flags para o compilador de recursos (apenas windows)
 #-resflag=<f> 
@@ -154,81 +144,68 @@
 #-Lc:\harbour\prg           -lfunckycl
 #-Lc:\harbour\prg           -lfunckyvm
 
-{win}-prgflag= -ic:\sci\include
-{win}-i\sci\include
-{linux}-prgflag= -i../include
-{linux}-i../include
-{linux}-i/usr/include/harbour
-{linux}-i/usr/include
--ldflag=-Wl,--allow-multiple-definition
-#{mingw|mingw64}-ldflag=-Wl,--allow-multiple-definition
+-prgflag= -ic:\sci\include
+-i\sci\include
+{mingw|mingw64}-ldflag=-Wl,--allow-multiple-definition
 
-src/sci.prg
-#{win}sciapiwin.c
-#{win}api.prg
-#{linux}sciapilinux.c
-src/sciapilinux.c
+sci.prg
+sciapi.c 
+dbfio.prg
 #sciext.prg
+api.prg
 #winapi.c 
-src/achoice.prg
-src/apoio.prg
-src/browsearraysrc.prg
-src/chelan.prg
-src/dbedit.prg
-src/dbfio.prg
-src/diretori.prg
-src/funcoes.prg
-src/getsys.prg
-src/lista1la.prg
-src/listalan.prg
-src/orcalan.prg
-src/pagalan.prg
-src/pontolan.prg
-src/rddsys.prg
-src/recelan.prg
-src/scplan.prg
-src/sixtools.prg
-src/suporte.prg
-src/venlan.prg
-src/errorsys.prg
+achoice.prg
+dbedit.prg
+apoio.prg
+chelan.prg
+diretori.prg
+funcoes.prg
+getsys.prg
+lista1la.prg
+listalan.prg
+orcalan.prg
+pagalan.prg
+pontolan.prg
+rddsys.prg
+recelan.prg
+scplan.prg
+sixtools.prg
+suporte.prg
+venlan.prg
+#errorsys.prg
 
-src/tambient.prg
-src/tbox.prg
-src/tbrowse.prg
-src/tget.prg
-src/tindice.prg
-src/tini.prg
-src/tmenu.prg
-src/textrato.prg
-src/tprotege.prg
-src/treceposi.prg
-src/trelato.prg
-src/tdbf.prg
-src/tstring.prg
-src/tprinter.prg
-src/tpdf.prg
-src/tfile.prg
+tambient.prg
+tbox.prg
+tbrowse.prg
+tget.prg
+tindice.prg
+tini.prg
+tmenu.prg
+textrato.prg
+tprotege.prg
+treceposi.prg
+trelato.prg
+tdbf.prg
+tstring.prg
 #tvmenu.prg
 #tgui.prg
 #printdc.c
 #romcksum.c
 
 #Bibliotecas
-#-lz
--lpng
 -lhbblink
 -lhbct
 -lhbxpp
 -lxhb
 -lhboslib
 -lhbgt
-{win}-lhbwin
+-lhbwin
 -lhbnf
 -lhbgzio
 -lhbmemio
 #letodbf novo
 #-lleto
-#{linux}-lrddleto
+-lrddleto
 
 hbhpdf.hbc
 hbblink.hbc 
@@ -237,17 +214,7 @@ hbxpp.hbc
 xhb.hbc 
 hboslib.hbc 
 hbgt.hbc 
-{win}hbwin.hbc 
+hbwin.hbc 
 hbnf.hbc 
 hbgzio.hbc 
 hbmemio.hbc
-{linux}letodb.hbc
-{linux}hbcups.hbc
-
-#sci.hbc
-hbmzip.hbc
-hbmisc.hbc
-hbnetio.hbc
-rddsql.hbc
-hbmemio.hbc
-#hbsqlit3.hbc

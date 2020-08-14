@@ -22,8 +22,8 @@ FUNCTION ft_Calendar( nRow, nCol, cColor, lShadow, lShowHelp )
    __defaultNIL( @nRow, 1 )         // check display row
    __defaultNIL( @nCol, 63 )        // check display col
    __defaultNIL( @cColor, "W+/G" )  // check display color
-   __defaultNIL( @lShadow, .t. )    // check shadow switch
-   __defaultNIL( @lShowHelp, .t. )  // check help switch
+   __defaultNIL( @lShadow, .F. )    // check shadow switch
+   __defaultNIL( @lShowHelp, .F. )  // check help switch
 
    nRow := iif( nRow < 1 .OR. nRow > 21,  1, nRow )  // check row bounds
    nCol := iif( nCol < 1 .OR. nCol > 63, 63, nCol )  // check col bounds
@@ -33,8 +33,6 @@ FUNCTION ft_Calendar( nRow, nCol, cColor, lShadow, lShowHelp )
    cSaveCursor := SetCursor( SC_NONE )
 
    if lShadow
-	  setcolor("w+/b")
-	  cls
       hb_DispBox( nRow - 1, nCol - 1, nRow + 2, nCol + 15, HB_B_SINGLE_UNI )
       hb_Shadow( nRow - 1, nCol - 1, nRow + 2, nCol + 15 )
    endif
@@ -67,6 +65,7 @@ FUNCTION ft_Calendar( nRow, nCol, cColor, lShadow, lShowHelp )
          endif
          EXIT
       ENDSWITCH
+
       aRetVal[ 1 ] := Date() + nJump
       aRetVal[ 2 ] :=  Month( aRetVal[ 1 ] )
       aRetVal[ 3 ] :=    Day( aRetVal[ 1 ] )

@@ -1459,7 +1459,7 @@ Cm->(Order(CM_FIM))
 Cm->(DbGoBottom())
 oBrowse:Add( "INICIO",     "inicio", PIC_DATA )
 oBrowse:Add( "FIM",        "fim",    PIC_DATA )
-oBrowse:Add( "INDICE",     "indice", '9999.9999')
+oBrowse:Add( "INDICE",     "indice", '9999.9999999')
 oBrowse:Add( "OBSERVACAO", "obs",   '@!')
 oBrowse:Titulo   := "CONSULTA/ALTERACAO DE INDICE DE CM"
 oBrowse:HotKey( F4, {|| oBrowse:DupReg("CM", "INICIO", CM_INICIO)})

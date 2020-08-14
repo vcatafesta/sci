@@ -3,7 +3,7 @@
 *
 * Copyright 2007-2018 Vilmar Catafesta [vcatafesta@gmail.com]
 *
-* ∞∞∞±±≤≤≤€€€
+* ‚ñë‚ñë‚ñë‚ñí‚ñí‚ñì‚ñì‚ñì‚ñà‚ñà‚ñà
 *
 #include <sci.ch>
 

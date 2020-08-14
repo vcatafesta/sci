@@ -138,11 +138,11 @@ Method Show( nCima, nEsquerda, nBaixo, nDireita, cCabecalho, cRodape, lInverterC
    ColorSet( @cCor, @pback )
 	Box( ::Cima, ::Esquerda, ::Baixo, ::Direita, Super:Frame + cPattern, ::Cor )
 	if ::Cabecalho != Nil
-		aPrint( ::Cima, ::Esquerda+1, "Û", Roloc( ::Cor ), (::Direita-::Esquerda)-1)
+		aPrint( ::Cima, ::Esquerda+1, "â–ˆ", Roloc( ::Cor ), (::Direita-::Esquerda)-1)
 		aPrint( ::Cima, ::Esquerda+1, Padc( ::Cabecalho, ( ::Direita-::Esquerda)-1), Roloc( ::Cor ))
 	endif
 	if ::Rodape != Nil
-		aPrint( ::Baixo, ::Esquerda+1, "Û", Roloc( ::Cor ), (::Direita-::Esquerda)-1)
+		aPrint( ::Baixo, ::Esquerda+1, "â–ˆ", Roloc( ::Cor ), (::Direita-::Esquerda)-1)
 		aPrint( ::Baixo, ::Esquerda+1, Padc( ::Rodape, ( ::Direita-::Esquerda)-1), Roloc( ::Cor ))
 	endif
 	cSetColor( SetColor())

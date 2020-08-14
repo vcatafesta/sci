@@ -1,25 +1,20 @@
-#include "browsearraysrc.prg"
-#require "hbmemio"
-REQUEST HB_MEMIO
+ REQUEST HB_MEMIO
 
-PROCEDURE Main()
-	LOCAL tmp
-	LOCAL aStru := {;
-					{ "F1", "N", 9, 0 },;
-					{ "F2", "+", 9, 0 };
-				   }
+       LOCAL i
 
-	dbCreate( "mem:memiotest", aStru, , .T., "xmemarea" )
-   	FOR tmp := 1 TO 1000
-    	dbAppend()
-      	FIELD->F1 := hb_randNum( 1000 )
-   	NEXT
+       dbCreate( "mem:test", { { "F1", "N", 9, 0 } }, , .T., "memarea" )
 
-   	INDEX ON FIELD->F1 TAG f1
-   	//dbEval( {|| QOut( FIELD->F1 ) } )
-   	//BrowseArray(xmemarea->(DbStruct()))
-	? fieldname(FIELD->f1), fieldtype(FIELD->f1)
-	? fieldname(FIELD->f2),	fieldtype(FIELD->f2), valtype(fieldtype(FIELD->f2))
-   	dbCloseArea()
-   	dbDrop( "mem:memiotest" )  /* Free memory resource */
-   	RETURN
+       FOR i := 1 TO 1000000
+          dbAppend()
+          FIELD->F1 := hb_Random() * 1000000
+       NEXT
+       INDEX ON FIELD->F1 TAG f1
+       dbEval( {|| QOut( FIELD->F1 ) } )
+       dbCloseArea()
+
+       /* Copy files to a disk */
+       hb_vfCopyFile( "mem:test.dbf", "test1.dbf" )
+       hb_vfCopyFile( "mem:test.ntx", "test1.ntx" )
+
+       /* Free memory */
+       dbDrop( "mem:test" )

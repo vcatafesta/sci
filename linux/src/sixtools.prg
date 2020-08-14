@@ -1,31 +1,31 @@
 /*
- ÕÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¸
- ³ Source file: SIXTOOLS.PRG                                                ³Û
- ³ Description: Some handy UDF's for use with the SIx Driver                ³Û
- ³ Notice     : Copyright 1993-95 - SuccessWare 90, Inc.                    ³Û
- ³                                                                          ³Û
- ³ Compile    : CLIPPER sixtools /n/w                                       ³Û
- ³                                                                          ³Û
- ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´Û
- ³                                                                          ³Û
- ³ Odometer()     - For use with the INDEX ON command's OPTION clause.      ³Û
- ³                                                                          ³Û
- ³ Sx_AddKeys()   - Adds an arrayful of keys for the current record to a    ³Û
- ³                  Multi-Keyed, Free-Format Index.                         ³Û
- ³                                                                          ³Û
- ³ Sx_GetKeys()   - Returns an array containing all of the keys in a        ³Û
- ³                  Multi-Keyed, Free-Format Index for the current record.  ³Û
- ³                                                                          ³Û
- ³ Dots()         - Also for use with the INDEX ON command's OPTION clause. ³Û
- ³                                                                          ³Û
- ³ IndexBar()     - Another progress meter like Odometer() for indexing     ³Û
- ³                                                                          ³Û
- ³ ShowIt()       - Yet another                                             ³Û
- ³                                                                          ³Û
- ³ MyAlert()      - Modified Alert() function using black on yellow         ³Û
- ³                                                                          ³Û
- ÔÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¾Û
-   ÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛ
+ â•’â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â••
+ â”‚ Source file: SIXTOOLS.PRG                                                â”‚â–ˆ
+ â”‚ Description: Some handy UDF's for use with the SIx Driver                â”‚â–ˆ
+ â”‚ Notice     : Copyright 1993-95 - SuccessWare 90, Inc.                    â”‚â–ˆ
+ â”‚                                                                          â”‚â–ˆ
+ â”‚ Compile    : CLIPPER sixtools /n/w                                       â”‚â–ˆ
+ â”‚                                                                          â”‚â–ˆ
+ â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤â–ˆ
+ â”‚                                                                          â”‚â–ˆ
+ â”‚ Odometer()     - For use with the INDEX ON command's OPTION clause.      â”‚â–ˆ
+ â”‚                                                                          â”‚â–ˆ
+ â”‚ Sx_AddKeys()   - Adds an arrayful of keys for the current record to a    â”‚â–ˆ
+ â”‚                  Multi-Keyed, Free-Format Index.                         â”‚â–ˆ
+ â”‚                                                                          â”‚â–ˆ
+ â”‚ Sx_GetKeys()   - Returns an array containing all of the keys in a        â”‚â–ˆ
+ â”‚                  Multi-Keyed, Free-Format Index for the current record.  â”‚â–ˆ
+ â”‚                                                                          â”‚â–ˆ
+ â”‚ Dots()         - Also for use with the INDEX ON command's OPTION clause. â”‚â–ˆ
+ â”‚                                                                          â”‚â–ˆ
+ â”‚ IndexBar()     - Another progress meter like Odometer() for indexing     â”‚â–ˆ
+ â”‚                                                                          â”‚â–ˆ
+ â”‚ ShowIt()       - Yet another                                             â”‚â–ˆ
+ â”‚                                                                          â”‚â–ˆ
+ â”‚ MyAlert()      - Modified Alert() function using black on yellow         â”‚â–ˆ
+ â”‚                                                                          â”‚â–ˆ
+ â•˜â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•›â–ˆ
+   â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆ
 */
 
 #include "inkey.ch"
@@ -71,7 +71,7 @@ IF BOF()
 // If EOF is TRUE then the indexing has finished.  Clean up.
 ELSEIF EOF()
    @ nLine-1, nCol+1 say Replicate(" ",47) + "100%"
-   @ nLine, nCol+1 say Replicate("ß", 50)
+   @ nLine, nCol+1 say Replicate("â–€", 50)
    @ nLine+1,nCol say "Chaves Processadas #" +;
                      Left(LTrim(Str(nRecs))+Space(10),10)
    @ nLine+1,nCol+26 say " Chaves Incluidas #" +;
@@ -89,8 +89,8 @@ ELSE
    @ nLine-1,nCol+1 say ;
      Replicate(" ", ((nPctDone-.5) / 2) -2) + Str(nPctDone,3)+"%"
    @ nLine,nCol+1 say ;
-     Replicate("Ü", ((nPctDone-.5) / 2 )) + "³" +;
-     Replicate("ß", ( 50 - (nPctDone / 2)))
+     Replicate("â–„", ((nPctDone-.5) / 2 )) + "â”‚" +;
+     Replicate("â–€", ( 50 - (nPctDone / 2)))
    @ nLine+1,nCol say ;
      "Processando Chave # "+Left(LTrim(Str(MIN(nRec,nRecs))+Space(10)),10);
      +" de # "+Left(LTrim(Str(nRecs))+Space(10),10) + Space(6)
@@ -234,7 +234,7 @@ IF Bof()
   SetPos( BOXTOP + 6, BOXLEFT + 5)
   DevOut( "Percentage complete :               ")
   SetPos( BOXTOP + 8, BOXLEFT + 5)
-  DevOut( "0% ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ 50% ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ 100%")
+  DevOut( "0% â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ 50% â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ 100%")
 
   // Clear the area, create the guage
   Scroll(BOXTOP + 2, BOXLEFT  + 27, BOXTOP + 11 - 5, BOXLEFT + 60 - 1, 0 )

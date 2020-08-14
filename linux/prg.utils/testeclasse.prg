@@ -15,6 +15,8 @@ func Main()
    o:Test()
 	return
 
+function	
+	
 FUNCTION TBaseObject()
 
    STATIC oClass   
@@ -36,7 +38,7 @@ STATIC FUNCTION NewBase()
 
    LOCAL self := QSelf()
 
-   ::Data1      := 1
+   ::Data1 := 1
    ::ClassData1 := "A"
 
    return self

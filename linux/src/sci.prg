@@ -1237,9 +1237,9 @@ def Usuario()
 	oMenu:Limpa()
 	WHILE OK
 		cPassword := Space(10)
-		MaBox( 10, 20, 13, 48 )
-		@ 11, 21 Say "Usuario.:  " Get cLogin    Pict "@!" Valid UsuarioErrado( @cLogin )
-		@ 12, 21 Say "Senha...:  " Get cPassWord Pict "@S" Valid SenhaErrada(cLogin, cPassWord)
+		MaBox( 10, 20, 15, 48, 'LOGIN' )
+		@ 12, 21 Say "Usuario.:  " Get cLogin    Pict "@!" Valid UsuarioErrado( @cLogin )
+		@ 13, 21 Say "Senha...:  " Get cPassWord Pict "@S" Valid SenhaErrada(cLogin, cPassWord)
 		Read
 		IF LastKey() = ESC
 			IF Conf("Pergunta: Encerrar a Execucao do Sistema ?")
@@ -8597,20 +8597,21 @@ Aadd( aArquivos, { "agenda.dbf",;
            {{ "ID",         "+", 04, 0 }, ;
 				{ "CODI",       "C", 05, 0 }, ;
             { "HIST",       "C", 132, 0 }, ;
-            { "DATA",       "D", 08, 0 }, ;
-            { "HORA",       "C", 08, 0 }, ;
-            { "USUARIO",    "C", 10, 0 }, ;
-            { "CAIXA",      "C", 04, 0 }, ;
-            { "ULTIMO",     "L", 01, 0 }, ;
+            { "DATA",       "D", 08, 0 },;
+            { "HORA",       "C", 08, 0 },;
+            { "USUARIO",    "C", 10, 0 },;
+            { "CAIXA",      "C", 04, 0 },;
+            { "ULTIMO",     "L", 01, 0 },;
             { "ATUALIZADO", "D", 08, 0 }}})
 
 Aadd( aArquivos, { "cm.dbf",;
-           {{ "CODI",       "C", 05, 0 }, ;
-            { "INICIO",     "D", 08, 0 }, ;
+           {{ "ID",         "+", 04, 0 },;
+            { "CODI",       "C", 05, 0 },;
+            { "INICIO",     "D", 08, 0 },;
             { "FIM",        "D", 08, 0 },;
-            { "INDICE",     "N", 09, 4 }, ;
-            { "OBS",        "C", 40, 0 }, ;
-            { "ULTIMO",     "L", 01, 0 }, ;
+            { "INDICE",     "N", 12, 7 },;
+            { "OBS",        "C", 40, 0 },;
+            { "ULTIMO",     "L", 01, 0 },;
             { "ATUALIZADO", "D", 08, 0 }}})
 
 Return( aArquivos )

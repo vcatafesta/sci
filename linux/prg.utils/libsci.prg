@@ -1,3 +1,4 @@
+
 /*
   +-------------------------------------------------------------------------+
  ??																								 ?
@@ -14,17 +15,17 @@
  ?+-------------------------------------------------------------------------+
  ??????????????????????????????????????????????????????????????????????
 */
-#include "achoice.ch"
+#Include "Achoice.Ch"
 #include "ctnnet.ch"
-#include "funcoes.ch"
-#include "inkey.ch"
-#include "set.ch"
-#include "fileman.ch"
-#include "box.ch"
-#include "common.ch"
-#include "fileio.ch"
-#include "directry.ch"
-#include "getexit.ch"
+#Include "Funcoes.Ch"
+#Include "Inkey.Ch"
+#Include "Set.Ch"
+#include "Fileman.ch"
+#include "Box.Ch"
+#include "Common.Ch"
+#include "Fileio.Ch"
+#include "Directry.Ch"
+#include "getexit.Ch"
 #include "permissa.ch"
 #include "indice.ch"
 
@@ -1152,18 +1153,16 @@ Function SOMBRA(Arg1, Arg2, Arg3, Arg4)
 	RestScreen(Arg3 + 1, Arg2 + 2, Arg3 + 1, Arg4 + 2, Local4)
 	return Nil
 	
-def MX_PopFile( row, col, row1, col1, xCoringa, nColor)
-*******************************************************
+Function MX_PopFile( row, col, row1, col1, xCoringa, nColor)
+************************************************************
 	LOCAL aFile  := {}
 	LOCAL nChoice 
 	
-	//Aeval( Directory( xCoringa ), { | xFile | Aadd( aFile, Upper(xFile[ F_NAME ]))})
-   Aeval( Directory( xCoringa ), { | xFile | Aadd( aFile, xFile[ F_NAME ])})
+	Aeval( Directory( xCoringa ), { | xFile | Aadd( aFile, Upper(xFile[ F_NAME ]))})
 	if (nChoice := FazMenu(Row, Col, aFile, nColor)) = 0
 	   return ""
 	endif
 	return( aFile[nChoice])
-endef   
 
 Function Pattern() 
 ****************

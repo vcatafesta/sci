@@ -9038,7 +9038,7 @@ WHILE OK
    oBloco   := {|| Agenda->Data >= dIni .AND. Agenda->Data <= dFim }   
 	Agenda->(Order( AGENDA_DATA_CODI ))
 	Sx_SetScope( S_TOP, dTos(dIni))
-	Sx_SetScope( S_BOTTOM, dTos(dFim))	
+	Sx_SetScope( S_BOTTOM, dTos(dFim))
 	cTela  := Mensagem("Pass #1 Aguarde... Filtrando registros. ESC cancela.")
 	Agenda->(DbGoTop())
 	if Sx_KeyCount() == 0
@@ -9395,11 +9395,11 @@ DEFAU cTipoRecibo TO nil
 IfNil( lRescisao, FALSO )
 Receber->(Order( RECEBER_CODI ))
 Recemov->(DbGoTop())
-if Recemov->(Eof())
-	Nada()
-	ResTela( cScreen )
-	Return
-endif
+//if Recemov->(Eof())
+//	Nada()
+//	ResTela( cScreen )
+//	Return
+//endif
 
 IFNIL(cCodi,Space(05))
 WHILE OK   		
@@ -10493,17 +10493,17 @@ Case LastKey() = -3 /*K_F4*/ .AND. oReceposi:PosiReceber// Duplicar
 	endif		
 	return( AC_CONT)
 
-*======== K_F3 ==========================================================================================   
+*======== K_F3 ==========================================================================================
 
-Case LastKey() = -2 /*K_F3*/ .AND. oReceposi:PosiReceber 
+Case LastKey() = -2 /*K_F3*/ .AND. oReceposi:PosiReceber
 	RecemovDbedit( cCodi, nReg)
-	if AtualizaReg(nReg)	
+	if AtualizaReg(nReg)
 		ReleaseSelecao()
 		Repaint(NIL , x)
-	endif	
-	return( AC_REDRAW )				
-	
-Case LastKey() = -2 /*K_F3*/ .AND. oReceposi:PosiAgeInd 
+	endif
+	return( AC_REDRAW )
+
+Case LastKey() = -2 /*K_F3*/ .AND. oReceposi:PosiAgeInd
 	ReceposiAgendaDbedit(cCodi, nReg)
    Repaint(NIL , x)
 	return( AC_REDRAW )
@@ -11148,18 +11148,20 @@ if nLen > 0
 endif	
 
 def RecemovDbedit(cCodi, nRecno)
-   LOCAL Arq_Ant	:= Alias()
-   LOCAL Ind_Ant	:= IndexOrd()
-   LOCAL cScreen	:= SaveScreen()
-   LOCAL oBrowse	:= MsBrowse():New()
-   LOCAL cDocnr   
+   LOCAL Arq_Ant	    := Alias()
+   LOCAL Ind_Ant	    := IndexOrd()
+   LOCAL cScreen	    := SaveScreen()
+   LOCAL oBrowse	    := MsBrowse():New()
+	LOCAL cOldScopeTop := (Alias())->(Sx_SetScope())
+	LOCAL cOldScopeBot := (Alias())->(Sx_SetScope())
+   LOCAL cDocnr
    Set Key -2 To
 
    oMenu:Limpa()
    Area("Recemov")
    Recemov->(Order( RECEMOV_CODI ))
-   Recemov->(Sx_ClrScope( S_TOP, cCodi))
-   Recemov->(Sx_ClrScope( S_BOTTOM, cCodi))
+   Recemov->(Sx_SetScope( S_TOP, cCodi))
+   Recemov->(Sx_SetScope( S_BOTTOM, cCodi))
    Recemov->(DbGoto(nRecno))
    oBrowse:Add( "CODI",       "Codi")
    oBrowse:Add( "TIPO",       "Tipo")
@@ -11179,6 +11181,8 @@ def RecemovDbedit(cCodi, nRecno)
    Recemov->(Sx_ClrScope(S_BOTTOM))
    Recemov->(DbGoTop())
    AreaAnt( Arq_Ant, Ind_Ant )
+   (Alias())->(Sx_SetScope( S_TOP, cOldScopeTop))
+   (Alias())->(Sx_SetScope( S_BOTTOM, cOldScopeBot))
    return(resTela(cScreen))
 endef
 
@@ -11187,9 +11191,9 @@ def ReceposiAgendaDbedit(cCodi, nRecno)
    LOCAL Ind_Ant	:= IndexOrd()
    LOCAL cScreen	:= SaveScreen()
    LOCAL oBrowse	:= MsBrowse():New()
-   LOCAL cDocnr   
+   LOCAL cDocnr
    Set Key -2 To
-  
+
    oMenu:Limpa()
    Area("Agenda")
    Agenda->(Order( AGENDA_CODI ))
@@ -11206,7 +11210,7 @@ def ReceposiAgendaDbedit(cCodi, nRecno)
    oBrowse:PreDoDel := nil
    oBrowse:PosDoDel := nil
    oBrowse:Show()
-   oBrowse:Processa()   
+   oBrowse:Processa()
    Agenda->(Sx_ClrScope(S_TOP))
    Agenda->(Sx_ClrScope(S_BOTTOM))
    Agenda->(DbGoTop())

@@ -1,0 +1,31 @@
+================================================================================
+Usuario  1: ADMIN
+Data      : 15/08/20
+Horas     : 15:58:37
+SubSystem : BASE
+SubCode   : 1132
+Variavel  : acesso de array
+Arquivo   : 
+Area      : RECEBIDO
+Indice    : codi + dtos( vcto )
+Descricao : Erro de limite
+Explanacao: ERRO NAO DOCUMENTADO.
+Acao      : IMPRIMA ESTA TELA. E ENTRE EM CONTATO COM O
+Acao      : SUPORTE TECNICO ATRAVES DO TEL (69)3451.3085 ou SUPORTE@MACROSOFT.COM.BR
+--------------------------------------------------------------------------------
+PILHA DE CARGA
+                Linha : 010292    Proc : __FUNCAO
+                Linha : 000000    Proc : DO
+                Linha : 001445    Proc : TRECEPOSI:ACHOICE
+                Linha : 000399    Proc : TRECEPOSI:ACHOICE_
+                Linha : 010212    Proc : POSIRECEBER
+                Linha : 009342    Proc : NEWPOSIRECEBER
+                Linha : 011491    Proc : __FUNCAODEVEDORES
+                Linha : 000000    Proc : DO
+                Linha : 001445    Proc : TRECEPOSI:ACHOICE
+                Linha : 000399    Proc : TRECEPOSI:ACHOICE_
+                Linha : 011350    Proc : GRAFICORECEBERDEVEDORES
+                Linha : 011233    Proc : NEWGRAFICORECEBERDEVEDORES
+                Linha : 000138    Proc : RECELAN
+                Linha : 000182    Proc : MAIN$
+================================================================================

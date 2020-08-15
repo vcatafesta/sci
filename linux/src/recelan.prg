@@ -5138,19 +5138,20 @@ return
 
 *:---------------------------------------------------------------------------------------------------------------------------------
 
-Proc Terminou( Tam, Col, TotalCli, TotalJur, TotalGer )
-*******************************************************
-Write(  Col,	000, "** Total Cliente **")
-Write(  Col,	046, Tran( TotalCli, "@E 9,999,999.99"))
-Write(  Col,	107, Tran( TotalJur, "@E 9,999,999.99"))
-Write(  Col,	120, Tran( Totalger, "@E 9,999,999.99"))
-Write(  Col+1, 000, Repl( SEP , Tam ) )
-return
+def Terminou( Tam, Col, TotalCli, TotalJur, TotalGer )
+******************************************************
+	Write(  Col,	000, "** Total Cliente **")
+	Write(  Col,	046, Tran( TotalCli, "@E 9,999,999.99"))
+	Write(  Col,	107, Tran( TotalJur, "@E 9,999,999.99"))
+	Write(  Col,	120, Tran( Totalger, "@E 9,999,999.99"))
+	Write(  Col+1, 000, Repl( SEP , Tam ) )
+	return
+endef
 
 *:---------------------------------------------------------------------------------------------------------------------------------
 
-Proc RelRecCobranca()
-*********************
+def RelRecCobranca()
+********************
 LOCAL cScreen		  := SaveScreen()
 LOCAL aCodi 		  := {}
 LOCAL aOrdem		  := {"Codigo","Nome","Endereco","Bairro", "Cidade","Selecao" }
@@ -11227,12 +11228,12 @@ static function NewGraficoReceberDevedores(nChoice, nOrdem)
 *-----------------------------------------------------------*
 	PRIVA oDevedor := TReceposiNew()
 
-	hb_default(@nOrdem, 3)	   
+	hb_default(@nOrdem, 3)
 	oDevedor:nChoice := nChoice
 	oDevedor:nOrdem  := nOrdem
 	GraficoReceberDevedores(oDevedor)
 	return nil
-				
+
 static function GraficoReceberDevedores(oDevedor)
 *-------------------------------------------------*
 	LOCAL cScreen   := SaveScreen()	
@@ -11337,7 +11338,7 @@ static function GraficoReceberDevedores(oDevedor)
 	cMulta := "R$" + Tran( nMulta, "@E 9,999,999.99")
 	cJuros := "R$" + Tran( nJuros, "@E 9,999,999.99")
 	cSoma  := "R$" + Tran( nSoma,  "@E 9,999,999.99")
-		
+
 	oDevedor:CloneVarColor()		
 	MaBox( 01, 00, 07, MaxCol())		  		   					
 	oDevedor:cTop    := "#ID CODI  NOME DO CLIENTE                                     VALOR            MULTA            JUROS             SOMA" 
@@ -11418,24 +11419,24 @@ Case nMode = AC_IDLE // 0
 	cCodi   := oDevedor:xTodos[x,1]
 	nCol    := 1
 	if Receber->(DbSeek( cCodi ))
-	    Write( ++nCol, 02, Space(nMaxCol-2))
 		Write( ++nCol, 02, Space(nMaxCol-2))
 		Write( ++nCol, 02, Space(nMaxCol-2))
 		Write( ++nCol, 02, Space(nMaxCol-2))
 		Write( ++nCol, 02, Space(nMaxCol-2))
-		
+		Write( ++nCol, 02, Space(nMaxCol-2))
+
 		nCol := 1
 		Write( ++nCol, 02, cCodi + " " + Receber->Nome )
 		Write( ++nCol, 02, Receber->Ende + " " + Receber->Bair )
 		Write( ++nCol, 02, Receber->Cep  + "/" + Receber->Cida + " " + Receber->Esta )
 		Write( ++nCol, 02, Receber->Obs  )
 		Write( ++nCol, 02, Receber->Obs1 )
-		
+
 		nCol := 1
 		Write( ++nCol, nMaxCol-29, "Inicio      : " + Dtoc( Receber->Data ))
 		Write( ++nCol, nMaxCol-29, "Telefone #1 : " + Receber->Fone )
 		Write( ++nCol, nMaxCol-29, "Telefone #2 : " + Receber->Fax )
-		Write( ++nCol, nMaxCol-29, "Vlr Fatura  : " )		
+		Write( ++nCol, nMaxCol-29, "Vlr Fatura  : " )
 	else
 	    Write( ++nCol, 02, Space(nMaxCol-2))
 		Write( ++nCol, 02, Space(nMaxCol-2))
@@ -11447,16 +11448,16 @@ Case nMode = AC_IDLE // 0
 	return( AC_REPAINT)
 
 *===============================================================================
-	
+
 Case nMode = AC_HITTOP
 	return( AC_CONT)
 
-*===============================================================================	
-	
+*===============================================================================
+
 Case nMode = AC_HITBOTTOM
 	return( AC_CONT)
-	
-*===============================================================================	
+
+*===============================================================================
 
 Case LastKey() = K_F6
 		aMenu := {;
@@ -11467,15 +11468,15 @@ Case LastKey() = K_F6
 						"Mostrar em Ordem [JUROS]",;
 						"Mostrar em Ordem [SOMA]";
 					 }
-					 
+
 		M_Title("ESCOLHA A ORDEM DE VISUALIZACAO")
-		nOp := FazMenu( 10,10, aMenu, Cor())				
+		nOp := FazMenu( 10,10, aMenu, Cor())
 		if nOp = 0
 			return(AC_CONT)
 		else
 			NewGraficoReceberDevedores(oDevedor:nChoice, oDevedor:nOrdem := nOp)
 		endif
-		oDevedor:Redraw_()      	
+		oDevedor:Redraw_()
 		return( AC_REPAINT)
 
 *===============================================================================
@@ -11765,3 +11766,4 @@ def AgeCobranca( cCodi )
 			endif
 		endif
 	EndDo
+

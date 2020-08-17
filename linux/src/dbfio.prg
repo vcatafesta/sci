@@ -362,13 +362,13 @@ def CriaIndice( cDbf )
 	//oMenu:Limpa()
 	oReindexa := TIniNew("reindexa.ini")
 	cDbf		 := IF( cDbf != NIL, lower( cDbf ), NIL )
-	
+
 	if cDbf = NIL
 		Aeval( Directory( "*.nsx"), { | aFile | Ferase( aFile[ F_NAME ] )})
 		Aeval( Directory( "*.cdx"), { | aFile | Ferase( aFile[ F_NAME ] )})
 		Aeval( Directory( "*.ntx"), { | aFile | Ferase( aFile[ F_NAME ] )})
 	endif
-	
+
 	if cDbf != NIL
 		nPos := Ascan( aProc,{ |oBloco|oBloco[1] = cDbf })
 		if nPos != 0
@@ -391,12 +391,12 @@ def CriaIndice( cDbf )
 	for nY := 1 To nTodos
 		cDbf		 := aProc[ nY, 1 ]
 		cLocalDbf := cDbf + '.dbf'
-		
+
 		if AbreArquivo( cDbf )
 			oReindexa:WriteBool('reindexando', cLocalDbf, FALSO )
 			Eval( aProc[ nY, 2 ] )
 			oReindexa:WriteBool('reindexando', cLocalDbf, OK )
-		EndIF			
+		EndIF
 	next
 	//ResTela( cScreen )
 	Mensagem("Aguarde, Fechando Arquivos.", WARNING, _LIN_MSG )

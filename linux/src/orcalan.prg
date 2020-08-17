@@ -2666,6 +2666,8 @@ LOCAL Ind_Ant			  := IndexOrd()
 LOCAL nTam				  := 6
 LOCAL cTemp
 LOCAL cScreen
+PRIVA uChar            := HB_UCHAR(9612)           	// ▌ hex = 0x258C
+PRIVA uCode            := HB_UCODE(HB_UCHAR(9612)) 	// ▌ hex = 0x258C
 
 Set Key F9 To InclusaoProdutos()
 if nPreco = VOID
@@ -2704,18 +2706,19 @@ if nTam = 6
 elseif nTam = 13 .OR. nTam = 8
 	Lista->(Order( LISTA_CODEBAR ))
 endif
+
 if Lista->( !DbSeek( cCodigo ))
 	if nTipoBusca = 1
 		#ifDEF MICROBRAS
 			Lista->(Order( LISTA_DESCRICAO ))
-			Escolhe( 03, 00, 22, "Codigo + '▌' + Left( N_Original, 12 ) + '▌' + Descricao + '▌' + Tran( Quant, '999.99') + '▌' + Tran( Varejo, '@E 9,999.99')","CODI  COD FABR   DESCRICAO DO PRODUTO                      ESTOQUE     PRECO", aRotina,, aRotinaAlteracao )
+			Escolhe( 03, 00, 22, "Codigo + uChar + Left( N_Original, 12 ) + uChar + Descricao + uChar + Tran( Quant, '999.99') + uChar + Tran( Varejo, '@E 9,999.99')","CODI  COD FABR   DESCRICAO DO PRODUTO                      ESTOQUE     PRECO", aRotina,, aRotinaAlteracao )
 		#else
 			Lista->(Order( LISTA_DESCRICAO ))
-         Escolhe( 03, 00, 22, "Codigo + '▌' + Sigla + '▌' + Left( Descricao, 39 ) + '▌' + Tran( Quant, '99999.99') + '▌' + Tran( Varejo, '@E 99,999.99')","CODI  MARCA      DESCRICAO DO PRODUTO                      ESTOQUE     PRECO", aRotina,, aRotinaAlteracao )
+         Escolhe( 03, 00, 22, "Codigo + uChar + Sigla + uChar + Left( Descricao, 39 ) + uChar + Tran( Quant, '99999.99') + uChar + Tran( Varejo, '@E 99,999.99')","CODI  MARCA      DESCRICAO DO PRODUTO                      ESTOQUE     PRECO", aRotina,, aRotinaAlteracao )
 		#endif
 	else
 		Lista->(Order( LISTA_N_ORIGINAL ))
-		Escolhe( 03, 00, 22, "N_Original + '▌' + Sigla + '▌' + Left( Descricao, 31 ) + '▌' + Tran( Quant, '9999.99') + '▌' + Tran( Varejo, '@E 99,999.99')","COD FABR        MARCA      DESCRICAO DO PRODUTO            ESTOQUE    PRECO", aRotina,, aRotinaAlteracao )
+		Escolhe( 03, 00, 22, "N_Original + uChar + Sigla + uChar + Left( Descricao, 31 ) + uChar + Tran( Quant, '9999.99') + uChar + Tran( Varejo, '@E 99,999.99')","COD FABR        MARCA      DESCRICAO DO PRODUTO            ESTOQUE    PRECO", aRotina,, aRotinaAlteracao )
 	endif
 	if LastKey() = ESC
 		AreaAnt( Arq_Ant, Ind_Ant )

@@ -667,10 +667,12 @@ method SetPano()
 	":-",;
 	"%%",;
 	"##",;
-	"@@"}			
+	"@@",;
+	}
 	return( self:panos )
-endef	
-		
+endef
+
+
 method SetaFrame()
 	LOCAL cScreen := SaveScreen()
 	LOCAL nChoice := 1
@@ -686,8 +688,8 @@ method SetaFrame()
 							"ﬂﬂﬂﬁ‹‹‹›",;
 							"€€€€€€€€€",;
 							"…–À« Ã»∂"}
-							
-	M_Title("ESCOLHA O TIPO DE BORDA/FRAME")						
+
+	M_Title("ESCOLHA O TIPO DE BORDA/FRAME")
 	nChoice := Fazmenu( 03, 10, aFrames, ::Cormenu )
 	ResTela( cScreen )
 	if nChoice = 0
@@ -697,7 +699,7 @@ method SetaFrame()
 	M_Frame( ::Frame )
 	return Self
 endef
-	
+
 method xMenu()
 	LOCAL AtPrompt := {}
 	AADD( AtPrompt, {"I^nclusao",  {"S^ubMenu A","SubMenu B^","","Item D^esativado","Sub^Menu D"}})

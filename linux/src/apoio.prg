@@ -1919,7 +1919,7 @@ For nT := 1 To xLen
 	Aadd( aRegistro, xTodos[nT,5])
 	Aadd( aTodos,	  xTodos[nT,1] + " " + Dtoc(xTodos[nT,2]) + " " + Dtoc(xTodos[nT,3]) + " " + Tran(xTodos[nT,4],"@E 999,999,999.99") + " " + xTodos[nT,6])
 Next
-MaBox( 01, 01, 14, 78, "DOCTO  N? EMISSAO   VENCTO          VALOR OBSERVACAO" + Space(23))
+MaBox( 01, 01, 14, 78, "DOCTO  #  EMISSAO   VENCTO          VALOR OBSERVACAO" + Space(23))
 nChoice := aChoice( 02, 02, 13, 77, aTodos )
 ResTela( cScreen )
 if nChoice = 0
@@ -2018,7 +2018,7 @@ if ( Recemov->(Order( RECEMOV_DOCNR )), Recemov->(!DbSeek( Var )))
 		Recemov->(Order( RECEMOV_DOCNR ))
 		Set Rela To Recemov->Codi Into Receber
 		Recemov->(DbGoTop())
-		Recemov->(Escolhe( 03, 01, MaxRow()-2, "Docnr + chr(186) + Receber->Nome", "DOCTO N? NOME DO CLIENTE" ))
+		Recemov->(Escolhe( 03, 01, MaxRow()-2, "Docnr + chr(186) + Receber->Nome", "DOCTO #  NOME DO CLIENTE" ))
 	else
 		AreaAnt( Arq_Ant, Ind_Ant )
 		Return( FALSO )
@@ -2193,7 +2193,7 @@ WHILE OK
 		MaBox( 02, 05 , nRow+18 , 79, "PAGAMENTOS" )
 		@ nRow+01, nCol	 SAY "Fornecedor..: " + Pagar->Codi + " " + Pagar->Nome
 		@ nRow+02, nCol	 SAY "Tipo........: " + cTipo
-		@ nRow+02, nCol+35 SAY "Docto N?...: " + cDocnr
+		@ nRow+02, nCol+35 SAY "Docto #....: " + cDocnr
 		@ nRow+03, nCol	 SAY "Emissao.....: " + Dtoc( Emis )
 		@ nRow+03, nCol+35 SAY "Vencto......: " + Dtoc( Vcto )
 		@ nRow+04, nCol	 SAY "Juros Mes...: " + Tran( nJuro , "@E 9,999,999,999.99" )
@@ -2486,7 +2486,7 @@ if ( Pagamov->(Order( PAGAMOV_DOCNR )), Pagamov->(!DbSeek( cDocnr )))
 		Set Rela To Pagamov->Codi Into Pagar
 	endif
 	Pagamov->(DbGoTop())
-	Pagamov->(Escolhe( 03, 00, 22, "Docnr + chr(186) + Dtoc( Emis ) + chr(186) + Dtoc( Vcto ) + chr(186) + Tran( Vlr, '@E 999,999.99') + chr(186) + Left( Pagar->Nome, 37 )", "DOCTO N? EMISSAO  VCTO         VALOR  NOME DO FORNECEDOR"))
+	Pagamov->(Escolhe( 03, 00, 22, "Docnr + chr(186) + Dtoc( Emis ) + chr(186) + Dtoc( Vcto ) + chr(186) + Tran( Vlr, '@E 999,999.99') + chr(186) + Left( Pagar->Nome, 37 )", "DOCTO #  EMISSAO  VCTO         VALOR  NOME DO FORNECEDOR"))
 	cDocnr := Pagamov->Docnr
 endif
 AreaAnt( Arq_Ant, Ind_Ant )
@@ -2537,7 +2537,7 @@ if nTam = 0
 	ResTela( cScreen )
 	Return( FALSO )
 endif
-MaBox( 00, 10, 14, 53, "DOCTO  N? EMISSAO   VENCTO          VALOR")
+MaBox( 00, 10, 14, 53, "DOCTO  #  EMISSAO   VENCTO          VALOR")
 nChoice := aChoice( 01, 11, 13, 52, aTodos )
 ResTela( cScreen )
 if nChoice = 0
@@ -2846,7 +2846,7 @@ if nTam = 0
 	ResTela( cScreen )
 	Return( FALSO )
 endif
-MaBox( 00, 10, 14, 70,"FATURA N? EMISSAO          VALOR SITUACAO ALTER/EXCLU USER")
+MaBox( 00, 10, 14, 70,"FATURA #  EMISSAO          VALOR SITUACAO ALTER/EXCLU USER")
 nChoice := aChoice( 01, 11, 13, 69, aTodos )
 ResTela( cScreen )
 if nChoice = 0
@@ -2917,7 +2917,7 @@ if nTam = 0
 	ResTela( cScreen )
 	Return( FALSO )
 endif
-MaBox( 00, 10, 14, 44,"FATURA N? EMISSAO          VALOR")
+MaBox( 00, 10, 14, 44,"FATURA #  EMISSAO          VALOR")
 nChoice := aChoice( 01, 11, 13, 43, aTodos )
 ResTela( cScreen )
 if nChoice = 0
@@ -4091,8 +4091,8 @@ WHILE OK
    @ 06, 06 Say "Codigo..........:"    Get cForma       Pict "99"  Valid FormaCerta( cForma )
    @ 07, 06 Say "Condicoes.......:"    Get cCondicoes   Pict "@!"  Valid IF( Empty( cCondicoes ), ( ErrorBeep(), Alerta("Erro: Entrada Invalida."), FALSO ), OK )
 	@ 08, 06 Say "Desdobramento...:"    Get cDesdobrar   Pict "!"   Valid PickSimNao( @cDesdobrar )
-	@ 08, 35 Say "N?Parcelas........:" Get nParcelas    Pict "99"  When cDesdobrar == "S"
-	@ 09, 06 Say "1?Parcela Vista:"    Get cVista       Pict "!"   Valid PickSimNao( @cVista ) When cDesdobrar = 'S'
+	@ 08, 35 Say "Nº Parcelas........:" Get nParcelas    Pict "99"  When cDesdobrar == "S"
+	@ 09, 06 Say "1º Parcela Vista:"    Get cVista       Pict "!"   Valid PickSimNao( @cVista ) When cDesdobrar = 'S'
    @ 09, 35 Say "Dias Entre Parcelas:" Get nDias        Pict "999" When cDesdobrar == "S"
 	@ 10, 06 Say "Descricao.......:"    Get cDescricao   Pict "@!"
 	@ 11, 06 Say "Comissao........:"    Get nComissao    Pict "99.99"
@@ -4339,7 +4339,7 @@ WHILE OK
 		@ 11,03 Say  "Banco.......:" GET cBanco    Pict "@!"
 		@ 12,03 Say  "Telefone....:" GET cFone     Pict PIC_FONE
 		@ 13,03 Say  "Agencia.....:" GET cAg       Pict "@K!"
-		@ 14,03 Say  "Conta N?...:" GET cConta    Pict "@!"
+		@ 14,03 Say  "Conta Nº...:" GET cConta    Pict "@!"
 		@ 15,03 Say  "Observ......:" GET cObs      Pict "@!"
 		@ 16,03 Say  "Cob Externa.:" GET cExterna  Pict "!" Valid cExterna  $ "SN"
 		@ 17,03 Say  "Poupanca....:" GET cPoupanca Pict "!" Valid cPoupanca $ "SN"
@@ -4897,7 +4897,7 @@ While Eval( oBloco ) .AND. Recemov->(!Eof()) .AND. Rep_Ok()
 		Write( nRow+01, 00, GD + Padc(AllTrim(oAmbiente:xFanta), 40) + CA )
 		Write( nRow+02, 00, Padc( XENDEFIR + " - " + XCCIDA + " - " + XCESTA, 80 ))
 		Write( nRow+03, 00, Repl("-",80))
-		Write( nRow+04, 00, "N?" + NG + cDocnr + NR )
+		Write( nRow+04, 00, "Nº " + NG + cDocnr + NR )
 		Write( nRow+04, 40, GD + "RECIBO" + CA )
 		Write( nRow+04, 65, "R$ " + NG + cValor + NR)
 		Write( nRow+06, 00, "Recebemos de    : " + NG + Receber->Nome + NR )
@@ -4911,7 +4911,7 @@ While Eval( oBloco ) .AND. Recemov->(!Eof()) .AND. Rep_Ok()
 		Write( nRow+16, 00, NG + cHist + NR )
 		Write( nRow+18, 00, "Para maior clareza firmo(amos) o presente")
 		Write( nRow+19, 35, NG + DataExt( Date()) + NR )
-		Write( nRow+23, 00, "1?VIA - CLIENTE" )
+		Write( nRow+23, 00, "1º VIA - CLIENTE" )
 		Write( nRow+23, 40, Repl("-",40))
 		Write( nRow+24, 00, Repl("=",80))
 		__Eject()
@@ -4981,7 +4981,7 @@ def LogRecibo( aLog )
 	
 	if nErro < 0
 		FWriteLine( nHandle, Repl("=", 186))
-		FWriteLine( nHandle, "TIPO   CODI  NOME CLIENTE                             DOCTO N? VENCTO   HORA     DATA_OS  USUARIO    CAIX       VALOR RECIBO HISTORICO")
+		FWriteLine( nHandle, "TIPO   CODI  NOME CLIENTE                             DOCTO Nº VENCTO   HORA     DATA_OS  USUARIO    CAIX       VALOR RECIBO HISTORICO")
 		FWriteLine( nHandle, Repl("-", 186))
 	endif
 	
@@ -5235,7 +5235,7 @@ oMenu:Limpa()
 WHILE OK
 	cDocnr := Space(09)
 	MaBox( 10, 05, 16, 79 )
-	@ 11, 06 Say "Documento N?: " Get cDocnr Pict "@!" Valid DocErrado( @cDocnr )
+	@ 11, 06 Say "Documento Nº: " Get cDocnr Pict "@!" Valid DocErrado( @cDocnr )
 	@ 12, 06 Say "Cliente......: "
 	@ 13, 06 Say "Emissao......: "
 	@ 14, 06 Say "Vcto.........: "
@@ -5292,7 +5292,7 @@ if nTam > 0
 	@ 08, 11 Say "Codigo Cedente....:" Get cCedente  Pict "@!"
 	@ 09, 11 Say "Carteira..........:" Get cCarteira Pict "@!"
 	@ 10, 11 Say "Var...............:" Get cVar      Pict "@!"
-	@ 11, 11 Say "N?Bordero........:" Get cBordero  Pict "@!"
+	@ 11, 11 Say "Nº Bordero........:" Get cBordero  Pict "@!"
 	@ 12, 11 Say "Prefixo...........:" Get cPrefix   Pict "@!"
 	@ 13, 11 Say "Especie...........:" Get cEspecie  Pict "@!"
 	@ 14, 11 Say "Instrucoes Codif..:" Get cInstru   Pict "@!"
@@ -6071,7 +6071,7 @@ WHILE OK
 		cAno	  := Right( Dtoc( Date()),1)
 		Vlr_Dup := Extenso( Recemov->Vlr, nMoeda, nLinhas, Larg )
 		Write( Col,   000, PQ + Repl("=", nLargura))
-		Write( Col+1, 000, PQ + "N?" + Recemov->Docnr)
+		Write( Col+1, 000, PQ + "Nº " + Recemov->Docnr)
 		Write( Col+1, 113, PQ + "VENCIMENTO: " + Dtoc(Recemov->Vcto) )
 		Write( Col+2, 112, PQ + "VALOR R$  : " + AllTrim( Tran( Recemov->Vlr, "@E 9,999,999,999.99")))
 		Write( Col+3, 000, "No " + PQ + DataExtenso( Recemov->Vcto ) + "." + C18 )
@@ -6787,7 +6787,7 @@ aMenu[nNenhum] 	 := 'Nenhum'
 WHILE OK
 	cDocnr := Space(09)
 	MaBox( 10, 10, 12, 40 )
-	@ 11, 11 Say "Documento N?...: " Get cDocnr Pict "@!" Valid DocErrado( @cDocnr )
+	@ 11, 11 Say "Documento Nº...: " Get cDocnr Pict "@!" Valid DocErrado( @cDocnr )
 	Read
 	if LastKey() = ESC
 		AreaAnt( Arq_Ant, Ind_Ant )
@@ -6832,8 +6832,8 @@ WHILE OK
 		MaBox( 04, 04 , nRow+18 , 78, "RECEBIMENTOS" )
 		@ nRow+00, nCol	 SAY "Cliente.....: " + Receber->Codi + " " + Receber->Nome
 		@ nRow+01, nCol	 SAY "Tipo........: " + cTipo
-		@ nRow+01, nCol+35 SAY "Docto N?...: " + cDocnr
-		@ nRow+02, nCol	 SAY "Nosso N?...: " + cNossoNr
+		@ nRow+01, nCol+35 SAY "Docto Nº....: " + cDocnr
+		@ nRow+02, nCol	 SAY "Nosso Nº....: " + cNossoNr
 		@ nRow+02, nCol+35 SAY "Bordero.....: " + cBordero
 		@ nRow+03, nCol	 SAY "Emissao.....: " + Dtoc( Emis )
 		@ nRow+03, nCol+35 SAY "Vencto......: " + Dtoc( Vcto )
@@ -6991,7 +6991,7 @@ WHILE OK
 							Chemov->Emis	:= dData
 							Chemov->Data	:= dData
 							Chemov->Baixa	:= Date()
-							Chemov->Hist	:= "REC JUROS TITULO N?" + cDocnr
+							Chemov->Hist	:= "REC JUROS TITULO Nº " + cDocnr
 							Chemov->Saldo	:= nChSaldo
 							Chemov->Tipo	:= cTipo
 							Chemov->Caixa	:= IF( cCaixa = Nil, Space(4), cCaixa )
@@ -7465,6 +7465,7 @@ LOCAL nContaLetra   := 0
 LOCAL nSomaParcial  := 0
 LOCAL nPercentual   := 0
 LOCAL lRetVal       := OK
+LOCAL uChar         := 'N' + HB_UCHAR(186) + chr(32) // Nº
 LOCAL nValorDoRecibo
 LOCAL nDividendo
 LOCAL nPos
@@ -7777,7 +7778,7 @@ WHILE OK
 			nForCol := 0						
 		   for nY := 1 to nLenSelecao
 				xVlr := AllTrim( Tran( xVlrRecibo[nY],'@E 999,999,999,999.99'))
-				Write( nRow+05, nForCol, PQ + "N?" + xDocnr[nY] + Space(1) + 'R$ ' + xVlr + NR + _CPI10 )				
+				Write( nRow+05, nForCol, PQ + "Nº " + xDocnr[nY] + Space(1) + 'R$ ' + xVlr + NR + _CPI10 )
 				if nY < nLenSelecao
 				   nForCol += 30 
 				   if nForCol >= 132
@@ -7787,7 +7788,7 @@ WHILE OK
 				endif
 			next				
 		else
-			Write( nRow+05, 00, Padr("N?" + NG + cDocnr + NR + " VCTO " + NG + cVcto + NR, nTamForm))
+			Write( nRow+05, 00, Padr("Nº " + NG + cDocnr + NR + " VCTO " + NG + cVcto + NR, nTamForm))
 			Write( nRow+05, 00, Padl("R$ " + NG + cVlr + NR, nTamForm))
 		endif	
 		nRow++
@@ -7818,7 +7819,7 @@ WHILE OK
 		Write( nRow+18, 00, NG + Padl(DataExt( dDataImpressao ) + NR, nTamForm))
       FPrint(C18)
 		Write( nRow+21, nTamForm / 2 , Repl("-", nTamform/2))
-		Write( nRow+22, 00, "1?VIA - CLIENTE" )
+		Write( nRow+22, 00, "1º VIA - CLIENTE" )
 		Write( nRow+22, nTamForm / 2 , oAmbiente:xUsuario )
 		Write( nRow+23, 00, Repl("=", nTamForm))
 		Write( nRow+24, 00, Padc("ESTE RECIBO NAO QUITA EVENTUAIS DEBITOS/MENSALIDADES ANTERIORES", nTamForm))
@@ -9699,7 +9700,7 @@ WHILE OK
 			dCalculo := Date()		
 			cFatu    := Space(7)
 			MaBox( 14, 45, 16, 67 )
-			@ 15, 46 Say "Fatura N?:" Get cFatu Pict "@!" Valid VisualAchaFatura( @cFatu )
+			@ 15, 46 Say "Fatura #" Get cFatu Pict "@!" Valid VisualAchaFatura( @cFatu )
 			Read
 			if LastKey() = ESC
 				Recemov->(DbClearRel())
@@ -10227,30 +10228,30 @@ WHILE OK
 				
 		if lRecarregar != NIL .AND. !lRecarregar		   							
 			return
-		endif		
-	
-		oRecePosi:cTop := " DOCTO N? EMIS   VENCTO ATRA   ORIGINAL  PRINCIPAL DESC/PAG    JUROS  PG/MULTA     ABERTO       SOMA OBSERVACAO"		
-		MaBox( 00, 00, 06, nMaxCol )		
+		endif
+
+		oRecePosi:cTop := " DOCTO #  EMIS   VENCTO ATRA   ORIGINAL  PRINCIPAL DESC/PAG    JUROS  PG/MULTA     ABERTO       SOMA OBSERVACAO"
+		MaBox( 00, 00, 06, nMaxCol )
 		oRecePosi:cTop 	+= Space( MaxCol() - Len(oRecePosi:cTop))
-		oRecePosi:cBottom := Space(13) + "PRINCIPAL             JUROS  PG/MULTA     ABERTO       SOMA"		
+		oRecePosi:cBottom := Space(13) + "PRINCIPAL             JUROS  PG/MULTA     ABERTO       SOMA"
 		oRecePosi:aBottom := oReceposi:BarraSoma()
 		__Funcao( 0, 1, 1 )
 		//cSetColor(",,,,R+/")
-		lPageCircular := FALSO	      
+		lPageCircular := FALSO
 		oRecePosi:aChoice_(oReceposi:aTodos, oRecePosi:aAtivo, "__Funcao", lPageCircular )
 		SetColor(cColor)
-		oReceposi:PosiReceber := FALSO		
-		oAmbiente:lReceber	 := FALSO		
-		oReceposi:Reset()		
+		oReceposi:PosiReceber := FALSO
+		oAmbiente:lReceber	 := FALSO
+		oReceposi:Reset()
 	endif
 	resTela( cScreen )
 	if !lSair
 		xParam := NIL
-	endif	
+	endif
 	if lSair
 		oReceposi:nOrdem := NIL
 		exit
-	endif	
+	endif
 EndDo
 
 *===============================================================================

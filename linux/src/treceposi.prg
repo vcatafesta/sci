@@ -3,9 +3,10 @@
 
 CLASS TWindow
 beginclass
-	DATA   hWnd, nOldProc
-	CLASSDATA lRegistered AS LOGICAL
-ENDCLASS	
+	DATA        hWnd
+	DATA        nOldProc
+	CLASSDATA   lRegistered AS LOGICAL
+ENDCLASS
 
 CLASS TReceposi
 beginclass
@@ -14,16 +15,16 @@ beginclass
 	VAR aHistRecibo				INIT {}
 	VAR aUserRecibo			 	INIT {}
 	VAR aReciboImpresso		 	INIT {}
-	VAR aAtivo					INIT {}
-	VAR aAtivoSwap				INIT {}
-	VAR aRecno					INIT {}		
-	VAR aTodos                  INIT {}		
+	VAR aAtivo					   INIT {}
+	VAR aAtivoSwap				   INIT {}
+	VAR aRecno					   INIT {}
+	VAR aTodos                  INIT {}
 	VAR aCodi                   INIT {}
 	VAR alMulta                 INIT {}
 	VAR xTodos                  INIT {}
 	VAR aDataPag                INIT {}
 	VAR aRescisao               INIT {}
-	
+
 	VAR aDocnr_Selecao_Imprimir INIT {}
 	VAR aSoma_Selecao_Imprimir  INIT {}
 	VAR aObs_Selecao_Imprimir   INIT {}
@@ -33,53 +34,53 @@ beginclass
 	VAR nJurosSelecao           INIT 0
 	VAR nMultaSelecao           INIT 0
 	VAR nRescisaoSelecao        INIT 0
-	
+
 	VAR nPrincipal_Vencer       INIT 0
 	VAR nJuros_Vencer           INIT 0
-	VAR nMulta_Vencer           INIT 0	
+	VAR nMulta_Vencer           INIT 0
 	VAR nTotal_Vencer           INIT 0
 	VAR nQtdDoc_Vencer          INIT 0
-	
+
 	VAR nPrincipal_Rescisao     INIT 0
 	VAR nJuros_Rescisao         INIT 0
-	VAR nMulta_Rescisao         INIT 0	
+	VAR nMulta_Rescisao         INIT 0
 	VAR nTotal_Rescisao         INIT 0
 	VAR nQtdDoc_Rescisao        INIT 0
-	
-	VAR CorVencido              INIT AscanCor(16) // Branco do Menu 
+
+	VAR CorVencido              INIT AscanCor(16) // Branco do Menu
 	VAR CorAviso                INIT AscanCor(15) // Amarelo do Menu
 	VAR CorDuplicado            INIT AscanCor(14) // Magenta
-	VAR CorRecibo               INIT AscanCor(13) // Vermelho do Menu 
+	VAR CorRecibo               INIT AscanCor(13) // Vermelho do Menu
 	VAR CorDesativado           INIT AscanCor(12) // Brown
-	VAR CorVencer               INIT AscanCor(11) // Verde do Menu 
-	VAR CorSelecao              INIT AscanCor(10) // Azul do menu	
-	VAR CorAlterado             INIT AscanCor(04) // Cyan	
-	VAR nCorZebradoBranco       INIT AscanCor(15) 
-	VAR nCorZebradoVerde        INIT AscanCor(14) 
-	
+	VAR CorVencer               INIT AscanCor(11) // Verde do Menu
+	VAR CorSelecao              INIT AscanCor(10) // Azul do menu
+	VAR CorAlterado             INIT AscanCor(04) // Cyan
+	VAR nCorZebradoBranco       INIT AscanCor(15)
+	VAR nCorZebradoVerde        INIT AscanCor(14)
+
 	VAR nPrincipal_Vencido      INIT 0
 	VAR nJuros_Vencido          INIT 0
-	VAR nMulta_Vencido          INIT 0	
+	VAR nMulta_Vencido          INIT 0
 	VAR nTotal_Vencido          INIT 0
-	VAR nQtdDoc_Vencido         INIT 0	
-	
+	VAR nQtdDoc_Vencido         INIT 0
+
 	VAR nPrincipal_Recibo       INIT 0
 	VAR nJuros_Recibo           INIT 0
-	VAR nMulta_Recibo           INIT 0	
+	VAR nMulta_Recibo           INIT 0
 	VAR nTotal_Recibo           INIT 0
-	VAR nQtdDoc_Recibo          INIT 0	
-	
+	VAR nQtdDoc_Recibo          INIT 0
+
 	VAR nPrincipal_Geral        INIT 0
 	VAR nJuros_Geral            INIT 0
-	VAR nMulta_Geral            INIT 0	
+	VAR nMulta_Geral            INIT 0
 	VAR nTotal_Geral            INIT 0
-	VAR nQtdDoc_Geral           INIT 0	
-	
-	VAR nPrincipal	            INIT 0	
-	VAR nJurosPago	            INIT 0	
-	VAR nRecebido				INIT 0	
-	VAR nAberto              	INIT 0	
-	VAR nQtdDoc 				INIT 0	
+	VAR nQtdDoc_Geral           INIT 0
+
+	VAR nPrincipal	            INIT 0
+	VAR nJurosPago	            INIT 0
+	VAR nRecebido				   INIT 0
+	VAR nAberto              	INIT 0
+	VAR nQtdDoc 				   INIT 0
 	VAR cStrSelecao             INIT ''
 	VAR cStrRecibo              INIT ''
 	VAR cStrVencido             INIT ''
@@ -271,45 +272,45 @@ METHOD RegistroEmBranco(cCodi,cFatu)
 	return OK
 	*-----END REGISTRO---------------------------------------------------------
 
-METHOD RenewVar()	
-	::aTodos		  := {}	
-	::xTodos		  := {}	
-	::aCodi  	  := {}
-   ::aRecno      := {}
-	::aRescisao   := {}	
-   ::aAtivo      := {}	
-	::aAtivoSwap  := {}
-	::aHistRecibo := {}
-	::aUserRecibo := {}
-	::aReciboImpresso := {}	
+METHOD RenewVar()
+	::aTodos		      := {}
+	::xTodos		      := {}
+	::aCodi  	      := {}
+   ::aRecno          := {}
+	::aRescisao       := {}
+   ::aAtivo          := {}
+	::aAtivoSwap      := {}
+	::aHistRecibo     := {}
+	::aUserRecibo     := {}
+	::aReciboImpresso := {}
 	::aDataPag        := {}
-	::alMulta     := {}
-	::CurElemento := 1
-	::nQtdDoc 	  := 0
-	::Color_pFore := {}
-	::Color_pBack := {}
-	::Color_pUns  := {}			
-	::nPrtRow	  := MaxRow()
+	::alMulta         := {}
+	::CurElemento     := 1
+	::nQtdDoc 	      := 0
+	::Color_pFore     := {}
+	::Color_pBack     := {}
+	::Color_pUns      := {}
+	::nPrtRow	      := MaxRow()
 	return self
 
 METHOD DeleteReg(nReg)
-   hb_default(@nReg, ::CurElemento)	
+   hb_default(@nReg, ::CurElemento)
 	HB_ADel( ::aTodos,          nReg, .T. )
 	HB_ADel( ::xTodos,          nReg, .T. )
-	HB_ADel( ::aCodi,           nReg, .T. )	
-	HB_ADel( ::aRecno,          nReg, .T. )	
-	HB_ADel( ::aRescisao,       nReg, .T. )		
-   HB_ADel( ::aAtivo,          nReg, .T. )		
-	HB_ADel( ::aAtivoSwap,      nReg, .T. )	
-	HB_ADel( ::aHistRecibo,     nReg, .T. )	
-	HB_ADel( ::aUserRecibo,     nReg, .T. )	
+	HB_ADel( ::aCodi,           nReg, .T. )
+	HB_ADel( ::aRecno,          nReg, .T. )
+	HB_ADel( ::aRescisao,       nReg, .T. )
+   HB_ADel( ::aAtivo,          nReg, .T. )
+	HB_ADel( ::aAtivoSwap,      nReg, .T. )
+	HB_ADel( ::aHistRecibo,     nReg, .T. )
+	HB_ADel( ::aUserRecibo,     nReg, .T. )
 	HB_ADel( ::aDataPag,        nReg, .T. )
 	HB_ADel( ::aReciboImpresso, nReg, .T. )
-	HB_ADel( ::alMulta,         nReg, .T. )	
-	HB_ADel( ::CurElemento,     nReg, .T. )	
-	HB_ADel( ::nQtdDoc, 	       nReg, .T. )	
-	HB_ADel( ::Color_pFore,     nReg, .T. )	
-	HB_ADel( ::Color_pBack,     nReg, .T. )	
+	HB_ADel( ::alMulta,         nReg, .T. )
+	HB_ADel( ::CurElemento,     nReg, .T. )
+	HB_ADel( ::nQtdDoc, 	       nReg, .T. )
+	HB_ADel( ::Color_pFore,     nReg, .T. )
+	HB_ADel( ::Color_pBack,     nReg, .T. )
 	HB_ADel( ::Color_pUns,      nReg, .T. )
 	::aBottom := ::BarraSoma()
 return self
@@ -325,10 +326,10 @@ METHOD CloneVarColor()
 	LOCAL oLen  := Len(oAmbiente:Color_pFore)
 	LOCAL nT    := 0
 
-	if oLen == 0 
-		::ColorToAmbiente()		
+	if oLen == 0
+		::ColorToAmbiente()
 	else
-		::AmbienteToColor()		
+		::AmbienteToColor()
 	endif
 	pLen := Len(::Color_pFore)
 	oLen := Len(oAmbiente:Color_pFore)
@@ -338,7 +339,7 @@ METHOD CloneVarColor()
 			::AddColor()
 		next
 	endif
-	::ColorToAmbiente()		
+	::ColorToAmbiente()
 	return self
 
 METHOD Reset()
@@ -358,95 +359,95 @@ return self
 
 METHOD AmbienteToColor()
 ************************
-	::aAtivo      := oAmbiente:aAtivo 
+	::aAtivo      := oAmbiente:aAtivo
 	::aAtivoSwap  := oAmbiente:aAtivoSwap
 	::Color_pFore := oAmbiente:Color_pFore
 	::Color_pBack := oAmbiente:Color_pBack
-	::Color_pUns  := oAmbiente:Color_pUns 
+	::Color_pUns  := oAmbiente:Color_pUns
 	return self
 
 METHOD AddColor( nColor )
 *************************
 __DefaultNIL(@nColor, ::CorVencido)
 
-aadd( ::Color_pFore,  nColor )			
-aadd( ::Color_pBack,  oAmbiente:CorLightBar )	
-aadd( ::Color_pUns,   ::CorRecibo )	
-aadd( ::aAtivo,       OK)			
-aadd( ::aAtivoSwap,   OK)			
+aadd( ::Color_pFore,  nColor )
+aadd( ::Color_pBack,  oAmbiente:CorLightBar )
+aadd( ::Color_pUns,   ::CorRecibo )
+aadd( ::aAtivo,       OK)
+aadd( ::aAtivoSwap,   OK)
 return self
 
 METHOD AssignColor()
 *-------------------------------*
 	::Color_pFore   := {}
 	::Color_pBack   := {}
-	::Color_pUns    := {}		
-	::CorRecibo     := AscanCor(13) // Vermelho do Menu 
-	::CorVencido    := AscanCor(16) // Branco do Menu 
-	::CorVencer     := AscanCor(11) // Verde do Menu 
+	::Color_pUns    := {}
+	::CorRecibo     := AscanCor(13) // Vermelho do Menu
+	::CorVencido    := AscanCor(16) // Branco do Menu
+	::CorVencer     := AscanCor(11) // Verde do Menu
 	::CorSelecao    := AscanCor(10) // Azul do menu
 	::CorAviso      := AscanCor(15) // Amarelo do Menu
 	::CorDuplicado  := AscanCor(04) // Cyan
 	::CorAlterado   := AscanCor(14) // Magenta
 	::CorDesativado := AscanCor(12) // Brown
 	Afill((::Color_pFore := Array(Len(::xTodos))), ::CorVencido ) // Branco do Menu
-	Afill((::Color_pBack := Array(Len(::xTodos))), oAmbiente:CorLightBar )	
-	Afill((::Color_pUns  := Array(Len(::xTodos))), ::CorRecibo ) // Vermelho do Menu 	
+	Afill((::Color_pBack := Array(Len(::xTodos))), oAmbiente:CorLightBar )
+	Afill((::Color_pUns  := Array(Len(::xTodos))), ::CorRecibo ) // Vermelho do Menu
 	::ColorToAmbiente()
 return self
 
-METHOD aChoice_(aTodos, aAtivo, cFuncao, lPageCircular)	
+METHOD aChoice_(aTodos, aAtivo, cFuncao, lPageCircular)
    ::Achoice(::nBoxRow+1, ::nBoxCol+1, ::nBoxRow1-1, ::nBoxCol1-1, ::aTodos, ::aAtivo, cFuncao, NIL, NIL, lPageCircular, ::Color_pFore, ::Color_pBack, ::Color_pUns)
 	return self
 
-METHOD Hello 
+METHOD Hello
 	? "Hello", self:cWho
 	? "Hello", ::cNome
 	return self
 
-METHOD ResetCorSelecao 
+METHOD ResetCorSelecao
 	LOCAL xLen := Len(::aCurElemento_Selecao)
 	LOCAL nT
-	for nT := 1 to xLen		
+	for nT := 1 to xLen
 		::aAtivo[::aCurElemento_Selecao[nT]]         := OK
-		oAmbiente:aAtivo[::aCurElemento_Selecao[nT]] := OK				
+		oAmbiente:aAtivo[::aCurElemento_Selecao[nT]] := OK
 	next
 	return self
 
-METHOD ResetSelecao 	
+METHOD ResetSelecao
 	::ZerarSelecao()
-	::RedrawSelecao()	
+	::RedrawSelecao()
 	::Redraw_()
 	return self
 
-METHOD ResetAll 
+METHOD ResetAll
 	::ZerarSelecao()
-	::RedrawRecibo()	
-	::RedrawVencido()	
-	::RedrawVencer()	
+	::RedrawRecibo()
+	::RedrawVencido()
+	::RedrawVencer()
 	::RedrawGeral()
 	::Redraw_()
 	return self
 
-METHOD ZerarSelecao 
+METHOD ZerarSelecao
 	::aDocnr_Selecao_Imprimir := {}
 	::aSoma_Selecao_Imprimir  := {}
-	::aObs_Selecao_Imprimir   := {}	
+	::aObs_Selecao_Imprimir   := {}
 	::aCurElemento_Selecao    := {}
-	
+
 	::nSoma_Total_Imprimir    := 0
 	::nPrincipalSelecao       := 0
 	::nRescisaoSelecao        := 0
-	
+
 	::nJurosSelecao           := 0
 	::nMultaSelecao           := 0
 	return self
 
-METHOD ZerarRecibo 	
+METHOD ZerarRecibo
 	::nTotal_Recibo           := 0
 	::nPrincipal_Recibo       := 0
 	::nJuros_Recibo           := 0
-	::nMulta_Recibo           := 0	
+	::nMulta_Recibo           := 0
 	::nQtdDoc_Recibo          := 0
 	return self	
 

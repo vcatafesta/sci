@@ -25,6 +25,9 @@
 #endif
 */
 
+// HB_UCODE ( cUnicodeCharacter ) --> Return nCode
+// HB_UCHAR ( nCode ) --> Return cUnicodeCharacter
+
 #include <sci.ch>
 
 REQUEST HB_CODEPAGE_PT850
@@ -642,17 +645,18 @@ def SetaClasse()
 	LOCAL cSn6 := SISTEM_NA6
 	LOCAL cSn7 := SISTEM_NA7
 	LOCAL cSn8 := SISTEM_NA8
+	LOCAL uchar := HB_UCHAR(9612)
 
 	LOCAL cSv  := SISTEM_VERSAO
 	LOCAL cSp  := Space(1)
-	LOCAL cSt1 := "F1-HELP|F5-PRECOS|F10-CALC|"
-	LOCAL cSt2 := "F1-HELP|F5-LISTA|F8-SPOOL|ESC-RETORNA|"
-	LOCAL cSt3 := "F1-HELP|F5-LISTA|F8-SPOOL|ESC-RETORNA|"
-	LOCAL cSt4 := "F1-HELP|F5-LISTA|F8-SPOOL|ESC-RETORNA|"
-	LOCAL cSt5 := "F1-HELP|F5-LISTA|F8-SPOOL|ESC-RETORNA|"
-	LOCAL cSt6 := "F1-HELP|F5-LISTA|F8-SPOOL|ESC-RETORNA|"
-	LOCAL cSt7 := "F1-HELP|F5-LISTA|F8-SPOOL|ESC-RETORNA|"
-	LOCAL cSt8 := "F1-HELP|F5-LISTA|F8-SPOOL|ESC-RETORNA|"
+	LOCAL cSt1 := "F1-HELP" + uchar + "F5-PRECOS" + uChar + "F10-CALC" + uChar
+	LOCAL cSt2 := "F1-HELP" + uchar + "F5-LISTA"  + uChar + "F8-SPOOL" + uchar + "ESC-RETORNA" + uChar
+	LOCAL cSt3 := "F1-HELP" + uchar + "F5-LISTA"  + uChar + "F8-SPOOL" + uchar + "ESC-RETORNA" + uChar
+	LOCAL cSt4 := "F1-HELP" + uchar + "F5-LISTA"  + uChar + "F8-SPOOL" + uchar + "ESC-RETORNA" + uChar
+	LOCAL cSt5 := "F1-HELP" + uchar + "F5-LISTA"  + uChar + "F8-SPOOL" + uchar + "ESC-RETORNA" + uChar
+	LOCAL cSt6 := "F1-HELP" + uchar + "F5-LISTA"  + uChar + "F8-SPOOL" + uchar + "ESC-RETORNA" + uChar
+	LOCAL cSt7 := "F1-HELP" + uchar + "F5-LISTA"  + uChar + "F8-SPOOL" + uchar + "ESC-RETORNA" + uChar
+	LOCAL cSt8 := "F1-HELP" + uchar + "F5-LISTA"  + uChar + "F8-SPOOL" + uchar + "ESC-RETORNA" + uChar
 
 	oMenu:StSupArray               := { cSn1+cSp+cSv, cSn2+cSp+cSv,cSn3+cSp+cSv,cSn4+cSp+cSv,cSn5+cSp+cSv,cSn6+cSp+cSv, cSn7+cSp+cSv, cSn8+cSp+cSv }
 	oMenu:StInfArray               := { cSt1, cSt2, cSt3, cSt4, cSt5, cSt6, cSt7, cSt8,  }
@@ -1107,7 +1111,7 @@ def CriaBcoDadosEmpresa()
 *------------------------*
 	LOCAL cDbf    := 'empresa.dbf'
 	LOCAL cNtx    := 'empresa.' + CEXT
-	LOCAL cScreen := SaveScreen()	
+	LOCAL cScreen := SaveScreen()
 	LOCAL aDbf	  := {{ "CODI",     "C", 04, 0 },;
 					  { "NOME",     "C", 40, 0 },;
 					  { "DESCONTO", "N", 06, 2 },;
@@ -1123,7 +1127,7 @@ def CriaBcoDadosEmpresa()
 					  { "INSCMUN",  "C", 15, 0 },; // Inscricao Municipal do Usuario
 					  { "ISS",      "N", 05, 2 },; // Percentual do ISS
 					  { "CARENCIA", "N", 03, 0 },;
-					  { "DIASAPOS", "N", 03, 0 }}	
+					  { "DIASAPOS", "N", 03, 0 }}
 
 	if !ms_swap_File(cDbf)
 		oMenu:Limpa()
@@ -1134,12 +1138,12 @@ def CriaBcoDadosEmpresa()
 			Integridade(cDbf, aDbf)
 		else
 			SetMode(oAmbiente:AlturaFonteDefaultWindows, oAmbiente:LarguraFonteDefaultWindows)
-			Cls		
+			Cls
 			Quit
 		endif
 	endif
 
-#ifdef FOXPRO	
+#ifdef FOXPRO
 	if !ms_swap_File(cNtx)
 		oMenu:Limpa()
 		Mensagem(" Aguarde... Verificando Arquivos.")
@@ -1160,7 +1164,7 @@ def CriaBcoDadosEmpresa()
 	ErrorBeep()
 	Mensagem("Aguarde... Verificando os Arquivos.")
 	FechaTudo()
-	Mensagem("Aguarde... Abrindo o Arquivo EMPRESA.")	
+	Mensagem("Aguarde... Abrindo o Arquivo EMPRESA.")
 	if NetUse(cDbf, MULTI )
 		DbSetIndex(cNtx)
 	else
@@ -7704,15 +7708,15 @@ Function MacroErro(e)
 	@ 1, 1  Say "SubSystem : "
 	@ 1, 35 Say "SubCode : "
 	@ 2, 1  Say "OsCode    : "
-	@ 2, 35 Say "GenCode : "	
+	@ 2, 35 Say "GenCode : "
 	@ 3, 1  Say "Variavel  : "
 	@ 3, 35 Say "Arquivo : "
 	@ 4, 1  Say "Area      : "
 	@ 4, 35 Say "Indice  : "
 
-	@ 5, 1 Say "Descri∩┐╜ao : "
-	@ 6, 1 Say "Explana∩┐╜ao: "
-	@ 7, 1 Say "A∩┐╜ao      : "
+	@ 5, 1 Say "Descricao : "
+	@ 6, 1 Say "Explanacao: "
+	@ 7, 1 Say "Acao      : "
 	
 	@ 1, 14 Say csystem             				Color "W+/B"
 	@ 1, 45 Say Str(nsubcode, 4)    				Color "W+/B"
@@ -7834,7 +7838,7 @@ Function MacroErro(e)
 				FWriteLine( cHandle, "Descricao : " + e:description )
 				FWriteLine( cHandle, "Explanacao: " + cexplanacao )
 				FWriteLine( cHandle, "Acao      : " + cAcao )
-				FWriteLine( cHandle, "Acao      : " + cAcao1 )
+				FWriteLine( cHandle, "Acao++    : " + cAcao1 )
 				FWriteLine( cHandle, Replicate("-", 80))
 				FWriteLine( cHandle, "PILHA DE CARGA" )
 				i	:= 2

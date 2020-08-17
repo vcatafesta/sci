@@ -4,12 +4,12 @@
 #include "fileio.ch"
 
 #Define  XEXE            "SCI.EXE"
-#Define  XSISTEM_VERSAO  "- Vers„o 10.0.11 x86_64 "
+#Define  XSISTEM_VERSAO  "- Vers„o 10.0.16 x86_64 "
 #ifdef __PLATFORM__WINDOWS
 	#Define  XSISTEM_1       "Macrosoft SCI for Windows"
 #else
 	#Define  XSISTEM_1       "Macrosoft SCI for Linux"
-#endif	
+#endif
 #Define  XSISTEM_2       "Macrosoft SCI - CONTROLE ESTOQUE"
 #Define  XSISTEM_3       "Macrosoft SCI - CONTAS RECEBER"
 #Define  XSISTEM_4       "Macrosoft SCI - CONTAS PAGAR"
@@ -38,7 +38,7 @@ function main()
 	LOCAL cSis6          := XSISTEM_6
 	LOCAL cSis7          := XSISTEM_7
 	LOCAL cSis8          := XSISTEM_8
-	LOCAL cExe           := XEXE	
+	LOCAL cExe           := XEXE
 	LOCAL cSystem_Versao := XSISTEM_VERSAO
 	LOCAL cSci           := XSISTEM_1
 	LOCAL cTestelan      := XSISTEM_2
@@ -50,17 +50,15 @@ function main()
 	LOCAL cPonto         := XSISTEM_8
 	Set Century On
    Set Date To Italian
-   
    cSystem_Versao += Dtoc(Date()) + " " + Left(Time(),5)
-	
 	?
 	? "cfg, Copyright(c) 2018, Vilmar Catafesta"
 	? "   Versao Harbour : ", hb_Version(HB_VERSION_HARBOUR )
 	? "   Compiler C++   : ", hb_Version(HB_VERSION_COMPILER)
 	?
-	?	
+	?
 	Qout("þþþ Excluindo sci.cfg...")
-	Ferase("sci.cfg")	
+	Ferase("sci.cfg")
 	Qout("þþþ Criando novo sci.cfg...")
 	handle := FCreate("sci.cfg")
 	if ( Ferror() != 0 )
@@ -72,7 +70,7 @@ function main()
 	cEndereco  := "AAv Castelo Branco, 693 * Pioneiros * (69)3451-3085/98453-1393 * Pimenta Bueno/RO"
 	cTelefone  := "eemail * vcatafesta@gmail.com - https://github.com/vcatafesta"
 	cCidade    := "hhttp://www.sybernet.com.br - Todos Direitos Reservados"
-	
+
 	MsWriteLine( Handle, "[ENDERECO_STRING]")
 	MsWriteLine( Handle, cMicroBras )
 	MsWriteLine( Handle, cEndereco )
@@ -116,7 +114,7 @@ function main()
 	MsWriteLine( Handle, MSEncrypt("ßßÄÄÄÄßß³  ßßÀÄÄÄßß³ ßß³"))
 	MsWriteLine( Handle, MSEncrypt("ßßßßßßßßÙ  ßßßßßßßßÙ ßß³"))
 	MsWriteLine( Handle, MSEncrypt(" ßßßßßßÙ    ßßßßßßÙ  ßßÙ"))
-	Fclose(handle)      
+	Fclose(handle)
 	Qout("þþþ Arquivo sci.cfg. OK.")
 	Qout("þþþ Criando sci.dbf.")
 	CriaDbf()
@@ -141,7 +139,6 @@ function main()
 	Qout("þþþ Limite", Sci->(MSDecrypt( Limite )))
 	Qout("þþþ Arquivos de Configuracao OK.")
 	Qout()
-	
 	return nil
 	Quit
 

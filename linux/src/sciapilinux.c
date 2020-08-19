@@ -211,7 +211,7 @@ char *strsubstr(TString str, size_t ini, size_t fim) {
     return (NULL);
 }
 
-/*-----------------------------------------------------------------------------------------------*/	
+/*-----------------------------------------------------------------------------------------------*/
 
 static char *replicate(MS_CHAR *str, MS_SIZE vezes)
 {
@@ -220,7 +220,7 @@ static char *replicate(MS_CHAR *str, MS_SIZE vezes)
 	MS_CHAR *ptr   = (MS_CHAR*)malloc(tam * sizeof(MS_CHAR)); // (MS_CHAR*)malloc(tam+1);
 	MS_SIZE x;
 	MS_SIZE y;
-		
+
 	if (str){
 		if (ptr){
 			for (x = 0; x < tam;){
@@ -233,10 +233,10 @@ static char *replicate(MS_CHAR *str, MS_SIZE vezes)
 	ptr[vezes] = '\0';
 	if(ptr)
 		return ptr;
-	return NULL;		
+	return NULL;
 }
 
-/*-----------------------------------------------------------------------------------------------*/	
+/*-----------------------------------------------------------------------------------------------*/
  
 HB_FUNC( MS_CLS )
 {
@@ -333,23 +333,27 @@ HB_FUNC( MS_CLS )
    return;
 }	
 
-/*-----------------------------------------------------------------------------------------------*/	
-
+/*-----------------------------------------------------------------------------------------------
+ms_replicate(<string>, <nvezes>)
+ms_replicate("=", 80)
+-----------------------------------------------------------------------------------------------*/
 HB_FUNC( MS_REPLICATE )
 {
 	int iParams = hb_pcount();
-	
-	if( iParams == 2 && HB_ISCHAR( 1 ) && HB_ISNUM( 2 ) )
+
+//	if( iParams == 2 && HB_ISCHAR( 1 ) && HB_ISNUM( 2 ) )
+	if(hb_pcount() == 2 && HB_ISCHAR(1) && HB_ISNUM(2))
    {
-		char *szText = replicate( (char*)hb_parc( 1 ), hb_parni( 2 ) );
-		hb_retc( szText );
+		char *szText = replicate((char*)hb_parc(1), hb_parni(2));
+		hb_retc(szText);
+		free(szText);
 		return;
 	}
 	else
-   {	
+   {
 		hb_errRT_BASE_SubstR( EG_ARG, 1111, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
 		return;
-	}	
+	}
 }
 
 /*-----------------------------------------------------------------------------------------------*/	
@@ -388,21 +392,23 @@ HB_FUNC( MS_FOR )
 	return;
 }
 
-/*-----------------------------------------------------------------------------------------------*/	
-
+/*-----------------------------------------------------------------------------------------------
+ms_clear(<color>, <string>)
+ms_clear(31, "░▒▓")
+-----------------------------------------------------------------------------------------------*/
 HB_FUNC(MS_CLEAR)
 {
-	MS_CHAR	*string 	= (char*) hb_parc(2);	
+	MS_CHAR	*string 	= (char*) hb_parc(2);
 	MS_INT	x 			= strlen(string);
 	MS_INT	iTop    	= 0;
 	MS_INT 	iLeft   	= 0;
 	MS_INT 	iBottom 	= hb_gtMaxRow();
-	MS_INT	iRight  	= hb_gtMaxCol();	
+	MS_INT	iRight  	= hb_gtMaxCol();
 	MS_INT	size 		= (MS_INT)(((iBottom-iTop)) * ((iRight-iLeft)));
-	MS_CHAR	*buffer 	= (MS_CHAR*)malloc(size);	
-	MS_INT	n;	
+	MS_CHAR	*buffer 	= (MS_CHAR*)malloc(size);
+	MS_INT	n;
 	MS_INT 	y;
-		
+
 	for (n=0; n<size;){
 		for (y=0; y<x; y++, n++){
 			buffer[n] = string[y];
@@ -1116,27 +1122,27 @@ static void hb_inkeySetTextKeys( const char * pszText, HB_SIZE nSize, HB_BOOL fI
    }
 }
 
-/*-----------------------------------------------------------------------------------------------*/	
+/*-----------------------------------------------------------------------------------------------*/
 
 HB_FUNC( INKEY )
 {
    int iPCount = hb_pcount();
 
-   hb_retni( 
+   hb_retni(
 					hb_inkey( iPCount == 1 || ( iPCount > 1 && HB_ISNUM( 1 )),
-               hb_parnd( 1 ), 
+               hb_parnd( 1 ),
 					hb_parnidef( 2, hb_setGetEventMask()))
 				);
 }
 
-/*-----------------------------------------------------------------------------------------------*/	
+/*-----------------------------------------------------------------------------------------------*/
 
 HB_FUNC( HB_KEYCLEAR )
 {
    hb_inkeyReset();
 }
 
-/*-----------------------------------------------------------------------------------------------*/	
+/*-----------------------------------------------------------------------------------------------*/
 
 HB_FUNC( HB_KEYPUT )
 {

@@ -11,6 +11,7 @@
 
 {linux}-prgflag= -i../include;
 {linux}-i../include
+{linux}-i../../include
 #{linux}-ldflag=-Wl,--allow-multiple-definition -Wno-unused-local-typedefs -Wno-unused-result
 #{linux}-cflag=-cpp
 #{linux}-cflag=-Wall
@@ -19,6 +20,7 @@
 {linux}-cflag=-Wno-unused-variable
 {linux}-cflag=-Wno-unused-function
 {linux}-cflag=-Wno-unused-label
+-ldflag=-Wl,--allow-multiple-definition
 
 hbct.hbc
 hbmemio.hbc
@@ -35,7 +37,7 @@ hbgzio.hbc
 hbmemio.hbc
 letodb.hbc
 {linux}hbcups.hbc
-{linux}/home/vcatafesta/github/hwgui/hwgui.hbc
+{linux}/github/hwgui/hwgui.hbc
 
 #-lsciapilinux
 -lncurses

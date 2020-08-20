@@ -617,7 +617,7 @@ def Fecha( cCaixa, lManutencao, aDevolucao, lVarejo )
       Write( 05, 15, cFatura )
       //Print 01, 15 Get cForma   Pict "@R99" Valid LastKey() = UP .OR. FormaErrada( @cForma, @cCond, 01, 37, @nPorc, nComissaoMedia, @nIof, @lDesdobrar )
       Print 01, 15 Get cForma   Pict "99" Valid LastKey() = UP .OR. FormaErrada( @cForma, @cCond, 01, 37, @nPorc, nComissaoMedia, @nIof, @lDesdobrar )
-      Print 01, 22 Get nDia	  Pict "99" When lDesdobrar Valid nDia >= 0 .OR. LastKey() = UP
+      Print 01, 22 Get nDia	  Pict "99" When lDesdobrar Valid nDia >= 0 .and. nDia <= 31 .OR. LastKey() = UP
    endif
    nPorcAnt   := nPorc
    cTecSimNao := if( !Empty( cTecnico ), "S","N")
@@ -1329,6 +1329,8 @@ def Vendedor( cCodiVen, nRow, nCol, lTrocarVendedor, cOldVendedor )
    LOCAL cScreen := SaveScreen()
    LOCAL Arq_Ant := Alias()
    LOCAL Ind_Ant := IndexOrd()
+	LOCAL aCampos := {"CodiVen", "Nome","Fone"}
+	LOCAL aCabec  := {"CODI","NOME DO VENDEDOR","TELEFONE"}
 
    ifNil( lTrocarVendedor, OK )
    ifNil( cOldVendedor, cCodiVen )
@@ -1344,7 +1346,7 @@ def Vendedor( cCodiVen, nRow, nCol, lTrocarVendedor, cOldVendedor )
    Vendedor->(Order( VENDEDOR_CODIVEN ))
    if Vendedor->(!DbSeek( cCodiVen ))
       Vendedor->(Order( VENDEDOR_NOME ))
-      Vendedor->(Escolhe( 03, 01, MaxRow()-2, "CodiVen + '▌' + Nome + '▌' + Fone", "CODI NOME DO VENDEDOR" + Space(25)+ "TELEFONE", aRotinaInc, NIL, aRotinaAlt ))
+      Vendedor->(Escolhe( 03, 01, MaxRow()-2, aCampos, aCabec, aRotinaInc, NIL, aRotinaAlt ))
       cCodiven := Vendedor->Codiven
    endif
    if Vendedor->Rol = OK
@@ -1381,7 +1383,18 @@ endef
 
 Proc TelaFechaCli()
 *******************
+LOCAL cChr205 := chr(205) // ═
+LOCAL cChr206 := chr(206) // ╬
+LOCAL cChr179 := chr(179) // │
+LOCAL cChr197 := chr(197) // ┼
+LOCAL cChr196 := chr(196) // ─
+LOCAL cChr193 := chr(193) // ┴
+LOCAL cChr194 := chr(194) // ┬
+LOCAL cChr195 := chr(195) // ├
+LOCAL cChr180 := chr(180) // ┤
+
 MaBox( 00, 0, 12, MaxCol() )
+/*
 Write( 01, 1 , "Forma Pagto.:    Dia:  │Prazo.....:")
 Write( 02, 1 , "Comissao....:          │Vendedor 1:")
 Write( 03, 1 , "Dividir.....:          │Vendedor 2:")
@@ -1393,14 +1406,30 @@ Write( 08, 1 , "Cliente.....:          │                                      
 Write( 09, 1 , "C/C/........:          │                                                      ")
 Write( 10, 1 , "Placa.......:          │                                                      ")
 Write( 11, 1 , "Observacoes.:          │                                                      ")
+*/
+Write( 00, 24, cChr194)
+Write( 01, 01, "Forma Pagto.:    Dia:  " + cChr179 + "Prazo.....:")
+Write( 02, 01, "Comissao....:          " + cChr179 + "Vendedor 1:")
+Write( 03, 01, "Dividir.....:          " + cChr179 + "Vendedor 2:")
+Write( 04, 01, "Tecnico.....:          " + cChr179 + "Nome......:")
+Write( 05, 01, "Fatura #....:          " + cChr179 + "Emissao...:")
+Write( 06, 01, "Desconto %..:          " + cChr179 + "Liquido...:")
+Write( 07, 00, cChr195 + Replicate(cChr196, 23) + cChr197 + Replicate(cChr196,19) + cChr196 + "DADOS DO CLIENTE" + Replicate(cChr196,MaxCol()-61) + cChr180)
+Write( 08, 01, "Cliente.....:          " + cChr179)
+Write( 09, 01, "C/C/........:          " + cChr179)
+Write( 10, 01, "Placa.......:          " + cChr179)
+Write( 11, 01, "Observacoes.:          " + cChr179)
+Write( 12, 24, cChr193)
 return
 
 Proc TelaFechaTit()
 *******************
+LOCAL cChr205 := chr(205) // ═
 MaBox( 13, 0, 24, MaxCol() )
 Write( 14, 1, "  OBSERVACOES                                                                 " )
 Write( 15, 1, "  TITULO Nº        VALOR R$  DIAS VENCTO    TIPO  COM TIT JR/MES   PORTADOR   " )
-Write( 16, 1 , "══════════════════════════════════════════════════════════════════════════════")
+//Write( 16, 1 , "══════════════════════════════════════════════════════════════════════════════")
+Write( 16, 1 , Replicate(cChr205,78))
 Write( 17, 1 , "A:                                                                            ")
 Write( 18, 1 , "B:                                                                            ")
 Write( 19, 1 , "C:                                                                            ")
@@ -2435,12 +2464,9 @@ LOCAL Arq_Ant			  := Alias()
 LOCAL Ind_Ant			  := IndexOrd()
 LOCAL nConta			  := ChrCount("/", cCond ) + 1
 LOCAL nCond 			  := Val( StrExtract( cCond,"/", nConta ))
-FIELD Codi
-FIELD Esta
-FIELD Cep
-FIELD Cida
-FIELD Nome
-
+LOCAL aCampos          := {"Codi","Nome","Fone","Ende", "Cida", "Esta", "Left(Fanta,15)"}
+LOCAL aCabec           := {"CODI","NOME DO CLIENTE","TELEFONE","ENDERECO","CIDADE", "UF","FANTASIA"}
+	
 Area("Receber")
 Receber->(Order( RECEBER_CODI ))
 Receber->(DbGoTop())
@@ -2455,7 +2481,7 @@ endif
 if !DbSeek( cCodi )
 	Receber->(Order( RECEBER_NOME ))
 	Receber->(DbGoTop())
-	Receber->(Escolhe( 03, 00, 22,"Codi + '▌' + Nome + '▌' + Fone + '▌' + Left( Fanta, 15 )", "CODI NOME DO CLIENTE                          TELEFONE       FANTASIA", aRotina,, aRotinaAlteracao ))
+	Receber->(Escolhe( 03, 00, 22, aCampos, aCabec, aRotina,, aRotinaAlteracao ))
 	if LastKey() = ESC
 		AreaAnt( Arq_Ant, Ind_Ant )
 		ResTela( cScreen )
@@ -2707,18 +2733,18 @@ elseif nTam = 13 .OR. nTam = 8
 	Lista->(Order( LISTA_CODEBAR ))
 endif
 
-if Lista->( !DbSeek( cCodigo ))
+if Lista->(!DbSeek( cCodigo ))
 	if nTipoBusca = 1
 		#ifDEF MICROBRAS
 			Lista->(Order( LISTA_DESCRICAO ))
-			Escolhe( 03, 00, 22, "Codigo + uChar + Left( N_Original, 12 ) + uChar + Descricao + uChar + Tran( Quant, '999.99') + uChar + Tran( Varejo, '@E 9,999.99')","CODI  COD FABR   DESCRICAO DO PRODUTO                      ESTOQUE     PRECO", aRotina,, aRotinaAlteracao )
+			Escolhe( 03, 00, 22, {"Codigo","Left(N_Original,12)","Descricao","Tran(Quant,'99999.99')","Tran(Varejo,'@E 99,999.99')"},{"CODI","COD FABR    ","DESCRICAO DO PRODUTO","ESTOQUE","PRECO"}, aRotina,, aRotinaAlteracao )
 		#else
 			Lista->(Order( LISTA_DESCRICAO ))
-         Escolhe( 03, 00, 22, "Codigo + uChar + Sigla + uChar + Left( Descricao, 39 ) + uChar + Tran( Quant, '99999.99') + uChar + Tran( Varejo, '@E 99,999.99')","CODI  MARCA      DESCRICAO DO PRODUTO                      ESTOQUE     PRECO", aRotina,, aRotinaAlteracao )
+         Escolhe( 03, 00, 22, {"Codigo","Sigla","Left(Descricao,39)","Tran(Quant,'99999.99')","Tran(Varejo,'@E 99,999.99')"},{"CODI","MARCA","DESCRICAO DO PRODUTO","ESTOQUE","PRECO"}, aRotina,, aRotinaAlteracao )
 		#endif
 	else
 		Lista->(Order( LISTA_N_ORIGINAL ))
-		Escolhe( 03, 00, 22, "N_Original + uChar + Sigla + uChar + Left( Descricao, 31 ) + uChar + Tran( Quant, '9999.99') + uChar + Tran( Varejo, '@E 99,999.99')","COD FABR        MARCA      DESCRICAO DO PRODUTO            ESTOQUE    PRECO", aRotina,, aRotinaAlteracao )
+		Escolhe( 03, 00, 22, {"N_Original","Sigla","Left(Descricao,31)","Tran(Quant,'9999.99')","Tran(Varejo,'@E 99,999.99')"},{"COD FABR","MARCA","DESCRICAO DO PRODUTO","ESTOQUE","PRECO"}, aRotina,, aRotinaAlteracao )
 	endif
 	if LastKey() = ESC
 		AreaAnt( Arq_Ant, Ind_Ant )
@@ -3856,15 +3882,25 @@ return(FALSO)
 
 Function Imprime_Soma( pTotal, pComissaoMed, lMostrar, lMedias )
 ************************************************************
-LOCAL nQuant		 := 0
-LOCAL nTotalCusto  := 0
-LOCAL nTotal		 := 0
-LOCAL nSoma 		 := 0
-LOCAL nComissao	 := 0
-LOCAL nComissaoMed := 0
-LOCAL nMargemMedia := 0
-LOCAL nCurrente	 := (xAlias)->(Recno())
-LOCAL nPos         := SCI_MAXROW - 9
+LOCAL nQuant		 	:= 0
+LOCAL nTotalCusto		:= 0
+LOCAL nTotal		 	:= 0
+LOCAL nSoma 		 	:= 0
+LOCAL nComissao	 	:= 0
+LOCAL nComissaoMed	:= 0
+LOCAL nMargemMedia 	:= 0
+LOCAL nCurrente	 	:= (xAlias)->(Recno())
+LOCAL nPos         	:= SCI_MAXROW - 9
+LOCAL cChr9612     	:= HB_UCHAR(9612)
+LOCAL cChr205      	:= chr(205) // ═
+LOCAL cChr206      	:= chr(206) // ╬
+LOCAL cChr179      	:= chr(179) // │
+LOCAL cChr197      	:= chr(197) // ┼
+LOCAL cChr196      	:= chr(196) // ─
+LOCAL cChr193 		 	:= chr(193) // ┴
+LOCAL cChr194 			:= chr(194) // ┬
+LOCAL cChr195 			:= chr(195) // ├
+LOCAL cChr180 			:= chr(180) // ┤
 LOCAL cTela
 FIELD Quant
 FIELD Unitario
@@ -3894,11 +3930,13 @@ if lMedias != NIL
 endif
 if lMostrar = Nil
 	MaBox( nPos+2, 00, MaxRow()-1, MaxCol(),"TOTAL FATURA R$  " + Tran( nTotal, "@E 9,999,999,999.99"))
-	Write( nPos+3, 01,"INSERT  Incluir Registros▌  F1 Consulta Debito      ▌ F11 Devol/Incl Fatura   ")
-	Write( nPos+4, 01,"DELETE  Excluir Registros▌  F2 Baixar Dup/Prom/Cc   ▌ F3  Pagamentos          ")
-	Write( nPos+5, 01,"F4      Lanc/Pos Caixa   ▌  F5 Lista Preços         ▌ F6  Manutencao Pre-Venda")
-	Write( nPos+6, 01,"F7      Visualizar Fatura▌  F8 Fechar Pre-Venda     ▌ F9  Inclusao Clientes   ")
-	Write( nPos+7, 01,"F10     Fechar Fatura    ▌^F10 Imprime Orcamento    ▌ ^P  Menu de Impressao   ")
+	Write( nPos+3, 01,"INSERT  Incluir Registros" + cChr179 + "  F1 Consulta Debito      " + cChr179 + " F11 Devol/Incl Fatura   ")
+	Write( nPos+4, 01,"DELETE  Excluir Registros" + cChr179 + "  F2 Baixar Dup/Prom/Cc   " + cChr179 + " F3  Pagamentos          ")
+	Write( nPos+5, 01,"F4      Lanc/Pos Caixa   " + cChr179 + "  F5 Lista Precos         " + cChr179 + " F6  Manutencao Pre-Venda")
+	Write( nPos+6, 01,"F7      Visualizar Fatura" + cChr179 + "  F8 Fechar Pre-Venda     " + cChr179 + " F9  Inclusao Clientes   ")
+	Write( nPos+7, 01,"F10     Fechar Fatura    " + cChr179 + "^F10 Imprime Orcamento    " + cChr179 + " ^P  Menu de Impressao   ")
+	Write( nPos+8, 26, cChr193)
+	Write( nPos+8, 53, cChr193)
 endif
 return
 
@@ -4417,7 +4455,7 @@ LOCAL aRotinaAlteracao := {{||CliInclusao( OK )}}
 
 xCodigo := StrCodigo( xCodigo )
 if (xAlias)->(!DbSeek( xCodigo ))
-	(xAlias)->(Escolhe( 03, 01, 22,"Codigo + '▌' + Descricao","CODIG DESCRICAO DO PRODUTO", aRotina,,aRotinaAlteracao))
+	(xAlias)->(Escolhe( 03, 01, 22,{"Codigo","Descricao"},{"CODIG","DESCRICAO DO PRODUTO"}, aRotina,,aRotinaAlteracao))
 endif
 nQuant := (xAlias)->Quant
 Write( nRow+0, nCol, (xAlias)->Descricao )
@@ -5917,10 +5955,10 @@ endif
 if !( DbSeek( cCodigo ))
 	if nTipoBusca = 1
 		Lista->(Order( LISTA_DESCRICAO ))
-		Escolhe( 03, 00, 22, "Codigo + '▌' + Sigla + '▌' + Left( Descricao, 39 ) + '▌' + Tran( Quant, '99999.99') + '▌' + Tran( Pcusto, '@E 99,999.99')","CODI  MARCA      DESCRICAO DO PRODUTO                      ESTOQUE     CUSTO", aRotina,, aRotinaAlteracao )
+		Escolhe( 03, 00, 22, {"Codigo","Sigla","Left(Descricao,39)","Tran(Quant,'99999.99')","Tran(Pcusto,'@E 99,999.99')"},{"CODI","MARCA","DESCRICAO DO PRODUTO","ESTOQUE","CUSTO"}, aRotina,, aRotinaAlteracao )
 	else
 		Lista->(Order( LISTA_N_ORIGINAL ))
-		Escolhe( 03, 00, 22, "N_Original + '▌' + Sigla + '▌' + Left( Descricao, 31 ) + '▌' + Tran( Quant, '9999.99') + '▌' + Tran( Varejo, '@E 99,999.99')","COD FABR        MARCA      DESCRICAO DO PRODUTO            ESTOQUE    PRECO", aRotina,, aRotinaAlteracao )
+		Escolhe( 03, 00, 22, {"N_Original","Sigla","Left(Descricao,31)","Tran(Quant,'9999.99')","Tran(Varejo,'@E 99,999.99')"},{"COD","FABR","MARCA","DESCRICAO DO PRODUTO","ESTOQUE","PRECO"}, aRotina,, aRotinaAlteracao )
 	endif
 	if LastKey() = ESC
 		AreaAnt( Arq_Ant, Ind_Ant )
@@ -5969,14 +6007,24 @@ return(OK)
 
 Proc TelaSai( cString )
 ***********************
+LOCAL cChr205 := chr(205) // ═
+LOCAL cChr206 := chr(206) // ╬
+LOCAL cChr179 := chr(179) // │
+LOCAL cChr197 := chr(197) // ┼
+LOCAL cChr196 := chr(196) // ─
+LOCAL cChr193 := chr(193) // ┴
+LOCAL cChr194 := chr(194) // ┬
+LOCAL cChr195 := chr(195) // ├
+LOCAL cChr180 := chr(180) // ┤
 LOCAL nPos := SCI_MAXROW - 9
 
 MaBox( nPos+2, 00, nPos+8, MaxCol(), cString, NIL, Roloc( Cor() ))
-Write( nPos+3, 01, "Codigo.:             │Descricao.:                                             ")
-Write( nPos+4, 01, "Quant..:             │Grupo.....:                                             ")
-Write( nPos+5, 01, "Desc...:             │SubGrupo..:                                             ")
-Write( nPos+6, 01, "Preco..:             │Cod Fabr..:                  Marca....:                 ")
-Write( nPos+7, 01, "Serie..:             │Tamanho...:                  Desc Max.:                 ")
+Write( nPos+3, 01, "Codigo.:             " + cChr179 + "Descricao.:                                             ")
+Write( nPos+4, 01, "Quant..:             " + cChr179 + "Grupo.....:                                             ")
+Write( nPos+5, 01, "Desc...:             " + cChr179 + "SubGrupo..:                                             ")
+Write( nPos+6, 01, "Preco..:             " + cChr179 + "Cod Fabr..:                  Marca....:                 ")
+Write( nPos+7, 01, "Serie..:             " + cChr179 + "Tamanho...:                  Desc Max.:                 ")
+Write( nPos+8, 22, cChr193)
 return
 
 Proc TelaEnt()
@@ -10076,15 +10124,16 @@ return
 
 Function FormaErrada( cForma, cCondicoes, nRow, nCol, nComissao, nComissaoMedia, nIof, lDesdobrar )
 ***************************************************************************************************
-LOCAL Arq_Ant := Alias()
-LOCAL Ind_Ant := IndexOrd()
-LOCAL aRotina := {{|| InclusaoForma() }}
+LOCAL Arq_Ant   := Alias()
+LOCAL Ind_Ant   := IndexOrd()
+LOCAL aRotina   := {{|| InclusaoForma() }}
+PRIVA cChar9612 := HB_UCHAR(9612)
 
 Area("Forma")
 Forma->(Order(FORMA_FORMA))
 if Forma->(!DbSeek( cForma ))
 	Forma->(Order(FORMA_CONDICOES))
-	Forma->(Escolhe( 03, 01, 22,"Forma + '▌' + Condicoes + '▌' + Str( Comissao,5,2)", "CODIGO CONDICOES                             COMISSAO", aRotina ))
+	Forma->(Escolhe( 03, 01, 22,{"Forma","Condicoes","Str(Comissao,5,2)"}, {"ID","CONDICOES","COMISSAO"}, aRotina ))
 	if LastKey() = ESC
 		AreaAnt( Arq_Ant, Ind_Ant )
 		return( FALSO )

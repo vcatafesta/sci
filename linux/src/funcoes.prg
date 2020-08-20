@@ -1503,6 +1503,7 @@ def Escolhe
    LOCAL Arq_Ant := Alias()
    LOCAL Ind_Ant := IndexOrd()
    LOCAL nMaxCol := MaxCol()
+	LOCAL cCh9612 := HB_UCHAR(9612)
    LOCAL _Tam
    LOCAL Lin2
    LOCAL nRecno
@@ -1528,9 +1529,31 @@ def Escolhe
          Lin2 := nMaxCol
       endif
    else
-      _Vetor1 := Nome_Campo
-      _Vetor2 := Cabecalho
-      Lin2	  := 70
+		nLen    := Len(Nome_Campo)
+		nMax    := Lin1
+		_Vetor1 := {}
+		_Vetor2 := {}
+		cString := space(0)
+		cCabec  := space(0)
+		for x := 1 to nLen
+			cString   += Nome_Campo[x]	
+         nTam      := FieldLen( Nome_Campo[x] )
+			nLenCabec := Len(Cabecalho[x])
+			if nLenCabec > nTam
+				nTam   := nLenCabec
+			endif	
+			nMax      += nTam + 2			
+			nDif      := nTam - nLenCabec
+			cCabec    += Cabecalho[x] + Space(nDif + 1)					
+			if x < nLen
+				cString += " + Space(nDif) + HB_UCHAR(9612) + "
+			endif
+		next
+		nTam := Len( cString)
+		nCab := Len( cCabec)
+   	_Vetor1 := { cString }
+      _Vetor2 := { cCabec }
+		Lin2    := nMax
    endif
    if lLimpaTela = NIL .OR. lLimpatela = OK
       oMenu:Limpa()

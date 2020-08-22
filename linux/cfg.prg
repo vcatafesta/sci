@@ -4,7 +4,7 @@
 #include "fileio.ch"
 
 #Define  XEXE            "SCI.EXE"
-#Define  XSISTEM_VERSAO  "- Vers„o 10.0.69 x86_64 "
+#Define  XSISTEM_VERSAO  "- Versao 10.0.70 x86_64 "
 #ifdef __PLATFORM__WINDOWS
 	#Define  XSISTEM_1       "Macrosoft SCI for Windows"
 #else
@@ -51,11 +51,9 @@ function main()
 	Set Century On
    Set Date To Italian
    cSystem_Versao += Dtoc(Date()) + " " + Left(Time(),5)
-	?
-	? "cfg, Copyright(c) 2018, Vilmar Catafesta"
+	? "cfg, Copyright(c) 2018,", Year(Date()), "Vilmar Catafesta"
 	? "   Versao Harbour : ", hb_Version(HB_VERSION_HARBOUR )
 	? "   Compiler C++   : ", hb_Version(HB_VERSION_COMPILER)
-	?
 	?
 	Qout("þþþ Excluindo sci.cfg...")
 	Ferase("sci.cfg")
@@ -135,7 +133,7 @@ function main()
 	Sci->NOMEEXE  := MSEncrypt( XEXE )
 	Sci->LIMITE   := MSEncrypt( DATALIMITE )
 	Set Date Brit
-	Qout("þþþ", Sci->Nome )
+	Qout("þþþ", "Licenciado para:", Sci->Nome )
 	Qout("þþþ Limite", Sci->(MSDecrypt( Limite )))
 	Qout("þþþ Arquivos de Configuracao OK.")
 	Qout()
@@ -192,22 +190,22 @@ function MsEncrypt( Pal )
 	next
 	return( Encrypt( Pal, cChave ))
 
-*---------------------------*	
+*---------------------------*
 function FWriteLine( nH, cBuffer)
 *---------------------------*
 	LOCAL nSavePos
 	LOCAL nNumRead
 	#define EOL HB_OSNEWLINE()
-	
+
    nSavePos := fseek( nH, 0, FS_RELATIVE )
    FBot(nH)
 	nNumRead := fwrite( nH, cBuffer + EOL)
 	fseek( nH, nSavePos, FS_SET )
-   return nNumRead != 0	
-	
+   return nNumRead != 0
+
 *---------------------------*
 function FBot( nHandle )
 *---------------------------*
    LOCAL nPos := FSeek( nHandle, 0, FS_END )
-   return nPos	!= -2	
-	
+   return nPos	!= -2
+

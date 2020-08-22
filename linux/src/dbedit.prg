@@ -56,7 +56,7 @@
 /* NOTE: Clipper is buggy and will throw an error if the number of
          columns is zero. (Check: dbEdit(0,0,20,20,{})) [vszakats] */
 /* NOTE: Clipper will throw an error if there's no database open [vszakats] */
-/* NOTE: The NG says that the return value is NIL, but it's not. [vszakats] */
+/* NOTE: The NG says that the return value is NIL, but it's not. [vszaka0ts] */
 /* NOTE: Harbour is multithreading ready and Clipper only reentrant safe
          [vszakats] */
 
@@ -275,7 +275,7 @@ FUNCTION dbEdit( nTop, nLeft, nBottom, nRight, ;
          CASE K_CTRL_HOME     ; oBrowse:panHome()  ; EXIT
          CASE K_CTRL_END      ; oBrowse:panEnd()   ; EXIT
          OTHERWISE
-            lContinue := CallUser( oBrowse, xUserFunc, nKeyStd, @lAppend, @lFlag )
+            lContinue   := CallUser( oBrowse, xUserFunc, nKeyStd, @lAppend, @lFlag )
             lDoIdleCall := .F.
          ENDSWITCH
       endif

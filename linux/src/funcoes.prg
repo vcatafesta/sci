@@ -16,7 +16,12 @@
 */
 #include <sci.ch>
 
-
+STATIC cChr201 := chr(201) // +
+STATIC cChr205 := chr(205) // -
+STATIC cChr187 := chr(187) // +
+STATIC cChr186 := chr(179) // ¦
+STATIC cChr188 := chr(188) // +
+STATIC cChr200 := chr(200) // +
 STATIC static13
 STATIC static14
 STATIC static1 := "ÕÍ¸³¾ÍÔ³"
@@ -1495,8 +1500,8 @@ endif
 return Nil
 
 def Escolhe
-************************************************************************************************************************
-   Param Col1, Lin1, Col2, Nome_Campo, Cabecalho, aRotina, lExcecao, aRotinaAlteracao, aRotinaExclusao, lLimpaTela, lDbSeek
+Param Col1, Lin1, Col2, Nome_Campo, Cabecalho, aRotinaInclusao, lExcecao, aRotinaAlteracao, aRotinaExclusao, lLimpaTela, lDbSeek
+*********************************************************************************************************************************
    LOCAL GetList := {}
    LOCAL _Atela  := SaveScreen()
    LOCAL _corant := SetColor()
@@ -1513,7 +1518,7 @@ def Escolhe
          nCol    := Col2
          nLin	  := Lin1+1
    PRIVA aScroll
-
+	
    if ValType( Nome_Campo ) != "A"
       Cabecalho := Iif( Cabecalho = Nil, "", Cabecalho )
       if ValType( &Nome_Campo ) = "D"
@@ -1533,27 +1538,43 @@ def Escolhe
 		nMax    := Lin1
 		_Vetor1 := {}
 		_Vetor2 := {}
+		
 		cString := space(0)
 		cCabec  := space(0)
 		for x := 1 to nLen
-			cString   += Nome_Campo[x]	
-         nTam      := FieldLen( Nome_Campo[x] )
+         cCampo    := Nome_Campo[x]
+			nTam      := iif(valtype( &cCampo ) == 'D', 9, Len( &cCampo. ))
+			Switch valtype( &cCampo )
+			case 'D'
+				cString   += "Dtoc(&cCampo.)"
+				exit
+			case 'N'
+				cString   += "Str(&cCampo.)"
+				exit
+			otherwise
+				cString   += Nome_Campo[x]
+				exit
+			EndSwitch
 			nLenCabec := Len(Cabecalho[x])
+	
 			if nLenCabec > nTam
 				nTam   := nLenCabec
 			endif	
-			nMax      += nTam + 2			
-			nDif      := nTam - nLenCabec
+			nMax      += nTam + 1			
+			nDif      := (nTam - nLenCabec)
 			cCabec    += Cabecalho[x] + Space(nDif + 1)					
+
 			if x < nLen
-				cString += " + Space(nDif) + HB_UCHAR(9612) + "
+				cString += " + HB_UCHAR(9612) + " 
 			endif
+		   // Aadd(_Vetor1, Nome_Campo[x])
+      	// Aadd(_Vetor2, Cabecalho[x])
 		next
 		nTam := Len( cString)
 		nCab := Len( cCabec)
    	_Vetor1 := { cString }
-      _Vetor2 := { cCabec }
-		Lin2    := nMax
+      _Vetor2 := { cCabec  }
+		Lin2    := nMax 
    endif
    if lLimpaTela = NIL .OR. lLimpatela = OK
       oMenu:Limpa()
@@ -1563,7 +1584,7 @@ def Escolhe
    Print( Col1, Lin1+2, SubStr( oAmbiente:Frame, 1, 1 ), Cor())
    Print( Col2, Lin1+2, SubStr( oAmbiente:Frame, 5, 1 ), Cor())
 
-   if aRotina != NIL
+   if aRotinaInclusao != NIL
       if Alias() = "LISTA"
          if aRotinaAlteracao != NIL
             Print( Col2, Lin1+3, "INS _Incluir³DEL _Excluir³F2 _Cod Fabr³CTRL/ALT+ENTER _Alterar", Cor( 5 ), Lin2 - (Lin1+1))
@@ -1583,9 +1604,9 @@ def Escolhe
    endif
    DbGoTop()
    if Eof()
-      if aRotina != NIL
+      if aRotinaInclusao != NIL
          if Conf("Arquivo Vazio. Deseja Incluir Registros ?")
-            Eval( aRotina[1])
+            Eval( aRotinaInclusao[1])
             AreaAnt( Arq_Ant, Ind_Ant )
          endif
       endif
@@ -1599,6 +1620,143 @@ def Escolhe
    SetColor(_corant )
    return( true )
 endef   
+
+def MS_DbUser( Modo, Ponteiro , Var)
+*----------------------------------*
+LOCAL GetList		:= {}
+LOCAL cScreen		:= SaveScreen()
+LOCAL Key			:= LastKey()
+LOCAL Arq_Ant		:= Alias()
+LOCAL Ind_Ant		:= IndexOrd()
+LOCAL cN_Original := Space(15)
+STATI nPosicao 	:= 1
+LOCAL nLastrec 	:= Lastrec()
+LOCAL Registro
+LOCAL Salva_tela
+LOCAL lInativos	:= oIni:ReadBool('sistema', 'MostrarClientesInativos', false )
+
+ScrollBarUpdate( aScroll, Recno(), Lastrec(), true )
+
+Do Case
+	Case Key = F2
+		if Alias() = "LISTA"
+			oMenu:Limpa()
+			MaBox( 10, 10, 12, 48 )
+			@ 11, 11 Say "Codigo Fabricante..." Get cN_Original Pict "@!" Valid CodiOriginal( @cN_Original )
+			Read
+			if LastKey() = ESC
+				ResTela( cScreen )
+				return(1)
+			endif
+			ResTela( cScreen )
+		else
+			if Alias() = "RECEBER"
+				oMenu:Limpa()
+				ClientesFiltro()
+				ResTela( cScreen )
+			endif
+		endif
+		AreaAnt( Arq_Ant, Ind_Ant )
+		return(1)
+
+	Case Key = K_INS
+		if aRotinaInclusao != Nil
+			if PodeIncluir()
+				Eval( aRotinaInclusao[1])
+			else
+				if lExcecao != Nil
+					Eval( aRotinaInclusao[1])
+				endif
+			endif
+		endif
+		AreaAnt( Arq_Ant, Ind_Ant )
+		return(1)
+
+#define ALT_ENTER 284
+	Case Key = K_CTRL_RET .or. Key = ALT_ENTER
+		if !(aRotinaAlteracao == NIL )
+			if PodeAlterar() .OR. !(lExcecao == NIL)
+			   Eval( aRotinaAlteracao[1])
+			endif
+		endif
+		AreaAnt( Arq_Ant, Ind_Ant )
+		return(1)
+
+	Case Key = K_DEL
+		if aRotinaInclusao != Nil
+			if PodeExcluir()
+				if aRotinaExclusao != NIL
+					if !Eval( aRotinaExclusao[1] )
+						return(1)
+					endif
+				endif
+				ErrorBeep()
+				if Conf("Pergunta: Excluir Registro sob o Cursor ?")
+					if TravaReg()
+						DbDelete()
+						Libera()
+					  Keyb Chr( K_CTRL_PGUP )
+					endif
+				endif
+			endif
+		endif
+		return(1)
+
+	Case Modo < 4
+		return(1)
+
+	Case LastKey() = 27
+		nPosicao := 1
+		return(0)
+
+	Case LastKey() = 13
+		return(0)
+
+	Case LastKey() >= 48 .AND. LastKey() <= 122	&&  0 a Z
+		if   ValType( cCampo ) = "C"
+			xVar := Upper(Chr(Key))
+			nTam := FieldLen(OrdKey())
+			// xVar := xVar + Space( nTam - Len( xVar))
+			xVar += Space( nTam - Len( xVar))
+			Keyb(Chr(K_RIGHT))
+			@ nCol-1, nLin+2 Get xVar Pict "@!"
+			Read
+
+		elseif ValType( cCampo ) = "N"
+			if nKey < Chr(48) .OR. nKey > Chr(57) // 0 a 9
+				return(1)
+			endif
+			xVar := Chr(nKey)
+			Keyb(Chr(K_RIGHT))
+			@ nCol-1, nLin+2 Get xVar
+			Read
+
+		elseif ValType( cCampo ) = "D"
+			xVar := Date()
+			@ nCol-1, nLin+2 Get xVar Pict "##/##/##"
+			Read
+		endif
+		if LasTKey() = ESC
+			ResTela( cScreen )
+			return(1)
+		endif
+		xVar := Iif( ValType( cCampo ) = "C", AllTrim( xVar ), xVar)
+		ResTela( cScreen )
+		DbSeek( xVar )
+		return(1)
+
+	OTHERWISE
+		if Alias() = "RECEBER"
+			if lInativos
+				if Receber->Cancelada
+					Receber->(DbSkip(1))
+				endif
+			endif
+		endif
+		return(1)
+
+ENDCASE
+return(1)
 
 def Order( Ordem )
 ***********************

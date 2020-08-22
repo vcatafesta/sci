@@ -1848,7 +1848,7 @@ Area("Recebido")
 Recebido->(Order( RECEBIDO_DOCNR ))
 Set Rela To Codi Into Receber
 WHILE OK
-	MaBox( 16 , 10 , 18 , 30 )
+	MaBox( 16 , 10 , 18 , 31 )
 	@ 17 , 11 Say	"Doc.No..:"Get cDocNr Pict "@K!" Valid RecebiErrado( @cDocNr )
 	Read
 	if LastKey() = ESC
@@ -1953,7 +1953,7 @@ if Recebido->(Eof())
 endif
 if !( DbSeek( Var ) )
 	DbGoTop()
-	Escolhe( 03, 01, 22, "Docnr + '? + Receber->Nome", "DOCTO N? NOME DO CLIENTE" )
+	Escolhe( 03, 01, 22, {"Docnr", "Fatura", "Receber->Nome", "Vcto", "Vlr", "Obs"}, {"DOCTO #","FATURA #","NOME DO CLIENTE","VCTO","VALOR","OBSERVACOES"})
 	Var := Docnr
 endif
 AreaAnt( Arq_Ant, Ind_Ant )
@@ -2816,7 +2816,10 @@ WHILE OK
 				xTemp->(DbAppend())
 				cCodi := Recemov->Codi
 				For nField := 1 To Recemov->(FCount())
-					xTemp->(FieldPut( nField, Recemov->(FieldGet( nField ))))
+					xType := xTemp->(FieldType( nField ))
+					if xType != "+"
+						xTemp->(FieldPut( nField, Recemov->(FieldGet( nField ))))
+					endif	
 				Next
 				Receber->(DbSeek( cCodi ))
 				xTemp->Nome := Receber->Nome
@@ -2835,7 +2838,10 @@ WHILE OK
 				xTemp->(DbAppend())
 				cCodi := Recemov->Codi
 				For nField := 1 To Recemov->(FCount())
-					xTemp->(FieldPut( nField, Recemov->(FieldGet( nField ))))
+					xType := xTemp->(FieldType( nField ))
+					if xType != "+"
+						xTemp->(FieldPut( nField, Recemov->(FieldGet( nField ))))
+					endif	
 				Next
 				Receber->(DbSeek( cCodi ))
 				xTemp->Nome := Receber->Nome
@@ -2900,7 +2906,10 @@ WHILE OK
 					xTemp->(DbAppend())
 					cCodi := Recemov->Codi
 					For nField := 1 To Recemov->(FCount())
-						xTemp->(FieldPut( nField, Recemov->(FieldGet( nField ))))
+						xType := xTemp->(FieldType( nField ))
+						if xType != "+"
+							xTemp->(FieldPut( nField, Recemov->(FieldGet( nField ))))
+						endif
 					Next
 					Receber->(DbSeek( cCodi ))
 					xTemp->Nome := Receber->Nome
@@ -2910,7 +2919,10 @@ WHILE OK
 					xTemp->(DbAppend())
 					cCodi := Recemov->Codi
 					For nField := 1 To Recemov->(FCount())
-						xTemp->(FieldPut( nField, Recemov->(FieldGet( nField ))))
+						xType := xTemp->(FieldType( nField ))
+						if xType != "+"
+							xTemp->(FieldPut( nField, Recemov->(FieldGet( nField ))))
+						endif
 					Next
 					Receber->(DbSeek( cCodi ))
 					xTemp->Nome := Receber->Nome
@@ -2976,7 +2988,10 @@ WHILE OK
 					xTemp->(DbAppend())
 					cCodi := Recemov->Codi
 					For nField := 1 To Recemov->(FCount())
-						xTemp->(FieldPut( nField, Recemov->(FieldGet( nField ))))
+						xType := xTemp->(FieldType( nField ))
+						if xType != "+"
+							xTemp->(FieldPut( nField, Recemov->(FieldGet( nField ))))
+						endif
 					Next
 					Receber->(DbSeek( cCodi ))
 					xTemp->Nome := Receber->Nome
@@ -2986,7 +3001,10 @@ WHILE OK
 					xTemp->(DbAppend())
 					cCodi := Recemov->Codi
 					For nField := 1 To Recemov->(FCount())
-						xTemp->(FieldPut( nField, Recemov->(FieldGet( nField ))))
+						xType := xTemp->(FieldType( nField ))
+						if xType != "+"
+							xTemp->(FieldPut( nField, Recemov->(FieldGet( nField ))))
+						endif
 					Next
 					Receber->(DbSeek( cCodi ))
 					xTemp->Nome := Receber->Nome
@@ -3056,7 +3074,10 @@ WHILE OK
 					xTemp->(DbAppend())
 					cCodi := Recemov->Codi
 					For nField := 1 To Recemov->(FCount())
-						xTemp->(FieldPut( nField, Recemov->(FieldGet( nField ))))
+						xType := xTemp->(FieldType( nField ))
+						if xType != "+"
+							xTemp->(FieldPut( nField, Recemov->(FieldGet( nField ))))
+						endif
 					Next
 					Receber->(DbSeek( cCodi ))
 					xTemp->Nome := Receber->Nome
@@ -3077,7 +3098,10 @@ WHILE OK
 					xTemp->(DbAppend())
 					cCodi := Recemov->Codi
 					For nField := 1 To Recemov->(FCount())
-						xTemp->(FieldPut( nField, Recemov->(FieldGet( nField ))))
+						xType := xTemp->(FieldType( nField ))
+						if xType != "+"
+							xTemp->(FieldPut( nField, Recemov->(FieldGet( nField ))))
+						endif
 					Next
 					Receber->(DbSeek( cCodi ))
 					xTemp->Nome := Receber->Nome

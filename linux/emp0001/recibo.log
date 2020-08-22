@@ -23136,8 +23136,58 @@ RECCAR 03817 ALEX MALHEIROS DE SOUZA ARAUJO           007286-11 01/09/20 20:05:4
 ==========================================================================================================================================================================================
 TIPO   CODI  NOME CLIENTE                             DOCTO N? VENCTO   HORA     DATA_OS  USUARIO    CAIX       VALOR RECIBO HISTORICO
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-RECCAR 12820 ADAIAS DOS SANTOS FERREIRA               007261-12 07/08/20 11:43:09 17/08/20 ADMIN      0004              71,64 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
-RECCAR 12820 ADAIAS DOS SANTOS FERREIRA               007261-13 07/09/20 12:55:18 17/08/20 ADMIN      0004              70,00 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
-RECCAR 12820 ADAIAS DOS SANTOS FERREIRA               007261-13 07/09/20 12:55:24 17/08/20 ADMIN      0004              70,00 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
-RECCAR 12820 ADAIAS DOS SANTOS FERREIRA               007261-13 07/09/20 12:55:40 17/08/20 ADMIN      0004              70,00 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
-RECCAR 12820 ADAIAS DOS SANTOS FERREIRA               007261-13 07/09/20 12:55:47 17/08/20 ADMIN      0004              70,00 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
+RECCAR 03837 JOAO ROBERTO DE OLIVEIRA                 001328-01 11/08/20 10:39:27 12/08/20 ADMIN      0004              70,00 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
+RECBCO 03825 FELIPE HENRIQUE DA SILVA ABREU           000450-02 29/07/20 11:24:37 10/08/20 ADMIN      0004              80,00 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET. EFETUADO DEP BANCO CREDIP 1077-4 EM DATA DE 10/08/20. 
+RECBCO 03312 ESTEFANIO JOSE DOS SANTOS                000712-02 11/08/20 08:31:45 11/08/20 ADMIN      0004             100,00 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET. EFETUADO DEP BANCO CREDIP 1077-4 EM DATA DE 11/08/20. 
+RECBCO 12806 SALLES DA SILVA SANTANA                  107335-03 21/06/20 08:33:48 12/08/20 ADMIN      0004               3,38 PAG PARCIAL REST FATURA 007335-03 EFETUADO DEP BANCO CREDIP 1077-4 EM DATA DE 12/08/20. 
+RECBCO 12806 SALLES DA SILVA SANTANA                  007335-04 21/07/20 08:33:48 12/08/20 ADMIN      0004             103,81 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET. EFETUADO DEP BANCO CREDIP 1077-4 EM DATA DE 12/08/20. 
+RECBCO 12806 SALLES DA SILVA SANTANA                  007335-05 21/08/20 08:33:48 12/08/20 ADMIN      0004              92,81 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET. EFETUADO DEP BANCO CREDIP 1077-4 EM DATA DE 12/08/20. 
+==========================================================================================================================================================================================
+TIPO   CODI  NOME CLIENTE                             DOCTO N? VENCTO   HORA     DATA_OS  USUARIO    CAIX       VALOR RECIBO HISTORICO
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+RECCAR 03829 ROBSON PASSOS NASCIMENTO                 000665-02 06/08/20 11:47:57 13/08/20 ADMIN      0004              70,00 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
+RECCAR 03838 ROSELENE SOUZA ANDRADE CONTADINI         0007396-A 13/08/20 12:19:05 13/08/20 ADMIN      0004             100,00 PAG PARCIAL TX VIABILIDADE TECNICA/INSTALACAO  
+RECCAR 03838 ROSELENE SOUZA ANDRADE CONTADINI         0007396-A 13/08/20 12:32:01 13/08/20 ADMIN      0004             100,00 PAG PARCIAL TX VIABILIDADE TECNICA/INSTALACAO  
+RECCAR 03834 FRANCISCO DE ASSIS DA SILVA              000891-01 04/08/20 14:17:53 13/08/20 ADMIN      0004              70,00 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
+RECCAR 03831 FLAVIA GOMES DE MATTOS                   000545-03 15/08/20 14:18:03 13/08/20 ADMIN      0004              70,00 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
+RECCAR 03816 LUIZA DE MATOS CORDEIRO                  007290-11 12/08/20 14:18:11 13/08/20 ADMIN      0004              70,00 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
+RECCAR 03626 FABIANA GOMES AGUIAR                     007305-08 05/08/20 14:18:24 13/08/20 ADMIN      0004              60,00 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
+RECBCO 03759 ZILDA DA SILVA LIMA                      167272-18 21/01/20 19:40:11 13/08/20 ADMIN      0004              37,06 PAG PARCIAL REST FATURA 067272-18 EFETUADO DEP BANCO CREDIP 1077-4 EM DATA DE 13/08/20. 
+RECBCO 03759 ZILDA DA SILVA LIMA                      067272-19 21/02/20 19:40:11 13/08/20 ADMIN      0004              80,07 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET. EFETUADO DEP BANCO CREDIP 1077-4 EM DATA DE 13/08/20. 
+RECBCO 03759 ZILDA DA SILVA LIMA                      067272-20 21/03/20 19:40:11 13/08/20 ADMIN      0004              32,87 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET. EFETUADO DEP BANCO CREDIP 1077-4 EM DATA DE 13/08/20. 
+RECBCO 12840 MARLY DA SILVA MIRA LIMA                 107205-11 15/11/19 19:40:48 13/08/20 ADMIN      0004               9,69 PAG PARCIAL REST FATURA 007205-11 EFETUADO DEP BANCO CREDIP 1077-4 EM DATA DE 13/08/20. 
+RECBCO 12840 MARLY DA SILVA MIRA LIMA                 007205-12 15/12/19 19:40:48 13/08/20 ADMIN      0004              83,33 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET. EFETUADO DEP BANCO CREDIP 1077-4 EM DATA DE 13/08/20. 
+RECBCO 12840 MARLY DA SILVA MIRA LIMA                 007205-13 15/01/20 19:40:48 13/08/20 ADMIN      0004              26,98 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET. EFETUADO DEP BANCO CREDIP 1077-4 EM DATA DE 13/08/20. 
+==========================================================================================================================================================================================
+TIPO   CODI  NOME CLIENTE                             DOCTO N? VENCTO   HORA     DATA_OS  USUARIO    CAIX       VALOR RECIBO HISTORICO
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+RECBCO 12843 ZENILDA DA SILVA LIMA                    107225-12 28/01/20 16:00:08 14/08/20 ADMIN      0004              52,03 PAG PARCIAL REST FATURA 007225-12 EFETUADO DEP BANCO CREDIP 1077-4 EM DATA DE 14/08/20. 
+RECBCO 12843 ZENILDA DA SILVA LIMA                    007225-13 28/02/20 16:00:08 14/08/20 ADMIN      0004              97,08 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET. EFETUADO DEP BANCO CREDIP 1077-4 EM DATA DE 14/08/20. 
+RECBCO 12843 ZENILDA DA SILVA LIMA                    007225-14 28/03/20 16:00:08 14/08/20 ADMIN      0004               0,89 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET. EFETUADO DEP BANCO CREDIP 1077-4 EM DATA DE 14/08/20. 
+RECCAR 03817 ALEX MALHEIROS DE SOUZA ARAUJO           0007392-A 11/08/20 13:59:17 15/08/20 ADMIN      0004             200,00 PAG PARCIAL RENEGOCIACAO EXTRAJUDICIAL. SUBSTITUIDA PELA FATURA 0007392-A  
+==========================================================================================================================================================================================
+TIPO   CODI  NOME CLIENTE                             DOCTO N? VENCTO   HORA     DATA_OS  USUARIO    CAIX       VALOR RECIBO HISTORICO
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+RECCAR 12820 ADAIAS DOS SANTOS FERREIRA               007261-12 07/08/20 13:19:44 17/08/20 ADMIN      0004              71,64 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
+RECCAR 03812 TIELE AGUIAR DA SILVA                    066007-14 15/05/19 14:52:07 17/08/20 ADMIN      0004               0,00 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
+RECCAR 03812 TIELE AGUIAR DA SILVA                    0066009-A 15/06/19 14:52:14 17/08/20 ADMIN      0004               0,00 PAG PARCIAL ROTEADOR TP-LINK TL-WR849N 300MB  
+RECCAR 03812 TIELE AGUIAR DA SILVA                    066007-15 15/06/19 14:52:20 17/08/20 ADMIN      0004               0,00 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
+RECCAR 03812 TIELE AGUIAR DA SILVA                    0007400-A 17/08/20 14:56:41 17/08/20 ADMIN      0004             120,00 PAG PARCIAL RENEGOCIACAO EXTRAJUDICIAL. SUBSTITUIDA PELA FATURA 0007400-A - 4X$120  
+==========================================================================================================================================================================================
+TIPO   CODI  NOME CLIENTE                             DOCTO Nº VENCTO   HORA     DATA_OS  USUARIO    CAIX       VALOR RECIBO HISTORICO
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+RECCAR 12830 ROSANE DA SILVA                          001333-01 05/09/20 15:21:46 18/08/20 ADMIN      0004              28,00 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
+==========================================================================================================================================================================================
+TIPO   CODI  NOME CLIENTE                             DOCTO Nº VENCTO   HORA     DATA_OS  USUARIO    CAIX       VALOR RECIBO HISTORICO
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+RECCAR 12785 SERGIO LUIZ BELLINA                      301159-24 01/08/20 16:01:48 19/08/20 ADMIN      0004              70,00 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
+RECBCO 12800 I9 TECNOLOGIA E SERVICOS EIRELI - EPP    000216-17 17/08/20 16:03:35 17/08/20 ADMIN      0004              70,00 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET. EFETUADO DEP BANCO CREDIP 1077-4 EM DATA DE 17/08/20. 
+RECBCO 03501 SIDILENE CARDOSO DOS SANTOS              007328-07 18/05/20 16:04:06 19/08/20 ADMIN      0004              60,00 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET. EFETUADO DEP BANCO CREDIP 1077-4 EM DATA DE 19/08/20. 
+==========================================================================================================================================================================================
+TIPO   CODI  NOME CLIENTE                             DOCTO Nº VENCTO   HORA     DATA_OS  USUARIO    CAIX       VALOR RECIBO HISTORICO
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+RECCAR 03768 CAMILA LIMA MACHADO                      007144-23 20/08/20 15:11:06 20/08/20 ADMIN      0004             100,00 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
+RECCAR 03768 CAMILA LIMA MACHADO                      007144-23 20/08/20 15:14:17 20/08/20 ADMIN      0004             100,00 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
+RECCAR 03794 ELIANE RODRIGUES DE PAIVA OLIVEIRA       107262-11 05/07/20 17:21:59 20/08/20 ADMIN      0004              71,41 PAG PARCIAL REST FATURA 007262-11  
+RECCAR 03794 ELIANE RODRIGUES DE PAIVA OLIVEIRA       007262-12 05/08/20 17:21:59 20/08/20 ADMIN      0004              87,13 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
+RECCAR 03794 ELIANE RODRIGUES DE PAIVA OLIVEIRA       007262-13 05/09/20 17:21:59 20/08/20 ADMIN      0004              41,46 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  

@@ -571,7 +571,7 @@ init def Main(...)
 				CriaNewNota()
 			Case oPc = 8.03
 				 ErrorBeep()
-				 if Conf("Pergunta: Continuar com a opera∩┐╜ao ?")
+				 if Conf("Pergunta: Continuar com a operacao ?")
 					 oPrinter:CriaNewPrinter()
 					 FechaTudo()
 					 if AbreArquivo('PRINTER')
@@ -585,7 +585,7 @@ init def Main(...)
 				 endif
 			Case oPc = 8.04
 				 ErrorBeep()
-				 IF Conf("Pergunta: Continuar com a opera∩┐╜ao ?")
+				 IF Conf("Pergunta: Continuar com a operacao ?")
 					 CriaNewEnt()
 					 FechaTudo()
 					 IF AbreArquivo('ENTNOTA')
@@ -599,7 +599,7 @@ init def Main(...)
 				 EndIF
 			Case oPc = 8.05
 				 ErrorBeep()
-				 IF Conf("Pergunta: Continuar com a opera∩┐╜ao ?")
+				 IF Conf("Pergunta: Continuar com a operacao ?")
 					 Fechatudo()
 					 IF AbreArquivo('PREVENDA')
 						 oIndice:ProgressoNtx := true
@@ -1034,7 +1034,7 @@ endef
 
 def EmpErrada( cCodi, cNome, nRow, nCol )
 *----------------------------------------*
-	LOCAL aRotina := {{|| CadastraEmpresa() }}
+	LOCAL aRotinaInclusao := {{|| CadastraEmpresa() }}
 	LOCAL Arq_Ant := Alias()
 	LOCAL Ind_Ant := IndexOrd()
 	LOCAL Var1
@@ -1042,7 +1042,7 @@ def EmpErrada( cCodi, cNome, nRow, nCol )
 
 	Area("Empresa")
 	IF !DbSeek( cCodi )
-		Escolhe( 00, 00, MaxRow(), "Codi + chr(186) + Nome", "CODI NOME DA EMPRESA", aRotina )
+		Escolhe( 00, 00, MaxRow(), "Codi + chr(186) + Nome", "CODI NOME DA EMPRESA", aRotinaInclusao )
 	EndIF
 	cCodi := Empresa->Codi
 	cNome := Empresa->Nome
@@ -1161,7 +1161,6 @@ def CriaBcoDadosEmpresa()
 	endif
 	
 	oMenu:Limpa()
-	ErrorBeep()
 	Mensagem("Aguarde... Verificando os Arquivos.")
 	FechaTudo()
 	Mensagem("Aguarde... Abrindo o Arquivo EMPRESA.")
@@ -1190,7 +1189,6 @@ def CriaBcoDadosEmpresa()
 		oIndice:CriaNtx()
 	EndIF
 	oMenu:Limpa()
-	ErrorBeep()
 	Mensagem("Aguarde... Verificando os Arquivos.")
 	Fechatudo()
 	Mensagem("Aguarde... Abrindo o Arquivo EMPRESA.")
@@ -1739,7 +1737,7 @@ WHILE OK
 
 	Case nChoice = 3
 		Area("USUARIO")
-      Escolhe( 00, 00, MaxRow(), "Nome", "USUARIO", {{|| IncluirUsuario( @cNome, @Passe, @lOk)}}, {{|| AlterarUsuario( @cNome, @Passe, @lOk)}})
+      Escolhe( 00, 00, MaxRow(), "Nome", "USUARIO", {{|| IncluirUsuario( @cNome, @Passe, @lOk)}},nil, {{|| AlterarUsuario( @cNome, @Passe, @lOk)}})
 		Return
 
 	Case nChoice = 4
@@ -5185,7 +5183,7 @@ LOCAL xCodigo	:= 0
 LOCAL nCol		:= LastRow()
 LOCAL nTam		:= MaxCol()
 LOCAL nPos		:= 0
-LOCAL cString1 := "∩┐╜ENTER=CONSULTA∩┐╜ESC=SAIR"
+LOCAL cString1 := chr(179) + "ENTER=CONSULTA" + chr(179) + "ESC=SAIR"
 
 SetKey( F5, NIL )
 oMenu:Limpa()
@@ -5195,7 +5193,7 @@ WHILE OK
 	MaBox( 02, 01, 10, 78 )
 	MaBox( 12, 01, 22, 78 )
 	nPos := ( nTam - Len( cString1 ))
-	aPrint( nCol, 00, "∩┐╜CLIQUE COM O SCANNER OU DIGITE O CODIGO DO PRODUTO", oMenu:CorCabec, MaxCol() )
+	aPrint( nCol, 00, chr(179) + "CLIQUE COM O SCANNER OU DIGITE O CODIGO DO PRODUTO", oMenu:CorCabec, MaxCol() )
 	aPrint( nCol, nPos, cString1, oMenu:CorCabec )
 	Set Conf On
 	@ 04, 10 Say "Codigo...: " Get xCodigo Pict "9999999999999" Valid TermProduto( @xCodigo )
@@ -5240,7 +5238,7 @@ ElseIF nTam = 13 .OR. nTam = 8
 EndIF
 IF Lista->( !DbSeek( xCodigo ))
 	Lista->(Order( LISTA_DESCRICAO ))
-	Escolhe( 12, 01, 22, "Codigo + chr(186) + Sigla + chr(186) + Descricao + chr(186) + Tran( Varejo, '@E 9999,999,999.99')","CODI  MARCA      DESCRICAO DO PRODUTO                      PRECO", aRotina, NIL, aRotinaAlteracao, NIl, FALSO)
+	Escolhe( 12, 01, 22, {"Codigo","Sigla","Descricao","Tran(quant, '99999.99')","Tran(Varejo,'@E 9999,999,999.99')"},{"CODI","MARCA","DESCRICAO DO PRODUTO","ESTOQUE","PRECO        "}, aRotina, NIL, aRotinaAlteracao, NIl, FALSO)
 EndIF                              
 
 xCodigo := Lista->CodeBar
@@ -5252,66 +5250,66 @@ Return( .T. )
 
 Function Num( nRow, nValor )
 ****************************
-LOCAL aNum := {{" ∩┐╜∩┐╜∩┐╜ " ,;
-					 "∩┐╜  ∩┐╜∩┐╜" ,;
-					 "∩┐╜ ∩┐╜ ∩┐╜" ,;
-					 "∩┐╜∩┐╜  ∩┐╜" ,;
-					 " ∩┐╜∩┐╜∩┐╜ "},;
-					{"  ∩┐╜∩┐╜" ,;
-					 " ∩┐╜ ∩┐╜" ,;
-					 "∩┐╜  ∩┐╜" ,;
-					 "   ∩┐╜" ,;
-					 "∩┐╜∩┐╜∩┐╜∩┐╜"},;
-					{"∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
-					 "    ∩┐╜" ,;
-					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
-					 "∩┐╜    " ,;
-					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜"},;
-					{"∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
-					 "    ∩┐╜" ,;
-					 " ∩┐╜∩┐╜∩┐╜∩┐╜" ,;
-					 "    ∩┐╜" ,;
-					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜"},;
-					{"∩┐╜   ∩┐╜" ,;
-					 "∩┐╜   ∩┐╜" ,;
-					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
-					 "    ∩┐╜" ,;
-					 "    ∩┐╜"},;
-					{"∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
-					 "∩┐╜    " ,;
-					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
-					 "    ∩┐╜" ,;
-					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜"},;
-					{"∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
-					 "∩┐╜    " ,;
-					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
-					 "∩┐╜   ∩┐╜" ,;
-					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜"},;
-					{"∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
-					 "   ∩┐╜∩┐╜" ,;
-					 "  ∩┐╜∩┐╜ " ,;
-					 " ∩┐╜∩┐╜  " ,;
-					 "∩┐╜∩┐╜   "},;
-					{"∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
-					 "∩┐╜   ∩┐╜" ,;
-					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
-					 "∩┐╜   ∩┐╜" ,;
-					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜"},;
-					{"∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
-					 "∩┐╜   ∩┐╜" ,;
-					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜" ,;
-					 "    ∩┐╜" ,;
-					 "∩┐╜∩┐╜∩┐╜∩┐╜∩┐╜"},;
-					{"   " ,;
-					 "   " ,;
-					 "   " ,;
-					 "   " ,;
-					 "  "},;
-					{"   " ,;
-					 "   " ,;
-					 "   " ,;
-					 "   " ,;
-					 "  "}}
+LOCAL aNum := {{hb_UTF8ToStrBox(" ███ "),;
+					 hb_UTF8ToStrBox("█  ██"),;
+					 hb_UTF8ToStrBox("█ █ █"),;
+					 hb_UTF8ToStrBox("██  █"),;
+					 hb_UTF8ToStrBox(" ███ ")},;
+					{hb_UTF8ToStrBox("  ██"),;
+					 hb_UTF8ToStrBox(" █ █"),;
+					 hb_UTF8ToStrBox("█  █"),;
+					 hb_UTF8ToStrBox("   █"),;
+					 hb_UTF8ToStrBox("████")},;
+					{hb_UTF8ToStrBox("█████"),;
+					 hb_UTF8ToStrBox("    █"),;
+					 hb_UTF8ToStrBox("█████"),;
+					 hb_UTF8ToStrBox("█    "),;
+					 hb_UTF8ToStrBox("█████")},;
+					{hb_UTF8ToStrBox("█████"),;
+					 hb_UTF8ToStrBox("    █"),;
+					 hb_UTF8ToStrBox(" ████"),;
+					 hb_UTF8ToStrBox("    █"),;
+					 hb_UTF8ToStrBox("█████")},;
+					{hb_UTF8ToStrBox("█   █"),;
+					 hb_UTF8ToStrBox("█   █"),;
+					 hb_UTF8ToStrBox("█████"),;
+					 hb_UTF8ToStrBox("    █"),;
+					 hb_UTF8ToStrBox("    █")},;
+					{hb_UTF8ToStrBox("█████"),;
+					 hb_UTF8ToStrBox("█    "),;
+					 hb_UTF8ToStrBox("█████"),;
+					 hb_UTF8ToStrBox("    █"),;
+					 hb_UTF8ToStrBox("█████")},;
+					{hb_UTF8ToStrBox("█████"),;
+					 hb_UTF8ToStrBox("█    "),;
+					 hb_UTF8ToStrBox("█████"),;
+					 hb_UTF8ToStrBox("█   █"),;
+					 hb_UTF8ToStrBox("█████")},;
+					{hb_UTF8ToStrBox("█████"),;
+					 hb_UTF8ToStrBox("   ██"),;
+					 hb_UTF8ToStrBox("  ██ "),;
+					 hb_UTF8ToStrBox(" ██  "),;
+					 hb_UTF8ToStrBox("██   ")},;
+					{hb_UTF8ToStrBox("█████"),;
+					 hb_UTF8ToStrBox("█   █"),;
+					 hb_UTF8ToStrBox("█████"),;
+					 hb_UTF8ToStrBox("█   █"),;
+					 hb_UTF8ToStrBox("█████")},;
+					{hb_UTF8ToStrBox("█████"),;
+					 hb_UTF8ToStrBox("█   █"),;
+					 hb_UTF8ToStrBox("█████"),;
+					 hb_UTF8ToStrBox("    █"),;
+					 hb_UTF8ToStrBox("█████")},;
+					{hb_UTF8ToStrBox("   "),;
+					 hb_UTF8ToStrBox("   "),;
+					 hb_UTF8ToStrBox("   "),;
+					 hb_UTF8ToStrBox("   "),;
+					 hb_UTF8ToStrBox("  ")},;
+					{hb_UTF8ToStrBox("   "),;
+					 hb_UTF8ToStrBox("   "),;
+					 hb_UTF8ToStrBox("   "),;
+					 hb_UTF8ToStrBox("   "),;
+					 hb_UTF8ToStrBox("  ")}}
 
 LOCAL aDig	  := {"0","1","2","3","4","5","6","7","8","9",".",","}
 LOCAL cNumero := AllTrim(Tran(nValor, "99,9999.99"))

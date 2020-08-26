@@ -311,6 +311,5 @@ FT_FAPPEND()
      ?FT_FRECNO()           // displays 6
 
  Source: FTTEXT.C
+ */
  
- 
-*/

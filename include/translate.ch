@@ -16,7 +16,8 @@
 #translate AllTrimStrZero(<xValue>, <nzeros>)   => alltrim(strzero(<xValue>, <nzeros>))
 
 #translate def         		 =>   function
-#translate enddef     		 =>   
+#translate fn         		 =>   function
+#translate enddef     		 =>
 #translate Def         	    =>   function
 #translate DEF         		 =>   function
 #translate P_Def( <var>, <val> ) 						=> if( <var> = NIL, <var> := <val>, <var> )

@@ -435,10 +435,10 @@ init def Main(...)
 				Inkey( 5 )
 				lEnd := .T.
 				AEval( aThreads, {| x | hb_threadJoin( x ) } )
-            
+
 			Case Opc = 5.04
             oPdf := TPdfNew()
-				
+
 			Case oPc = 6.01
 				Spooler()
 			Case oPc = 6.02
@@ -472,13 +472,13 @@ init def Main(...)
 				SalvaMem()
 			Case oPc = 6.12
 				oMenu:SetaCor( 6 ) // ::CorHotKey
-				SalvaMem()			
+				SalvaMem()
 			Case oPc = 6.13
 				oMenu:SetaCor( 7 ) // ::CorLightBarHotKey
-				SalvaMem()	
+				SalvaMem()
 			Case oPc = 6.14
-				oMenu:SetaCor( 11 ) 
-				SalvaMem()	            
+				oMenu:SetaCor( 11 )
+				SalvaMem()
 			Case oPc = 6.16
 				oMenu:SetaPano()
 				SalvaMem()
@@ -669,6 +669,7 @@ def SetaClasse()
 endef
 
 def RefreshClasse()
+*:----------------------------------------------------------------------------
 	oMenu:StatusSup		          := oMenu:StSupArray[1]
 	oMenu:StatusInf	           	 := oMenu:StInfArray[1]
 	oMenu:Menu		           	 	 := oMenu:MenuArray[1]
@@ -676,9 +677,11 @@ def RefreshClasse()
 	//oMenu:LetraHotKeyArray         := oMenu:LetraHotKeyArray[1]
 	//oMenu:LetraLightBarHotKeyArray := oMenu:LetraLightBarHotKeyArray[1]
 	return nil
-endef	
+endef
 
-def SalvaMem()	
+
+def SalvaMem()
+*:----------------------------------------------------------------------------
 	oIni:WriteString(  oAmbiente:xUsuario,	'frame',         oMenu:Frame )
 	oIni:WriteString(  oAmbiente:xUsuario,	'panofundo',     oMenu:PanoFundo )
 	oIni:WriteInteger( oAmbiente:xUsuario, 'selecionado',   oMenu:Selecionado )
@@ -707,7 +710,9 @@ def SalvaMem()
 	return NIL
 endef
 
-def SetaIni()		
+
+def SetaIni()
+*:----------------------------------------------------------------------------
 	oMenu:Frame 				 := oIni:ReadString( oAmbiente:xUsuario,  'frame',         oAmbiente:Frame )
 	oMenu:PanoFundo			 := oIni:ReadString( oAmbiente:xUsuario,  'panofundo',     oAmbiente:PanoFundo )
 	oMenu:CorMenu				 := oIni:ReadInteger( oAmbiente:xUsuario, 'cormenu',       oAmbiente:CorMenu )
@@ -762,9 +767,9 @@ def SetaIni()
 		Eval( oAmbiente:TabelaFonte[ oAmbiente:Fonte] )
 	EndIF
 	return( NIL)
-		
+
 	endef
-	
+
 Proc GeraBatch()
 ****************
 LOCAL Handle
@@ -800,7 +805,7 @@ Alerta("Arquivo criado: " + xBatch + ";Finalize a execucao do sistema e digite S
 Return
 
 def Impressao()
-***************
+*:----------------------------------------------------------------------------
    LOCAL GetList := {}
    LOCAL cScreen := SaveScreen()
    LOCAL Files   := '*.DOC'

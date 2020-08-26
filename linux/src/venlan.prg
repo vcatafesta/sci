@@ -1,8 +1,8 @@
 /*
   ┌─────────────────────────────────────────────────────────────────────────┐
  ▌│																								 │
- ▌│	Modulo.......: VENLAN.PRG   														 │ 						 
- ▌│	Sistema......: CONTROLE DE VENDEDORES						            	 │ 
+ ▌│	Modulo.......: VENLAN.PRG   														 │
+ ▌│	Sistema......: CONTROLE DE VENDEDORES						            	 │
  ▌│	Aplicacao....: SCI - SISTEMA COMERCIAL INTEGRADO                      │
  ▌│	Versao.......: 8.5.00							                            │
  ▌│	Programador..: Vilmar Catafesta				                            │
@@ -20,538 +20,539 @@
 
 *:==================================================================================================================================
 
-Proc VenLan()
-*************
-LOCAL lOk		  := OK
-LOCAL Op 		  := 1
-PUBLI cVendedor   := Space(40)
-PUBLI cCaixa		:= Space(04)
+def VenLan()
+************
+   LOCAL lOk		  := OK
+   LOCAL Op 		  := 1
+   PUBLI cVendedor   := Space(40)
+   PUBLI cCaixa		:= Space(04)
 
-*:==================================================================================================================================
-AbreArea()
-oMenu:Limpa()
-if !VerSenha( @cCaixa, @cVendedor )
-	Mensagem("Aguarde, Fechando Arquivos." )
-	DbCloseAll()
-	Set KEY F2 TO
-	Set KEY F3 TO
-	return
-endif
-/******************************************************************************/
-oMenu:Limpa()
-RefreshClasse()
-WHILE lOk
-	BEGIN Sequence
-		Op 		  := oMenu:Show()
-		Do Case
-		Case Op = 0.0 .OR. op = 1.01
-			ErrorBeep()
-			if Conf("Pergunta: Encerrar este modulo ?")
-				GravaDisco()
-				lOk := FALSO
-				Break
-			endif
-		Case Op = 2.01 ; FuncInclusao()
-		Case Op = 2.02 ; CadastraSenha()
-		Case Op = 2.03 ; Func_Adian()
-		Case Op = 2.04 ; Cred_Inclu()
-		Case Op = 3.01 ; VendedorDbedit()
-		Case Op = 3.02 ; CadastraSenha()
-		Case Op = 3.03 ; VarreParcial()
-		Case Op = 3.04 ; VarreGeral()
-		Case Op = 3.05 ; AjustaComissao()
-		Case Op = 3.06 ; VarreComissao()
-		Case Op = 3.07 ; AlteraDebCre()
-		Case Op = 3.08 ; AlteraDebCre()
-		Case Op = 4.01 ; VendedorDbedit()
-		Case Op = 4.02 ; CadastraSenha()
-		Case Op = 5.01 ; VendedorDbedit()
-		Case Op = 5.02 ; SaldoDbEdit()
-		Case Op = 5.03 ; Func_Consu()
-		Case Op = 5.04 ; Cred_Consu()
-		Case Op = 6.01 ; FunrePagar()
-		Case Op = 6.02 ; DemosPagar()
-		Case Op = 6.03 ; FunReVen()
-		Case Op = 6.04 ; FunAdian()
-		Case Op = 6.05 ; funCreditos()
-		Case Op = 6.06 ; FunRelac()
-		Case Op = 6.07 ; RelSaldos()
-		EndCase
-	End Sequence
-EndDo
-Mensagem("Aguarde... Fechando Arquivos.", WARNING, _LIN_MSG )
-FechaTudo()
-return
+   *:==================================================================================================================================
+   AbreArea()
+   oMenu:Limpa()
+   if !VerSenha( @cCaixa, @cVendedor )
+   	Mensagem("Aguarde, Fechando Arquivos." )
+   	DbCloseAll()
+   	Set KEY F2 TO
+   	Set KEY F3 TO
+   	return
+   endif
+   /******************************************************************************/
+   oMenu:Limpa()
+   RefreshClasse()
+   WHILE lOk
+   	BEGIN Sequence
+   		Op 		  := oMenu:Show()
+   		Do Case
+   		Case Op = 0.0 .OR. op = 1.01
+   			ErrorBeep()
+   			if Conf("Pergunta: Encerrar este modulo ?")
+   				GravaDisco()
+   				lOk := FALSO
+   				Break
+   			endif
+   		Case Op = 2.01 ; FuncInclusao()
+   		Case Op = 2.02 ; CadastraSenha()
+   		Case Op = 2.03 ; Func_Adian()
+   		Case Op = 2.04 ; Cred_Inclu()
+   		Case Op = 3.01 ; VendedorDbedit()
+   		Case Op = 3.02 ; CadastraSenha()
+   		Case Op = 3.03 ; VarreParcial()
+   		Case Op = 3.04 ; VarreGeral()
+   		Case Op = 3.05 ; AjustaComissao()
+   		Case Op = 3.06 ; VarreComissao()
+   		Case Op = 3.07 ; AlteraDebCre()
+   		Case Op = 3.08 ; AlteraDebCre()
+   		Case Op = 4.01 ; VendedorDbedit()
+   		Case Op = 4.02 ; CadastraSenha()
+   		Case Op = 5.01 ; VendedorDbedit()
+   		Case Op = 5.02 ; SaldoDbEdit()
+   		Case Op = 5.03 ; Func_Consu()
+   		Case Op = 5.04 ; Cred_Consu()
+   		Case Op = 6.01 ; FunrePagar()
+   		Case Op = 6.02 ; DemosPagar()
+   		Case Op = 6.03 ; FunReVen()
+   		Case Op = 6.04 ; FunAdian()
+   		Case Op = 6.05 ; funCreditos()
+   		Case Op = 6.06 ; FunRelac()
+   		Case Op = 6.07 ; RelSaldos()
+   		EndCase
+   	End Sequence
+   EndDo
+   Mensagem("Aguarde... Fechando Arquivos.", WARNING, _LIN_MSG )
+   FechaTudo()
+   return
 
 STATIC Proc RefreshClasse()
 ***************************
-oMenu:StatusSup		:= oMenu:StSupArray[6]
-oMenu:StatusInf		:= oMenu:StInfArray[6]
-oMenu:Menu				:= oMenu:MenuArray[6]
-oMenu:Disp				:= oMenu:DispArray[6]
-return
+   oMenu:StatusSup		:= oMenu:StSupArray[6]
+   oMenu:StatusInf		:= oMenu:StInfArray[6]
+   oMenu:Menu				:= oMenu:MenuArray[6]
+   oMenu:Disp				:= oMenu:DispArray[6]
+   return
 
 *:==================================================================================================================================
 
-Proc Cred_Inclu()
+def Cred_Inclu()
+****************
+   LOCAL cScreen	  := SaveScreen()
+   LOCAL GetList	  := {}
+   LOCAL dData 	  := Date()
+   LOCAL cDocnr	  := Space(07)
+   LOCAL cDescricao := Space(40)
+   LOCAL nVlr		  := 0
+   LOCAL cCodi 	  := Space( 04 )
+   LOCAL cSaldo	  := ""
+   LOCAL nDisp 	  := 0
+   LOCAL nComi 	  := 0
+
+   Area("Vendedor")
+   Vendemov->(Order( VENDEDOR_CODIVEN ))
+   oMenu:Limpa()
+   WHILE OK
+   	MaBox( 08, 10, 14, 68, "LANCAMENTOS A CREDITOS" )
+   	@ 09, 11 Say "Codigo....:" Get cCodi Pict "9999" Valid FunErrado( @cCodi,, Row(), Col()+1 )
+   	@ 10, 11 Say "Data......:" Get dData      Pict "##/##/##"
+   	@ 11, 11 Say "Docto Nº..:" Get cDocnr     Pict "@!"
+   	@ 12, 11 Say "Valor.....:" Get nVlr       Pict "99999999.99" Valid if( nVlr <= 0,           ( ErrorBeep(), Alerta("Erro: Valor Invalido"), FALSO ), OK )
+   	@ 13, 11 Say "Descricao.:" Get cDescricao Pict "@!" Valid if( Empty( cDescricao ), ( ErrorBeep(), Alerta("Erro: Campo nao Pode ser Vazio"), FALSO ), OK )
+   	Read
+   	if LastKey() = ESC .OR. LastKey() = K_ALT_F4
+   		ResTela( cScreen )
+   		Exit
+   	endif
+   	ErrorBeep()
+   	if Conf( "Confirma Inclusao do Debito ?" )
+   		if Vendedor->(TravaReg())
+   			if Vendemov->(!Incluiu())
+   				Vendedor->(Libera())
+   				Loop
+   			endif
+   			Vendemov->CodiVen   := cCodi
+   			Vendemov->Data 	  := dData
+   			Vendemov->Docnr	  := cDocnr
+   			Vendemov->Vlr		  := nVlr
+   			Vendemov->Dc		  := "C"
+   			Vendemov->Descricao := cDescricao
+   			Vendemov->Comdisp   := Vendemov->ComDisp	+ nVlr
+   			Vendemov->Comissao  := Vendemov->Comissao + nVlr
+   			Vendemov->(Libera())
+
+   			nDisp := Vendedor->ComDisp
+   			nComi := Vendedor->Comissao
+   			Vendedor->Comdisp   := ( nDisp + nVlr )
+   			Vendedor->Comissao  := ( nComi + nVlr )
+   			Vendedor->(Libera())
+   		endif
+   	endif
+   EndDo
+   return
+
+*:==================================================================================================================================
+
+def Func_Consu()
 *****************
-LOCAL cScreen	  := SaveScreen()
-LOCAL GetList	  := {}
-LOCAL dData 	  := Date()
-LOCAL cDocnr	  := Space(07)
-LOCAL cDescricao := Space(40)
-LOCAL nVlr		  := 0
-LOCAL cCodi 	  := Space( 04 )
-LOCAL cSaldo	  := ""
-LOCAL nDisp 	  := 0
-LOCAL nComi 	  := 0
+   LOCAL GetList	  := {}
+   LOCAL Func_Consu := SaveScreen( )
+   LOCAL aMenuArray := { " Por Docto ", " Individual ", " Por Data ", " Geral " }
+   LOCAL cArquivo   := TempNew()
+   LOCAL cDocnr
+   LOCAL cCodi
+   LOCAL aTela
+   LOCAL Op1
+   LOCAL cTela
+   LOCAL dData
+   LOCAL oBloco
+   LOCAL nField
+   FIELD Codiven
 
-Area("Vendedor")
-Vendemov->(Order( VENDEDOR_CODIVEN ))
-oMenu:Limpa()
-WHILE OK
-	MaBox( 08, 10, 14, 68, "LANCAMENTOS A CREDITOS" )
-	@ 09, 11 Say "Codigo....:" Get cCodi Pict "9999" Valid FunErrado( @cCodi,, Row(), Col()+1 )
-	@ 10, 11 Say "Data......:" Get dData      Pict "##/##/##"
-	@ 11, 11 Say "Docto Nº..:" Get cDocnr     Pict "@!"
-	@ 12, 11 Say "Valor.....:" Get nVlr       Pict "99999999.99" Valid if( nVlr <= 0,           ( ErrorBeep(), Alerta("Erro: Valor Invalido"), FALSO ), OK )
-	@ 13, 11 Say "Descricao.:" Get cDescricao Pict "@!" Valid if( Empty( cDescricao ), ( ErrorBeep(), Alerta("Erro: Campo nao Pode ser Vazio"), FALSO ), OK )
-	Read
-	if LastKey() = ESC .OR. LastKey() = K_ALT_F4
-		ResTela( cScreen )
-		Exit
-	endif
-	ErrorBeep()
-	if Conf( "Confirma Inclusao do Debito ?" )
-		if Vendedor->(TravaReg())
-			if Vendemov->(!Incluiu())
-				Vendedor->(Libera())
-				Loop
-			endif
-			Vendemov->CodiVen   := cCodi
-			Vendemov->Data 	  := dData
-			Vendemov->Docnr	  := cDocnr
-			Vendemov->Vlr		  := nVlr
-			Vendemov->Dc		  := "C"
-			Vendemov->Descricao := cDescricao
-			Vendemov->Comdisp   := Vendemov->ComDisp	+ nVlr
-			Vendemov->Comissao  := Vendemov->Comissao + nVlr
-			Vendemov->(Libera())
+   WHILE OK
+   	 aTela := SaveScreen()
+   	 M_Title( "CONSULTAS DE DEBITOS")
+   	 Op1 := FazMenu( 08, 20, aMenuArray, Cor() )
+   	 Do Case
+   	 Case op1 = 0
+   		 ResTela( func_consu )
+   		 Exit
 
-			nDisp := Vendedor->ComDisp
-			nComi := Vendedor->Comissao
-			Vendedor->Comdisp   := ( nDisp + nVlr )
-			Vendedor->Comissao  := ( nComi + nVlr )
-			Vendedor->(Libera())
-		endif
-	endif
-EndDo
-return
+   	 Case op1 = 1
+   		 Vendedor->( Order( VENDEDOR_CODIVEN ))
+   		 Area("Vendemov")
+   		 Vendemov->( Order( VENDEMOV_DOCNR ))
+   		 Vendemov->(DbGoTop())
+   		 MaBox( 18,20,20,41 )
+   		 cDocnr = Space( Len( Vendemov->Docnr )-2 )
+   		 @ 19, 21 Say "Docto Nº...»" Get cDocnr Pict "@!" Valid DocFuerr( cDocnr )
+   		 Read
+   		 if LastKey( ) = ESC
+   			 ResTela( aTela )
+   			 Loop
+   		 endif
+   		 Copy Stru To ( cArquivo )
+   		 Use (cArquivo) Exclusive New
+   		 oBloco := {|| Vendemov->Docnr = cDocnr }
+   		 oMenu:Limpa()
+   		 cTela := Mensagem("Aguarde. Verificando movimento.", Cor())
+   		 WHILE Eval( oBloco ) .AND. Rep_Ok()
+   			 if Vendemov->Descricao = Space(40)
+   				 Vendemov->(DbSkip(1))
+   				 Loop
+   			 endif
+   			 if Vendemov->Dc = "C"
+   				 Vendemov->(DbSkip(1))
+   				 Loop
+   			 endif
+   			 DbAppend()
+   			 For nField := 1 To FCount()
+   				 FieldPut( nField, Vendemov->(FieldGet( nField )))
+   			 Next
+   			 Vendemov->(DbSkip(1))
+   		 EndDo
+   		 Restela( cTela )
+   		 Set Rela To CodiVen Into Vendedor
+   		 DbGoTop()
+   		 Func_Mostra()
+   		 DbClearRel()
+   		 DbCloseArea()
+   		 Ferase( cArquivo )
+
+   	Case op1 = 2
+   		Vendedor->( Order( VENDEDOR_CODIVEN ))
+   		Area("Vendemov")
+   		Vendemov->(Order( VENDEMOV_CODIVEN ))
+   		Vendemov->(DbGoTop())
+   		MaBox( 18, 20, 20, 36 )
+   		cCodi := Space(04)
+   		@ 19,21 Say "Codigo..»" Get cCodi Pict "9999" Valid FunErrado( @cCodi )
+   		Read
+   		if LastKey( ) = ESC
+   			ResTela( aTela )
+   			Loop
+   		endif
+   		if Vendemov->(DbSeek( cCodi ))
+   			Copy Stru To ( cArquivo )
+   			Use (cArquivo) Exclusive New
+   			oBloco := {|| Vendemov->CodiVen = cCodi }
+   			oMenu:Limpa()
+   			cTela := Mensagem("Aguarde. Verificando movimento.", Cor())
+   			WHILE Eval( oBloco ) .AND. Rep_Ok()
+   				if Vendemov->Descricao = Space(40)
+   					Vendemov->(DbSkip(1))
+   					Loop
+   				endif
+   				if Vendemov->Dc = "C"
+   					Vendemov->(DbSkip(1))
+   					Loop
+   				endif
+   				DbAppend()
+   				For nField := 1 To FCount()
+   					FieldPut( nField, Vendemov->(FieldGet( nField )))
+   				Next
+   				Vendemov->(DbSkip(1))
+   			EndDo
+   			Restela( cTela )
+   			Set Rela To CodiVen Into Vendedor
+   			DbGoTop()
+   			Func_Mostra()
+   			DbClearRel()
+   			DbCloseArea()
+   			Ferase( cArquivo )
+   		else
+   			Nada()
+   			Restela( aTela )
+   		endif
+
+   	Case op1 = 3
+   		Vendedor->( Order( VENDEDOR_CODIVEN ))
+   		Area("Vendemov")
+   		Vendemov->(Order( VENDEMOV_DATA ))
+   		Vendemov->(DbGoTop())
+   		MaBox( 18,20,20,39 )
+   		dData = Date()
+   		@ 19,21 Say "Data....»" Get dData Pict "##/##/##"
+   		Read
+   		if LastKey( ) = ESC
+   			ResTela( aTela )
+   			Loop
+   		endif
+   		if Vendemov->(DbSeek( dData ))
+   			Copy Stru To ( cArquivo )
+   			Use (cArquivo) Exclusive New
+   			oBloco := {|| Vendemov->Data = dData }
+   			oMenu:Limpa()
+   			cTela := Mensagem("Aguarde. Verificando movimento.", Cor())
+   			WHILE Eval( oBloco ) .AND. Rep_Ok()
+   				if Vendemov->Descricao = Space(40)
+   					Vendemov->(DbSkip(1))
+   					Loop
+   				endif
+   				if Vendemov->Dc = "C"
+   					Vendemov->(DbSkip(1))
+   					Loop
+   				endif
+   				DbAppend()
+   				For nField := 1 To FCount()
+   					FieldPut( nField, Vendemov->(FieldGet( nField )))
+   				Next
+   				Vendemov->(DbSkip(1))
+   			EndDo
+   			Restela( cTela )
+   			Set Rela To CodiVen Into Vendedor
+   			DbGoTop()
+   			Func_Mostra()
+   			DbClearRel()
+   			DbCloseArea()
+   			Ferase( cArquivo )
+   		else
+   			Nada()
+   			Restela( aTela )
+   		endif
+
+   	 Case op1 = 4
+   		 Vendedor->( Order( VENDEDOR_CODIVEN ))
+   		 Area("Vendemov")
+   		 Vendemov->(Order( VENDEMOV_CODIVEN ))
+   		 Vendemov->(DbGoTop())
+   		 Copy Stru To ( cArquivo )
+   		 Use (cArquivo) Exclusive New
+   		 oBloco := {|| Vendemov->(!Eof()) }
+   		 oMenu:Limpa()
+   		 cTela := Mensagem("Aguarde. Verificando movimento.", Cor())
+   		 WHILE Eval( oBloco ) .AND. Rep_Ok()
+   			 if Vendemov->Descricao = Space(40)
+   				 Vendemov->(DbSkip(1))
+   				 Loop
+   			 endif
+   			 if Vendemov->Dc = "C"
+   				 Vendemov->(DbSkip(1))
+   				 Loop
+   			 endif
+   			 DbAppend()
+   			 For nField := 1 To FCount()
+   				 FieldPut( nField, Vendemov->(FieldGet( nField )))
+   			 Next
+   			 Vendemov->(DbSkip(1))
+   		 EndDo
+   		 Restela( cTela )
+   		 Set Rela To CodiVen Into Vendedor
+   		 DbGoTop()
+   		 Func_Mostra()
+   		 DbClearRel()
+   		 DbCloseArea()
+   		 Ferase( cArquivo )
+   	 EndCase
+   EndDo
 
 *:==================================================================================================================================
 
-Proc Func_Consu()
+def Func_Mostra()
 *****************
-LOCAL GetList	  := {}
-LOCAL Func_Consu := SaveScreen( )
-LOCAL aMenuArray := { " Por Docto ", " Individual ", " Por Data ", " Geral " }
-LOCAL cArquivo   := TempNew()
-LOCAL cDocnr
-LOCAL cCodi
-LOCAL aTela
-LOCAL Op1
-LOCAL cTela
-LOCAL dData
-LOCAL oBloco
-LOCAL nField
-FIELD Codiven
+   LOCAL cScreen := SaveScreen()
+   LOCAL Mostra2 := {"Codiven", "Vendedor->Nome", "Tran( Vlr, '@E 99,999,999,999.99' )","data", "docnr", "descricao" }
+   LOCAL Mostra1 := {"CODI", "NOME DO VENDEDOR", "DEBITO" ,"DATA" ,"DOCTO Nº" ,"DESCRICAO"}
 
-WHILE OK
-	 aTela := SaveScreen()
-	 M_Title( "CONSULTAS DE DEBITOS")
-	 Op1 := FazMenu( 08, 20, aMenuArray, Cor() )
-	 Do Case
-	 Case op1 = 0
-		 ResTela( func_consu )
-		 Exit
-
-	 Case op1 = 1
-		 Vendedor->( Order( VENDEDOR_CODIVEN ))
-		 Area("Vendemov")
-		 Vendemov->( Order( VENDEMOV_DOCNR ))
-		 Vendemov->(DbGoTop())
-		 MaBox( 18,20,20,41 )
-		 cDocnr = Space( Len( Vendemov->Docnr )-2 )
-		 @ 19, 21 Say "Docto Nº...»" Get cDocnr Pict "@!" Valid DocFuerr( cDocnr )
-		 Read
-		 if LastKey( ) = ESC
-			 ResTela( aTela )
-			 Loop
-		 endif
-		 Copy Stru To ( cArquivo )
-		 Use (cArquivo) Exclusive New
-		 oBloco := {|| Vendemov->Docnr = cDocnr }
-		 oMenu:Limpa()
-		 cTela := Mensagem("Aguarde. Verificando movimento.", Cor())
-		 WHILE Eval( oBloco ) .AND. Rep_Ok()
-			 if Vendemov->Descricao = Space(40)
-				 Vendemov->(DbSkip(1))
-				 Loop
-			 endif
-			 if Vendemov->Dc = "C"
-				 Vendemov->(DbSkip(1))
-				 Loop
-			 endif
-			 DbAppend()
-			 For nField := 1 To FCount()
-				 FieldPut( nField, Vendemov->(FieldGet( nField )))
-			 Next
-			 Vendemov->(DbSkip(1))
-		 EndDo
-		 Restela( cTela )
-		 Set Rela To CodiVen Into Vendedor
-		 DbGoTop()
-		 Func_Mostra()
-		 DbClearRel()
-		 DbCloseArea()
-		 Ferase( cArquivo )
-
-	Case op1 = 2
-		Vendedor->( Order( VENDEDOR_CODIVEN ))
-		Area("Vendemov")
-		Vendemov->(Order( VENDEMOV_CODIVEN ))
-		Vendemov->(DbGoTop())
-		MaBox( 18, 20, 20, 36 )
-		cCodi := Space(04)
-		@ 19,21 Say "Codigo..»" Get cCodi Pict "9999" Valid FunErrado( @cCodi )
-		Read
-		if LastKey( ) = ESC
-			ResTela( aTela )
-			Loop
-		endif
-		if Vendemov->(DbSeek( cCodi ))
-			Copy Stru To ( cArquivo )
-			Use (cArquivo) Exclusive New
-			oBloco := {|| Vendemov->CodiVen = cCodi }
-			oMenu:Limpa()
-			cTela := Mensagem("Aguarde. Verificando movimento.", Cor())
-			WHILE Eval( oBloco ) .AND. Rep_Ok()
-				if Vendemov->Descricao = Space(40)
-					Vendemov->(DbSkip(1))
-					Loop
-				endif
-				if Vendemov->Dc = "C"
-					Vendemov->(DbSkip(1))
-					Loop
-				endif
-				DbAppend()
-				For nField := 1 To FCount()
-					FieldPut( nField, Vendemov->(FieldGet( nField )))
-				Next
-				Vendemov->(DbSkip(1))
-			EndDo
-			Restela( cTela )
-			Set Rela To CodiVen Into Vendedor
-			DbGoTop()
-			Func_Mostra()
-			DbClearRel()
-			DbCloseArea()
-			Ferase( cArquivo )
-		else
-			Nada()
-			Restela( aTela )
-		endif
-
-	Case op1 = 3
-		Vendedor->( Order( VENDEDOR_CODIVEN ))
-		Area("Vendemov")
-		Vendemov->(Order( VENDEMOV_DATA ))
-		Vendemov->(DbGoTop())
-		MaBox( 18,20,20,39 )
-		dData = Date()
-		@ 19,21 Say "Data....»" Get dData Pict "##/##/##"
-		Read
-		if LastKey( ) = ESC
-			ResTela( aTela )
-			Loop
-		endif
-		if Vendemov->(DbSeek( dData ))
-			Copy Stru To ( cArquivo )
-			Use (cArquivo) Exclusive New
-			oBloco := {|| Vendemov->Data = dData }
-			oMenu:Limpa()
-			cTela := Mensagem("Aguarde. Verificando movimento.", Cor())
-			WHILE Eval( oBloco ) .AND. Rep_Ok()
-				if Vendemov->Descricao = Space(40)
-					Vendemov->(DbSkip(1))
-					Loop
-				endif
-				if Vendemov->Dc = "C"
-					Vendemov->(DbSkip(1))
-					Loop
-				endif
-				DbAppend()
-				For nField := 1 To FCount()
-					FieldPut( nField, Vendemov->(FieldGet( nField )))
-				Next
-				Vendemov->(DbSkip(1))
-			EndDo
-			Restela( cTela )
-			Set Rela To CodiVen Into Vendedor
-			DbGoTop()
-			Func_Mostra()
-			DbClearRel()
-			DbCloseArea()
-			Ferase( cArquivo )
-		else
-			Nada()
-			Restela( aTela )
-		endif
-
-	 Case op1 = 4
-		 Vendedor->( Order( VENDEDOR_CODIVEN ))
-		 Area("Vendemov")
-		 Vendemov->(Order( VENDEMOV_CODIVEN ))
-		 Vendemov->(DbGoTop())
-		 Copy Stru To ( cArquivo )
-		 Use (cArquivo) Exclusive New
-		 oBloco := {|| Vendemov->(!Eof()) }
-		 oMenu:Limpa()
-		 cTela := Mensagem("Aguarde. Verificando movimento.", Cor())
-		 WHILE Eval( oBloco ) .AND. Rep_Ok()
-			 if Vendemov->Descricao = Space(40)
-				 Vendemov->(DbSkip(1))
-				 Loop
-			 endif
-			 if Vendemov->Dc = "C"
-				 Vendemov->(DbSkip(1))
-				 Loop
-			 endif
-			 DbAppend()
-			 For nField := 1 To FCount()
-				 FieldPut( nField, Vendemov->(FieldGet( nField )))
-			 Next
-			 Vendemov->(DbSkip(1))
-		 EndDo
-		 Restela( cTela )
-		 Set Rela To CodiVen Into Vendedor
-		 DbGoTop()
-		 Func_Mostra()
-		 DbClearRel()
-		 DbCloseArea()
-		 Ferase( cArquivo )
-	 EndCase
-EndDo
+   oMenu:Limpa()
+   MaBox( 01, 00, MaxRow()-1, MaxCol(), "CONSULTA DE LANCAMENTOS" )
+   Seta1(23)
+   DbEdit( 02, 01, MaxRow()-2, MaxCol()-1, Mostra2, OK, OK, Mostra1 )
+   ResTela( cScreen )
+   return
+endef
 
 *:==================================================================================================================================
 
-Proc Func_Mostra()
-******************
-LOCAL cScreen := SaveScreen()
-LOCAL Mostra2 := {"Codiven", "Vendedor->Nome", "Tran( Vlr, '@E 99,999,999,999.99' )","data", "docnr", "descricao" }
-LOCAL Mostra1 := {"CODI", "NOME DO VENDEDOR", "DEBITO" ,"DATA" ,"DOCTO Nº" ,"DESCRICAO"}
+def Cred_Consu()
+****************
+   LOCAL GetList	  := {}
+   LOCAL Func_Consu := SaveScreen( )
+   LOCAL aMenuArray := { " Por Docto ", " Individual ", " Por Data ", " Geral " }
+   LOCAL cArquivo   := FTempName("T*.TMP")
+   LOCAL cDocnr
+   LOCAL cCodi
+   LOCAL aTela
+   LOCAL Op1
+   LOCAL cTela
+   LOCAL dData
+   LOCAL oBloco
+   LOCAL nField
+   FIELD CodiVen
 
-oMenu:Limpa()
-MaBox( 01, 00, MaxRow()-1, MaxCol(), "CONSULTA DE LANCAMENTOS" )
-Seta1(23)
-DbEdit( 02, 01, MaxRow()-2, MaxCol()-1, Mostra2, OK, OK, Mostra1 )
-ResTela( cScreen )
-return
+   WHILE OK
+   	 aTela := SaveScreen()
+   	 M_Title( "CONSULTAS DE CREDITOS")
+   	 Op1 := FazMenu( 08, 20, aMenuArray, Cor() )
+   	 Do Case
+   	 Case op1 = 0
+   		 ResTela( func_consu )
+   		 Exit
 
-*:==================================================================================================================================
+   	 Case op1 = 1
+   		 Vendedor->( Order( VENDEDOR_CODIVEN ))
+   		 Area("Vendemov")
+   		 Vendemov->(Order( VENDEMOV_DOCNR ))
+   		 Vendemov->(DbGoTop())
+   		 MaBox( 18,20,20,41 )
+   		 cDocnr = Space( Len( Vendemov->Docnr )-2 )
+   		 @ 19, 21 Say "Docto Nº...»" Get cDocnr Pict "@!" Valid DocFuerr( cDocnr )
+   		 Read
+   		 if LastKey( ) = ESC
+   			 ResTela( aTela )
+   			 Loop
+   		 endif
+   		 Copy Stru To ( cArquivo )
+   		 Use (cArquivo) Exclusive New
+   		 oBloco := {|| Vendemov->Docnr = cDocnr }
+   		 oMenu:Limpa()
+   		 cTela := Mensagem("Aguarde. Verificando movimento.", Cor())
+   		 WHILE Eval( oBloco ) .AND. Rep_Ok()
+   			 if Vendemov->Descricao = Space(40)
+   				 Vendemov->(DbSkip(1))
+   				 Loop
+   			 endif
+   			 if Vendemov->Dc = "D"
+   				 Vendemov->(DbSkip(1))
+   				 Loop
+   			 endif
+   			 DbAppend()
+   			 For nField := 1 To FCount()
+   				 FieldPut( nField, Vendemov->(FieldGet( nField )))
+   			 Next
+   			 Vendemov->(DbSkip(1))
+   		 EndDo
+   		 Restela( cTela )
+   		 Set Rela To CodiVen Into Vendedor
+   		 DbGoTop()
+   		 Func_Mostra()
+   		 DbClearRel()
+   		 DbCloseArea()
+   		 Ferase( cArquivo )
 
-Proc Cred_Consu()
-*****************
-LOCAL GetList	  := {}
-LOCAL Func_Consu := SaveScreen( )
-LOCAL aMenuArray := { " Por Docto ", " Individual ", " Por Data ", " Geral " }
-LOCAL cArquivo   := FTempName("T*.TMP")
-LOCAL cDocnr
-LOCAL cCodi
-LOCAL aTela
-LOCAL Op1
-LOCAL cTela
-LOCAL dData
-LOCAL oBloco
-LOCAL nField
-FIELD CodiVen
+   	Case op1 = 2
+   		Vendedor->( Order( VENDEDOR_CODIVEN ))
+   		Area("Vendemov")
+   		Vendemov->(Order( VENDEMOV_CODIVEN ))
+   		Vendemov->(DbGoTop())
+   		MaBox( 18, 20, 20, 36 )
+   		cCodi := Space(04)
+   		@ 19,21 Say "Codigo..»" Get cCodi Pict "9999" Valid FunErrado( @cCodi )
+   		Read
+   		if LastKey( ) = ESC
+   			ResTela( aTela )
+   			Loop
+   		endif
+   		if Vendemov->(DbSeek( cCodi ))
+   			Copy Stru To ( cArquivo )
+   			Use (cArquivo) Exclusive New
+   			oBloco := {|| Vendemov->CodiVen = cCodi }
+   			oMenu:Limpa()
+   			cTela := Mensagem("Aguarde. Verificando movimento.", Cor())
+   			WHILE Eval( oBloco ) .AND. Rep_Ok()
+   				if Vendemov->Descricao = Space(40)
+   					Vendemov->(DbSkip(1))
+   					Loop
+   				endif
+   				if Vendemov->Dc = "D"
+   					Vendemov->(DbSkip(1))
+   					Loop
+   				endif
+   				DbAppend()
+   				For nField := 1 To FCount()
+   					FieldPut( nField, Vendemov->(FieldGet( nField )))
+   				Next
+   				Vendemov->(DbSkip(1))
+   			EndDo
+   			Restela( cTela )
+   			Set Rela To CodiVen Into Vendedor
+   			DbGoTop()
+   			Func_Mostra()
+   			DbClearRel()
+   			DbCloseArea()
+   			Ferase( cArquivo )
+   		else
+   			Nada()
+   			Restela( aTela )
+   		endif
 
-WHILE OK
-	 aTela := SaveScreen()
-	 M_Title( "CONSULTAS DE CREDITOS")
-	 Op1 := FazMenu( 08, 20, aMenuArray, Cor() )
-	 Do Case
-	 Case op1 = 0
-		 ResTela( func_consu )
-		 Exit
+   	Case op1 = 3
+   		Vendedor->( Order( VENDEDOR_CODIVEN ))
+   		Area("Vendemov")
+   		Vendemov->(Order( VENDEMOV_DATA ))
+   		Vendemov->(DbGoTop())
+   		MaBox( 18,20,20,39 )
+   		dData = Date()
+   		@ 19,21 Say "Data....»" Get dData Pict "##/##/##"
+   		Read
+   		if LastKey( ) = ESC
+   			ResTela( aTela )
+   			Loop
+   		endif
+   		if Vendemov->(DbSeek( dData ))
+   			Copy Stru To ( cArquivo )
+   			Use (cArquivo) Exclusive New
+   			oBloco := {|| Vendemov->Data = dData }
+   			oMenu:Limpa()
+   			cTela := Mensagem("Aguarde. Verificando movimento.", Cor())
+   			WHILE Eval( oBloco ) .AND. Rep_Ok()
+   				if Vendemov->Descricao = Space(40)
+   					Vendemov->(DbSkip(1))
+   					Loop
+   				endif
+   				if Vendemov->Dc = "D"
+   					Vendemov->(DbSkip(1))
+   					Loop
+   				endif
+   				DbAppend()
+   				For nField := 1 To FCount()
+   					FieldPut( nField, Vendemov->(FieldGet( nField )))
+   				Next
+   				Vendemov->(DbSkip(1))
+   			EndDo
+   			Restela( cTela )
+   			Set Rela To CodiVen Into Vendedor
+   			DbGoTop()
+   			Func_Mostra()
+   			DbClearRel()
+   			DbCloseArea()
+   			Ferase( cArquivo )
+   		else
+   			Nada()
+   			Restela( aTela )
+   		endif
 
-	 Case op1 = 1
-		 Vendedor->( Order( VENDEDOR_CODIVEN ))
-		 Area("Vendemov")
-		 Vendemov->(Order( VENDEMOV_DOCNR ))
-		 Vendemov->(DbGoTop())
-		 MaBox( 18,20,20,41 )
-		 cDocnr = Space( Len( Vendemov->Docnr )-2 )
-		 @ 19, 21 Say "Docto Nº...»" Get cDocnr Pict "@!" Valid DocFuerr( cDocnr )
-		 Read
-		 if LastKey( ) = ESC
-			 ResTela( aTela )
-			 Loop
-		 endif
-		 Copy Stru To ( cArquivo )
-		 Use (cArquivo) Exclusive New
-		 oBloco := {|| Vendemov->Docnr = cDocnr }
-		 oMenu:Limpa()
-		 cTela := Mensagem("Aguarde. Verificando movimento.", Cor())
-		 WHILE Eval( oBloco ) .AND. Rep_Ok()
-			 if Vendemov->Descricao = Space(40)
-				 Vendemov->(DbSkip(1))
-				 Loop
-			 endif
-			 if Vendemov->Dc = "D"
-				 Vendemov->(DbSkip(1))
-				 Loop
-			 endif
-			 DbAppend()
-			 For nField := 1 To FCount()
-				 FieldPut( nField, Vendemov->(FieldGet( nField )))
-			 Next
-			 Vendemov->(DbSkip(1))
-		 EndDo
-		 Restela( cTela )
-		 Set Rela To CodiVen Into Vendedor
-		 DbGoTop()
-		 Func_Mostra()
-		 DbClearRel()
-		 DbCloseArea()
-		 Ferase( cArquivo )
-
-	Case op1 = 2
-		Vendedor->( Order( VENDEDOR_CODIVEN ))
-		Area("Vendemov")
-		Vendemov->(Order( VENDEMOV_CODIVEN ))
-		Vendemov->(DbGoTop())
-		MaBox( 18, 20, 20, 36 )
-		cCodi := Space(04)
-		@ 19,21 Say "Codigo..»" Get cCodi Pict "9999" Valid FunErrado( @cCodi )
-		Read
-		if LastKey( ) = ESC
-			ResTela( aTela )
-			Loop
-		endif
-		if Vendemov->(DbSeek( cCodi ))
-			Copy Stru To ( cArquivo )
-			Use (cArquivo) Exclusive New
-			oBloco := {|| Vendemov->CodiVen = cCodi }
-			oMenu:Limpa()
-			cTela := Mensagem("Aguarde. Verificando movimento.", Cor())
-			WHILE Eval( oBloco ) .AND. Rep_Ok()
-				if Vendemov->Descricao = Space(40)
-					Vendemov->(DbSkip(1))
-					Loop
-				endif
-				if Vendemov->Dc = "D"
-					Vendemov->(DbSkip(1))
-					Loop
-				endif
-				DbAppend()
-				For nField := 1 To FCount()
-					FieldPut( nField, Vendemov->(FieldGet( nField )))
-				Next
-				Vendemov->(DbSkip(1))
-			EndDo
-			Restela( cTela )
-			Set Rela To CodiVen Into Vendedor
-			DbGoTop()
-			Func_Mostra()
-			DbClearRel()
-			DbCloseArea()
-			Ferase( cArquivo )
-		else
-			Nada()
-			Restela( aTela )
-		endif
-
-	Case op1 = 3
-		Vendedor->( Order( VENDEDOR_CODIVEN ))
-		Area("Vendemov")
-		Vendemov->(Order( VENDEMOV_DATA ))
-		Vendemov->(DbGoTop())
-		MaBox( 18,20,20,39 )
-		dData = Date()
-		@ 19,21 Say "Data....»" Get dData Pict "##/##/##"
-		Read
-		if LastKey( ) = ESC
-			ResTela( aTela )
-			Loop
-		endif
-		if Vendemov->(DbSeek( dData ))
-			Copy Stru To ( cArquivo )
-			Use (cArquivo) Exclusive New
-			oBloco := {|| Vendemov->Data = dData }
-			oMenu:Limpa()
-			cTela := Mensagem("Aguarde. Verificando movimento.", Cor())
-			WHILE Eval( oBloco ) .AND. Rep_Ok()
-				if Vendemov->Descricao = Space(40)
-					Vendemov->(DbSkip(1))
-					Loop
-				endif
-				if Vendemov->Dc = "D"
-					Vendemov->(DbSkip(1))
-					Loop
-				endif
-				DbAppend()
-				For nField := 1 To FCount()
-					FieldPut( nField, Vendemov->(FieldGet( nField )))
-				Next
-				Vendemov->(DbSkip(1))
-			EndDo
-			Restela( cTela )
-			Set Rela To CodiVen Into Vendedor
-			DbGoTop()
-			Func_Mostra()
-			DbClearRel()
-			DbCloseArea()
-			Ferase( cArquivo )
-		else
-			Nada()
-			Restela( aTela )
-		endif
-
-	 Case op1 = 4
-		 Vendedor->( Order( VENDEDOR_CODIVEN ))
-		 Area("Vendemov")
-		 Vendemov->(Order( VENDEMOV_CODIVEN ))
-		 Vendemov->(DbGoTop())
-		 Copy Stru To ( cArquivo )
-		 Use (cArquivo) Exclusive New
-		 oBloco := {|| Vendemov->(!Eof()) }
-		 oMenu:Limpa()
-		 cTela := Mensagem("Aguarde. Verificando movimento.", Cor())
-		 WHILE Eval( oBloco ) .AND. Rep_Ok()
-			 if Vendemov->Descricao = Space(40)
-				 Vendemov->(DbSkip(1))
-				 Loop
-			 endif
-			 if Vendemov->Dc = "D"
-				 Vendemov->(DbSkip(1))
-				 Loop
-			 endif
-			 DbAppend()
-			 For nField := 1 To FCount()
-				 FieldPut( nField, Vendemov->(FieldGet( nField )))
-			 Next
-			 Vendemov->(DbSkip(1))
-		 EndDo
-		 Restela( cTela )
-		 Set Rela To CodiVen Into Vendedor
-		 DbGoTop()
-		 Func_Mostra()
-		 DbClearRel()
-		 DbCloseArea()
-		 Ferase( cArquivo )
-	 EndCase
-EndDo
+   	 Case op1 = 4
+   		 Vendedor->( Order( VENDEDOR_CODIVEN ))
+   		 Area("Vendemov")
+   		 Vendemov->(Order( VENDEMOV_CODIVEN ))
+   		 Vendemov->(DbGoTop())
+   		 Copy Stru To ( cArquivo )
+   		 Use (cArquivo) Exclusive New
+   		 oBloco := {|| Vendemov->(!Eof()) }
+   		 oMenu:Limpa()
+   		 cTela := Mensagem("Aguarde. Verificando movimento.", Cor())
+   		 WHILE Eval( oBloco ) .AND. Rep_Ok()
+   			 if Vendemov->Descricao = Space(40)
+   				 Vendemov->(DbSkip(1))
+   				 Loop
+   			 endif
+   			 if Vendemov->Dc = "D"
+   				 Vendemov->(DbSkip(1))
+   				 Loop
+   			 endif
+   			 DbAppend()
+   			 For nField := 1 To FCount()
+   				 FieldPut( nField, Vendemov->(FieldGet( nField )))
+   			 Next
+   			 Vendemov->(DbSkip(1))
+   		 EndDo
+   		 Restela( cTela )
+   		 Set Rela To CodiVen Into Vendedor
+   		 DbGoTop()
+   		 Func_Mostra()
+   		 DbClearRel()
+   		 DbCloseArea()
+   		 Ferase( cArquivo )
+   	 EndCase
+   EndDo
 
 *:==================================================================================================================================
 

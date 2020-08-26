@@ -78,7 +78,7 @@ Local o2 := HSamp2():New()
  
 return nil
  
-CLASS HSamp1
+ CLASS HSamp1
  
    DATA x   INIT 10
    METHOD New()  INLINE Self

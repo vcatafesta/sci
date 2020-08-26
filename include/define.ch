@@ -10,8 +10,8 @@
 #define CUPS_PRINTER 5
 /***************************************************************************************************/
 #define FINALLY 				 	endsequence
-#Define fi         				endif
-#Define fed
+#define fi         				endif
+#define fed
 #define endef
 #define enddef
 #define endmethod
@@ -37,26 +37,26 @@
 #define CONTAS_A_RECEBER    3
 #define  S_TOP              0
 #define	S_BOTTOM 			 1
-#Define	_CODIGO				 12
-#Define	SUB					 9
-#Define	MIL					 1000
-#Define	TAXAMACRO_1 		 1.05415  // Taxa para 30 dias
-#Define	TAXAMACRO_5 		 0.23616  // Taxa para 5 pgtos
-#Define	TAXAMACRO_10		 0.13558  // Taxa para 5 pgtos
-#Define	TAXAMACRO_VENDEDOR 1.1		 // Taxa para Vendedor
-#Define	CTRL_END_SPECIAL	 .T.
-#Define	SWAP					 .T.
-#Define	MULTI 				 .F.
-#Define	CODEBAR				 .F.
-#Define	FANTACODEBAR		 ""
-#Define	LIG					 .T.
-#Define	DES					 .F.
-#Define  TRUE               .T.
-#Define  True               .T.
-#Define  true               .T.
-#Define  FALSE              .F.
-#Define  False              .F.
-#Define  false              .F.
+#define	_CODIGO				 12
+#define	SUB					 9
+#define	MIL					 1000
+#define	TAXAMACRO_1 		 1.05415  // Taxa para 30 dias
+#define	TAXAMACRO_5 		 0.23616  // Taxa para 5 pgtos
+#define	TAXAMACRO_10		 0.13558  // Taxa para 5 pgtos
+#define	TAXAMACRO_VENDEDOR 1.1		 // Taxa para Vendedor
+#define	CTRL_END_SPECIAL	 .T.
+#define	SWAP					 .T.
+#define	MULTI 				 .F.
+#define	CODEBAR				 .F.
+#define	FANTACODEBAR		 ""
+#define	LIG					 .T.
+#define	DES					 .F.
+#define  TRUE               .T.
+#define  True               .T.
+#define  true               .T.
+#define  FALSE              .F.
+#define  False              .F.
+#define  false              .F.
 #define SETA_CIMA 			  5
 #define SETA_BAIXO			  24
 #define SETA_ESQUERDA		  19
@@ -95,26 +95,26 @@
 #DEFINE NCHOICE_DOCNR_PARCIAL 7
 #DEFINE NCHOICE_DATAPAG       8
 /******************************************************************************************************/
-#Define POS_OBS 				  11
+#define POS_OBS 				  11
 #define SETA_CIMA 			  5
 #define SETA_BAIXO			  24
 #define SETA_ESQUERDA		  19
 #define SETA_DIREITA 		  4
 /******************************************************************************************************/
-#Define VAR_AGUDO   											39								 // Indicador de agudo
-#Define VAR_CIRCUN                              	94								 // Indicador de circunflexo
-#Define VAR_TREMA                               	34								 // Indicador de trema
-#Define VAR_CEDMIN                              	91								 // Cedilha minúsculo opcional [
-#Define VAR_CEDMAI                          	    	123 							 // Cedilha maiúsculo opcional {
-#Define VAR_GRAVE                           	    	96								 // Indicador de grave
-#Define VAR_TIL	                          	    	126 							 // Indicador de til
-#Define VAR_HifEN                           	    	95								 // Indicador de ª º sublinhado+a/o
+#define VAR_AGUDO   											39								 // Indicador de agudo
+#define VAR_CIRCUN                              	94								 // Indicador de circunflexo
+#define VAR_TREMA                               	34								 // Indicador de trema
+#define VAR_CEDMIN                              	91								 // Cedilha minúsculo opcional [
+#define VAR_CEDMAI                          	    	123 							 // Cedilha maiúsculo opcional {
+#define VAR_GRAVE                           	    	96								 // Indicador de grave
+#define VAR_TIL	                          	    	126 							 // Indicador de til
+#define VAR_HifEN                           	    	95								 // Indicador de ª º sublinhado+a/o
 /******************************************************************************************************/
-#Define S_TOP		                          	   	0
-#Define S_BOTTOM	  											1
+#define S_TOP		                          	   	0
+#define S_BOTTOM	  											1
 /******************************************************************************************************/
-#Define NULL													NIL
-#Define null													NIL
+#define NULL													NIL
+#define null													NIL
 /******************************************************************************************************/
 #define RECCAR 1
 #define RECBCO 2
@@ -123,14 +123,14 @@
 #define PAGDIA 5
 #define PAGDIV 6
 /******************************************************************************************************/
-#Define TURN_ON_APPEND_MODE(b)		(b:cargo := .T.)
-#Define TURN_OFF_APPEND_MODE(b)		(b:cargo := .F.)
-#Define IS_APPEND_MODE(b)				(b:cargo)
-#Define MY_HEADSEP						"---"
-#Define MY_COLSEP 						" ¦ "
-#Define XMESES                      2
-#Define XCREDITO                    1
-#Define XDEBITO                     3
+#define TURN_ON_APPEND_MODE(b)		(b:cargo := .T.)
+#define TURN_OFF_APPEND_MODE(b)		(b:cargo := .F.)
+#define IS_APPEND_MODE(b)				(b:cargo)
+#define MY_HEADSEP						"---"
+#define MY_COLSEP 						" ¦ "
+#define XMESES                      2
+#define XCREDITO                    1
+#define XDEBITO                     3
 #define APP_MODE_ON( b )				( b:cargo := OK	)
 #define APP_MODE_OFF( b )				( b:cargo := FALSO )
 #define APP_MODE_ACTIVE( b )			( b:cargo )
@@ -144,10 +144,10 @@
 /******************************************************************************************************/
 #define AC_CURELEMENTO  				10
 /******************************************************************************************************/ 
-#Define	XCABEC_FAT1 		 			"RELATORIO DE EVENTOS DE FATURAMENTO"
-#Define	XCABEC_FAT2 		 			"TIP DATA     HORA     USER  CAIX VENDED FATURA"
-#Define	XCABEC_PRN1 		 			"RELATORIO DE EVENTOS DE IMPRESSAO DE DOCUMENTOS DIVERSOS"
-#Define	XCABEC_PRN2 		 			"TIP DATA     HORA     USER  CAIX VENDED FATURA"
+#define	XCABEC_FAT1 		 			"RELATORIO DE EVENTOS DE FATURAMENTO"
+#define	XCABEC_FAT2 		 			"TIP DATA     HORA     USER  CAIX VENDED FATURA"
+#define	XCABEC_PRN1 		 			"RELATORIO DE EVENTOS DE IMPRESSAO DE DOCUMENTOS DIVERSOS"
+#define	XCABEC_PRN2 		 			"TIP DATA     HORA     USER  CAIX VENDED FATURA"
 /**********************************************************/
 #define SCI_MAXROW		MaxRow()
 #define SCI_MAXCOL 		MaxCol()

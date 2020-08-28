@@ -68,18 +68,18 @@ WHILE lOk
       Case op = 2.10 ; BidoToRecibo()
       Case op = 2.11 ; FoneTroca()
 		Case op = 3.01 ; iif(PodeAlterar(), AlteraReceber(), NIL)
-		Case op = 3.02 ; AlteraRecebido()
-      Case op = 3.03 ; MenuTxJuros()
-		Case op = 3.05 ; AltRegTitRec()
-		Case op = 3.06 ; AltRegTitPag()
-		Case op = 3.07 ; ReajTitulos()
-		Case op = 3.08 ; RemoveCobranca()
-		Case op = 3.09 ; RemoveAgenda()
-		Case op = 3.10 ; AltRegCfop()
-		Case op = 3.11 ; TrocaCliente(cCaixa)
-		Case op = 3.12 ; TrocaCobAgenda()
-		Case op = 3.13 ; AgendaDbedit()
-		Case op = 3.14 ; RecemovDbeditEmTabela(nil)      
+		Case op = 3.02 ; iif(PodeAlterar(), AlteraRecebido(), NIL)
+      Case op = 3.03 ; iif(PodeAlterar(), MenuTxJuros(), NIL)
+		Case op = 3.05 ; iif(PodeAlterar(), AltRegTitRec(), NIL)
+		Case op = 3.06 ; iif(PodeAlterar(), AltRegTitPag(), NIL)
+		Case op = 3.07 ; iif(PodeAlterar(), ReajTitulos(), NIL)
+		Case op = 3.08 ; iif(PodeAlterar(), RemoveCobranca(), NIL)
+		Case op = 3.09 ; iif(PodeAlterar(), RemoveAgenda(), NIL)
+		Case op = 3.10 ; iif(PodeAlterar(), AltRegCfop(), NIL)
+		Case op = 3.11 ; iif(PodeAlterar(), TrocaCliente(), NIL)
+		Case op = 3.12 ; iif(PodeAlterar(), TrocaCobAgenda(), NIL)
+		Case op = 3.13 ; iif(PodeAlterar(), AgendaDbedit(), NIL)
+		Case op = 3.14 ; iif(PodeAlterar(), RecemovDbeditEmTabela(), NIL)
 		Case op = 4.01 ; Lancamentos(cCaixa)
 		Case op = 4.02 ; iif(PodeReceber(), BaixasRece( cCaixa, cVendedor ), NIL)
 		Case op = 4.03 ; Exclusao()
@@ -2056,16 +2056,16 @@ WHILE OK
             cObs += space(80-len(cObs))         
          endif         
       endif            
-      hb_default(@cObs, "(escreva até 80 letras - CTRL + Y apaga linha)" + space(80-46))
+      hb_default(@cObs, "(escreva max 80 letras - CTRL + Y apaga linha)" + space(80-46))
       
 		MaBox( 08 , 10 , 22 , MaxCol()-13 )
 		Write( 09 , 11, "Codigo........: " + cCodi )
 		Write( 10 , 11, "Cliente.......: " + cNome )
 		Write( 11 , 11, "Endereco......: " + cEnde )
 		@ 12 , 11 Say	 "Tipo..........:" Get cTipo  Pict "@K!"
-		@ 13 , 11 Say	 "Documento n...:" Get cDocnr Pict "@K!"              Valid LastKey()=UP .OR. DocCerto(@cDocnr)
-		@ 14 , 11 Say	 "Nosso N.......:" Get cNosso Pict "@K!"
-		@ 15 , 11 Say	 "Bordero n.....:" Get cBorde Pict "@K!"
+		@ 13 , 11 Say	 "Documento #...:" Get cDocnr Pict "@K!"              Valid LastKey()=UP .OR. DocCerto(@cDocnr)
+		@ 14 , 11 Say	 "Nosso Numero..:" Get cNosso Pict "@K!"
+		@ 15 , 11 Say	 "Bordero #.....:" Get cBorde Pict "@K!"
 		@ 16 , 11 Say	 "Data Emissao..:" Get dEmis  Pict "##/##/##"
 		@ 17 , 11 Say	 "Data Vcto.....:" Get dVcto  Pict "##/##/##"         Valid LastKey()=UP .OR. if((dVcto<dEmis), (ErrorBeep(), Alerta("Erro: Entrada Invalida. Vcto tem que ser maior que Emissao."), FALSO ), OK )
 		@ 18 , 11 Say	 "Portador......:" Get cPort  Pict "@K!"            

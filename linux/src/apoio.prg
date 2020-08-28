@@ -1,5 +1,3 @@
-
-
 /*
   ┌─────────────────────────────────────────────────────────────────────────?
  ▌│																								 ?
@@ -32,10 +30,10 @@ def VerDebitosEmAtraso()
 	LOCAL nNivel := SCI_VERIFICAR_DEBITOS_EM_ATRASO
 	if !Empty( aPermissao )
 		if aPermissao[ nNivel ]
-			return( true )
+			return true
 		endif
 	endif
-	return( FALSO )
+	return false
 endef
 
 *==================================================================================================*
@@ -44,7 +42,7 @@ def PodeExcederDescMax()
 	LOCAL nNivel := SCI_PODE_EXCEDER_DESCONTO_MAXIMO
 	if !Empty( aPermissao )
 		if aPermissao[ nNivel ]
-			return( true )
+			return true
 		endif
 		return( PedePermissao( nNivel))
 	endif
@@ -57,17 +55,17 @@ def PodeMudarData( dEmis )
 	LOCAL nNivel := SCI_ALTERAR_DATA_FATURA
 
 	if dEmis == Date()
-		return( true )
+		return true
 	endif
 
 	if !Empty( aPermissao )
 		if aPermissao[ nNivel ]
-			return( true )
+			return true
 		endif
 		if !PedePermissao( nNivel )
 			return( false )
 		endif
-		return( true )
+		return true
 	endif
 	return( false )
 endef
@@ -78,16 +76,16 @@ def PodeRecDataDif( dEmis )
 	LOCAL nNivel := SCI_ALTERAR_DATA_BAIXA
 
 	if dEmis == Date()
-		return( true )
+		return true
 	endif
 	if !Empty( aPermissao )
 		if aPermissao[ nNivel ]
-			return( true )
+			return true
 		endif
 		if !PedePermissao( nNivel )
 			return( false )
 		endif
-		return( true )
+		return true
 	endif
 	return( false )
 endef
@@ -97,13 +95,13 @@ endef
 def PodeReceber()
 	if !Empty( aPermissao )
 		if aPermissao[ SCI_RECEBIMENTOS ]
-			return( true )
+			return true
 		endif
 		nNivel := SCI_RECEBIMENTOS
 		if !PedePermissao( nNivel )
 			return( false )
 		endif
-		return( true )
+		return true
 	endif
 	return( false )
 endef
@@ -113,13 +111,13 @@ endef
 def PodePagar()
 	if !Empty( aPermissao )
 		if aPermissao[ SCI_PAGAMENTOS ]
-			return( true )
+			return true
 		endif
 		nNivel := SCI_PAGAMENTOS
 		if !PedePermissao( nNivel )
 			return( false )
 		endif
-		return( true )
+		return true
 	endif
 	return( false )
 endef
@@ -129,7 +127,7 @@ endef
 def PodeVenderComLimiteEstourado()
 	if !Empty( aPermissao )
 		if aPermissao[SCI_VENDER_COM_LIMITE_ESTOURADO]
-			return( true )
+			return true
 		endif
 	endif
 	return( false )
@@ -140,7 +138,7 @@ endef
 def VerificarLimiteCredito()
 	if !Empty( aPermissao )
 		if aPermissao[SCI_VERIFICAR_LIMITE_DE_CREDITO]
-			return( true )
+			return true
 		endif
 	endif
 	return( false )
@@ -151,7 +149,7 @@ endef
 def TipoCadastro()
 	if !Empty( aPermissao )
 		if aPermissao[SCI_TIPO_DE_CADASTRO_DE_CLIENTE]
-			return( true )
+			return true
 		endif
 	endif
 	return( false )
@@ -162,7 +160,7 @@ endef
 def PodeBaixarTituloAVista()
 	if !Empty( aPermissao )
 		if aPermissao[SCI_BAIXAR_TITULO_QDO_VENDA_A_VISTA]
-			return( true )
+			return true
 		endif
 	endif
 	return( false )
@@ -173,7 +171,7 @@ endef
 def PodeFaturarComEstoqueNegativo()
 	if !Empty( aPermissao )
 		if aPermissao[SCI_FATURAR_COM_ESTOQUE_NEGATIVO]
-			return( true )
+			return true
 		endif
 	endif
 	return( false )
@@ -184,58 +182,61 @@ endef
 def PodeFazerBackup()
 	if !Empty( aPermissao )
 		if aPermissao[SCI_COPIA_DE_SEGURANCA]
-			return( true )
+			return true
 		endif
 	endif
 	return( false )
 endef
-	
-*==================================================================================================*	
-	
+
+*==================================================================================================*
+
 def PodeFazerRestauracao()
 	if !Empty( aPermissao )
 		if aPermissao[SCI_RESTAURAR_COPIA_SEGURANCA]
-			return( true )
+			return true
 		endif
 	endif
-	return( false )	
-endef	
+	return( false )
+endef
 
 *==================================================================================================*
 
 def PodeAlterar()
-	if !Empty( aPermissao )
-		if aPermissao[SCI_ALTERACAO_DE_REGISTROS]
-			return( true )
+	if !oSci:ReadBool('permissao','usuarioadmin', false )
+		if !Empty( aPermissao )
+			if aPermissao[SCI_ALTERACAO_DE_REGISTROS]
+				return true
+			endif
 		endif
+		return(PedePermissao( SCI_ALTERACAO_DE_REGISTROS ))
 	endif
-	return( false )
+	return true
 endef
 
 *==================================================================================================*
-	
+
 def PodeTrocarEmpresa()
 	if !Empty( aPermissao )
 		if aPermissao[SCI_TROCAR_DE_EMPRESA]
-			return( true )
+			return true
 		endif
 	endif
 	return( false )
 endef
 
 *==================================================================================================*
-	
+
 def PodeIncluir()
 	if !Empty( aPermissao )
 		if aPermissao[SCI_INCLUSAO_DE_REGISTROS]
-			return( true )
+			return true
 		endif
 	endif
 	return( false )
 endef
 
 *==================================================================================================*
-	
+
 def PodeExcluir()
 	if !Empty( aPermissao )
 		if aPermissao[SCI_EXCLUSAO_DE_REGISTROS]
@@ -252,7 +253,7 @@ def Impressora()
    LOCAL cScreen  := SaveScreen()
    LOCAL nChoice  := 0
    LOCAL aMenu    := {}
-   
+
    oMenu:Limpa()
    while true
       aMenu = CupsArrayPrinter()[CUPS_MENU]
@@ -261,20 +262,21 @@ def Impressora()
       if  nChoice = 0
          ResTela( cScreen )
          return
-      else         
+      else
          MudaImpressora(nChoice, @aMenu)
       endif
    enddo
 endef
 
+*==================================================================================================*
 
 def RetPrinterStatus()
    LOCAL i := 0
    LOCAL aStatus := {}
-   
+
    for i := 1 to 3
       nStatus := PrnStatus(i)
-      if nStatus = 0 
+      if nStatus = 0
          nStatus := Iif(IsPrinter(i), 1, 2 )
       else
         if nStatus = -1
@@ -282,47 +284,49 @@ def RetPrinterStatus()
         else
            nStatus++
          endif
-      endif	
+      endif
       Aadd( aStatus, nStatus )
    next
    return aStatus
-endef      
-   
+endef
+
+*==================================================================================================*
+
 def MudaImpressora( nCorrente, aMenu )
 **************************************
    LOCAL cCodi    := Space(02)
    LOCAL aPrinter := CupsArrayPrinter()
    LOCAL aModelo 	:= aPrinter[CUPS_MODELO]
 	LOCAL aAction	:= aPrinter[CUPS_ACTION]
-   LOCAL aStatus  := aPrinter[CUPS_STATUS]   
+   LOCAL aStatus  := aPrinter[CUPS_STATUS]
    LOCAL nIndex   := nCorrente
 	LOCAL oEscolhe := TIniNew(oAmbiente:xUsuario + ".INI")
-	
+
    if IsNil( aMenu)
       aMenu := aPrinter[CUPS_MENU]
    endif
-   
+
 	if UsaArquivo("PRINTER")
 		PrinterErrada( @cCodi )
       aArrayPrn := {;
                      Printer->Codi,;
                      Printer->Nome, ;
-                     Printer->_Cpi10,; 
-                     Printer->_Cpi12,; 
-                     Printer->Gd,; 
-                     Printer->Pq,; 
-                     Printer->Ng,; 
-                     Printer->Nr,; 
-                     Printer->Ca,; 
-                     Printer->c18,; 
-                     Printer->LigSub,; 
-                     Printer->DesSub,; 
-                     Printer->_SaltoOff,; 
-                     Printer->_Spaco1_6,; 
+                     Printer->_Cpi10,;
+                     Printer->_Cpi12,;
+                     Printer->Gd,;
+                     Printer->Pq,;
+                     Printer->Ng,;
+                     Printer->Nr,;
+                     Printer->Ca,;
+                     Printer->c18,;
+                     Printer->LigSub,;
+                     Printer->DesSub,;
+                     Printer->_SaltoOff,;
+                     Printer->_Spaco1_6,;
                      Printer->_Spaco1_8,;
                      Printer->Reseta;
 		}
-      
+
 		switch nCorrente
       case 1
       case 2
@@ -365,6 +369,8 @@ def MudaImpressora( nCorrente, aMenu )
 	endif
 endef
 
+*==================================================================================================*
+
 def CriaNtx( Col_1, Lin_1, Nome_Field, Nome_Ntx, cTag )
 ************************************************************
 	Ferase( (Nome_Ntx) + ".NTX")
@@ -375,6 +381,8 @@ def CriaNtx( Col_1, Lin_1, Nome_Field, Nome_Ntx, cTag )
 	SetColor("W+/R")
 	Write( Col_1, Lin_1, Chr(251)) // ?
 	return Nil
+
+*==================================================================================================*
 
 def MacroNtx( Nome_Field, Nome_Ntx, cTag )
 ***********************************************
@@ -388,7 +396,9 @@ def MacroNtx( Nome_Field, Nome_Ntx, cTag )
 	endif
 	ResTela( cScreen )
 	return Nil
-   
+
+*==================================================================================================*	
+
 def Spooler()
 *************
    LOCAL GetList     := {}
@@ -409,7 +419,7 @@ def Spooler()
       oMenu:Limpa()
       M_Title("SPOOLER DE IMPRESSAO")
       nChoice := FazMenu( 05, 10, aMenuChoice )
-      
+
       do case
       case nChoice = 0
          if !Empty( Arq_Ant)
@@ -421,40 +431,40 @@ def Spooler()
       case nChoice = 1
          oAmbiente:cArquivo := ""
          oAmbiente:Spooler  := false
-         Alerta("Limpeza efetuada com sucesso")         
+         Alerta("Limpeza efetuada com sucesso")
          Loop
 
-      case nChoice = 2         
+      case nChoice = 2
          cFile := iif( Empty( oAmbiente:cArquivo), Space(len(FTempPorExt("txt", oAmbiente:xBaseTxt) + Space(10))), oAmbiente:cArquivo )
          MaBox( 15, 10, 17 , MaxCol()-1 )
          @ 16, 11 Say "Arquivo para Impressao : " Get cFile Pict "@!" valid PickTemp( @cFile)
          Read
          if LastKey() = 27
-            oAmbiente:cArquivo := ""            
+            oAmbiente:cArquivo := ""
             Loop
-         endif         
-         oAmbiente:cArquivo := TrimStr(cFile)         
-         Instru80(, oAmbiente:cArquivo )   
+         endif
+         oAmbiente:cArquivo := TrimStr(cFile)
+         Instru80(, oAmbiente:cArquivo )
          loop
 
       case nChoice = 3
-         cFile := iif( Empty( oAmbiente:cArquivo), Space(len(FTempPorExt("txt", oAmbiente:xBaseTxt) + Space(10))), oAmbiente:cArquivo )         
+         cFile := iif( Empty( oAmbiente:cArquivo), Space(len(FTempPorExt("txt", oAmbiente:xBaseTxt) + Space(10))), oAmbiente:cArquivo )
          MaBox( 15, 10, 17 , MaxCol()-1 )
          @ 16, 11 Say "Arquivo para Visualizar : " Get cFile Pict "@!" valid PickTemp( @cFile)
          Read
-         if LastKey() = 27            
+         if LastKey() = 27
             loop
-         endif		
-         oAmbiente:cArquivo := TrimStr(cFile)         
+         endif
+         oAmbiente:cArquivo := TrimStr(cFile)
          oAmbiente:Externo  := FALSO
-         oAmbiente:Spooler  := OK		
+         oAmbiente:Spooler  := OK
          #if defined( __PLATFORM__UNIX )
             M_View( 00, 00, MaxRow(), MaxCol(), oAmbiente:cArquivo, Cor())
          #else
             ShellRun("NOTEPAD " + oAmbiente:cArquivo )
          #endif   
          CloseSpooler()
-         oAmbiente:Spooler := FALSO                  
+         oAmbiente:Spooler := FALSO
          loop
 
       case nChoice = 4
@@ -462,8 +472,7 @@ def Spooler()
       endcase
    enddo
    return
-endef      
-
+endef
 
 *==================================================================================================*
 
@@ -511,8 +520,6 @@ def CupsArrayPrinter()
 					" CANCELAR    " + cSep + 'Cancelar a impressao e retornar';
 					}
 
-
-
 	//browsearray(oAmbiente:aLpt)
    aStr    := oAmbiente:aLpt
 	for nPr := 1 to nLen
@@ -544,17 +551,17 @@ endef
 		nBytesImpressos := 0
 		nBytesImpressos := win_PrintFileRaw(cPrinterName, cArquivo)
 		return nBytesImpressos
-		
+
 	function cupsGetDests()
 		return win_printerList(true) // xhb.hbc
-#endif		
+#endif
 
-*==================================================================================================*			   
+*==================================================================================================*
 
 def SetarVariavel( aNewLpt )
 ****************************
-	LOCAL nPos       := 2   
-	
+	LOCAL nPos       := 2
+
 	if oAmbiente:lVisSpooler // Visualizar
 		PUBLIC _CPI10	  := ""
 		PUBLIC _CPI12	  := ""
@@ -586,160 +593,168 @@ def SetarVariavel( aNewLpt )
 		PUBLIC _SPACO1_6 := MsDecToChr( aNewLpt[++nPos] )
 		PUBLIC RESETA	  := MsDecToChr( aNewLpt[++nPos] )
 	endif
-	return   
-endef   
+	return
+endef
+
 
 def Instruim()
 *******************
    return( Instru80() )
 endef
-   
+
+
 def InstruEt()
 **************
    LOCAL cScreen := SaveScreen()
    LOCAL nChoice
    oMenu:Limpa()
    ErrorBeep()
-   nChoice := Alert(" INSTRUÇÃO PARA EMISSÃO DE ETIQUETAS      " + ;
-                     ";; ?Coloque Formulario Etiqueta.        " + ;
-                     "; ?Acerte a Altura do Picote           " + ;
-                     "; ?Resete ou Ligue a Impressora        ", { "Imprimir", "Visualizar", "Cancelar"})
+   nChoice := Alert(" INSTRUCAO EMISSAO DE ETIQUETAS      " + ;
+                     ";; Coloque Formulario Etiqueta.        " + ;
+                     "; Acerte a Altura do Picote           " + ;
+                     "; Resete ou Ligue a Impressora        ", { "Imprimir", "Visualizar", "Cancelar"})
    ResTela( cScreen )
    if nChoice = 1
       oAmbiente:cArquivo := ""
       oAmbiente:Spooler  := FALSO
-      return( true )
+      return true
    elseif nChoice = 2
       SaidaParaArquivo()
-      return( true )
+      return true
    else
       return( false )
    endif
 endef
-   
-Proc CadastroImpressoras()
-**************************
-LOCAL GetList	  := {}
-LOCAL cScreen	  := SaveScreen()
-LOCAL cCodi 	  := Space(02)
-LOCAL cNome 	  := Space(30)
-LOCAL c_Cpi10	  := Space(30)
-LOCAL c_Cpi12	  := Space(30)
-LOCAL cGd		  := Space(30)
-LOCAL cPq		  := Space(30)
-LOCAL cNg		  := Space(30)
-LOCAL cNr		  := Space(30)
-LOCAL cCa		  := Space(30)
-LOCAL cC18		  := Space(30)
-LOCAL cLigSub	  := Space(30)
-LOCAL cDesSub	  := Space(30)
-LOCAL c_SaltoOff := Space(30)
-LOCAL c_Spaco1_6 := Space(30)
-LOCAL c_Spaco1_8 := Space(30)
-LOCAL cReseta	  := Space(30)
-LOCAL nOpcao
-LOCAL nTam
-LOCAL nCol
-LOCAL nRow
 
-FIELD Codi
-FIELD Nome
-FIELD Gd
-FIELD Pq
-FIELD Ng
-FIELD Nr
-FIELD Ca
-FIELD C18
-FIELD LigSub
-FIELD DesSub
-FIELD _SaltoOff
-FIELD _Spaco1_6
-FIELD _Spaco1_8
-FIELD Reseta
+*==================================================================================================*
 
-if !UsaArquivo("PRINTER")
-	return
-endif
-Area("Printer")
-Printer->(DbGoBottom())
-nTam	:= Printer->(Len( Codi ))
-cCodi := Printer->(StrZero( Val( Codi ) +1, nTam ))
-oMenu:Limpa()
-MaBox( 05, 10, 22, 60, "INCLUSAO DE IMPRESSORAS" )
-nCol := 11
-nRow := 06
-WHILE OK
-	@ nRow,	  nCol Say "Codigo...........:" Get cCodi Pict "99" Valid PrinterCerto( @cCodi )
-	@ Row()+1, nCol Say "Modelo...........:" Get cNome Pict "@!"
-	@ Row()+1, nCol Say "Ligar 05 CPI.....:" Get cGd        Pict "@!"
-	@ Row()+1, nCol Say "Desl  05 CPI.....:" Get cCA        Pict "@!"
-	@ Row()+1, nCol Say "Ligar 10 CPI.....:" Get c_Cpi10    Pict "@!"
-	@ Row()+1, nCol Say "Ligar 12 CPI.....:" Get c_Cpi12    Pict "@!"
-	@ Row()+1, nCol Say "Ligar 15 CPI.....:" Get cPQ        Pict "@!"
-	@ Row()+1, nCol Say "Desl  15 CPI.....:" Get cC18       Pict "@!"
-	@ Row()+1, nCol Say "Ligar NEGRITO....:" Get cNG        Pict "@!"
-	@ Row()+1, nCol Say "Desl  NEGRITO....:" Get cNR        Pict "@!"
-	@ Row()+1, nCol Say "Ligar SUBLINHADO.:" Get cLigSub    Pict "@!"
-	@ Row()+1, nCol Say "Desl  SUBLINHADO.:" Get cDesSub    Pict "@!"
-	@ Row()+1, nCol Say "Desl SALTO PAG...:" Get c_SaltoOff Pict "@!"
-	@ Row()+1, nCol Say "Espacamento 1/8..:" Get c_Spaco1_8 Pict "@!"
-	@ Row()+1, nCol Say "Espacamento 1/6..:" Get c_Spaco1_6 Pict "@!"
-	@ Row()+1, nCol Say "RESETAR..........:" Get cReseta    Pict "@!"
-	Read
-	if LastKey() = ESC
-		ResTela( cScreen )
-		Exit
+def CadastroImpressoras()
+*************************
+	LOCAL GetList	  := {}
+	LOCAL cScreen	  := SaveScreen()
+	LOCAL cCodi 	  := Space(02)
+	LOCAL cNome 	  := Space(30)
+	LOCAL c_Cpi10	  := Space(30)
+	LOCAL c_Cpi12	  := Space(30)
+	LOCAL cGd		  := Space(30)
+	LOCAL cPq		  := Space(30)
+	LOCAL cNg		  := Space(30)
+	LOCAL cNr		  := Space(30)
+	LOCAL cCa		  := Space(30)
+	LOCAL cC18		  := Space(30)
+	LOCAL cLigSub	  := Space(30)
+	LOCAL cDesSub	  := Space(30)
+	LOCAL c_SaltoOff := Space(30)
+	LOCAL c_Spaco1_6 := Space(30)
+	LOCAL c_Spaco1_8 := Space(30)
+	LOCAL cReseta	  := Space(30)
+	LOCAL nOpcao
+	LOCAL nTam
+	LOCAL nCol
+	LOCAL nRow
+
+	FIELD Codi
+	FIELD Nome
+	FIELD Gd
+	FIELD Pq
+	FIELD Ng
+	FIELD Nr
+	FIELD Ca
+	FIELD C18
+	FIELD LigSub
+	FIELD DesSub
+	FIELD _SaltoOff
+	FIELD _Spaco1_6
+	FIELD _Spaco1_8
+	FIELD Reseta
+
+	if !UsaArquivo("PRINTER")
+		return
 	endif
-	ErrorBeep()
-	nOpcao := Alerta(" Pergunta: Voce Deseja ? ", {" Incluir ", " Alterar ", " Sair " })
-	if nOpcao = 1 // Incluir
-		if PrinterCerto( @cCodi )
-			if Printer->(Incluiu())
-				Printer->Codi		 := cCodi
-				Printer->Nome		 := cNome
-				Printer->_Cpi10	 := c_Cpi10
-				Printer->_Cpi12	 := c_Cpi12
-				Printer->Gd 		 := cGd
-				Printer->Pq 		 := cPq
-				Printer->Ng 		 := cNg
-				Printer->Nr 		 := cNr
-				Printer->Ca 		 := cCa
-				Printer->C18		 := cC18
-				Printer->LigSub	 := cLigSub
-				Printer->DesSub	 := cDesSub
-				Printer->_SaltoOff := c_SaltoOff
-				Printer->_Spaco1_6 := c_Spaco1_6
-				Printer->_Spaco1_8 := c_Spaco1_8
-				Printer->Reseta	 := cReseta
-				cCodi 				 := Printer->(StrZero( Val( Codi ) +1, nTam ))
-				Printer->(Libera())
-			endif
+	Area("Printer")
+	Printer->(DbGoBottom())
+	nTam	:= Printer->(Len( Codi ))
+	cCodi := Printer->(StrZero( Val( Codi ) +1, nTam ))
+	oMenu:Limpa()
+	MaBox( 05, 10, 22, 60, "INCLUSAO DE IMPRESSORAS" )
+	nCol := 11
+	nRow := 06
+	while OK
+		@ nRow,	  nCol Say "Codigo...........:" Get cCodi Pict "99" Valid PrinterCerto( @cCodi )
+		@ Row()+1, nCol Say "Modelo...........:" Get cNome Pict "@!"
+		@ Row()+1, nCol Say "Ligar 05 CPI.....:" Get cGd        Pict "@!"
+		@ Row()+1, nCol Say "Desl  05 CPI.....:" Get cCA        Pict "@!"
+		@ Row()+1, nCol Say "Ligar 10 CPI.....:" Get c_Cpi10    Pict "@!"
+		@ Row()+1, nCol Say "Ligar 12 CPI.....:" Get c_Cpi12    Pict "@!"
+		@ Row()+1, nCol Say "Ligar 15 CPI.....:" Get cPQ        Pict "@!"
+		@ Row()+1, nCol Say "Desl  15 CPI.....:" Get cC18       Pict "@!"
+		@ Row()+1, nCol Say "Ligar NEGRITO....:" Get cNG        Pict "@!"
+		@ Row()+1, nCol Say "Desl  NEGRITO....:" Get cNR        Pict "@!"
+		@ Row()+1, nCol Say "Ligar SUBLINHADO.:" Get cLigSub    Pict "@!"
+		@ Row()+1, nCol Say "Desl  SUBLINHADO.:" Get cDesSub    Pict "@!"
+		@ Row()+1, nCol Say "Desl SALTO PAG...:" Get c_SaltoOff Pict "@!"
+		@ Row()+1, nCol Say "Espacamento 1/8..:" Get c_Spaco1_8 Pict "@!"
+		@ Row()+1, nCol Say "Espacamento 1/6..:" Get c_Spaco1_6 Pict "@!"
+		@ Row()+1, nCol Say "RESETAR..........:" Get cReseta    Pict "@!"
+		Read
+		if LastKey() = ESC
+			ResTela( cScreen )
+			Exit
 		endif
-	elseif nOpcao = 2 // Alterar
-		Loop
-	elseif nOpcao = 3 // Sair
-		ResTela( cScreen )
-		Exit
-	endif
-END
+		ErrorBeep()
+		nOpcao := Alerta(" Pergunta: Voce Deseja ? ", {" Incluir ", " Alterar ", " Sair " })
+		if nOpcao = 1 // Incluir
+			if PrinterCerto( @cCodi )
+				if Printer->(Incluiu())
+					Printer->Codi		 := cCodi
+					Printer->Nome		 := cNome
+					Printer->_Cpi10	 := c_Cpi10
+					Printer->_Cpi12	 := c_Cpi12
+					Printer->Gd 		 := cGd
+					Printer->Pq 		 := cPq
+					Printer->Ng 		 := cNg
+					Printer->Nr 		 := cNr
+					Printer->Ca 		 := cCa
+					Printer->C18		 := cC18
+					Printer->LigSub	 := cLigSub
+					Printer->DesSub	 := cDesSub
+					Printer->_SaltoOff := c_SaltoOff
+					Printer->_Spaco1_6 := c_Spaco1_6
+					Printer->_Spaco1_8 := c_Spaco1_8
+					Printer->Reseta	 := cReseta
+					cCodi 				 := Printer->(StrZero( Val( Codi ) +1, nTam ))
+					Printer->(Libera())
+				endif
+			endif
+		elseif nOpcao = 2 // Alterar
+			Loop
+		elseif nOpcao = 3 // Sair
+			ResTela( cScreen )
+			Exit
+		endif
+	enddo
+endef
+
+*==================================================================================================*
 
 def PrinterCerto( cCodi )
 ******************************
-LOCAL nTam	  := Printer->(Len( Codi ))
-LOCAL Arq_Ant := Alias()
-LOCAL Ind_Ant := IndexOrd()
-LOCAL lRetVal := OK
+	LOCAL nTam	  := Printer->(Len( Codi ))
+	LOCAL Arq_Ant := Alias()
+	LOCAL Ind_Ant := IndexOrd()
+	LOCAL lRetVal := OK
 
-Area("Printer")
-Printer->(Order( PRINTER_CODI ))
-if Printer->(DbSeek( cCodi ))
-	ErrorBeep()
-	Alerta("Erro: Codigo ja Registrado.")
-	cCodi := StrZero( Val( cCodi ) + 1, nTam )
-	lRetVal := FALSO
-endif
-AreaAnt( Arq_Ant, Ind_Ant )
-return( lRetVal )
+	Area("Printer")
+	Printer->(Order( PRINTER_CODI ))
+	if Printer->(DbSeek( cCodi ))
+		ErrorBeep()
+		Alerta("Erro: Codigo ja Registrado.")
+		cCodi := StrZero( Val( cCodi ) + 1, nTam )
+		lRetVal := FALSO
+	endif
+	AreaAnt( Arq_Ant, Ind_Ant )
+	return( lRetVal )
+endef
 
 *==================================================================================================*
 
@@ -790,7 +805,7 @@ def Instru80( nQualPorta, cArquivo )
 
 	if nQualPorta != NIL
 		nQualPorta := nPortaDeImpressao
-		return( true )
+		return true
 	endif
 
 	ErrorBeep()
@@ -897,7 +912,7 @@ def Instru80( nQualPorta, cArquivo )
 			nQualPorta			    := nChoice
 			if LptOk()
 				ResTela( cScreen )
-				return( true )
+				return true
 			endif
 		endcase
 	enddo
@@ -956,9 +971,9 @@ def PrintOn( lFechaSpooler )
 		AbreSpooler()
 	endif
 	Instru80( @nQualPorta )
-   
-	switch nQualPorta 
-   case 1	
+
+	switch nQualPorta
+   case 1
 		cSaida := "LPT1"
       exit
 	case 2
@@ -974,15 +989,15 @@ def PrintOn( lFechaSpooler )
 		cSaida := "COM2"
       exit
 	case 6
-		cSaida := "COM3"   
+		cSaida := "COM3"
       exit
 	endswitch
-   
+
    cSaida := cLpr += cSaida
 	if lFechaSpooler == nil
 		oMenu:StatInf()
 		oAmbiente:nRegistrosImpressos := 0
-	endif	
+	endif
 	Set Cons Off
 	Set Devi To Print
 	if !oAmbiente:Spooler
@@ -996,8 +1011,8 @@ def PrintOn( lFechaSpooler )
 	return Nil
 endef
 
-*==================================================================================================*		
-	
+*==================================================================================================*
+
 def PrintOff()
 	PrintOn( true )
 	FPrint( RESETA )
@@ -1009,304 +1024,314 @@ def PrintOff()
 	return Nil
 endef
 
-*==================================================================================================*		
+*==================================================================================================*
 
-Proc InclusaoProdutos( lAlteracao )
-***********************************
-LOCAL cScreen	  := SaveScreen()
-LOCAL GetList	  := {}
-LOCAL lModificar := FALSO
-LOCAL Arq_Ant	  := Alias()
-LOCAL Ind_Ant	  := IndexOrd()
-LOCAL cCodi 	  := Space(04)
-LOCAL cCodi1	  := Space(04)
-LOCAL cCodi2	  := Space(04)
-LOCAL cCodi3	  := Space(04)
-LOCAL cCodi4	  := Space(04)
-LOCAL cRepres	  := Space(04)
-LOCAL cCodigo	  := "000000"
-LOCAL cGrupo	  := "000"
-LOCAL cSub		  := "000.00"
-LOCAL cDesc 	  := Space( 40 )
-LOCAL cFab		  := Space(15)
-LOCAL cCodeBar   := Space(13)
-LOCAL cLocal	  := Space(10)
-LOCAL cUn		  := "PC"
-LOCAL nOpcao	  := 0
-LOCAL nEmb		  := 0
-LOCAL nQmin 	  := 0
-LOCAL nQmax 	  := 0
-LOCAL nPorc 	  := 0
-LOCAL nTx_Icms   := 0
-LOCAL nReducao   := 0
-LOCAL nAtacado   := 0
-LOCAL nVarejo	  := 0
-LOCAL nPCompra   := 0
-LOCAL nMarVar	  := 0
-LOCAL nMarCus	  := 0
-LOCAL nMarAta	  := 0
-LOCAL nPcusto	  := 0
-LOCAL nAm		  := 0
-LOCAL nAc		  := 0
-LOCAL nRo		  := 0
-LOCAL nRr		  := 0
-LOCAL nMt		  := 0
-LOCAL cSituacao  := Space(01)
-LOCAL cClasse	  := Space(02)
-LOCAL cTam		  := Space(06)
-LOCAL cSigla	  := Space(10)
-LOCAL nDescMax   := 0
-LOCAL cServico   := 'N'
-LOCAL cSwap
-LOCAL cSwapBar
-LOCAL cString
+def InclusaoProdutos( lAlteracao )
+**********************************
+	LOCAL cScreen	  := SaveScreen()
+	LOCAL GetList	  := {}
+	LOCAL lModificar := FALSO
+	LOCAL Arq_Ant	  := Alias()
+	LOCAL Ind_Ant	  := IndexOrd()
+	LOCAL cCodi 	  := Space(04)
+	LOCAL cCodi1	  := Space(04)
+	LOCAL cCodi2	  := Space(04)
+	LOCAL cCodi3	  := Space(04)
+	LOCAL cCodi4	  := Space(04)
+	LOCAL cRepres	  := Space(04)
+	LOCAL cCodigo	  := "000000"
+	LOCAL cGrupo	  := "000"
+	LOCAL cSub		  := "000.00"
+	LOCAL cDesc 	  := Space( 40 )
+	LOCAL cFab		  := Space(15)
+	LOCAL cCodeBar   := Space(13)
+	LOCAL cLocal	  := Space(10)
+	LOCAL cUn		  := "PC"
+	LOCAL nOpcao	  := 0
+	LOCAL nEmb		  := 0
+	LOCAL nQmin 	  := 0
+	LOCAL nQmax 	  := 0
+	LOCAL nPorc 	  := 0
+	LOCAL nTx_Icms   := 0
+	LOCAL nReducao   := 0
+	LOCAL nAtacado   := 0
+	LOCAL nVarejo	  := 0
+	LOCAL nPCompra   := 0
+	LOCAL nMarVar	  := 0
+	LOCAL nMarCus	  := 0
+	LOCAL nMarAta	  := 0
+	LOCAL nPcusto	  := 0
+	LOCAL nAm		  := 0
+	LOCAL nAc		  := 0
+	LOCAL nRo		  := 0
+	LOCAL nRr		  := 0
+	LOCAL nMt		  := 0
+	LOCAL cSituacao  := Space(01)
+	LOCAL cClasse	  := Space(02)
+	LOCAL cTam		  := Space(06)
+	LOCAL cSigla	  := Space(10)
+	LOCAL nDescMax   := 0
+	LOCAL cServico   := 'N'
+	LOCAL cSwap
+	LOCAL cSwapBar
+	LOCAL cString
 
-if lAlteracao != NIL .AND. lAlteracao
-	lModificar := OK
-	if !PodeAlterar()
-		ResTela( cScreen )
-		Return
-	endif
-endif
-if !lModificar
-	if !PodeIncluir()
-		 Restela( cScreen )
-		Return
-	endif
-endif
-oMenu:Limpa()
-Area("Lista")
-Lista->(Order( LISTA_CODIGO ))
-#IFDEF DEMO
-	if !lModificar
-		if Lista->(LastRec()) >= 10
-			ErrorBeep()
-			Alerta("Erro: Limite de Inclusao de Produtos Excedido.;Por favor, registre sua copia.")
+	if lAlteracao != NIL .AND. lAlteracao
+		lModificar := OK
+		if !PodeAlterar()
 			ResTela( cScreen )
 			Return
 		endif
 	endif
-#endif
-WHILE OK
+	if !lModificar
+		if !PodeIncluir()
+			 Restela( cScreen )
+			Return
+		endif
+	endif
 	oMenu:Limpa()
-	cClasse	 := IF( lModificar, Lista->Classe,			Lista->( Space( Len( Classe	  ))))
-	cGrupo	 := IF( lModificar, Lista->CodGrupo,		Lista->( Space( Len( CodGrupo   ))))
-	cSub		 := IF( lModificar, Lista->CodSGrupo,		Lista->( Space( Len( CodsGrupo  ))))
-	cDesc 	 := IF( lModificar, Lista->Descricao,		Lista->( Space( Len( Descricao  ))))
-	cFab		 := IF( lModificar, Lista->N_Original, 	Lista->( Space( Len( N_Original ))))
-	cLocal	 := IF( lModificar, Lista->Local,			Lista->( Space( Len( Local 	  ))))
-	cUn		 := IF( lModificar, Lista->Un,				Lista->( Space( Len( Un 		  ))))
-	cUn		 := IF( lModificar, Lista->Un,				Lista->( Space( Len( Un 		  ))))
-	cTam		 := IF( lModificar, Lista->Tam,				Lista->( Space( Len( Tam		  ))))
-	cSituacao := IF( lModificar, Lista->Situacao,		Lista->( Space( Len( Situacao   ))))
-	cCodi 	 := IF( lModificar, Lista->Codi, 			Lista->( Space( Len( Codi		  ))))
-	cCodi1	 := IF( lModificar, Lista->Codi1,			Lista->( Space( Len( Codi1 	  ))))
-	cCodi2	 := IF( lModificar, Lista->Codi2,			Lista->( Space( Len( Codi2 	  ))))
-	cCodi3	 := IF( lModificar, Lista->Codi3,			Lista->( Space( Len( Codi3 	  ))))
-	cRepres	 := IF( lModificar, Lista->Repres,			Lista->( Space( Len( Repres	  ))))
-	cCodeBar  := IF( lModificar, Lista->CodeBar, 		Lista->( Space( Len( Codebar	  ))))
-	nAm		 := IF( lModificar, Lista->Am,				0 )
-	nAc		 := IF( lModificar, Lista->Ac,				0 )
-	nMt		 := IF( lModificar, Lista->Mt,				0 )
-	nRo		 := IF( lModificar, Lista->Ro,				0 )
-	nRr		 := IF( lModificar, Lista->Rr,				0 )
-	nEmb		 := IF( lModificar, Lista->Emb,				0 )
-	nQmin 	 := IF( lModificar, Lista->Qmin, 			0 )
-	nQmax 	 := IF( lModificar, Lista->Qmax, 			0 )
-	nPorc 	 := IF( lModificar, Lista->Porc, 			0 )
-	nDescMax  := IF( lModificar, Lista->Desconto,		0 )
-	nMarVar	 := IF( lModificar, Lista->MarVar,			0 )
-	nMarCus	 := IF( lModificar, Lista->MarCus,			0 )
-	nMarAta	 := IF( lModificar, Lista->Marata,			0 )
-	nPcusto	 := IF( lModificar, Lista->Pcusto,			0 )
-	nVarejo	 := IF( lModificar, Lista->Varejo,			0 )
-	nPCompra  := IF( lModificar, Lista->PCompra, 		0 )
-	nAtacado  := IF( lModificar, Lista->Atacado, 		0 )
-	nTx_Icms  := IF( lModificar, Lista->Tx_Icms, 		0 )
-	nReducao  := IF( lModificar, Lista->Reducao, 		0 )
-	cServico  := IF( lModificar, IF( Lista->Servico, 'S', 'N'), 'N')
-
-	IF( !lModificar, Lista->(DbGoBottom()),)
-	lSair 	:= FALSO
-	cCodigo	:= IF( lModificar, Lista->Codigo, ProxCodigo( Lista->Codigo ))
-	cString	:= IF( lModificar, "ALTERACAO DE PRODUTOS", "INCLUSAO DE NOVOS PRODUTOS")
-	cSwap 	:= cCodigo
-	cSwapBar := AllTrim(cCodeBar)
-
-	WHILE OK
-		MaBox( 01, 01, 23, 77, cString )
-		@		 02, 02 Say "Codigo..............:" Get cCodigo   Pict "999999"  Valid CodiCerto( @cCodigo, lModificar, cSwap )
-      @ Row()+1, 02 Say "Grupo...............:" Get cGrupo    Pict "999"     Valid GrupoCerto( @cGrupo, Row(), Col()+1 )
-      @ Row()+1, 02 Say "SubGrupo............:" Get cSub      Pict "999.99"  Valid SubCerto( @cSub, Row(), Col()+1, cGrupo )
-		@ Row()+1, 02 Say "Descricao...........:" Get cDesc     Pict "@!"
-		@ Row()+1, 02 Say "Codigo Fabricante...:" Get cFab      Pict "@!"
-		@ Row(),   40 Say "Localizacao.........:" Get cLocal    Pict "@!"
-		@ Row()+1, 02 Say "Unidade.............:" Get cUn       Pict "@!"
-		@ Row(),   40 Say "Embalagem...........:" Get nEmb      Pict "999"
-		@ Row()+1, 02 Say "Estoque Minimo......:" Get nQmin     Pict "999999.99"
-		@ Row(),   40 Say "Estoque Maximo......:" Get nQmax     Pict "999999.99"
-		@ Row()+1, 02 Say "Porc.Vendedor.......:" Get nPorc     Pict "99.99"
-		@ Row()	, 40 Say "Tamanho.............:" Get cTam      Pict "@!"
-		@ Row()+1, 02 Say "Produto é serviço...:" Get cServico  Pict "!" Valid PickSimNao( @cServico )
-		@ Row(),   40 Say "Desconto Maximo.....:" Get nDescMax  Pict "99.99"
-		@ Row()+1, 02 Say "Preço de Compra.....:" Get nPCompra  Pict "99999999.99"
-
-		@ Row()+1, 02 Say "Margem Custo........:" Get nMarCus   Pict "999.99" Valid CalculaVenda( nPCompra, nMarCus, @nPcusto )
-		@ Row(),   40 Say "Preço de Custo......:" Get nPcusto   Pict "99999999.99"
-		@ Row()+1, 02 Say "Margem Varejo.......:" Get nMarVar   Pict "999.99" Valid CalculaVenda( nPcusto, nMarVar, @nVarejo )
-		@ Row(),   40 Say "Preço Varejo........:" Get nVarejo   Pict "99999999.99"
-		@ Row()+1, 02 Say "Margem Atacado......:" Get nMarAta   Pict "999.99" Valid CalculaVenda( nPcusto, nMarAta, @nAtacado )
-		@ Row(),   40 Say "Preço Atacado.......:" Get nAtacado  Pict "99999999.99"
-      @ Row()+1, 02 Say "Situaçao Tributaria.:" Get cSituacao Pict "9"  Valid PickSituacao( @cSituacao )
-		@ Row(),   40 Say "Classificao Fiscal..:" Get cClasse   Pict "99" Valid PickClasse( @cClasse ) .AND. CadReducao( cClasse, @nAm, @nRo, @nMt, @nAc, @nRr, cDesc)
-		@ Row()+1, 02 Say "Icms Substituicao...:" Get nTx_Icms  Pict "999"
-		@ Row(),   40 Say "Reducao Base Calculo:" Get nReducao  Pict "999"
-		@ Row()+1, 02 Say "Fabricante..........:" Get cCodi     Pict "9999" Valid Pagarrado( @cCodi,  Row(), Col()+5, @cSigla ) .AND. BarNewCode( @cCodebar, cCodi, cCodigo )
-		@ Row()+1, 02 Say "Fornecedor 1........:" Get cCodi1    Pict "9999" Valid Pagarrado( @cCodi1, Row(), Col()+5 )
-		@ Row()+1, 02 Say "Fornecedor 2........:" Get cCodi2    Pict "9999" Valid Pagarrado( @cCodi2, Row(), Col()+5 )
-		@ Row()+1, 02 Say "Fornecedor 3........:" Get cCodi3    Pict "9999" Valid Pagarrado( @cCodi3, Row(), Col()+5 )
-		@ Row()+1, 02 Say "Representante.......:" Get cRepres   Pict "9999" Valid Represrrado( @cRepres, Row(), Col()+5 )
-		@ Row()+1, 02 Say "Codigo de Barra.....:" Get cCodeBar  Pict "9999999999999" Valid BarErrado( @cCodeBar, lModificar, cSwapBar )
-		Read
-		if LastKey() = ESC
-			Set Key -4 To TabPreco	// F5
-			Set Key -8 To
-			Set Key F2 To
-			Set Key F3 To
-			AreaAnt( Arq_Ant, Ind_Ant )
-			lSair := OK
-			Exit
-		endif
-		ErrorBeep()
-		if lModificar
-			nOpcao := Alerta(" Pergunta: Voce Deseja ? ", {" Alterar", " Cancelar ", "Sair "})
-		Else
-			nOpcao := Alerta(" Pergunta: Voce Deseja ? ", {" Incluir", " Alterar ", "Sair "})
-		endif
-		if nOpcao = 1 // Incluir
-			if lModificar
-			  if !Lista->(TravaReg()) ; Loop ; endif
-			Else
-			  if !CodiCerto( @cCodigo, lModificar ) ; Loop ; endif
-			  if !Lista->(Incluiu())					 ; Loop ; endif
+	Area("Lista")
+	Lista->(Order( LISTA_CODIGO ))
+	#IFDEF DEMO
+		if !lModificar
+			if Lista->(LastRec()) >= 10
+				ErrorBeep()
+				Alerta("Erro: Limite de Inclusao de Produtos Excedido.;Por favor, registre sua copia.")
+				ResTela( cScreen )
+				Return
 			endif
-			Lista->Codigo		:= cCodigo
-			Lista->CodGrupo	:= cGrupo
-			Lista->CodsGrupo	:= cSub
-			Lista->Descricao	:= cDesc
-			Lista->N_Original := cFab
-			Lista->Un			:= cUn
-			Lista->Emb			:= nEmb
-			Lista->Qmin 		:= nQmin
-			Lista->Qmax 		:= nQmax
-			Lista->Porc 		:= nPorc
-			Lista->Sigla		:= cSigla
-			Lista->Data 		:= Date()
-			Lista->Pcusto		:= nPcusto
-			Lista->PCompra 	:= nPCompra
-			Lista->Varejo		:= nVarejo
-			Lista->Atacado 	:= nAtacado
-			Lista->MarVar		:= CalcMargem( nPcusto,  nVarejo,  nMarVar )
-			Lista->MarAta		:= CalcMargem( nPcusto,  nAtacado, nMarAta )
-			Lista->MarCus		:= CalcMargem( nPCompra, nPcusto,  nMarCus )
-			Lista->Classe		:= cClasse
-			Lista->Situacao	:= cSituacao
-			Lista->Tx_Icms 	:= nTx_Icms
-			Lista->Reducao 	:= nReducao
-			Lista->Local		:= cLocal
-			Lista->Repres		:= cRepres
-			Lista->Tam			:= cTam
-			Lista->CodeBar 	:= cCodeBar
-			Lista->Desconto	:= nDescMax
-			Lista->Servico 	:= IF( cServico = 'S', OK, FALSO )
-			Lista->Atualizado := Date()
-			Lista->Am			:= nAm
-			Lista->Ac			:= nAc
-			Lista->Mt			:= nMt
-			Lista->Ro			:= nRo
-			Lista->Rr			:= nRr
-			Lista->Codi 		:= cCodi
-			Lista->Codi1		:= cCodi1
-			Lista->Codi2		:= cCodi2
-			Lista->Codi3		:= cCodi3
-			Lista->(Libera())
-			if lModificar
+		endif
+	#endif
+	WHILE OK
+		oMenu:Limpa()
+		cClasse	 := IF( lModificar, Lista->Classe,			Lista->( Space( Len( Classe	  ))))
+		cGrupo	 := IF( lModificar, Lista->CodGrupo,		Lista->( Space( Len( CodGrupo   ))))
+		cSub		 := IF( lModificar, Lista->CodSGrupo,		Lista->( Space( Len( CodsGrupo  ))))
+		cDesc 	 := IF( lModificar, Lista->Descricao,		Lista->( Space( Len( Descricao  ))))
+		cFab		 := IF( lModificar, Lista->N_Original, 	Lista->( Space( Len( N_Original ))))
+		cLocal	 := IF( lModificar, Lista->Local,			Lista->( Space( Len( Local 	  ))))
+		cUn		 := IF( lModificar, Lista->Un,				Lista->( Space( Len( Un 		  ))))
+		cUn		 := IF( lModificar, Lista->Un,				Lista->( Space( Len( Un 		  ))))
+		cTam		 := IF( lModificar, Lista->Tam,				Lista->( Space( Len( Tam		  ))))
+		cSituacao := IF( lModificar, Lista->Situacao,		Lista->( Space( Len( Situacao   ))))
+		cCodi 	 := IF( lModificar, Lista->Codi, 			Lista->( Space( Len( Codi		  ))))
+		cCodi1	 := IF( lModificar, Lista->Codi1,			Lista->( Space( Len( Codi1 	  ))))
+		cCodi2	 := IF( lModificar, Lista->Codi2,			Lista->( Space( Len( Codi2 	  ))))
+		cCodi3	 := IF( lModificar, Lista->Codi3,			Lista->( Space( Len( Codi3 	  ))))
+		cRepres	 := IF( lModificar, Lista->Repres,			Lista->( Space( Len( Repres	  ))))
+		cCodeBar  := IF( lModificar, Lista->CodeBar, 		Lista->( Space( Len( Codebar	  ))))
+		nAm		 := IF( lModificar, Lista->Am,				0 )
+		nAc		 := IF( lModificar, Lista->Ac,				0 )
+		nMt		 := IF( lModificar, Lista->Mt,				0 )
+		nRo		 := IF( lModificar, Lista->Ro,				0 )
+		nRr		 := IF( lModificar, Lista->Rr,				0 )
+		nEmb		 := IF( lModificar, Lista->Emb,				0 )
+		nQmin 	 := IF( lModificar, Lista->Qmin, 			0 )
+		nQmax 	 := IF( lModificar, Lista->Qmax, 			0 )
+		nPorc 	 := IF( lModificar, Lista->Porc, 			0 )
+		nDescMax  := IF( lModificar, Lista->Desconto,		0 )
+		nMarVar	 := IF( lModificar, Lista->MarVar,			0 )
+		nMarCus	 := IF( lModificar, Lista->MarCus,			0 )
+		nMarAta	 := IF( lModificar, Lista->Marata,			0 )
+		nPcusto	 := IF( lModificar, Lista->Pcusto,			0 )
+		nVarejo	 := IF( lModificar, Lista->Varejo,			0 )
+		nPCompra  := IF( lModificar, Lista->PCompra, 		0 )
+		nAtacado  := IF( lModificar, Lista->Atacado, 		0 )
+		nTx_Icms  := IF( lModificar, Lista->Tx_Icms, 		0 )
+		nReducao  := IF( lModificar, Lista->Reducao, 		0 )
+		cServico  := IF( lModificar, IF( Lista->Servico, 'S', 'N'), 'N')
+
+		IF( !lModificar, Lista->(DbGoBottom()),)
+		lSair 	:= FALSO
+		cCodigo	:= IF( lModificar, Lista->Codigo, ProxCodigo( Lista->Codigo ))
+		cString	:= IF( lModificar, "ALTERACAO DE PRODUTOS", "INCLUSAO DE NOVOS PRODUTOS")
+		cSwap 	:= cCodigo
+		cSwapBar := AllTrim(cCodeBar)
+
+		WHILE OK
+			MaBox( 01, 01, 23, 77, cString )
+			@		 02, 02 Say "Codigo..............:" Get cCodigo   Pict "999999"  Valid CodiCerto( @cCodigo, lModificar, cSwap )
+			@ Row()+1, 02 Say "Grupo...............:" Get cGrupo    Pict "999"     Valid GrupoCerto( @cGrupo, Row(), Col()+1 )
+			@ Row()+1, 02 Say "SubGrupo............:" Get cSub      Pict "999.99"  Valid SubCerto( @cSub, Row(), Col()+1, cGrupo )
+			@ Row()+1, 02 Say "Descricao...........:" Get cDesc     Pict "@!"
+			@ Row()+1, 02 Say "Codigo Fabricante...:" Get cFab      Pict "@!"
+			@ Row(),   40 Say "Localizacao.........:" Get cLocal    Pict "@!"
+			@ Row()+1, 02 Say "Unidade.............:" Get cUn       Pict "@!"
+			@ Row(),   40 Say "Embalagem...........:" Get nEmb      Pict "999"
+			@ Row()+1, 02 Say "Estoque Minimo......:" Get nQmin     Pict "999999.99"
+			@ Row(),   40 Say "Estoque Maximo......:" Get nQmax     Pict "999999.99"
+			@ Row()+1, 02 Say "Porc.Vendedor.......:" Get nPorc     Pict "99.99"
+			@ Row()	, 40 Say "Tamanho.............:" Get cTam      Pict "@!"
+			@ Row()+1, 02 Say "Produto é serviço...:" Get cServico  Pict "!" Valid PickSimNao( @cServico )
+			@ Row(),   40 Say "Desconto Maximo.....:" Get nDescMax  Pict "99.99"
+			@ Row()+1, 02 Say "Preço de Compra.....:" Get nPCompra  Pict "99999999.99"
+
+			@ Row()+1, 02 Say "Margem Custo........:" Get nMarCus   Pict "999.99" Valid CalculaVenda( nPCompra, nMarCus, @nPcusto )
+			@ Row(),   40 Say "Preço de Custo......:" Get nPcusto   Pict "99999999.99"
+			@ Row()+1, 02 Say "Margem Varejo.......:" Get nMarVar   Pict "999.99" Valid CalculaVenda( nPcusto, nMarVar, @nVarejo )
+			@ Row(),   40 Say "Preço Varejo........:" Get nVarejo   Pict "99999999.99"
+			@ Row()+1, 02 Say "Margem Atacado......:" Get nMarAta   Pict "999.99" Valid CalculaVenda( nPcusto, nMarAta, @nAtacado )
+			@ Row(),   40 Say "Preço Atacado.......:" Get nAtacado  Pict "99999999.99"
+			@ Row()+1, 02 Say "Situaçao Tributaria.:" Get cSituacao Pict "9"  Valid PickSituacao( @cSituacao )
+			@ Row(),   40 Say "Classificao Fiscal..:" Get cClasse   Pict "99" Valid PickClasse( @cClasse ) .AND. CadReducao( cClasse, @nAm, @nRo, @nMt, @nAc, @nRr, cDesc)
+			@ Row()+1, 02 Say "Icms Substituicao...:" Get nTx_Icms  Pict "999"
+			@ Row(),   40 Say "Reducao Base Calculo:" Get nReducao  Pict "999"
+			@ Row()+1, 02 Say "Fabricante..........:" Get cCodi     Pict "9999" Valid Pagarrado( @cCodi,  Row(), Col()+5, @cSigla ) .AND. BarNewCode( @cCodebar, cCodi, cCodigo )
+			@ Row()+1, 02 Say "Fornecedor 1........:" Get cCodi1    Pict "9999" Valid Pagarrado( @cCodi1, Row(), Col()+5 )
+			@ Row()+1, 02 Say "Fornecedor 2........:" Get cCodi2    Pict "9999" Valid Pagarrado( @cCodi2, Row(), Col()+5 )
+			@ Row()+1, 02 Say "Fornecedor 3........:" Get cCodi3    Pict "9999" Valid Pagarrado( @cCodi3, Row(), Col()+5 )
+			@ Row()+1, 02 Say "Representante.......:" Get cRepres   Pict "9999" Valid Represrrado( @cRepres, Row(), Col()+5 )
+			@ Row()+1, 02 Say "Codigo de Barra.....:" Get cCodeBar  Pict "9999999999999" Valid BarErrado( @cCodeBar, lModificar, cSwapBar )
+			Read
+			if LastKey() = ESC
+				Set Key -4 To TabPreco	// F5
+				Set Key -8 To
+				Set Key F2 To
+				Set Key F3 To
+				AreaAnt( Arq_Ant, Ind_Ant )
 				lSair := OK
 				Exit
 			endif
-			cCodigo := ProxCodigo( cCodigo)
-		Elseif nOpcao = 2 // Alterar
-			Loop
-		Elseif nOpcao = 3 // Sair
-			Set Key -4 To TabPreco	// F5
-			Set Key -8 To
-			Set Key F2 To
-			Set Key F3 To
-			AreaAnt( Arq_Ant, Ind_Ant )
-			lSair := OK
-			Exit
+			ErrorBeep()
+			if lModificar
+				nOpcao := Alerta(" Pergunta: Voce Deseja ? ", {" Alterar", " Cancelar ", "Sair "})
+			Else
+				nOpcao := Alerta(" Pergunta: Voce Deseja ? ", {" Incluir", " Alterar ", "Sair "})
+			endif
+			if nOpcao = 1 // Incluir
+				if lModificar
+				  if !Lista->(TravaReg()) ; Loop ; endif
+				Else
+				  if !CodiCerto( @cCodigo, lModificar ) ; Loop ; endif
+				  if !Lista->(Incluiu())					 ; Loop ; endif
+				endif
+				Lista->Codigo		:= cCodigo
+				Lista->CodGrupo	:= cGrupo
+				Lista->CodsGrupo	:= cSub
+				Lista->Descricao	:= cDesc
+				Lista->N_Original := cFab
+				Lista->Un			:= cUn
+				Lista->Emb			:= nEmb
+				Lista->Qmin 		:= nQmin
+				Lista->Qmax 		:= nQmax
+				Lista->Porc 		:= nPorc
+				Lista->Sigla		:= cSigla
+				Lista->Data 		:= Date()
+				Lista->Pcusto		:= nPcusto
+				Lista->PCompra 	:= nPCompra
+				Lista->Varejo		:= nVarejo
+				Lista->Atacado 	:= nAtacado
+				Lista->MarVar		:= CalcMargem( nPcusto,  nVarejo,  nMarVar )
+				Lista->MarAta		:= CalcMargem( nPcusto,  nAtacado, nMarAta )
+				Lista->MarCus		:= CalcMargem( nPCompra, nPcusto,  nMarCus )
+				Lista->Classe		:= cClasse
+				Lista->Situacao	:= cSituacao
+				Lista->Tx_Icms 	:= nTx_Icms
+				Lista->Reducao 	:= nReducao
+				Lista->Local		:= cLocal
+				Lista->Repres		:= cRepres
+				Lista->Tam			:= cTam
+				Lista->CodeBar 	:= cCodeBar
+				Lista->Desconto	:= nDescMax
+				Lista->Servico 	:= IF( cServico = 'S', OK, FALSO )
+				Lista->Atualizado := Date()
+				Lista->Am			:= nAm
+				Lista->Ac			:= nAc
+				Lista->Mt			:= nMt
+				Lista->Ro			:= nRo
+				Lista->Rr			:= nRr
+				Lista->Codi 		:= cCodi
+				Lista->Codi1		:= cCodi1
+				Lista->Codi2		:= cCodi2
+				Lista->Codi3		:= cCodi3
+				Lista->(Libera())
+				if lModificar
+					lSair := OK
+					Exit
+				endif
+				cCodigo := ProxCodigo( cCodigo)
+			Elseif nOpcao = 2 // Alterar
+				Loop
+			Elseif nOpcao = 3 // Sair
+				Set Key -4 To TabPreco	// F5
+				Set Key -8 To
+				Set Key F2 To
+				Set Key F3 To
+				AreaAnt( Arq_Ant, Ind_Ant )
+				lSair := OK
+				Exit
+			endif
+		EndDo
+		if lSair
+			if !lModificar
+				ResTela( cScreen )
+			endif
+			exit
 		endif
-	EndDo
-	if lSair
-		if !lModificar
-			ResTela( cScreen )
-		endif
-		Exit
-	endif
-EndDo
-ResTela( cScreen )
-Set Key F5 To TabPreco
-Set Key F9 To InclusaoProdutos()
-Return
+	enddo
+	restela( cScreen )
+	set Key F5 To TabPreco
+	set Key F9 To InclusaoProdutos()
+	return
+endef
 
-Function CalcMargem( nCusto, nVenda, nMargem )
-**********************************************
-LOCAL nPorc := nMargem
-if nVenda != 0
-	nPorc := (( nVenda / nCusto ) * 100 ) - 100
+*==================================================================================================*
+
+def CalcMargem( nCusto, nVenda, nMargem )
+*****************************************
+	LOCAL nPorc := nMargem
+	
+	if nVenda != 0
+		nPorc := (( nVenda / nCusto ) * 100 ) - 100
+		if nPorc > 999.99
+			nPorc := 999.99
+		elseif nMargem < 0
+			nPorc := 0
+		endif
+	endif
 	if nPorc > 999.99
 		nPorc := 999.99
-	Elseif nMargem < 0
-		nPorc := 0
 	endif
-endif
-if nPorc > 999.99
-	nPorc := 999.99
-endif
-if nPorc < -99.99
-	nPorc := -99.99
-endif
-Return( nPorc )
+	if nPorc < -99.99
+		nPorc := -99.99
+	endif
+	return( nPorc )
+endef
 
-Function CadReducao( cClasse, nAm, nRo, nMt, nAc, nRr, cDescricao)
-******************************************************************
-LOCAL GetList := {}
-LOCAL cScreen := SaveScreen()
+*==================================================================================================*
 
-if cClasse != "20" .OR. LastKey() = UP
-	Return( OK )
-endif
+def CadReducao( cClasse, nAm, nRo, nMt, nAc, nRr, cDescricao )
+**************************************************************
+	LOCAL GetList := {}
+	LOCAL cScreen := SaveScreen()
 
-oMenu:Limpa()
-MaBox( 10, 10, 17, 70, "INCLUSAO DE REDUCAO BASE CALCULO")
-@ 11, 11 Say "Produto.....: " + cDescricao
-@ 12, 11 Say "Acre........:" Get nAc Pict "999.99"
-@ 13, 11 Say "Amazonas....:" Get nAm Pict "999.99"
-@ 14, 11 Say "Mato Grosso.:" Get nMt Pict "999.99"
-@ 15, 11 Say "Rondonia....:" Get nRo Pict "999.99"
-@ 16, 11 Say "Roraima.....:" Get nRr Pict "999.99"
-Read
-if LastKey() = ESC
-	ResTela( cScreen )
-	Return( FALSO )
-endif
-ErrorBeep()
-if Conf("Pergunta: Confirma Inclusao ?")
-	ResTela( cScreen )
-	Return( OK )
-endif
-ResTela( cScreen )
-Return( FALSO )
+	if cClasse != "20" .OR. LastKey() = UP
+		return true
+	endif
+
+	oMenu:Limpa()
+	MaBox( 10, 10, 17, 70, "INCLUSAO DE REDUCAO BASE CALCULO")
+	@ 11, 11 Say "Produto.....: " + cDescricao
+	@ 12, 11 Say "Acre........:" Get nAc Pict "999.99"
+	@ 13, 11 Say "Amazonas....:" Get nAm Pict "999.99"
+	@ 14, 11 Say "Mato Grosso.:" Get nMt Pict "999.99"
+	@ 15, 11 Say "Rondonia....:" Get nRo Pict "999.99"
+	@ 16, 11 Say "Roraima.....:" Get nRr Pict "999.99"
+	Read
+	if LastKey() = ESC
+		ResTela( cScreen )
+		return false
+	endif
+	ErrorBeep()
+	if Conf("Pergunta: Confirma Inclusao ?")
+		ResTela( cScreen )
+		return true
+	endif
+	restela( cScreen )
+	return false
+endef
+
+*==================================================================================================*
 
 def NovoArquivo()
 *****************
@@ -1314,985 +1339,963 @@ def NovoArquivo()
    LOCAL xAlias := "t" + StrTran( Time(),":") + ".tmp"
 
    Mensagem("Aguarde... Criando Arquivo de Trabalho.")
-   WHILE File((xAlias))
+   while File((xAlias))
       xAlias := "t" + StrTran( Time(),":") + ".tmp"
    EndDo
    return( (xAlias) )
-endef   
+endef
 
-Function RecErrado( Var, cCodi, nRow, nCol, cNome )
-***************************************************
-LOCAL aRotina			  := {{||CliInclusao()}}
-LOCAL aRotinaAlteracao := {{||CliInclusao( OK )}}
-LOCAL Arq_Ant			  := Alias()
-LOCAL Ind_Ant			  := IndexOrd()
-LOCAL nMaxCol          := MaxCol()
+*==================================================================================================*]
 
-Area("Receber")
-Receber->(Order( IF( Len( Var ) < 40, RECEBER_CODI, RECEBER_NOME )))
-if Receber->(!DbSeek( Var ))
-	Receber->(Order( RECEBER_NOME ))
-	Receber->(DbGoTop())
-	if nMaxCol > 80
-		Receber->(Escolhe( 03, 00, MaxRow()-2,"Codi + chr(186) + Nome + chr(186) + Fone + chr(186) + Fax + chr(186) + Left( Fanta, 15 ) + chr(186) + Ende", "CODI NOME DO CLIENTE                           TELEFONE #1    TELEFONE #2    POP             ENDERECO", aRotina, nil, aRotinaAlteracao ))
-	else
-		Receber->(Escolhe( 03, 00, MaxRow()-2,"Codi + chr(186) + Nome + chr(186) + Fone + chr(186) + Left( Fanta, 15 )", "CODI NOME DO CLIENTE                          TELEFONE       POP     ", aRotina, nil, aRotinaAlteracao ))
-	endif
-endif 
-if nRow != Nil
-	Write( nRow, nCol, Receber->Nome )
-endif
-Var   := IF( Len(Var) > 5, Receber->Nome, Receber->Codi )
-cNome := Receber->Nome
-cCodi := Receber->Codi
-AreaAnt( Arq_Ant, Ind_Ant )
-Return( OK )
+def RecErrado( Var, cCodi, nRow, nCol, cNome )
+***********************************************
+	LOCAL aRotina			  := {{||CliInclusao()}}
+	LOCAL aRotinaAlteracao := {{||CliInclusao( OK )}}
+	LOCAL Arq_Ant			  := Alias()
+	LOCAL Ind_Ant			  := IndexOrd()
+	LOCAL nMaxCol          := MaxCol()
 
-Function FuncInclusao(lAlteracao)
-*********************************
-LOCAL GetList    := {}
-LOCAL cScreen    := SaveScreen()
-LOCAL lModificar := FALSO
-LOCAL cCida      
-LOCAL cEnde      
-LOCAL cNome      
-LOCAL cBair      
-LOCAL cCon	     
-LOCAL dData      
-LOCAL cCpf	     
-LOCAL cRg1	     
-LOCAL cEsta      
-LOCAL cCep	     
-LOCAL cFone      
-LOCAL cObs	     
-LOCAL cCt	     
-LOCAL nPorc      
-LOCAL cString
-
-if lAlteracao != NIL .AND. lAlteracao
-	lModificar := OK
-	if !PodeAlterar()
-	   ResTela( cScreen )
-		Return
-	endif
-endif
-
-if !lModificar
-	if !PodeIncluir()
-		Restela( cScreen )
-		Return
-	endif
-endif
-
-Area("Vendedor")
-Vendedor->(Order( VENDEDOR_CODIVEN ))
-WHILE OK
-   oMenu:Limpa()
-	cNome 	  := IF( lModificar, Vendedor->Nome,		  Vendedor->( Space( Len( Nome 	))))
-	cCida 	  := IF( lModificar, Vendedor->Cida,		  Vendedor->( Space( Len( Cida 	))))
-	cEnde 	  := IF( lModificar, Vendedor->Ende,		  Vendedor->( Space( Len( Ende 	))))
-	cBair 	  := IF( lModificar, Vendedor->Bair,		  Vendedor->( Space( Len( Bair 	))))	
-   cCon   	  := IF( lModificar, Vendedor->Con,	   	  Vendedor->( Space( Len( Con 	))))
-   dData   	  := IF( lModificar, Vendedor->Data,   	  Date())				
-   cCpf   	  := IF( lModificar, Vendedor->Cpf,	   	  Vendedor->( Space( Len( Cpf 	))))
-   cRg   	  := IF( lModificar, Vendedor->Rg,	   	  Vendedor->( Space( Len( Rg  	))))				
-   cEsta  	  := IF( lModificar, Vendedor->Esta,   	  Vendedor->( Space( Len( Esta 	))))
-   cCep   	  := IF( lModificar, Vendedor->Cep,	   	  Vendedor->( Space( Len( Cep 	))))
-	cFone   	  := IF( lModificar, Vendedor->Fone,   	  Vendedor->( Space( Len( Fone 	))))
-   cObs   	  := IF( lModificar, Vendedor->Obs,	   	  Vendedor->( Space( Len( Obs 	))))
-   cCt   	  := IF( lModificar, Vendedor->Ct,	   	  Vendedor->( Space( Len( Ct  	))))		
-	nPorc   	  := IF( lModificar, Vendedor->PorcCob,  	  0 )
-				
-	IF( !lModificar, Vendedor->(DbGoBottom()),)
-	lSair 	:= FALSO
-	
-	IF( lModificar )
-	   cCodi := Vendedor->CodiVen
-	Else
-		Vendedor->(Order(NATURAL))
-		Vendedor->(DbGobottom())
-		cCodi := StrZero(Val( Vendedor->Codiven ) + 1, 4 )
-	endif
-	cString	:= IF( lModificar, "ALTERACAO DE FUNCIONARIO", "INCLUSAO DE FUNCIONARIO")
-	WHILE OK
-		MaBox( 06, 02, 22, 78, cString )
-		@ 07, 24 Say Vendedor->CodiVen + " " + Vendedor->Nome
-		@ 07, 03 Say "Codigo........:" Get cCodi Pict "9999" Valid FunCerto( @cCodi, lModificar )
-		@ 08, 03 Say "Data Cadastro.:" Get dData Pict "##/##/##"
-		@ 09, 03 Say "Nome..........:" Get cNome Pict "@!"
-		@ 10, 03 Say "CPF...........:" Get cCpf  Pict "999.999.999-99" Valid TestaCpf( cCpf )
-		@ 11, 03 Say "Rg............:" Get cRg   Pict "@!"
-		@ 12, 03 Say "Cart.Trabalho.:" Get cCt   Pict "@!"
-		@ 13, 03 Say "Cep...........:" Get cCep  Pict "99999-999" Valid CepErrado( @cCep, @cCida, @cEsta, @cBair )
-		@ 14, 03 Say "Endereco......:" Get cEnde Pict "@!"
-		@ 15, 03 Say "Bairro........:" Get cBair Pict "@!"
-		@ 16, 03 Say "Cidade........:" Get cCida Pict "@!"
-		@ 17, 03 Say "Estado........:" Get cEsta Pict "@!"
-		@ 18, 03 Say "Telefone......:" Get cFone Pict PIC_FONE
-		@ 19, 03 Say "Contato.......:" Get cCon  Pict "@!"
-		@ 20, 03 Say "Observacoes...:" Get cObs  Pict "@!"
-		@ 21, 03 Say "Porc Cobranca.:" Get nPorc Pict "99.99"
-		Read
-		
-		if LastKey() = ESC
-			lSair := OK
-			Exit
+	Area("Receber")
+	Receber->(Order( IF( Len( Var ) < 40, RECEBER_CODI, RECEBER_NOME )))
+	if Receber->(!DbSeek( Var ))
+		Receber->(Order( RECEBER_NOME ))
+		Receber->(DbGoTop())
+		if nMaxCol > 80
+			Receber->(Escolhe( 03, 00, MaxRow()-2,"Codi + chr(186) + Nome + chr(186) + Fone + chr(186) + Fax + chr(186) + Left( Fanta, 15 ) + chr(186) + Ende", "CODI NOME DO CLIENTE                           TELEFONE #1    TELEFONE #2    POP             ENDERECO", aRotina, nil, aRotinaAlteracao ))
+		else
+			Receber->(Escolhe( 03, 00, MaxRow()-2,"Codi + chr(186) + Nome + chr(186) + Fone + chr(186) + Left( Fanta, 15 )", "CODI NOME DO CLIENTE                          TELEFONE       POP     ", aRotina, nil, aRotinaAlteracao ))
 		endif
-		ErrorBeep()
-		if lModificar
-			nOpcao := Alerta(" Pergunta: Voce Deseja ? ", {" Alterar", " Cancelar ", "Sair "})
-		Else
-			nOpcao := Alerta(" Pergunta: Voce Deseja ? ", {" Incluir", " Alterar ", "Sair "})
-		endif	
-		
-		if nOpcao = 1 // Incluir
-			if lModificar
-				if !Vendedor->(TravaReg()) ; Loop ; endif
-			Else
-				if !FunCerto( @cCodi, lModificar ) ; Loop ; endif
-				if !Vendedor->(Incluiu())			  ; Loop ; endif
-			endif
-		
-			Vendedor->CodiVen := cCodi
-			Vendedor->Data 	:= dData
-			Vendedor->Nome 	:= cNome
-			Vendedor->Rg		:= cRg
-			Vendedor->Ende 	:= cEnde
-			Vendedor->Bair 	:= cBair
-			Vendedor->Cida 	:= cCida
-			Vendedor->Con		:= cCon
-			Vendedor->Obs		:= cObs
-			Vendedor->Cpf		:= cCpf
-			Vendedor->Esta 	:= cEsta
-			Vendedor->Cep		:= cCep
-			Vendedor->Fone 	:= cFone
-			Vendedor->Ct		:= cCt
-			Vendedor->PorcCob := nPorc
-			Vendedor->(Libera())
-			
-			if lModificar
-			   if !Empty(vendedor->senha)
-					cStr := "Deseja TROCAR a SENHA deste vendedor/cobrador ?"
-				else	
-					cStr := "Deseja ALTERAR a SENHA deste vendedor/cobrador ?"
-				endif
-			else	
-				cStr := "Deseja CADASTRAR a SENHA deste vendedor/cobrador ?"
-			endif
-			
-			if Conf( cStr )
-				CadastraSenha( cCodi )
-			endif
-			
-			if lModificar
-				lSair := OK
-			endif
-			Exit
-			
-		Elseif nOpcao = 2 // Alterar
-			Loop
-		Elseif nOpcao = 3 // Sair
-			lSair := OK
-			Exit
-		endif
-	EndDO
-	if lSair
-		ResTela( cScreen )
-		Exit
+	endif 
+	if nRow != Nil
+		Write( nRow, nCol, Receber->Nome )
 	endif
-EndDo
-
-Function FunCerto( cCodi, lModificar)
-*************************************
-LOCAL Arq_Ant	  := Alias()
-LOCAL Ind_Ant	  := IndexOrd()
-
-if Empty( cCodi )
-	ErrorBeep()
-   Alerta( "ERRO: Codigo de vendedor invalido.")
-	Return( FALSO )
-endif
-
-if lModificar != nil
-   if lModificar
-	   return( OK )
-   endif
-endif	
-Vendedor->(Order( VENDEDOR_CODIVEN ))
-if Vendedor->(!DbSeek(cCodi))
+	Var   := IF( Len(Var) > 5, Receber->Nome, Receber->Codi )
+	cNome := Receber->Nome
+	cCodi := Receber->Codi
 	AreaAnt( Arq_Ant, Ind_Ant )
-	Return(OK)
-endif
-ErrorBeep()
-Alerta( "ERRO: Codigo de vendedor ja registrado.")
-cCodi := StrZero( Val( cCodi ) + 1,4)
-AreaAnt( Arq_Ant, Ind_Ant )
-Return( FALSO )
+	return true
+endef
 
-Function CadastraSenha( cCodi )
-*******************************
-LOCAL GetList	  := {}
-LOCAL cScreen	  := SaveScreen()
-LOCAL Arq_Ant	  := Alias()
-LOCAL Ind_Ant	  := IndexOrd()
-LOCAL lParametro := FALSO
-LOCAL cPasse     := Space(10)
+*==================================================================================================*
 
-oMenu:Limpa()
-WHILE OK
+def FuncInclusao(lAlteracao)
+****************************
+	LOCAL GetList    := {}
+	LOCAL cScreen    := SaveScreen()
+	LOCAL lModificar := FALSO
+	LOCAL cCida
+	LOCAL cEnde
+	LOCAL cNome
+	LOCAL cBair
+	LOCAL cCon
+	LOCAL dData
+	LOCAL cCpf
+	LOCAL cRg1
+	LOCAL cEsta
+	LOCAL cCep
+	LOCAL cFone
+	LOCAL cObs
+	LOCAL cCt
+	LOCAL nPorc
+	LOCAL cString
+
+	if lAlteracao != NIL .AND. lAlteracao
+		lModificar := OK
+		if !PodeAlterar()
+			ResTela( cScreen )
+			Return
+		endif
+	endif
+
+	if !lModificar
+		if !PodeIncluir()
+			Restela( cScreen )
+			Return
+		endif
+	endif
+
 	Area("Vendedor")
 	Vendedor->(Order( VENDEDOR_CODIVEN ))
-	MaBox( 15, 11, 18, 67 )
-	if cCodi = NIL
-		cCodi := Space(04)
+	WHILE OK
+		oMenu:Limpa()
+		cNome 	  := IF( lModificar, Vendedor->Nome,		  Vendedor->( Space( Len( Nome 	))))
+		cCida 	  := IF( lModificar, Vendedor->Cida,		  Vendedor->( Space( Len( Cida 	))))
+		cEnde 	  := IF( lModificar, Vendedor->Ende,		  Vendedor->( Space( Len( Ende 	))))
+		cBair 	  := IF( lModificar, Vendedor->Bair,		  Vendedor->( Space( Len( Bair 	))))
+		cCon   	  := IF( lModificar, Vendedor->Con,	   	  Vendedor->( Space( Len( Con 	))))
+		dData   	  := IF( lModificar, Vendedor->Data,   	  Date())
+		cCpf   	  := IF( lModificar, Vendedor->Cpf,	   	  Vendedor->( Space( Len( Cpf 	))))
+		cRg   	  := IF( lModificar, Vendedor->Rg,	   	  Vendedor->( Space( Len( Rg  	))))
+		cEsta  	  := IF( lModificar, Vendedor->Esta,   	  Vendedor->( Space( Len( Esta 	))))
+		cCep   	  := IF( lModificar, Vendedor->Cep,	   	  Vendedor->( Space( Len( Cep 	))))
+		cFone   	  := IF( lModificar, Vendedor->Fone,   	  Vendedor->( Space( Len( Fone 	))))
+		cObs   	  := IF( lModificar, Vendedor->Obs,	   	  Vendedor->( Space( Len( Obs 	))))
+		cCt   	  := IF( lModificar, Vendedor->Ct,	   	  Vendedor->( Space( Len( Ct  	))))
+		nPorc   	  := IF( lModificar, Vendedor->PorcCob,  	  0 )
+
+		IF( !lModificar, Vendedor->(DbGoBottom()),)
+		lSair 	:= FALSO
+
+		IF( lModificar )
+			cCodi := Vendedor->CodiVen
+		Else
+			Vendedor->(Order(NATURAL))
+			Vendedor->(DbGobottom())
+			cCodi := StrZero(Val( Vendedor->Codiven ) + 1, 4 )
+		endif
+		cString	:= IF( lModificar, "ALTERACAO DE FUNCIONARIO", "INCLUSAO DE FUNCIONARIO")
+		WHILE OK
+			MaBox( 06, 02, 22, 78, cString )
+			@ 07, 24 Say Vendedor->CodiVen + " " + Vendedor->Nome
+			@ 07, 03 Say "Codigo........:" Get cCodi Pict "9999" Valid FunCerto( @cCodi, lModificar )
+			@ 08, 03 Say "Data Cadastro.:" Get dData Pict "##/##/##"
+			@ 09, 03 Say "Nome..........:" Get cNome Pict "@!"
+			@ 10, 03 Say "CPF...........:" Get cCpf  Pict "999.999.999-99" Valid TestaCpf( cCpf )
+			@ 11, 03 Say "Rg............:" Get cRg   Pict "@!"
+			@ 12, 03 Say "Cart.Trabalho.:" Get cCt   Pict "@!"
+			@ 13, 03 Say "Cep...........:" Get cCep  Pict "99999-999" Valid CepErrado( @cCep, @cCida, @cEsta, @cBair )
+			@ 14, 03 Say "Endereco......:" Get cEnde Pict "@!"
+			@ 15, 03 Say "Bairro........:" Get cBair Pict "@!"
+			@ 16, 03 Say "Cidade........:" Get cCida Pict "@!"
+			@ 17, 03 Say "Estado........:" Get cEsta Pict "@!"
+			@ 18, 03 Say "Telefone......:" Get cFone Pict PIC_FONE
+			@ 19, 03 Say "Contato.......:" Get cCon  Pict "@!"
+			@ 20, 03 Say "Observacoes...:" Get cObs  Pict "@!"
+			@ 21, 03 Say "Porc Cobranca.:" Get nPorc Pict "99.99"
+			Read
+
+			if LastKey() = ESC
+				lSair := OK
+				Exit
+			endif
+			ErrorBeep()
+			if lModificar
+				nOpcao := Alerta(" Pergunta: Voce Deseja ? ", {" Alterar", " Cancelar ", "Sair "})
+			Else
+				nOpcao := Alerta(" Pergunta: Voce Deseja ? ", {" Incluir", " Alterar ", "Sair "})
+			endif
+
+			if nOpcao = 1 // Incluir
+				if lModificar
+					if !Vendedor->(TravaReg()) ; Loop ; endif
+				Else
+					if !FunCerto( @cCodi, lModificar ) ; Loop ; endif
+					if !Vendedor->(Incluiu())			  ; Loop ; endif
+				endif
+
+				Vendedor->CodiVen := cCodi
+				Vendedor->Data 	:= dData
+				Vendedor->Nome 	:= cNome
+				Vendedor->Rg		:= cRg
+				Vendedor->Ende 	:= cEnde
+				Vendedor->Bair 	:= cBair
+				Vendedor->Cida 	:= cCida
+				Vendedor->Con		:= cCon
+				Vendedor->Obs		:= cObs
+				Vendedor->Cpf		:= cCpf
+				Vendedor->Esta 	:= cEsta
+				Vendedor->Cep		:= cCep
+				Vendedor->Fone 	:= cFone
+				Vendedor->Ct		:= cCt
+				Vendedor->PorcCob := nPorc
+				Vendedor->(Libera())
+
+				if lModificar
+					if !Empty(vendedor->senha)
+						cStr := "Deseja TROCAR a SENHA deste vendedor/cobrador ?"
+					else	
+						cStr := "Deseja ALTERAR a SENHA deste vendedor/cobrador ?"
+					endif
+				else	
+					cStr := "Deseja CADASTRAR a SENHA deste vendedor/cobrador ?"
+				endif
+
+				if Conf( cStr )
+					CadastraSenha( cCodi )
+				endif
+
+				if lModificar
+					lSair := OK
+				endif
+				Exit
+
+			Elseif nOpcao = 2 // Alterar
+				Loop
+			Elseif nOpcao = 3 // Sair
+				lSair := OK
+				Exit
+			endif
+		EndDO
+		if lSair
+			ResTela( cScreen )
+			Exit
+		endif
+	EndDo
+endef
+
+*==================================================================================================*
+
+def FunCerto( cCodi, lModificar)
+********************************
+	LOCAL Arq_Ant	  := Alias()
+	LOCAL Ind_Ant	  := IndexOrd()
+
+	if Empty( cCodi )
+		ErrorBeep()
+		Alerta( "ERRO: Codigo de vendedor invalido.")
+		return false
 	endif
-	@ 16, 12 Say "Codigo..:" Get cCodi  Pict "9999" Valid FunErrado( @cCodi,, Row(), Col()+1 )
-	@ 17, 12 Say "Senha...:" Get cPasse Pict "@S"   Valid FunSenha( cCodi, cPasse )	
+
+	if lModificar != nil
+		if lModificar
+			return true
+		endif
+	endif
+	Vendedor->(Order( VENDEDOR_CODIVEN ))
+	if Vendedor->(!DbSeek(cCodi))
+		AreaAnt( Arq_Ant, Ind_Ant )
+		return true
+	endif
+	ErrorBeep()
+	Alerta( "ERRO: Codigo de vendedor ja registrado.")
+	cCodi := StrZero( Val( cCodi ) + 1,4)
+	AreaAnt( Arq_Ant, Ind_Ant )
+	return false
+endef
+
+*==================================================================================================*
+
+def CadastraSenha( cCodi )
+***************************
+	LOCAL GetList	  := {}
+	LOCAL cScreen	  := SaveScreen()
+	LOCAL Arq_Ant	  := Alias()
+	LOCAL Ind_Ant	  := IndexOrd()
+	LOCAL lParametro := FALSO
+	LOCAL cPasse     := Space(10)
+
+	oMenu:Limpa()
+	WHILE OK
+		Area("Vendedor")
+		Vendedor->(Order( VENDEDOR_CODIVEN ))
+		MaBox( 15, 11, 18, 67 )
+		if cCodi = NIL
+			cCodi := Space(04)
+		endif
+		@ 16, 12 Say "Codigo..:" Get cCodi  Pict "9999" Valid FunErrado( @cCodi,, Row(), Col()+1 )
+		@ 17, 12 Say "Senha...:" Get cPasse Pict "@S"   Valid FunSenha( cCodi, cPasse )	
+		Read
+
+		if LastKey() = ESC
+			AreaAnt( Arq_Ant, Ind_Ant )
+			ResTela( cScreen )
+			return false
+		endif
+		ResTela( cScreen )
+		AreaAnt( Arq_Ant, Ind_Ant )
+		return true
+	EndDo
+endef
+
+*==================================================================================================*
+
+def FunSenha( cCodi, cPasse)
+****************************
+	LOCAL Arq_Ant    := Alias()
+	LOCAL Ind_Ant    := IndexOrd()
+	LOCAL cPassOld   := space(10)
+	LOCAL cScreen	  := SaveScreen()
+
+	if !Empty( Vendedor->Senha )
+		ErrorBeep()
+		if !Conf("Pergunta: Senha do Vendedor Ja Registrada, Trocar ?")
+			return false
+		endif
+		cPasse := Space(10)
+		MaBox( 19, 11, 22, 40 )
+		@ 20, 12 Say "Anterior...:" Get cPassOld Pict "@S" valid SenhaCerta( cCodi, cPassOld )
+		@ 21, 12 Say "Nova Senha.:" Get cPasse   Pict "@S"
+		read
+		if LastKey() = ESC
+			ResTela( cScreen )
+			return false
+		endif
+	endif
+	if Conf( "Pergunta: Confirma Registro da Senha ?")
+		if Vendedor->(TravaReg())
+			Vendedor->Senha := MsEncrypt(Upper(cPasse))
+			Vendedor->(Libera())
+		endif
+	endif
+	AreaAnt( Arq_Ant, Ind_Ant )
+	ResTela( cScreen )
+	return true
+endef
+
+*==================================================================================================*
+
+def FunErrado( Var, cCodi, nCol, nRow, cNome )
+***************************************************
+	LOCAL aRotinaInc := {{||FuncInclusao()}}
+	LOCAL aRotinaAlt := {{||FuncInclusao(OK)}}
+	LOCAL Arq_Ant    := Alias()
+	LOCAL Ind_Ant    := IndexOrd()
+
+	Area( "VendeDor")
+	Vendedor->(Order( IF( Len( Var ) < 40, VENDEDOR_CODIVEN, VENDEDOR_NOME )))
+	if Vendedor->(!DbSeek( Var ))
+		Vendedor->(Order( VENDEDOR_NOME ))
+		Vendedor->(Escolhe( 03, 01, MaxRow()-2, "CodiVen + chr(186) + Nome + chr(186) + Fone", "CODI NOME DO VENDEDOR" + Space(25)+ "TELEFONE", aRotinaInc, NIL, aRotinaAlt ))
+		Var := IF( Len( Var ) > 4, Vendedor->Nome, Vendedor->CodiVen )
+	endif
+	cCodi := Vendedor->CodiVen
+	if cNome != NIL
+		cNome := Vendedor->Nome
+	endif
+	if nCol != NIL
+		Write( nCol, nRow, Vendedor->Nome )
+	endif
+	AreaAnt( Arq_Ant, Ind_Ant )
+	return true
+endef
+
+*==================================================================================================*
+
+def FunAcha( cCpf )
+*******************
+	LOCAL aRotinaInc := {{||FuncInclusao()}}
+	LOCAL aRotinaAlt := {{||FuncInclusao(OK)}}
+
+	if Vendedor->(!DbSeek( cCpf ))
+		Vendedor->(Escolhe( 03, 01, MaxRow()-2, "CodiVen + chr(186) + Nome + chr(186) + Fone", "CODI NOME DO VENDEDOR" + Space(25)+ "TELEFONE", aRotinaInc, NIL, aRotinaAlt ))
+		IF( Len( cCpf ) > 14, cCpf := Vendedor->Nome, cCpf := Vendedor->Cpf )
+	endif
+	return true
+endef
+
+*==================================================================================================*
+
+def FazBrowse( nLinT, nColT, nLinB, nColb, cCabecalho )
+*******************************************************
+	LOCAL oBrowse		:= TBrowseDb( nLint, nColt, nLinb, nColb )
+	LOCAL cFrame2		:= SubStr( oAmbiente:Frame, 2, 1 )
+	LOCAL cFrame3		:= SubStr( oAmbiente:Frame, 3, 1 )
+	LOCAL cFrame4		:= SubStr( oAmbiente:Frame, 4, 1 )
+	LOCAL cFrame6		:= SubStr( oAmbiente:Frame, 6, 1 )
+	LOCAL oColuna1
+	LOCAL oColuna2
+	LOCAL oColuna3
+	LOCAL oColuna4
+	LOCAL oColuna5
+	LOCAL oColuna6
+	LOCAL oColuna7
+	LOCAL oColuna8
+	LOCAL oColuna9
+	LOCAL oColuna10
+
+	FIELD Quant
+	FIELD Codigo
+	FIELD Descricao
+	FIELD Unitario
+	FIELD Local
+
+	oBrowse:HeadSep	:= cFrame2 + cFrame3 + cFrame2
+	oBrowse:ColSep 	:= Chr(032) + cFrame4 + Chr(032)
+	oBrowse:FootSep	:= cFrame2	+ cFrame2 + cFrame2
+	oBrowse:colorSpec := "N/W, W+/G, B/W, B/BG, B/W, B/BG, R/W, W+/R"
+	oColuna1 			:= TBColumnNew( "QUANT"             ,  {|| Quant } )
+	oColuna2 			:= TBColumnNew( "CODI",                {|| Codigo } )
+	oColuna3 			:= TBColumnNew( "DESCRICAO DO PRODUTO",{|| Descricao } )
+	oColuna4 			:= TBColumnNew( "UNITARIO",            {|| Tran(Unitario,"@E 99,999,999.99")})
+	oColuna5 			:= TBColumnNew( "TOTAL ITEM",          {|| Tran(Unitario * Quant ,"@E 9,999,999,999.99")})
+	oColuna6 			:= TBColumnNew( "CUSTO",               {|| Tran(Pcusto, "@E 999,999.99")})
+	oColuna7 			:= TBColumnNew( "TOTAL CUSTO",         {|| Tran(Pcusto * Quant, "@E 999,999.99")})
+	oColuna8 			:= TBColumnNew( "MARGEM",              {|| Tran(((Unitario/Pcusto)*100)-100, "@E 999.99%")})
+	oColuna9 			:= TBColumnNew( "CMV",                 {|| Tran(((Pcusto/Unitario)*100), "@E 999.99%")})
+	oColuna10			:= TBColumnNew( "LOCAL",               {|| Local })
+	oBrowse:AddColumn( oColuna1 )
+	oBrowse:AddColumn( oColuna2 )
+	oBrowse:AddColumn( oColuna3 )
+	oBrowse:AddColumn( oColuna4 )
+	oBrowse:AddColumn( oColuna5 )
+	oBrowse:AddColumn( oColuna6 )
+	oBrowse:AddColumn( oColuna7 )
+	oBrowse:AddColumn( oColuna8 )
+	oBrowse:AddColumn( oColuna9 )
+	oBrowse:AddColumn( oColuna10)
+	oColuna1:DefColor := {7,8 }
+	oColuna4:DefColor := {7,8 }
+	oColuna5:DefColor := {7,8 }
+	oColuna6:DefColor := {7,8 }
+	oColuna7:DefColor := {7,8 }
+	oColuna8:DefColor := {7,8 }
+	oColuna9:DefColor := {7,8 }
+	oColuna2:Width 	:= 6
+	oColuna3:Width 	:= 20
+	Return( oBrowse )
+endef
+
+*==================================================================================================*
+
+def BrowseEntradas( nLinT, nColT, nLinB, nColb, cCabecalho )
+************************************************************
+	LOCAL oBrowse		:= TBrowseDb( nLint, nColt, nLinb, nColb )
+	LOCAL cFrame2		:= SubStr( oAmbiente:Frame, 2, 1 )
+	LOCAL cFrame3		:= SubStr( oAmbiente:Frame, 3, 1 )
+	LOCAL cFrame4		:= SubStr( oAmbiente:Frame, 4, 1 )
+	LOCAL cFrame6		:= SubStr( oAmbiente:Frame, 6, 1 )
+	LOCAL oColuna1
+	LOCAL oColuna2
+	LOCAL oColuna3
+	LOCAL oColuna4
+	LOCAL oColuna5
+	FIELD Quant
+	FIELD Codigo
+	FIELD Descricao
+	FIELD Unitario
+
+	oBrowse:HeadSep	:= cFrame2 + cFrame3 + cFrame2
+	oBrowse:ColSep 	:= Chr(032) + cFrame4 + Chr(032)
+	oBrowse:FootSep	:= cFrame2	+ cFrame2 + cFrame2
+	oBrowse:colorSpec := "N/W, W+/G, B/W, B/BG, B/W, B/BG, R/W, W+/R"
+	oColuna1 			:= TBColumnNew( "QUANT"             ,  {|| Quant } )
+	oColuna2 			:= TBColumnNew( "CODI",                {|| Codigo } )
+	oColuna3 			:= TBColumnNew( "DESCRICAO DO PRODUTO",{|| Descricao } )
+	oColuna4 			:= TBColumnNew( "CUSTO NFF",           {|| Tran(Unitario,"@E 99,999,999.99")})
+	oColuna5 			:= TBColumnNew( "TOTAL ITEM",          {|| Tran(Unitario * Quant ,"@E 9,999,999,999.99")})
+	oColuna6 			:= TBColumnNew( "FRETE",               {|| Tran(Frete,    "999.99")})
+	oColuna7 			:= TBColumnNew( "IMPOSTO",             {|| Tran(Imposto,  "999.99")})
+	oColuna8 			:= TBColumnNew( "CUSTO FINAL",         {|| Tran(CustoFinal, "@E 999,999.99")})
+	oBrowse:AddColumn( oColuna1 )
+	oBrowse:AddColumn( oColuna2 )
+	oBrowse:AddColumn( oColuna3 )
+	oBrowse:AddColumn( oColuna4 )
+	oBrowse:AddColumn( oColuna5 )
+	oBrowse:AddColumn( oColuna6 )
+	oBrowse:AddColumn( oColuna7 )
+	oBrowse:AddColumn( oColuna8 )
+	oColuna1:DefColor := {7,8 }
+	oColuna4:DefColor := {7,8 }
+	oColuna5:DefColor := {7,8 }
+	oColuna6:DefColor := {7,8 }
+	oColuna7:DefColor := {7,8 }
+	oColuna2:Width 	:= 6
+	oColuna3:Width 	:= 20
+	return( oBrowse )
+endef
+
+*==================================================================================================*
+
+def BaixaDocnr( cDocnr, nRegistro )
+***********************************
+	LOCAL cScreen	 := SaveScreen()
+	LOCAL GetList	 := {}
+	LOCAL Arq_Ant	 := Alias()
+	LOCAL Ind_Ant	 := IndexOrd()
+	LOCAL nTam		 := 0
+	LOCAL aDocnr	 := {}
+	LOCAL aRegistro := {}
+	LOCAL aTodos	 := {}
+	LOCAL xTodos	 := {}
+	LOCAL cCodi 	 := Space(05)
+	LOCAL nChoice	 := 0
+	LOCAL xLen		 := 0
+	LOCAL nT 		 := 0
+
+	oMenu:Limpa()
+	MaBox( 15, 01, 17, 78 )
+	@ 16, 02 Say "Codigo Cliente..: " Get cCodi Pict PIC_RECEBER_CODI Valid RecErrado( @cCodi,, Row(), Col()+1 )
 	Read
-	
 	if LastKey() = ESC
 		AreaAnt( Arq_Ant, Ind_Ant )
 		ResTela( cScreen )
-		return FALSO
+		return false
 	endif
-	ResTela( cScreen )
-	AreaAnt( Arq_Ant, Ind_Ant )
-	return OK
-EndDo
-
-Function FunSenha( cCodi, cPasse)
-*********************************
-LOCAL Arq_Ant    := Alias()
-LOCAL Ind_Ant    := IndexOrd()
-LOCAL cPassOld   := space(10)
-LOCAL cScreen	  := SaveScreen()
-
-if !Empty( Vendedor->Senha )
-	ErrorBeep()
-	if !Conf("Pergunta: Senha do Vendedor Ja Registrada, Trocar ?")
-		return FALSO
+	Area("Recemov")
+	Recemov->(Order( RECEMOV_CODI ))
+	if Recemov->(!DbSeek( cCodi ))
+		ErrorBeep()
+		Alerta( "Erro: Nenhum Debito em Aberto Deste Cliente." )
+		AreaAnt( Arq_Ant, Ind_Ant )
+		ResTela( cScreen )
+		return false
 	endif
-	cPasse := Space(10)
-	MaBox( 19, 11, 22, 40 )
-	@ 20, 12 Say "Anterior...:" Get cPassOld Pict "@S" valid SenhaCerta( cCodi, cPassOld )
-	@ 21, 12 Say "Nova Senha.:" Get cPasse   Pict "@S" 
-	read
-	if LastKey() = ESC
-	   ResTela( cScreen )
-		return FALSO
-	endif	
-endif   
-if Conf( "Pergunta: Confirma Registro da Senha ?")
-   if Vendedor->(TravaReg())
-  	   Vendedor->Senha := MsEncrypt(Upper(cPasse))
-	   Vendedor->(Libera())
-   endif
-endif
-AreaAnt( Arq_Ant, Ind_Ant )
-ResTela( cScreen )
-return OK
-
-
-Function FunErrado( Var, cCodi, nCol, nRow, cNome )
-***************************************************
-LOCAL aRotinaInc := {{||FuncInclusao()}}
-LOCAL aRotinaAlt := {{||FuncInclusao(OK)}}
-LOCAL Arq_Ant    := Alias()
-LOCAL Ind_Ant    := IndexOrd()
-
-Area( "VendeDor")
-Vendedor->(Order( IF( Len( Var ) < 40, VENDEDOR_CODIVEN, VENDEDOR_NOME )))
-if Vendedor->(!DbSeek( Var ))
-	Vendedor->(Order( VENDEDOR_NOME ))
-	Vendedor->(Escolhe( 03, 01, MaxRow()-2, "CodiVen + chr(186) + Nome + chr(186) + Fone", "CODI NOME DO VENDEDOR" + Space(25)+ "TELEFONE", aRotinaInc, NIL, aRotinaAlt ))
-	Var := IF( Len( Var ) > 4, Vendedor->Nome, Vendedor->CodiVen )
-endif
-cCodi := Vendedor->CodiVen
-if cNome != NIL
-	cNome := Vendedor->Nome
-endif
-if nCol != NIL
-	Write( nCol, nRow, Vendedor->Nome )
-endif
-AreaAnt( Arq_Ant, Ind_Ant )
-return( OK )
-
-Function FunAcha( cCpf )
-***********************
-LOCAL aRotinaInc := {{||FuncInclusao()}}
-LOCAL aRotinaAlt := {{||FuncInclusao(OK)}}
-
-if Vendedor->(!DbSeek( cCpf ))
-   Vendedor->(Escolhe( 03, 01, MaxRow()-2, "CodiVen + chr(186) + Nome + chr(186) + Fone", "CODI NOME DO VENDEDOR" + Space(25)+ "TELEFONE", aRotinaInc, NIL, aRotinaAlt ))
-	IF( Len( cCpf ) > 14, cCpf := Vendedor->Nome, cCpf := Vendedor->Cpf )
-endif
-Return( OK )
-
-Function FazBrowse( nLinT, nColT, nLinB, nColb, cCabecalho )
-************************************************************
-LOCAL oBrowse		:= TBrowseDb( nLint, nColt, nLinb, nColb )
-LOCAL cFrame2		:= SubStr( oAmbiente:Frame, 2, 1 )
-LOCAL cFrame3		:= SubStr( oAmbiente:Frame, 3, 1 )
-LOCAL cFrame4		:= SubStr( oAmbiente:Frame, 4, 1 )
-LOCAL cFrame6		:= SubStr( oAmbiente:Frame, 6, 1 )
-LOCAL oColuna1
-LOCAL oColuna2
-LOCAL oColuna3
-LOCAL oColuna4
-LOCAL oColuna5
-LOCAL oColuna6
-LOCAL oColuna7
-LOCAL oColuna8
-LOCAL oColuna9
-LOCAL oColuna10
-
-FIELD Quant
-FIELD Codigo
-FIELD Descricao
-FIELD Unitario
-FIELD Local
-
-oBrowse:HeadSep	:= cFrame2 + cFrame3 + cFrame2
-oBrowse:ColSep 	:= Chr(032) + cFrame4 + Chr(032)
-oBrowse:FootSep	:= cFrame2	+ cFrame2 + cFrame2
-oBrowse:colorSpec := "N/W, W+/G, B/W, B/BG, B/W, B/BG, R/W, W+/R"
-oColuna1 			:= TBColumnNew( "QUANT"             ,  {|| Quant } )
-oColuna2 			:= TBColumnNew( "CODI",                {|| Codigo } )
-oColuna3 			:= TBColumnNew( "DESCRICAO DO PRODUTO",{|| Descricao } )
-oColuna4 			:= TBColumnNew( "UNITARIO",            {|| Tran(Unitario,"@E 99,999,999.99")})
-oColuna5 			:= TBColumnNew( "TOTAL ITEM",          {|| Tran(Unitario * Quant ,"@E 9,999,999,999.99")})
-oColuna6 			:= TBColumnNew( "CUSTO",               {|| Tran(Pcusto, "@E 999,999.99")})
-oColuna7 			:= TBColumnNew( "TOTAL CUSTO",         {|| Tran(Pcusto * Quant, "@E 999,999.99")})
-oColuna8 			:= TBColumnNew( "MARGEM",              {|| Tran(((Unitario/Pcusto)*100)-100, "@E 999.99%")})
-oColuna9 			:= TBColumnNew( "CMV",                 {|| Tran(((Pcusto/Unitario)*100), "@E 999.99%")})
-oColuna10			:= TBColumnNew( "LOCAL",               {|| Local })
-oBrowse:AddColumn( oColuna1 )
-oBrowse:AddColumn( oColuna2 )
-oBrowse:AddColumn( oColuna3 )
-oBrowse:AddColumn( oColuna4 )
-oBrowse:AddColumn( oColuna5 )
-oBrowse:AddColumn( oColuna6 )
-oBrowse:AddColumn( oColuna7 )
-oBrowse:AddColumn( oColuna8 )
-oBrowse:AddColumn( oColuna9 )
-oBrowse:AddColumn( oColuna10)
-oColuna1:DefColor := {7,8 }
-oColuna4:DefColor := {7,8 }
-oColuna5:DefColor := {7,8 }
-oColuna6:DefColor := {7,8 }
-oColuna7:DefColor := {7,8 }
-oColuna8:DefColor := {7,8 }
-oColuna9:DefColor := {7,8 }
-oColuna2:Width 	:= 6
-oColuna3:Width 	:= 20
-Return( oBrowse )
-
-Function BrowseEntradas( nLinT, nColT, nLinB, nColb, cCabecalho )
-****************************************************************
-LOCAL oBrowse		:= TBrowseDb( nLint, nColt, nLinb, nColb )
-LOCAL cFrame2		:= SubStr( oAmbiente:Frame, 2, 1 )
-LOCAL cFrame3		:= SubStr( oAmbiente:Frame, 3, 1 )
-LOCAL cFrame4		:= SubStr( oAmbiente:Frame, 4, 1 )
-LOCAL cFrame6		:= SubStr( oAmbiente:Frame, 6, 1 )
-LOCAL oColuna1
-LOCAL oColuna2
-LOCAL oColuna3
-LOCAL oColuna4
-LOCAL oColuna5
-FIELD Quant
-FIELD Codigo
-FIELD Descricao
-FIELD Unitario
-
-oBrowse:HeadSep	:= cFrame2 + cFrame3 + cFrame2
-oBrowse:ColSep 	:= Chr(032) + cFrame4 + Chr(032)
-oBrowse:FootSep	:= cFrame2	+ cFrame2 + cFrame2
-oBrowse:colorSpec := "N/W, W+/G, B/W, B/BG, B/W, B/BG, R/W, W+/R"
-oColuna1 			:= TBColumnNew( "QUANT"             ,  {|| Quant } )
-oColuna2 			:= TBColumnNew( "CODI",                {|| Codigo } )
-oColuna3 			:= TBColumnNew( "DESCRICAO DO PRODUTO",{|| Descricao } )
-oColuna4 			:= TBColumnNew( "CUSTO NFF",           {|| Tran(Unitario,"@E 99,999,999.99")})
-oColuna5 			:= TBColumnNew( "TOTAL ITEM",          {|| Tran(Unitario * Quant ,"@E 9,999,999,999.99")})
-oColuna6 			:= TBColumnNew( "FRETE",               {|| Tran(Frete,    "999.99")})
-oColuna7 			:= TBColumnNew( "IMPOSTO",             {|| Tran(Imposto,  "999.99")})
-oColuna8 			:= TBColumnNew( "CUSTO FINAL",         {|| Tran(CustoFinal, "@E 999,999.99")})
-oBrowse:AddColumn( oColuna1 )
-oBrowse:AddColumn( oColuna2 )
-oBrowse:AddColumn( oColuna3 )
-oBrowse:AddColumn( oColuna4 )
-oBrowse:AddColumn( oColuna5 )
-oBrowse:AddColumn( oColuna6 )
-oBrowse:AddColumn( oColuna7 )
-oBrowse:AddColumn( oColuna8 )
-oColuna1:DefColor := {7,8 }
-oColuna4:DefColor := {7,8 }
-oColuna5:DefColor := {7,8 }
-oColuna6:DefColor := {7,8 }
-oColuna7:DefColor := {7,8 }
-oColuna2:Width 	:= 6
-oColuna3:Width 	:= 20
-Return( oBrowse )
-
-Function BaixaDocnr( cDocnr, nRegistro )
-****************************************
-LOCAL cScreen	 := SaveScreen()
-LOCAL GetList	 := {}
-LOCAL Arq_Ant	 := Alias()
-LOCAL Ind_Ant	 := IndexOrd()
-LOCAL nTam		 := 0
-LOCAL aDocnr	 := {}
-LOCAL aRegistro := {}
-LOCAL aTodos	 := {}
-LOCAL xTodos	 := {}
-LOCAL cCodi 	 := Space(05)
-LOCAL nChoice	 := 0
-LOCAL xLen		 := 0
-LOCAL nT 		 := 0
-
-oMenu:Limpa()
-MaBox( 15, 01, 17, 78 )
-@ 16, 02 Say "Codigo Cliente..: " Get cCodi Pict PIC_RECEBER_CODI Valid RecErrado( @cCodi,, 16, 35 )
-Read
-if LastKey() = ESC
+	WHILE Recemov->Codi = cCodi
+		Recemov->(Aadd( xTodos, {Docnr, Emis, Vcto, Vlr, Recno(), Obs}))
+		Recemov->(DbSkip(1))
+	EndDo
+	if (nTam := Len( xTodos )) = 0
+		ErrorBeep()
+		Alerta( "Erro: Nenhum Debito em Aberto Cliente." )
+		AreaAnt( Arq_Ant, Ind_Ant )
+		ResTela( cScreen )
+		return false
+	endif
+	Asort( xTodos,,, {|x,y|y[3]>x[3]}) // ordenar por vcto
+	xLen := Len(xTodos)
+	For nT := 1 To xLen
+		Aadd( aDocnr,	  xTodos[nT,1])
+		Aadd( aRegistro, xTodos[nT,5])
+		Aadd( aTodos,	  xTodos[nT,1] + " " + Dtoc(xTodos[nT,2]) + " " + Dtoc(xTodos[nT,3]) + " " + Tran(xTodos[nT,4],"@E 999,999,999.99") + " " + xTodos[nT,6])
+	Next
+	MaBox( 01, 01, 14, 78, " DOCTO  #  EMISSAO  VENCTO            VALOR OBSERVACAO" + Space(23))
+	nChoice := aChoice( 02, 02, 13, 77, aTodos )
+	ResTela( cScreen )
+	if nChoice = 0
+		AreaAnt( Arq_Ant, Ind_Ant )
+		Alerta( "Erro: Procura Cancelada..." )
+		ResTela( cScreen )
+		return false
+	endif
+	cDocnr	 := aDocnr[ nChoice ]
+	nRegistro := aRegistro[ nChoice ]
 	AreaAnt( Arq_Ant, Ind_Ant )
 	ResTela( cScreen )
-	Return( FALSO )
-endif
-Area("Recemov")
-Recemov->(Order( RECEMOV_CODI ))
-if Recemov->(!DbSeek( cCodi ))
+	return true
+endef
+
+*==================================================================================================*
+
+def Autenticar( nRecno, nSobra )
+********************************
+	LOCAL cScreen := SaveScreen()
+	LOCAL cValor  := Space(0)
+	LOCAL nValor  := Space(0)
+	LOCAL cHist   := Space(60)
+	LOCAL nVlr	  := 0
+	LOCAL Larg	  := 76
+	LOCAL nOpcao  := 1
+	LOCAL cDocnr
+
+	Receber->(Order( RECEBER_CODI ))
+	Area("Recebido")
+	Set Rela To Codi Into Receber
+	Recebido->(Order( RECEBIDO_DOCNR ))
+	Recebido->(DbGoTo( nRecno ))
+	cDocnr := Recebido->Docnr
+	nVlr	 := Recebido->VlrPag
+	cValor := AllTrim( Tran( nVlr,'@E 999,999.99'))
 	ErrorBeep()
-	Alerta( "Erro: Nenhum Debito em Aberto Deste Cliente." )
-	AreaAnt( Arq_Ant, Ind_Ant )
-	ResTela( cScreen )
-	Return( FALSO )
-endif
-WHILE Recemov->Codi = cCodi
-	Recemov->(Aadd( xTodos, {Docnr, Emis, Vcto, Vlr, Recno(), Obs}))
-	Recemov->(DbSkip(1))
-EndDo
-if (nTam := Len( xTodos )) = 0
-	ErrorBeep()
-	Alerta( "Erro: Nenhum Debito em Aberto Cliente." )
-	AreaAnt( Arq_Ant, Ind_Ant )
-	ResTela( cScreen )
-	Return( FALSO )
-endif
-Asort( xTodos,,, {|x,y|y[3]>x[3]}) // ordenar por vcto
-xLen := Len(xTodos)
-For nT := 1 To xLen
-	Aadd( aDocnr,	  xTodos[nT,1])
-	Aadd( aRegistro, xTodos[nT,5])
-	Aadd( aTodos,	  xTodos[nT,1] + " " + Dtoc(xTodos[nT,2]) + " " + Dtoc(xTodos[nT,3]) + " " + Tran(xTodos[nT,4],"@E 999,999,999.99") + " " + xTodos[nT,6])
-Next
-MaBox( 01, 01, 14, 78, "DOCTO  #  EMISSAO   VENCTO          VALOR OBSERVACAO" + Space(23))
-nChoice := aChoice( 02, 02, 13, 77, aTodos )
-ResTela( cScreen )
-if nChoice = 0
-	AreaAnt( Arq_Ant, Ind_Ant )
-	Alerta( "Erro: Procura Cancelada..." )
-	ResTela( cScreen )
-	Return( FALSO )
-endif
-cDocnr	 := aDocnr[ nChoice ]
-nRegistro := aRegistro[ nChoice ]
-AreaAnt( Arq_Ant, Ind_Ant )
-ResTela( cScreen )
-Return( OK )
+	For i := 1 To 3
+		if !Instru80()
+			Recebido->(DbClearRel())
+			return(restela( cScreen ))
+		endif
+		Mensagem("Aguarde, Autenticando.")
+		PrintOn()
+		FPrInt( PQ )
+		SetPrc(0,0)
+		Qout("*MP*" + cDocnr + "*" + Dtoc( Date()) + "*" + cValor + "*" + Left( Receber->Nome,4 ) + "*")
+		Qout("*MP*" + cDocnr + "*" + Dtoc( Date()) + "*" + cValor + "*" + Left( Receber->Nome,4 ) + "*")
+		PrintOff()
+	Next
+	return(restela( cScreen ))
+endef
 
-Proc Autenticar( nRecno, nSobra )
-*********************************
-LOCAL cScreen := SaveScreen()
-LOCAL cValor  := Space(0)
-LOCAL nValor  := Space(0)
-LOCAL cHist   := Space(60)
-LOCAL nVlr	  := 0
-LOCAL Larg	  := 76
-LOCAL nOpcao  := 1
-LOCAL cDocnr
+*==================================================================================================*
 
-Receber->(Order( RECEBER_CODI ))
-Area("Recebido")
-Set Rela To Codi Into Receber
-Recebido->(Order( RECEBIDO_DOCNR ))
-Recebido->(DbGoTo( nRecno ))
-cDocnr := Recebido->Docnr
-nVlr	 := Recebido->VlrPag
-cValor := AllTrim( Tran( nVlr,'@E 999,999.99'))
-ErrorBeep()
-For i := 1 To 3
-	if !Instru80()
-		Recebido->(DbClearRel())
-		Restela( cScreen )
+def DocErrado( Var, nValor, nVlrTotal, dVcto, cHist, nRow, nCol, lLancarJurosNaoPago )
+***************************************************************************************
+	LOCAL Arq_Ant		 := Alias()
+	LOCAL Ind_Ant		 := IndexOrd()
+	LOCAL nRegistro	 := 0
+	LOCAL cComplemento := Space(0)
+	LOCAL cString		 := Space(0)
+	LOCAL nTam
+	DEFAU lLancarJurosNaoPago TO FALSO
+
+	#IFDEF MICROBRAS
+		cComplemento := "PAG PARCIAL "
+		cString		 := "PARCELA CONTRATO SERVICOS DE INTERNET."
+		cHist 		 := cString + Space(60-Len(cString))
+	#endif
+
+	Receber->(Order( RECEBER_CODI ))
+	Area("Recemov")
+	if ( Recemov->(DbGoTop()), Recemov->(Eof()))
+		AreaAnt( Arq_Ant, Ind_Ant )
+		Nada()
+		return false
+	endif
+	IfNil( nVlrTotal, 0)
+	if ( Recemov->(Order( RECEMOV_DOCNR )), Recemov->(!DbSeek( Var )))
+		if !lLancarJurosNaoPago
+			ErrorBeep()
+			if Conf("Erro: Documento nao Encontrado. Localizar por Nome?")
+				if BaixaDocnr( @Var, @nRegistro )
+					Recemov->( DbGoTo( nRegistro ))
+					nValor    := Round(IF( nVlrTotal <= 0, Recemov->Vlr, nVlrTotal),2)
+					nVlrTotal := Round(IF( nVlrTotal <= 0, CalcJuros(), nVlrTotal),2)
+					dVcto 	 := Recemov->Vcto
+					nTam		 := Len(AllTrim(Recemov->Obs))
+					cHist 	 := IF( Empty(Recemov->Obs), cComplemento + cHist, cComplemento + Left(Recemov->Obs,nTam) + Space((60-12-nTam)))
+					if nRow != NIL
+						Write( nRow, nCol, Receber->Nome )
+					endif
+					AreaAnt( Arq_Ant, Ind_Ant )
+					return true
+				endif
+			endif
+			Receber->(Order( RECEBER_CODI ))
+			Area("Recemov")
+			Recemov->(Order( RECEMOV_DOCNR ))
+			Set Rela To Recemov->Codi Into Receber
+			Recemov->(DbGoTop())
+			Recemov->(Escolhe( 03, 01, MaxRow()-2, {"Docnr","Receber->Nome", "Dtoc(vcto)","Tran(vlr,'@E 99,999,999.99')"}, {"DOCTO #","NOME DO CLIENTE", "VCTO","VALOR"}))
+		else
+			AreaAnt( Arq_Ant, Ind_Ant )
+			return false
+		endif
+	endif
+	Var		 := Recemov->Docnr
+	nValor    := Round(IF( nVlrTotal <= 0, Recemov->Vlr, nVlrTotal),2)
+	nVlrTotal := Round(IF( nVlrTotal <= 0, CalcJuros(), nVlrTotal),2)
+	dVcto 	 := Recemov->Vcto
+	nTam		 := Len(AllTrim(Recemov->Obs))
+	cHist 	 := IF( Empty(Recemov->Obs), cComplemento + cHist, cComplemento + Left(Recemov->Obs,nTam) + Space((60-12-nTam)))
+	if nRow != NIL
+		Write( nRow, nCol, Receber->Nome )
+	endif
+	AreaAnt( Arq_Ant, Ind_Ant )
+	return true
+endef
+
+*==================================================================================================*
+
+def CheErrado( cCodi, cCodi1, nLinha, nCol, lOpcional )
+*******************************************************
+	LOCAL aRotina := {{|| Cheq11() }}
+	LOCAL cScreen := SaveScreen()
+	LOCAL Arq_Ant := Alias()
+	LOCAL Ind_Ant := IndexOrd()
+	FIELD Codi
+	FIELD Titular
+	//MEMVAR cField_Name
+	//MEMVAR cName_Cabec
+
+	if LastKey() = UP
+		return true
+	endif
+	if lOpcional != Nil
+		if Empty( cCodi )
+			if nLinha != Nil
+				Write( nLinha, nCol, "MOVIMENTO CONTRA PARTIDA NAO LANCADO")
+			endif
+			Keyb Chr( ENTER )
+			AreaAnt( Arq_Ant, Ind_Ant )
+			return true
+		endif
+	endif
+	Area("Cheque")
+	Order( IF( Len( cCodi ) < 40, CHEQUE_CODI, CHEQUE_TITULAR ))
+	if !( DbSeek( cCodi ) )
+		Order( CHEQUE_TITULAR )
+		DbGoTop()
+		Escolhe( 03, 01, MaxRow()-2, "Codi + chr(186) + Titular","CODI TITULAR DA CONTA", aRotina  )
+		cCodi  := IF( Len( cCodi ) = 4, Codi,	  Titular )
+		if cCodi1 != Nil
+			cCodi1 := IF( Len( cCodi1 ) = 4, Codi, 	Titular )
+		endif
+	endif
+	if nLinha != Nil
+		Write( nLinha, nCol, Titular )
+	endif
+	AreaAnt( Arq_Ant, Ind_Ant )
+	return true
+endef
+
+def Paga22( cCaixa )
+*********************
+	LOCAL cScreen := SaveScreen( )
+	LOCAL Arq_Ant := Alias()
+	LOCAL Ind_Ant := IndexOrd()
+	LOCAL GetList := {}
+	LOCAL nLancar := 0
+	LOCAL cDocnr
+	LOCAL dData
+	LOCAL nVlr
+	LOCAL cFone
+	LOCAL cPort
+	LOCAL nDebito
+	LOCAL nJuro
+	LOCAL cCida
+	LOCAL cEsta
+	LOCAL cCep
+	LOCAL cEnde
+	LOCAL nRecno
+	LOCAL cCodi
+	LOCAL cNome
+	LOCAL dEmis
+	LOCAL dVcto
+	LOCAL ctipo
+	LOCAL cDc
+	LOCAL nAtraso
+	LOCAL nTotJuros
+	LOCAL nVlrTotal
+	LOCAL nVlrPago
+	LOCAL cCodiCx
+	LOCAL lOk_Baixo
+	LOCAL nRecno1
+	LOCAL cFatura
+	LOCAL cCodiCx1
+	LOCAL cCodiCx2
+	LOCAL cCodiCx3
+	LOCAL cDc1
+	LOCAL cDc2
+	LOCAL cDc3
+	LOCAL cObs1
+	LOCAL cObs2
+	LOCAL cHist
+	LOCAL nCol
+	LOCAL nRow
+	LOCAL nJuroDia
+	LOCAL lEmitir
+	LOCAL nChSaldo
+	LOCAL cHist2
+	LOCAL nDiferenca
+
+	FIELD Nome
+	FIELD CodiVen
+	FIELD Vlr
+	FIELD Fone
+	FIELD Port
+	FIELD Tipo
+	FIELD Cida
+	FIELD Ende
+	FIELD Codi
+	FIELD Emis
+	FIELD Vcto
+	FIELD Esta
+	FIELD Cep
+	FIELD Juro
+	FIELD Docnr
+
+	if !PodePagar()
+		ResTela( cScreen )
 		Return
 	endif
-	Mensagem("Aguarde, Autenticando.")
-	PrintOn()
-	FPrInt( PQ )
-	SetPrc(0,0)
-	Qout("*MP*" + cDocnr + "*" + Dtoc( Date()) + "*" + cValor + "*" + Left( Receber->Nome,4 ) + "*")
-	Qout("*MP*" + cDocnr + "*" + Dtoc( Date()) + "*" + cValor + "*" + Left( Receber->Nome,4 ) + "*")
-	PrintOff()
-Next
-ResTela( cScreen )
-Return
 
-Function DocErrado( Var, nValor, nVlrTotal, dVcto, cHist, nRow, nCol, lLancarJurosNaoPago )
-******************************************************************************************
-LOCAL Arq_Ant		 := Alias()
-LOCAL Ind_Ant		 := IndexOrd()
-LOCAL nRegistro	 := 0
-LOCAL cComplemento := Space(0)
-LOCAL cString		 := Space(0)
-LOCAL nTam
-DEFAU lLancarJurosNaoPago TO FALSO
-
-#IFDEF MICROBRAS
-	cComplemento := "PAG PARCIAL "
-	cString		 := "PARCELA CONTRATO SERVICOS DE INTERNET."
-	cHist 		 := cString + Space(60-Len(cString))
-#endif
-
-Receber->(Order( RECEBER_CODI ))
-Area("Recemov")
-if ( Recemov->(DbGoTop()), Recemov->(Eof()))
-	AreaAnt( Arq_Ant, Ind_Ant )
-	Nada()
-	Return( FALSO )
-endif
-IfNil( nVlrTotal, 0)
-if ( Recemov->(Order( RECEMOV_DOCNR )), Recemov->(!DbSeek( Var )))
-   if !lLancarJurosNaoPago
-	   ErrorBeep()
-		if Conf("Erro: Documento nao Encontrado. Localizar por Nome?")
-			if BaixaDocnr( @Var, @nRegistro )
-				Recemov->( DbGoTo( nRegistro ))
-				nValor    := Round(IF( nVlrTotal <= 0, Recemov->Vlr, nVlrTotal),2)
-				nVlrTotal := Round(IF( nVlrTotal <= 0, CalcJuros(), nVlrTotal),2)
-				dVcto 	 := Recemov->Vcto
-				nTam		 := Len(AllTrim(Recemov->Obs))
-				cHist 	 := IF( Empty(Recemov->Obs), cComplemento + cHist, cComplemento + Left(Recemov->Obs,nTam) + Space((60-12-nTam)))
-				if nRow != NIL
-					Write( nRow, nCol, Receber->Nome )
-				endif
-				AreaAnt( Arq_Ant, Ind_Ant )
-				Return( OK )
-			endif
-		endif
-		Receber->(Order( RECEBER_CODI ))
-		Area("Recemov")
-		Recemov->(Order( RECEMOV_DOCNR ))
-		Set Rela To Recemov->Codi Into Receber
-		Recemov->(DbGoTop())
-		Recemov->(Escolhe( 03, 01, MaxRow()-2, "Docnr + chr(186) + Receber->Nome", "DOCTO #  NOME DO CLIENTE" ))
-	else
-		AreaAnt( Arq_Ant, Ind_Ant )
-		Return( FALSO )
-	endif	
-endif
-Var		 := Recemov->Docnr
-nValor    := Round(IF( nVlrTotal <= 0, Recemov->Vlr, nVlrTotal),2)
-nVlrTotal := Round(IF( nVlrTotal <= 0, CalcJuros(), nVlrTotal),2)
-dVcto 	 := Recemov->Vcto
-nTam		 := Len(AllTrim(Recemov->Obs))
-cHist 	 := IF( Empty(Recemov->Obs), cComplemento + cHist, cComplemento + Left(Recemov->Obs,nTam) + Space((60-12-nTam)))
-if nRow != NIL
-	Write( nRow, nCol, Receber->Nome )
-endif
-AreaAnt( Arq_Ant, Ind_Ant )
-Return(OK)
-
-Function CheErrado( cCodi, cCodi1, nLinha, nCol, lOpcional )
-************************************************************
-LOCAL aRotina := {{|| Cheq11() }}
-LOCAL cScreen := SaveScreen()
-LOCAL Arq_Ant := Alias()
-LOCAL Ind_Ant := IndexOrd()
-FIELD Codi
-FIELD Titular
-//MEMVAR cField_Name
-//MEMVAR cName_Cabec
-
-if LastKey() = UP
-	Return( OK )
-endif
-if lOpcional != Nil
-	if Empty( cCodi )
-		if nLinha != Nil
-			Write( nLinha, nCol, "MOVIMENTO CONTRA PARTIDA NAO LANCADO")
-		endif
-		Keyb Chr( ENTER )
-		AreaAnt( Arq_Ant, Ind_Ant )
-		Return( OK )
-	endif
-endif
-Area("Cheque")
-Order( IF( Len( cCodi ) < 40, CHEQUE_CODI, CHEQUE_TITULAR ))
-if !( DbSeek( cCodi ) )
-	Order( CHEQUE_TITULAR )
-	DbGoTop()
-	Escolhe( 03, 01, MaxRow()-2, "Codi + chr(186) + Titular","CODI TITULAR DA CONTA", aRotina  )
-	cCodi  := IF( Len( cCodi ) = 4, Codi,	  Titular )
-	if cCodi1 != Nil
-		cCodi1 := IF( Len( cCodi1 ) = 4, Codi, 	Titular )
-	endif
-endif
-if nLinha != Nil
-	Write( nLinha, nCol, Titular )
-endif
-AreaAnt( Arq_Ant, Ind_Ant )
-Return(OK)
-
-Proc Paga22( cCaixa )
-*********************
-LOCAL cScreen := SaveScreen( )
-LOCAL Arq_Ant := Alias()
-LOCAL Ind_Ant := IndexOrd()
-LOCAL GetList := {}
-LOCAL nLancar := 0
-LOCAL cDocnr
-LOCAL dData
-LOCAL nVlr
-LOCAL cFone
-LOCAL cPort
-LOCAL nDebito
-LOCAL nJuro
-LOCAL cCida
-LOCAL cEsta
-LOCAL cCep
-LOCAL cEnde
-LOCAL nRecno
-LOCAL cCodi
-LOCAL cNome
-LOCAL dEmis
-LOCAL dVcto
-LOCAL ctipo
-LOCAL cDc
-LOCAL nAtraso
-LOCAL nTotJuros
-LOCAL nVlrTotal
-LOCAL nVlrPago
-LOCAL cCodiCx
-LOCAL lOk_Baixo
-LOCAL nRecno1
-LOCAL cFatura
-LOCAL cCodiCx1
-LOCAL cCodiCx2
-LOCAL cCodiCx3
-LOCAL cDc1
-LOCAL cDc2
-LOCAL cDc3
-LOCAL cObs1
-LOCAL cObs2
-LOCAL cHist
-LOCAL nCol
-LOCAL nRow
-LOCAL nJuroDia
-LOCAL lEmitir
-LOCAL nChSaldo
-LOCAL cHist2
-LOCAL nDiferenca
-
-FIELD Nome
-FIELD CodiVen
-FIELD Vlr
-FIELD Fone
-FIELD Port
-FIELD Tipo
-FIELD Cida
-FIELD Ende
-FIELD Codi
-FIELD Emis
-FIELD Vcto
-FIELD Esta
-FIELD Cep
-FIELD Juro
-FIELD Docnr
-
-if !PodePagar()
-	ResTela( cScreen )
-	Return
-endif
-
-WHILE OK
-	oMenu:Limpa()
-	MaBox( 15, 10, 17, 31 )
-	cDocnr := Space( 09 )
-	@ 16, 11 Say "Doc.No.." Get cDocnr Pict  "@!" Valid PgDocErrad( @cDocnr )
-	Read
-	if LastKey() = ESC
-		ResTela( cScreen )
-		Exit
-	endif
-	if Pagamov->(!TravaReg())
-		Loop
-	endif
-	Pagar->(Order( PAGAR_CODI ))
-	Area( "PagaMov" )
-	Set Rela To Codi Into Pagar
-	dData 	 := Date()
-	nVlr		 := Pagamov->Vlr
-	cPort 	 := Pagamov->Port
-	cTipo 	 := Pagamov->Tipo
-	nJuro 	 := Pagamov->Juro
-	cDocnr	 := Pagamov->Docnr
-	cFatura	 := Pagamov->Fatura
-	cCodiCx	 := "0000"
-	cCodiCx1  := Space(04)
-	cCodiCx2  := Space(04)
-	cCodiCx3  := Space(04)
-	cDc		 := "D"
-	cDc1		 := "D"
-	cDc2		 := "C"
-	cDc3		 := "C"
-	cCodi 	 := Pagamov->Codi
-	dEmis 	 := Pagamov->Emis
-	dVcto 	 := Pagamov->Vcto
-	nVlr		 := Pagamov->Vlr
-	cObs1 	 := Pagamov->Obs1
-	cObs2 	 := Pagamov->Obs2
-	cNome 	 := Pagar->Nome
-	cHist 	 := "PAG " + cNome
 	WHILE OK
-		nCol := 06
-		nRow := 02
-		MaBox( 02, 05 , nRow+18 , 79, "PAGAMENTOS" )
-		@ nRow+01, nCol	 SAY "Fornecedor..: " + Pagar->Codi + " " + Pagar->Nome
-		@ nRow+02, nCol	 SAY "Tipo........: " + cTipo
-		@ nRow+02, nCol+35 SAY "Docto #....: " + cDocnr
-		@ nRow+03, nCol	 SAY "Emissao.....: " + Dtoc( Emis )
-		@ nRow+03, nCol+35 SAY "Vencto......: " + Dtoc( Vcto )
-		@ nRow+04, nCol	 SAY "Juros Mes...: " + Tran( nJuro , "@E 9,999,999,999.99" )
-		@ nRow+04, nCol+35 SAY "Dias Atraso.: "
-		@ nRow+05, nCol	 SAY "Valor.......: " + Tran( Vlr ,      "@E 9,999,999,999.99" )
-		@ nRow+05, nCol+35 SAY "Desconto....: " + Tran( Desconto , "@E 999.99" )
-		@ nRow+06, nCol	 SAY "Jrs Devidos.: "
-		@ nRow+07, nCol	 SAY "Vlr c/Juros.: "
-		@ nRow+07, nCol+35 SAY "Vlr c/ Desc.: "
-		@ nRow+08, nCol	 SAY "Data Pgto...: " Get dData Pict "##/##/##"
+		oMenu:Limpa()
+		MaBox( 15, 10, 17, 31 )
+		cDocnr := Space( 09 )
+		@ 16, 11 Say "Doc.No.." Get cDocnr Pict  "@!" Valid PgDocErrad( @cDocnr )
 		Read
 		if LastKey() = ESC
+			ResTela( cScreen )
 			Exit
 		endif
-		nAtraso	:= Atraso( dData, Vcto )
-		nJuroDia := JuroDia( Vlr, nJuro )
-		if nAtraso <= 0
-			nTotJuros := 0
-			nVlrTotal := Vlr
-			nVlrTotal -= Desconto
-		Else
-			nTotJuros := ( nAtraso * nJuroDia )
-			nVlrTotal := ( nTotJuros + Vlr )
-		endif
-		nVlrPago := nVlrTotal
-
-		Write( nRow+04, nCol+35, "Dias Atraso.: " + Tran( nAtraso,   "99999") + " Dias" )
-		Write( nRow+06, nCol,	 "Jrs Devidos.: " + Tran( nTotJuros, "@E 9,999,999,999.99"))
-		Write( nRow+07, nCol,	 "Vlr c/juros.: " + Tran( nVlrTotal, "@E 9,999,999,999.99"))
-		Write( nRow+07, nCol+35, "Vlr c/ Desc.: " + Tran( nVlrPago,  "@E 9,999,999,999.99"))
-
-		@ nRow+09, nCol	 Say "Valor Pago..: " GET nVlrPago Pict "@E 9,999,999,999.99"
-		@ nRow+10, nCol	 Say "Portador....: " GET cPort    Pict "@!"
-		@ nRow+11, nCol	 Say "Conta Caixa.: " GET cCodiCx  Pict "9999" Valid LastKey() = UP .OR. CheErrado( @cCodiCx,,  Row(), 35 )
-		@ nRow+11, nCol+20 Say "D/C.:"          GET cDc      Pict "!"    Valid PickTam({'Credito em conta','Debito em conta'}, {'C','D'}, @cDc )
-		@ nRow+12, nCol	 Say "C. Partida..: " GET cCodiCx1 Pict "9999" Valid LastKey() = UP .OR. CheErrado( @cCodiCx1,, Row(), 35, OK )
-		@ nRow+12, nCol+20 Say "D/C.:"          GET cDc1     Pict "!"    Valid PickTam({'Credito em conta','Debito em conta'}, {'C','D'}, @cDc1 )
-		@ nRow+13, nCol	 Say "C. Partida..: " GET cCodiCx2 Pict "9999" Valid LastKey() = UP .OR. CheErrado( @cCodiCx2,, Row(), 35, OK )
-		@ nRow+13, nCol+20 Say "D/C.:"          GET cDc2     Pict "!"    Valid PickTam({'Credito em conta','Debito em conta'}, {'C','D'}, @cDc2 )
-		@ nRow+14, nCol	 Say "C. Partida..: " GET cCodiCx3 Pict "9999" Valid LastKey() = UP .OR. CheErrado( @cCodiCx3,, Row(), 35, OK )
-		@ nRow+14, nCol+20 Say "D/C.:"          GET cDc3     Pict "!"    Valid PickTam({'Credito em conta','Debito em conta'}, {'C','D'}, @cDc3 )
-		@ nRow+15, nCol	 Say "Historico...: " GET cHist    Pict "@!"   Valid LastKey() = UP .OR. !Empty( cHist )
-		@ nRow+16, nCol	 Say "Observacoes.: " GET cObs1    Pict "@!"
-		@ nRow+17, nCol	 Say "Observacoes.: " GET cObs2    Pict "@!"
-		Read
-		if LastKey() = ESC
-			Exit
-		endif
-		lOk_Baixo := Conf(" Pergunta: Baixar Registro ? ", {" Sim ", " Alterar ", " Sair " })
-		if 	 lOk_Baixo = 2 // Alterar
+		if Pagamov->(!TravaReg())
 			Loop
-		Elseif lOk_Baixo = 1 // Baixar
-			lEmitir := 1
-			if nVlrPago <> nVlrTotal
-				ErrorBeep()
-				lEmitir := Conf("Valor pago diferente que o devido.;;Pergunta: Fazer Baixa como:",;
-									  {"Quitar", "Parcial", "Diferenca C/C", "Cancelar"})
-				if lEmitir = 4
-					Loop
-				endif
-				if lEmitir = 3
-					cCodiCx2 := Space(04)
-					cDc2		:= " "
-					cHist2	:= cHist
-					MaBox( nRow+15, 05 , nRow+18 , 74, "LANCAMENTOS DIFERENCA C/C")
-					@ nRow+16, nCol	 Say "Conta Caixa.: " GET cCodiCx2  Pict "9999" Valid CheErrado( @cCodiCx2,, Row(), nCol+28 )
-					@ nRow+16, nCol+20 Say "D/C.:"          GET cDc2      Pict "!" Valid cDc2 $ "DC"
-					@ nRow+17, nCol	 Say "Historico...: " GET cHist2    Pict "@!" Valid !Empty( cHist2 )
-					Read
-					if LastKey() = ESC
-						Loop
-					endif
+		endif
+		Pagar->(Order( PAGAR_CODI ))
+		Area( "PagaMov" )
+		Set Rela To Codi Into Pagar
+		dData 	 := Date()
+		nVlr		 := Pagamov->Vlr
+		cPort 	 := Pagamov->Port
+		cTipo 	 := Pagamov->Tipo
+		nJuro 	 := Pagamov->Juro
+		cDocnr	 := Pagamov->Docnr
+		cFatura	 := Pagamov->Fatura
+		cCodiCx	 := "0000"
+		cCodiCx1  := Space(04)
+		cCodiCx2  := Space(04)
+		cCodiCx3  := Space(04)
+		cDc		 := "D"
+		cDc1		 := "D"
+		cDc2		 := "C"
+		cDc3		 := "C"
+		cCodi 	 := Pagamov->Codi
+		dEmis 	 := Pagamov->Emis
+		dVcto 	 := Pagamov->Vcto
+		nVlr		 := Pagamov->Vlr
+		cObs1 	 := Pagamov->Obs1
+		cObs2 	 := Pagamov->Obs2
+		cNome 	 := Pagar->Nome
+		cHist 	 := "PAG " + cNome
+		WHILE OK
+			nCol := 06
+			nRow := 02
+			MaBox( 02, 05 , nRow+18 , 79, "PAGAMENTOS" )
+			@ nRow+01, nCol	 SAY "Fornecedor..: " + Pagar->Codi + " " + Pagar->Nome
+			@ nRow+02, nCol	 SAY "Tipo........: " + cTipo
+			@ nRow+02, nCol+35 SAY "Docto #....: " + cDocnr
+			@ nRow+03, nCol	 SAY "Emissao.....: " + Dtoc( Emis )
+			@ nRow+03, nCol+35 SAY "Vencto......: " + Dtoc( Vcto )
+			@ nRow+04, nCol	 SAY "Juros Mes...: " + Tran( nJuro , "@E 9,999,999,999.99" )
+			@ nRow+04, nCol+35 SAY "Dias Atraso.: "
+			@ nRow+05, nCol	 SAY "Valor.......: " + Tran( Vlr ,      "@E 9,999,999,999.99" )
+			@ nRow+05, nCol+35 SAY "Desconto....: " + Tran( Desconto , "@E 999.99" )
+			@ nRow+06, nCol	 SAY "Jrs Devidos.: "
+			@ nRow+07, nCol	 SAY "Vlr c/Juros.: "
+			@ nRow+07, nCol+35 SAY "Vlr c/ Desc.: "
+			@ nRow+08, nCol	 SAY "Data Pgto...: " Get dData Pict "##/##/##"
+			Read
+			if LastKey() = ESC
+				Exit
+			endif
+			nAtraso	:= Atraso( dData, Vcto )
+			nJuroDia := JuroDia( Vlr, nJuro )
+			if nAtraso <= 0
+				nTotJuros := 0
+				nVlrTotal := Vlr
+				nVlrTotal -= Desconto
+			Else
+				nTotJuros := ( nAtraso * nJuroDia )
+				nVlrTotal := ( nTotJuros + Vlr )
+			endif
+			nVlrPago := nVlrTotal
+
+			Write( nRow+04, nCol+35, "Dias Atraso.: " + Tran( nAtraso,   "99999") + " Dias" )
+			Write( nRow+06, nCol,	 "Jrs Devidos.: " + Tran( nTotJuros, "@E 9,999,999,999.99"))
+			Write( nRow+07, nCol,	 "Vlr c/juros.: " + Tran( nVlrTotal, "@E 9,999,999,999.99"))
+			Write( nRow+07, nCol+35, "Vlr c/ Desc.: " + Tran( nVlrPago,  "@E 9,999,999,999.99"))
+
+			@ nRow+09, nCol	 Say "Valor Pago..: " GET nVlrPago Pict "@E 9,999,999,999.99"
+			@ nRow+10, nCol	 Say "Portador....: " GET cPort    Pict "@!"
+			@ nRow+11, nCol	 Say "Conta Caixa.: " GET cCodiCx  Pict "9999" Valid LastKey() = UP .OR. CheErrado( @cCodiCx,,  Row(), 35 )
+			@ nRow+11, nCol+20 Say "D/C.:"          GET cDc      Pict "!"    Valid PickTam({'Credito em conta','Debito em conta'}, {'C','D'}, @cDc )
+			@ nRow+12, nCol	 Say "C. Partida..: " GET cCodiCx1 Pict "9999" Valid LastKey() = UP .OR. CheErrado( @cCodiCx1,, Row(), 35, OK )
+			@ nRow+12, nCol+20 Say "D/C.:"          GET cDc1     Pict "!"    Valid PickTam({'Credito em conta','Debito em conta'}, {'C','D'}, @cDc1 )
+			@ nRow+13, nCol	 Say "C. Partida..: " GET cCodiCx2 Pict "9999" Valid LastKey() = UP .OR. CheErrado( @cCodiCx2,, Row(), 35, OK )
+			@ nRow+13, nCol+20 Say "D/C.:"          GET cDc2     Pict "!"    Valid PickTam({'Credito em conta','Debito em conta'}, {'C','D'}, @cDc2 )
+			@ nRow+14, nCol	 Say "C. Partida..: " GET cCodiCx3 Pict "9999" Valid LastKey() = UP .OR. CheErrado( @cCodiCx3,, Row(), 35, OK )
+			@ nRow+14, nCol+20 Say "D/C.:"          GET cDc3     Pict "!"    Valid PickTam({'Credito em conta','Debito em conta'}, {'C','D'}, @cDc3 )
+			@ nRow+15, nCol	 Say "Historico...: " GET cHist    Pict "@!"   Valid LastKey() = UP .OR. !Empty( cHist )
+			@ nRow+16, nCol	 Say "Observacoes.: " GET cObs1    Pict "@!"
+			@ nRow+17, nCol	 Say "Observacoes.: " GET cObs2    Pict "@!"
+			Read
+			if LastKey() = ESC
+				Exit
+			endif
+			lOk_Baixo := Conf(" Pergunta: Baixar Registro ? ", {" Sim ", " Alterar ", " Sair " })
+			if 	 lOk_Baixo = 2 // Alterar
+				Loop
+			Elseif lOk_Baixo = 1 // Baixar
+				lEmitir := 1
+				if nVlrPago <> nVlrTotal
 					ErrorBeep()
-					if !Conf("Pergunta: Confirma Lancamento ?")
+					lEmitir := Conf("Valor pago diferente que o devido.;;Pergunta: Fazer Baixa como:",;
+										  {"Quitar", "Parcial", "Diferenca C/C", "Cancelar"})
+					if lEmitir = 4
 						Loop
 					endif
-				endif
-			endif
-			//:**************************************************
-			if Pago->(!Incluiu())	  ; DbUnLockAll() ; Loop ; endif
-			if Chemov->(!Incluiu())   ; DbUnLockAll() ; Loop ; endif
-			Cheque->(Order( CHEQUE_CODI ))
-			if Cheque->(!DbSeek( cCodiCx )) ; DbUnLockAll() ; Loop ; endif
-			if Cheque->(!TravaReg())		  ; DbUnLockAll() ; Loop ; endif
-			//:**************************************************
-			if lEmitir = 2 // Parcial
-				if nVlrPago < nVlrTotal
-					if lEmitir = 2 // Parcial
-						Pagamov->Emis := dData
-						Pagamov->Vcto := dData
-						Pagamov->Vlr  := ( nVlrTotal - nVlrPago )
+					if lEmitir = 3
+						cCodiCx2 := Space(04)
+						cDc2		:= " "
+						cHist2	:= cHist
+						MaBox( nRow+15, 05 , nRow+18 , 74, "LANCAMENTOS DIFERENCA C/C")
+						@ nRow+16, nCol	 Say "Conta Caixa.: " GET cCodiCx2  Pict "9999" Valid CheErrado( @cCodiCx2,, Row(), nCol+28 )
+						@ nRow+16, nCol+20 Say "D/C.:"          GET cDc2      Pict "!" Valid cDc2 $ "DC"
+						@ nRow+17, nCol	 Say "Historico...: " GET cHist2    Pict "@!" Valid !Empty( cHist2 )
+						Read
+						if LastKey() = ESC
+							Loop
+						endif
+						ErrorBeep()
+						if !Conf("Pergunta: Confirma Lancamento ?")
+							Loop
+						endif
 					endif
 				endif
-			Else
-				Pagamov->(DbDelete())
-			endif
-			Pagamov->(Libera())
+				//:**************************************************
+				if Pago->(!Incluiu())	  ; DbUnLockAll() ; Loop ; endif
+				if Chemov->(!Incluiu())   ; DbUnLockAll() ; Loop ; endif
+				Cheque->(Order( CHEQUE_CODI ))
+				if Cheque->(!DbSeek( cCodiCx )) ; DbUnLockAll() ; Loop ; endif
+				if Cheque->(!TravaReg())		  ; DbUnLockAll() ; Loop ; endif
+				//:**************************************************
+				if lEmitir = 2 // Parcial
+					if nVlrPago < nVlrTotal
+						if lEmitir = 2 // Parcial
+							Pagamov->Emis := dData
+							Pagamov->Vcto := dData
+							Pagamov->Vlr  := ( nVlrTotal - nVlrPago )
+						endif
+					endif
+				Else
+					Pagamov->(DbDelete())
+				endif
+				Pagamov->(Libera())
 
-			Pago->Codi	  := cCodi
-			Pago->Docnr   := cDocnr
-			Pago->Fatura  := cFatura
-			Pago->Emis	  := dEmis
-			Pago->Vcto	  := dVcto
-			Pago->Vlr	  := nVlr
-			Pago->DataPag := dData
-			Pago->VlrPag  := nVlrPago
-			Pago->Port	  := cPort
-			Pago->Tipo	  := cTipo
-			Pago->Juro	  := nJuro
-			Pago->nDeb	  := "NAO"
-			Pago->Obs1	  := cObs1
-			Pago->Obs2	  := cObs2
-			Pago->(Libera())
+				Pago->Codi	  := cCodi
+				Pago->Docnr   := cDocnr
+				Pago->Fatura  := cFatura
+				Pago->Emis	  := dEmis
+				Pago->Vcto	  := dVcto
+				Pago->Vlr	  := nVlr
+				Pago->DataPag := dData
+				Pago->VlrPag  := nVlrPago
+				Pago->Port	  := cPort
+				Pago->Tipo	  := cTipo
+				Pago->Juro	  := nJuro
+				Pago->nDeb	  := "NAO"
+				Pago->Obs1	  := cObs1
+				Pago->Obs2	  := cObs2
+				Pago->(Libera())
 
-			//*********************************************************************//
-			nChSaldo := Cheque->Saldo
-			if cDc = "C"
-				nChSaldo 	+= nVlrPago
-				Chemov->Cre := nVlrPago
-			Else
-				nChSaldo 	 -= nVlrPago
-				Chemov->Deb  := nVlrPago
-			endif
-			Chemov->Codi	  := cCodiCx
-			Chemov->Docnr	  := cDocnr
-			Chemov->Fatura   := cFatura
-			Chemov->Emis	  := dData
-			Chemov->Data	  := dData
-			Chemov->Baixa	  := Date()
-			Chemov->Hist	  := cHist
-			Chemov->Saldo	  := nChSaldo
-			Chemov->Tipo	  := "PG"
-			Chemov->Caixa	  := IF( cCaixa = Nil, Space(4), cCaixa )
-			Chemov->CPartida := FALSO
-			Chemov->(Libera())
-			Cheque->Saldo	:= nChSaldo
-			//*********************************************************************//
-			if Cheque->(DbSeek( cCodiCx1 ))
-				if Cheque->(TravaReg())
-					nChSaldo   := Cheque->Saldo
-					if Chemov->(Incluiu())
-						if cDc1 = "C"
-							nChSaldo 	+= nVlrPago
-							Chemov->Cre := nVlrPago
-						Else
-							nChSaldo 	 -= nVlrPago
-							Chemov->Deb  := nVlrPago
+				//*********************************************************************//
+				nChSaldo := Cheque->Saldo
+				if cDc = "C"
+					nChSaldo 	+= nVlrPago
+					Chemov->Cre := nVlrPago
+				Else
+					nChSaldo 	 -= nVlrPago
+					Chemov->Deb  := nVlrPago
+				endif
+				Chemov->Codi	  := cCodiCx
+				Chemov->Docnr	  := cDocnr
+				Chemov->Fatura   := cFatura
+				Chemov->Emis	  := dData
+				Chemov->Data	  := dData
+				Chemov->Baixa	  := Date()
+				Chemov->Hist	  := cHist
+				Chemov->Saldo	  := nChSaldo
+				Chemov->Tipo	  := "PG"
+				Chemov->Caixa	  := IF( cCaixa = Nil, Space(4), cCaixa )
+				Chemov->CPartida := FALSO
+				Chemov->(Libera())
+				Cheque->Saldo	:= nChSaldo
+				//*********************************************************************//
+				if Cheque->(DbSeek( cCodiCx1 ))
+					if Cheque->(TravaReg())
+						nChSaldo   := Cheque->Saldo
+						if Chemov->(Incluiu())
+							if cDc1 = "C"
+								nChSaldo 	+= nVlrPago
+								Chemov->Cre := nVlrPago
+							Else
+								nChSaldo 	 -= nVlrPago
+								Chemov->Deb  := nVlrPago
+							endif
+							Chemov->Codi	:= cCodiCx1
+							Chemov->Docnr	:= cDocnr
+							Chemov->Fatura := cFatura
+							Chemov->Emis	:= dData
+							Chemov->Data	:= dData
+							Chemov->Baixa	:= Date()
+							Chemov->Hist	:= cHist
+							Chemov->Saldo	:= nChSaldo
+							Chemov->Tipo	:= "PG"
+							Chemov->Caixa	:= IF( cCaixa = Nil, Space(4), cCaixa )
+							Chemov->CPartida := OK
+							Chemov->(Libera())
+							Cheque->Saldo := nChSaldo
 						endif
-						Chemov->Codi	:= cCodiCx1
-						Chemov->Docnr	:= cDocnr
-						Chemov->Fatura := cFatura
-						Chemov->Emis	:= dData
-						Chemov->Data	:= dData
-						Chemov->Baixa	:= Date()
-						Chemov->Hist	:= cHist
-						Chemov->Saldo	:= nChSaldo
-						Chemov->Tipo	:= "PG"
-						Chemov->Caixa	:= IF( cCaixa = Nil, Space(4), cCaixa )
-						Chemov->CPartida := OK
-						Chemov->(Libera())
-						Cheque->Saldo := nChSaldo
 					endif
 				endif
-			endif
-			//*********************************************************************//
-			if Cheque->(DbSeek( cCodiCx2 ))
-				if Cheque->(TravaReg())
-					nChSaldo   := Cheque->Saldo
-					if Chemov->(Incluiu())
-						if cDc2 = "C"
-							nChSaldo 	+= nVlrPago
-							Chemov->Cre := nVlrPago
-						Else
-							nChSaldo 	 -= nVlrPago
-							Chemov->Deb  := nVlrPago
-						endif
-						Chemov->Codi	:= cCodiCx2
-						Chemov->Docnr	:= cDocnr
-						Chemov->Fatura := cFatura
-						Chemov->Emis	:= dData
-						Chemov->Data	:= dData
-						Chemov->Baixa	:= Date()
-						Chemov->Hist	:= cHist
-						Chemov->Saldo	:= nChSaldo
-						Chemov->Tipo	:= "PG"
-						Chemov->(Libera())
-						Cheque->Saldo := nChSaldo
-					endif
-				endif
-			endif
-			//*********************************************************************//
-			if Cheque->(DbSeek( cCodiCx3 ))
-				if Cheque->(TravaReg())
-					nChSaldo   := Cheque->Saldo
-					if Chemov->(Incluiu())
-						if cDc3 = "C"
-							nChSaldo 	+= nVlrPago
-							Chemov->Cre := nVlrPago
-						Else
-							nChSaldo 	 -= nVlrPago
-							Chemov->Deb  := nVlrPago
-						endif
-						Chemov->Codi	:= cCodiCx3
-						Chemov->Docnr	:= cDocnr
-						Chemov->Fatura := cFatura
-						Chemov->Emis	:= dData
-						Chemov->Data	:= dData
-						Chemov->Baixa	:= Date()
-						Chemov->Hist	:= cHist
-						Chemov->Saldo	:= nChSaldo
-						Chemov->Tipo	:= "PG"
-						Chemov->(Libera())
-						Cheque->Saldo := nChSaldo
-					endif
-				endif
-			endif
-			//*********************************************************************//
-			if lEmitir = 3
+				//*********************************************************************//
 				if Cheque->(DbSeek( cCodiCx2 ))
 					if Cheque->(TravaReg())
-						nChSaldo := Cheque->Saldo
-						if nVlrTotal < nVlrpago
-							nDiferenca := nVlrPago - nVlrTotal
-						Else
-							nDiferenca := nVlrTotal - nVlrPago
-						endif
+						nChSaldo   := Cheque->Saldo
 						if Chemov->(Incluiu())
 							if cDc2 = "C"
-								nChSaldo 	+= nDiferenca
-								Chemov->Cre := nDiferenca
+								nChSaldo 	+= nVlrPago
+								Chemov->Cre := nVlrPago
 							Else
-								nChSaldo 	 -= nDiferenca
-								Chemov->Deb  := nDiferenca
+								nChSaldo 	 -= nVlrPago
+								Chemov->Deb  := nVlrPago
 							endif
 							Chemov->Codi	:= cCodiCx2
 							Chemov->Docnr	:= cDocnr
@@ -2300,562 +2303,651 @@ WHILE OK
 							Chemov->Emis	:= dData
 							Chemov->Data	:= dData
 							Chemov->Baixa	:= Date()
-							Chemov->Hist	:= cHist2
+							Chemov->Hist	:= cHist
 							Chemov->Saldo	:= nChSaldo
-							Chemov->Tipo	:= "DF"  // Tipo Diferenca C/C
-							//Chemov->Caixa  := IF( cCaixa = Nil, Space(4), cCaixa )
+							Chemov->Tipo	:= "PG"
 							Chemov->(Libera())
-							Cheque->Saldo	:= nChSaldo
+							Cheque->Saldo := nChSaldo
 						endif
 					endif
 				endif
+				//*********************************************************************//
+				if Cheque->(DbSeek( cCodiCx3 ))
+					if Cheque->(TravaReg())
+						nChSaldo   := Cheque->Saldo
+						if Chemov->(Incluiu())
+							if cDc3 = "C"
+								nChSaldo 	+= nVlrPago
+								Chemov->Cre := nVlrPago
+							Else
+								nChSaldo 	 -= nVlrPago
+								Chemov->Deb  := nVlrPago
+							endif
+							Chemov->Codi	:= cCodiCx3
+							Chemov->Docnr	:= cDocnr
+							Chemov->Fatura := cFatura
+							Chemov->Emis	:= dData
+							Chemov->Data	:= dData
+							Chemov->Baixa	:= Date()
+							Chemov->Hist	:= cHist
+							Chemov->Saldo	:= nChSaldo
+							Chemov->Tipo	:= "PG"
+							Chemov->(Libera())
+							Cheque->Saldo := nChSaldo
+						endif
+					endif
+				endif
+				//*********************************************************************//
+				if lEmitir = 3
+					if Cheque->(DbSeek( cCodiCx2 ))
+						if Cheque->(TravaReg())
+							nChSaldo := Cheque->Saldo
+							if nVlrTotal < nVlrpago
+								nDiferenca := nVlrPago - nVlrTotal
+							Else
+								nDiferenca := nVlrTotal - nVlrPago
+							endif
+							if Chemov->(Incluiu())
+								if cDc2 = "C"
+									nChSaldo 	+= nDiferenca
+									Chemov->Cre := nDiferenca
+								Else
+									nChSaldo 	 -= nDiferenca
+									Chemov->Deb  := nDiferenca
+								endif
+								Chemov->Codi	:= cCodiCx2
+								Chemov->Docnr	:= cDocnr
+								Chemov->Fatura := cFatura
+								Chemov->Emis	:= dData
+								Chemov->Data	:= dData
+								Chemov->Baixa	:= Date()
+								Chemov->Hist	:= cHist2
+								Chemov->Saldo	:= nChSaldo
+								Chemov->Tipo	:= "DF"  // Tipo Diferenca C/C
+								//Chemov->Caixa  := IF( cCaixa = Nil, Space(4), cCaixa )
+								Chemov->(Libera())
+								Cheque->Saldo	:= nChSaldo
+							endif
+						endif
+					endif
+				endif
+				Cheque->(Libera())
 			endif
-			Cheque->(Libera())
-		endif
-		Exit
+			Exit
+		EndDo
+		DbUnLockAll()
+		Pagamov->(DbClearRel())
+		AreaAnt( Arq_Ant, Ind_Ant )
+		ResTela( cScreen )
 	EndDo
-	DbUnLockAll()
-	Pagamov->(DbClearRel())
-	AreaAnt( Arq_Ant, Ind_Ant )
-	ResTela( cScreen )
-EndDo
+endef
 
-Function PgDocErrad( cDocnr )
-****************************
-LOCAL cScreen	 := SaveScreen()
-LOCAL Ind_Ant	 := IndexOrd()
-LOCAL Arq_Ant	 := Alias()
-LOCAL nRegistro := 0
-FIELD Docnr
-FIELD Emis
-FIELD Vcto
-FIELD Vlr
+*==================================================================================================*
 
-Pagar->(Order( PAGAR_CODI ))
-Area("Pagamov")
-if ( Pagamov->(DbGoTop()), Pagamov->(Eof()))
-	AreaAnt( Arq_Ant, Ind_Ant )
-	Nada()
-	Return( FALSO )
-endif
-if ( Pagamov->(Order( PAGAMOV_DOCNR )), Pagamov->(!DbSeek( cDocnr )))
-	ErrorBeep()
-	if Conf("Erro: Documento nao Encontrado. Localizar por Nome ?.")
-		if BaixaPag( @cDocnr, @nRegistro )
-			Pagamov->( DbGoTo( nRegistro ))
-			AreaAnt( Arq_Ant, Ind_Ant )
-			Return( OK )
-		endif
-		Pagar->(Order( PAGAR_CODI ))
-		Area("Pagamov")
-		Pagamov->(Order( PAGAMOV_DOCNR ))
-		Set Rela To Pagamov->Codi Into Pagar
+def PgDocErrad( cDocnr )
+************************
+	LOCAL cScreen	 := SaveScreen()
+	LOCAL Ind_Ant	 := IndexOrd()
+	LOCAL Arq_Ant	 := Alias()
+	LOCAL nRegistro := 0
+	FIELD Docnr
+	FIELD Emis
+	FIELD Vcto
+	FIELD Vlr
+
+	Pagar->(Order( PAGAR_CODI ))
+	Area("Pagamov")
+	if ( Pagamov->(DbGoTop()), Pagamov->(Eof()))
+		AreaAnt( Arq_Ant, Ind_Ant )
+		Nada()
+		return( false )
 	endif
-	Pagamov->(DbGoTop())
-	Pagamov->(Escolhe( 03, 00, 22, "Docnr + chr(186) + Dtoc( Emis ) + chr(186) + Dtoc( Vcto ) + chr(186) + Tran( Vlr, '@E 999,999.99') + chr(186) + Left( Pagar->Nome, 37 )", "DOCTO #  EMISSAO  VCTO         VALOR  NOME DO FORNECEDOR"))
-	cDocnr := Pagamov->Docnr
-endif
-AreaAnt( Arq_Ant, Ind_Ant )
-Return( OK )
-
-Function BaixaPag( cDocnr, nRegistro )
-**************************************
-LOCAL cScreen	 := SaveScreen()
-LOCAL GetList	 := {}
-LOCAL Arq_Ant	 := Alias()
-LOCAL Ind_Ant	 := IndexOrd()
-LOCAL nTam		 := 0
-LOCAL aDocnr	 := {}
-LOCAL aRegistro := {}
-LOCAL aTodos	 := {}
-LOCAL cCodi 	 := Space(04)
-LOCAL nChoice	 := 0
-
-oMenu:Limpa()
-MaBox( 15, 10, 17, 78 )
-@ 16, 11 Say "Fornecedor......: " Get cCodi Pict '9999' Valid Pagarrado( @cCodi,, Row(), Col()+1 )
-Read
-if LastKey() = ESC
-	AreaAnt( Arq_Ant, Ind_Ant )
-	ResTela( cScreen )
-	Return( FALSO )
-endif
-Area("Pagamov")
-Pagamov->(Order( PAGAMOV_CODI ))
-if Pagamov->(!DbSeek( cCodi ))
-	ErrorBeep()
-	Alerta( "Erro: Nenhum Debito em Aberto Deste fornecedor." )
-	AreaAnt( Arq_Ant, Ind_Ant )
-	ResTela( cScreen )
-	Return( FALSO )
-endif
-WHILE Pagamov->Codi = cCodi
-	Aadd( aDocnr,	  Pagamov->Docnr )
-	Aadd( aRegistro, Pagamov->(Recno()))
-	Aadd( aTodos,	  Pagamov->Docnr + " " + Dtoc( Pagamov->Emis ) + " " + Dtoc( Pagamov->Vcto ) + " " + Tran( Pagamov->Vlr, "@E 999,999,999.99"))
-	Pagamov->(DbSkip(1))
-EndDo
-nTam := Len( aTodos )
-if nTam = 0
-	ErrorBeep()
-	Alerta( "Erro: Nenhum Debito em Aberto deste Fornecedor." )
-	AreaAnt( Arq_Ant, Ind_Ant )
-	ResTela( cScreen )
-	Return( FALSO )
-endif
-MaBox( 00, 10, 14, 53, "DOCTO  #  EMISSAO   VENCTO          VALOR")
-nChoice := aChoice( 01, 11, 13, 52, aTodos )
-ResTela( cScreen )
-if nChoice = 0
-	AreaAnt( Arq_Ant, Ind_Ant )
-	Alerta( "Erro: Procura Cancelada..." )
-	ResTela( cScreen )
-	Return( FALSO )
-endif
-cDocnr	 := aDocnr[ nChoice ]
-nRegistro := aRegistro[ nChoice ]
-AreaAnt( Arq_Ant, Ind_Ant )
-ResTela( cScreen )
-Return( OK )
-
-Function TestaTecla( nKey, oBrowse )
-************************************
-if 	 nKey == K_UP
-	oBrowse:up()				  // move o cursor para cima
-Elseif nKey == K_DOWN
-	oBrowse:down() 			  // move o cursor para baixo
-Elseif nKey == K_LEFT
-	oBrowse:Left() 			  // move o cursor para esquerda
-Elseif nKey == K_RIGHT
-	oBrowse:Right()			  // move o cursor para direita
-Elseif nKey == K_HOME
-	oBrowse:home() 			  // move o cursor para primeira coluna
-Elseif nKey == K_END
-	oBrowse:end()				  // move o cursor para ultima coluna
-Elseif nKey == K_PGUP
-	oBrowse:pageUp()			  // move fonte de dados uma tela acima
-Elseif nKey == K_PGDN
-	oBrowse:pageDown()		  // move fonte de dados uma tela abaixo
-Elseif nKey == K_CTRL_PGUP
-	oBrowse:gotop()			  // move o cursor para baixo
-Elseif nKey == K_CTRL_PGDN
-	oBrowse:goBottom()		  // move o cursor para esquerda
-Elseif nKey == K_CTRL_HOME
-	oBrowse:panHome() 		  // move o cursor para direita
-Elseif nKey == K_CTRL_END
-	oBrowse:panEnd()			  // move o cursor para primeira coluna
-Elseif nKey == K_CTRL_LEFT
-	oBrowse:panLeft() 		  // move o cursor para ultima coluna
-Elseif nKey == K_CTRL_RIGHT
-	oBrowse:panRight()		  // move fonte de dados uma tela acima
-endif
-Return VOID
-
-Function Vlr_Icms( porc_icms, vlr_compra, vlr_icms )
-****************************************************
-Vlr_Icms := ( Vlr_Compra * Porc_Icms ) / 100
-Write( 07, 48, Str( Vlr_Icms, 13, 2 ) )
-Return( OK )
-
-Function Desconto( nDesc, nTotal, nTot )
-****************************************
-if LastKey() = UP
-	nTot := nTotal
-Else
-	nTot := ( nTotal - nDesc )
-endif
-Return(OK)
-
-Function Mostra_Vlr( vlr_titu, vlr_mer )
-****************************************
-if Vlr_titu < vlr_mer
-	ErrorBeep()
-	Alerta( "Erro: Valor da Fatura Menor que a Soma das Mercadorias " )
-	Return( FALSO )
-
-endif
-Return( OK )
-
-Function SomaData( d_Vcto, d_Emis, n_Conta)
-*******************************************
-d_Vcto := ( d_Emis + n_Conta )
-Return( OK )
-
-Function DocFucer( cDocnr, lManutencao )
-****************************************
-if Empty( cDocnr )
-	 ErrorBeep()
-	 Alerta( "Erro: Codigo Documento Invalido...")
-	 Return( FALSO )
-endif
-if lManutencao = NIL
-	if DbSeek( cDocnr )
+	if ( Pagamov->(Order( PAGAMOV_DOCNR )), Pagamov->(!DbSeek( cDocnr )))
 		ErrorBeep()
-		Alerta( "Erro: Documento Ja Registrado ..." )
-		Return( FALSO )
+		if Conf("Erro: Documento nao Encontrado. Localizar por Nome ?.")
+			if BaixaPag( @cDocnr, @nRegistro )
+				Pagamov->( DbGoTo( nRegistro ))
+				AreaAnt( Arq_Ant, Ind_Ant )
+				return true
+			endif
+			Pagar->(Order( PAGAR_CODI ))
+			Area("Pagamov")
+			Pagamov->(Order( PAGAMOV_DOCNR ))
+			Set Rela To Pagamov->Codi Into Pagar
+		endif
+		Pagamov->(DbGoTop())
+		Pagamov->(Escolhe( 03, 00, 22, "Docnr + chr(186) + Dtoc( Emis ) + chr(186) + Dtoc( Vcto ) + chr(186) + Tran( Vlr, '@E 999,999.99') + chr(186) + Left( Pagar->Nome, 37 )", "DOCTO #  EMISSAO  VCTO         VALOR  NOME DO FORNECEDOR"))
+		cDocnr := Pagamov->Docnr
 	endif
-endif
-Return( OK )
-
-Function CheqDoc( var )
-***********************
-LOCAL Arq_Ant := Alias()
-LOCAL Ind_Ant := IndexOrd()
-if ( Empty( Var ) )
-	ErrorBeep()
-	Nada("Erro: Numero Documento Invalido ...")
-	Return( FALSO )
-endif
-Area("CheMov")
-Order( CHEMOV_DOCNR )
-if ( DbSeek( Var ) )
-	ErrorBeep()
-	Nada("Erro: Numero Documento Ja Registrado...")
 	AreaAnt( Arq_Ant, Ind_Ant )
-	Return( FALSO )
-endif
-AreaAnt( Arq_Ant, Ind_Ant )
-Return( OK )
+	return true
+endef
 
+def BaixaPag( cDocnr, nRegistro )
+**************************************
+	LOCAL cScreen	 := SaveScreen()
+	LOCAL GetList	 := {}
+	LOCAL Arq_Ant	 := Alias()
+	LOCAL Ind_Ant	 := IndexOrd()
+	LOCAL nTam		 := 0
+	LOCAL aDocnr	 := {}
+	LOCAL aRegistro := {}
+	LOCAL aTodos	 := {}
+	LOCAL cCodi 	 := Space(04)
+	LOCAL nChoice	 := 0
 
-Function VisualEntraFatura( cDocnr, nVlrFatura, cCodi )
-*******************************************************
-LOCAL cScreen	 := SaveScreen()
-LOCAL Arq_Ant	 := Alias()
-LOCAL Ind_Ant	 := IndexOrd()
-LOCAL nRegistro := 0
-
-if LastKey() = UP
-	Return( OK )
-endif
-
-if ( Entradas->(DbGoTop()), Entradas->(Eof()))
-	Nada()
+	oMenu:Limpa()
+	MaBox( 15, 10, 17, 78 )
+	@ 16, 11 Say "Fornecedor......: " Get cCodi Pict '9999' Valid Pagarrado( @cCodi,, Row(), Col()+1 )
+	Read
+	if LastKey() = ESC
+		AreaAnt( Arq_Ant, Ind_Ant )
+		ResTela( cScreen )
+		return false
+	endif
+	Area("Pagamov")
+	Pagamov->(Order( PAGAMOV_CODI ))
+	if Pagamov->(!DbSeek( cCodi ))
+		ErrorBeep()
+		Alerta( "Erro: Nenhum Debito em Aberto Deste fornecedor." )
+		AreaAnt( Arq_Ant, Ind_Ant )
+		ResTela( cScreen )
+		return false
+	endif
+	WHILE Pagamov->Codi = cCodi
+		Aadd( aDocnr,	  Pagamov->Docnr )
+		Aadd( aRegistro, Pagamov->(Recno()))
+		Aadd( aTodos,	  Pagamov->Docnr + " " + Dtoc( Pagamov->Emis ) + " " + Dtoc( Pagamov->Vcto ) + " " + Tran( Pagamov->Vlr, "@E 999,999,999.99"))
+		Pagamov->(DbSkip(1))
+	EndDo
+	nTam := Len( aTodos )
+	if nTam = 0
+		ErrorBeep()
+		Alerta( "Erro: Nenhum Debito em Aberto deste Fornecedor." )
+		AreaAnt( Arq_Ant, Ind_Ant )
+		ResTela( cScreen )
+		return false
+	endif
+	MaBox( 00, 10, 14, 53, "DOCTO  #  EMISSAO   VENCTO          VALOR")
+	nChoice := aChoice( 01, 11, 13, 52, aTodos )
+	ResTela( cScreen )
+	if nChoice = 0
+		AreaAnt( Arq_Ant, Ind_Ant )
+		Alerta( "Erro: Procura Cancelada..." )
+		ResTela( cScreen )
+		return false
+	endif
+	cDocnr	 := aDocnr[ nChoice ]
+	nRegistro := aRegistro[ nChoice ]
 	AreaAnt( Arq_Ant, Ind_Ant )
 	ResTela( cScreen )
-	Return(FALSO)
-endif
-Pagar->(Order( PAGAR_CODI))
-Area("Entradas")
-Entradas->(Order( ENTRADAS_FATURA ))
-if ( Entradas->(Order( ENTRADAS_FATURA )), Entradas->(!DbSeek( cDocnr )))
-	ErrorBeep()
-	if Conf("Erro: Documento nao Encontrado. Localizar por Fornecedor ?")
-		if LocalizaEntrada( @cDocnr, @nRegistro )
-			EntNota->( DbGoTo( nRegistro ))
-			cDocnr := EntNota->Numero
-		endif
-	Else
-		Pagar->(Order( PAGAR_CODI))
-		Area("EntNota")
-		Set Rela To EntNota->Codi Into Pagar
-		EntNota->(Order( ENTNOTA_NUMERO ))
-		Escolhe( 03, 01, 22, "Numero + chr(186) + Pagar->Nome", "FATURA  NOME DO FORNECEDOR")
-		EntNota->(DbClearRel())
-		cDocnr := EntNota->Numero
+	return true
+endef
+
+*==================================================================================================*
+
+def TestaTecla( nKey, oBrowse )
+********************************
+	if 	 nKey == K_UP
+		oBrowse:up()				  // move o cursor para cima
+	Elseif nKey == K_DOWN
+		oBrowse:down() 			  // move o cursor para baixo
+	Elseif nKey == K_LEFT
+		oBrowse:Left() 			  // move o cursor para esquerda
+	Elseif nKey == K_RIGHT
+		oBrowse:Right()			  // move o cursor para direita
+	Elseif nKey == K_HOME
+		oBrowse:home() 			  // move o cursor para primeira coluna
+	Elseif nKey == K_END
+		oBrowse:end()				  // move o cursor para ultima coluna
+	Elseif nKey == K_PGUP
+		oBrowse:pageUp()			  // move fonte de dados uma tela acima
+	Elseif nKey == K_PGDN
+		oBrowse:pageDown()		  // move fonte de dados uma tela abaixo
+	Elseif nKey == K_CTRL_PGUP
+		oBrowse:gotop()			  // move o cursor para baixo
+	Elseif nKey == K_CTRL_PGDN
+		oBrowse:goBottom()		  // move o cursor para esquerda
+	Elseif nKey == K_CTRL_HOME
+		oBrowse:panHome() 		  // move o cursor para direita
+	Elseif nKey == K_CTRL_END
+		oBrowse:panEnd()			  // move o cursor para primeira coluna
+	Elseif nKey == K_CTRL_LEFT
+		oBrowse:panLeft() 		  // move o cursor para ultima coluna
+	Elseif nKey == K_CTRL_RIGHT
+		oBrowse:panRight()		  // move fonte de dados uma tela acima
 	endif
+	return VOID
+endef
+
+def Vlr_Icms( porc_icms, vlr_compra, vlr_icms )
+***********************************************
+	Vlr_Icms := ( Vlr_Compra * Porc_Icms ) / 100
+	Write( 07, 48, Str( Vlr_Icms, 13, 2 ) )
+	return true
+endef
+
+*==================================================================================================*
+
+def Desconto( nDesc, nTotal, nTot )
+***********************************
+	if LastKey() = UP
+		nTot := nTotal
+	else
+		nTot := ( nTotal - nDesc )
+	endif
+	return true
+endef	
+
+*==================================================================================================*
+
+def Mostra_Vlr( vlr_titu, vlr_mer )
+************************************
+	if Vlr_titu < vlr_mer
+		ErrorBeep()
+		Alerta( "Erro: Valor da Fatura Menor que a Soma das Mercadorias " )
+		return false
+	endif
+	return true
+endef
+
+*==================================================================================================*
+
+def SomaData( d_Vcto, d_Emis, n_Conta)
+**************************************
+	d_Vcto := ( d_Emis + n_Conta )
+	return true
+endef
+
+*==================================================================================================*
+
+def DocFucer( cDocnr, lManutencao )
+***********************************
+	if Empty( cDocnr )
+		 ErrorBeep()
+		 Alerta( "Erro: Codigo Documento Invalido...")
+		 return false
+	endif
+	if lManutencao = NIL
+		if DbSeek( cDocnr )
+			ErrorBeep()
+			Alerta( "Erro: Documento Ja Registrado ..." )
+			return false
+		endif
+	endif
+	return true
+endef
+
+*==================================================================================================*
+
+def CheqDoc( var )
+*******************
+	LOCAL Arq_Ant := Alias()
+	LOCAL Ind_Ant := IndexOrd()
+	if ( Empty( Var ) )
+		ErrorBeep()
+		Nada("Erro: Numero Documento Invalido ...")
+		return false
+	endif
+	Area("CheMov")
+	Order( CHEMOV_DOCNR )
+	if ( DbSeek( Var ) )
+		ErrorBeep()
+		Nada("Erro: Numero Documento Ja Registrado...")
+		AreaAnt( Arq_Ant, Ind_Ant )
+		return false
+	endif
+	AreaAnt( Arq_Ant, Ind_Ant )
+	return true
+endef
+
+*==================================================================================================*
+
+def VisualEntraFatura( cDocnr, nVlrFatura, cCodi )
+***************************************************
+	LOCAL cScreen	 := SaveScreen()
+	LOCAL Arq_Ant	 := Alias()
+	LOCAL Ind_Ant	 := IndexOrd()
+	LOCAL nRegistro := 0
+
+	if LastKey() = UP
+		return true
+	endif
+
+	if ( Entradas->(DbGoTop()), Entradas->(Eof()))
+		Nada()
+		AreaAnt( Arq_Ant, Ind_Ant )
+		ResTela( cScreen )
+		return false
+	endif
+	Pagar->(Order( PAGAR_CODI))
 	Area("Entradas")
 	Entradas->(Order( ENTRADAS_FATURA ))
-	if Entradas->(!( DbSeek( cDocnr ) ))
+	if ( Entradas->(Order( ENTRADAS_FATURA )), Entradas->(!DbSeek( cDocnr )))
 		ErrorBeep()
-		Alerta( "Erro: Nenhum Produto Relacionado a este Documento.")
-		AreaAnt( Arq_Ant, Ind_Ant )
-		Return( FALSO )
-	endif
-endif
-if cCodi != Nil
-	if Entradas->Codi != cCodi
-		ErrorBeep()
-		Alerta( "Erro: Fatura nao e deste Fornecedor.")
-		AreaAnt( Arq_Ant, Ind_Ant )
-		Return( FALSO )
-	endif
-endif
-if nVlrFatura != Nil
-	nVlrFatura := Entradas->VlrFatura
-endif
-AreaAnt( Arq_Ant, Ind_Ant )
-Return( OK )
-
-Function VisualAchaFatura( cDocnr, nVlrFatura, cCodi )
-******************************************************
-LOCAL cScreen	 := SaveScreen()
-LOCAL Arq_Ant	 := Alias()
-LOCAL Ind_Ant	 := IndexOrd()
-LOCAL nRegistro := 0
-
-if LastKey() = UP
-	Return( OK )
-endif
-
-if ( Saidas->(DbGoTop()), Saidas->(Eof()))
-	Nada()
-	AreaAnt( Arq_Ant, Ind_Ant )
-	ResTela( cScreen )
-	Return(FALSO)
-endif
-Receber->(Order( RECEBER_CODI))
-Area("Saidas")
-Saidas->(Order( SAIDAS_FATURA ))
-if ( Saidas->(Order( SAIDAS_FATURA )), Saidas->(!DbSeek( cDocnr )))
-	ErrorBeep()
-	if Conf("Erro: Documento nao Encontrado. Localizar por Nome ?.")
-		if LocalizaFatura( @cDocnr, @nRegistro )
-			Nota->( DbGoTo( nRegistro ))
-			cDocnr := Nota->Numero
+		if Conf("Erro: Documento nao Encontrado. Localizar por Fornecedor ?")
+			if LocalizaEntrada( @cDocnr, @nRegistro )
+				EntNota->( DbGoTo( nRegistro ))
+				cDocnr := EntNota->Numero
+			endif
+		Else
+			Pagar->(Order( PAGAR_CODI))
+			Area("EntNota")
+			Set Rela To EntNota->Codi Into Pagar
+			EntNota->(Order( ENTNOTA_NUMERO ))
+			Escolhe( 03, 01, 22, "Numero + chr(186) + Pagar->Nome", "FATURA  NOME DO FORNECEDOR")
+			EntNota->(DbClearRel())
+			cDocnr := EntNota->Numero
 		endif
-	Else
-		Receber->(Order( RECEBER_CODI))
-		Area("Nota")
-		Set Rela To Nota->Codi Into Receber
-		Nota->(Order( NOTA_NUMERO ))
-		Escolhe( 03, 01, 22, "Numero + chr(186) + Receber->Nome+ chr(186) + Situacao + chr(186) + Caixa", "FATURA  NOME DO CLIENTE                         SITUACAO USER")
-		Nota->(DbClearRel())
-		cDocnr := Nota->Numero
+		Area("Entradas")
+		Entradas->(Order( ENTRADAS_FATURA ))
+		if Entradas->(!( DbSeek( cDocnr ) ))
+			ErrorBeep()
+			Alerta( "Erro: Nenhum Produto Relacionado a este Documento.")
+			AreaAnt( Arq_Ant, Ind_Ant )
+			return false
+		endif
 	endif
+	if cCodi != Nil
+		if Entradas->Codi != cCodi
+			ErrorBeep()
+			Alerta( "Erro: Fatura nao e deste Fornecedor.")
+			AreaAnt( Arq_Ant, Ind_Ant )
+			return false
+		endif
+	endif
+	if nVlrFatura != Nil
+		nVlrFatura := Entradas->VlrFatura
+	endif
+	AreaAnt( Arq_Ant, Ind_Ant )
+	return true
+endef
+
+def VisualAchaFatura( cDocnr, nVlrFatura, cCodi )
+******************************************************
+	LOCAL cScreen	 := SaveScreen()
+	LOCAL Arq_Ant	 := Alias()
+	LOCAL Ind_Ant	 := IndexOrd()
+	LOCAL nRegistro := 0
+
+	if LastKey() = UP
+		return true
+	endif
+
+	if ( Saidas->(DbGoTop()), Saidas->(Eof()))
+		Nada()
+		AreaAnt( Arq_Ant, Ind_Ant )
+		ResTela( cScreen )
+		return false
+	endif
+	Receber->(Order( RECEBER_CODI))
 	Area("Saidas")
 	Saidas->(Order( SAIDAS_FATURA ))
-	if Saidas->(!( DbSeek( cDocnr ) ))
+	if ( Saidas->(Order( SAIDAS_FATURA )), Saidas->(!DbSeek( cDocnr )))
 		ErrorBeep()
-		Alerta( "Erro: Nenhum Produto Relacionado a este Documento.")
-		AreaAnt( Arq_Ant, Ind_Ant )
-		Return( FALSO )
+		if Conf("Erro: Documento nao Encontrado. Localizar por Nome ?.")
+			if LocalizaFatura( @cDocnr, @nRegistro )
+				Nota->( DbGoTo( nRegistro ))
+				cDocnr := Nota->Numero
+			endif
+		Else
+			Receber->(Order( RECEBER_CODI))
+			Area("Nota")
+			Set Rela To Nota->Codi Into Receber
+			Nota->(Order( NOTA_NUMERO ))
+			Escolhe( 03, 01, 22, "Numero + chr(186) + Receber->Nome+ chr(186) + Situacao + chr(186) + Caixa", "FATURA  NOME DO CLIENTE                         SITUACAO USER")
+			Nota->(DbClearRel())
+			cDocnr := Nota->Numero
+		endif
+		Area("Saidas")
+		Saidas->(Order( SAIDAS_FATURA ))
+		if Saidas->(!( DbSeek( cDocnr ) ))
+			ErrorBeep()
+			Alerta( "Erro: Nenhum Produto Relacionado a este Documento.")
+			AreaAnt( Arq_Ant, Ind_Ant )
+			return false
+		endif
 	endif
-endif
-if cCodi != Nil
-	if Saidas->Codi != cCodi
-		ErrorBeep()
-		Alerta( "Erro: Fatura nao e deste cliente...")
-		AreaAnt( Arq_Ant, Ind_Ant )
-		Return( FALSO )
+	if cCodi != Nil
+		if Saidas->Codi != cCodi
+			ErrorBeep()
+			Alerta( "Erro: Fatura nao e deste cliente...")
+			AreaAnt( Arq_Ant, Ind_Ant )
+			return false
+		endif
 	endif
-endif
-if nVlrFatura != Nil
-	nVlrFatura := Saidas->VlrFatura
-endif
-AreaAnt( Arq_Ant, Ind_Ant )
-Return( OK )
-
-Function LocalizaFatura( cDocnr, nRegistro )
-********************************************
-LOCAL cScreen	 := SaveScreen()
-LOCAL GetList	 := {}
-LOCAL Arq_Ant	 := Alias()
-LOCAL Ind_Ant	 := IndexOrd()
-LOCAL nTam		 := 0
-LOCAL aDocnr	 := {}
-LOCAL aRegistro := {}
-LOCAL aTodos	 := {}
-LOCAL cCodi 	 := Space(05)
-LOCAL cNumero	 := ""
-LOCAL cEmissao  := ""
-LOCAL cDevol	 := ''
-LOCAL cUser 	 := ''
-LOCAL cVlr		 := ""
-LOCAL cSituacao := Space(08)
-LOCAL nChoice	 := 0
-LOCAL nConta	 := 0
-LOCAL cTela
-
-oMenu:Limpa()
-MaBox( 15, 10, 18, 78 )
-Write( 17, 28, AllTrim(ValToStr(nConta)))
-@ 16, 11 Say "Codigo Cliente: " Get cCodi Pict PIC_RECEBER_CODI Valid RecErrado( @cCodi,, Row(), Col()+1 )
-@ 17, 11 Say "Registro Add #: "
-Read
-if LastKey() = ESC
-	AreaAnt( Arq_Ant, Ind_Ant )
-	ResTela( cScreen )
-	Return( FALSO )
-endif
-Nota->(Order( NOTA_CODI ))
-if Nota->(!DbSeek( cCodi ))
-	ErrorBeep()
-	Alerta( "Erro: Nenhuma Fatura Deste Cliente." )
-	AreaAnt( Arq_Ant, Ind_Ant )
-	ResTela( cScreen )
-	Return( FALSO )
-endif
-Saidas->(Order( SAIDAS_FATURA ))
-Nota->(Order( NOTA_CODI ))
-WHILE Nota->Codi = cCodi .OR. LastKey() = ESC
-	cNumero	 := Nota->Numero
-	cDevol	 := Space(12)
-	cUser 	 := Space(04)
-	cSituacao := Space(08)
-	cEmissao  := ""
-	cVlr		 := ""
-	nConta++
-	Write( 17, 28, AllTrim(ValToStr(nConta)))
-	if Saidas->(DbSeek( cNumero ))
-		cEmissao  := Dtoc( Saidas->Data )
-		cDevol	 := 'em ' + Dtoc( Saidas->Atualizado )
-		cVlr		 := Tran( Saidas->VlrFatura, "@E 999,999,999.99")
-		cSituacao := Saidas->Situacao
-		cUser 	 := Saidas->Caixa
+	if nVlrFatura != Nil
+		nVlrFatura := Saidas->VlrFatura
 	endif
-	Aadd( aDocnr, cNumero )
-	Aadd( aRegistro, Nota->(Recno()))
-	Aadd( aTodos, cNumero + "   " + cEmissao + " " + cVlr + " " + cSituacao + " " + cDevol + " " + cUser)
-	Nota->(DbSkip(1))
-	if nConta >= 65535 // Tamanho Max. Array
-		ErrorBeep()
-		Alerta('Erro: Máximo 65535 registros por cliente. Use individual.')
-		Exit
-	endif
-EndDo
-nTam := Len( aTodos )
-if nTam = 0
-	ErrorBeep()
-	Alerta( "Erro: Nenhuma Fatura Deste Cliente." )
 	AreaAnt( Arq_Ant, Ind_Ant )
-	ResTela( cScreen )
-	Return( FALSO )
-endif
-MaBox( 00, 10, 14, 70,"FATURA #  EMISSAO          VALOR SITUACAO ALTER/EXCLU USER")
-nChoice := aChoice( 01, 11, 13, 69, aTodos )
-ResTela( cScreen )
-if nChoice = 0
-	AreaAnt( Arq_Ant, Ind_Ant )
-	ResTela( cScreen )
-	Return( FALSO )
-endif
-cDocnr	 := aDocnr[ nChoice ]
-nRegistro := aRegistro[ nChoice ]
-AreaAnt( Arq_Ant, Ind_Ant )
-ResTela( cScreen )
-Return( OK )
+	return true
+endef
 
-Function LocalizaEntrada( cDocnr, nRegistro )
-**********************************************
-LOCAL cScreen	 := SaveScreen()
-LOCAL GetList	 := {}
-LOCAL Arq_Ant	 := Alias()
-LOCAL Ind_Ant	 := IndexOrd()
-LOCAL nTam		 := 0
-LOCAL aDocnr	 := {}
-LOCAL aRegistro := {}
-LOCAL aTodos	 := {}
-LOCAL cCodi 	 := Space(04)
-LOCAL cNumero	 := ""
-LOCAL cEmissao  := ""
-LOCAL cVlr		 := ""
-LOCAL nChoice	 := 0
-
-oMenu:Limpa()
-MaBox( 15, 10, 17, 78 )
-@ 16, 11 Say "Id Fornecedor...: " Get cCodi   Pict "9999" Valid Pagarrado( @cCodi, Row(), Col()+1 )
-Read
-if LastKey() = ESC
-	AreaAnt( Arq_Ant, Ind_Ant )
-	ResTela( cScreen )
-	Return( FALSO )
-endif
-Area("EntNota")
-EntNota->(Order( ENTNOTA_CODI ))
-if EntNota->(!DbSeek( cCodi ))
-	ErrorBeep()
-	Alerta( "Erro: Nenhuma Fatura Deste Fornecedor." )
-	AreaAnt( Arq_Ant, Ind_Ant )
-	ResTela( cScreen )
-	Return( FALSO )
-endif
-Entradas->(Order( ENTRADAS_FATURA ))
-WHILE EntNota->Codi = cCodi
-	cNumero		:= EntNota->Numero
-	if Entradas->(DbSeek( cNumero ))
-		cEmissao := Dtoc( Entradas->Data )
-		cVlr		:= Tran( Entradas->VlrFatura, "@E 999,999,999.99")
-	Else
-		cEmissao := ""
-		cVlr		:= ""
-	endif
-	Aadd( aDocnr, cNumero )
-	Aadd( aRegistro, EntNota->(Recno()))
-	Aadd( aTodos, cNumero + "   " + cEmissao + " " + cVlr )
-	EntNota->(DbSkip(1))
-EndDo
-nTam := Len( aTodos )
-if nTam = 0
-	ErrorBeep()
-	Alerta( "Erro: Nenhuma Fatura Deste Fornecedor." )
-	AreaAnt( Arq_Ant, Ind_Ant )
-	ResTela( cScreen )
-	Return( FALSO )
-endif
-MaBox( 00, 10, 14, 44,"FATURA #  EMISSAO          VALOR")
-nChoice := aChoice( 01, 11, 13, 43, aTodos )
-ResTela( cScreen )
-if nChoice = 0
-	AreaAnt( Arq_Ant, Ind_Ant )
-	ResTela( cScreen )
-	Return( FALSO )
-endif
-cDocnr	 := aDocnr[ nChoice ]
-nRegistro := aRegistro[ nChoice ]
-AreaAnt( Arq_Ant, Ind_Ant )
-ResTela( cScreen )
-Return( OK )
-
-Function RecCerto( cCodi, lAlteracao, cSwap )
-*********************************************
-LOCAL Arq_Ant	  := Alias()
-LOCAL Ind_Ant	  := IndexOrd()
-LOCAL lModificar := IF( lAlteracao != NIL .AND. lAlteracao, OK, FALSO )
-LOCAL nFieldLen  := Len( Receber->Codi )
-LOCAL cFilial
-
-if lModificar
-	if cCodi == cSwap
-		Return( OK )
-	endif
-endif
-
-if LastKey() = UP
-	Return( OK )
-endif
-if Empty( cCodi ) .OR. Len(AllTrim(cCodi)) < 5
-	ErrorBeep()
-	Alerta("Erro: Codigo Cliente Invalido.")
-	Return( FALSO )
-endif
-Area("Receber")
-Receber->(Order( RECEBER_CODI ))
-if Receber->( DbSeek( cCodi ))
-	ErrorBeep()
-	Alerta("Erro: Codigo de Cliente Ja Registrado.")
-	cCodi := ProxCli( @cCodi )
-	AreaAnt( Arq_Ant, Ind_Ant )
-	Return( FALSO )
-endif
-AreaAnt( Arq_Ant, Ind_Ant )
-Return( OK )
-
-Function ProxCli( cCodi )
-*************************
-LOCAL Arq_Ant	  := Alias()
-LOCAL Ind_Ant	  := IndexOrd()
-LOCAL nFieldLen  := Len( Receber->Codi )
-
-Receber->(Order( RECEBER_CODI ))
-While Receber->(DbSeek( cCodi ))
-	cCodi := StrZero( Val( Right( cCodi, nFieldLen )) + 1, nFieldLen )
-	Receber->(DbSkip(1))
-EndDO
-AreaAnt( Arq_Ant, Ind_Ant )
-Return( cCodi )
-
-Function Complet2( Mcep, Mcida, Mesta )
+def LocalizaFatura( cDocnr, nRegistro )
 ***************************************
-if LastKey() = UP
-	Return(OK)
-endif
-if Mcep	= XCCEP
-	Mcida = XCCIDA
-	Mesta = XCESTA
-	Keyb Chr( 13 ) + Chr( 13 )
-endif
-Return( OK )
+	LOCAL cScreen	 := SaveScreen()
+	LOCAL GetList	 := {}
+	LOCAL Arq_Ant	 := Alias()
+	LOCAL Ind_Ant	 := IndexOrd()
+	LOCAL nTam		 := 0
+	LOCAL aDocnr	 := {}
+	LOCAL aRegistro := {}
+	LOCAL aTodos	 := {}
+	LOCAL cCodi 	 := Space(05)
+	LOCAL cNumero	 := ""
+	LOCAL cEmissao  := ""
+	LOCAL cDevol	 := ''
+	LOCAL cUser 	 := ''
+	LOCAL cVlr		 := ""
+	LOCAL cSituacao := Space(08)
+	LOCAL nChoice	 := 0
+	LOCAL nConta	 := 0
+	LOCAL cTela
+
+	oMenu:Limpa()
+	MaBox( 15, 10, 18, 78 )
+	Write( 17, 28, AllTrim(ValToStr(nConta)))
+	@ 16, 11 Say "Codigo Cliente: " Get cCodi Pict PIC_RECEBER_CODI Valid RecErrado( @cCodi,, Row(), Col()+1 )
+	@ 17, 11 Say "Registro Add #: "
+	Read
+	if LastKey() = ESC
+		AreaAnt( Arq_Ant, Ind_Ant )
+		ResTela( cScreen )
+		return false
+	endif
+	Nota->(Order( NOTA_CODI ))
+	if Nota->(!DbSeek( cCodi ))
+		ErrorBeep()
+		Alerta( "Erro: Nenhuma Fatura Deste Cliente." )
+		AreaAnt( Arq_Ant, Ind_Ant )
+		ResTela( cScreen )
+		return false
+	endif
+	Saidas->(Order( SAIDAS_FATURA ))
+	Nota->(Order( NOTA_CODI ))
+	WHILE Nota->Codi = cCodi .OR. LastKey() = ESC
+		cNumero	 := Nota->Numero
+		cDevol	 := Space(12)
+		cUser 	 := Space(04)
+		cSituacao := Space(08)
+		cEmissao  := ""
+		cVlr		 := ""
+		nConta++
+		Write( 17, 28, AllTrim(ValToStr(nConta)))
+		if Saidas->(DbSeek( cNumero ))
+			cEmissao  := Dtoc( Saidas->Data )
+			cDevol	 := 'em ' + Dtoc( Saidas->Atualizado )
+			cVlr		 := Tran( Saidas->VlrFatura, "@E 999,999,999.99")
+			cSituacao := Saidas->Situacao
+			cUser 	 := Saidas->Caixa
+		endif
+		Aadd( aDocnr, cNumero )
+		Aadd( aRegistro, Nota->(Recno()))
+		Aadd( aTodos, cNumero + "   " + cEmissao + " " + cVlr + " " + cSituacao + " " + cDevol + " " + cUser)
+		Nota->(DbSkip(1))
+		if nConta >= 65535 // Tamanho Max. Array
+			ErrorBeep()
+			Alerta('Erro: Máximo 65535 registros por cliente. Use individual.')
+			Exit
+		endif
+	EndDo
+	nTam := Len( aTodos )
+	if nTam = 0
+		ErrorBeep()
+		Alerta( "Erro: Nenhuma Fatura Deste Cliente." )
+		AreaAnt( Arq_Ant, Ind_Ant )
+		ResTela( cScreen )
+		return false
+	endif
+	MaBox( 00, 10, 14, 70,"FATURA #  EMISSAO          VALOR SITUACAO ALTER/EXCLU USER")
+	nChoice := aChoice( 01, 11, 13, 69, aTodos )
+	ResTela( cScreen )
+	if nChoice = 0
+		AreaAnt( Arq_Ant, Ind_Ant )
+		ResTela( cScreen )
+		return false
+	endif
+	cDocnr	 := aDocnr[ nChoice ]
+	nRegistro := aRegistro[ nChoice ]
+	AreaAnt( Arq_Ant, Ind_Ant )
+	ResTela( cScreen )
+	return true
+endef
+
+def LocalizaEntrada( cDocnr, nRegistro )
+**********************************************
+	LOCAL cScreen	 := SaveScreen()
+	LOCAL GetList	 := {}
+	LOCAL Arq_Ant	 := Alias()
+	LOCAL Ind_Ant	 := IndexOrd()
+	LOCAL nTam		 := 0
+	LOCAL aDocnr	 := {}
+	LOCAL aRegistro := {}
+	LOCAL aTodos	 := {}
+	LOCAL cCodi 	 := Space(04)
+	LOCAL cNumero	 := ""
+	LOCAL cEmissao  := ""
+	LOCAL cVlr		 := ""
+	LOCAL nChoice	 := 0
+
+	oMenu:Limpa()
+	MaBox( 15, 10, 17, 78 )
+	@ 16, 11 Say "Id Fornecedor...: " Get cCodi   Pict "9999" Valid Pagarrado( @cCodi, Row(), Col()+1 )
+	Read
+	if LastKey() = ESC
+		AreaAnt( Arq_Ant, Ind_Ant )
+		ResTela( cScreen )
+		return false
+	endif
+	Area("EntNota")
+	EntNota->(Order( ENTNOTA_CODI ))
+	if EntNota->(!DbSeek( cCodi ))
+		ErrorBeep()
+		Alerta( "Erro: Nenhuma Fatura Deste Fornecedor." )
+		AreaAnt( Arq_Ant, Ind_Ant )
+		ResTela( cScreen )
+		return false
+	endif
+	Entradas->(Order( ENTRADAS_FATURA ))
+	WHILE EntNota->Codi = cCodi
+		cNumero		:= EntNota->Numero
+		if Entradas->(DbSeek( cNumero ))
+			cEmissao := Dtoc( Entradas->Data )
+			cVlr		:= Tran( Entradas->VlrFatura, "@E 999,999,999.99")
+		Else
+			cEmissao := ""
+			cVlr		:= ""
+		endif
+		Aadd( aDocnr, cNumero )
+		Aadd( aRegistro, EntNota->(Recno()))
+		Aadd( aTodos, cNumero + "   " + cEmissao + " " + cVlr )
+		EntNota->(DbSkip(1))
+	EndDo
+	nTam := Len( aTodos )
+	if nTam = 0
+		ErrorBeep()
+		Alerta( "Erro: Nenhuma Fatura Deste Fornecedor." )
+		AreaAnt( Arq_Ant, Ind_Ant )
+		ResTela( cScreen )
+		return false
+	endif
+	MaBox( 00, 10, 14, 44,"FATURA #  EMISSAO          VALOR")
+	nChoice := aChoice( 01, 11, 13, 43, aTodos )
+	ResTela( cScreen )
+	if nChoice = 0
+		AreaAnt( Arq_Ant, Ind_Ant )
+		ResTela( cScreen )
+		return false
+	endif
+	cDocnr	 := aDocnr[ nChoice ]
+	nRegistro := aRegistro[ nChoice ]
+	AreaAnt( Arq_Ant, Ind_Ant )
+	ResTela( cScreen )
+	return true
+endef	
+
+def RecCerto( cCodi, lAlteracao, cSwap )
+*********************************************
+	LOCAL Arq_Ant	  := Alias()
+	LOCAL Ind_Ant	  := IndexOrd()
+	LOCAL lModificar := IF( lAlteracao != NIL .AND. lAlteracao, OK, FALSO )
+	LOCAL nFieldLen  := Len( Receber->Codi )
+	LOCAL cFilial
+
+	if lModificar
+		if cCodi == cSwap
+			return true
+		endif
+	endif
+
+	if LastKey() = UP
+		return true
+	endif
+	if Empty( cCodi ) .OR. Len(AllTrim(cCodi)) < 5
+		ErrorBeep()
+		Alerta("Erro: Codigo Cliente Invalido.")
+		return false
+	endif
+	Area("Receber")
+	Receber->(Order( RECEBER_CODI ))
+	if Receber->( DbSeek( cCodi ))
+		ErrorBeep()
+		Alerta("Erro: Codigo de Cliente Ja Registrado.")
+		cCodi := ProxCli( @cCodi )
+		AreaAnt( Arq_Ant, Ind_Ant )
+		return false
+	endif
+	AreaAnt( Arq_Ant, Ind_Ant )
+	return true
+endef
+
+def ProxCli( cCodi )
+*************************
+	LOCAL Arq_Ant	  := Alias()
+	LOCAL Ind_Ant	  := IndexOrd()
+	LOCAL nFieldLen  := Len( Receber->Codi )
+
+	Receber->(Order( RECEBER_CODI ))
+	While Receber->(DbSeek( cCodi ))
+		cCodi := StrZero( Val( Right( cCodi, nFieldLen )) + 1, nFieldLen )
+		Receber->(DbSkip(1))
+	EndDO
+	AreaAnt( Arq_Ant, Ind_Ant )
+	Return( cCodi )
+endef
+
+def Complet2( Mcep, Mcida, Mesta )
+***************************************
+	if LastKey() = UP
+		return true
+	endif
+	if Mcep	= XCCEP
+		Mcida = XCCIDA
+		Mesta = XCESTA
+		Keyb Chr( 13 ) + Chr( 13 )
+	endif
+	return true
+endef
 
 
 Function RegiaoErrada( cRegiao, nRow, nCol )
@@ -2872,7 +2964,7 @@ if (Lastrec() = 0 )
 		RegiaoInclusao()
 	endif
 	AreaAnt( Arq_Ant, Ind_Ant )
-	Return( FALSO )
+	return false
 endif
 if !DbSeek( cRegiao)
 	Regiao->(Order( REGIAO_NOME ))
@@ -2883,7 +2975,7 @@ if nRow != NIL
 	Write( nRow, nCol, Regiao->Nome )
 endif
 AreaAnt( Arq_Ant, Ind_Ant )
-Return( OK )
+return true
 
 Proc RegiaoInclusao()
 *********************
@@ -3046,27 +3138,27 @@ Function CmCerto( dInicio, lModificar, cSwap )
 FIELD Inicio, Fim
 
 if LastKey() = UP
-	Return( OK )
+	return true
 endif
 
 if lModificar != NIL .AND. lModificar
 	if dInicio == cSwap
-		Return( OK )
+		return true
 	endif
 endif
 
 if Empty( dInicio )
 	ErrorBeep()
 	Alerta("Erro: Entrada de Data Invalida.")
-	Return( FALSO )
+	return false
 endif
 Cm->(Order( CM_INICIO ))
 if Cm->(DbSeek( dInicio ))
 	ErrorBeep()
 	Alerta("Erro: Indice de CM Ja Registrado. ")
-	Return( FALSO )
+	return false
 endif
-Return( OK )
+return true
 
 Proc CepInclusao( lAlteracao )
 ******************************
@@ -3171,12 +3263,12 @@ Function RegiaoCerta( cRegiao )
 FIELD Nome
 
 if LastKey() = UP
-	Return( OK )
+	return true
 endif
 if Empty( cRegiao )
 	ErrorBeep()
 	Alerta("Erro: Codigo Regiao Invalida ....")
-	Return( FALSO )
+	return false
 
 endif
 Regiao->(Order( REGIAO_REGIAO ))
@@ -3184,10 +3276,10 @@ if Regiao->(DbSeek( cRegiao))
 	ErrorBeep()
 	Alerta("Erro: Regiao Ja Registrada... ;" + Regiao->(AllTrim(Nome)))
 	cRegiao := StrZero( Val( cRegiao ) + 1, 2 )
-	Return( FALSO )
+	return false
 
 endif
-Return( OK )
+return true
 
 Function SubErrado( cSubGrupo, nRow, nCol )
 *******************************************
@@ -3205,7 +3297,7 @@ if nRow != NIL
 	Write( nRow, nCol, SubGrupo->DesSGrupo )
 endif
 AreaAnt( Arq_Ant, Ind_Ant )
-Return( OK )
+return true
 
 Function GrupoErrado( cGrupo, nRow, nCol )
 ******************************************
@@ -3224,7 +3316,7 @@ if nRow != NIL
 	Write( nRow, nCol, Grupo->DesGrupo )
 endif
 AreaAnt( Arq_Ant, Ind_Ant )
-Return( OK )
+return true
 
 Proc Lista1_1()
 ***************
@@ -3278,7 +3370,7 @@ LOCAL aSituacao := { "P", "S" }
 LOCAL cScreen := SaveScreen()
 LOCAL nChoice
 if cServico $ aSituacao[1] .OR. cServico $ aSituacao[2]
-	Return( OK )
+	return true
 Else
 	MaBox( 11, 01, 14, 44, NIL, NIL, Roloc( Cor()) )
 	if (nChoice := AChoice( 12, 02, 13, 43, aList )) != 0
@@ -3286,7 +3378,7 @@ Else
 	endif
 endif
 ResTela( cScreen )
-Return( OK )
+return true
 
 Proc Lista1_2()
 ***************
@@ -3337,7 +3429,7 @@ Function Grupo( Var )
 if Empty( Var ) .OR. Len(AllTrim(Var)) < 3
 	ErrorBeep()
 	Alerta("Erro: Codigo Grupo Invalido... ")
-	Return(FALSO)
+	return false
 endif
 Grupo->( Order( GRUPO_CODGRUPO ))
 Grupo->( DbGoTop() )
@@ -3345,9 +3437,9 @@ if Grupo->( DbSeek( var ) )
 	ErrorBeep()
 	Alerta("Erro: Grupo Ja Registrado... ;" + Trim( Grupo->DesGrupo))
 	Var := StrZero( Val( Var ) +1, 3 )
-	Return( FALSO )
+	return false
 endif
-Return( OK )
+return true
 
 Function SGrupo( cGrupo )
 *************************
@@ -3356,7 +3448,7 @@ LOCAL cScreen := SaveScreen()
 if Empty( cGrupo )
 	ErrorBeep()
 	Alerta( "Erro: Codigo SubGrupo Invalido... ")
-	Return( FALSO )
+	return false
 endif
 Grupo->( Order( GRUPO_CODGRUPO ))
 if !Grupo->( DbSeek( Left( cGrupo, 3 )))
@@ -3366,14 +3458,14 @@ if !Grupo->( DbSeek( Left( cGrupo, 3 )))
 	endif
 	ResTela( cScreen )
 	SubGrupo->( DbGoTop() )
-	Return( FALSO )
+	return false
 endif
 if SubGrupo->(DbSeek( cGrupo ) )
 	ErrorBeep()
 	Alerta( "Erro: SubGrupo Ja Registrado...;" + Trim( SubGrupo->DesSgrupo))
-	Return( FALSO )
+	return false
 endif
-Return( OK )
+return true
 
 Proc ForInclusao( lAlteracao )
 ******************************
@@ -3554,16 +3646,16 @@ LOCAL lModificar := IF( lAlteracao != NIL .AND. lAlteracao, OK, FALSO )
 
 if lModificar
 	if cCodigo == cSwap
-		Return( OK )
+		return true
 	endif
 endif
 if LastKey() = UP
-	Return( OK )
+	return true
 endif
 if Len(AllTrim(cCodigo )) < 6 .OR. Empty( cCodigo )
 	ErrorBeep()
 	Alerta("Erro: Codigo Produto Invalido.")
-	Return( FALSO )
+	return false
 endif
 Lista->(Order( LISTA_CODIGO ))
 if Lista->(DbSeek( cCodigo ))
@@ -3572,10 +3664,10 @@ if Lista->(DbSeek( cCodigo ))
 	Lista->(DbGoBottom())
 	cCodigo := ProxCodigo( Lista->Codigo )
 	AreaAnt( Arq_Ant, Ind_Ant )
-	Return( FALSO )
+	return false
 endif
 AreaAnt( Arq_Ant, Ind_Ant )
-Return( OK )
+return true
 
 Function GrupoCerto( cGrupo, nCol, nLinha )
 *******************************************
@@ -3586,7 +3678,7 @@ LOCAL Arq_Ant	  := Alias()
 LOCAL Ind_Ant	  := IndexOrd()
 
 if LastKey() = UP
-	Return( OK )
+	return true
 endif
 
 Area("Grupo")
@@ -3598,7 +3690,7 @@ if Grupo->(!DbSeek( cGrupo ))
 endif
 Write( nCol, nLinha, Grupo->DesGrupo )
 AreaAnt( Arq_Ant, Ind_Ant )
-return( OK )
+return true
 
 Function SubCerto( cSub, nCol, nLinha, cGrupo )
 ***********************************************
@@ -3609,7 +3701,7 @@ LOCAL Arq_Ant	  := Alias()
 LOCAL Ind_Ant	  := IndexOrd()
 
 if LastKey() = UP
-	Return( OK )
+	return true
 endif
 Area("SubGrupo")
 SubGrupo->(Order( SUBGRUPO_CODSGRUPO ))
@@ -3622,11 +3714,11 @@ if Left( cSub, 3 ) != cGrupo
 	ErrorBeep()
 	Alerta('Erro: Subgrupo incompativel com o grupo.')
 	AreaAnt( Arq_Ant, Ind_Ant )
-	Return( FALSO )
+	return false
 endif
 Write( nCol, nLinha, SubGrupo->DessGrupo )
 AreaAnt( Arq_Ant, Ind_Ant )
-Return( OK )
+return true
 
 Proc RepresInclusao()
 *********************
@@ -3765,7 +3857,7 @@ if nRow != Nil
 	Write( nRow, nCol, Repres->Nome )
 endif
 AreaAnt( Arq_Ant, Ind_Ant )
-Return(OK)
+return true
 
 Function BarErrado( cCodeBar, lModificar, cSwapBar )
 ****************************************************
@@ -3799,17 +3891,17 @@ LOCAL Ind_Ant	  := IndexOrd()
 LOCAL Arq_Ant	  := Alias()
 
 if LastKey() = UP
-	Return( OK )
+	return true
 endif
 if lModificar
 	if cCodi == cSwap
-		Return( OK )
+		return true
 	endif
 endif
 if Empty( cCodi ) .OR. Len(AllTrim( cCodi)) < 4
 	ErrorBeep()
 	Alerta( "Erro: Codigo de fornecedor Invalido." )
-	Return( FALSO )
+	return false
 endif
 Area( "Pagar" )
 Pagar->(Order( PAGAR_CODI ))
@@ -3819,22 +3911,22 @@ if Pagar->(DbSeek( cCodi ))
 	Pagar->(DbGoBoTTom())
 	cCodi := StrZero( Val( Pagar->Codi)+1, 4 )
 	AreaAnt( Arq_Ant, Ind_Ant )
-	Return(FALSO)
+	return false
 endif
 AreaAnt( Arq_Ant, Ind_Ant )
-Return(OK)
+return true
 
 Function RepresCerto( cCodi )
 *****************************
 LOCAL Arq_Ant, Ind_Ant
 
 if LastKey() = UP
-	Return( OK )
+	return true
 endif
 if Empty( cCodi )
 	ErrorBeep()
 	Alerta( "Erro: Codigo Representante Invalido." )
-	Return(FALSO)
+	return false
 endif
 Ind_Ant := IndexOrd()
 Arq_Ant := Alias()
@@ -3846,10 +3938,10 @@ if (DbSeek( cCodi ) )
 	Pagar->(DbGoBoTTom())
 	cCodi := StrZero( Val( Repres->Repres ) + 1, 4 )
 	AreaAnt( Arq_Ant, Ind_Ant )
-	Return(FALSO)
+	return false
 endif
 AreaAnt( Arq_Ant, Ind_Ant )
-Return(OK)
+return true
 
 Function Complet3( xCep , Mcida, Mesta)
 ***************************************
@@ -3859,7 +3951,7 @@ if xCep	 = XCCEP
 	Keyb Chr( 13 ) + Chr( 13 )
 
 endif
-Return( OK )
+return true
 
 Function CodiErrado( cCodiIni, cCodiFim, lUltimo, nRow, nCol )
 **************************************************************
@@ -3879,7 +3971,7 @@ if nRow != NIL .AND. nCol != NIL
 	Write( nRow, nCol, Lista->Descricao )
 endif
 AreaAnt( Arq_Ant, Ind_Ant )
-Return( OK )
+return true
 
 Function SimOuNao()
 *******************
@@ -3998,18 +4090,18 @@ if Taxas->(DbSeek( dData ))
 	Else
 		Alerta("Erro: Cotaçao desta Data ja registrada...")
 	endif
-	Return( FALSO )
+	return false
 endif
-Return( OK )
+return true
 
 Function FormaCerta( cForma )
 *****************************
 if Forma->(DbSeek( cForma ))
 	ErrorBeep()
 	Alerta("Erro: Codigo de Forma de Pgto ja registrada...")
-	Return( FALSO )
+	return false
 endif
-Return( OK )
+return true
 
 Function Cotacao( dData, nCotacao, lExcecao )
 *********************************************
@@ -4020,7 +4112,7 @@ LOCAL cString
 if lExcecao = NIL
 	#IFNDEF XDOLAR
 		nCotacao := 1
-		Return( OK )
+		return true
 	#endif
 endif
 Area("Taxas")
@@ -4033,7 +4125,7 @@ if Taxas->(!DbSeek( dData ))
 	endif
 	AreaAnt( Arq_Ant, Ind_Ant )
 	ResTela( cScreen )
-	Return( FALSO )
+	return false
 endif
 if Taxas->Cotacao = 0
 	ErrorBeep()
@@ -4043,11 +4135,11 @@ if Taxas->Cotacao = 0
 	endif
 	AreaAnt( Arq_Ant, Ind_Ant )
 	ResTela( cScreen )
-	Return( FALSO )
+	return false
 endif
 nCotacao := Taxas->Cotacao
 AreaAnt( Arq_Ant, Ind_Ant )
-Return( OK )
+return true
 
 PROC NaoTem()
 *************
@@ -4085,10 +4177,10 @@ if cCampo != NIL
 endif
 WHILE !DbSeek( dMinor++ )
 	 if dMinor > dMajor
-		 Return( FALSO )
+		 return false
 	 endif
 EndDo
-Return( OK )
+return true
 
 Function AchaTipo( cTipo )
 **************************
@@ -4096,9 +4188,9 @@ Recemov->(Order( RECEMOV_TIPO_CODI ))
 if Recemov->(!DbSeek( cTipo ))
 	ErrorBeep()
 	Alerta("Erro: Tipo nao localizado.")
-	Return( FALSO )
+	return false
 endif
-Return( OK )
+return true
 
 Function Cliente( cCodi, cPraca, cCliRecno, cEsta )
 ***************************************************
@@ -4120,7 +4212,7 @@ if Receber->(Lastrec()) = 0
 	endif
 	AreaAnt( Arq_Ant, Ind_Ant )
 	ResTela( cScreen )
-	Return( FALSO )
+	return false
 endif
 if Receber->(!DbSeek( cCodi ))
 	Receber->(Order( RECEBER_NOME ))
@@ -4154,7 +4246,7 @@ Write( nRow-3, 58 , Receber->Insc )
 Write( nRow-2, 15 , Receber->Cpf )
 Write( nRow-2, 58 , Receber->Rg )
 AreaAnt( Arq_Ant, Ind_Ant )
-Return( OK )
+return true
 
 Proc Avisa()
 ************
@@ -4254,7 +4346,7 @@ LOCAL Ind_Ant := IndexOrd()
 if ( Empty( Var ) )
 	ErrorBeep()
 	Alerta( "Erro: C?igo Conta Invalida ..." )
-	Return( FALSO )
+	return false
 
 endif
 Area( "Cheque" )
@@ -4265,20 +4357,20 @@ if (DbSeek( Var ) )
 	Alerta("Erro: Conta Já Registrada ou Incluida por outra Estacao..." )
 	Var := StrZero( Val( Var )+1,4)
 	AreaAnt( Arq_Ant, Ind_Ant )
-	Return( FALSO )
+	return false
 
 endif
 AreaAnt( Arq_Ant, Ind_Ant )
-Return( OK )
+return true
 
 Function Cancela( lCancelado)
 *****************************
 if Rep_OK()
 	lCancelado := FALSO
-	Return( OK )
+	return true
 Else
 	lCancelado := OK
-	Return( FALSO )
+	return false
 endif
 
 Function BaixaGeral( cCodi, nApagar, nPago )
@@ -4297,7 +4389,7 @@ if Saidas->(!DbSeek( cCodi ))
 	Alerta( "Erro: Nenhum Produto Faturado Deste Cliente." )
 	Saidas->(DbClearRel())
 	AreaAnt( Arq_Ant, Ind_Ant )
-	Return( FALSO )
+	return false
 endif
 WHILE Saidas->Codi = cCodi
 	if Saidas->C_C // Conta Corrente ?
@@ -4313,13 +4405,13 @@ if nTotal = 0
 	Alerta( "Erro: Cliente Sem Debito em Conta Corrente." )
 	Saidas->(DbClearRel())
 	AreaAnt( Arq_Ant, Ind_Ant )
-	Return( FALSO )
+	return false
 endif
 nApagar := nTotal
 nPago   := nTotal
 Saidas->(DbClearRel())
 AreaAnt( Arq_Ant, Ind_Ant )
-Return( OK )
+return true
 
 Function SomaPagoInd( nApagar, cFatura, nQuant, cCodigo, nRegistro )
 *******************************************************************
@@ -4327,7 +4419,7 @@ LOCAL oBloco
 LOCAL nSoma 	  := 0
 LOCAL cCombinado := ""
 if LastKey() = UP
-	Return( OK )
+	return true
 endif
 nApagar	  := 0
 nPago 	  := 0
@@ -4345,7 +4437,7 @@ if Saidas->Fatura = cFatura .AND. Saidas->Codigo = cCodigo
 		nApagar := nQuant * Lista->Varejo
 		Saidas->(DbClearRel())
 		ResTela( cTela )
-		Return( OK )
+		return true
 	Else
 		ResTela( cTela )
 		cSoma := StrZero((Saidas->Saida - Saidas->SaidaPaga), 7)
@@ -4359,13 +4451,13 @@ endif
 ResTela( cTela )
 Alerta(" Erro: Registro nao encontrado...")
 Saidas->(DbClearRel())
-Return( FALSO )
+return false
 
 Function SomaPago( nApagar, cFatura, nPago )
 *******************************************
 LOCAL oBloco
 if LastKey() = UP
-	Return( OK )
+	return true
 endif
 nApagar := 0
 nPago   := 0
@@ -4389,14 +4481,14 @@ Saidas->(DbClearRel())
 if nApagar = 0
 	ErrorBeep()
 	Alerta(" Erro: Esta fatura ja esta paga !!")
-	Return( FALSO )
+	return false
 endif
-Return( OK )
+return true
 
 Function CalcSobra( nApagar, nPerc, nSobra )
 *******************************************
 nSobra := nApagar - (( nApagar * nPerc ) / 100 )
-Return( OK )
+return true
 
 Function cDolar( cDolar )
 *************************
@@ -4410,7 +4502,7 @@ nChoice := Achoice( 21, 34, 22, 42, aMenu )
 cDolar  := aMoeda[ IF( nChoice = 0, 1, nChoice )]
 Keyb Chr( ENTER )
 ResTela( cScreen )
-Return OK
+return true
 
 Proc OrcaLista( lVarejo )
 *************************
@@ -4494,7 +4586,7 @@ if !( DbSeek( cProcura ))
 	if nChoice = 0
 		Alerta( "Erro: Procura Cancelada..." )
 		AreaAnt( Arq_Ant, Ind_Ant )
-		Return( FALSO )
+		return false
 	endif
 	cTemp 	 := Left( aTodos[nChoice],5)
 	nRegistro := aRecno[nChoice]
@@ -4504,19 +4596,19 @@ if !( DbSeek( cProcura ))
 			nQuant  := ( Saidas->Saida - Saidas->SaidaPaga )
 		endif
 		AreaAnt( Arq_Ant, Ind_Ant )
-		Return( OK )
+		return true
 	endif
 	ErrorBeep()
 	Alerta( "Erro: Produto Nao Encontrado na Fatura..." )
 	AreaAnt( Arq_Ant, Ind_Ant )
-	Return( FALSO )
+	return false
 endif
 if nQuant != Nil
 	nQuant  := ( Saidas->Saida - Saidas->SaidaPaga )
 	cCodigo := Saidas->Codigo
 endif
 AreaAnt( Arq_Ant, Ind_Ant )
-Return( OK )
+return true
 
 Function BaixaProcura( cCodi, cFatu, cCodigo, nQuant, nApagar, nRegistro )
 **************************************************************************
@@ -4532,7 +4624,7 @@ LOCAL aRegistro := {}
 LOCAL nChoice	 := 0
 LOCAL nTam		 := 0
 if LastKey() = UP
-	Return( OK )
+	return true
 endif
 Lista->(Order( LISTA_CODIGO ))
 Area("Saidas")
@@ -4543,7 +4635,7 @@ if Saidas->(!DbSeek( cCodi ))
 	Alerta( "Erro: Nenhum Produto Faturado Deste Cliente." )
 	Saidas->(DbClearRel())
 	AreaAnt( Arq_Ant, Ind_Ant )
-	Return( FALSO )
+	return false
 endif
 WHILE Saidas->Codi = cCodi
 	if Saidas->C_C // Conta Corrente ?
@@ -4564,7 +4656,7 @@ if nTam = 0
 	Alerta( "Erro: Nenhum Produto a Receber Deste Cliente." )
 	Saidas->(DbClearRel())
 	AreaAnt( Arq_Ant, Ind_Ant )
-	Return( FALSO )
+	return false
 endif
 MaBox( 00, 10, 14, 78,"CODIGO DESCRICAO DO PRODUTO                             ")
 nChoice := aChoice( 01, 11, 13, 77, aTodos )
@@ -4573,7 +4665,7 @@ if nChoice = 0
 	Alerta( "Erro: Procura Cancelada..." )
 	Saidas->(DbClearRel())
 	AreaAnt( Arq_Ant, Ind_Ant )
-	Return( FALSO )
+	return false
 endif
 cCodigo	 := Left( aTodos[nChoice], 6)
 cFatu 	 := aFatura[nChoice]
@@ -4583,7 +4675,7 @@ nRegistro := aRegistro[ nChoice ]
 Saidas->(DbClearRel())
 AreaAnt( Arq_Ant, Ind_Ant )
 Keyb Chr( ENTER )
-Return( OK )
+return true
 
 Function BaixaLocaliza( cCodi, cFatu )
 **************************************
@@ -4601,7 +4693,7 @@ if Saidas->(!DbSeek( cCodi ))
 	ErrorBeep()
 	Alerta( "Erro: Nenhum Produto Faturado Deste Cliente." )
 	AreaAnt( Arq_Ant, Ind_Ant )
-	Return( FALSO )
+	return false
 endif
 WHILE Saidas->Codi = cCodi
 	if Saidas->C_C // Conta Corrente ?
@@ -4620,7 +4712,7 @@ if nTam = 0
 	ErrorBeep()
 	Alerta( "Erro: Nenhum Produto a Receber Deste Cliente." )
 	AreaAnt( Arq_Ant, Ind_Ant )
-	Return( FALSO )
+	return false
 endif
 MaBox( 00, 10, 14, 20,"FATURA N¿¼")
 nChoice := aChoice( 01, 11, 13, 19, aFatura )
@@ -4628,12 +4720,12 @@ ResTela( cScreen )
 if nChoice = 0
 	Alerta( "Erro: Procura Cancelada..." )
 	AreaAnt( Arq_Ant, Ind_Ant )
-	Return( FALSO )
+	return false
 endif
 cFatu 	 := aFatura[nChoice]
 AreaAnt( Arq_Ant, Ind_Ant )
 Keyb Chr( ENTER )
-Return( OK )
+return true
 
 /*--------------------------------*/
 Function PickSituacao( cSituacao )
@@ -4643,7 +4735,7 @@ LOCAL aSituacao := { "0", "1", "2" }
 LOCAL cScreen := SaveScreen()
 LOCAL nChoice
 if cSituacao $ aSituacao[1] .OR. cSituacao $ aSituacao[2] .OR. cSituacao $ aSituacao[3]
-	Return( OK )
+	return true
 Else
 	MaBox( 19, 34, 23, 79, NIL, NIL, Roloc( Cor()) )
 	if (nChoice := AChoice( 20, 35, 22, 78, aList )) != 0
@@ -4651,7 +4743,7 @@ Else
 	endif
 endif
 ResTela( cScreen )
-Return( OK )
+return true
 
 /*--------------------------------*/
 Function PickClasse( cClasse )
@@ -4668,7 +4760,7 @@ LOCAL nTam	  := Len( aClasse )
 LOCAL nChoice, nX
 For nX := 1 To nTam
 	if cClasse $ aClasse[nX]
-		Return( OK )
+		return true
 	endif
 Next
 MaBox( 11, 34, 23, 79, NIL, NIL, Roloc( Cor()) )
@@ -4676,13 +4768,13 @@ if (nChoice := AChoice( 12, 35, 22, 78, aList )) != 0
 	cClasse := aClasse[ nChoice ]
 endif
 ResTela( cScreen )
-Return( OK )
+return true
 /*--------------------------------*/
 
 Function CalculaVenda( nPcusto, nMarVar, nVar )
 ************************************************
 nVar := (( nPcusto * nMarVar ) / 100 ) + nPcusto
-Return( OK )
+return true
 
 Function DataExt( dData )
 *************************
@@ -4796,16 +4888,16 @@ Recemov->(Order( RECEMOV_REGIAO ))
 if Recemov->(!DbSeek( cRegiao ))
 	ErrorBeep()
 	Alerta("Erro: Regiao Sem Movimento.")
-	Return( FALSO )
+	return false
 endif
-Return( OK )
+return true
 
 
 /*
 Function PutKey(oGet, cKey)
 ***************************
 oGet:exitState := cKey
-Return(OK)
+return true
 */
 
 function LogAgenda( aAgenda )
@@ -4820,9 +4912,9 @@ if Agenda->(Incluiu())
 	Agenda->Usuario := aAgenda[5]
 	Agenda->Ultimo  := aAgenda[6]
 	Agenda->(Libera())
-	return OK
+	return true
 endif
-return FALSO
+return false
 
 def LogRecibo( aLog )
 *---------------------*
@@ -4874,7 +4966,7 @@ def LogRecibo( aLog )
 		Recibo->Hist	 := aLog[ALOG_HIST]
 		Recibo->Fatura  := aLog[ALOG_FATURA]
 		Recibo->(Libera())
-		return OK
+		return true
 	endif
 	return false
 endef
@@ -5101,7 +5193,7 @@ oMenu:Limpa()
 WHILE OK
 	cDocnr := Space(09)
 	MaBox( 10, 05, 16, 79 )
-	@ 11, 06 Say "Documento Nº: " Get cDocnr Pict "@!" Valid DocErrado( @cDocnr )
+	@ 11, 06 Say "Documento #..: " Get cDocnr Pict "@!" Valid DocErrado( @cDocnr )
 	@ 12, 06 Say "Cliente......: "
 	@ 13, 06 Say "Emissao......: "
 	@ 14, 06 Say "Vcto.........: "
@@ -5236,27 +5328,27 @@ Function CepCerto( cCep, lModificar, cSwap )
 FIELD Cep, Cida, Bair
 
 if LastKey() = UP
-	Return( OK )
+	return true
 endif
 
 if lModificar != NIL .AND. lModificar
 	if cCep == cSwap
-		Return( OK )
+		return true
 	endif
 endif
 
 if Empty( cCep )
 	ErrorBeep()
 	Alerta("Erro: Entrada de Cep Invalido.")
-	Return( FALSO )
+	return false
 endif
 Cep->(Order( CEP_CEP ))
 if Cep->(DbSeek( cCep ))
 	ErrorBeep()
 	Alerta("Erro: Cep Ja Registrado. " + Cep->( AllTrim( Cida)))
-	Return( FALSO )
+	return false
 endif
-Return( OK )
+return true
 
 Function CepErrado( cCep, cCida, cEsta, cBair )
 ***********************************************
@@ -5273,7 +5365,7 @@ if (Lastrec() = 0 )
 		CepInclusao()
 	endif
 	AreaAnt( Arq_Ant, Ind_Ant )
-	Return( FALSO )
+	return false
 endif
 if Cep->(!DbSeek( cCep ))
 	Cep->(Order( CEP_CIDA ))
@@ -5286,7 +5378,7 @@ if Empty( cBair )
 	cBair := Cep->Bair
 endif
 AreaAnt( Arq_Ant, Ind_Ant )
-Return( OK )
+return true
 
 Proc CepPrint()
 ***************
@@ -5454,7 +5546,7 @@ Return
 		SetColor("GR+/N")
 		@ 01, 00 TO 24-1, MaxCol()
 		SetColor("W/W")
-		StatusSup("?1=HELP?TRL+P=IMPRIMIR?SC=SAIR?2=GRAVA E SAI?3=LIG ACENTO?4=DES ACENTO", Cor(2))
+		StatusSup("F1=HELP|CTRL+P=IMPRIMIR|ESC=SAIR|F2=GRAVA E SAI|F3=LIG ACENTO|F4=DES ACENTO", Cor(2))
 		StatusInf( RTrim( Arquivo),"")
 		SetColor("B/W")
 		SetCursor(1)
@@ -5510,7 +5602,7 @@ Return
 	ResTela( cScreen )
 	VerDataDos()
 	Return
-	
+
 	def DosBlinker(cComando)
 		i = SWPUSEEMS(OK)
 		i = SWPUSEXMS(OK)
@@ -5521,7 +5613,7 @@ Return
 		i = SWPRUNCMD( cComando, 0, "", "")
 		Return NIL
 	endef
-   
+
 	Function Linha( Mode, Line, Col )
 	*********************************
 	LOCAL nCopias	  := 1
@@ -6204,137 +6296,135 @@ def ProxCodigo( cCodigo )
 *+----------------------+*
 	return( StrZero( Val( cCodigo ) + 1, 6 ))
 
-Function PedePermissao( nNivel, cAutorizado )
-*********************************************
-LOCAL GetList	:= {}
-LOCAL Arq_Ant	:= Alias()
-LOCAL Ind_Ant	:= IndexOrd()
-LOCAL cScreen	:= SaveScreen()
-LOCAL cRetorno := FALSO
-LOCAL cNome    := Space(10)
-LOCAL cPasse   := Space(10)
-LOCAL cSenha
-LOCAL Passe
-LOCAL cPara 	:= ""
-LOCAL aPara    := {;
-						 {10,  "ALTERAR REGISTROS           "},;
-						 {11,  "EXCLUIR REGISTROS           "},;
-                   {12,  "FAZER DEVOLUCAO DE FATURA   "},;
-                   {13,  "FAZER PAGAMENTOS            "},;
-                   {14,  "FAZER RECEBIMENTOS          "},;
-                   {40,  "FAZER RECIBO VLR ZERADO OU A MENOR "},;
-                   {20,  "FATURA COM ESTOQUE NEGATIVO OU ZERADO"},;
-                   {21,  "VENDER COM LIMITE ESTOURADO "},;
-                   {25,  "EXCEDER DESCONTO MAXIMO     "},;
-                   {26,  "FAZER DEVOLUCAO DE ENTRADAS "},;
-                   {27,  "ALTERAR EMISSAO DA FATURA   "},;
-                   {28,  "ALTERAR DATA RECEBIMENTO    "},;
-                   {30,  "ALTERAR DATA DO FATURAMENTO "},;
-                   {31,  "ALTERAR DATA DE RECEBIMENTO "},;
-                   {120, "VERIFICAR PRECO DE CUSTO    "},;
-                   {200, "USAR TECLAS CTRL+P          "},;
-                   {300, "VISUALIZAR DETALHE DE CAIXA "},;
-                   {400, "VENDER COM DEBITO EM ATRASO "},;
-                   {500, "IMPRIMIR RELATORIO DE COBRANCA"}}
-FIELD Senha						 
-						 
-if !AbreUsuario()
-	AreaAnt( Arq_Ant, Ind_Ant )
-	return( FALSO )
-endif
-
-oMenu:Limpa()
-Area("Usuario")
-Usuario->(Order( USUARIO_NOME ))
-
-WHILE OK
-   nPos   := Ascan2( aPara, nNivel, 1 )
-	
-	if nPos != 0
-		cPara := aPara[nPos,2 ]
-	endif
-   
-	MaBox( 10, 15, 14, 70, "SOLICITACAO DE PERMISSAO" )
-	@ 11, 16 Say "Para....:   " + cPara
-   @ 12, 16 Say "Usuario.:  " Get cNome  Pict "@!" Valid UsuarioErrado( @cNome )
-	@ 13, 16 Say "Senha...:  " Get cPasse Pict "@S" Valid SenhaErrada(cNome, cPasse)	
-	Read
-	
-	if LastKey() = ESC
-		Usuario->(DbCloseArea())
+def PedePermissao( nNivel, cAutorizado )
+****************************************
+	LOCAL GetList	:= {}
+	LOCAL Arq_Ant	:= Alias()
+	LOCAL Ind_Ant	:= IndexOrd()
+	LOCAL cScreen	:= SaveScreen()
+	LOCAL cRetorno := false
+	LOCAL cNome    := Space(10)
+	LOCAL cPasse   := Space(10)
+	LOCAL cSenha
+	LOCAL Passe
+	LOCAL cPara 	:= ""
+	LOCAL aPara    := {;
+							 {10,  "ALTERAR REGISTROS           "},;
+							 {11,  "EXCLUIR REGISTROS           "},;
+							 {12,  "FAZER DEVOLUCAO DE FATURA   "},;
+							 {13,  "FAZER PAGAMENTOS            "},;
+							 {14,  "FAZER RECEBIMENTOS          "},;
+							 {40,  "FAZER RECIBO VLR ZERADO OU A MENOR "},;
+							 {20,  "FATURA COM ESTOQUE NEGATIVO OU ZERADO"},;
+							 {21,  "VENDER COM LIMITE ESTOURADO "},;
+							 {25,  "EXCEDER DESCONTO MAXIMO     "},;
+							 {26,  "FAZER DEVOLUCAO DE ENTRADAS "},;
+							 {27,  "ALTERAR EMISSAO DA FATURA   "},;
+							 {28,  "ALTERAR DATA RECEBIMENTO    "},;
+							 {30,  "ALTERAR DATA DO FATURAMENTO "},;
+							 {31,  "ALTERAR DATA DE RECEBIMENTO "},;
+							 {120, "VERIFICAR PRECO DE CUSTO    "},;
+							 {200, "USAR TECLAS CTRL+P          "},;
+							 {300, "VISUALIZAR DETALHE DE CAIXA "},;
+							 {400, "VENDER COM DEBITO EM ATRASO "},;
+							 {500, "IMPRIMIR RELATORIO DE COBRANCA"}}
+	FIELD Senha						 
+							 
+	if !AbreUsuario()
 		AreaAnt( Arq_Ant, Ind_Ant )
-		Restela( cScreen )
-		Return( FALSO )
+		return false
 	endif
-	
-	cNome    := Alltrim(cNome)
-	cRetorno := FALSO
-   if     nNivel = SCI_EXCLUSAO_DE_REGISTROS
-      cRetorno := IF( Usuario->(MSDecrypt( NivelA)) = "S", OK, FALSO )
-      if !cRetorno
-         cRetorno := TIniNew(cNome + ".INI"):ReadBool('permissao','PodeExcluirRegistros', FALSO )
-      endif
-	elseif nNivel = SCI_ALTERACAO_DE_REGISTROS
-      cRetorno := IF( Usuario->(MSDecrypt( Nivel0)) = "S", OK, FALSO )
-      if !cRetorno
-         cRetorno := TIniNew(cNome + ".INI"):ReadBool('permissao','PodeAlterarRegistros', FALSO )
-      endif
-   Elseif nNivel = SCI_DEVOLUCAO_FATURA  
-	   cRetorno := IF( Usuario->(MSDecrypt( NivelB)) = "S", OK, FALSO )
-   Elseif nNivel = SCI_ALTERAR_DATA_FATURA
-		 cRetorno := IF( Usuario->(MSDecrypt( NivelB)) = "S", OK, FALSO )
-	 Elseif nNivel = SCI_PAGAMENTOS		  
-		 cRetorno := IF( Usuario->(MSDecrypt( NivelC)) = "S", OK, FALSO )
-	 Elseif nNivel = SCI_RECEBIMENTOS	  
-		 cRetorno := IF( Usuario->(MSDecrypt( NivelD)) = "S", OK, FALSO )
-	 Elseif nNivel = SCI_VENDER_COM_LIMITE_ESTOURADO  
-		 cRetorno := IF( Usuario->(MSDecrypt( NivelK)) = "S", OK, FALSO )
-	 Elseif nNivel = SCI_DEVOLUCAO_ENTRADAS 
-		 cRetorno := IF( Usuario->(MSDecrypt( NivelP)) = "S", OK, FALSO )
-	 Elseif nNivel = SCI_PODE_EXCEDER_DESCONTO_MAXIMO
-		 cRetorno := IF( Usuario->(MSDecrypt( NivelO)) = "S", OK, FALSO )
-	 Elseif nNivel = SCI_FATURAR_COM_ESTOQUE_NEGATIVO
-		 cRetorno := IF( Usuario->(MSDecrypt( NivelJ)) = "S", OK, FALSO )
-	 Elseif nNivel = SCI_ALTERAR_DATA_FATURA
-		 cRetorno := IF( Usuario->(MSDecrypt( NivelQ)) = "S", OK, FALSO )
-	 Elseif nNivel = SCI_ALTERAR_DATA_BAIXA
-		 cRetorno := IF( Usuario->(MSDecrypt( NivelR)) = "S", OK, FALSO )
-	 Elseif nNivel = SCI_VERIFICAR_PCUSTO 
-		 cRetorno := IF( Usuario->(MSDecrypt( NivelB)) = "S", OK, FALSO )
-	 Elseif nNivel = SCI_USARTECLACTRLP
-       cRetorno := TIniNew( cNome + ".INI"):ReadBool('permissao','usarteclactrlp', FALSO )
-	 Elseif nNivel = SCI_VISUALIZAR_DETALHE_CAIXA
-       cRetorno := TIniNew( cNome + ".INI"):ReadBool('permissao','visualizardetalhecaixa', FALSO )
-	 Elseif nNivel = SCI_VENDERCOMDEBITOEMATRASO
-       cRetorno := TIniNew( cNome + ".INI"):ReadBool('permissao','vendercomdebito', FALSO )
-	 Elseif nNivel = SCI_IMPRIMIRROLCOBRANCA
-       cRetorno := TIniNew( cNome + ".INI"):ReadBool('permissao','imprimirrolcobranca', FALSO )
-	 Elseif nNivel = SCI_PODE_RECIBO_ZERADO
-       cRetorno := TIniNew( cNome + ".INI"):ReadBool('permissao','recibozerado', FALSO )
-	 endif
-	 Usuario->(DbCloseArea())
 
-    if !cRetorno
-       cRetorno := TIniNew(cNome + ".INI"):ReadBool('permissao','usuarioadmin', FALSO)
-    endif
+	oMenu:Limpa()
+	Area("Usuario")
+	Usuario->(Order( USUARIO_NOME ))
 
-	 if !cRetorno
+	while true
+		nPos   := Ascan2( aPara, nNivel, 1 )
+		
+		if nPos != 0
+			cPara := aPara[nPos,2 ]
+		endif
+		cNome    := Space(10)		
+		cPasse   := Space(10)		
+		MaBox( 10, 15, 14, 70, "SOLICITACAO DE PERMISSAO" )
+		@ 11, 16 Say "Para....:   " + cPara
+		@ 12, 16 Say "Usuario.:  " Get cNome  Pict "@!" Valid UsuarioErrado( @cNome )
+		@ 13, 16 Say "Senha...:  " Get cPasse Pict "@S" Valid SenhaErrada(cNome, cPasse)	
+		Read
+		
+		if LastKey() = ESC
+			Usuario->(DbCloseArea())
+			AreaAnt( Arq_Ant, Ind_Ant )
+			Restela( cScreen )
+			return false
+		endif
+		
+		cNome    := Alltrim(cNome)
+		cRetorno := FALSO
+		if     nNivel = SCI_EXCLUSAO_DE_REGISTROS
+			cRetorno := IF( Usuario->(MSDecrypt( NivelA)) = "S", OK, FALSO )
+			if !cRetorno
+				cRetorno := TIniNew(cNome + ".INI"):ReadBool('permissao','PodeExcluirRegistros', FALSO )
+			endif
+		elseif nNivel = SCI_ALTERACAO_DE_REGISTROS
+			cRetorno := IF( Usuario->(MSDecrypt( Nivel0)) = "S", OK, FALSO )
+			if !cRetorno
+				cRetorno := TIniNew(cNome + ".INI"):ReadBool('permissao','PodeAlterarRegistros', FALSO )
+			endif
+		Elseif nNivel = SCI_DEVOLUCAO_FATURA  
+			cRetorno := IF( Usuario->(MSDecrypt( NivelB)) = "S", OK, FALSO )
+		Elseif nNivel = SCI_ALTERAR_DATA_FATURA
+			 cRetorno := IF( Usuario->(MSDecrypt( NivelB)) = "S", OK, FALSO )
+		 Elseif nNivel = SCI_PAGAMENTOS		  
+			 cRetorno := IF( Usuario->(MSDecrypt( NivelC)) = "S", OK, FALSO )
+		 Elseif nNivel = SCI_RECEBIMENTOS	  
+			 cRetorno := IF( Usuario->(MSDecrypt( NivelD)) = "S", OK, FALSO )
+		 Elseif nNivel = SCI_VENDER_COM_LIMITE_ESTOURADO  
+			 cRetorno := IF( Usuario->(MSDecrypt( NivelK)) = "S", OK, FALSO )
+		 Elseif nNivel = SCI_DEVOLUCAO_ENTRADAS 
+			 cRetorno := IF( Usuario->(MSDecrypt( NivelP)) = "S", OK, FALSO )
+		 Elseif nNivel = SCI_PODE_EXCEDER_DESCONTO_MAXIMO
+			 cRetorno := IF( Usuario->(MSDecrypt( NivelO)) = "S", OK, FALSO )
+		 Elseif nNivel = SCI_FATURAR_COM_ESTOQUE_NEGATIVO
+			 cRetorno := IF( Usuario->(MSDecrypt( NivelJ)) = "S", OK, FALSO )
+		 Elseif nNivel = SCI_ALTERAR_DATA_FATURA
+			 cRetorno := IF( Usuario->(MSDecrypt( NivelQ)) = "S", OK, FALSO )
+		 Elseif nNivel = SCI_ALTERAR_DATA_BAIXA
+			 cRetorno := IF( Usuario->(MSDecrypt( NivelR)) = "S", OK, FALSO )
+		 Elseif nNivel = SCI_VERIFICAR_PCUSTO 
+			 cRetorno := IF( Usuario->(MSDecrypt( NivelB)) = "S", OK, FALSO )
+		 Elseif nNivel = SCI_USARTECLACTRLP
+			 cRetorno := TIniNew( cNome + ".INI"):ReadBool('permissao','usarteclactrlp', FALSO )
+		 Elseif nNivel = SCI_VISUALIZAR_DETALHE_CAIXA
+			 cRetorno := TIniNew( cNome + ".INI"):ReadBool('permissao','visualizardetalhecaixa', FALSO )
+		 Elseif nNivel = SCI_VENDERCOMDEBITOEMATRASO
+			 cRetorno := TIniNew( cNome + ".INI"):ReadBool('permissao','vendercomdebito', FALSO )
+		 Elseif nNivel = SCI_IMPRIMIRROLCOBRANCA
+			 cRetorno := TIniNew( cNome + ".INI"):ReadBool('permissao','imprimirrolcobranca', FALSO )
+		 Elseif nNivel = SCI_PODE_RECIBO_ZERADO
+			 cRetorno := TIniNew( cNome + ".INI"):ReadBool('permissao','recibozerado', FALSO )
+		 endif
+
+		 if !cRetorno
+			 cRetorno := TIniNew(cNome + ".INI"):ReadBool('permissao','usuarioadmin', FALSO)
+		 endif
+
+		 if !cRetorno
+			 ErrorBeep()
+			 Alert("ERRO: Usuario sem privilegio para autorizar a tarefa.")
+			 loop
+		 endif
+		 
+		 if cAutorizado != NIL
+			 cAutorizado := cNome
+		 endif
+		 Usuario->(DbCloseArea())
 		 AreaAnt( Arq_Ant, Ind_Ant )
-		 ErrorBeep()
-       Alert("ERRO: Solicite autorizacao para a tarefa.")
 		 ResTela( cScreen )
-		 Return( FALSO )
-	 endif
-	 
-	 if cAutorizado != NIL
-		 cAutorizado := cNome
-	 endif
-	 
-	 AreaAnt( Arq_Ant, Ind_Ant )
-	 ResTela( cScreen )
-	 return( cRetorno )
-EndDo
-
+		 return( cRetorno )
+	EndDo
+endef
 
 
 Function PickTam2( aNatu, aCfop, aTxIcms, cCfop, cNatu, nTxIcms )
@@ -6347,7 +6437,7 @@ LOCAL nPos
 LOCAL nChoice
 
 if LastKey() = UP
-	Return( OK )
+	return true
 endif
 
 if cCfop == '0.000'
@@ -6356,7 +6446,7 @@ if cCfop == '0.000'
 	aCfop   := LerCFop()
 	aTxIcms := LerIcms()
 	ResTela( cScreen )
-	Return( FALSO )
+	return false
 endif
 
 if cCfop != Space(05)
@@ -6365,7 +6455,7 @@ if cCfop != Space(05)
 		cNatu := aNatu[nPos]
 		if aTxIcms[nPos] != 0 .OR. cCfop != Space(05) .OR. cCfop != ' .   ' .OR. !Empty( cNatu )
 			nTxIcms := aTxIcms[nPos]
-			Return( OK )
+			return true
 		endif
 	endif
 endif
@@ -6384,11 +6474,11 @@ if (nChoice := AChoice( 11, 03, 10+nLen, 44, aJunto )) != 0
 		aCfop   := LerCFop()
 		aTxIcms := LerIcms()
 		ResTela( cScreen )
-		Return( FALSO )
+		return false
 	endif
 endif
 ResTela( cScreen )
-Return( OK )
+return true
 
 Function VerCfop( xcFop)
 ***********************
@@ -6398,14 +6488,14 @@ LOCAL aCfop   := LerCfop()
 if xcFop == Space(05) .OR. xcFop = ' .   '
 	ErrorBeep()
 	Alerta('Erro: Cfop invalido.')
-	Return( FALSO )
+	return false
 endif
 if Ascan( aCfop, xcFop ) <> 0
 	ErrorBeep()
 	Alerta('Erro: Cfop ja registrado.')
-	Return( FALSO )
+	return false
 endif
-Return( OK )
+return true
 
 Function LerCfop()
 ******************
@@ -6653,7 +6743,7 @@ aMenu[nNenhum] 	 := 'Nenhum'
 WHILE OK
 	cDocnr := Space(09)
 	MaBox( 10, 10, 12, 40 )
-	@ 11, 11 Say "Documento Nº...: " Get cDocnr Pict "@!" Valid DocErrado( @cDocnr )
+	@ 11, 11 Say "Documento #...: " Get cDocnr Pict "@!" Valid DocErrado( @cDocnr )
 	Read
 	if LastKey() = ESC
 		AreaAnt( Arq_Ant, Ind_Ant )
@@ -7721,9 +7811,9 @@ def AjustaReceber( nRecno, nVlrRecibo, xHist, nVlr )
          Recemov->Datapag    := Date()
          Recemov->StPag      := OK
          Recemov->(Libera())
-         return OK
+         return true
       endif
-      return FALSO
+      return false
    endif
 
    if nVlrRecibo == 0 .AND. nVlr > 0 
@@ -7735,18 +7825,18 @@ def AjustaReceber( nRecno, nVlrRecibo, xHist, nVlr )
          Recemov->Datapag    := Date()
          Recemov->StPag      := OK
          Recemov->(Libera())
-         return OK
+         return true
       endif
-      return FALSO
+      return false
    endif
    if Recemov->(TravaReg())	
       Recemov->VlrPag  := nVlrRecibo
       Recemov->Datapag := Date()
       Recemov->StPag   := OK
       Recemov->(Libera())
-      return OK
+      return true
    endif
-   return FALSO
+   return false
 endef   
 
 Function lPodeReciboZerado(nVlr, nVlrComJuros, lSelecao)
@@ -7759,7 +7849,7 @@ if lSelecao != NIL .AND. lSelecao == OK
 	if nVlr < nVlrComJuros
 		nVlr := nVlrComJuros		
 		Alerta("ERRO: Nao se pode alterar o valor de varios recibos.") 
-		return FALSO
+		return false
 	endif	
 endif
 
@@ -7843,7 +7933,7 @@ if lSelecao != NIL .AND. lSelecao == OK
 	   if nVlrRecibo != 0
 	      nVlrRecibo := nVlr
 	      Alerta("ERRO: Nao se pode alterar o valor de varios recibos.") 
-	      return FALSO
+	      return false
 		endif	
 	endif
 endif	
@@ -7856,10 +7946,10 @@ if lSelecao != NIL .AND. lSelecao == OK
 				nLenRecibo := Len(xVlrRecibo)
 			   cMsg := iif( nLenRecibo <= 1, cMsg1, cMsg2)
 				if alerta( cMsg, aYesNo ) == 1
-					return OK
+					return true
 				endif	
 				nVlrRecibo := nVlr
-				return FALSO				
+				return false				
 			endif	
 		endif	
 	endif
@@ -7884,10 +7974,10 @@ Return(lRetVal)
 // if lSelecao != NIL .AND. lSelecao == OK
 	// if nVlrRecibo < nVlr
 		// Alerta("ERRO: Nao se pode alterar o valor de varios recibos.; CTRL+U restaurar valor.") 
-		// return FALSO
+		// return false
 	// endif	
 // endif
-// Return( OK )
+// return true
 
 *------------------------------------------------------------------------------
 
@@ -7896,7 +7986,7 @@ Function lValidDep1( dDeposito, cObs )
 cObs := "EFETUADO DEP BANCO CREDIP EM DATA DE "
 cObs += Dtoc( dDeposito ) + '.'
 cObs += Space(60-Len(cObs))
-Return(OK)
+return true
 
 *------------------------------------------------------------------------------
 
@@ -7904,7 +7994,7 @@ def lValidDep2( dDeposito, cObs )
    cObs := "PAGO EM MAOS A TIAGO TIMOTEO DE OLIVEIRA EM DATA DE "
    cObs += Dtoc( dDeposito ) + '.'
    cObs += Space(60-Len(cObs))
-   Return(OK)
+   return true
 endef
 
 *------------------------------------------------------------------------------
@@ -8634,7 +8724,7 @@ if len( aReg) > 0
 	dFim :=  aReg[1]
 endif
 AreaAnt( Arq_Ant, Ind_Ant )
-return OK
+return true
 
 *------------------------------------------------------------------------------
 
@@ -8654,7 +8744,7 @@ def DuplicaDocnr()
 
 	ErrorBeep()
 	if !Conf('Pergunta: Duplicar registro sob o cursor ?')
-		Return( FALSO )
+		return false
 	endif
 	xRegistro := Recemov->(Recno())
 	DbCreate( xTemp, aStru )
@@ -8680,7 +8770,7 @@ def DuplicaDocnr()
 	Ferase(xTemp)
 	AreaAnt( Arq_Ant, Ind_Ant )
 	Recemov->(DbGoto( xRegistro ))
-	Return( OK )
+	return true
 endef
 	
 *:------------------------------------------------------------------------------
@@ -8700,7 +8790,7 @@ def DuplicaAgenda()
 
    ErrorBeep()
    if !Conf('Pergunta: Duplicar registro sob o cursor ?')
-      Return( FALSO )
+      return false
    endif
    xRegistro := Agenda->(Recno())
    DbCreate( xTemp, aStru )
@@ -8730,7 +8820,7 @@ def DuplicaAgenda()
    Ferase(xTemp)
    AreaAnt( Arq_Ant, Ind_Ant )
    Agenda->(DbGoto( xRegistro ))
-   return( OK )
+   return true
 endef   
 
 *:------------------------------------------------------------------------------
@@ -10950,6 +11040,8 @@ def Repaint(cCodi, nCurElemento, nChoice)
 	return NIL
 endef
 
+*==================================================================================================*
+
 def AtualizaReg(nReg)
 *********************
 	LOCAL aJuro := {}
@@ -10983,52 +11075,57 @@ def AtualizaReg(nReg)
 		SeekLog(oReceposi:xTodos, oReceposi:aTodos, nT)
 		oReceposi:Displine( oReceposi:aTodos[nT], oReceposi:nTop + oReceposi:nPos - oReceposi:nAtTop, oReceposi:nLeft, .T., .T., oReceposi:nNumCols, nT )
 		oRecePosi:aBottom := oReceposi:BarraSoma()
-		return OK
+		return true
 	endif	
-	return FALSO
+	return false
 endef
 
-function AtualizaSoma(oSender)
-******************************
-LOCAL nAtraso    := Atraso( oSender:dCalculo, Recemov->Vcto )
-LOCAL nVlr       := Recemov->Vlr
-LOCAL nDiaComUso := 0
-LOCAL nDiaSemUso := 0
-LOCAL nVlrComUso := 0
-LOCAL nVlrSemUso := 0
-LOCAL nCarencia  := 0
-LOCAL nMulta     := 0
-LOCAL nDesconto  := 0
-LOCAL nJuroDia   := 0
-LOCAL nJuros     := 0
-LOCAL nSoma      := 0
+*==================================================================================================*
 
-if oSender:lRescisao
-	if nAtraso < 0
-		if nAtraso < -30
-			nVlr *= 0.5  // Metade da Mensalidade de Rescisao
-		else
-			nDiaComUso := (30 + nAtraso)
-			nDiaSemUso := (30 - nDiaComUso)
-			nVlrComUso := (nDiaComUso * (nVlr/30))
-			nVlrSemUso := (nDiaSemUso * (nVlr/30)*0.5)
-			nVlr		  := (nVlrComUso + nVlrSemUso)
+def AtualizaSoma(oSender)
+*************************
+	LOCAL nAtraso    := Atraso( oSender:dCalculo, Recemov->Vcto )
+	LOCAL nVlr       := Recemov->Vlr
+	LOCAL nDiaComUso := 0
+	LOCAL nDiaSemUso := 0
+	LOCAL nVlrComUso := 0
+	LOCAL nVlrSemUso := 0
+	LOCAL nCarencia  := 0
+	LOCAL nMulta     := 0
+	LOCAL nDesconto  := 0
+	LOCAL nJuroDia   := 0
+	LOCAL nJuros     := 0
+	LOCAL nSoma      := 0
+
+	if oSender:lRescisao
+		if nAtraso < 0
+			if nAtraso < -30
+				nVlr *= 0.5  // Metade da Mensalidade de Rescisao
+			else
+				nDiaComUso := (30 + nAtraso)
+				nDiaSemUso := (30 - nDiaComUso)
+				nVlrComUso := (nDiaComUso * (nVlr/30))
+				nVlrSemUso := (nDiaSemUso * (nVlr/30)*0.5)
+				nVlr		  := (nVlrComUso + nVlrSemUso)
+			endif
 		endif
 	endif
-endif
-if oSender:lCalcular
-	nCarencia	:= Carencia( oSender:dCalculo, Recemov->Vcto )		 
-	nMulta		:= 0
-	nDesconto	:= VlrDesconto( oSender:dCalculo, Recemov->Vcto, nVlr )
-	nJurodia 	:= Recemov->Jurodia
-	nJuros		:= IF( nAtraso <= 0, 0, ( nCarencia * nJurodia ))
-endif
-nSoma 		:= ((nVlr + nMulta ) + nJuros ) - nDesconto
-nMulta		:= VlrMulta( oSender:dCalculo, Recemov->Vcto, nSoma )
-nSoma 		+= nMulta
-return {nMulta, nJuros, nSoma}
+	if oSender:lCalcular
+		nCarencia	:= Carencia( oSender:dCalculo, Recemov->Vcto )		 
+		nMulta		:= 0
+		nDesconto	:= VlrDesconto( oSender:dCalculo, Recemov->Vcto, nVlr )
+		nJurodia 	:= Recemov->Jurodia
+		nJuros		:= IF( nAtraso <= 0, 0, ( nCarencia * nJurodia ))
+	endif
+	nSoma 		:= ((nVlr + nMulta ) + nJuros ) - nDesconto
+	nMulta		:= VlrMulta( oSender:dCalculo, Recemov->Vcto, nSoma )
+	nSoma 		+= nMulta
+	return {nMulta, nJuros, nSoma}
+endef
 
-function ReleaseSelecao()
+*==================================================================================================*
+
+def ReleaseSelecao()
 *************************
 nLen := len(oReceposi:aDocnr_Selecao_Imprimir)
 if nLen > 0
@@ -11041,6 +11138,8 @@ if nLen > 0
 	oReceposi:ResetAll()
 	oReceposi:CloneVarColor()
 endif
+
+*==================================================================================================*
 
 def RecemovDbedit(cCodi, nRecno)
    LOCAL Arq_Ant	    := Alias()
@@ -11081,6 +11180,8 @@ def RecemovDbedit(cCodi, nRecno)
    return(resTela(cScreen))
 endef
 
+*==================================================================================================*
+
 def ReceposiAgendaDbedit(cCodi, nRecno)
    LOCAL Arq_Ant	:= Alias()
    LOCAL Ind_Ant	:= IndexOrd()
@@ -11113,6 +11214,8 @@ def ReceposiAgendaDbedit(cCodi, nRecno)
    return(resTela(cScreen))
 endef
 
+*==================================================================================================*
+
 def RefreshTela()
 *****************
    LOCAL xLen		   := Len(oRecePosi:xTodos)
@@ -11124,8 +11227,10 @@ def RefreshTela()
       AtualizaReg(nReg)
    next	
    //oRecePosi:aBottom := oReceposi:BarraSoma()
-   return OK
+   return true
 endef
+
+*==================================================================================================*
 
 def K_Ctrl_Ins() 
 ****************
@@ -11142,6 +11247,8 @@ def K_Ctrl_Ins()
    oAmbiente:lK_Ctrl_Del := FALSO
    return NIL
 endef
+
+*==================================================================================================*
    
 def K_Ctrl_Del() 
 ****************		
@@ -11155,6 +11262,8 @@ def K_Ctrl_Del()
    oAmbiente:lK_Ctrl_Del := OK
    return NIL	
 endef
+
+*==================================================================================================*
    
 def HelpReceposi		
 ****************

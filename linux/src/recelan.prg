@@ -67,7 +67,7 @@ WHILE lOk
 		Case op = 2.09 ; AnexarLogRecibo()
       Case op = 2.10 ; BidoToRecibo()
       Case op = 2.11 ; FoneTroca()
-		Case op = 3.01 ; AlteraReceber()
+		Case op = 3.01 ; iif(PodeAlterar(), AlteraReceber(), NIL)
 		Case op = 3.02 ; AlteraRecebido()
       Case op = 3.03 ; MenuTxJuros()
 		Case op = 3.05 ; AltRegTitRec()
@@ -1702,136 +1702,137 @@ WHILE OK
 	endif
 EndDO
 
-function AlteraReceber( cDocnr, nRegistro )
-*******************************************
-LOCAL Arq_Ant	:= Alias()
-LOCAL Ind_Ant	:= IndexOrd()
-LOCAL cScreen	:= SaveScreen()
-LOCAL nCotacao := 0
-LOCAL lParam   := if( cDocnr == NIL , FALSO, OK)
-LOCAL cObs
-LOCAL lRetVal  := FALSO
-LOCAL cCodi
+def AlteraReceber( cDocnr, nRegistro )
+**************************************
+	LOCAL Arq_Ant	:= Alias()
+	LOCAL Ind_Ant	:= IndexOrd()
+	LOCAL cScreen	:= SaveScreen()
+	LOCAL nCotacao := 0
+	LOCAL lParam   := if( cDocnr == NIL , FALSO, OK)
+	LOCAL cObs
+	LOCAL lRetVal  := FALSO
+	LOCAL cCodi
 
-if !lParam 
-   cDocnr := Space(9)
-endif
+	if !lParam 
+		cDocnr := Space(9)
+	endif
 
-WHILE OK
-	Receber->(Order( RECEBER_CODI ))
-	Area("ReceMov")
-	Recemov->(Order( RECEMOV_DOCNR ))
-   if !lParam
-	   MaBox( 16 , 10 , 18 , 30 )
-	   @ 17 , 11 Say	"Doc.No..»" Get cDocNr Pict "@K!" Valid DocErrado( @cDocNr )
-	   Read
-	   if LastKey() = ESC
-	   	AreaAnt( Arq_Ant, Ind_Ant )
-		   ResTela( cScreen )
-		   Exit
-	   endif 
-	else
-	   Recemov->(DbGoto( nRegistro ))
-		if Recemov->Docnr != cDocnr
-			DocErrado( @cDocNr )
-		endif
-	endif	
-	oMenu:Limpa()
-	nRegistro := Recemov->(Recno())	
-	cCodi     := Recemov->Codi
-	cTipo 	 := Recemov->Tipo
-	cDocnr	 := Recemov->Docnr
-	cNossoNr  := Recemov->NossoNr
-	cBordero  := Recemov->Bordero
-	dEmis 	 := Recemov->Emis
-	dVcto 	 := Recemov->Vcto
-	cPort 	 := Recemov->Port
-	nVlr		 := Recemov->Vlr
-	nJuro 	 := Recemov->Juro
-	nVlrAnt	 := Recemov->Vlr
-	cFatura	 := Recemov->Fatura
-	cObs		 := Recemov->Obs
-	dDataPag  := Recemov->DataPag
-	nVlrPag   := Recemov->VlrPag
-	
-	Receber->(DbSeek( cCodi ))
-   MaBox( 06 , 10 , 20 , MaxCol()-4, "ALTERACAO DE MOVIMENTO" )
-	Write( 07 , 11 ,	"Codigo...: " + Recemov->Codi + " " + Receber->Nome )
-	Write( 08 , 11 ,	"Tipo.....: " + Recemov->Tipo)
-	Write( 09 , 11 ,	"Doc.N?..: " + Recemov->Docnr)
-	Write( 10 , 11 ,	"Nosso N?: " + Recemov->Nossonr)
-	Write( 11 , 11 ,	"Bordero..: " + Recemov->Bordero)
-	Write( 12 , 11 ,	"Emissao..: " + Recemov->(Dtoc(Emis)))
-	Write( 13 , 11 ,	"Vencto...: " + Recemov->(Dtoc(Vcto)))
-	Write( 14 , 11 ,	"Portador.: " + Recemov->Port)
-	Write( 15 , 11 ,	"Valor....: " + Recemov->(Tran(Vlr,  "@E 9,999,999,999.99")))
-	Write( 16 , 11 ,	"Jr Mes...: " + Recemov->(Tran( Juro, "999.99")))
-	Write( 17 , 11 ,	"Obs......: " + Recemov->Obs )
-	Write( 18 , 11 ,	"Datapag..: " + Recemov->(Dtoc(Datapag)))
-	Write( 19 , 11 ,	"Vlr Pago.: " + Recemov->(Tran(VlrPag,  "@E 9,999,999,999.99")))
-	
-	@ 07 , 22 Get cCodi    Pict PIC_RECEBER_CODI Valid RecErrado( @cCodi, NIL , Row(), Col()+1)
-	@ 08 , 22 Get cTipo	  Pict "@!"
-	@ 09 , 22 Get cDocnr   Pict "@!"
-	@ 10 , 22 Get cNossoNr Pict "@!"
-	@ 11 , 22 Get cBordero Pict "@!"
-	@ 12 , 22 Get dEmis	  Pict "##/##/##"
-	@ 13 , 22 Get dVcto	  Pict "##/##/##"
-	@ 14 , 22 Get cPort	  Pict "@!"
-	@ 15 , 22 Get nVlr	  Pict "@E 9,999,999,999.99"
-	@ 16 , 22 Get nJuro	  Pict "999.99"
-	@ 17 , 22 Get cObs	  Pict "@!"
-	@ 18 , 22 Get dDataPag Pict "##/##/##"
-	@ 19 , 22 Get nVlrPag  Pict "@E 9,999,999,999.99"
-	Read
-	if LastKey() = ESC
-		AreaAnt( Arq_Ant, Ind_Ant )
-		ResTela( cScreen )
-		if lParam
-		   return( lRetVal )
-		endif	
-		Exit
-	endif	
-	DbGoTo( nRegistro )
-	ErrorBeep()
-	if (lRetVal := Conf( "Confirma Alteracao Do Registro ?"))
-		nJdia := Jurodia( nVlr, nJuro )
-		if Recemov->(TravaArq())
-			DbGoTo( nRegistro )
-			Recemov->Codi		:= cCodi
-			Recemov->Docnr 	:= cDocNr
-			Recemov->Emis		:= dEmis
-			Recemov->Emis		:= dEmis
-			Recemov->Port		:= cPort
-			Recemov->Vcto		:= dVcto
-			Recemov->Vlr		:= nVlr
-			Recemov->Tipo		:= cTipo
-			Recemov->NossoNr	:= cNossoNr
-			Recemov->Bordero	:= cBordero
-			Recemov->Juro		:= nJuro
-			Recemov->Jurodia	:= nJDia
-			Recemov->VlrDolar := nVlr
-			Recemov->Obs		:= cObs
-			Recemov->DataPag  := dDataPag
-			Recemov->VlrPag   := nVlrPag
-			Recemov->(Order( RECEMOV_FATURA ))
-			if Recemov->(DbSeek( cFatura ))
-				WHILE Recemov->Fatura = cFatura
-					Recemov->VlrFatu -= nVlrAnt
-					Recemov->VlrFatu += nVlr
-					Recemov->(DbSkip(1))
-				EndDo
+	WHILE OK
+		Receber->(Order( RECEBER_CODI ))
+		Area("ReceMov")
+		Recemov->(Order( RECEMOV_DOCNR ))
+		if !lParam
+			MaBox( 16 , 10 , 18 , 35 )
+			@ 17 , 11 Say	"Documento #..." Get cDocNr Pict "@K!" Valid DocErrado( @cDocNr )
+			Read
+			if LastKey() = ESC
+				AreaAnt( Arq_Ant, Ind_Ant )
+				ResTela( cScreen )
+				Exit
+			endif 
+		else
+			Recemov->(DbGoto( nRegistro ))
+			if Recemov->Docnr != cDocnr
+				DocErrado( @cDocNr )
 			endif
-			Recemov->(Libera())				
-		endif
-	endif	
-	ResTela( cScreen )
-	DbGoTo( nRegistro )
-	if lParam
-		AreaAnt( Arq_Ant, Ind_Ant )
-		return( lRetVal )
-	endif	
-EndDo
+		endif	
+		oMenu:Limpa()
+		nRegistro := Recemov->(Recno())	
+		cCodi     := Recemov->Codi
+		cTipo 	 := Recemov->Tipo
+		cDocnr	 := Recemov->Docnr
+		cNossoNr  := Recemov->NossoNr
+		cBordero  := Recemov->Bordero
+		dEmis 	 := Recemov->Emis
+		dVcto 	 := Recemov->Vcto
+		cPort 	 := Recemov->Port
+		nVlr		 := Recemov->Vlr
+		nJuro 	 := Recemov->Juro
+		nVlrAnt	 := Recemov->Vlr
+		cFatura	 := Recemov->Fatura
+		cObs		 := Recemov->Obs
+		dDataPag  := Recemov->DataPag
+		nVlrPag   := Recemov->VlrPag
+		
+		Receber->(DbSeek( cCodi ))
+		MaBox( 06 , 10 , 20 , MaxCol()-4, "ALTERACAO DE MOVIMENTO" )
+		Write( 07 , 11 ,	"Codigo...: " + Recemov->Codi + " " + Receber->Nome )
+		Write( 08 , 11 ,	"Tipo.....: " + Recemov->Tipo)
+		Write( 09 , 11 ,	"Doc #....: " + Recemov->Docnr)
+		Write( 10 , 11 ,	"Nosso #..: " + Recemov->Nossonr)
+		Write( 11 , 11 ,	"Bordero..: " + Recemov->Bordero)
+		Write( 12 , 11 ,	"Emissao..: " + Recemov->(Dtoc(Emis)))
+		Write( 13 , 11 ,	"Vencto...: " + Recemov->(Dtoc(Vcto)))
+		Write( 14 , 11 ,	"Portador.: " + Recemov->Port)
+		Write( 15 , 11 ,	"Valor....: " + Recemov->(Tran(Vlr,  "@E 9,999,999,999.99")))
+		Write( 16 , 11 ,	"Jr Mes...: " + Recemov->(Tran( Juro, "999.99")))
+		Write( 17 , 11 ,	"Obs......: " + Recemov->Obs )
+		Write( 18 , 11 ,	"Datapag..: " + Recemov->(Dtoc(Datapag)))
+		Write( 19 , 11 ,	"Vlr Pago.: " + Recemov->(Tran(VlrPag,  "@E 9,999,999,999.99")))
+		
+		@ 07 , 22 Get cCodi    Pict PIC_RECEBER_CODI Valid RecErrado( @cCodi, NIL , Row(), Col()+1)
+		@ 08 , 22 Get cTipo	  Pict "@!"
+		@ 09 , 22 Get cDocnr   Pict "@!"
+		@ 10 , 22 Get cNossoNr Pict "@!"
+		@ 11 , 22 Get cBordero Pict "@!"
+		@ 12 , 22 Get dEmis	  Pict "##/##/##"
+		@ 13 , 22 Get dVcto	  Pict "##/##/##"
+		@ 14 , 22 Get cPort	  Pict "@!"
+		@ 15 , 22 Get nVlr	  Pict "@E 9,999,999,999.99"
+		@ 16 , 22 Get nJuro	  Pict "999.99"
+		@ 17 , 22 Get cObs	  Pict "@!"
+		@ 18 , 22 Get dDataPag Pict "##/##/##"
+		@ 19 , 22 Get nVlrPag  Pict "@E 9,999,999,999.99"
+		Read
+		if LastKey() = ESC
+			AreaAnt( Arq_Ant, Ind_Ant )
+			ResTela( cScreen )
+			if lParam
+				return( lRetVal )
+			endif	
+			Exit
+		endif	
+		DbGoTo( nRegistro )
+		ErrorBeep()
+		if (lRetVal := Conf( "Confirma Alteracao Do Registro ?"))
+			nJdia := Jurodia( nVlr, nJuro )
+			if Recemov->(TravaArq())
+				DbGoTo( nRegistro )
+				Recemov->Codi		:= cCodi
+				Recemov->Docnr 	:= cDocNr
+				Recemov->Emis		:= dEmis
+				Recemov->Emis		:= dEmis
+				Recemov->Port		:= cPort
+				Recemov->Vcto		:= dVcto
+				Recemov->Vlr		:= nVlr
+				Recemov->Tipo		:= cTipo
+				Recemov->NossoNr	:= cNossoNr
+				Recemov->Bordero	:= cBordero
+				Recemov->Juro		:= nJuro
+				Recemov->Jurodia	:= nJDia
+				Recemov->VlrDolar := nVlr
+				Recemov->Obs		:= cObs
+				Recemov->DataPag  := dDataPag
+				Recemov->VlrPag   := nVlrPag
+				Recemov->(Order( RECEMOV_FATURA ))
+				if Recemov->(DbSeek( cFatura ))
+					WHILE Recemov->Fatura = cFatura
+						Recemov->VlrFatu -= nVlrAnt
+						Recemov->VlrFatu += nVlr
+						Recemov->(DbSkip(1))
+					EndDo
+				endif
+				Recemov->(Libera())				
+			endif
+		endif	
+		ResTela( cScreen )
+		DbGoTo( nRegistro )
+		if lParam
+			AreaAnt( Arq_Ant, Ind_Ant )
+			return( lRetVal )
+		endif	
+	enddo
+endef
 
 *:==================================================================================================================================
 

@@ -26,7 +26,7 @@
 #define K_UNDO 			 K_CTRL_U
 #define CTRL_END_SPECIAL OK		 // Para Ficar no Ultimo Get qdo teclar ctr+end
 #define ECHO_CHAR        "*"
-#define ECHO_CHAR 		 "þ"
+#define ECHO_CHAR 		 chr(254) // ■
 #define LOW 				 32
 #define HIGH				 127
 

@@ -7355,10 +7355,10 @@ def Info(nRow, lInkey)
    #endif
    
 	IF oAmbiente:Visual
-	  Print( nRow+22, 03, Padc( "Software Li∩┐╜enciado para", nMaxCol-7), AscanCor(clBrightGreen))
+	  Print( nRow+22, 03, Padc( "Software Licenciado para", nMaxCol-7), AscanCor(clBrightGreen))
 	  Print( nRow+23, 03, Padc( XNOMEFIR, nMaxCol-7 ), AscanCor(clBrightRed))
 	Else
-	  Print( nRow+22, 03, Padc( "Software Li∩┐╜enciado para" , nMaxCol-2), AscanCor(clBrightGreen))
+	  Print( nRow+22, 03, Padc( "Software Licenciado para" , nMaxCol-2), AscanCor(clBrightGreen))
 	  Print( nRow+23, 03, Padc( XNOMEFIR, nMaxCol-2 ), AscanCor(clBrightRed))
 	EndIF	
 		

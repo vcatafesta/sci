@@ -1894,8 +1894,8 @@ endef
 
 *==================================================================================================*
 
-def DocErrado( Var, nValor, nVlrTotal, dVcto, cHist, nRow, nCol, lLancarJurosNaoPago )
-***************************************************************************************
+def DocErrado( Var, nValor, nVlrTotal, dVcto, cHist, nRow, nCol, lLancarJurosNaoPago, dDataPag )
+************************************************************************************************
 	LOCAL Arq_Ant		 := Alias()
 	LOCAL Ind_Ant		 := IndexOrd()
 	LOCAL nRegistro	 := 0
@@ -1918,14 +1918,21 @@ def DocErrado( Var, nValor, nVlrTotal, dVcto, cHist, nRow, nCol, lLancarJurosNao
 		return false
 	endif
 	IfNil( nVlrTotal, 0)
+	
+	if dDataPag != nil  // refazer calculo pela datapag informada e não pela data hoje
+		nVlrTotal := 0
+		nValor    := 0
+	endif
+	IfNil( dDataPag, Date())
 	if ( Recemov->(Order( RECEMOV_DOCNR )), Recemov->(!DbSeek( Var )))
 		if !lLancarJurosNaoPago
 			ErrorBeep()
 			if Conf("Erro: Documento nao Encontrado. Localizar por Nome?")
 				if BaixaDocnr( @Var, @nRegistro )
 					Recemov->( DbGoTo( nRegistro ))
-					nValor    := Round(IF( nVlrTotal <= 0, Recemov->Vlr, nVlrTotal),2)
-					nVlrTotal := Round(IF( nVlrTotal <= 0, CalcJuros(), nVlrTotal),2)
+				 //nValor    := Round(IF( nVlrTotal <= 0, Recemov->Vlr, nVlrTotal),2)
+					nValor    := Round(IF( nVlrTotal <= 0, CalcJuros(dDataPag), nVlrTotal),2)
+					nVlrTotal := Round(IF( nVlrTotal <= 0, CalcJuros(dDataPag), nVlrTotal),2)
 					dVcto 	 := Recemov->Vcto
 					nTam		 := Len(AllTrim(Recemov->Obs))
 					cHist 	 := IF( Empty(Recemov->Obs), cComplemento + cHist, cComplemento + Left(Recemov->Obs,nTam) + Space((60-12-nTam)))
@@ -1948,8 +1955,9 @@ def DocErrado( Var, nValor, nVlrTotal, dVcto, cHist, nRow, nCol, lLancarJurosNao
 		endif
 	endif
 	Var		 := Recemov->Docnr
-	nValor    := Round(IF( nVlrTotal <= 0, Recemov->Vlr, nVlrTotal),2)
-	nVlrTotal := Round(IF( nVlrTotal <= 0, CalcJuros(), nVlrTotal),2)
+ //nValor    := Round(IF( nVlrTotal <= 0, Recemov->Vlr, nVlrTotal),2)
+	nValor    := Round(IF( nVlrTotal <= 0, CalcJuros(dDataPag), nVlrTotal),2)
+	nVlrTotal := Round(IF( nVlrTotal <= 0, CalcJuros(dDataPag), nVlrTotal),2)
 	dVcto 	 := Recemov->Vcto
 	nTam		 := Len(AllTrim(Recemov->Obs))
 	cHist 	 := IF( Empty(Recemov->Obs), cComplemento + cHist, cComplemento + Left(Recemov->Obs,nTam) + Space((60-12-nTam)))
@@ -4971,65 +4979,53 @@ def LogRecibo( aLog )
 	return false
 endef
 
-Function CalcJuros(dData, dVcto, nVlr)
-***************************************
-LOCAL nAtraso	  := 0
-LOCAL nCarencia  := 0
-LOCAL nTotJuros  := 0
-LOCAL nVlrTotal  := 0
-LOCAL nJuro      := oAmbiente:aSciArray[1,SCI_JUROMESCOMPOSTO]
-LOCAL nDias      := 0
-LOCAL nValorCm   := 0
-LOCAL nCm        := 0
-LOCAL aJuro      := 0
-LOCAL nJuroDia   := 0
-LOCAL nJuroTotal := 0
-DEFAU dData     TO Date()
-DEFAU dVcto     TO Recemov->Vcto
-DEFAU nVlr      TO Recemov->Vlr
+def CalcJuros(dData, dVcto, nVlr)
+*********************************
+	LOCAL nAtraso	  := 0
+	LOCAL nCarencia  := 0
+	LOCAL nTotJuros  := 0
+	LOCAL nVlrTotal  := 0
+	LOCAL nJuro      := oAmbiente:aSciArray[1,SCI_JUROMESCOMPOSTO]
+	LOCAL nDias      := 0
+	LOCAL nValorCm   := 0
+	LOCAL nCm        := 0
+	LOCAL aJuro      := 0
+	LOCAL nJuroDia   := 0
+	LOCAL nJuroTotal := 0
+	DEFAU dData     TO Date()
+	DEFAU dVcto     TO Recemov->Vcto
+	DEFAU nVlr      TO Recemov->Vlr
 
-nAtraso	 := Atraso( dData, dVcto )
-nCarencia := Carencia( dData, dVcto)
-nVlrTotal := nVlr
+	nAtraso	 := Atraso( dData, dVcto )
+	nCarencia := Carencia( dData, dVcto)
+	nVlrTotal := nVlr
 
-if nCarencia > 0 // Atraso maior que a carencia
-   
-	/*
-	nTotJuros := Recemov->Jurodia * nAtraso
-	nVlrTotal += nTotJuros
-	nMulta	 := VlrMulta( dData, dVcto, nVlrTotal )
-	nVlrTotal += nMulta
-	*/
+	if nCarencia > 0 // Atraso maior que a carencia
+		
+		/*
+		nTotJuros := Recemov->Jurodia * nAtraso
+		nVlrTotal += nTotJuros
+		nMulta	 := VlrMulta( dData, dVcto, nVlrTotal )
+		nVlrTotal += nMulta
+		*/
 
-   nDias       := (dData-dVcto)
-   nValorCm    := CalculaCm(nVlr, dVcto, dData)
-   nCm         := (nValorCm - nVlr)
-   aJuro       := aAntComposto( nValorCm, nJuro, nDias, XJURODIARIO)
-   nJuroDia    := aJuro[6]
-   nJuroTotal  := aJuro[5]
-   nJuroTotal  += nCm
-   nJuroDia    := (nJuroTotal / nDias)
-	
-	nTotJuros   := nJuroTotal
-	nVlrTotal   += nTotJuros
-	nMulta	   := VlrMulta( dData, dVcto, nVlrTotal )
-	nVlrTotal	+= nMulta
-	
-endif
-Return( nVlrTotal )
-
-
-
-
-
-
-
-
-
-
-
-
-
+		nDias       := (dData-dVcto)
+		nValorCm    := CalculaCm(nVlr, dVcto, dData)
+		nCm         := (nValorCm - nVlr)
+		aJuro       := aAntComposto( nValorCm, nJuro, nDias, XJURODIARIO)
+		nJuroDia    := aJuro[6]
+		nJuroTotal  := aJuro[5]
+		nJuroTotal  += nCm
+		nJuroDia    := (nJuroTotal / nDias)
+		
+		nTotJuros   := nJuroTotal
+		nVlrTotal   += nTotJuros
+		nMulta	   := VlrMulta( dData, dVcto, nVlrTotal )
+		nVlrTotal	+= nMulta
+		
+	endif
+	Return( nVlrTotal )
+endef
 
 Function ImprimirEtiqueta( aConfig, oBloco )
 ********************************************
@@ -7444,7 +7440,7 @@ DEFAU xVlrRecibo            TO 0
 DEFAU nVlrPago              TO 0
 DEFAU lLancarJurosNaoPago   TO FALSO
 DEFAU lSelecao              TO FALSO
-DEFAU dDataPag              TO nil
+DEFAU dDataPag              TO Date()
 DEFAU lAjustarValorOriginal TO true
 
 if !lLancarJurosNaoPago
@@ -7492,27 +7488,28 @@ WHILE OK
 			endif
 			if 	 oAmbiente:cTipoRecibo == "RECCAR"
 				cTitulo := "RECIBO PAGTO EM CARTEIRA"
-				Mabox( 10, 00, 15, Maxcol(), Xtitulo + Ctitulo )
+				Mabox( 10, 00, 16, Maxcol(), Xtitulo + Ctitulo )
 			Elseif oAmbiente:cTipoRecibo == "RECBCO"
 				cTitulo := "RECIBO VIA DEP BANCARIO"
-				MaBox( 10, 00, 17, MaxCol(), xTitulo + cTitulo )
+				MaBox( 10, 00, 18, MaxCol(), xTitulo + cTitulo )
 			Elseif oAmbiente:cTipoRecibo == "RECOUT"
 				cTitulo := "RECIBO PAGTO VIA OUTROS"
-				MaBox( 10, 00, 17, MaxCol(), xTitulo + cTitulo )
+				MaBox( 10, 00, 18, MaxCol(), xTitulo + cTitulo )
 			endif // oAmbiente:cTipoRecibo
 
-			@ 11, 01 Say "Documento #.....:" Get cDocnr     Pict "@!"           Valid DocErrado( @cDocnr, @nVlr, @nVlrRecibo, NIL, @cHist, Row(), Col()+1)
-			@ 12, 01 Say "Valor...........:" Get nVlr       Pict "999999999.99" Valid lPodeReciboZerado(@nVlr, nVlrComJuros, lSelecao) .AND. lPrtExtenso(nVlr, NIL , NIL , Row(), Col()+1, 45, xVlrRecibo)
-			@ 13, 01 Say "Valor Recibo....:" Get nVlrRecibo Pict "999999999.99" Valid lPrtExtenso(nVlr, @nVlrRecibo, lSelecao, Row(), Col()+1, 45, xVlrRecibo)
-			@ 14, 01 Say "Referente.......:" Get cHist      Pict "@!"
+			@ 11, 01 Say "Data Pagto.......:" Get dDataPag   Pict "##/##/##"     
+			@ 12, 01 Say "Documento #......:" Get cDocnr     Pict "@!"           Valid DocErrado( @cDocnr, @nVlr, @nVlrRecibo, NIL, @cHist, Row(), Col()+1, nil, dDataPag)
+			@ 13, 01 Say "Valor atualizado.:" Get nVlr       Pict "999999999.99" Valid lPodeReciboZerado(@nVlr, nVlrComJuros, lSelecao) .AND. lPrtExtenso(nVlr, NIL , NIL , Row(), Col()+1, 45, xVlrRecibo)
+			@ 14, 01 Say "Valor Recibo.....:" Get nVlrRecibo Pict "999999999.99" Valid lPrtExtenso(nVlr, @nVlrRecibo, lSelecao, Row(), Col()+1, 45, xVlrRecibo)
+			@ 15, 01 Say "Referente........:" Get cHist      Pict "@!"
 
 			if 	 oAmbiente:cTipoRecibo == "RECCAR"
 			Elseif oAmbiente:cTipoRecibo == "RECBCO"
-				@ 15, 01 Say "Data Deposito...:" Get dDeposito  Pict "##/##/##"     Valid lValidDep1( dDeposito, @cObs )
-				@ 16, 01 Say "Observacoes.....:" Get cObs       Pict "@!"
+				@ 16, 01 Say "Data Deposito....:" Get dDeposito  Pict "##/##/##"     Valid lValidDep1( dDeposito, @cObs )
+				@ 17, 01 Say "Observacoes......:" Get cObs       Pict "@!"
 			Elseif oAmbiente:cTipoRecibo == "RECOUT"
-				@ 15, 01 Say "Data Pagamento..:" Get dDeposito  Pict "##/##/##"     Valid lValidDep2( dDeposito, @cObs )
-				@ 16, 01 Say "Observacoes.....:" Get cObs       Pict "@!"
+				@ 16, 01 Say "Data Pagamento...:" Get dDeposito  Pict "##/##/##"     Valid lValidDep2( dDeposito, @cObs )
+				@ 17, 01 Say "Observacoes......:" Get cObs       Pict "@!"
 			endif // oAmbiente:cTipoRecibo
 			Read
 			if LastKey() = ESC .OR. !(Instru80()) .OR. !(LptOk())
@@ -7666,7 +7663,7 @@ WHILE OK
 				if oAmbiente:cTipoRecibo == "RECBCO" .OR. oAmbiente:cTipoRecibo == "RECOUT"
 					Aadd( aLog, Dtoc(dDeposito))
 				else
-					Aadd( aLog, Dtoc(Date()))
+					Aadd( aLog, Dtoc(dDataPag))
 				endif
 				Aadd( aLog, oAmbiente:xUsuario + Space( 10 - Len( oAmbiente:xUsuario )))
 				Aadd( aLog, cCaixa )
@@ -7677,9 +7674,9 @@ WHILE OK
 				Aadd( aLog, cFatu )
 				
 				if lSelecao
-					aAgenda := { cCodi, Date(), "PAG PARCIAL {DOC:" + cDocnr + " - VCTO:" + cVcto + " - PAGO:" + cVlrLog + " - RECIBO COMBO:" + cVlr + "}", cCaixa, oAmbiente:xUsuario, OK }
+					aAgenda := { cCodi, dDataPag, "PAG PARCIAL {DOC:" + cDocnr + " - VCTO:" + cVcto + " - PAGO:" + cVlrLog + " - RECIBO COMBO:" + cVlr + "}", cCaixa, oAmbiente:xUsuario, OK }
 				else	
-					aAgenda := { cCodi, Date(), "PAG PARCIAL {DOC:" + cDocnr + " - VCTO:" + cVcto + " - PAGO:" + cVlrLog + " - RECIBO INDIV:" + cVlr + "}", cCaixa, oAmbiente:xUsuario, OK }
+					aAgenda := { cCodi, dDataPag, "PAG PARCIAL {DOC:" + cDocnr + " - VCTO:" + cVcto + " - PAGO:" + cVlrLog + " - RECIBO INDIV:" + cVlr + "}", cCaixa, oAmbiente:xUsuario, OK }
 				endif
 				while !LogRecibo( aLog    ) ; enddo
 				While !LogAgenda( aAgenda ) ; enddo
@@ -7706,7 +7703,7 @@ WHILE OK
 		nMoeda   := 1
 		cVlr	   := AllTrim( aLog[ALOG_VLR])
 		cValor   := Extenso( nVlrRecibo, nMoeda, 2, Larg )
-		aAgenda := { cCodi, Date(), "PAG PARCIAL {DOC:" + cDocnr + " - VCTO:" + cVcto + " - PAGO:" + cVlr + "}", cCaixa, oAmbiente:xUsuario, OK }
+		aAgenda := { cCodi, dDataPag, "PAG PARCIAL {DOC:" + cDocnr + " - VCTO:" + cVcto + " - PAGO:" + cVlr + "}", cCaixa, oAmbiente:xUsuario, OK }
 		LogRecibo( aLog )
 		LogAgenda( aAgenda )
 	endif // aLog = NIL
@@ -7733,8 +7730,9 @@ WHILE OK
 		if lSelecao
 			nForCol := 0						
 		   for nY := 1 to nLenSelecao
+			
 				xVlr := AllTrim( Tran( xVlrRecibo[nY],'@E 999,999,999,999.99'))
-				Write( nRow+05, nForCol, PQ + "Nº " + xDocnr[nY] + Space(1) + 'R$ ' + xVlr + NR + _CPI10 )
+				Write( nRow+05, nForCol, PQ + "N# " + xDocnr[nY] + Space(1) + 'R$ ' + xVlr + NR + _CPI10 )
 				if nY < nLenSelecao
 				   nForCol += 30 
 				   if nForCol >= 132
@@ -7744,7 +7742,7 @@ WHILE OK
 				endif
 			next				
 		else
-			Write( nRow+05, 00, Padr("Nº " + NG + cDocnr + NR + " VCTO " + NG + cVcto + NR, nTamForm))
+			Write( nRow+05, 00, Padr("N# " + NG + cDocnr + NR + " VCTO " + NG + cVcto + NR, nTamForm))
 			Write( nRow+05, 00, Padl("R$ " + NG + cVlr + NR, nTamForm))
 		endif	
 		nRow++
@@ -7770,12 +7768,12 @@ WHILE OK
 		if oAmbiente:cTipoRecibo == "RECBCO" .OR. oAmbiente:cTipoRecibo == "RECOUT"
 			dDataIMpressao := dDeposito		   
 		Else
-			dDataIMpressao := Date()			
+			dDataIMpressao := dDataPag
 		endif		      
 		Write( nRow+18, 00, NG + Padl(DataExt( dDataImpressao ) + NR, nTamForm))
       FPrint(C18)
 		Write( nRow+21, nTamForm / 2 , Repl("-", nTamform/2))
-		Write( nRow+22, 00, "1º VIA - CLIENTE" )
+		Write( nRow+22, 00, "1# VIA - CLIENTE" )
 		Write( nRow+22, nTamForm / 2 , oAmbiente:xUsuario )
 		Write( nRow+23, 00, Repl("=", nTamForm))
 		Write( nRow+24, 00, Padc("ESTE RECIBO NAO QUITA EVENTUAIS DEBITOS/MENSALIDADES ANTERIORES", nTamForm))
@@ -10186,7 +10184,7 @@ WHILE OK
 			return
 		endif
 
-		oRecePosi:cTop := " DOCTO #  EMIS   VENCTO ATRA   ORIGINAL  PRINCIPAL DESC/PAG    JUROS  PG/MULTA     ABERTO       SOMA OBSERVACAO"
+		oRecePosi:cTop := " DOCTO #   EMIS   VENCTO ATRA   ORIGINAL  PRINCIPAL DESC/PAG    JUROS  PG/MULTA     ABERTO       SOMA OBSERVACAO"
 		MaBox( 00, 00, 06, nMaxCol )
 		oRecePosi:cTop 	+= Space( MaxCol() - Len(oRecePosi:cTop))
 		oRecePosi:cBottom := Space(13) + "PRINCIPAL             JUROS  PG/MULTA     ABERTO       SOMA"

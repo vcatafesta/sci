@@ -4,7 +4,7 @@
 #include "fileio.ch"
 
 #Define  XEXE            "SCI.EXE"
-#Define  XSISTEM_VERSAO  "- Versao 10.0.83 x86_64 "
+#Define  XSISTEM_VERSAO  "- Versao 10.0.93 x86_64 "
 #ifdef __PLATFORM__WINDOWS
 	#Define  XSISTEM_1       "Macrosoft SCI for Windows"
 #else

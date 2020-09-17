@@ -5,12 +5,11 @@
  ▌│	Aplicacaoo...: SISTEMA DE CONTAS A RECEBER									 ?
  ▌│   Versao.......: 3.3.00                                                 ?
  ▌│	Programador..: Vilmar Catafesta													 ?
- ▌│	Empresa......: Microbras Com de Prod de Informatica Ltda 				 ?
+ ▌│	Empresa......: Macrosoft Informatica Ltda                             ?
  ▌│	Inicio.......: 12 de Novembro de 1991. 										 ?
- ▌│	Ult.Atual....: 03 de Agosto de 2003.											 ?
- ▌│	Compilacao...: Clipper 5.02														 ?
- ▌│	Linker.......: Blinker 5.10														 ?
- ▌│	Bibliotecas..: Clipper/Funcoes/Mouse/Funcky15/Funcky50/Classe/Classic ?
+ ▌│	Ult.Atual....: 09 de Agosto de 2020.											 ?
+ ▌│	Compilacao...: harbour 3.4  														 ?
+ ▌│	Linker.......: gcc 																	 ?
  ▌└─────────────────────────────────────────────────────────────────────────┘
  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 */
@@ -234,7 +233,7 @@ AADD( AtPrompt, {"C^lientes",     {"Inclusao",;
                                   "Recebido To Recibo",;
                                   "Ajustar Campo Telefone"}})
 
-AADD( AtPrompt, {"A^lteracao",      {"Titulos a Receber",;
+AADD( AtPrompt, {"A^lteracao",   {"Titulos a Receber",;
 											 "Titulos Recebidos",;
 											 "Taxa de Juros",;
 											 "",;
@@ -242,7 +241,7 @@ AADD( AtPrompt, {"A^lteracao",      {"Titulos a Receber",;
 											 "Regiao de Titulos Recebidos",;
 											 "Reajuste de Titulos",;
 											 "Remover Comissao Cobrador",;
-                                  'Remover Agendamento',;
+                                  "Remover Agendamento",;
 											 "Cfop por Regiao",;
 											 "Cliente de Fatura",;
 											 "Cobrador do Agendamento",;
@@ -254,9 +253,9 @@ AADD( AtPrompt, {"L^ancamentos", {"Titulos a Receber",;
 											"Exclusao de Titulo",;
 											"Fechamento Periodico",;
 											"Agendamento de Cobranca",;
-											'Imp/Exportacao Dados Externos',;
-											'Cancelamento Contrato',;
-											'Despesas Diversas',;
+											"Imp/Exportacao Dados Externos",;
+											"Cancelamento Contrato",;
+											"Despesas Diversas",;
 											"Recibo/Vale Diversos";
 											}})
 
@@ -415,469 +414,471 @@ static function SuporteIni()
 	oMenu:Menu := oMenuRecelan()	
 	return nil
 	
-function CliInclusao( lAlteracao )
-**********************************
-LOCAL GetList	  := {}
-LOCAL cScreen	  := SaveScreen()
-LOCAL nKey		  := SetKey( F9 )
-LOCAL lModificar := FALSO
-LOCAL cPraca	  := XCCEP
-LOCAL cCep		  := XCCEP
-LOCAL aNatu 	  := {}
-LOCAL aCfop 	  := {}
-LOCAL aTxIcms	  := {}
-LOCAL cSwap
-LOCAL cCodi
-LOCAL cString
-LOCAL cNome
-LOCAL cFanta
-LOCAL cCgc
-LOCAL cInsc
-LOCAL cEnde
-LOCAL cBair
-LOCAL cCivil
-LOCAL cCida
-LOCAL cEsta
-LOCAL cNatural
-LOCAL cRg
-LOCAL cCpf
-LOCAL cEsposa
-LOCAL cResp
-LOCAL cEnde2
-LOCAL cEnde3
-LOCAL cPai
-LOCAL cMae
-LOCAL cEnde1
-LOCAL cFone
-LOCAL cFax
-LOCAL cFone1
-LOCAL cProf
-LOCAL cCargo
-LOCAL cTraba
-LOCAL cFone2
-LOCAL cTempo
-LOCAL cRefCom
-LOCAL cRefBco
-LOCAL cImovel
-LOCAL cVeiculo
-LOCAL cConhecida
-LOCAL cObs
-LOCAL cObs1
-LOCAL cObs2
-LOCAL cObs3
-LOCAL cObs4
-LOCAL cObs5
-LOCAL cObs6
-LOCAL cObs7
-LOCAL cObs8
-LOCAL cObs9
-LOCAL cObs10
-LOCAL cObs11
-LOCAL cObs12
-LOCAL cObs13
-LOCAL cRegiao
-LOCAL dNasc
-LOCAL dData
-LOCAL nDepe
-LOCAL nRenda
-LOCAL nLimite
-LOCAL nMedia
-LOCAL cSpc
-LOCAL dDataSpc
-LOCAL cBanco
-LOCAL cCancelada
-LOCAL cSuporte
-LOCAL cSci
-LOCAL cAutorizaca
-LOCAL cAssAutoriz
-LOCAL cCidaAval
-LOCAL cEstaAval
-LOCAL cBairAval
-LOCAL cFoneAval
-LOCAL cFaxAval
-LOCAL cRgAval
-LOCAL cCpfAval
-LOCAL cCFop
-LOCAL nIcms
-LOCAL cNatu
-LOCAL lUpdated     := FALSO
-STATI lAtivaRegNew := FALSO
+def CliInclusao( lAlteracao )
+*****************************
+	LOCAL GetList	  := {}
+	LOCAL cScreen	  := SaveScreen()
+	LOCAL nKey		  := SetKey( F9 )
+	LOCAL lModificar := FALSO
+	LOCAL cPraca	  := XCCEP
+	LOCAL cCep		  := XCCEP
+	LOCAL aNatu 	  := {}
+	LOCAL aCfop 	  := {}
+	LOCAL aTxIcms	  := {}
+	LOCAL cSwap
+	LOCAL cCodi
+	LOCAL cString
+	LOCAL cNome
+	LOCAL cFanta
+	LOCAL cCgc
+	LOCAL cInsc
+	LOCAL cEnde
+	LOCAL cBair
+	LOCAL cCivil
+	LOCAL cCida
+	LOCAL cEsta
+	LOCAL cNatural
+	LOCAL cRg
+	LOCAL cCpf
+	LOCAL cEsposa
+	LOCAL cResp
+	LOCAL cEnde2
+	LOCAL cEnde3
+	LOCAL cPai
+	LOCAL cMae
+	LOCAL cEnde1
+	LOCAL cFone
+	LOCAL cFax
+	LOCAL cFone1
+	LOCAL cProf
+	LOCAL cCargo
+	LOCAL cTraba
+	LOCAL cFone2
+	LOCAL cTempo
+	LOCAL cRefCom
+	LOCAL cRefBco
+	LOCAL cImovel
+	LOCAL cVeiculo
+	LOCAL cConhecida
+	LOCAL cObs
+	LOCAL cObs1
+	LOCAL cObs2
+	LOCAL cObs3
+	LOCAL cObs4
+	LOCAL cObs5
+	LOCAL cObs6
+	LOCAL cObs7
+	LOCAL cObs8
+	LOCAL cObs9
+	LOCAL cObs10
+	LOCAL cObs11
+	LOCAL cObs12
+	LOCAL cObs13
+	LOCAL cRegiao
+	LOCAL dNasc
+	LOCAL dData
+	LOCAL nDepe
+	LOCAL nRenda
+	LOCAL nLimite
+	LOCAL nMedia
+	LOCAL cSpc
+	LOCAL dDataSpc
+	LOCAL cBanco
+	LOCAL cCancelada
+	LOCAL cSuporte
+	LOCAL cSci
+	LOCAL cAutorizaca
+	LOCAL cAssAutoriz
+	LOCAL cCidaAval
+	LOCAL cEstaAval
+	LOCAL cBairAval
+	LOCAL cFoneAval
+	LOCAL cFaxAval
+	LOCAL cRgAval
+	LOCAL cCpfAval
+	LOCAL cCFop
+	LOCAL nIcms
+	LOCAL cNatu
+	LOCAL lUpdated     := FALSO
+	STATI lAtivaRegNew := FALSO
 
-SetKey( F4, {|| AtivaRegNew( @lAtivaRegNew )})
-if lAlteracao != NIL .AND. lAlteracao
-	lModificar := OK
-	if !PodeAlterar()
-		SetKey( F4, NIL )
-		ResTela( cScreen )
-		Return
-	endif
-endif
-
-if !lModificar
-	if !PodeIncluir()
-		SetKey( F4, NIL )
-		Restela( cScreen )
-		Return
-	endif
-endif
-Set Key F9 To
-Area("Receber")
-Order( RECEBER_CODI )
-WHILE OK
-	oMenu:Limpa()
-	cNome 		:= IF( lModificar, Receber->Nome,		  Space( Len( Receber->Nome 	  )))
-	cFanta		:= IF( lModificar, Receber->Fanta,		  Space( Len( Receber->Fanta	  )))
-	cCgc			:= IF( lModificar, Receber->Cgc, 		  Space( Len( Receber->Cgc		  )))
-	cInsc 		:= IF( lModificar, Receber->Insc,		  Space( Len( Receber->Insc 	  )))
-	cEnde 		:= IF( lModificar, Receber->Ende,		  Space( Len( Receber->Ende 	  )))
-	cBair 		:= IF( lModificar, Receber->Bair,		  Space( Len( Receber->Bair 	  )))
-	cCivil		:= IF( lModificar, Receber->Civil,		  Space( Len( Receber->Civil	  )))
-	cCida 		:= IF( lModificar, Receber->Cida,		  Space( Len( Receber->Cida 	  )))
-	cEsta 		:= IF( lModificar, Receber->Esta,		  Space( Len( Receber->Esta 	  )))
-	cNatural 	:= IF( lModificar, Receber->Natural,	  Space( Len( Receber->Natural  )))
-	cRg			:= IF( lModificar, Receber->Rg,			  Space( Len( Receber->Rg		  )))
-	cCpf			:= IF( lModificar, Receber->Cpf, 		  Space( Len( Receber->Cpf	     )))
-	cEsposa		:= IF( lModificar, Receber->Esposa, 	  Space( Len( Receber->Esposa	  )))
-	cEnde3		:= IF( lModificar, Receber->Ende3,		  Space( Len( Receber->Ende3	  )))
-	cPai			:= IF( lModificar, Receber->Pai, 		  Space( Len( Receber->Pai		  )))
-	cMae			:= IF( lModificar, Receber->Mae, 		  Space( Len( Receber->Mae		  )))
-	cEnde1		:= IF( lModificar, Receber->Ende1,		  Space( Len( Receber->Ende1	  )))
-	cFone 		:= IF( lModificar, Receber->Fone,		  Space( Len( Receber->Fone 	  )))
-	cFax			:= IF( lModificar, Receber->Fax, 		  Space( Len( Receber->Fax		  )))
-	cFone1		:= IF( lModificar, Receber->Fone1,		  Space( Len( Receber->Fone1	  )))
-	cProf 		:= IF( lModificar, Receber->Profissao,   Space( Len( Receber->Profissao)))
-	cCargo		:= IF( lModificar, Receber->Cargo,		  Space( Len( Receber->Cargo	  )))
-	cTraba		:= IF( lModificar, Receber->Trabalho,	  Space( Len( Receber->Trabalho )))
-	cFone2		:= IF( lModificar, Receber->Fone,		  Space( Len( Receber->Fone 	  )))
-	cTempo		:= IF( lModificar, Receber->Tempo,		  Space( Len( Receber->Tempo	  )))
-	cRefCom		:= IF( lModificar, Receber->RefCom, 	  Space( Len( Receber->RefCom	  )))
-	cRefBco		:= IF( lModificar, Receber->RefBco, 	  Space( Len( Receber->RefBco	  )))
-	cImovel		:= IF( lModificar, Receber->Imovel, 	  Space( Len( Receber->Imovel	  )))
-	cVeiculo 	:= IF( lModificar, Receber->Veiculo,	  Space( Len( Receber->Veiculo   )))
-	cConhecida	:= IF( lModificar, Receber->Conhecida,   Space( Len( Receber->Conhecida )))
-	cObs			:= IF( lModificar, Receber->Obs, 		  Space( Len( Receber->Obs	   )))
-	cObs1 		:= IF( lModificar, Receber->Obs1,		  Space( Len( Receber->Obs1   )))
-	cObs2 		:= IF( lModificar, Receber->Obs2,		  Space( Len( Receber->Obs2   )))
-	cObs3 		:= IF( lModificar, Receber->Obs3,		  Space( Len( Receber->Obs3   )))
-	cObs4 		:= IF( lModificar, Receber->Obs4,		  Space( Len( Receber->Obs4   )))
-	cObs5 		:= IF( lModificar, Receber->Obs5,		  Space( Len( Receber->Obs5   )))
-	cObs6 		:= IF( lModificar, Receber->Obs6,		  Space( Len( Receber->Obs6   )))
-	cObs7 		:= IF( lModificar, Receber->Obs7,		  Space( Len( Receber->Obs7   )))
-	cObs8 		:= IF( lModificar, Receber->Obs8,		  Space( Len( Receber->Obs8   )))
-	cObs9 		:= IF( lModificar, Receber->Obs9,		  Space( Len( Receber->Obs9   )))
-	cObs10		:= IF( lModificar, Receber->Obs10,		  Space( Len( Receber->Obs10  )))
-	cObs11		:= IF( lModificar, Receber->Obs11,		  Space( Len( Receber->Obs11  )))
-	cObs12		:= IF( lModificar, Receber->Obs12,		  Space( Len( Receber->Obs12  )))
-	cObs13		:= IF( lModificar, Receber->Obs13,		  Space( Len( Receber->Obs13  )))
-	cRegiao		:= IF( lModificar, Receber->Regiao, 	  Space( Len( Receber->Regiao )))
-	cBanco		:= IF( lModificar, Receber->Banco,		  Space( Len( Receber->Banco  )))
-	dNasc 		:= IF( lModificar, Receber->Nasc,		  Ctod("//"))
-	dData 		:= IF( lModificar, Receber->Data,		  Date())
-	nDepe 		:= IF( lModificar, Receber->Depe,		  0 )
-	nRenda		:= IF( lModificar, Receber->Media,		  0)
-	nLimite		:= IF( lModificar, Receber->Limite, 	  0)
-	nMedia		:= IF( lModificar, Receber->Media,		  0)
-	cSpc			:= IF( lModificar, IF( Receber->Spc = OK, "S", "N"), "N")
-	dDataSpc 	:= IF( lModificar, Receber->DataSpc,  Ctod("//"))
-	cCancelada	:= IF( lModificar, IF( Receber->Cancelada = OK, "S", "N"), "N")
-	cSuporte 	:= IF( lModificar, IF( Receber->Suporte	= OK, "S", "N"), "S")
-	cSci			:= IF( lModificar, IF( Receber->Sci 		= OK, "S", "N"), "N")
-	cFabricante := IF( lModificar, Receber->Fabricante,		Space( Len( Receber->Fabricante )))
-	cProduto 	:= IF( lModificar, Receber->Produto,			Space( Len( Receber->Produto	  )))
-	cModelo		:= IF( lModificar, Receber->Modelo, 			Space( Len( Receber->Modelo 	  )))
-	cLocal		:= IF( lModificar, Receber->Local,				Space( Len( Receber->Local		  )))
-	nValor		:= IF( lModificar, Receber->Valor,				0 )
-	nPrazo		:= IF( lModificar, Receber->Prazo,				0 )
-	nDataVcto	:= IF( lModificar, Receber->DataVcto,			0 )
-	nPrazoExt	:= IF( lModificar, Receber->PrazoExt,			0 )
-	cAutorizaca := IF( lModificar, IF( Receber->Autorizaca = OK, "S", "N"), "N")
-	cAssAutoriz := IF( lModificar, IF( Receber->AssAutoriz = OK, "S", "N"), "N")
-	cCidaAval	:= IF( lModificar, Receber->CidaAval,			Space( Len( Receber->CidaAval	)))
-	cEstaAval	:= IF( lModificar, Receber->EstaAval,			Space( Len( Receber->EstaAval	)))
-	cBairAval	:= IF( lModificar, Receber->BairAval,			Space( Len( Receber->BairAval	)))
-	cFoneAval	:= IF( lModificar, Receber->FoneAval,			Space( Len( Receber->FoneAval	)))
-	cFaxAval 	:= IF( lModificar, Receber->FaxAval,			Space( Len( Receber->FaxAval	)))
-	cRgAval		:= IF( lModificar, Receber->RgAval, 			Space( Len( Receber->RgAval 	)))
-	cCpfAval 	:= IF( lModificar, Receber->CpfAval,			Space( Len( Receber->CpfAval	)))
-	cCfop 		:= IF( lModificar, Receber->Cfop,				Space( Len( Receber->Cfop		)))
-	nIcms 		:= IF( lModificar, Receber->Tx_Icms,			0 )
-	cNatu 		:= ''
-	cCep			:= IF( lModificar, Receber->Cep, XCCEP)
-
-	IF( !lModificar, Receber->(DbGoBottom()),)
-	lSair 	:= FALSO
-	if lAtivaRegNew
-		nNewCodi :=  Receber->(Val( Codi )+1)
-		cCodi 	:= IF( lModificar, Receber->Codi, IF( nNewCodi > 99999, RetProximo(), StrZero( nNewCodi, 5)))
-	Else
-		IF( lModificar )
-			cCodi := Receber->Codi
-		Else
-			Receber->(Order(NATURAL))
-			Receber->(DbGobottom())
-			cCodi := ProxCli( Receber->Codi )
+	SetKey( F4, {|| AtivaRegNew( @lAtivaRegNew )})
+	if lAlteracao != NIL .AND. lAlteracao
+		lModificar := OK
+		if !PodeAlterar()
+			SetKey( F4, NIL )
+			ResTela( cScreen )
+			Return
 		endif
 	endif
-	cString	:= IF( lModificar, "ALTERACAO DE CLIENTE", "INCLUSAO DE NOVOS CLIENTES")
-	cSwap 	:= cCodi
-	cPraca	:= XCCEP
-	aNatu 	:= LerNatu()
-	aCFop 	:= LerCfop()
-	aTxIcms	:= LerIcms()
+
+	if !lModificar
+		if !PodeIncluir()
+			SetKey( F4, NIL )
+			Restela( cScreen )
+			Return
+		endif
+	endif
+	Set Key F9 To
+	Area("Receber")
+	Order( RECEBER_CODI )
 	WHILE OK
-		MaBox( 00 , 00 , 24 , 79, cString )
-		Write( 01,		 01, "Codigo.....:                                 Data........:")
-		Write( Row()+1, 01, "Nome.......:                                              ")
-		Write( Row()+1, 01, "Pop........:                                              ")
-		Write( Row()+1, 01, "Cidade.....:                                 Estado......:")
-		Write( Row()+1, 01, "Pca Pagto..:           Cfop:      Icms:      Regiao......:")
-		Write( Row()+1, 01, "Endereco...:                                 Bairro......:")
-		Write( Row()+1, 01, "Rg nº......:                                 Cpf.........:")
-		Write( Row()+1, 01, "I. Est.....:                                 Cgc/Mf......:")
-		Write( Row()+1, 01, "Telefone...:                                 Fax.........:")
-		Write( Row()+1, 01, "------------------------------------------------------------------------------")
-		Write( Row()+1, 01, "Natural....:                                 Nascimento..:")
-		Write( Row()+1, 01, "Estado Civil:                                Dependentes.:")
-		Write( Row()+1, 01, "Esposo(a)..:                                              ")
-		Write( Row()+1, 01, "Profissao..:                                 Cargo.......:")
-		Write( Row()+1, 01, "Trabalho...:                                 Fone........:")
-		Write( Row()+1, 01, "Tempo......:                                 Renda Mes...:")
-		Write( Row()+1, 01, "Pai........:                                              ")
-		Write( Row()+1, 01, "Mae........:                                              ")
-		Write( Row()+1, 01, "Endereco...:                                 Fone........:")
-		Write( Row()+1, 01, "------------------------------------------------------------------------------")
-		Write( Row()+1, 01, "Referencia.:                                         Spc.:   em")
-		Write( Row()+1, 01, "Referencia.:")
-		Write( Row()+1, 01, "Imoveis....:")
-		nCol	:= 13
-		nCol1 := 59
-		nCol2 := 33
-		nCol3 := 29
-		nCol4 := 40
-		@ 01, 	  nCol  Get cCodi 	 Pict PIC_RECEBER_CODI Valid RecCerto( @cCodi, lModificar, cSwap )
-		@ Row(),   nCol1 Get dData 	 Pict "##/##/##"
-		@ Row()+1, nCol  Get cNome 	 Pict "@!"
-		@ Row()+1, nCol  Get cFanta	 Pict "@!"
-		@ Row()+1, nCol  Get cCep		 Pict "#####-###" Valid CepErrado( @cCep, @cCida, @cEsta, @cBair )
-		@ Row(),   23	  Get cCida 	 Pict "@!S21"
-		@ Row(),   nCol1 Get cEsta 	 Pict "@!"
-		@ Row()+1, nCol  Get cPraca	 Pict "#####-###" Valid CepErrado( @cPraca )
-		@ Row(),   nCol3 Get cCFop 	 Pict "9.999" Valid PickTam2( @aNatu, @aCfop, @aTxIcms, @cCfop, @cNatu, @nIcms )
-		@ Row(),   nCol4 Get nIcms 	 Pict "99.99"
-		@ Row(),   nCol1 Get cRegiao	 Pict "99"   Valid RegiaoErrada( @cRegiao )
-		@ Row()+1, nCol  Get cEnde 	 Pict "@!"
-		@ Row()	, nCol1 Get cBair 	 Pict "@!S21"
-		@ Row()+1, nCol  Get cRg		 Pict "@!"
-		@ Row(),   nCol1 Get cCpf		 Pict "999.999.999-99"     Valid TestaCpf( cCpf )
-		@ Row()+1, nCol  Get cInsc 	 Pict "@!"                 When Empty( Left( cCpf, 3 ))
-		@ Row(),   nCol1 Get cCgc		 Pict "99.999.999/9999-99" When Empty( Left( cCpf, 3 )) Valid TestaCgc( cCgc )
-		@ Row()+1, nCol  Get cFone 	 Pict PIC_FONE
-		@ Row(),   nCol1 Get cFax		 Pict PIC_FONE
+		oMenu:Limpa()
+		cNome 		:= IF( lModificar, Receber->Nome,		  Space( Len( Receber->Nome 	  )))
+		cFanta		:= IF( lModificar, Receber->Fanta,		  Space( Len( Receber->Fanta	  )))
+		cCgc			:= IF( lModificar, Receber->Cgc, 		  Space( Len( Receber->Cgc		  )))
+		cInsc 		:= IF( lModificar, Receber->Insc,		  Space( Len( Receber->Insc 	  )))
+		cEnde 		:= IF( lModificar, Receber->Ende,		  Space( Len( Receber->Ende 	  )))
+		cBair 		:= IF( lModificar, Receber->Bair,		  Space( Len( Receber->Bair 	  )))
+		cCivil		:= IF( lModificar, Receber->Civil,		  Space( Len( Receber->Civil	  )))
+		cCida 		:= IF( lModificar, Receber->Cida,		  Space( Len( Receber->Cida 	  )))
+		cEsta 		:= IF( lModificar, Receber->Esta,		  Space( Len( Receber->Esta 	  )))
+		cNatural 	:= IF( lModificar, Receber->Natural,	  Space( Len( Receber->Natural  )))
+		cRg			:= IF( lModificar, Receber->Rg,			  Space( Len( Receber->Rg		  )))
+		cCpf			:= IF( lModificar, Receber->Cpf, 		  Space( Len( Receber->Cpf	     )))
+		cEsposa		:= IF( lModificar, Receber->Esposa, 	  Space( Len( Receber->Esposa	  )))
+		cEnde3		:= IF( lModificar, Receber->Ende3,		  Space( Len( Receber->Ende3	  )))
+		cPai			:= IF( lModificar, Receber->Pai, 		  Space( Len( Receber->Pai		  )))
+		cMae			:= IF( lModificar, Receber->Mae, 		  Space( Len( Receber->Mae		  )))
+		cEnde1		:= IF( lModificar, Receber->Ende1,		  Space( Len( Receber->Ende1	  )))
+		cFone 		:= IF( lModificar, Receber->Fone,		  Space( Len( Receber->Fone 	  )))
+		cFax			:= IF( lModificar, Receber->Fax, 		  Space( Len( Receber->Fax		  )))
+		cFone1		:= IF( lModificar, Receber->Fone1,		  Space( Len( Receber->Fone1	  )))
+		cProf 		:= IF( lModificar, Receber->Profissao,   Space( Len( Receber->Profissao)))
+		cCargo		:= IF( lModificar, Receber->Cargo,		  Space( Len( Receber->Cargo	  )))
+		cTraba		:= IF( lModificar, Receber->Trabalho,	  Space( Len( Receber->Trabalho )))
+		cFone2		:= IF( lModificar, Receber->Fone,		  Space( Len( Receber->Fone 	  )))
+		cTempo		:= IF( lModificar, Receber->Tempo,		  Space( Len( Receber->Tempo	  )))
+		cRefCom		:= IF( lModificar, Receber->RefCom, 	  Space( Len( Receber->RefCom	  )))
+		cRefBco		:= IF( lModificar, Receber->RefBco, 	  Space( Len( Receber->RefBco	  )))
+		cImovel		:= IF( lModificar, Receber->Imovel, 	  Space( Len( Receber->Imovel	  )))
+		cVeiculo 	:= IF( lModificar, Receber->Veiculo,	  Space( Len( Receber->Veiculo   )))
+		cConhecida	:= IF( lModificar, Receber->Conhecida,   Space( Len( Receber->Conhecida )))
+		cObs			:= IF( lModificar, Receber->Obs, 		  Space( Len( Receber->Obs	   )))
+		cObs1 		:= IF( lModificar, Receber->Obs1,		  Space( Len( Receber->Obs1   )))
+		cObs2 		:= IF( lModificar, Receber->Obs2,		  Space( Len( Receber->Obs2   )))
+		cObs3 		:= IF( lModificar, Receber->Obs3,		  Space( Len( Receber->Obs3   )))
+		cObs4 		:= IF( lModificar, Receber->Obs4,		  Space( Len( Receber->Obs4   )))
+		cObs5 		:= IF( lModificar, Receber->Obs5,		  Space( Len( Receber->Obs5   )))
+		cObs6 		:= IF( lModificar, Receber->Obs6,		  Space( Len( Receber->Obs6   )))
+		cObs7 		:= IF( lModificar, Receber->Obs7,		  Space( Len( Receber->Obs7   )))
+		cObs8 		:= IF( lModificar, Receber->Obs8,		  Space( Len( Receber->Obs8   )))
+		cObs9 		:= IF( lModificar, Receber->Obs9,		  Space( Len( Receber->Obs9   )))
+		cObs10		:= IF( lModificar, Receber->Obs10,		  Space( Len( Receber->Obs10  )))
+		cObs11		:= IF( lModificar, Receber->Obs11,		  Space( Len( Receber->Obs11  )))
+		cObs12		:= IF( lModificar, Receber->Obs12,		  Space( Len( Receber->Obs12  )))
+		cObs13		:= IF( lModificar, Receber->Obs13,		  Space( Len( Receber->Obs13  )))
+		cRegiao		:= IF( lModificar, Receber->Regiao, 	  Space( Len( Receber->Regiao )))
+		cBanco		:= IF( lModificar, Receber->Banco,		  Space( Len( Receber->Banco  )))
+		dNasc 		:= IF( lModificar, Receber->Nasc,		  Ctod("//"))
+		dData 		:= IF( lModificar, Receber->Data,		  Date())
+		nDepe 		:= IF( lModificar, Receber->Depe,		  0 )
+		nRenda		:= IF( lModificar, Receber->Media,		  0)
+		nLimite		:= IF( lModificar, Receber->Limite, 	  0)
+		nMedia		:= IF( lModificar, Receber->Media,		  0)
+		cSpc			:= IF( lModificar, IF( Receber->Spc = OK, "S", "N"), "N")
+		dDataSpc 	:= IF( lModificar, Receber->DataSpc,  Ctod("//"))
+		cCancelada	:= IF( lModificar, IF( Receber->Cancelada = OK, "S", "N"), "N")
+		cSuporte 	:= IF( lModificar, IF( Receber->Suporte	= OK, "S", "N"), "S")
+		cSci			:= IF( lModificar, IF( Receber->Sci 		= OK, "S", "N"), "N")
+		cFabricante := IF( lModificar, Receber->Fabricante,		Space( Len( Receber->Fabricante )))
+		cProduto 	:= IF( lModificar, Receber->Produto,			Space( Len( Receber->Produto	  )))
+		cModelo		:= IF( lModificar, Receber->Modelo, 			Space( Len( Receber->Modelo 	  )))
+		cLocal		:= IF( lModificar, Receber->Local,				Space( Len( Receber->Local		  )))
+		nValor		:= IF( lModificar, Receber->Valor,				0 )
+		nPrazo		:= IF( lModificar, Receber->Prazo,				0 )
+		nDataVcto	:= IF( lModificar, Receber->DataVcto,			0 )
+		nPrazoExt	:= IF( lModificar, Receber->PrazoExt,			0 )
+		cAutorizaca := IF( lModificar, IF( Receber->Autorizaca = OK, "S", "N"), "N")
+		cAssAutoriz := IF( lModificar, IF( Receber->AssAutoriz = OK, "S", "N"), "N")
+		cCidaAval	:= IF( lModificar, Receber->CidaAval,			Space( Len( Receber->CidaAval	)))
+		cEstaAval	:= IF( lModificar, Receber->EstaAval,			Space( Len( Receber->EstaAval	)))
+		cBairAval	:= IF( lModificar, Receber->BairAval,			Space( Len( Receber->BairAval	)))
+		cFoneAval	:= IF( lModificar, Receber->FoneAval,			Space( Len( Receber->FoneAval	)))
+		cFaxAval 	:= IF( lModificar, Receber->FaxAval,			Space( Len( Receber->FaxAval	)))
+		cRgAval		:= IF( lModificar, Receber->RgAval, 			Space( Len( Receber->RgAval 	)))
+		cCpfAval 	:= IF( lModificar, Receber->CpfAval,			Space( Len( Receber->CpfAval	)))
+		cCfop 		:= IF( lModificar, Receber->Cfop,				Space( Len( Receber->Cfop		)))
+		nIcms 		:= IF( lModificar, Receber->Tx_Icms,			0 )
+		cNatu 		:= ''
+		cCep			:= IF( lModificar, Receber->Cep, XCCEP)
 
-		@ Row()+2, nCol  Get cNatural  Pict "@!"             When !Empty( Left( cCpf, 3 ))
-		@ Row(),   nCol1 Get dNasc 	 Pict "##/##/##"       When !Empty( Left( cCpf, 3 ))
-		@ Row()+1, nCol  Get cCivil	 Pict "@!"             When !Empty( Left( cCpf, 3 ))
-		@ Row(),   nCol1 Get nDepe 	 Pict "99"             When !Empty( Left( cCpf, 3 ))
-		@ Row()+1, nCol  Get cEsposa	 Pict "@!"             When !Empty( Left( cCpf, 3 ))
-		@ Row()+1, nCol  Get cProf 	 Pict "@!"             When !Empty( Left( cCpf, 3 ))
-		@ Row(),   nCol1 Get cCargo	 Pict "@!"             When !Empty( Left( cCpf, 3 ))
-		@ Row()+1, nCol  Get cTraba	 Pict "@!"             When !Empty( Left( cCpf, 3 ))
-		@ Row(),   nCol1 Get cFone2	 Pict PIC_FONE 		  When !Empty( Left( cCpf, 3 ))
-		@ Row()+1, nCol  Get cTempo	 Pict "@!"             When !Empty( Left( cCpf, 3 ))
-		@ Row(),   nCol1 Get nRenda	 Pict "99999999.99"    When !Empty( Left( cCpf, 3 ))
-		@ Row()+1, nCol  Get cPai		 Pict "@!"             When !Empty( Left( cCpf, 3 ))
-		@ Row()+1, nCol  Get cMae		 Pict "@!"             When !Empty( Left( cCpf, 3 ))
-		@ Row()+1, nCol  Get cEnde1	 Pict "@!"             When !Empty( Left( cCpf, 3 ))
-		@ Row(),   58	  Get cFone1	 Pict PIC_FONE 		  When !Empty( Left( cCpf, 3 ))
-
-		@ Row()+2, nCol  Get cRefCom	 Pict "@!"
-		@ Row(),   60	  Get cSpc		 Pict "!" Valid cSpc $ "SN"
-		@ Row(),   66	  Get dDataSpc  Pict "##/##/##" Valid IF( cSpc = "S", !Empty( dDataSpc ), OK ) .OR. LastKey() = UP
-		@ Row()+1, nCol  Get cRefBco	 Pict "@!"
-		@ Row()+1, nCol  Get cImovel	 Pict "@!"
-		Read
-		if LastKey() = ESC
-			lSair := OK
-			Exit
-		endif
-		nCol := 18
-		MaBox( 00, 00 , 24 , 79, cString )
-		@ 01		, 01 Say "Veiculos...:"     Get cVeiculo    Pict '@!'
-		@ Row()+1, 01 Say "Avalista...:"     Get cConhecida  Pict "@!"
-		@ Row()+1, 01 Say "Cidade.....:"     Get cCidaAval   Pict "@!S21"
-		@ Row(),   45 Say "Estado.....:"     Get cEstaAval   Pict "@!"
-		@ Row()+1, 01 Say "Endereco...:"     Get cEnde3      Pict "@!"
-		@ Row(),   45 Say "Bairro.....:"     Get cBairAval   Pict "@!"
-		@ Row()+1, 01 Say "Telefone...:"     Get cFoneAval   Pict PIC_FONE
-		@ Row(),   45 Say "Fax........:"     Get cFaxAval    Pict PIC_FONE
-		@ Row()+1, 01 Say "Rg nº......:"     Get cRgAval     Pict "@!"
-		@ Row(),   45 Say "Cpf........:"     Get cCpfAval    Pict "999.999.999-99"	Valid TestaCpf( cCpfAval )
-		@ Row()+1, 01 Say "Limite Credito.:" Get nLimite     Pict "99999999.99"
-		@ Row(),   45 Say "Bancos.....:"     Get cBanco      Pict "@!S20"
-		@ Row()+1, 01 Say "Ficha Cancelada:" Get cCancelada  Pict "!" 					Valid PickSimNao( @cCancelada )
-		@ Row(),   45 Say "Suporte....:"     Get cSuporte    Pict "!" 					Valid PickSimNao( @cSuporte )
-		@ Row(),   60 Say "Cliente Sistema.:"Get cSci        Pict "!" 					Valid PickSimNao( @cSci )
-		@ Row()+1, 01 Say "Autoriza Compra:" Get cAutorizaca Pict "!" 					Valid PickSimNao( @cAutorizaca )
-		@ Row(),   45 Say "Assinou....:"     Get cAssAutoriz Pict "!" 					Valid PickSimNao( @cAssAutoriz )
-		Write( Row()+1, 01, "------------------------------------------------------------------------------")
-		@ Row()+1, 01 Say "Observacoes....:" Get cObs    Pict "@!"
-		@ Row()+1, 01 Say "...............:" Get cObs1   Pict "@!"
-		@ Row()+1, 01 Say "...............:" Get cObs2   Pict "@!"
-		@ Row()+1, 01 Say "...............:" Get cObs3   Pict "@!"
-		@ Row()+1, 01 Say "...............:" Get cObs4   Pict "@!"
-		@ Row()+1, 01 Say "...............:" Get cObs5   Pict "@!"
-		@ Row()+1, 01 Say "...............:" Get cObs6   Pict "@!"
-		@ Row()+1, 01 Say "...............:" Get cObs7   Pict "@!"
-		@ Row()+1, 01 Say "...............:" Get cObs8   Pict "@!"
-		@ Row()+1, 01 Say "...............:" Get cObs9   Pict "@!"
-		@ Row()+1, 01 Say "...............:" Get cObs10  Pict "@!"
-		@ Row()+1, 01 Say "...............:" Get cObs11  Pict "@!"
-		@ Row()+1, 01 Say "...............:" Get cObs12  Pict "@!"
-#ifdef MAXMOTORS
-		Read
-		if LastKey() = ESC
-			lSair := OK
-			Exit
-		endif
-		nCol := 18
-		MaBox( 00, 00 , 24 , 79, cString )
-		@ 01, 	  01 Say "Fabricante.....:" Get cFabricante Pict "@!"
-		@ Row()+1, 01 Say "Produto........:" Get cProduto    Pict "@!"
-		@ Row()+1, 01 Say "Modelo.........:" Get cModelo     Pict "@!"
-		@ Row(),   50 Say "Valor..........:" Get nValor      Pict "999999999.99"
-		@ Row()+1, 01 Say "Local Venda....:" Get cLocal      Pict "@!"
-		@ Row(),   50 Say "Nº Prestacoes..:" Get nPrazo      Pict "999"
-		@ Row()+1, 01 Say "Data Vcto Pres.:" Get nDataVcto   Pict "99"
-		@ Row(),   50 Say "Prazo Exten....." Get nPrazoExt   Pict "99"
-#endif
-		Read
-		if LastKey() = ESC
-			lSair := OK
-			Exit
-		endif
-		ErrorBeep()
-		nOpcao := Alerta(" Pergunta: Voce Deseja ? ", if(lModificar, aAltCanSai, aIncAltSai))
-		if nOpcao = 1	// Incluir
-			if lModificar
-				if !Receber->(TravaReg()) ; Loop ; endif
-			else
-				if !RecCerto( @cCodi, lModificar ) ; Loop ; endif
-				if !Receber->(Incluiu())			  ; Loop ; endif
+		IF( !lModificar, Receber->(DbGoBottom()),)
+		lSair 	:= FALSO
+		if lAtivaRegNew
+			nNewCodi :=  Receber->(Val( Codi )+1)
+			cCodi 	:= IF( lModificar, Receber->Codi, IF( nNewCodi > 99999, RetProximo(), StrZero( nNewCodi, 5)))
+		Else
+			IF( lModificar )
+				cCodi := Receber->Codi
+			Else
+				Receber->(Order(NATURAL))
+				Receber->(DbGobottom())
+				cCodi := ProxCli( Receber->Codi )
 			endif
-			Receber->Codi		 := cCodi
-			Receber->Data		 := dData
-			Receber->Nome		 := cNome
-			Receber->Fanta 	 := cFanta
-			Receber->Cep		 := cCep
-			Receber->Praca 	 := cPraca
-			Receber->Ende		 := cEnde
-			Receber->Cida		 := cCida
-			Receber->Bair		 := cBair
-			Receber->Esta		 := cEsta
-			Receber->Rg 		 := cRg
-			Receber->Cpf		 := cCpf
-			Receber->Insc		 := cInsc
-			Receber->Cgc		 := cCgc
-			Receber->Media 	 := nRenda
-			Receber->RefCom	 := cRefCom
-			Receber->RefBco	 := cRefBco
-			Receber->Imovel	 := cImovel
-			Receber->Civil 	 := cCivil
-			Receber->Natural	 := cNatural
-			Receber->Nasc		 := dNasc
-			Receber->Esposa	 := cEsposa
-			Receber->Depe		 := nDepe
-			Receber->Pai		 := cPai
-			Receber->Mae		 := cMae
-			Receber->Ende1 	 := cEnde1
-			Receber->Fax		 := cFax
-			Receber->Fone		 := cFone
-			Receber->Fone1 	 := cFone1
-			Receber->Profissao := cProf
-			Receber->Cargo 	 := cCargo
-			Receber->Trabalho  := cTraba
-			Receber->Fone2 	 := cFone2
-			Receber->Tempo 	 := cTempo
-			Receber->Veiculo	 := cVeiculo
-			Receber->Conhecida := cConhecida
-			Receber->Ende3 	 := cEnde3
-			Receber->Spc		 := IF( cSpc		 = "S", OK, FALSO )
-			Receber->DataSpc	 := dDataSpc
-			Receber->Cancelada := IF( cCancelada = "S", OK, FALSO )
-			Receber->Suporte	 := IF( cSuporte	 = "S", OK, FALSO )
-			Receber->Sci		 := IF( cSci		 = "S", OK, FALSO )
-			Receber->Obs		 := cObs
-			Receber->Obs1		 := cObs1
-			Receber->Obs2		 := cObs2
-			Receber->Obs3		 := cObs3
-			Receber->Obs4		 := cObs4
-			Receber->Obs5		 := cObs5
-			Receber->Obs6		 := cObs6
-			Receber->Obs7		 := cObs7
-			Receber->Obs8		 := cObs8
-			Receber->Obs9		 := cObs9
-			Receber->Obs10 	 := cObs10
-			Receber->Obs11 	 := cObs11
-			Receber->Obs12 	 := cObs12
-			Receber->Obs13 	 := cObs13
-			Receber->Limite	 := nLimite
-			Receber->Regiao	 := cRegiao
-			Receber->Banco 	 := cBanco
-			Receber->Fabricante := cFabricante
-			Receber->Produto	  := cProduto
-			Receber->Modelo	  := cModelo
-			Receber->Local 	  := cLocal
-			Receber->Valor 	  := nValor
-			Receber->Prazo 	  := nPrazo
-			Receber->DataVcto   := nDataVcto
-			Receber->PrazoExt   := nPrazoExt
-			Receber->Autorizaca := IF( cAutorizaca = "S", OK, FALSO )
-			Receber->AssAutoriz := IF( cAssAutoriz = "S", OK, FALSO )
-			Receber->CidaAval   := cCidaAval
-			Receber->EstaAval   := cEstaAval
-			Receber->BairAval   := cBairAval
-			Receber->FoneAval   := cFoneAval
-			Receber->FaxAval	  := cFaxAval
-			Receber->RgAval	  := cRgAval
-			Receber->CpfAval	  := cCpfAval
-			Receber->Cfop		  := cCfop
-			Receber->Tx_Icms	  := nIcms
-			Receber->(Libera())
-			lUpdated := true
-			if lModificar
+		endif
+		cString	:= IF( lModificar, "ALTERACAO DE CLIENTE", "INCLUSAO DE NOVOS CLIENTES")
+		cSwap 	:= cCodi
+		cPraca	:= XCCEP
+		aNatu 	:= LerNatu()
+		aCFop 	:= LerCfop()
+		aTxIcms	:= LerIcms()
+		WHILE OK
+			MaBox( 00 , 00 , 24 , 79, cString )
+			Write( 01,		 01, "Codigo.....:                                 Data........:")
+			Write( Row()+1, 01, "Nome.......:                                              ")
+			Write( Row()+1, 01, "Pop........:                                              ")
+			Write( Row()+1, 01, "Cidade.....:                                 Estado......:")
+			Write( Row()+1, 01, "Pca Pagto..:           Cfop:      Icms:      Regiao......:")
+			Write( Row()+1, 01, "Endereco...:                                 Bairro......:")
+			Write( Row()+1, 01, "Rg.........:                                 Cpf.........:")
+			Write( Row()+1, 01, "I. Est.....:                                 Cgc/Mf......:")
+			Write( Row()+1, 01, "Telefone...:                                 Fax.........:")
+			Write( Row()+1, 01, "------------------------------------------------------------------------------")
+			Write( Row()+1, 01, "Natural....:                                 Nascimento..:")
+			Write( Row()+1, 01, "Estado Civil:                                Dependentes.:")
+			Write( Row()+1, 01, "Esposo(a)..:                                              ")
+			Write( Row()+1, 01, "Profissao..:                                 Cargo.......:")
+			Write( Row()+1, 01, "Trabalho...:                                 Fone........:")
+			Write( Row()+1, 01, "Tempo......:                                 Renda Mes...:")
+			Write( Row()+1, 01, "Pai........:                                              ")
+			Write( Row()+1, 01, "Mae........:                                              ")
+			Write( Row()+1, 01, "Endereco...:                                 Fone........:")
+			Write( Row()+1, 01, "------------------------------------------------------------------------------")
+			Write( Row()+1, 01, "Referencia.:                                         Spc.:   em")
+			Write( Row()+1, 01, "Referencia.:")
+			Write( Row()+1, 01, "Imoveis....:")
+			nCol	:= 13
+			nCol1 := 59
+			nCol2 := 33
+			nCol3 := 29
+			nCol4 := 40
+			@ 01, 	  nCol  Get cCodi 	 Pict PIC_RECEBER_CODI Valid RecCerto( @cCodi, lModificar, cSwap )
+			@ Row(),   nCol1 Get dData 	 Pict "##/##/##"
+			@ Row()+1, nCol  Get cNome 	 Pict "@!"
+			@ Row()+1, nCol  Get cFanta	 Pict "@!"
+			@ Row()+1, nCol  Get cCep		 Pict "#####-###" Valid CepErrado( @cCep, @cCida, @cEsta, @cBair )
+			@ Row(),   23	  Get cCida 	 Pict "@!S21"
+			@ Row(),   nCol1 Get cEsta 	 Pict "@!"
+			@ Row()+1, nCol  Get cPraca	 Pict "#####-###" Valid CepErrado( @cPraca )
+			@ Row(),   nCol3 Get cCFop 	 Pict "9.999"     Valid PickTam2( @aNatu, @aCfop, @aTxIcms, @cCfop, @cNatu, @nIcms )
+			@ Row(),   nCol4 Get nIcms 	 Pict "99.99"
+			@ Row(),   nCol1 Get cRegiao	 Pict "99"        Valid RegiaoErrada( @cRegiao )
+			@ Row()+1, nCol  Get cEnde 	 Pict "@!"
+			@ Row()	, nCol1 Get cBair 	 Pict "@!S21"
+			@ Row()+1, nCol  Get cRg		 Pict "@!"
+			@ Row(),   nCol1 Get cCpf		 Pict "999.999.999-99"     Valid TestaCpf( cCpf )
+			@ Row()+1, nCol  Get cInsc 	 Pict "@!"                 When Empty( Left( cCpf, 3 ))
+			@ Row(),   nCol1 Get cCgc		 Pict "99.999.999/9999-99" When Empty( Left( cCpf, 3 )) Valid TestaCgc( cCgc )
+			@ Row()+1, nCol  Get cFone 	 Pict PIC_FONE
+			@ Row(),   nCol1 Get cFax		 Pict PIC_FONE
+
+			@ Row()+2, nCol  Get cNatural  Pict "@!"             When !Empty( Left( cCpf, 3 ))
+			@ Row(),   nCol1 Get dNasc 	 Pict "##/##/##"       When !Empty( Left( cCpf, 3 ))
+			@ Row()+1, nCol  Get cCivil	 Pict "@!"             When !Empty( Left( cCpf, 3 ))
+			@ Row(),   nCol1 Get nDepe 	 Pict "99"             When !Empty( Left( cCpf, 3 ))
+			@ Row()+1, nCol  Get cEsposa	 Pict "@!"             When !Empty( Left( cCpf, 3 ))
+			@ Row()+1, nCol  Get cProf 	 Pict "@!"             When !Empty( Left( cCpf, 3 ))
+			@ Row(),   nCol1 Get cCargo	 Pict "@!"             When !Empty( Left( cCpf, 3 ))
+			@ Row()+1, nCol  Get cTraba	 Pict "@!"             When !Empty( Left( cCpf, 3 ))
+			@ Row(),   nCol1 Get cFone2	 Pict PIC_FONE 		  When !Empty( Left( cCpf, 3 ))
+			@ Row()+1, nCol  Get cTempo	 Pict "@!"             When !Empty( Left( cCpf, 3 ))
+			@ Row(),   nCol1 Get nRenda	 Pict "99999999.99"    When !Empty( Left( cCpf, 3 ))
+			@ Row()+1, nCol  Get cPai		 Pict "@!"             When !Empty( Left( cCpf, 3 ))
+			@ Row()+1, nCol  Get cMae		 Pict "@!"             When !Empty( Left( cCpf, 3 ))
+			@ Row()+1, nCol  Get cEnde1	 Pict "@!"             When !Empty( Left( cCpf, 3 ))
+			@ Row(),   58	  Get cFone1	 Pict PIC_FONE 		  When !Empty( Left( cCpf, 3 ))
+
+			@ Row()+2, nCol  Get cRefCom	 Pict "@!"
+			@ Row(),   60	  Get cSpc		 Pict "!" Valid cSpc $ "SN"
+			@ Row(),   66	  Get dDataSpc  Pict "##/##/##" Valid IF( cSpc = "S", !Empty( dDataSpc ), OK ) .OR. LastKey() = UP
+			@ Row()+1, nCol  Get cRefBco	 Pict "@!"
+			@ Row()+1, nCol  Get cImovel	 Pict "@!"
+			Read
+			if LastKey() = ESC
 				lSair := OK
+				Exit
 			endif
-			Exit
+			nCol := 18
+			MaBox( 00, 00 , 24 , 79, cString )
+			@ 01		, 01 Say "Veiculos...:"     Get cVeiculo    Pict '@!'
+			@ Row()+1, 01 Say "Avalista...:"     Get cConhecida  Pict "@!"
+			@ Row()+1, 01 Say "Cidade.....:"     Get cCidaAval   Pict "@!S21"
+			@ Row(),   45 Say "Estado.....:"     Get cEstaAval   Pict "@!"
+			@ Row()+1, 01 Say "Endereco...:"     Get cEnde3      Pict "@!"
+			@ Row(),   45 Say "Bairro.....:"     Get cBairAval   Pict "@!"
+			@ Row()+1, 01 Say "Telefone...:"     Get cFoneAval   Pict PIC_FONE
+			@ Row(),   45 Say "Fax........:"     Get cFaxAval    Pict PIC_FONE
+			@ Row()+1, 01 Say "Rg.........:"     Get cRgAval     Pict "@!"
+			@ Row(),   45 Say "Cpf........:"     Get cCpfAval    Pict "999.999.999-99"	Valid TestaCpf( cCpfAval )
+			@ Row()+1, 01 Say "Limite Credito.:" Get nLimite     Pict "99999999.99"
+			@ Row(),   45 Say "Bancos.....:"     Get cBanco      Pict "@!S20"
+			@ Row()+1, 01 Say "Ficha Cancelada:" Get cCancelada  Pict "!" 					Valid PickSimNao( @cCancelada )
+			@ Row(),   45 Say "Suporte....:"     Get cSuporte    Pict "!" 					Valid PickSimNao( @cSuporte )
+			@ Row(),   60 Say "Cliente Sistema.:"Get cSci        Pict "!" 					Valid PickSimNao( @cSci )
+			@ Row()+1, 01 Say "Autoriza Compra:" Get cAutorizaca Pict "!" 					Valid PickSimNao( @cAutorizaca )
+			@ Row(),   45 Say "Assinou....:"     Get cAssAutoriz Pict "!" 					Valid PickSimNao( @cAssAutoriz )
+			Write( Row()+1, 01, "------------------------------------------------------------------------------")
+			@ Row()+1, 01 Say "Observacoes....:" Get cObs    Pict "@!"
+			@ Row()+1, 01 Say "...............:" Get cObs1   Pict "@!"
+			@ Row()+1, 01 Say "...............:" Get cObs2   Pict "@!"
+			@ Row()+1, 01 Say "...............:" Get cObs3   Pict "@!"
+			@ Row()+1, 01 Say "...............:" Get cObs4   Pict "@!"
+			@ Row()+1, 01 Say "...............:" Get cObs5   Pict "@!"
+			@ Row()+1, 01 Say "...............:" Get cObs6   Pict "@!"
+			@ Row()+1, 01 Say "...............:" Get cObs7   Pict "@!"
+			@ Row()+1, 01 Say "...............:" Get cObs8   Pict "@!"
+			@ Row()+1, 01 Say "...............:" Get cObs9   Pict "@!"
+			@ Row()+1, 01 Say "...............:" Get cObs10  Pict "@!"
+			@ Row()+1, 01 Say "...............:" Get cObs11  Pict "@!"
+			@ Row()+1, 01 Say "...............:" Get cObs12  Pict "@!"
+	#ifdef MAXMOTORS
+			Read
+			if LastKey() = ESC
+				lSair := OK
+				Exit
+			endif
+			nCol := 18
+			MaBox( 00, 00 , 24 , 79, cString )
+			@ 01, 	  01 Say "Fabricante.....:" Get cFabricante Pict "@!"
+			@ Row()+1, 01 Say "Produto........:" Get cProduto    Pict "@!"
+			@ Row()+1, 01 Say "Modelo.........:" Get cModelo     Pict "@!"
+			@ Row(),   50 Say "Valor..........:" Get nValor      Pict "999999999.99"
+			@ Row()+1, 01 Say "Local Venda....:" Get cLocal      Pict "@!"
+			@ Row(),   50 Say "Nº Prestacoes..:" Get nPrazo      Pict "999"
+			@ Row()+1, 01 Say "Data Vcto Pres.:" Get nDataVcto   Pict "99"
+			@ Row(),   50 Say "Prazo Exten....." Get nPrazoExt   Pict "99"
+	#endif
+			Read
+			if LastKey() = ESC
+				lSair := OK
+				Exit
+			endif
+			ErrorBeep()
+			nOpcao := Alerta(" Pergunta: Voce Deseja ? ", if(lModificar, aAltCanSai, aIncAltSai))
+			if nOpcao = 1	// Incluir
+				if lModificar
+					if !Receber->(TravaReg()) ; Loop ; endif
+				else
+					if !RecCerto( @cCodi, lModificar ) ; Loop ; endif
+					if !Receber->(Incluiu())			  ; Loop ; endif
+				endif
+				Receber->Codi		 := cCodi
+				Receber->Data		 := dData
+				Receber->Nome		 := cNome
+				Receber->Fanta 	 := cFanta
+				Receber->Cep		 := cCep
+				Receber->Praca 	 := cPraca
+				Receber->Ende		 := cEnde
+				Receber->Cida		 := cCida
+				Receber->Bair		 := cBair
+				Receber->Esta		 := cEsta
+				Receber->Rg 		 := cRg
+				Receber->Cpf		 := cCpf
+				Receber->Insc		 := cInsc
+				Receber->Cgc		 := cCgc
+				Receber->Media 	 := nRenda
+				Receber->RefCom	 := cRefCom
+				Receber->RefBco	 := cRefBco
+				Receber->Imovel	 := cImovel
+				Receber->Civil 	 := cCivil
+				Receber->Natural	 := cNatural
+				Receber->Nasc		 := dNasc
+				Receber->Esposa	 := cEsposa
+				Receber->Depe		 := nDepe
+				Receber->Pai		 := cPai
+				Receber->Mae		 := cMae
+				Receber->Ende1 	 := cEnde1
+				Receber->Fax		 := cFax
+				Receber->Fone		 := cFone
+				Receber->Fone1 	 := cFone1
+				Receber->Profissao := cProf
+				Receber->Cargo 	 := cCargo
+				Receber->Trabalho  := cTraba
+				Receber->Fone2 	 := cFone2
+				Receber->Tempo 	 := cTempo
+				Receber->Veiculo	 := cVeiculo
+				Receber->Conhecida := cConhecida
+				Receber->Ende3 	 := cEnde3
+				Receber->Spc		 := IF( cSpc		 = "S", OK, FALSO )
+				Receber->DataSpc	 := dDataSpc
+				Receber->Cancelada := IF( cCancelada = "S", OK, FALSO )
+				Receber->Suporte	 := IF( cSuporte	 = "S", OK, FALSO )
+				Receber->Sci		 := IF( cSci		 = "S", OK, FALSO )
+				Receber->Obs		 := cObs
+				Receber->Obs1		 := cObs1
+				Receber->Obs2		 := cObs2
+				Receber->Obs3		 := cObs3
+				Receber->Obs4		 := cObs4
+				Receber->Obs5		 := cObs5
+				Receber->Obs6		 := cObs6
+				Receber->Obs7		 := cObs7
+				Receber->Obs8		 := cObs8
+				Receber->Obs9		 := cObs9
+				Receber->Obs10 	 := cObs10
+				Receber->Obs11 	 := cObs11
+				Receber->Obs12 	 := cObs12
+				Receber->Obs13 	 := cObs13
+				Receber->Limite	 := nLimite
+				Receber->Regiao	 := cRegiao
+				Receber->Banco 	 := cBanco
+				Receber->Fabricante := cFabricante
+				Receber->Produto	  := cProduto
+				Receber->Modelo	  := cModelo
+				Receber->Local 	  := cLocal
+				Receber->Valor 	  := nValor
+				Receber->Prazo 	  := nPrazo
+				Receber->DataVcto   := nDataVcto
+				Receber->PrazoExt   := nPrazoExt
+				Receber->Autorizaca := IF( cAutorizaca = "S", OK, FALSO )
+				Receber->AssAutoriz := IF( cAssAutoriz = "S", OK, FALSO )
+				Receber->CidaAval   := cCidaAval
+				Receber->EstaAval   := cEstaAval
+				Receber->BairAval   := cBairAval
+				Receber->FoneAval   := cFoneAval
+				Receber->FaxAval	  := cFaxAval
+				Receber->RgAval	  := cRgAval
+				Receber->CpfAval	  := cCpfAval
+				Receber->Cfop		  := cCfop
+				Receber->Tx_Icms	  := nIcms
+				Receber->(Libera())
+				lUpdated := true
+				if lModificar
+					lSair := OK
+				endif
+				Exit
 
-		Elseif nOpcao = 2 // Alterar
-			Loop
-		Elseif nOpcao = 3 // Sair
-			lSair := OK
+			Elseif nOpcao = 2 // Alterar
+				Loop
+			Elseif nOpcao = 3 // Sair
+				lSair := OK
+				Exit
+			endif
+		EndDo
+		if lSair
+			SetKey( F4, NIL )
+			ResTela( cScreen )
 			Exit
 		endif
 	EndDo
-	if lSair
-		SetKey( F4, NIL )
-		ResTela( cScreen )
-		Exit
-	endif
-EndDo
-return lUpdated
+	return lUpdated
+endef
 
-Function RetProximo()
-*********************
-LOCAL cScreen := SaveScreen()
-LOCAL cTela   := Mensagem("Aguarde, Localizando Proximo Registro Vago.")
-LOCAL nX
+def RetProximo()
+****************
+	LOCAL cScreen := SaveScreen()
+	LOCAL cTela   := Mensagem("Aguarde, Localizando Proximo Registro Vago.")
+	LOCAL nX
 
-For nX := 1 To 10000
-	 cCodi := StrZero( nX, 4 )
-	 if Receber->(DbSeek( cCodi ))
-		 Loop
-	 endif
-	 Return( cCodi )
-Next
-Return( cCodi )	
+	For nX := 1 To 10000
+		 cCodi := StrZero( nX, 4 )
+		 if Receber->(DbSeek( cCodi ))
+			 Loop
+		 endif
+		 Return( cCodi )
+	Next
+	Return( cCodi )	
+endef
 
 static function Extrato()
 *------------------------*
@@ -1256,7 +1257,7 @@ WHILE OK
 		cCodi 	 := Space(05)
 		cCobrador := Space(04)
 		MaBox( 10, 10, 13, 78 )
-		@ 11, 11 Say "Cliente.......:" Get cCodi PICT PIC_RECEBER_CODI Valid RecErrado( @cCodi,, Row(), Col()+1 )
+		@ 11, 11 Say "Cliente.......:" Get cCodi     PICT PIC_RECEBER_CODI Valid RecErrado( @cCodi,, Row(), Col()+1 )
 		@ 12, 11 Say "Novo Cobrador.:" Get cCobrador Pict "9999" Valid FunErrado( @cCobrador,, Row(), Col()+1 )
 		Read
 		if LastKey() = ESC

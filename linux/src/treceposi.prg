@@ -102,7 +102,7 @@ beginclass
 	VAR nBoxRow1					INIT ms_MaxRow()-1
 	VAR nBoxCol1					INIT MaxCol()
 	
-	VAR nPrtRow	   				INIT MaxRow()-1
+	VAR nPrtRow	   				INIT MaxRow()-2
 	VAR nPrtCol	   				INIT 1
 	VAR PosiAgeInd 				INIT FALSO
 	VAR PosiAgeAll 				INIT FALSO
@@ -208,7 +208,7 @@ method New(nBoxRow, nBoxCol, nBoxRow1, nBoxCol1, cTop, cBottom)
 	hb_default(@nBoxRow1, ms_maxrow()-1)
 	hb_default(@nBoxCol1, maxcol())
 	hb_default(@cTop,     ::cWho)
-	hb_default(@cBottom,  ::cNome)
+	hb_default(@cBottom,  nil )
 	
 	::nBoxRow   := nBoxRow
 	::nBoxCol   := nBoxCol 
@@ -290,7 +290,7 @@ METHOD RenewVar()
 	::Color_pFore     := {}
 	::Color_pBack     := {}
 	::Color_pUns      := {}
-	::nPrtRow	      := MaxRow()-1
+	::nPrtRow	      := MaxRow()-2
 	return self
 
 METHOD DeleteReg(nReg)

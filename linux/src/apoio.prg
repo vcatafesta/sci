@@ -9323,7 +9323,7 @@ EndDo
 
 function NewPosiReceber( nChoice, xParam, cCaixa, lRescisao, nASort, cTipoRecibo, lRecarregar, lRecepago, xOrdem)
 *****************************************************************************************************************
-PRIVA oReceposi := TReceposiNew(07, 00, MaxRow()-5, MaxCol())
+PRIVA oReceposi := TReceposiNew(08, 00, MaxRow()-6, MaxCol())
 PosiReceber( nChoice, xParam, cCaixa, lRescisao, nASort, cTipoRecibo, lRecarregar, lRecepago, xOrdem )
 oAmbiente:lReceber := FALSO
 return NIL
@@ -9337,7 +9337,8 @@ LOCAL nT 		 := 0
 LOCAL xLen		 := 0
 LOCAL nJuroDia  := 0
 LOCAL cColor	 := SetColor()
-LOCAL nMaxCol   := MaxCol()
+LOCAL nMaxCol   := maxcol()
+LOCAL nMaxRow   := maxrow()
 LOCAL aMenu     := {'Todos Lancamentos - Inclusive recibos emitidos', 'Somente em aberto - Nao incluir recibos emitidos', 'Somente Recebidos - Nao incluir em aberto'}		
 LOCAL lSair     := OK
 LOCAL linhaembranco   := ';'
@@ -9419,8 +9420,8 @@ WHILE OK
 			Else
 				cStr		:= "Calcular ate.:"
 			endif
-			MaBox( 14, 45, 19, 75 )
-         @ 15, 46 Say "Cliente......:" Get cCodi    Pict PIC_RECEBER_CODI Valid RecErrado(@cCodi)
+			MaBox( 14, 45, 19, 107)
+         @ 15, 46 Say "Cliente......:" Get cCodi    Pict PIC_RECEBER_CODI Valid RecErrado(@cCodi, nil, Row(), Col()+1, nil)
          @ 16, 46 Say "Data Inicial.:" Get dIni     Pict PIC_DATA         Valid AchaUltVcto(cCodi, @dFim)
          @ 17, 46 Say "Data Final...:" Get dFim     Pict PIC_DATA         Valid IF((Empty(dFim) .OR. dFim < dIni), ( ErrorBeep(), Alerta("Ooops!: Entre com uma data valida! Maior ou igual data inicial"), FALSO ), OK ) 
          @ 18, 46 Say cStr             Get dCalculo Pict PIC_DATA 
@@ -9430,7 +9431,7 @@ WHILE OK
 				resTela( cScreen )
 				Exit
 			endif			
-			mensagem("Informa: Verifique a opcao de ativar mostrar ou nao clientes desativados.", 31, 14, 76)
+			mensagem("Informa: Verifique a opcao de ativar mostrar ou nao clientes desativados.", 31, 20, 97)
 			M_Title("ESCOLHA ORDEM DE AMOSTRAGEM")
 			nOrdem := FazMenu( 20 , 45 , aMenu)																		  	
 			if nOrdem = 0 .OR. LastKey() = ESC
@@ -10187,9 +10188,10 @@ WHILE OK
 		endif
 
 		oRecePosi:cTop := " DOCTO #   EMIS   VENCTO ATRA   ORIGINAL  PRINCIPAL DESC/PAG    JUROS  PG/MULTA     ABERTO       SOMA OBSERVACAO"
-		MaBox( 00, 00, 06, nMaxCol)
-		MaBox( maxrow()-5, 00, maxrow(), nMaxCol)
-		oRecePosi:cTop 	+= Space( MaxCol() - Len(oRecePosi:cTop))
+		cString        := "F1=HELP|F2-TXJRS|F3-EDIT|F4-DUP|F5-ATUAL|CTRL+F5=VLR ORIGINAL|F6-ORDEM|F7=VISFATURA|SPC-FATURA|ESC RETORNA"
+		MaBox( 01, 00, 07, nmaxcol, cString)
+		MaBox( nmaxrow-6, 00, nmaxrow-1, nmaxcol)
+		oRecePosi:cTop 	+= Space( nmaxcol - Len(oRecePosi:cTop))
 		oRecePosi:cBottom := Space(42) + "PRINCIPAL             JUROS  PG/MULTA     ABERTO       SOMA"
 		oRecePosi:aBottom := oReceposi:BarraSoma()
 		__Funcao( 0, 1, 1 )
@@ -10230,6 +10232,7 @@ LOCAL pUns  		 := AscanCorHKLightBar( pFore)
 LOCAL oVenlan      := TIniNew( oAmbiente:xUsuario + ".INI")
 LOCAL lAdmin       := oVenlan:ReadBool('permissao','usuarioadmin', FALSO )
 LOCAL nReg         := 0
+LOCAL nRow         := 0
 LOCAL x
 LOCAL nLen
 LOCAL lLancarJurosNaoPago
@@ -10304,55 +10307,55 @@ Case nMode = AC_IDLE // 0
          cString += 'RECIBO[vm=NAO localizado]|'
 		endif
 	endif
-   cString += 'ESC RETORNA|'   
-   cString := 'F2-TXJURO|F3-EDIT|F4-DUP|F5-ATUAL|CTRL+F5=VLR ORIGINAL|F6-ORDEM|F7=VISFATURA|SPC-FATURA|' + cString
-	StatusSup( cString, Cor(2))
+   //cString += 'ESC RETORNA|'   
+   //cString := 'F2-TXJURO|F3-EDIT|F4-DUP|F5-ATUAL|CTRL+F5=VLR ORIGINAL|F6-ORDEM|F7=VISFATURA|SPC-FATURA|' + cString
+	//StatusSup( cString, Cor(2))
 	Receber->(Order( RECEBER_CODI ))
 	nMaxCol := MaxCol()
 	cCodi   := oReceposi:aCodi[nCurElemento]
+	nRow    := 00
 	if Receber->(DbSeek( cCodi ))
-	   Write( 01, 01, Space(nMaxCol-2))
-		Write( 02, 01, Space(nMaxCol-2))
-		Write( 03, 01, Space(nMaxCol-2))
-		Write( 04, 01, Space(nMaxCol-2))
-		Write( 05, 01, Space(nMaxCol-2))
-		Write( 01, 01, cCodi + " " + Receber->Nome )
-		Write( 02, 01, Receber->Ende + " " + Receber->Bair )
-		Write( 03, 01, Receber->Cep  + "/" + Receber->Cida + " " + Receber->Esta )
-		Write( 04, 01, Receber->Obs  )
-		Write( 05, 01, Receber->Obs1 )
-		Write( 01, nMaxCol-28, "Inicio      : " + Dtoc( Receber->Data ))
-		Write( 02, nMaxCol-28, "Telefone #1 : " + Receber->Fone )
-		Write( 03, nMaxCol-28, "Telefone #2 : " + Receber->Fax )
-		Write( 04, nMaxCol-28, "Vlr Fatura  : " )
+	   Write( nRow+02, 01, Space(nMaxCol-2))
+		Write( nRow+03, 01, Space(nMaxCol-2))
+		Write( nRow+04, 01, Space(nMaxCol-2))
+		Write( nRow+05, 01, Space(nMaxCol-2))
+		Write( nRow+06, 01, Space(nMaxCol-2))
+		Write( nRow+02, 01, cCodi + " " + Receber->Nome )
+		Write( nRow+03, 01, Receber->Ende + " " + Receber->Bair )
+		Write( nRow+04, 01, Receber->Cep  + "/" + Receber->Cida + " " + Receber->Esta )
+		Write( nRow+05, 01, Receber->Obs  )
+		Write( nRow+06, 01, Receber->Obs1 )
+		Write( nRow+02, nMaxCol-28, "Inicio      : " + Dtoc( Receber->Data ))
+		Write( nRow+03, nMaxCol-28, "Telefone #1 : " + Receber->Fone )
+		Write( nRow+04, nMaxCol-28, "Telefone #2 : " + Receber->Fax )
+		Write( nRow+05, nMaxCol-28, "Vlr Fatura  : " )
 		#IFDEF MICROBRAS
 			if !oRecePosi:PosiAgeInd
 				if !oReceposi:PosiAgeAll
 					if oRecePosi:aAtivo[nCurElemento] // Item ativado
 						cColor := SetColor()
-						Write( 04, 01, Space(nMaxCol-2))
-						Write( 05, 01, Space(nMaxCol-2))
+						Write( nRow+05, 01, Space(nMaxCol-2))
+						Write( nRow+06, 01, Space(nMaxCol-2))
 						cObs	  := Alltrim(oReceposi:xTodos[nCurElemento,POS_OBS])
 						cObs1   := AllTrim(oReceposi:aUserRecibo[nCurElemento]) + '/'
 						cObs1   += AllTrim(Left(oReceposi:aHistRecibo[nCurElemento],(nMaxCol-4)))
-						Write( 04, 01, "{" + Left(cObs1,(nMaxCol-28)) + "}", pUns)						
+						Write( nRow+05, 01, "{" + Left(cObs1,(nMaxCol-28)) + "}", pUns)						
 						if Len( cObs ) != 0
-							Write( 05, 01, "{" + Left(cObs,(nMaxCol-4)) + "}", pUns)
+							Write( nRow+06, 01, "{" + Left(cObs,(nMaxCol-4)) + "}", pUns)
 						Else
 							cObs := Right(oReceposi:xTodos[nCurElemento,1],02)
-							Write( 05, 01, "{" + cObs + "?PARCELA DE SERVICOS DE INTERNET.}", pUns)
+							Write( nRow+06, 01, "{" + cObs + "?PARCELA DE SERVICOS DE INTERNET.}", pUns)
 						endif
 					endif
 				endif
 			endif
 		#endif
 	Else
-	   Write( 01, 01, Space(nMaxCol-2))
-		Write( 02, 01, Space(nMaxCol-2))
-		Write( 03, 01, Space(nMaxCol-2))
-		Write( 03, 01, "***** CLIENTE NAO LOCALIZADO ***** TALVEZ DELETADO?")
-		Write( 04, 01, Space(nMaxCol-2))
-		Write( 05, 01, Space(nMaxCol-2))
+	   Write( nRow+02, 01, Space(nMaxCol-2))
+		Write( nRow+03, 01, Space(nMaxCol-2))
+		Write( nRow+04, 01, Space(nMaxCol-2))
+		Write( nRow+05, 01, "***** CLIENTE NAO LOCALIZADO ***** TALVEZ DELETADO?")
+		Write( nRow+06, 01, Space(nMaxCol-2))
 	endif	
 	return( AC_REPAINT)
 

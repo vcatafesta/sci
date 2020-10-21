@@ -1919,10 +1919,13 @@ def DocErrado( Var, nValor, nVlrTotal, dVcto, cHist, nRow, nCol, lLancarJurosNao
 	endif
 	IfNil( nVlrTotal, 0)
 	
+	/*
 	if dDataPag != nil  // refazer calculo pela datapag informada e não pela data hoje
 		nVlrTotal := 0
 		nValor    := 0
 	endif
+	*/
+
 	IfNil( dDataPag, Date())
 	if ( Recemov->(Order( RECEMOV_DOCNR )), Recemov->(!DbSeek( Var )))
 		if !lLancarJurosNaoPago
@@ -1930,8 +1933,8 @@ def DocErrado( Var, nValor, nVlrTotal, dVcto, cHist, nRow, nCol, lLancarJurosNao
 			if Conf("Erro: Documento nao Encontrado. Localizar por Nome?")
 				if BaixaDocnr( @Var, @nRegistro )
 					Recemov->( DbGoTo( nRegistro ))
-				 //nValor    := Round(IF( nVlrTotal <= 0, Recemov->Vlr, nVlrTotal),2)
-					nValor    := Round(IF( nVlrTotal <= 0, CalcJuros(dDataPag), nVlrTotal),2)
+				   nValor    := Round(IF( nVlrTotal <= 0, Recemov->Vlr, nVlrTotal),2)
+					//nValor    := Round(IF( nVlrTotal <= 0, CalcJuros(dDataPag), nVlrTotal),2)
 					nVlrTotal := Round(IF( nVlrTotal <= 0, CalcJuros(dDataPag), nVlrTotal),2)
 					dVcto 	 := Recemov->Vcto
 					nTam		 := Len(AllTrim(Recemov->Obs))
@@ -1955,8 +1958,8 @@ def DocErrado( Var, nValor, nVlrTotal, dVcto, cHist, nRow, nCol, lLancarJurosNao
 		endif
 	endif
 	Var		 := Recemov->Docnr
- //nValor    := Round(IF( nVlrTotal <= 0, Recemov->Vlr, nVlrTotal),2)
-	nValor    := Round(IF( nVlrTotal <= 0, CalcJuros(dDataPag), nVlrTotal),2)
+   nValor    := Round(IF( nVlrTotal <= 0, Recemov->Vlr, nVlrTotal),2)
+	//nValor    := Round(IF( nVlrTotal <= 0, CalcJuros(dDataPag), nVlrTotal),2)
 	nVlrTotal := Round(IF( nVlrTotal <= 0, CalcJuros(dDataPag), nVlrTotal),2)
 	dVcto 	 := Recemov->Vcto
 	nTam		 := Len(AllTrim(Recemov->Obs))
@@ -5648,7 +5651,6 @@ Return
 		Write( 14, 11, "INSERT = Liga/Desliga Insercao")
 		Write( 15, 11, "HOME   = Vai para Inicio da Linha")
 		Write( 16, 11, "END    = Vai para Final da Linha")
-		Inkey(0)
 		ResTela( cScreen )
 		Return( 1 )
 
@@ -9321,7 +9323,7 @@ EndDo
 
 function NewPosiReceber( nChoice, xParam, cCaixa, lRescisao, nASort, cTipoRecibo, lRecarregar, lRecepago, xOrdem)
 *****************************************************************************************************************
-PRIVA oReceposi := TReceposiNew(07, 00, MaxRow()-4, MaxCol())
+PRIVA oReceposi := TReceposiNew(07, 00, MaxRow()-5, MaxCol())
 PosiReceber( nChoice, xParam, cCaixa, lRescisao, nASort, cTipoRecibo, lRecarregar, lRecepago, xOrdem )
 oAmbiente:lReceber := FALSO
 return NIL
@@ -10185,9 +10187,10 @@ WHILE OK
 		endif
 
 		oRecePosi:cTop := " DOCTO #   EMIS   VENCTO ATRA   ORIGINAL  PRINCIPAL DESC/PAG    JUROS  PG/MULTA     ABERTO       SOMA OBSERVACAO"
-		MaBox( 00, 00, 06, nMaxCol )
+		MaBox( 00, 00, 06, nMaxCol)
+		MaBox( maxrow()-5, 00, maxrow(), nMaxCol)
 		oRecePosi:cTop 	+= Space( MaxCol() - Len(oRecePosi:cTop))
-		oRecePosi:cBottom := Space(13) + "PRINCIPAL             JUROS  PG/MULTA     ABERTO       SOMA"
+		oRecePosi:cBottom := Space(42) + "PRINCIPAL             JUROS  PG/MULTA     ABERTO       SOMA"
 		oRecePosi:aBottom := oReceposi:BarraSoma()
 		__Funcao( 0, 1, 1 )
 		//cSetColor(",,,,R+/")
@@ -11296,7 +11299,7 @@ endef
 def UltimaTecla()	
    LOCAL nKey := LastKey()
 	//MS_SetConsoleTitle("TECLA # " + TrimStr(nKey))
-   oMenu:ContaReg(TrimStr(nKey))
+   //oMenu:ContaReg(TrimStr(nKey))
 	return nKey
 endef	
 

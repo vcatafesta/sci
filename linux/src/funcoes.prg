@@ -4673,7 +4673,7 @@ def MsDecrypt( Pal )
 	return( Decrypt( Pal, cChave ))
 
 def MsEncrypt( Pal )
-*************************
+********************
 	LOCAL cChave	:= ""
 	LOCAL nX 		:= 0
 
@@ -4683,18 +4683,36 @@ def MsEncrypt( Pal )
 	return( Encrypt( Pal, cChave ))
 
 def FazMenu( nTopo, nEsquerda, aArray, Cor )
-*************************************************
+********************************************
 	LOCAL cFrame     := m_Frame()
 	LOCAL cFrame2	  := SubStr( "ÕÍ¸³¾ÍÔ³", 2, 1 )
-	LOCAL nFundo	  := ( nTopo + Len( aArray ) + 3 )
-	LOCAL nTamTitle  := ( Len( m_Title() ) + 12 )
-	LOCAL nDireita   := ( nEsquerda + AmaxStrLen( aArray ) + 3 )
+	LOCAL nLen       := Len(aArray)
+	LOCAL nFundo	  := nTopo + nLen + 3
 	LOCAL cTitulo    := m_Title() 
+	LOCAL nTamTitle  := Len(cTitulo) + 12
+	LOCAL nMax       := AmaxStrLen(aArray)
+	LOCAL nDireita   := nEsquerda + nMax + 3
 	LOCAL cChar      :=  "³û³ð³³"
-	
+	LOCAL nX         := 0
+	LOCAL nLenBox    := 0
+	LOCAL nPos       := 0
+	LOCAL aDisp      := Array(nLen)
+
    hb_default(@Cor, oAmbiente:CorMenu)
-	if ( nDireita - nEsquerda ) <  nTamTitle
-		nDireita := ( nEsquerda + nTamTitle )
+
+	afill(aDisp, true)
+	if nLen > 0
+		for nX := 1 to nLen
+			if aArray[nX] == ';' .OR. aArray[nX] == '-' // Separator
+				aDisp[nX]  := false
+				nPos       := nX
+			endif
+		next
+	endif
+
+	nLenBox := (nDireita - nEsquerda)
+	if nLenBox <  nTamTitle
+		nDireita := nLenBox := ( nEsquerda + nTamTitle )
 	endif
 	
 	if ( nFundo > MaxRow() )
@@ -4707,7 +4725,7 @@ def FazMenu( nTopo, nEsquerda, aArray, Cor )
 	Print( nFundo-1, nDireita-8, cChar, Roloc( Cor ))
 	nSetColor( Cor, oAmbiente:CorLightBar, Roloc( Cor ))
 	//nChoice := Mx_Choice( @nTopo, @nEsquerda, aArray, Cor )
-	return( nChoice := Achoice( nTopo+1, nEsquerda+1, nFundo-3, nDireita-1, aArray))
+	return( nChoice := Achoice( nTopo+1, nEsquerda+1, nFundo-3, nDireita-1, aArray, aDisp))
 	
 *--------------------------------------------------------------------------*	
 def MaBox( nTopo, nEsq, nFundo, nDireita, Cabecalho, Rodape, lInverterCor )
@@ -4739,7 +4757,8 @@ def MaBox( nTopo, nEsq, nFundo, nDireita, Cabecalho, Rodape, lInverterCor )
 	
 	if !(IsNil(Rodape))
 		aPrint( nFundo, nEsq+1, "Û", cCor, (nDireita-nEsq)-1)
-		aPrint( nFundo, nEsq+1, Padc( Rodape, ( nDireita-nEsq)-1), cCor )
+		//aPrint( nFundo, nEsq+1, Padc( Rodape, ( nDireita-nEsq)-1), cCor )
+		aPrint( nFundo, nEsq+1, Rodape, cCor )
 	endif
 	nSetColor( pfore, pback, pUns )
    DispEnd()

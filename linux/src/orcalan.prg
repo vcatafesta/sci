@@ -56,7 +56,7 @@ def Orcamento( lTestelan, cCaixa )
    LOCAL cScreen				:= SaveScreen()
    LOCAL nChoice				:= 2
    LOCAL lVarejo				:= 2
-   LOCAL aMenu 				:= {"Manualmente - Varejo ", "Manualmente - Atacado" , "Manualmente - Custo","Codigo Barra - Varejo", "Codigo Barra - Atacado", "Codigo Barra - Custo" }
+   LOCAL aMenu 				:= {"Manualmente - Varejo ", "Manualmente - Atacado" , "Manualmente - Custo", ";", "Codigo Barra - Varejo", "Codigo Barra - Atacado", "Codigo Barra - Custo" }
    LOCAL aPreco				:= { 2, 1, 3, 2, 1 ,3 }
    LOCAL aString				:= { "VAREJO", "ATACADO", "CUSTO", "VAREJO", "ATACADO", "PCUSTO"}
    LOCAL nVlrMercadoria 	:= 0
@@ -127,7 +127,7 @@ def Orcamento( lTestelan, cCaixa )
       while(true)
          oMenu:Limpa()
          M_Title( "ESCOLHA O MODO DE FATURAMENTO" )
-         nChoice := FazMenu( 05, 05, aMenu, Cor(), aPermite)
+         nChoice := FazMenu( 04, 05, aMenu, Cor(), aPermite)
          if nChoice = 0
             if !lTestelan
                Mensagem("Aguarde, Fechando Arquivos.", Cor())
@@ -149,19 +149,19 @@ def Orcamento( lTestelan, cCaixa )
                Alerta('Erro: Opcao nao autorizada.')
                Loop
             endif
-         Case nChoice = 4
+         Case nChoice = 5
             if lMnuOpcao4 == FALSO
                ErrorBeep()
                Alerta('Erro: Opcao nao autorizada.')
                Loop
             endif
-         Case nChoice = 5
+         Case nChoice = 6
             if lMnuOpcao5 == FALSO
                ErrorBeep()
                Alerta('Erro: Opcao nao autorizada.')
                Loop
             endif
-         Case nChoice = 6
+         Case nChoice = 7
             if lMnuOpcao6 == FALSO
                ErrorBeep()
                Alerta('Erro: Opcao nao autorizada.')
@@ -3067,7 +3067,7 @@ function VerPosicao( cCaixa)
 								"Receber Por Tipo",;
 								"Receber Por Fatura",;							
 								"Receber Geral",;
-								"────────────────────────",;
+								";",;
 								"Recebido Por Codigo",;
 								"Recebido Por Regiao",;
 								"Recebido Por Periodo",;

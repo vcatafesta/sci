@@ -81,44 +81,44 @@ beginclass
 	VAR nRecebido				   INIT 0
 	VAR nAberto              	INIT 0
 	VAR nQtdDoc 				   INIT 0
-	VAR cStrSelecao             INIT ''
-	VAR cStrRecibo              INIT ''
-	VAR cStrVencido             INIT ''
-	VAR cStrVencer              INIT ''	
-	VAR cStrGeral               INIT ''		
-	VAR Color_pFore 	        INIT {}
-	VAR Color_pBack             INIT {}
-	VAR Color_pUns              INIT {}	
-	VAR CurElemento             INIT 1
- 	VAR nChoice                 INIT NIL   
-	VAR nOrdem                  INIT NIL
- 	VAR xParam                  INIT NIL
-	VAR cTop	       			INIT ""
+	VAR cStrSelecao            INIT ''
+	VAR cStrRecibo             INIT ''
+	VAR cStrVencido            INIT ''
+	VAR cStrVencer             INIT ''	
+	VAR cStrGeral              INIT ''		
+	VAR Color_pFore 	        	INIT {}
+	VAR Color_pBack            INIT {}
+	VAR Color_pUns             INIT {}	
+	VAR CurElemento            INIT 1
+ 	VAR nChoice                INIT NIL   
+	VAR nOrdem                 INIT NIL
+ 	VAR xParam                 INIT NIL
+	VAR cTop	       				INIT ""
 	VAR cBottom	       			INIT ""
 	VAR aBottom	   				INIT {"","", ""}
 	
 	VAR nBoxRow	   				INIT 8
 	VAR nBoxCol	   				INIT 0
-	VAR nBoxRow1				INIT ms_MaxRow()-1
-	VAR nBoxCol1				INIT MaxCol()
+	VAR nBoxRow1					INIT ms_MaxRow()-1
+	VAR nBoxCol1					INIT MaxCol()
 	
-	VAR nPrtRow	   				 INIT MaxRow()
-	VAR nPrtCol	   				 INIT 0
-	VAR PosiAgeInd 				 INIT FALSO
-	VAR PosiAgeAll 				 INIT FALSO
-	VAR PosiReceber				 INIT FALSO
-   VAR dIni       				 INIT Ctod("01/01/91")
-   VAR dFim       				 INIT Ctod("31/12/" + Right(Dtoc(Date()),2))
-   VAR dCalculo   				 INIT Date()	
-	VAR lRescisao  				 INIT FALSO	
-	VAR lCalcular  				 INIT FALSO	
+	VAR nPrtRow	   				INIT MaxRow()-1
+	VAR nPrtCol	   				INIT 1
+	VAR PosiAgeInd 				INIT FALSO
+	VAR PosiAgeAll 				INIT FALSO
+	VAR PosiReceber				INIT FALSO
+   VAR dIni       				INIT Ctod("01/01/91")
+   VAR dFim       				INIT Ctod("31/12/" + Right(Dtoc(Date()),2))
+   VAR dCalculo   				INIT Date()	
+	VAR lRescisao  				INIT FALSO	
+	VAR lCalcular  				INIT FALSO	
 	VAR cPrtStr		
-	VAR lReceberPorPeriodo      INIT FALSO
-	VAR nT                      INIT 0
-	VAR lOrdemAscendente        INIT OK
-	VAR lReload                 INIT OK
-	VAR nGulosa                 INIT 0 
-	VAR nTab                    INIT 16
+	VAR lReceberPorPeriodo     INIT FALSO
+	VAR nT                     INIT 0
+	VAR lOrdemAscendente       INIT OK
+	VAR lReload                INIT OK
+	VAR nGulosa                INIT 0 
+	VAR nTab                   INIT 16
    
 	//Disppage
 	VAR nTop
@@ -234,10 +234,10 @@ METHOD PrintPosi( nRow, nCol )
 	::nPrtRow := nRow
 	::nPrtCol := nCol
 	::aBottom := { ::cStrRecibo, ::cStrVencido, ::cStrVencer, ::cStrGeral } 
-	Print(::nPrtRow-3, ::nPrtCol, ::aBottom[1], ::CorRecibo,  MaxCol()+1)
-	Print(::nPrtRow-2, ::nPrtCol, ::aBottom[2], ::CorVencido, MaxCol()+1)
-	Print(::nPrtRow-1, ::nPrtCol, ::aBottom[3], ::CorVencer,  MaxCol()+1)
-	Print(::nPrtRow,   ::nPrtCol, ::aBottom[4], ::CorVencido, MaxCol()+1)
+	Print(::nPrtRow-3, ::nPrtCol, ::aBottom[1], ::CorRecibo,  MaxCol()-1)
+	Print(::nPrtRow-2, ::nPrtCol, ::aBottom[2], ::CorVencido, MaxCol()-1)
+	Print(::nPrtRow-1, ::nPrtCol, ::aBottom[3], ::CorVencer,  MaxCol()-1)
+	Print(::nPrtRow,   ::nPrtCol, ::aBottom[4], ::CorVencido, MaxCol()-1)
 	return self
 
 METHOD RegistroEmBranco(cCodi,cFatu)
@@ -290,7 +290,7 @@ METHOD RenewVar()
 	::Color_pFore     := {}
 	::Color_pBack     := {}
 	::Color_pUns      := {}
-	::nPrtRow	      := MaxRow()
+	::nPrtRow	      := MaxRow()-1
 	return self
 
 METHOD DeleteReg(nReg)
@@ -484,7 +484,7 @@ METHOD ZerarRescisao
 	return self		
 	
 METHOD RedrawRecibo 
-	::cStrRecibo  := " RECIBO EMITIDO " + chr(175) + chr(175) + " {"
+	::cStrRecibo := "RECIBO EMITIDO " + chr(175) + chr(175) + " {"
 	::cStrRecibo += StrZero(::nQtdDoc_Recibo,5)
 	::cStrRecibo += "}" + Space(::nTab)
 	::cStrRecibo += Tran(::nPrincipal_Recibo, "@E 999,999.99") + Space(9)
@@ -495,9 +495,9 @@ METHOD RedrawRecibo
 	return(::cStrRecibo)	
 
 METHOD RedrawVencido 
-   ::cStrVencido := " ABERTO VENCIDO " + chr(175) + chr(175) + " {"
+   ::cStrVencido := "ABERTO VENCIDO " + chr(175) + chr(175) + " {"
 	if ::nOrdem == 3
-	::cStrVencido := "   PAGO VENCIDO " + chr(175) + chr(175) + " {"
+	::cStrVencido := "PAGO VENCIDO   " + chr(175) + chr(175) + " {"
 	endif
 	::cStrVencido += StrZero(::nQtdDoc_Vencido,5)
 	::cStrVencido += "}" + Space(::nTab)
@@ -509,9 +509,9 @@ METHOD RedrawVencido
 	return(::cStrVencido)	
 
 METHOD RedrawVencer 
- 	::cStrVencer := " ABERTO VENCER  " + chr(175) + chr(175) + " {"
+ 	::cStrVencer := "ABERTO VENCER  " + chr(175) + chr(175) + " {"
 	if ::nOrdem == 3
-	::cStrVencer := "   PAGO VENCER  " + chr(175) + chr(175) + " {"
+   ::cStrVencer := "PAGO VENCER    " + chr(175) + chr(175) + " {"
 	
 	endif
 	::cStrVencer += StrZero(::nQtdDoc_Vencer,5)
@@ -525,7 +525,7 @@ METHOD RedrawVencer
 	return(::cStrVencer)
 
 METHOD RedrawGeral 
-	::cStrGeral := " TOTAL GERAL    " + chr(175) + chr(175) + " {"
+   ::cStrGeral := "TOTAL GERAL    " + chr(175) + chr(175) + " {"
 	::cStrGeral += StrZero(::nQtdDoc_Geral, 5)
 	::cStrGeral += "}" + Space(::nTab)
 	::cStrGeral += Tran(::nPrincipal_Geral, "@E 999,999.99") + Space(9)
@@ -550,7 +550,7 @@ METHOD RedrawSelecao
 
 METHOD _SomaPago( nValorTotal, nValorPago )
 *********************************************
-	 ::cStrRecibo := " TOTAL GERAL " + chr(175) + chr(175)
+	 ::cStrRecibo := "TOTAL GERAL " + chr(175) + chr(175)
 	 ::cStrRecibo += Space(27 + ::nTab)
 	 ::cStrRecibo += Tran(nValorTotal, "@E 999,999,999.99")
 	 ::cStrRecibo += Space(01)

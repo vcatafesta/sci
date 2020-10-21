@@ -76,7 +76,7 @@ FUNCTION AChoice( nTop, nLeft, nBottom, nRight, acItems, xSelect, xUserFunc, nPo
    nNumRows := nBottom - nTop + 1
 
    if HB_ISARRAY( xSelect )
-         alSelect := xSelect
+		alSelect := xSelect
    else
       alSelect := Array( Len( acItems ) )
       AFill( alSelect, xSelect )
@@ -657,11 +657,14 @@ STATIC PROCEDURE DispPage( acItems, alSelect, nTop, nLeft, nRight, nNumRows, nPo
 STATIC PROCEDURE DispLine( cLine, nRow, nCol, lSelect, lHiLite, nNumCols, nCurElemento )
 	
 	//nSetColor( oAchoice:Color_pFore[nCurElemento], oAchoice:Color_pBack[nCurElemento], oAchoice:Color_pUns[nCurElemento])
-	ColorSelect( iif( lSelect .AND. HB_ISSTRING( cLine ), iif( lHiLite, CLR_ENHANCED, CLR_STANDARD ), CLR_UNSELECTED ))	
-	   hb_DispOutAt( nRow, nCol, iif( HB_ISSTRING(cLine), PadR(' ' + cLine + ' ', nNumCols ), Space( nNumCols ) ) )	   
+	//ColorSelect( iif( lSelect .AND. HB_ISSTRING( cLine ), iif( lHiLite, CLR_ENHANCED, CLR_STANDARD ), CLR_UNSELECTED ))
+	ColorSelect( iif( lSelect .AND. HB_ISSTRING( cLine ), iif( lHiLite, CLR_ENHANCED, CLR_STANDARD ), CLR_STANDARD))
+   hb_DispOutAt( nRow, nCol,iif( HB_ISSTRING(cLine), PadR(' ' + cLine    + ' ', nNumCols ), Space( nNumCols )))
+   if cLine == ';'
+		hb_DispOutAt( nRow, nCol-1, chr(195) + repl(chr(196),nNumCols) + chr(180), Space( nNumCols )) 
+	endif	
    if lHiLite
-      //hb_DispOutAt( nRow, nCol, iif( HB_ISSTRING(cLine), PadR(chr(16) + cLine + chr(17) + chr(32)+ chr(251), nNumCols ), Space( nNumCols ) ) )	   
-      hb_DispOutAt( nRow, nCol, iif( HB_ISSTRING(cLine), PadR(chr(16) + cLine + chr(17), nNumCols ), Space( nNumCols ) ) )	   
+      hb_DispOutAt( nRow, nCol, iif( HB_ISSTRING(cLine), PadR(chr(16) + cLine + chr(17), nNumCols ), Space( nNumCols ) ) )	  
       SetPos( nRow, nCol )
    endif	
    ColorSelect( CLR_STANDARD )

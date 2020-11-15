@@ -3146,7 +3146,7 @@ endif
 oMenu:Limpa()
 if !lDireto
    M_Title( "MANUTENCAO DA FATURA" )
-   nChoice := FazMenu( 05, 10, {"Preço Atacado","Preço Varejo", "Preço Custo"} )
+   nChoice := FazMenu( 05, 10, {"Preco Atacado","Preco Varejo", "Preco Custo"} )
    if nChoice = 0
 	   ResTela( cScreen )
 	   return lRetVal
@@ -3161,7 +3161,7 @@ WHILE OK
 	if !lDireto
 		cFatu 	  := Space(7)
 		MaBox( 12, 10, 14, 32 )
-		@ 13, 11 Say "Fatura Nº...:" Get cFatu Pict "@!" Valid VisualAchaFatura( @cFatu )
+		@ 13, 11 Say "Fatura #....:" Get cFatu Pict "@!" Valid VisualAchaFatura( @cFatu )
 		Read
 		if LastKey() = ESC
 			ResTela( cScreen )

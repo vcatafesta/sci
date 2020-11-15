@@ -7980,7 +7980,8 @@ Aadd( aArquivos, { "entradas.dbf",  {{ "CODIGO",     "C", 06, 0 }, ; // Produto
 												 { "CFOP",       "C", 05, 0 },;
 												 { "VLRNFF",     "N", 13, 2 }}})
 
-Aadd( aArquivos, { "receber.dbf", {{ "CODI",      "C", 05, 0 }, ; // Cliente
+Aadd( aArquivos, { "receber.dbf", {{ "ID",        "+", 04, 0 }, ; // Autoincremento
+											  { "CODI",      "C", 05, 0 }, ; // Cliente
 											  { "NOME",      "C", 40, 0 }, ;
 											  { "ENDE",      "C", 30, 0 }, ;
 											  { "CIDA",      "C", 25, 0 }, ;

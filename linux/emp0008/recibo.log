@@ -23444,3 +23444,34 @@ RECCAR 03718 MARILZA PEREIRA DA CRUZ                  100732-03 05/09/20 12:25:4
 RECCAR 03718 MARILZA PEREIRA DA CRUZ                  000732-04 05/10/20 12:25:45 14/10/20 ADMIN      0004              68,28 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
 RECCAR 03827 JOSE PEREIRA CARDOSO                     100502-03 05/09/20 12:26:05 14/10/20 ADMIN      0004               1,66 PAG PARCIAL REST FATURA 000502-03  
 RECCAR 03827 JOSE PEREIRA CARDOSO                     000502-04 05/10/20 12:26:05 14/10/20 ADMIN      0004              68,34 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
+RECCAR 03768 CAMILA LIMA MACHADO                      007405-01 20/10/20 14:29:02 16/10/20 ADMIN      0004             100,00 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
+RECCAR 12848 MAGNO FERREIRA DA CONCEICAO              107239-13 30/06/20 11:43:49 17/10/20 ADMIN      0004              41,59 PAG PARCIAL REST FATURA 007239-13  
+RECCAR 12848 MAGNO FERREIRA DA CONCEICAO              007239-14 30/07/20 11:43:49 17/10/20 ADMIN      0004             107,83 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
+RECCAR 12848 MAGNO FERREIRA DA CONCEICAO              007239-15 29/08/20 11:43:49 17/10/20 ADMIN      0004             105,74 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
+RECCAR 12848 MAGNO FERREIRA DA CONCEICAO              007239-16 28/09/20 11:43:49 17/10/20 ADMIN      0004              94,84 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
+==========================================================================================================================================================================================
+TIPO   CODI  NOME CLIENTE                             DOCTO Nº VENCTO   HORA     DATA_OS  USUARIO    CAIX       VALOR RECIBO HISTORICO
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+RECBCO 03759 ZILDA DA SILVA LIMA                      167272-21 21/04/20 22:40:11 19/10/20 ADMIN      0004              12,98 PAG PARCIAL REST FATURA 067272-21 EFETUADO DEP BANCO CREDIP 1077-4 EM DATA DE 19/10/20. 
+RECBCO 03759 ZILDA DA SILVA LIMA                      067272-22 21/05/20 22:40:11 19/10/20 ADMIN      0004              78,75 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET. EFETUADO DEP BANCO CREDIP 1077-4 EM DATA DE 19/10/20. 
+RECBCO 03759 ZILDA DA SILVA LIMA                      067272-23 21/06/20 22:40:11 19/10/20 ADMIN      0004              28,27 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET. EFETUADO DEP BANCO CREDIP 1077-4 EM DATA DE 19/10/20. 
+==========================================================================================================================================================================================
+TIPO   CODI  NOME CLIENTE                             DOCTO Nº VENCTO   HORA     DATA_OS  USUARIO    CAIX       VALOR RECIBO HISTORICO
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+RECCAR 12803 MICHAEL VINICIUS ROSA CLAUDIO            000179-19 20/10/20 14:16:08 21/10/20 ADMIN      0004             100,00 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
+RECCAR 12785 SERGIO LUIZ BELLINA                      007387-02 30/09/20 17:44:57 20/10/20 ADMIN      0004              70,00 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
+RECCAR 12834 EDSON APARECIDO DA SILVA                 167271-17 28/02/20 19:11:10 23/10/20 ADMIN      0004             100,69 PAG PARCIAL REST FATURA 067271-17  
+RECCAR 12834 EDSON APARECIDO DA SILVA                 067271-18 28/03/20 19:11:10 23/10/20 ADMIN      0004             116,76 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
+RECCAR 12834 EDSON APARECIDO DA SILVA                 067271-19 28/04/20 19:11:10 23/10/20 ADMIN      0004              82,55 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
+RECBCO 03810 SHEILA FERREIRA DA SILVA                 1007255-A 09/07/19 11:20:51 21/10/20 ADMIN      0004              50,00 PAG PARCIAL TX VIABILIDADE TECNICA/INSTALACAO. REST FATURA 0007255-A EFETUADO DEP BANCO CREDIP 1077-4 EM DATA DE 21/10/20. 
+==========================================================================================================================================================================================
+TIPO   CODI  NOME CLIENTE                             DOCTO Nº VENCTO   HORA     DATA_OS  USUARIO    CAIX       VALOR RECIBO HISTORICO
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+RECCAR 03797 GIVANILDO FRANCISCO DA SILVA             107295-12 09/10/20 21:55:45 31/10/20 ADMIN      0004              66,62 PAG PARCIAL REST FATURA 007295-12  
+RECCAR 03797 GIVANILDO FRANCISCO DA SILVA             007295-13 09/11/20 21:55:45 31/10/20 ADMIN      0004              33,38 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
+==========================================================================================================================================================================================
+TIPO   CODI  NOME CLIENTE                             DOCTO Nº VENCTO   HORA     DATA_OS  USUARIO    CAIX       VALOR RECIBO HISTORICO
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+RECCAR 03832 JANERSON RODRIGUES DA ROCHA              100598-03 26/09/20 18:23:15 03/11/20 ADMIN      0004               3,58 PAG PARCIAL REST FATURA 000598-03  
+RECCAR 03832 JANERSON RODRIGUES DA ROCHA              000598-04 26/10/20 18:23:15 03/11/20 ADMIN      0004             103,29 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  
+RECCAR 03832 JANERSON RODRIGUES DA ROCHA              000598-05 26/11/20 18:23:15 03/11/20 ADMIN      0004               3,13 PAG PARCIAL PARCELA CONTRATO SERVICOS DE INTERNET.  

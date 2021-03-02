@@ -75,7 +75,7 @@ WHILE lOk
 		Case op = 3.08 ; iif(PodeAlterar(), RemoveCobranca(), NIL)
 		Case op = 3.09 ; iif(PodeAlterar(), RemoveAgenda(), NIL)
 		Case op = 3.10 ; iif(PodeAlterar(), AltRegCfop(), NIL)
-		Case op = 3.11 ; iif(PodeAlterar(), TrocaCliente(), NIL)
+		Case op = 3.11 ; iif(PodeAlterar(), TrocaCliente(cCaixa), NIL)
 		Case op = 3.12 ; iif(PodeAlterar(), TrocaCobAgenda(), NIL)
 		Case op = 3.13 ; iif(PodeAlterar(), AgendaDbedit(), NIL)
 		Case op = 3.14 ; iif(PodeAlterar(), RecemovDbeditEmTabela(), NIL)
@@ -7896,7 +7896,7 @@ WHILE OK
 						Recibo->(DbSkip(1))
 				  endif
 				EndDo
-			endif			
+			endif
 		EndDo
 	endif
 EndDo

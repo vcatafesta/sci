@@ -7,7 +7,8 @@ Linhas=04
 Margem=000
 Tamanho=045
 Campos=04
-[campos]
+
+[campos]
 campo004=CEP + " / " + CIDA + " - " + ESTA
 campo003=ENDE + " - "  + BAIR
 campo002=NOME

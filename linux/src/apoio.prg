@@ -10168,22 +10168,20 @@ WHILE OK
 		nJuroMesComposto      := IF( nJuroMesComposto <= 0 .OR. nJuroMesComposto == nil , 1 , nJuroMesComposto)   		
 		oReceposi:dini        := dini
 		oReceposi:dfim        := dfim
-		oReceposi:dcalculo    := dcalculo      
+		oReceposi:dcalculo    := dcalculo
 		oReceposi:nChoice     := nChoice
 		oReceposi:xParam      := xParam
 		oReceposi:lRescisao   := lRescisao
-		
+
 		if oAmbiente:Mostrar_Recibo
 			SeekLog(oReceposi:xTodos, oReceposi:aTodos, nil, lRecepago)
 		endif
-		
-		ResTela( cTela )		
-		oMenu:StatInf()
-		oMenu:ContaReg(xLen)			
 
+		ResTela( cTela )
+		oMenu:StatInf()
+		oMenu:ContaReg(xLen)
 		AltJrInd(1,NIL, oReceposi:aCodi[1], (lMsg := FALSO), oSender := oReceposi)
-				
-		if lRecarregar != NIL .AND. !lRecarregar		   							
+		if lRecarregar != NIL .AND. !lRecarregar
 			return
 		endif
 
@@ -10325,24 +10323,25 @@ Case nMode = AC_IDLE // 0
 		Write( nRow+04, 01, Receber->Cep  + "/" + Receber->Cida + " " + Receber->Esta )
 		Write( nRow+05, 01, Receber->Obs  )
 		Write( nRow+06, 01, Receber->Obs1 )
-		Write( nRow+02, nMaxCol-28, "Inicio      : " + Dtoc( Receber->Data ))
-		Write( nRow+03, nMaxCol-28, "Telefone #1 : " + Receber->Fone )
-		Write( nRow+04, nMaxCol-28, "Telefone #2 : " + Receber->Fax )
-		Write( nRow+05, nMaxCol-28, "Vlr Fatura  : " )
+		Write( nRow+02, nMaxCol-28, "Cpf         : " + Receber->Cpf )
+		Write( nRow+03, nMaxCol-28, "Inicio      : " + Dtoc( Receber->Data ))
+		Write( nRow+04, nMaxCol-28, "Telefone #1 : " + Receber->Fone )
+		Write( nRow+05, nMaxCol-28, "Telefone #2 : " + Receber->Fax )
+		Write( nRow+06, nMaxCol-28, "Vlr Fatura  : " )
 		#IFDEF MICROBRAS
 			if !oRecePosi:PosiAgeInd
 				if !oReceposi:PosiAgeAll
 					if oRecePosi:aAtivo[nCurElemento] // Item ativado
 						cColor := SetColor()
-						Write( nRow+05, 01, Space(nMaxCol-2))
-						Write( nRow+06, 01, Space(nMaxCol-2))
+						Write( nRow+05, 01, Space(nMaxCol-29))
+						Write( nRow+06, 01, Space(nMaxCol-29))
 						cObs	  := Alltrim(oReceposi:xTodos[nCurElemento,POS_OBS])
 						cObs1   := AllTrim(oReceposi:aUserRecibo[nCurElemento]) + '/'
 						cObs1   += AllTrim(Left(oReceposi:aHistRecibo[nCurElemento],(nMaxCol-4)))
-						Write( nRow+05, 01, "{" + Left(cObs1,(nMaxCol-28)) + "}", pUns)						
+						Write( nRow+05, 01, "{" + Left(cObs1,(nMaxCol-28)) + "}", pUns)
 						if Len( cObs ) != 0
 							Write( nRow+06, 01, "{" + Left(cObs,(nMaxCol-4)) + "}", pUns)
-						Else
+						else
 							cObs := Right(oReceposi:xTodos[nCurElemento,1],02)
 							Write( nRow+06, 01, "{" + cObs + "?PARCELA DE SERVICOS DE INTERNET.}", pUns)
 						endif
@@ -10350,16 +10349,16 @@ Case nMode = AC_IDLE // 0
 				endif
 			endif
 		#endif
-	Else
+	else
 	   Write( nRow+02, 01, Space(nMaxCol-2))
 		Write( nRow+03, 01, Space(nMaxCol-2))
 		Write( nRow+04, 01, Space(nMaxCol-2))
 		Write( nRow+05, 01, "***** CLIENTE NAO LOCALIZADO ***** TALVEZ DELETADO?")
 		Write( nRow+06, 01, Space(nMaxCol-2))
-	endif	
+	endif
 	return( AC_REPAINT)
 
-*==================================================================================================   
+*==================================================================================================
    
 Case nMode = AC_HITTOP
 	return( AC_CONT)
@@ -10485,6 +10484,12 @@ Case LastKey() = -3 /*K_F4*/ .AND. oReceposi:PosiReceber// Duplicar
 *======== K_F3 ==========================================================================================
 
 Case LastKey() = -2 /*K_F3*/ .AND. oReceposi:PosiReceber
+	x := nCurElemento
+	if oReceposi:xTodos[x, XTODOS_DOCNR] == "000000-00"
+   	ErrorBeep()
+      alertaPy(' ERRO: Escolha uma fatura valida. ;-;; Use ESC para retornar.;', 31 , false)
+      return( AC_REPAINT)
+	endif
 	RecemovDbedit( cCodi, nReg)
 	if AtualizaReg(nReg)
 		ReleaseSelecao()
@@ -11054,7 +11059,7 @@ def AtualizaReg(nReg)
 	Recemov->(DbGoto(nReg))
 	aJuro := CalcCmJuros( 1 , NIL , Recemov->Vlr, Recemov->Vcto, Date())
 
-	if Recemov->(TravaReg())   
+	if Recemov->(TravaReg())
 		Recemov->Juro      := aJuro[1]
 		Recemov->JuroDia   := aJuro[2]
 		Recemov->JuroTotal := aJuro[3]
@@ -11062,18 +11067,18 @@ def AtualizaReg(nReg)
 			Recemov->Datapag := Recibo->Data
 			Recemov->VlrPag  := Recibo->Vlr
 			Recemov->StPag   := OK
-		endif	
+		endif
 		Recemov->(Libera())
 		oReceposi:xTodos[nT, XTODOS_CODI]   := Recemov->Codi
 		oReceposi:xTodos[nT, XTODOS_DOCNR]  := Recemov->Docnr
 		oReceposi:xTodos[nT, XTODOS_EMIS]   := Recemov->Emis
-		oReceposi:xTodos[nT, XTODOS_VCTO]   := Recemov->Vcto	
+		oReceposi:xTodos[nT, XTODOS_VCTO]   := Recemov->Vcto
 		oReceposi:xTodos[nT, XTODOS_OBS]    := Recemov->Obs
-		oReceposi:xTodos[nT, XTODOS_VLR]    := Recemov->Vlr	
+		oReceposi:xTodos[nT, XTODOS_VLR]    := Recemov->Vlr
 		oReceposi:xTodos[nT, XTODOS_ATRASO] := Date() - Recemov->Vcto
-		oReceposi:xTodos[nT, XTODOS_SOMA]   := AtualizaSoma(oReceposi)[3]	
+		oReceposi:xTodos[nT, XTODOS_SOMA]   := AtualizaSoma(oReceposi)[3]
 		oReceposi:xTodos[nT, XTODOS_MULTA]  := AtualizaSoma(oReceposi)[1]
-		oReceposi:xTodos[nT, XTODOS_JUROS]  := AtualizaSoma(oReceposi)[2]		
+		oReceposi:xTodos[nT, XTODOS_JUROS]  := AtualizaSoma(oReceposi)[2]
 		oReceposi:xTodos[nT, XTODOS_SOMA]   := AtualizaSoma(oReceposi)[3]
 		oRecePosi:sTrFormataATodos(nT)
 		SeekLog(oReceposi:xTodos, oReceposi:aTodos, nT)
